@@ -76,16 +76,16 @@ function LiteMount:PreClick()
 
     local m
 
-    if LM_Location:CanFly() then
+    if not m and LM_Location:IsVashjir() then
+        m = self.ml:GetRandomVashjirMount()
+    end
+
+    if not m and LM_Location:CanFly() then
         m = self.ml:GetRandomFlyingMount()
     end
 
     if not m and LM_Location:IsAQ() then
         m = self.ml:GetRandomAQMount()
-    end
-
-    if not m and LM_Location:IsVashjir() then
-        m = self.ml:GetRandomVashjirMount()
     end
 
     if not m and LM_Location:CanSwim() then

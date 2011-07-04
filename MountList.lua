@@ -86,7 +86,7 @@ function LM_MountList:GetRandomMount(flags)
     end
 
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
-    for i = #poss, 2, -1 do
+    for i = #poss, 1, -1 do
         local r = math.random(i)
         poss[i], poss[r] = poss[r], poss[i]
     end

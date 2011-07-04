@@ -11,6 +11,7 @@ LM_Mount.__index = LM_Mount
 function LM_Mount:new() return setmetatable({ }, LM_Mount) end
 
 local FlagOverrideTable = {
+    [LM_SPELL_AQUATIC_FORM]      = bit.bor(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM),
     [LM_SPELL_RIDING_TURTLE]     = bit.bor(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM),
     [LM_SPELL_SEA_TURTLE]        = bit.bor(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM),
     [LM_SPELL_FLIGHT_FORM]       = bit.bor(LM_FLAG_BIT_FLY),
@@ -28,6 +29,11 @@ function LM_Mount:FixupFlags()
     local flags = FlagOverrideTable[self.spellid]
     if flags then
         self.flags = flags
+    end
+
+    -- Which fly/walk flagged mounts can mount in no-fly areas is arbitrary.
+    if bit.band(self.flags, LM_FLAG_BIT_FLY) > 0 then
+        self.flags = LM_FLAG_BIT_FLY
     end
 end
 

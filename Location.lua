@@ -37,15 +37,11 @@ function LM_Location:Update()
     self.subzonetext = GetSubZoneText()
 end
 
-function LM_Location:SetFlySpell()
-end
-
 function LM_Location:PLAYER_LOGIN()
     self:Initialize()
 end
 
 function LM_Location:PLAYER_ENTERING_WORLD()
-    self:SetFlySpell()
     self:Update()
 end
 
@@ -85,6 +81,7 @@ function LM_Location:IsAQ()
 end
 
 function LM_Location:IsVashjir()
+    if not IsSwimming() then return nil end
     if self.areaid == 610 then return 1 end
     if self.areaid == 614 then return 1 end
     if self.areaid == 615 then return 1 end
