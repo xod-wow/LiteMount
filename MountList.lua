@@ -14,8 +14,10 @@ local function IterateCompanionMounts()
     local max = GetNumCompanions("MOUNT")
 
     return function ()
-            i = i + 1
-            if i < max then return LM_Mount:GetMountByIndex(i) end
+            while i < max do
+                i = i + 1
+                return LM_Mount:GetMountByIndex(i)
+            end
         end
 end
 
