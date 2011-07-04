@@ -79,6 +79,10 @@ end
 function LM_MountList:GetRandomMount(flags)
     local poss = { }
 
+    if GetUnitSpeed("player") > 0 then
+        flags = bit.bor(flags, LM_FLAG_BIT_MOVING)
+    end
+
     for _, m in pairs(self.byname) do
         if bit.band(m:Flags(), flags) > 0 then
             table.insert(poss, m)

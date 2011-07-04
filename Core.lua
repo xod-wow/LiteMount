@@ -74,10 +74,19 @@ function LiteMount:PreClick()
     -- If we're already mounted, leave the button as dismount.
     if IsMounted() then return end
 
+    if select(2, UnitClass("player")) == "DRUID" then
+        if GetShapeshiftForm() == 2 then return end
+        if GetShapeshiftForm() == 6 then return end
+    end
+
     local m
 
     if not m and LM_Location:IsVashjir() then
         m = self.ml:GetRandomVashjirMount()
+    end
+
+    if not m and LM_Location:CanSwim() then
+        m = self.ml:GetRandomSwimmingMount()
     end
 
     if not m and LM_Location:CanFly() then
@@ -86,10 +95,6 @@ function LiteMount:PreClick()
 
     if not m and LM_Location:IsAQ() then
         m = self.ml:GetRandomAQMount()
-    end
-
-    if not m and LM_Location:CanSwim() then
-        m = self.ml:GetRandomSwimmingMount()
     end
 
     if not m and LM_Location:CanWalk() then

@@ -35,6 +35,10 @@ function LM_Mount:FixupFlags()
     if bit.band(self.flags, LM_FLAG_BIT_FLY) > 0 then
         self.flags = LM_FLAG_BIT_FLY
     end
+
+    if self.casttime == 0 then
+        self.flags = bit.bor(self.flags, LM_FLAG_BIT_MOVING)
+    end
 end
 
 function LM_Mount:GetMountBySpell(spellId)
