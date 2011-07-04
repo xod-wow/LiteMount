@@ -23,6 +23,5 @@ local function GetActiveChatFrame()
 end
 
 function LM_Print(msg)
-    GetActiveChatFrame():AddMessage(MessagePrefix .. msg)
+    GetActiveChatFrame():AddMessage(msg)
 end
-

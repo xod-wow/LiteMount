@@ -15,7 +15,7 @@ local function IterateCompanionMounts()
 
     return function ()
             i = i + 1
-            if i <= n then return Mount:GetMountByIndex(i) end
+            if i < max then return LM_Mount:GetMountByIndex(i) end
         end
 end
 
@@ -24,10 +24,10 @@ local function IterateRacialMounts()
     local max = table.getn(LM_RACIAL_MOUNT_SPELLS)
 
     return function ()
-            while i <= max do
+            while i < max do
                 i = i + 1
                 if LM_MountSpell:IsKnown(LM_RACIAL_MOUNT_SPELLS[i]) then
-                    return Mount:GetMountBySpell(LM_RACIAL_MOUNT_SPELLS[i])
+                    return LM_Mount:GetMountBySpell(LM_RACIAL_MOUNT_SPELLS[i])
                 end
             end
         end
@@ -38,10 +38,10 @@ local function IterateClassMounts()
     local max = table.getn(LM_CLASS_MOUNT_SPELLS)
 
     return function ()
-            while i <= max do
+            while i < max do
                 i = i + 1
                 if LM_MountSpell:IsKnown(LM_CLASS_MOUNT_SPELLS[i]) then
-                    return Mount:GetMountBySpell(LM_CLASS_MOUNT_SPELLS[i])
+                    return LM_Mount:GetMountBySpell(LM_CLASS_MOUNT_SPELLS[i])
                 end
             end
         end
@@ -78,7 +78,9 @@ function LM_MountList:GetRandomMount(flags)
     local poss = { }
 
     for _, m in pairs(self.byname) do
-        table.insert(poss, m)
+        if bit.band(m:Flags(), flags) > 0 then
+            table.insert(poss, m)
+        end
     end
 
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
@@ -108,7 +110,7 @@ function LM_MountList:GetRandomVashjirMount()
     return self:GetRandomMount(LM_FLAG_BIT_VASHJIR)
 end
 
-function LM_MOuntList:GetRandomSwimmingMount()
+function LM_MountList:GetRandomSwimmingMount()
     return self:GetRandomMount(LM_FLAG_BIT_SWIM)
 end
 

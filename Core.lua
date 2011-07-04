@@ -6,15 +6,17 @@
 
 ----------------------------------------------------------------------------]]--
 
-LiteMount = LM_CreateAutoEventFrame("Frame", "LiteMount", "SecureActionButtonTemplate")
+LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 
 function LiteMount:Initialize()
     self.ml = LM_MountList:new()
     self.ml:ScanMounts()
 
-    SLASH_LM1 = "/lm"
-    SlashCmdList["LM1"] = function () self.ml:ScanMounts() self.ml:Dump() end
+    SLASH_LiteMount1 = "/lm"
+    SlashCmdList["LiteMount"] = function ()
+                                    self.ml:ScanMounts() self.ml:Dump()
+                                 end
 
     -- Button-fu
     self:RegisterForClicks("LeftButtonDown")
@@ -22,8 +24,8 @@ function LiteMount:Initialize()
     -- SecureActionButton setup
     self:SetScript("PreClick", function () LiteMount:PreClick() end)
     self:SetScript("PostClick", function () LiteMount:PostClick() end)
-    self:SetAttribute("macrotext", "Dismount()")
-    self:SetAttribute("type", "macrotext")
+    self:SetAttribute("macrotext", "/run Dismount()")
+    self:SetAttribute("type", "macro")
 
     -- Rescanning of MountList
     self:RegisterEvent("COMPANION_LEARNED")
@@ -61,7 +63,7 @@ function LiteMount:PLAYER_REGEN_ENABLED()
 end
 
 -- Fancy SecureActionButton stuff. The default button mechanism is
--- type="macrotext" macrotext="Dismount()". If we're not in combat we
+-- type="macro" macrotext="/run Dismount()". If we're not in combat we
 -- use a preclick handler to switch it to "spell" and a mount spell ID,
 -- and a postclick handler to switch it back to dismount.
 
@@ -74,28 +76,28 @@ function LiteMount:PreClick()
 
     local m
 
-    if Location:CanFly() then
+    if LM_Location:CanFly() then
         m = self.ml:GetRandomFlyingMount()
     end
 
-    if not m and Location:IsAQ() then
+    if not m and LM_Location:IsAQ() then
         m = self.ml:GetRandomAQMount()
     end
 
-    if not m and Location:IsVashjir() then
+    if not m and LM_Location:IsVashjir() then
         m = self.ml:GetRandomVashjirMount()
     end
 
-    if not m and Location:CanSwim() then
+    if not m and LM_Location:CanSwim() then
         m = self.ml:GetRandomSwimmingMount()
     end
 
-    if not m and Location:CanWalk() then
-        m = self.ml:GetRandomGroundMount()
+    if not m and LM_Location:CanWalk() then
+        m = self.ml:GetRandomWalkingMount()
     end
 
     if m then
-        self:SetAttribute("spell", m:SpellId())
+        self:SetAttribute("spell", m:SpellName())
         self:SetAttribute("type", "spell")
     end
 
@@ -103,5 +105,5 @@ end
 
 function LiteMount:PostClick()
     if InCombatLockdown() then return end
-    self:SetAttribute("type", "macrotext")
+    self:SetAttribute("type", "macro")
 end
