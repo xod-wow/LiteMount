@@ -6,10 +6,10 @@
 
 ----------------------------------------------------------------------------]]--
 
-MountMacro = LM_CreateAutoEventFrame("Frame", "MountMacro", "SecureActionButtonTemplate")
-MountMacro:RegisterEvent("PLAYER_LOGIN")
+LiteMount = LM_CreateAutoEventFrame("Frame", "LiteMount", "SecureActionButtonTemplate")
+LiteMount:RegisterEvent("PLAYER_LOGIN")
 
-function MountMacro:Initialize()
+function LiteMount:Initialize()
     self.ml = LM_MountList:new()
     SLASH_LM1 = "/lm"
     SlashCmdList["LM1"] = function () m:ScanMounts() m:Dump() end
@@ -18,13 +18,13 @@ function MountMacro:Initialize()
     self:RegisterForClicks("LeftButtonDown")
 
     -- SecureActionButton setup
-    self:SetScript("PreClick", function () MountMacro:PreClick() end)
-    self:SetScript("PostClick", function () MountMacro:PostClick() end)
+    self:SetScript("PreClick", function () LiteMount:PreClick() end)
+    self:SetScript("PostClick", function () LiteMount:PostClick() end)
     self:SetAttribute("macrotext", "Dismount()")
     self:SetAttribute("type", "macrotext")
 end
 
-function MountMacro:PLAYER_LOGIN()
+function LiteMount:PLAYER_LOGIN()
     self:UnregisterEvent("PLAYER_LOGIN")
 
     -- We might login already in combat.
@@ -35,13 +35,13 @@ function MountMacro:PLAYER_LOGIN()
     end
 end
 
-function MountMacro:PLAYER_REGEN_ENABLED()
+function LiteMount:PLAYER_REGEN_ENABLED()
     self:UnregisterEvent("PLAYER_REGEN_ENABLED")
     self:Initialize()
 end
 
 
-function MountMacro:PreClick()
+function LiteMount:PreClick()
 
     if InCombatLockdown() then return end
 
@@ -74,7 +74,7 @@ function MountMacro:PreClick()
 
 end
 
-function MountMacro:PostClick()
+function LiteMount:PostClick()
     if InCombatLockdown() then return end
     self:SetAttribute("type", "macrotext")
 end
