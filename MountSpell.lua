@@ -6,13 +6,13 @@
 
 ----------------------------------------------------------------------------]]--
 
-MountSpell = { }
+LM_MountSpell = { }
 
 -- GetSpellBookItemInfo only works for spells which are in one of the
 -- class spellbook pages. So not racials, not companions and not
 -- much faster.
 
-function MountSpell:IsKnown(spellId)
+function LM_MountSpell:IsKnown(spellId)
     local spellname = GetSpellInfo(spellId)
 
     if spellname and GetSpellBookItemInfo(spellname) then

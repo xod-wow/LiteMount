@@ -26,7 +26,7 @@ local function IterateRacialMounts()
     return function ()
             while i <= max do
                 i = i + 1
-                if MountSpell:IsKnown(LM_RACIAL_MOUNT_SPELLS[i]) then
+                if LM_MountSpell:IsKnown(LM_RACIAL_MOUNT_SPELLS[i]) then
                     return Mount:GetMountBySpell(LM_RACIAL_MOUNT_SPELLS[i])
                 end
             end
@@ -40,7 +40,7 @@ local function IterateClassMounts()
     return function ()
             while i <= max do
                 i = i + 1
-                if MountSpell:IsKnown(LM_CLASS_MOUNT_SPELLS[i]) then
+                if LM_MountSpell:IsKnown(LM_CLASS_MOUNT_SPELLS[i]) then
                     return Mount:GetMountBySpell(LM_CLASS_MOUNT_SPELLS[i])
                 end
             end
