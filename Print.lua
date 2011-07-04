@@ -1,5 +1,9 @@
 --[[----------------------------------------------------------------------------
 
+  LiteMount/Print.lua
+
+  AddMessage() into the currently displayed chat window.
+
 ----------------------------------------------------------------------------]]--
 
 local ChatWindowCache = nil

@@ -1,5 +1,9 @@
 --[[----------------------------------------------------------------------------
 
+  LiteMount/Core.lua
+
+  Addon core.
+
 ----------------------------------------------------------------------------]]--
 
 MountMacro = LM_CreateAutoEventFrame("Frame", "MountMacro", "SecureActionButtonTemplate")

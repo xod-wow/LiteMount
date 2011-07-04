@@ -1,5 +1,7 @@
 --[[----------------------------------------------------------------------------
 
+  LiteMount/AutoEventFrame.lua
+
   Wrappers CreateFrame with an on-event handler that looks for a function
   named for the event and calls it.
 
