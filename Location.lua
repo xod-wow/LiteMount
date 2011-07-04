@@ -69,16 +69,23 @@ function LM_Location:CanSwim()
 end
 
 function LM_Location:CanFloat()
-    return IsSwimming()
 end
 
 function LM_Location:GetName()
     return self.realzonetext
 end
 
+function LM_Location:GetId()
+    return self.areaid
+end
+
 function LM_Location:IsAQ()
+    -- 766 is probably not right for temple of AQ
+    if self.areaid == 766 then return 1 end
 end
 
 function LM_Location:IsVashjir()
+    if self.areaid == 610 then return 1 end
+    if self.areaid == 614 then return 1 end
+    if self.areaid == 615 then return 1 end
 end
-
