@@ -22,6 +22,23 @@ function LiteMount:Initialize()
     self:SetScript("PostClick", function () LiteMount:PostClick() end)
     self:SetAttribute("macrotext", "Dismount()")
     self:SetAttribute("type", "macrotext")
+
+    -- Rescanning of MountList
+    self:RegisterEvent("COMPANION_LEARNED")
+    self:RegisterEvent("COMPANION_UNLEARNED")
+    self:RegisterEvent("COMPANION_UPDATE")
+end
+
+function LiteMount:COMPANION_LEARNED()
+    self.ml:ScanMounts()
+end
+
+function LiteMount:COMPANION_UNLEARNED()
+    self.ml:ScanMounts()
+end
+
+function LiteMount:COMPANION_UPDATE()
+    self.ml:ScanMounts()
 end
 
 function LiteMount:PLAYER_LOGIN()
