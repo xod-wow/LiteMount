@@ -1,0 +1,14 @@
+## Interface: 40200
+## Title: LiteMount
+## Version: 4.2.0
+## Author: Xodiv of Proudmoore
+## Email: mib@post.com
+
+AutoEventFrame.lua
+Print.lua
+SpellInfo.lua
+Mount.lua
+MountSpell.lua
+MountList.lua
+Location.lua
+Core.lua
