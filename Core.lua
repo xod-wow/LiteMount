@@ -11,8 +11,10 @@ LiteMount:RegisterEvent("PLAYER_LOGIN")
 
 function LiteMount:Initialize()
     self.ml = LM_MountList:new()
+    self.ml:ScanMounts()
+
     SLASH_LM1 = "/lm"
-    SlashCmdList["LM1"] = function () m:ScanMounts() m:Dump() end
+    SlashCmdList["LM1"] = function () self.ml:ScanMounts() self.ml:Dump() end
 
     -- Button-fu
     self:RegisterForClicks("LeftButtonDown")
@@ -27,6 +29,7 @@ function LiteMount:Initialize()
     self:RegisterEvent("COMPANION_LEARNED")
     self:RegisterEvent("COMPANION_UNLEARNED")
     self:RegisterEvent("COMPANION_UPDATE")
+
 end
 
 function LiteMount:COMPANION_LEARNED()
@@ -57,10 +60,17 @@ function LiteMount:PLAYER_REGEN_ENABLED()
     self:Initialize()
 end
 
+-- Fancy SecureActionButton stuff. The default button mechanism is
+-- type="macrotext" macrotext="Dismount()". If we're not in combat we
+-- use a preclick handler to switch it to "spell" and a mount spell ID,
+-- and a postclick handler to switch it back to dismount.
 
 function LiteMount:PreClick()
 
     if InCombatLockdown() then return end
+
+    -- If we're already mounted, leave the button as dismount.
+    if IsMounted() then return end
 
     local m
 

@@ -57,11 +57,11 @@ function LM_Location:CanFly()
     -- XXX FIXME XXX
     -- Possibly use IsUsableSpell() on flying mount in conjunction with
     -- some IsMoving() tests.
-    return IsFlyableArea()
+    return IsOutdoors() and IsFlyableArea()
 end
 
 function LM_Location:CanWalk()
-    return true
+    return IsOutdoors()
 end
 
 function LM_Location:CanSwim()
