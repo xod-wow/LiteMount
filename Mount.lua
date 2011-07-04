@@ -11,11 +11,11 @@ LM_Mount.__index = LM_Mount
 function LM_Mount:new() return setmetatable({ }, LM_Mount) end
 
 local FlagOverrideTable = {
-    [LM_SPELL_RIDING_TURTLE]     = bit.band(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM),
-    [LM_SPELL_SEA_TURTLE]        = bit.band(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM),
-    [LM_SPELL_FLIGHT_FORM]       = bit.band(LM_FLAG_BIT_FLY),
-    [LM_SPELL_SWIFT_FLIGHT_FORM] = bit.band(LM_FLAG_BIT_FLY),
-    [LM_SPELL_RUNNING_WILD]      = bit.band(LM_FLAG_BIT_WALK),
+    [LM_SPELL_RIDING_TURTLE]     = bit.bor(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM),
+    [LM_SPELL_SEA_TURTLE]        = bit.bor(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM),
+    [LM_SPELL_FLIGHT_FORM]       = bit.bor(LM_FLAG_BIT_FLY),
+    [LM_SPELL_SWIFT_FLIGHT_FORM] = bit.bor(LM_FLAG_BIT_FLY),
+    [LM_SPELL_RUNNING_WILD]      = bit.bor(LM_FLAG_BIT_WALK),
 }
 for _,s in ipairs(LM_AQ_MOUNT_SPELLS) do
     FlagOverrideTable[s] = bit.band(LM_FLAG_BIT_AQ)
