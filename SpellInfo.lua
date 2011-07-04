@@ -1,5 +1,9 @@
 --[[----------------------------------------------------------------------------
 
+  LiteMount/SpellInfo.lua
+
+  Constants for mount spell information.
+
 ----------------------------------------------------------------------------]]--
 
 -- Bits 1 through 16 match Blizzard's flags in GetCompanionInfo()
