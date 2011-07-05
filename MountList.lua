@@ -84,7 +84,7 @@ function LM_MountList:GetRandomMount(flags)
     end
 
     for _, m in pairs(self.byname) do
-        if bit.band(m:Flags(), flags) > 0 then
+        if bit.band(m:Flags(), flags) == flags then
             table.insert(poss, m)
         end
     end

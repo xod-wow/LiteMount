@@ -19,10 +19,10 @@ local FlagOverrideTable = {
     [LM_SPELL_RUNNING_WILD]      = bit.bor(LM_FLAG_BIT_WALK),
 }
 for _,s in ipairs(LM_AQ_MOUNT_SPELLS) do
-    FlagOverrideTable[s] = bit.band(LM_FLAG_BIT_AQ)
+    FlagOverrideTable[s] = bit.bor(LM_FLAG_BIT_AQ)
 end
 for _,s in ipairs(LM_VASHJIR_MOUNT_SPELLS) do
-    FlagOverrideTable[s] = bit.band(LM_FLAG_BIT_VASHJIR)
+    FlagOverrideTable[s] = bit.bor(LM_FLAG_BIT_VASHJIR)
 end
 
 function LM_Mount:FixupFlags()
@@ -32,7 +32,7 @@ function LM_Mount:FixupFlags()
     end
 
     -- Which fly/walk flagged mounts can mount in no-fly areas is arbitrary.
-    if bit.band(self.flags, LM_FLAG_BIT_FLY) > 0 then
+    if bit.band(self.flags, LM_FLAG_BIT_FLY) == LM_FLAG_BIT_FLY then
         self.flags = LM_FLAG_BIT_FLY
     end
 

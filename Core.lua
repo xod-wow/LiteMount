@@ -24,7 +24,7 @@ function LiteMount:Initialize()
     -- SecureActionButton setup
     self:SetScript("PreClick", function () LiteMount:PreClick() end)
     self:SetScript("PostClick", function () LiteMount:PostClick() end)
-    self:SetAttribute("macrotext", "/run Dismount()")
+    self:SetAttribute("macrotext", "/run Dismount()\n/cancelform")
     self:SetAttribute("type", "macro")
 
     -- Rescanning of MountList
@@ -72,7 +72,9 @@ function LiteMount:PreClick()
     if InCombatLockdown() then return end
 
     -- If we're already mounted, leave the button as dismount.
-    if IsMounted() then return end
+    if IsMounted() then
+        return
+    end
 
     if select(2, UnitClass("player")) == "DRUID" then
         if GetShapeshiftForm() == 2 then return end
