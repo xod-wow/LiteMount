@@ -10,23 +10,8 @@ LM_Mount = { }
 LM_Mount.__index = LM_Mount
 function LM_Mount:new() return setmetatable({ }, LM_Mount) end
 
-local FlagOverrideTable = {
-    [LM_SPELL_AQUATIC_FORM]      = bit.bor(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM),
-    [LM_SPELL_RIDING_TURTLE]     = bit.bor(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM),
-    [LM_SPELL_SEA_TURTLE]        = bit.bor(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM),
-    [LM_SPELL_FLIGHT_FORM]       = bit.bor(LM_FLAG_BIT_FLY),
-    [LM_SPELL_SWIFT_FLIGHT_FORM] = bit.bor(LM_FLAG_BIT_FLY),
-    [LM_SPELL_RUNNING_WILD]      = bit.bor(LM_FLAG_BIT_WALK),
-}
-for _,s in ipairs(LM_AQ_MOUNT_SPELLS) do
-    FlagOverrideTable[s] = bit.bor(LM_FLAG_BIT_AQ)
-end
-for _,s in ipairs(LM_VASHJIR_MOUNT_SPELLS) do
-    FlagOverrideTable[s] = bit.bor(LM_FLAG_BIT_VASHJIR)
-end
-
 function LM_Mount:FixupFlags()
-    local flags = FlagOverrideTable[self.spellid]
+    local flags = LM_FlagOverrideTable[self.spellid]
     if flags then
         self.flags = flags
     end
@@ -97,6 +82,10 @@ end
 
 function LM_Mount:CanWalk()
     return bit.band(self.flags, LM_FLAG_BIT_WALK)
+end
+
+function LM_Mount:CanSlowWalk()
+    return bit.band(self.flags, LM_FLAG_BIT_SLOWWALK)
 end
 
 function LM_Mount:CanFloat()

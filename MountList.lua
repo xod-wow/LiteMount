@@ -104,6 +104,10 @@ function LM_MountList:GetRandomFlyingMount()
     return self:GetRandomMount(LM_FLAG_BIT_FLY)
 end
 
+function LM_MountList:GetRandomSlowWalkingMount()
+    return self:GetRandomMount(LM_FLAG_BIT_SLOWWALK)
+end
+
 function LM_MountList:GetRandomWalkingMount()
     return self:GetRandomMount(LM_FLAG_BIT_WALK)
 end

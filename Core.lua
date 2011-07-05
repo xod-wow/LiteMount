@@ -101,6 +101,7 @@ function LiteMount:PreClick()
 
     if not m and LM_Location:CanWalk() then
         m = self.ml:GetRandomWalkingMount()
+                or self.ml:GetRandomSlowWalkingMount()
     end
 
     if m then
