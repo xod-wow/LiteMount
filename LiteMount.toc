@@ -3,6 +3,7 @@
 ## Version: 4.2.0
 ## Author: Xodiv of Proudmoore
 ## Email: mib@post.com
+## SavedVariablesPerCharacter: LM_OptionsDB
 
 AutoEventFrame.lua
 Print.lua
@@ -11,5 +12,6 @@ Mount.lua
 MountSpell.lua
 MountList.lua
 Location.lua
+Options.lua
 Core.lua
 Macro.lua

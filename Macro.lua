@@ -10,7 +10,7 @@
 local MacroName = "LiteMount"
 local MacroText = "# Auto-created by LiteMount addon.\n/click LiteMount"
 
-LM_Macro = LM_CreateAutoEventFrame("Button", "LiteMount")
+LM_Macro = LM_CreateAutoEventFrame("Button", "LM_Macro")
 LM_Macro:RegisterEvent("PLAYER_LOGIN")
 
 function LM_Macro:CreateOrUpdateMacro()
