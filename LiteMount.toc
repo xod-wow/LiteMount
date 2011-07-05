@@ -12,3 +12,4 @@ MountSpell.lua
 MountList.lua
 Location.lua
 Core.lua
+Macro.lua
