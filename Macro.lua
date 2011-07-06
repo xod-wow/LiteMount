@@ -16,12 +16,14 @@ LM_Macro = LM_CreateAutoEventFrame("Button", "LM_Macro")
 LM_Macro:RegisterEvent("UPDATE_MACROS")
 
 function LM_Macro:CreateOrUpdateMacro()
+    self:UnregisterEvent("UPDATE_MACROS")
     local index = GetMacroIndexByName(MacroName)
     if index == 0 then
         index = CreateMacro(MacroName, MACRO_ICON_MECHASTRIDER, MacroText)
     else
         EditMacro(index, nil, nil, MacroText)
     end
+    self:RegisterEvent("UPDATE_MACROS")
 end
 
 function LM_Macro:PLAYER_REGEN_ENABLED()
