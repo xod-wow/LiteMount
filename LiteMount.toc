@@ -15,3 +15,5 @@ Location.lua
 Options.lua
 Core.lua
 Macro.lua
+UIOptionsFrame.lua
+UIOptionsFrame.xml

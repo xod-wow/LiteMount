@@ -14,9 +14,7 @@ function LiteMount:Initialize()
     self.ml:ScanMounts()
 
     SLASH_LiteMount1 = "/lm"
-    SlashCmdList["LiteMount"] = function ()
-                                    self.ml:ScanMounts() self.ml:Dump()
-                                 end
+    SlashCmdList["LiteMount"] = function () InterfaceOptionsFrame_OpenToCategory(LiteMountOptions) end
 
     -- Button-fu
     self:RegisterForClicks("LeftButtonDown")

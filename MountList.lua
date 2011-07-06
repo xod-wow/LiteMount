@@ -76,18 +76,26 @@ function LM_MountList:ScanMounts()
     table.sort(self.byname)
 end
 
+function LM_MountList:GetMounts(flags)
+    local match = { }
+
+    if not flags then flags = 0 end
+
+    for _, m in pairs(self.byname) do
+        if bit.band(m:Flags(), flags) == flags then
+            table.insert(match, m)
+        end
+    end
+    return match
+end
+
 function LM_MountList:GetRandomMount(flags)
-    local poss = { }
 
     if GetUnitSpeed("player") > 0 then
         flags = bit.bor(flags, LM_FLAG_BIT_MOVING)
     end
 
-    for _, m in pairs(self.byname) do
-        if bit.band(m:Flags(), flags) == flags then
-            table.insert(poss, m)
-        end
-    end
+    local poss = self:GetMounts(flags)
 
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
     for i = #poss, 1, -1 do
@@ -99,25 +107,49 @@ function LM_MountList:GetRandomMount(flags)
     return poss[1]
 end
 
+
+function LM_MountList:GetFlyingMounts()
+    return self:GetMounts(LM_FLAG_BIT_FLY)
+end
+
 function LM_MountList:GetRandomFlyingMount()
-    -- XXX FIXME XXX Druid forms are instant cast and frankly a lot better.
     return self:GetRandomMount(LM_FLAG_BIT_FLY)
+end
+
+function LM_MountList:GetSlowWalkingMounts()
+    return self:GetMounts(LM_FLAG_BIT_SLOWWALK)
 end
 
 function LM_MountList:GetRandomSlowWalkingMount()
     return self:GetRandomMount(LM_FLAG_BIT_SLOWWALK)
 end
 
+function LM_MountList:GetWalkingMounts()
+    return self:GetMounts(LM_FLAG_BIT_WALK)
+end
+
 function LM_MountList:GetRandomWalkingMount()
     return self:GetRandomMount(LM_FLAG_BIT_WALK)
+end
+
+function LM_MountList:GetAQMounts()
+    return self:GetMounts(LM_FLAG_BIT_AQ)
 end
 
 function LM_MountList:GetRandomAQMount()
     return self:GetRandomMount(LM_FLAG_BIT_AQ)
 end
 
+function LM_MountList:GetVashjirMounts()
+    return self:GetMounts(LM_FLAG_BIT_VASHJIR)
+end
+
 function LM_MountList:GetRandomVashjirMount()
     return self:GetRandomMount(LM_FLAG_BIT_VASHJIR)
+end
+
+function LM_MountList:GetSwimmingMounts()
+    return self:GetMounts(LM_FLAG_BIT_SWIM)
 end
 
 function LM_MountList:GetRandomSwimmingMount()
