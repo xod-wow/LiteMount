@@ -10,21 +10,18 @@
 local MacroName = "LiteMount"
 local MacroText = "# Auto-created by LiteMount addon.\n/click LiteMount"
 
+local MACRO_ICON_MECHASTRIDER = 300
+
 LM_Macro = LM_CreateAutoEventFrame("Button", "LM_Macro")
-LM_Macro:RegisterEvent("PLAYER_LOGIN")
+LM_Macro:RegisterEvent("UPDATE_MACROS")
 
 function LM_Macro:CreateOrUpdateMacro()
     local index = GetMacroIndexByName(MacroName)
     if index == 0 then
-        index = CreateMacro(MacroName, 1, MacroText)
+        index = CreateMacro(MacroName, MACRO_ICON_MECHASTRIDER, MacroText)
     else
         EditMacro(index, nil, nil, MacroText)
     end
-end
-
-function LM_Macro:Initialize()
-    self:CreateOrUpdateMacro()
-    self:RegisterEvent("UPDATE_MACROS")
 end
 
 function LM_Macro:PLAYER_REGEN_ENABLED()
@@ -32,7 +29,7 @@ function LM_Macro:PLAYER_REGEN_ENABLED()
     self:CreateOrUpdateMacro()
 end
 
-function LM_Macro:PLAYER_LOGIN()
+function LM_Macro:UPDATE_MACROS()
     if InCombatLockdown() then
         self:RegisterEvent("PLAYER_REGEN_ENABLED")
     else
