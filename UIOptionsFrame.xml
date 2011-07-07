@@ -2,7 +2,7 @@
 
 <Button name="LiteMountOptionsButtonTemplate" virtual="true">
 
-    <Size x="160" y="45" />
+    <Size x="180" y="45" />
 
     <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
         <EdgeSize val="8" />

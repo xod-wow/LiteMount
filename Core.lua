@@ -9,6 +9,7 @@
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 
+
 local RescanEvents = {
     -- Companion change
     "COMPANION_LEARNED", "COMPANION_UNLEARNED", "COMPANION_UPDATE",
@@ -26,13 +27,21 @@ function LiteMount:Initialize()
     SLASH_LiteMount1 = "/lm"
     SlashCmdList["LiteMount"] = function () InterfaceOptionsFrame_OpenToCategory(LiteMountOptions) end
 
+    local DismountMacro
+    local PlayerClass = select(2, UnitClass("player"))
+    if PlayerClass == "DRUID" or playerClass == "SHAMAN" then
+        DismountMacro = "/dismount\n/cancelform"
+    else
+        DismountMacro = "/dismount"
+    end
+
     -- Button-fu
     self:RegisterForClicks("LeftButtonDown")
 
     -- SecureActionButton setup
     self:SetScript("PreClick", function () LiteMount:PreClick() end)
     self:SetScript("PostClick", function () LiteMount:PostClick() end)
-    self:SetAttribute("macrotext", "/run Dismount()\n/cancelform")
+    self:SetAttribute("macrotext", DismountMacro)
     self:SetAttribute("type", "macro")
 
     for _,ev in ipairs(RescanEvents) do
