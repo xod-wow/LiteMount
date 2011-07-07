@@ -9,7 +9,17 @@
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 
+local RescanEvents = {
+    -- Companion change
+    "COMPANION_LEARNED", "COMPANION_UNLEARNED", "COMPANION_UPDATE",
+    -- Might have learned a new mount spell
+    "LEARNED_SPELL_IN_TAB",
+    -- You might have learned instant ghost wolf
+    "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE",
+}
+    
 function LiteMount:Initialize()
+
     self.ml = LM_MountList:new()
     self.ml:ScanMounts()
 
@@ -25,23 +35,11 @@ function LiteMount:Initialize()
     self:SetAttribute("macrotext", "/run Dismount()\n/cancelform")
     self:SetAttribute("type", "macro")
 
-    -- Rescanning of MountList
-    self:RegisterEvent("COMPANION_LEARNED")
-    self:RegisterEvent("COMPANION_UNLEARNED")
-    self:RegisterEvent("COMPANION_UPDATE")
+    for _,ev in ipairs(RescanEvents) do
+        self[ev] = function (self, event, ...) self.ml:ScanMounts() end
+        self:RegisterEvent(ev)
+    end
 
-end
-
-function LiteMount:COMPANION_LEARNED()
-    self.ml:ScanMounts()
-end
-
-function LiteMount:COMPANION_UNLEARNED()
-    self.ml:ScanMounts()
-end
-
-function LiteMount:COMPANION_UPDATE()
-    self.ml:ScanMounts()
 end
 
 function LiteMount:PLAYER_LOGIN()
@@ -61,7 +59,7 @@ function LiteMount:PLAYER_REGEN_ENABLED()
 end
 
 -- Fancy SecureActionButton stuff. The default button mechanism is
--- type="macro" macrotext="/run Dismount()". If we're not in combat we
+-- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to switch it to "spell" and a mount spell ID,
 -- and a postclick handler to switch it back to dismount.
 
