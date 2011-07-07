@@ -37,7 +37,7 @@
                     <Anchor point="TOP" y="-2" />
                     <Anchor point="BOTTOMRIGHT" x="-2" y="2" />
                 </Anchors>
-            </FontString>
+            </FontString>A
         </Layer>
     </Layers>
 
@@ -51,6 +51,9 @@
                     <Anchor point="TOPLEFT" x="16" y="-16" />
                 </Anchors>
             </Fontstring>
+            <FontString inherits="GameFontNormal" text="Options panel is a work in progress and doesn't do anything yet.">
+                <Anchors><Anchor point="CENTER" /></Anchors>
+            </FontString>
         </Layer>
     </Layers>
 
