@@ -55,7 +55,7 @@
     </Layers>
 
     <Frames>
-        <Frame name="$parentContainer" inherits="OptionsFrameListTemplate">
+        <Frame name="$parentContainer" inherits="OptionsFrameListTemplate" parentKey="container">
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-72" />
                 <Anchor point="BOTTOMRIGHT" x="-16" y="48" />
