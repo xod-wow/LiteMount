@@ -27,9 +27,10 @@ function LiteMount:Initialize()
     SLASH_LiteMount1 = "/lm"
     SlashCmdList["LiteMount"] = function () InterfaceOptionsFrame_OpenToCategory(LiteMountOptions) end
 
+    self.playerClass = select(2, UnitClass("player"))
+
     local DismountMacro
-    local PlayerClass = select(2, UnitClass("player"))
-    if PlayerClass == "DRUID" or playerClass == "SHAMAN" then
+    if self.PlayerClass == "DRUID" or self.playerClass == "SHAMAN" then
         DismountMacro = "/dismount\n/cancelform"
     else
         DismountMacro = "/dismount"
@@ -81,9 +82,11 @@ function LiteMount:PreClick()
         return
     end
 
-    if select(2, UnitClass("player")) == "DRUID" then
+    if self.playerClass == "DRUID" then
         if GetShapeshiftForm() == 2 then return end
         if GetShapeshiftForm() == 6 then return end
+    elseif self.playerClass == "SHAMAN" then
+        if GetShapeshiftForm() == 1 then return end
     end
 
     local m

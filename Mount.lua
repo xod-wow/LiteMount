@@ -100,7 +100,7 @@ function LM_Mount:CastTime()
     return self.casttime
 end
 
-function LM_Mount:Useable()
+function LM_Mount:Usable()
     return IsUsableSpell(self.spellid)
 end
 

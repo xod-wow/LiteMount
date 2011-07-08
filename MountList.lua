@@ -82,7 +82,7 @@ function LM_MountList:GetMounts(flags)
     if not flags then flags = 0 end
 
     for _, m in pairs(self.byname) do
-        if bit.band(m:Flags(), flags) == flags then
+        if bit.band(m:Flags(), flags) == flags and m:Usable() then
             table.insert(match, m)
         end
     end
