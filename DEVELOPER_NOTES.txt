@@ -1,0 +1,16 @@
+Notes To Myself
+---------------
+
+001. Check when/if IsSpellKnown() is a better idea.
+
+002. CanExitVehicle() and IsMounted()
+
+003. Floating might be swimming with no mirror bar for breath.
+
+004. You can know tradeskill-only mounts for tradeskills you unlearned.
+
+005. Might be better to look for Sea Legs aura for Vashj'ir.
+
+006. Does GetUnitSpeed return negative if you go backwards?
+
+007. "Dragonwrath, Tarecgosa's Rest" (71086)
