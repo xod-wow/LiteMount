@@ -30,7 +30,7 @@ function LiteMount:Initialize()
     self.playerClass = select(2, UnitClass("player"))
 
     local DismountMacro
-    if self.PlayerClass == "DRUID" or self.playerClass == "SHAMAN" then
+    if self.playerClass == "DRUID" or self.playerClass == "SHAMAN" then
         DismountMacro = "/dismount\n/cancelform"
     else
         DismountMacro = "/dismount"
@@ -115,8 +115,6 @@ function LiteMount:PreClick()
     if m then
         self:SetAttribute("spell", m:SpellName())
         self:SetAttribute("type", "spell")
-    else
-        UIErrorsFrame_OnEvent(UIErrorsFrame, "UI_ERROR_MESSAGE", LM_ERR_NO_MOUNT_USABLE)
     end
 
 end

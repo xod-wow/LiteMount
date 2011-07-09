@@ -11,14 +11,22 @@ LM_Mount.__index = LM_Mount
 function LM_Mount:new() return setmetatable({ }, LM_Mount) end
 
 function LM_Mount:FixupFlags()
-    local flags = LM_FlagOverrideTable[self.spellid]
-    if flags then
-        self.flags = flags
-    end
-
     -- Which fly/walk flagged mounts can mount in no-fly areas is arbitrary.
     if bit.band(self.flags, LM_FLAG_BIT_FLY) == LM_FLAG_BIT_FLY then
         self.flags = LM_FLAG_BIT_FLY
+    end
+
+    -- Most ground-only mounts are also flagged to swim
+    -- XXX FIXME XXX
+    local fws = bit.bor(LM_FLAG_BIT_FLY, LM_FLAG_BIT_WALK, LM_FLAG_BIT_SWIM)
+    local ws = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_SWIM)
+    if bit.band(self.flags, fws) == ws then
+        self.flags = self.flags - LM_FLAG_BIT_SWIM
+    end
+
+    local flags = LM_FlagOverrideTable[self.spellid]
+    if flags then
+        self.flags = flags
     end
 
     if self.casttime == 0 then
