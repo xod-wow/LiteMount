@@ -5,6 +5,7 @@
 ## Email: mib@post.com
 ## SavedVariablesPerCharacter: LM_OptionsDB
 
+GlobalStrings.lua
 AutoEventFrame.lua
 Print.lua
 SpellInfo.lua

@@ -115,6 +115,8 @@ function LiteMount:PreClick()
     if m then
         self:SetAttribute("spell", m:SpellName())
         self:SetAttribute("type", "spell")
+    else
+        UIErrorsFrame_OnEvent(UIErrorsFrame, "UI_ERROR_MESSAGE", LM_ERR_NO_MOUNT_USABLE)
     end
 
 end

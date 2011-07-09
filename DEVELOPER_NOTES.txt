@@ -1,23 +1,24 @@
 Notes To Myself
 ---------------
 
-008. Flying in areas you don't know how to.
+*. "Dragonwrath, Tarecgosa's Rest" (71086)
+
+* Might be better to look for Sea Legs aura for Vashj'ir.
+
+* You can use flying mounts when you are floating in flyable areas.
+  IsUsableSpell() returns correctly for mount spells for swimming vs floating.
+
+* CanExitVehicle() and IsMounted()
+
+* Flying in areas you don't know how to.
      Testing shows IsFlyableArea() works properly for you.
 
-007. "Dragonwrath, Tarecgosa's Rest" (71086)
+* Does GetUnitSpeed return negative if you go backwards?
+     No it doesn't.
 
-006. Does GetUnitSpeed return negative if you go backwards?
-       No it doesn't.
+* You can know tradeskill-only mounts for tradeskills you unlearned.
+     You can but IsUsableSpell seems to return false for them.
 
-005. Might be better to look for Sea Legs aura for Vashj'ir.
-
-004. You can know tradeskill-only mounts for tradeskills you unlearned.
-       You can but IsUsableSpell seems to return false for them.
-
-003. Floating might be swimming with no mirror bar for breath.
-
-002. CanExitVehicle() and IsMounted()
-
-001. Check when/if IsSpellKnown() is a better idea.
-       So far it seems identical to looping over the spellbook tab. It
-       never returns true for mount spells.
+* Check when/if IsSpellKnown() is a better idea.
+     So far it seems identical to looping over the spellbook tab. It
+     never returns true for mount spells.
