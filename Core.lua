@@ -82,14 +82,19 @@ function LiteMount:PreClick()
         return
     end
 
+    local form = GetShapeshiftForm()
+
     if self.playerClass == "DRUID" then
-        if GetShapeshiftForm() == 2 then return end
-        if GetShapeshiftForm() == 6 then return end
+        if form == 2 or form == 4 or form == 6 then return end
     elseif self.playerClass == "SHAMAN" then
-        if GetShapeshiftForm() == 1 then return end
+        if form == 1 then return end
     end
 
     local m
+
+    if not m and LM_Location:CanFly() then
+        m = self.ml:GetRandomFlyingMount()
+    end
 
     if not m and LM_Location:IsVashjir() then
         m = self.ml:GetRandomVashjirMount()
@@ -97,10 +102,6 @@ function LiteMount:PreClick()
 
     if not m and LM_Location:CanSwim() then
         m = self.ml:GetRandomSwimmingMount()
-    end
-
-    if not m and LM_Location:CanFly() then
-        m = self.ml:GetRandomFlyingMount()
     end
 
     if not m and LM_Location:IsAQ() then

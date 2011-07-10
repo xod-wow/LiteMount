@@ -13,6 +13,8 @@
 LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
 LM_Location:RegisterEvent("PLAYER_LOGIN")
 
+local CAN_FLY_IF_USABLE_SPELL = LM_SPELL_BRONZE_DRAKE
+
 function LM_Location:Initialize()
     self.continent = -1
     self.areaid = -1
@@ -50,10 +52,9 @@ function LM_Location:WORLD_MAP_UPDATE()
 end
 
 function LM_Location:CanFly()
-    -- XXX FIXME XXX
-    -- Possibly use IsUsableSpell() on flying mount in conjunction with
-    -- some IsMoving() tests.
-    return IsOutdoors() and IsFlyableArea()
+    -- Need some IsMoving() tests?
+    return IsUsableSpell(CAN_FLY_IF_USABLE_SPELL)
+    -- return IsOutdoors() and IsFlyableArea()
 end
 
 function LM_Location:CanWalk()
