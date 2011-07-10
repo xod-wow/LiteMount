@@ -91,7 +91,7 @@ end
 
 function LM_MountList:GetRandomMount(flags)
 
-    if GetUnitSpeed("player") > 0 then
+    if GetUnitSpeed("player") > 0 or IsFalling() then
         flags = bit.bor(flags, LM_FLAG_BIT_MOVING)
     end
 
