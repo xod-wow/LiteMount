@@ -24,7 +24,7 @@
     </Frames>
 
     <Layers>
-        <Layer level="ARTWORK">
+        <Layer level="OVERLAY">
             <Texture name="$parentIcon" parentKey="icon">
                 <Size x="36" y="36" />
                 <Anchors>
@@ -37,9 +37,32 @@
                     <Anchor point="TOP" y="-2" />
                     <Anchor point="BOTTOMRIGHT" x="-2" y="2" />
                 </Anchors>
-            </FontString>A
+            </FontString>
         </Layer>
     </Layers>
+
+    <Frames>
+        <CheckButton name="$parentBit1" inherits="OptionsCheckButtonTemplate" parentKey="bit1">
+            <Size x="16" y="16" />
+            <Anchors> <Anchor point="RIGHT" x="-2" /> </Anchors>
+        </CheckButton>
+        <CheckButton name="$parentBit2" inherits="OptionsCheckButtonTemplate" parentKey="bit2">
+            <Size x="16" y="16" />
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit1" relativePoint="LEFT" x="-4" /> </Anchors>
+        </CheckButton>
+        <CheckButton name="$parentBit3" inherits="OptionsCheckButtonTemplate" parentKey="bit3">
+            <Size x="16" y="16" />
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit2" relativePoint="LEFT" x="-4" /> </Anchors>
+        </CheckButton>
+        <CheckButton name="$parentBit4" inherits="OptionsCheckButtonTemplate" parentKey="bit4">
+            <Size x="16" y="16" />
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit3" relativePoint="LEFT" x="-4" /> </Anchors>
+        </CheckButton>
+        <CheckButton name="$parentBit5" inherits="OptionsCheckButtonTemplate" parentKey="bit5">
+            <Size x="16" y="16" />
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit4" relativePoint="LEFT" x="-4" /> </Anchors>
+        </CheckButton>
+    </Frames>
 
 </Button>
 
@@ -58,45 +81,20 @@
     </Layers>
 
     <Frames>
-        <Frame name="$parentContainer" inherits="OptionsFrameListTemplate" parentKey="container">
+        <Frame name="$parentScrollFrame" inherits="HybridScrollFrameTemplate" parentKey="scrollFrame">
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-72" />
                 <Anchor point="BOTTOMRIGHT" x="-16" y="48" />
             </Anchors>
+            <Frames>
+                <Slider name="$parentScrolLBar" inherits="HybridScrollBarTemplate">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="0" y="-12" />
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="0" y="13" />
+                    </Anchors>
+                </Slider>
+            </Frames>
         </Frame>
-
-        <Button name="$parentTab1" inherits="OptionsFrameTabButtonTemplate" text="Ground Mounts" id="1">
-            <Anchors>
-                <Anchor POINT="BOTTOMLEFT" relativeTo="$parentContainer" relativePoint="TOPLEFT" x="6" y="-3" />
-            </Anchors>
-            <Scripts>
-                <OnClick>
-                    PanelTemplates_SetTab(self:GetParent(), self:GetID())
-                </OnClick>
-            </Scripts>
-        </Button>
-
-        <Button name="$parentTab2" inherits="OptionsFrameTabButtonTemplate" text="Flying Mounts" id="2">
-            <Anchors>
-                <Anchor POINT="TOPLEFT" relativeTo="$parentTab1" relativePoint="TOPRIGHT" x="-16" />
-            </Anchors>
-            <Scripts>
-                <OnClick>
-                    PanelTemplates_SetTab(self:GetParent(), self:GetID())
-                </OnClick>
-            </Scripts>
-        </Button>
-
-        <Button name="$parentTab3" inherits="OptionsFrameTabButtonTemplate" text="Swimming Mounts" id="3">
-            <Anchors>
-                <Anchor POINT="TOPLEFT" relativeTo="$parentTab2" relativePoint="TOPRIGHT" x="-16" />
-            </Anchors>
-            <Scripts>
-                <OnClick>
-                    PanelTemplates_SetTab(self:GetParent(), self:GetID())
-                </OnClick>
-            </Scripts>
-        </Button>
 
 <!--
         <PlayerModel name="LiteMountOptionsModel">
@@ -117,11 +115,8 @@
     </Frames>
 
     <Scripts>
-        <OnLoad>
-            PanelTemplates_SetNumTabs(self, 3)
-            PanelTemplates_SetTab(self, 1)
-            LiteMountOptions_OnLoad(self)
-        </OnLoad>
+        <OnLoad function="LiteMountOptions_OnLoad" />
+        <OnShow function="LiteMountOptions_OnShow" />
     </Scripts>
 
 </Frame>

@@ -7,54 +7,39 @@
 
 ----------------------------------------------------------------------------]]--
 
-local PANEL_MARGIN = 16
-local MIN_GAP = 5
+function LiteMountOptions_UpdateMountList(self)
+    local scrollFrame = self.scrollFrame
+    local offset = HybridScrollFrame_GetOffset(scrollFrame)
+    local buttons = scrollFrame.buttons
+    local mounts = self.mountList
 
-function LiteMountOptions_CreateButton(panel, i)
-    local b = CreateFrame("Button", panel:GetName().."Button"..i, panel, "LiteMountOptionsButtonTemplate")
-    -- Dummy values for testing
-    local name,_,icon = GetSpellInfo(48025)
-    b.name:SetText(name)
-    b.icon:SetTexture(icon)
-    return b
-end
-
-function LiteMountOptions_CreateButtons(self)
-    if not self.buttons then self.buttons = { } end
-
-    if not self.buttons[1] then
-        self.buttons[1] = LiteMountOptions_CreateButton(self, 1)
-    end
-
-    local panelwidth, panelheight = self:GetSize()
-    local totalwidth = panelwidth - 2*PANEL_MARGIN
-    local totalheight = panelheight - 2*PANEL_MARGIN
-    local buttonwidth, buttonheight = self.buttons[1]:GetSize()
-
-    buttonheight = 45
-
-    local rows = floor((totalwidth + MIN_GAP) / (buttonwidth + MIN_GAP))
-    local cols = floor((totalheight + MIN_GAP) / (buttonheight + MIN_GAP))
-
-    local hgap = floor((totalwidth - rows*buttonwidth)/(rows-1))
-    local vgap = floor((totalheight - cols*buttonheight)/(cols-1))
-
-    for i = 1, rows do
-        for j = 1, cols do
-            local b = (i-1) * cols + j
-LM_Print("Creating button " .. b)
-            if not self.buttons[b] then
-                self.buttons[b] = LiteMountOptions_CreateButton(self, b)
-            end
-            local y = -(PANEL_MARGIN + (j-1)*(buttonheight+vgap))
-            local x = PANEL_MARGIN + (i-1)*(buttonwidth+hgap)
-            self.buttons[b]:SetPoint("TOPLEFT", self, "TOPLEFT", x, y)
+    for i = 1, #buttons do
+        local button = buttons[i]
+        local index = offset + i
+        if index <= #mounts then
+            button.icon:SetTexture()
+            button.name:SetText()
+            button:Show()
+        else
+            button:Hide()
         end
     end
-    self.numButtons = #self.buttons
+
+    local totalHeight = scrollFrame.buttonHeight * #mounts
+    local shownHeight = scrollFrame.buttonHeight * #buttons
+
+    HybridScrollFrame_Update(scrollFrame, totalHeight, shownHeight)
 end
 
 function LiteMountOptions_OnLoad(self)
+    local name = self:GetName()
+
+    self.scrollFrame.update = LiteMountOptions_UpdateMountList
+    self.scrollFrame.stepSize = 45
+    self.scrollFrame.scrollBar.doNotHide = true
+
+    HybridScrollFrame_CreateButtons(self.scrollFrame, "LiteMountOptionsButtonTemplate", 0, 0)
+
     self.options = LM_Options
 
     self.name = "LiteMount " .. GetAddOnMetadata("LiteMount", "Version")
@@ -63,7 +48,13 @@ function LiteMountOptions_OnLoad(self)
 
     self.title:SetText(self.name)
 
-    -- LiteMountOptions_CreateButtons(self.container)
+    LiteMountOptions_CreateButtons(self.scrollFrame)
 
     InterfaceOptions_AddCategory(self)
 end
+
+function LiteMountOptions_OnShow(self)
+    self.mountList = LiteMount.ml:GetMounts()
+    LiteMountOptions_UpdateMountList(self)
+end
+
