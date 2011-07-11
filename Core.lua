@@ -6,9 +6,14 @@
 
 ----------------------------------------------------------------------------]]--
 
+local MACRO_DISMOUNT = "/dismount"
+local MACRO_CANCELFORM = "/cancelform"
+local MACRO_EXITVEHICLE = "/run VehicleExit()"
+local MACRO_DISMOUNT_CANCELFORM = "/dismount\n/cancelform"
+
+
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
-
 
 local RescanEvents = {
     -- Companion change
@@ -29,11 +34,10 @@ function LiteMount:Initialize()
 
     self.playerClass = select(2, UnitClass("player"))
 
-    local DismountMacro
     if self.playerClass == "DRUID" or self.playerClass == "SHAMAN" then
-        DismountMacro = "/dismount\n/cancelform"
+        self.defaultMacro = MACRO_DISMOUNT_CANCELFORM
     else
-        DismountMacro = "/dismount"
+        self.defaultMacro = MACRO_DISMOUNT
     end
 
     -- Button-fu
@@ -68,6 +72,31 @@ function LiteMount:PLAYER_REGEN_ENABLED()
     self:Initialize()
 end
 
+function LiteMount:SetAsDefault()
+    self:SetAttribute("type", "macro")
+    self:SetAttribute("macrotext", self.defaultMacro)
+end
+
+function LiteMount:SetAsDismount()
+    self:SetAttribute("type", "macro")
+    self:SetAttribute("macrotext", MACRO_DISMOUNT)
+end
+
+function LiteMount:SetAsVehicleExit()
+    self:SetAttribute("type", "macro")
+    self:SetAttribute("macrotext", MACRO_EXITVEHICLE)
+end
+
+function LiteMount:SetAsCancelForm()
+    self:SetAttribute("type", "macro")
+    self:SetAttribute("macrotext", MACRO_CANCELFORM)
+end
+
+function LiteMount:SetAsSpell(spellName)
+    self:SetAttribute("type", "spell")
+    self:SetAttribute("spell", spellName)
+end
+
 -- Fancy SecureActionButton stuff. The default button mechanism is
 -- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to switch it to "spell" and a mount spell ID,
@@ -77,17 +106,26 @@ function LiteMount:PreClick()
 
     if InCombatLockdown() then return end
 
-    -- If we're already mounted, leave the button as dismount.
+    -- Mounted -> dismount
     if IsMounted() then
+        self:SetAsDismount()
         return
     end
 
-    local form = GetShapeshiftForm()
+    -- In vehicle -> exit it
+    if CanExitVehicle() then
+        self:SetAsVehicleExit()
+        return
+    end
 
-    if self.playerClass == "DRUID" then
-        if form == 2 or form == 4 or form == 6 then return end
-    elseif self.playerClass == "SHAMAN" then
-        if form == 1 then return end
+    local form = GetShapeshiftForm(true)
+
+    if self.playerClass == "DRUID" and form == 2 or form == 4 or form == 6 then
+        self:SetAsCancelForm()
+        return
+    elseif self.playerClass == "SHAMAN" and form == 1 then
+        self:SetAsCancelForm()
+        return
     end
 
     local m
@@ -114,13 +152,20 @@ function LiteMount:PreClick()
     end
 
     if m then
-        self:SetAttribute("spell", m:SpellName())
-        self:SetAttribute("type", "spell")
+        self:SetAsSpell(m:SpellName())
+        return
     end
 
 end
 
 function LiteMount:PostClick()
     if InCombatLockdown() then return end
-    self:SetAttribute("type", "macro")
+
+    -- We'd like to set the macro to undo whatever we did, but
+    -- tests like IsMounted() and CanExitVehicle() will still
+    -- represent the pre-action state at this point.  We don't want
+    -- to just blindly do the opposite of whatever we chose because
+    -- it might not have worked.
+
+    self:SetAsDefault()
 end

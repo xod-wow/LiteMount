@@ -6,7 +6,8 @@ Notes To Myself
 * Might be better to look for Sea Legs aura for Vashj'ir.
 
 * You can use flying mounts when you are floating in flyable areas.
-  IsUsableSpell() returns correctly for mount spells for swimming vs floating.
+     IsUsableSpell() returns correctly for mount spells for swimming
+     vs floating.
 
 * CanExitVehicle() and IsMounted()
 
