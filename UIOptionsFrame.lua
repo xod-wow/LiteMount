@@ -7,18 +7,41 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LiteMountOptions_UpdateMountList(self)
+local function CreateMoreButtons(self)
+    LM_Print("CREATEBUTTONS " .. string.format("%dx%d", self:GetSize()))
+    HybridScrollFrame_CreateButtons(self, "LiteMountOptionsButtonTemplate",
+                                    0, -1, "TOPLEFT", "TOPLEFT",
+                                    0, -1, "TOP", "BOTTOM")
+
+    for _,b in ipairs(self.buttons) do
+        b:SetWidth(b:GetParent():GetWidth())
+    end
+end
+
+function LiteMountOptions_UpdateMountList()
+    local self = LiteMountOptions
+
     local scrollFrame = self.scrollFrame
     local offset = HybridScrollFrame_GetOffset(scrollFrame)
     local buttons = scrollFrame.buttons
-    local mounts = self.mountList
+
+    if not buttons then return end
+
+    local mounts
+    if LiteMount.ml then
+        mounts = LiteMount.ml:GetMounts()
+        table.sort(mounts, function(a,b) return a:Name() < b:Name() end)
+    else
+        mounts = { }
+    end
 
     for i = 1, #buttons do
         local button = buttons[i]
         local index = offset + i
         if index <= #mounts then
-            button.icon:SetTexture()
-            button.name:SetText()
+            local m = mounts[index]
+            button.icon:SetTexture(m:Icon())
+            button.name:SetText(m:Name())
             button:Show()
         else
             button:Hide()
@@ -32,13 +55,15 @@ function LiteMountOptions_UpdateMountList(self)
 end
 
 function LiteMountOptions_OnLoad(self)
+
     local name = self:GetName()
 
-    self.scrollFrame.update = LiteMountOptions_UpdateMountList
+    -- Because we're the wrong size at the moment we'll only have 1 button
+    CreateMoreButtons(self.scrollFrame)
+
     self.scrollFrame.stepSize = 45
     self.scrollFrame.scrollBar.doNotHide = true
-
-    HybridScrollFrame_CreateButtons(self.scrollFrame, "LiteMountOptionsButtonTemplate", 0, 0)
+    self.scrollFrame.update = LiteMountOptions_UpdateMountList
 
     self.options = LM_Options
 
@@ -48,13 +73,12 @@ function LiteMountOptions_OnLoad(self)
 
     self.title:SetText(self.name)
 
-    LiteMountOptions_CreateButtons(self.scrollFrame)
-
     InterfaceOptions_AddCategory(self)
 end
 
+
 function LiteMountOptions_OnShow(self)
-    self.mountList = LiteMount.ml:GetMounts()
-    LiteMountOptions_UpdateMountList(self)
+    CreateMoreButtons(self.scrollFrame)
+    LiteMountOptions_UpdateMountList()
 end
 

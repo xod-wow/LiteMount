@@ -72,8 +72,6 @@ function LM_MountList:ScanMounts()
         self.byname[m.name] = m
     end
 
-    -- Saves having to do it on display
-    table.sort(self.byname)
 end
 
 function LM_MountList:GetMounts(flags)
@@ -82,20 +80,31 @@ function LM_MountList:GetMounts(flags)
     if not flags then flags = 0 end
 
     for _, m in pairs(self.byname) do
-        if bit.band(m:Flags(), flags) == flags and m:Usable() then
+        if bit.band(m:Flags(), flags) == flags then
             table.insert(match, m)
+        end
+    end
+
+    return match
+end
+
+function LM_MountList:GetUsableMounts(flags)
+    local match = self:GetMounts(flags)
+    for i = 1, #match do
+        if not match[i]:Usable() then
+            table.remove(match, i)
         end
     end
     return match
 end
 
-function LM_MountList:GetRandomMount(flags)
+function LM_MountList:GetRandomUsableMount(flags)
 
     if GetUnitSpeed("player") > 0 or IsFalling() then
         flags = bit.bor(flags, LM_FLAG_BIT_MOVING)
     end
 
-    local poss = self:GetMounts(flags)
+    local poss = self:GetUsableMounts(flags)
 
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
     for i = #poss, 1, -1 do
@@ -113,7 +122,7 @@ function LM_MountList:GetFlyingMounts()
 end
 
 function LM_MountList:GetRandomFlyingMount()
-    return self:GetRandomMount(LM_FLAG_BIT_FLY)
+    return self:GetRandomUsableMount(LM_FLAG_BIT_FLY)
 end
 
 function LM_MountList:GetSlowWalkingMounts()
@@ -121,7 +130,7 @@ function LM_MountList:GetSlowWalkingMounts()
 end
 
 function LM_MountList:GetRandomSlowWalkingMount()
-    return self:GetRandomMount(LM_FLAG_BIT_SLOWWALK)
+    return self:GetRandomUsableMount(LM_FLAG_BIT_SLOWWALK)
 end
 
 function LM_MountList:GetWalkingMounts()
@@ -129,7 +138,7 @@ function LM_MountList:GetWalkingMounts()
 end
 
 function LM_MountList:GetRandomWalkingMount()
-    return self:GetRandomMount(LM_FLAG_BIT_WALK)
+    return self:GetRandomUsableMount(LM_FLAG_BIT_WALK)
 end
 
 function LM_MountList:GetAQMounts()
@@ -137,7 +146,7 @@ function LM_MountList:GetAQMounts()
 end
 
 function LM_MountList:GetRandomAQMount()
-    return self:GetRandomMount(LM_FLAG_BIT_AQ)
+    return self:GetRandomUsableMount(LM_FLAG_BIT_AQ)
 end
 
 function LM_MountList:GetVashjirMounts()
@@ -145,7 +154,7 @@ function LM_MountList:GetVashjirMounts()
 end
 
 function LM_MountList:GetRandomVashjirMount()
-    return self:GetRandomMount(LM_FLAG_BIT_VASHJIR)
+    return self:GetRandomUsableMount(LM_FLAG_BIT_VASHJIR)
 end
 
 function LM_MountList:GetSwimmingMounts()
@@ -153,7 +162,7 @@ function LM_MountList:GetSwimmingMounts()
 end
 
 function LM_MountList:GetRandomSwimmingMount()
-    return self:GetRandomMount(LM_FLAG_BIT_SWIM)
+    return self:GetRandomUsableMount(LM_FLAG_BIT_SWIM)
 end
 
 function LM_MountList:Dump()

@@ -1,22 +1,31 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
 
+<CheckButton name="LiteMountOptionsBitButtonTemplate" inherits="OptionsBaseCheckButtonTemplate">
+    <Size x="24" y="24" />
+</CheckButton>
+
 <Button name="LiteMountOptionsButtonTemplate" virtual="true">
 
     <Size x="180" y="45" />
 
-    <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+    <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
         <EdgeSize val="8" />
+        <TileSize val="8" />
+        <BackgroundInsets>
+            <AbsInset left="1" right="1" top="1" bottom="1" />
+        </BackgroundInsets>
     </Backdrop>
 
     <Scripts>
         <OnLoad>
-            self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
+            self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
+            self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
         </OnLoad>
     </Scripts>
 
     <Frames>
-        <CheckButton name="$parentCheck" inherits="OptionsCheckButtonTemplate" parentKey="check">
-            <Size x="24" y="24" />
+        <CheckButton name="$parentCheck" inherits="OptionsBaseCheckButtonTemplate" parentKey="check">
+            <Size x="32" y="32" />
             <Anchors>
                 <Anchor point="LEFT" x="2" />
             </Anchors>
@@ -33,7 +42,7 @@
             </Texture>
             <FontString name="$parentName" inherits="GameFontNormal" justifyH="LEFT" parentKey="name">
                 <Anchors>
-                    <Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="2" />
+                    <Anchor point="LEFT" relativeTo="$parentIcon" relativePoint="RIGHT" x="4" />
                     <Anchor point="TOP" y="-2" />
                     <Anchor point="BOTTOMRIGHT" x="-2" y="2" />
                 </Anchors>
@@ -42,24 +51,19 @@
     </Layers>
 
     <Frames>
-        <CheckButton name="$parentBit1" inherits="OptionsCheckButtonTemplate" parentKey="bit1">
-            <Size x="16" y="16" />
+        <CheckButton name="$parentBit1" inherits="LiteMountOptionsBitButtonTemplate" parentKey="bit1">
             <Anchors> <Anchor point="RIGHT" x="-2" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit2" inherits="OptionsCheckButtonTemplate" parentKey="bit2">
-            <Size x="16" y="16" />
+        <CheckButton name="$parentBit2" inherits="LiteMountOptionsBitButtonTemplate" parentKey="bit2">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit1" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit3" inherits="OptionsCheckButtonTemplate" parentKey="bit3">
-            <Size x="16" y="16" />
+        <CheckButton name="$parentBit3" inherits="LiteMountOptionsBitButtonTemplate" parentKey="bit3">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit2" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit4" inherits="OptionsCheckButtonTemplate" parentKey="bit4">
-            <Size x="16" y="16" />
+        <CheckButton name="$parentBit4" inherits="LiteMountOptionsBitButtonTemplate" parentKey="bit4">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit3" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit5" inherits="OptionsCheckButtonTemplate" parentKey="bit5">
-            <Size x="16" y="16" />
+        <CheckButton name="$parentBit5" inherits="LiteMountOptionsBitButtonTemplate" parentKey="bit5">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit4" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
     </Frames>
@@ -67,6 +71,8 @@
 </Button>
 
 <Frame name="LiteMountOptions">
+    <Size x="622" y="567" />
+
     <Layers>
         <Layer level="ARTWORK">
             <Fontstring inherits="GameFontNormalLarge" parentKey="title">
@@ -74,27 +80,27 @@
                     <Anchor point="TOPLEFT" x="16" y="-16" />
                 </Anchors>
             </Fontstring>
+<!--
             <FontString inherits="GameFontNormal" text="Options panel is a work in progress and doesn't do anything yet.">
                 <Anchors><Anchor point="CENTER" /></Anchors>
             </FontString>
+-->
         </Layer>
     </Layers>
 
     <Frames>
-        <Frame name="$parentScrollFrame" inherits="HybridScrollFrameTemplate" parentKey="scrollFrame">
+        <ScrollFrame name="$parentScrollFrame" inherits="MinimalHybridScrollFrameTemplate" parentKey="scrollFrame">
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-72" />
-                <Anchor point="BOTTOMRIGHT" x="-16" y="48" />
+                <Anchor point="BOTTOMRIGHT" x="-32" y="48" />
             </Anchors>
-            <Frames>
-                <Slider name="$parentScrolLBar" inherits="HybridScrollBarTemplate">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="0" y="-12" />
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="0" y="13" />
-                    </Anchors>
-                </Slider>
-            </Frames>
-        </Frame>
+            <Scripts>
+                <OnLoad>
+                    local track = _G[self.ScrollBar:GetName().."Track"]
+                    track:Hide()
+                </OnLoad>
+            </Scripts>
+        </ScrollFrame>
 
 <!--
         <PlayerModel name="LiteMountOptionsModel">
@@ -117,6 +123,7 @@
     <Scripts>
         <OnLoad function="LiteMountOptions_OnLoad" />
         <OnShow function="LiteMountOptions_OnShow" />
+        <OnSizeChanged function="LiteMountOptions_OnSizeChanged" />
     </Scripts>
 
 </Frame>
