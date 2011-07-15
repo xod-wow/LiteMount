@@ -11,6 +11,7 @@ local MACRO_CANCELFORM = "/cancelform"
 local MACRO_EXITVEHICLE = "/run VehicleExit()"
 local MACRO_DISMOUNT_CANCELFORM = "/dismount\n/cancelform"
 
+LM_OptionsDB = { }
 
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
@@ -26,6 +27,7 @@ local RescanEvents = {
     
 function LiteMount:Initialize()
 
+    self.excludedspells = LM_OptionsDB
     self.ml = LM_MountList:new()
     self.ml:ScanMounts()
 
@@ -54,6 +56,36 @@ function LiteMount:Initialize()
         self:RegisterEvent(ev)
     end
 
+end
+
+function LiteMount:IsExcludedSpell(id)
+    for _,s in ipairs(self.excludedspells[id]) do
+        if s == id then return true end
+    end
+end
+
+function LiteMount:AddExcludedSpell(id)
+    if not self:IsExcludedSpell(id) then
+        table.insert(self.excludedspells, id)
+        table.sort(self.excludedspells)
+    end
+end
+
+function LiteMount:RemoveExcludedSpell(id)
+    for i = 1, #self.excludedspells do
+        if self.excludedspells[i] == id then
+            table.remove(self.excludedspells, i)
+            return
+        end
+    end
+end
+
+function LiteMount:SetExcludedSpells(idlist)
+    table.wipe(self.excludedspells)
+    for _,id in ipairs(idlist) do
+        table.insert(self.excludedspells, id)
+    end
+    table.sort(self.excludedspells)
 end
 
 function LiteMount:PLAYER_LOGIN()
@@ -126,6 +158,9 @@ function LiteMount:PreClick()
         self:SetAsCancelForm()
         return
     end
+
+    -- Propagate the exclusion list
+    self.lm:SetExcludedSpellIds(self.excludedspells)
 
     local m
 
