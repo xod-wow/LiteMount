@@ -53,6 +53,7 @@ end
 function LM_MountList:new()
     local ml = setmetatable({ }, LM_MountList)
     ml.byname = { }
+    ml.excludedSpellIds = { }
     return ml
 end
 
@@ -72,6 +73,19 @@ function LM_MountList:ScanMounts()
         self.byname[m.name] = m
     end
 
+end
+
+function LM_MountList:SetExcludedSpellIds(spelllist)
+    table.wipe(self.excludedSpellIds)
+    for _,s in ipairs(spelllist) do
+        table.insert(self.excludedSpellIds, s)
+    end
+end
+
+function LM_MountList:IsExcludedSpellId(id)
+    for _,s in ipairs(self.excludedSpellIds) do
+        if s == id then return true end
+    end
 end
 
 function LM_MountList:GetMounts(flags)
@@ -106,13 +120,18 @@ function LM_MountList:GetRandomUsableMount(flags)
 
     local poss = self:GetUsableMounts(flags)
 
+    for i = 1, #poss do
+        if self:IsExcludedSpellId(poss[i]:SpellId()) then
+            table.remove(poss, i)
+        end
+    end
+
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
-    for i = #poss, 1, -1 do
+    for i = #poss, 2, -1 do
         local r = math.random(i)
         poss[i], poss[r] = poss[r], poss[i]
     end
 
-    -- Test for usable here?
     return poss[1]
 end
 
