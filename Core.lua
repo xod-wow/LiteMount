@@ -15,6 +15,7 @@ LM_OptionsDB = { }
 
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
+LiteMount.ml = LM_MountList:new()
 
 local RescanEvents = {
     -- Companion change
@@ -28,7 +29,6 @@ local RescanEvents = {
 function LiteMount:Initialize()
 
     self.excludedspells = LM_OptionsDB
-    self.ml = LM_MountList:new()
     self.ml:ScanMounts()
 
     SLASH_LiteMount1 = "/lm"
@@ -59,6 +59,7 @@ function LiteMount:Initialize()
 end
 
 function LiteMount:GetAllMounts()
+    if not self.ml then return {} end
     local allmounts = self.ml:GetMounts()
     table.sort(allmounts, function(a,b) return a:Name() < b:Name() end)
     return allmounts
@@ -166,7 +167,7 @@ function LiteMount:PreClick()
     end
 
     -- Propagate the exclusion list
-    self.lm:SetExcludedSpellIds(self.excludedspells)
+    self.ml:SetExcludedSpellIds(self.excludedspells)
 
     local m
 

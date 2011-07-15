@@ -70,7 +70,7 @@
 
 </Button>
 
-<Frame name="LiteMountOptions">
+<Frame name="LiteMountOptions" hidden="true">
     <Size x="622" y="567" />
 
     <Layers>
@@ -99,6 +99,7 @@
                     local track = _G[self.ScrollBar:GetName().."Track"]
                     track:Hide()
                 </OnLoad>
+                <OnSizeChanged function="LiteMountOptionsScrollFrame_OnSizeChanged" />
             </Scripts>
         </ScrollFrame>
 

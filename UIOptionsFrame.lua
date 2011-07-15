@@ -7,8 +7,11 @@
 
 ----------------------------------------------------------------------------]]--
 
+
+-- Because we get attached inside the blizzard options container, we
+-- are size 0x0 on create and even after OnShow, we have to trap
+-- OnSizeChanged on the scrollframe to make the buttons correctly.
 local function CreateMoreButtons(self)
-    LM_Print("CREATEBUTTONS " .. string.format("%dx%d", self:GetSize()))
     HybridScrollFrame_CreateButtons(self, "LiteMountOptionsButtonTemplate",
                                     0, -1, "TOPLEFT", "TOPLEFT",
                                     0, -1, "TOP", "BOTTOM")
@@ -27,12 +30,7 @@ function LiteMountOptions_UpdateMountList()
 
     if not buttons then return end
 
-    local mounts
-    if LiteMount then
-        mounts = LiteMount:GetAllMounts()
-    else
-        mounts = { }
-    end
+    mounts = LiteMount:GetAllMounts()
 
     for i = 1, #buttons do
         local button = buttons[i]
@@ -51,6 +49,11 @@ function LiteMountOptions_UpdateMountList()
     local shownHeight = scrollFrame.buttonHeight * #buttons
 
     HybridScrollFrame_Update(scrollFrame, totalHeight, shownHeight)
+end
+
+function LiteMountOptionsScrollFrame_OnSizeChanged(self, w, h)
+    CreateMoreButtons(self)
+    LiteMountOptions_UpdateMountList()
 end
 
 function LiteMountOptions_OnLoad(self)
