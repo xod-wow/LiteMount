@@ -99,8 +99,7 @@ end
 
 -- Fancy SecureActionButton stuff. The default button mechanism is
 -- type="macro" macrotext="...". If we're not in combat we
--- use a preclick handler to switch it to "spell" and a mount spell ID,
--- and a postclick handler to switch it back to dismount.
+-- use a preclick handler to set it to what awe really want to do.
 
 function LiteMount:PreClick()
 
