@@ -28,9 +28,8 @@ function LiteMountOptions_UpdateMountList()
     if not buttons then return end
 
     local mounts
-    if LiteMount.ml then
-        mounts = LiteMount.ml:GetMounts()
-        table.sort(mounts, function(a,b) return a:Name() < b:Name() end)
+    if LiteMount then
+        mounts = LiteMount:GetAllMounts()
     else
         mounts = { }
     end

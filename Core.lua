@@ -58,6 +58,12 @@ function LiteMount:Initialize()
 
 end
 
+function LiteMount:GetAllMounts()
+    local allmounts = self.ml:GetMounts()
+    table.sort(allmounts, function(a,b) return a:Name() < b:Name() end)
+    return allmounts
+end
+
 function LiteMount:IsExcludedSpell(id)
     for _,s in ipairs(self.excludedspells[id]) do
         if s == id then return true end
