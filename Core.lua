@@ -195,6 +195,9 @@ function LiteMount:PreClick()
     if m then
         self:SetAsSpell(m:SpellName())
         return
+    else
+        UIErrorsFrame_OnEvent(UIErrorsFrame, "UI_ERROR_MESSAGE", 
+                              SPELL_FAILED_NO_MOUNTS_ALLOWED)
     end
 
 end
