@@ -104,7 +104,7 @@ end
 
 function LM_MountList:GetUsableMounts(flags)
     local match = self:GetMounts(flags)
-    for i = 1, #match do
+    for i = #match, 1, -1 do
         if not match[i]:Usable() then
             table.remove(match, i)
         end
@@ -120,7 +120,7 @@ function LM_MountList:GetRandomUsableMount(flags)
 
     local poss = self:GetUsableMounts(flags)
 
-    for i = 1, #poss do
+    for i = #poss, 1, -1 do
         if self:IsExcludedSpellId(poss[i]:SpellId()) then
             table.remove(poss, i)
         end
