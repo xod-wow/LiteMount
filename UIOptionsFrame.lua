@@ -64,7 +64,7 @@ function LiteMountOptions_OnLoad(self)
     CreateMoreButtons(self.scrollFrame)
 
     self.scrollFrame.stepSize = 45
-    self.scrollFrame.scrollBar.doNotHide = true
+    -- self.scrollFrame.scrollBar.doNotHide = true
     self.scrollFrame.update = LiteMountOptions_UpdateMountList
 
     self.options = LM_Options
