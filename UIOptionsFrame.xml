@@ -24,7 +24,7 @@
     </Scripts>
 
     <Frames>
-        <CheckButton name="$parentCheck" inherits="OptionsBaseCheckButtonTemplate" parentKey="check">
+        <CheckButton name="$parentCheck" inherits="OptionsBaseCheckButtonTemplate" parentKey="enabled">
             <Size x="32" y="32" />
             <Anchors>
                 <Anchor point="LEFT" x="2" />

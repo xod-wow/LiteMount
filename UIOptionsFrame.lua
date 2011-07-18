@@ -21,6 +21,14 @@ local function CreateMoreButtons(self)
     end
 end
 
+local function EnableDisableSpell(spellid, onoff)
+    if onoff then
+        LiteMount:AddExcludedSpell(spellid)
+    else
+        LiteMount:RemoveExcludedSpell(spellid)
+    end
+end
+
 function LiteMountOptions_UpdateMountList()
     local self = LiteMountOptions
 
@@ -39,6 +47,15 @@ function LiteMountOptions_UpdateMountList()
             local m = mounts[index]
             button.icon:SetTexture(m:Icon())
             button.name:SetText(m:Name())
+            button.spellid = m:SpellId()
+            if LiteMount:IsExcludedSpell(button.spellid) then
+                button.enabled:SetChecked(false)
+            else
+                button.enabled:SetChecked(true)
+            end
+            button.setFunc = function(setting)
+                                    EnableDisableSpell(self.spellid, setting)
+                                end
             button:Show()
         else
             button:Hide()
@@ -54,6 +71,11 @@ end
 function LiteMountOptionsScrollFrame_OnSizeChanged(self, w, h)
     CreateMoreButtons(self)
     LiteMountOptions_UpdateMountList()
+
+    self.stepSize = 45
+    -- self.scrollBar.doNotHide = true
+    self.update = LiteMountOptions_UpdateMountList
+
 end
 
 function LiteMountOptions_OnLoad(self)
@@ -62,12 +84,6 @@ function LiteMountOptions_OnLoad(self)
 
     -- Because we're the wrong size at the moment we'll only have 1 button
     CreateMoreButtons(self.scrollFrame)
-
-    self.scrollFrame.stepSize = 45
-    -- self.scrollFrame.scrollBar.doNotHide = true
-    self.scrollFrame.update = LiteMountOptions_UpdateMountList
-
-    self.options = LM_Options
 
     self.name = "LiteMount " .. GetAddOnMetadata("LiteMount", "Version")
     self.okay = function (self) end
