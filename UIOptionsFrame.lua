@@ -53,8 +53,8 @@ function LiteMountOptions_UpdateMountList()
             else
                 button.enabled:SetChecked(true)
             end
-            button.setFunc = function(setting)
-                                    EnableDisableSpell(self.spellid, setting)
+            button.enabled.setFunc = function(setting)
+                                    EnableDisableSpell(button.spellid, setting)
                                 end
             button:Show()
         else

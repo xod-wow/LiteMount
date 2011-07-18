@@ -66,12 +66,13 @@ function LiteMount:GetAllMounts()
 end
 
 function LiteMount:IsExcludedSpell(id)
-    for _,s in ipairs(self.excludedspells[id]) do
+    for _,s in ipairs(self.excludedspells) do
         if s == id then return true end
     end
 end
 
 function LiteMount:AddExcludedSpell(id)
+    -- LM_Print(string.format("Excluding spell %d (%s)", id, GetSpellInfo(id)))
     if not self:IsExcludedSpell(id) then
         table.insert(self.excludedspells, id)
         table.sort(self.excludedspells)
