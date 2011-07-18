@@ -22,7 +22,7 @@ local function CreateMoreButtons(self)
 end
 
 local function EnableDisableSpell(spellid, onoff)
-    if onoff then
+    if onoff == "0" then
         LiteMount:AddExcludedSpell(spellid)
     else
         LiteMount:RemoveExcludedSpell(spellid)
