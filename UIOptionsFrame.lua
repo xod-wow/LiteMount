@@ -29,6 +29,36 @@ local function EnableDisableSpell(spellid, onoff)
     end
 end
 
+local function UpdateMountButton(button, mount)
+    button.icon:SetTexture(mount:Icon())
+    button.name:SetText(mount:Name())
+    button.spellid = mount:SpellId()
+
+    button.bit1:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_WALK) == LM_FLAG_BIT_WALK)
+    button.bit1:Disable()
+
+    button.bit2:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_FLY) == LM_FLAG_BIT_FLY)
+    button.bit2:Disable()
+
+    button.bit3:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_SWIM) == LM_FLAG_BIT_SWIM)
+    button.bit3:Disable()
+
+    button.bit4:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_AQ) == LM_FLAG_BIT_AQ)
+    button.bit4:Disable()
+
+    button.bit5:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_VASHJIR) == LM_FLAG_BIT_VASHJIR)
+    button.bit5:Disable()
+
+    if LiteMount:IsExcludedSpell(button.spellid) then
+        button.enabled:SetChecked(false)
+    else
+        button.enabled:SetChecked(true)
+    end
+    button.enabled.setFunc = function(setting)
+                            EnableDisableSpell(button.spellid, setting)
+                        end
+end
+
 function LiteMountOptions_UpdateMountList()
     local self = LiteMountOptions
 
@@ -44,18 +74,7 @@ function LiteMountOptions_UpdateMountList()
         local button = buttons[i]
         local index = offset + i
         if index <= #mounts then
-            local m = mounts[index]
-            button.icon:SetTexture(m:Icon())
-            button.name:SetText(m:Name())
-            button.spellid = m:SpellId()
-            if LiteMount:IsExcludedSpell(button.spellid) then
-                button.enabled:SetChecked(false)
-            else
-                button.enabled:SetChecked(true)
-            end
-            button.enabled.setFunc = function(setting)
-                                    EnableDisableSpell(button.spellid, setting)
-                                end
+            UpdateMountButton(button, mounts[index])
             button:Show()
         else
             button:Hide()
