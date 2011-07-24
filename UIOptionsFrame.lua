@@ -91,8 +91,7 @@ function LiteMountOptionsScrollFrame_OnSizeChanged(self, w, h)
     CreateMoreButtons(self)
     LiteMountOptions_UpdateMountList()
 
-    self.stepSize = 45
-    -- self.scrollBar.doNotHide = true
+    self.stepSize = self.buttonHeight
     self.update = LiteMountOptions_UpdateMountList
 
 end
