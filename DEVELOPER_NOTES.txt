@@ -1,7 +1,7 @@
 Notes To Myself
 ---------------
 
-*. "Dragonwrath, Tarecgosa's Rest" (71086)
+* "Dragonwrath, Tarecgosa's Rest" (71086)
 
 * Might be better to look for Sea Legs aura for Vashj'ir.
 
@@ -10,6 +10,7 @@ Notes To Myself
      vs floating.
 
 * CanExitVehicle() and IsMounted()
+     Added vehicle exit, not sure about in combat.
 
 * Flying in areas you don't know how to.
      Testing shows IsFlyableArea() works properly for you.

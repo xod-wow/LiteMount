@@ -44,6 +44,7 @@ function LM_Mount:GetMountBySpell(spellId)
     m.flags = 0
     m.casttime = si[7]
     m:FixupFlags()
+    m.defaultflags = m.flags
     return m
 end
 
@@ -61,7 +62,12 @@ function LM_Mount:GetMountByIndex(mountIndex)
     m.casttime = si[7]
 
     m:FixupFlags()
+    m.defaultflags = m.flags
     return m
+end
+
+function LM_Mount:OverrideFlags(f)
+    self.flags = f
 end
 
 function LM_Mount:SpellId()
@@ -78,6 +84,10 @@ end
 
 function LM_Mount:Name()
     return self.name
+end
+
+function LM_Mount:DefaultFlags()
+    return self.defaultflags
 end
 
 function LM_Mount:Flags()
