@@ -47,9 +47,14 @@ LM_CLASS_MOUNT_SPELLS = {
 }
 
 LM_FlagOverrideTable = {
-    [LM_SPELL_AQUATIC_FORM]       = bit.bor(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM),
-    [LM_SPELL_RIDING_TURTLE]      = bit.bor(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM,LM_FLAG_BIT_SLOWWALK),
-    [LM_SPELL_SEA_TURTLE]         = bit.bor(LM_FLAG_BIT_FLOAT,LM_FLAG_BIT_SWIM,LM_FLAG_BIT_SLOWWALK),
+    [LM_SPELL_AQUATIC_FORM]       = bit.bor(LM_FLAG_BIT_FLOAT,
+                                            LM_FLAG_BIT_SWIM),
+    [LM_SPELL_RIDING_TURTLE]      = bit.bor(LM_FLAG_BIT_FLOAT,
+                                            LM_FLAG_BIT_SWIM,
+                                            LM_FLAG_BIT_SLOWWALK),
+    [LM_SPELL_SEA_TURTLE]         = bit.bor(LM_FLAG_BIT_FLOAT,
+                                            LM_FLAG_BIT_SWIM,
+                                            LM_FLAG_BIT_SLOWWALK),
     [LM_SPELL_FLIGHT_FORM]        = bit.bor(LM_FLAG_BIT_FLY),
     [LM_SPELL_SWIFT_FLIGHT_FORM]  = bit.bor(LM_FLAG_BIT_FLY),
     [LM_SPELL_RUNNING_WILD]       = bit.bor(LM_FLAG_BIT_WALK),
@@ -60,5 +65,7 @@ LM_FlagOverrideTable = {
     [LM_SPELL_RED_QIRAJI_TANK]    = bit.bor(LM_FLAG_BIT_AQ),
     [LM_SPELL_YELLOW_QIRAJI_TANK] = bit.bor(LM_FLAG_BIT_AQ),
     [LM_SPELL_ABYSSAL_SEAHORSE]   = bit.bor(LM_FLAG_BIT_VASHJIR),
-    [LM_SPELL_SUBDUED_SEAHORSE]   = bit.bor(LM_FLAG_BIT_VASHJIR,LM_FLAG_BIT_SWIM),
+    [LM_SPELL_SUBDUED_SEAHORSE]   = bit.bor(LM_FLAG_BIT_FLOAT,
+                                            LM_FLAG_BIT_SWIM,
+                                            LM_FLAG_BIT_VASHJIR),
 }

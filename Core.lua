@@ -158,6 +158,7 @@ function LiteMount:PreClick()
         return
     end
 
+    -- The (true) here stops it returning stances and other pseudo-forms
     local form = GetShapeshiftForm(true)
 
     if self.playerClass == "DRUID" and form == 2 or form == 4 or form == 6 then
