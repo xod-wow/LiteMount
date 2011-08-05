@@ -11,10 +11,9 @@ LM_MountList.__index = LM_MountList
 
 local function IterateCompanionMounts()
     local i = 0
-    local max = GetNumCompanions("MOUNT")
 
     return function ()
-            while i < max do
+            while i < GetNumCompanions("MOUNT") do
                 i = i + 1
                 return LM_Mount:GetMountByIndex(i)
             end
