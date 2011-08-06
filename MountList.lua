@@ -9,44 +9,33 @@
 LM_MountList = { }
 LM_MountList.__index = LM_MountList
 
-local function IterateCompanionMounts()
-    local i = 0
-
-    return function ()
-            while i < GetNumCompanions("MOUNT") do
-                i = i + 1
-                return LM_Mount:GetMountByIndex(i)
-            end
-        end
+function LM_MountList:AddCompanionMounts()
+    for i = 1,GetNumCompanions("MOUNT") do
+        local m = LM_Mount:GetMountByIndex(i)
+        self.byname[m.name] = m
+    end
 end
 
-local function IterateRacialMounts()
-    local i = 0
-    local max = table.getn(LM_RACIAL_MOUNT_SPELLS)
-
-    return function ()
-            while i < max do
-                i = i + 1
-                if LM_MountSpell:IsKnown(LM_RACIAL_MOUNT_SPELLS[i]) then
-                    return LM_Mount:GetMountBySpell(LM_RACIAL_MOUNT_SPELLS[i])
-                end
-            end
+function LM_MountList:AddRacialMounts()
+    for _,spellid in ipairs(LM_RACIAL_MOUNT_SPELLS) do
+        if LM_MountSpell:IsKnown(spellid) then
+            local m = LM_Mount:GetMountBySpell(spellid)
+            self.byname[m.name] = m
         end
+    end
 end
 
-local function IterateClassMounts()
-    local i = 0
-    local max = table.getn(LM_CLASS_MOUNT_SPELLS)
-
-    return function ()
-            while i < max do
-                i = i + 1
-                if LM_MountSpell:IsKnown(LM_CLASS_MOUNT_SPELLS[i]) then
-                    return LM_Mount:GetMountBySpell(LM_CLASS_MOUNT_SPELLS[i])
-                end
-            end
+function LM_MountList:AddClassMounts()
+    for _,spellid in ipairs(LM_CLASS_MOUNT_SPELLS) do
+        if LM_MountSpell:IsKnown(spellid) then
+            local m = LM_Mount:GetMountBySpell(spellid)
+            self.byname[m.name] = m
         end
-    
+    end
+end
+
+function LM_MountList:AddItemMounts()
+    -- Empty for now
 end
 
 function LM_MountList:new()
@@ -60,17 +49,10 @@ function LM_MountList:ScanMounts()
 
     table.wipe(self.byname)
 
-    for m in IterateCompanionMounts() do
-        self.byname[m.name] = m
-    end
-        
-    for m in IterateRacialMounts() do
-        self.byname[m.name] = m
-    end
-        
-    for m in IterateClassMounts() do
-        self.byname[m.name] = m
-    end
+    self:AddCompanionMounts()
+    self:AddRacialMounts()
+    self:AddClassMounts()
+    self:AddItemMounts()
 
 end
 
