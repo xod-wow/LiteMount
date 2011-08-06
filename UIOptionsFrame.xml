@@ -25,6 +25,19 @@
             <Anchors>
                 <Anchor point="LEFT" x="2" />
             </Anchors>
+            <Scripts>
+                <OnEnter>
+                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    if self:GetChecked() then
+                        GameTooltip:SetText("Click to disable this mount.", 1, 0, 0)
+                    else
+                        GameTooltip:SetText("Click to enable this mount.", 0, 1, 0)
+                    end
+                </OnEnter>
+                <OnLeave>
+                    GameTooltip:Hide()
+                </OnLeave>
+            </Scripts>
         </CheckButton>
 
         <CheckButton name="$parentBit1" inherits="OptionsBaseCheckButtonTemplate" parentKey="bit1">
@@ -67,25 +80,10 @@
 <Frame name="LiteMountOptions" hidden="true">
     <Size x="622" y="567" />
 
-    <Layers>
-        <Layer level="ARTWORK">
-            <Fontstring inherits="GameFontNormalLarge" parentKey="title">
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-16" />
-                </Anchors>
-            </Fontstring>
-<!--
-            <FontString inherits="GameFontNormal" text="Options panel is a work in progress and doesn't do anything yet.">
-                <Anchors><Anchor point="CENTER" /></Anchors>
-            </FontString>
--->
-        </Layer>
-    </Layers>
-
     <Frames>
         <ScrollFrame name="$parentScrollFrame" inherits="MinimalHybridScrollFrameTemplate" parentKey="scrollFrame">
             <Anchors>
-                <Anchor point="TOPLEFT" x="16" y="-144" />
+                <Anchor point="TOPLEFT" x="16" y="-72" />
                 <Anchor point="BOTTOMRIGHT" x="-32" y="8" />
             </Anchors>
             <Scripts>
@@ -115,10 +113,54 @@
 -->
     </Frames>
 
+    <Layers>
+        <Layer level="ARTWORK">
+            <Fontstring inherits="GameFontNormalLarge" parentKey="title">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="16" y="-16" />
+                </Anchors>
+            </Fontstring>
+<!--
+            <FontString inherits="GameFontNormal" text="Options panel is a work in progress and doesn't do anything yet.">
+                <Anchors><Anchor point="CENTER" /></Anchors>
+            </FontString>
+-->
+            <FontString name="$parentBit1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Run">
+                <Size x="26" y="26" />
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentScrollFrame" relativePoint="TOPRIGHT" x="-2" />
+                </Anchors>
+            </FontString>
+            <FontString name="$parentBit2Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Swim">
+                <Size x="26" y="26" />
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentBit1Text" relativePoint="LEFT" x="-4" />
+                </Anchors>
+            </FontString>
+            <FontString name="$parentBit3Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Fly">
+                <Size x="26" y="26" />
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentBit2Text" relativePoint="LEFT" x="-4" />
+                </Anchors>
+            </FontString>
+            <FontString name="$parentBit4Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="AQ">
+                <Size x="26" y="26" />
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentBit3Text" relativePoint="LEFT" x="-4" />
+                </Anchors>
+            </FontString>
+            <FontString name="$parentBit5Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Vash">
+                <Size x="26" y="26" />
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentBit4Text" relativePoint="LEFT" x="-4" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+
     <Scripts>
         <OnLoad function="LiteMountOptions_OnLoad" />
         <OnShow function="LiteMountOptions_OnShow" />
-        <OnSizeChanged function="LiteMountOptions_OnSizeChanged" />
     </Scripts>
 
 </Frame>
