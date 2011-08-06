@@ -72,7 +72,7 @@ function LiteMount:IsExcludedSpell(id)
 end
 
 function LiteMount:AddExcludedSpell(id)
-    LM_Print(string.format("Disabling mount %d (%s)", id, GetSpellInfo(id)))
+    -- LM_Print(string.format("Disabling mount %d (%s)", id, GetSpellInfo(id)))
     if not self:IsExcludedSpell(id) then
         table.insert(self.excludedspells, id)
         table.sort(self.excludedspells)
@@ -80,7 +80,7 @@ function LiteMount:AddExcludedSpell(id)
 end
 
 function LiteMount:RemoveExcludedSpell(id)
-    LM_Print(string.format("Enabling mount %d (%s)", id, GetSpellInfo(id)))
+    -- LM_Print(string.format("Enabling mount %d (%s)", id, GetSpellInfo(id)))
     for i = 1, #self.excludedspells do
         if self.excludedspells[i] == id then
             table.remove(self.excludedspells, i)
