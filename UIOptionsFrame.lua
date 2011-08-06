@@ -56,6 +56,7 @@ local function UpdateMountButton(button, mount)
     end
     button.enabled.setFunc = function(setting)
                             EnableDisableSpell(button.spellid, setting)
+                            button.enabled:GetScript("OnEnter")(button.enabled)
                         end
 
     if GameTooltip:GetOwner() == button.enabled then
