@@ -21,7 +21,7 @@ local RescanEvents = {
     -- Companion change
     "COMPANION_LEARNED", "COMPANION_UNLEARNED",
     -- Might have learned a new mount spell
-    "SPELL_LEARNED_IN_TAB",
+    "LEARNED_SPELL_IN_TAB",
     -- You might have learned instant ghost wolf
     "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE",
 }
