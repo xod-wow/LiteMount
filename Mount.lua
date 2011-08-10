@@ -37,6 +37,12 @@ end
 function LM_Mount:GetMountBySpell(spellId)
     local m = LM_Mount:new()
     local si = { GetSpellInfo(spellId) }
+
+    if not si[1] then
+        LM_Print("Failed GetMountBySpell #"..spellId)
+        return
+    end
+
     m.name = si[1]
     m.spellid = spellId
     m.spellname = si[1]
@@ -51,6 +57,12 @@ end
 function LM_Mount:GetMountByIndex(mountIndex)
     local m = LM_Mount:new()
     local ci = { GetCompanionInfo("MOUNT", mountIndex) }
+
+    if not ci[2] then
+        LM_Print("Failed GetMountByIndex #"..mountIndex)
+        LM_Print("GetNumCompanions = " .. GetNumCompanions("MOUNT"))
+        return
+    end
 
     m.name = ci[2]
     m.spellid = ci[3]

@@ -12,7 +12,9 @@ LM_MountList.__index = LM_MountList
 function LM_MountList:AddCompanionMounts()
     for i = 1,GetNumCompanions("MOUNT") do
         local m = LM_Mount:GetMountByIndex(i)
-        self.byname[m.name] = m
+        if m then
+            self.byname[m.name] = m
+        end
     end
 end
 
@@ -20,7 +22,9 @@ function LM_MountList:AddRacialMounts()
     for _,spellid in ipairs(LM_RACIAL_MOUNT_SPELLS) do
         if LM_MountSpell:IsKnown(spellid) then
             local m = LM_Mount:GetMountBySpell(spellid)
-            self.byname[m.name] = m
+            if m then
+                self.byname[m.name] = m
+            end
         end
     end
 end
@@ -29,7 +33,9 @@ function LM_MountList:AddClassMounts()
     for _,spellid in ipairs(LM_CLASS_MOUNT_SPELLS) do
         if LM_MountSpell:IsKnown(spellid) then
             local m = LM_Mount:GetMountBySpell(spellid)
-            self.byname[m.name] = m
+            if m then
+                self.byname[m.name] = m
+            end
         end
     end
 end

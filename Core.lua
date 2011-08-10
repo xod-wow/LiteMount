@@ -19,9 +19,9 @@ LiteMount.ml = LM_MountList:new()
 
 local RescanEvents = {
     -- Companion change
-    "COMPANION_LEARNED", "COMPANION_UNLEARNED", "COMPANION_UPDATE",
+    "COMPANION_LEARNED", "COMPANION_UNLEARNED",
     -- Might have learned a new mount spell
-    "LEARNED_SPELL_IN_TAB",
+    "SPELL_LEARNED_IN_TAB",
     -- You might have learned instant ghost wolf
     "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE",
 }
@@ -29,7 +29,7 @@ local RescanEvents = {
 function LiteMount:Initialize()
 
     self.excludedspells = LM_OptionsDB
-    self.ml:ScanMounts()
+    self.needscan = true
 
     SLASH_LiteMount1 = "/lm"
     SlashCmdList["LiteMount"] = function () InterfaceOptionsFrame_OpenToCategory(LiteMountOptions) end
@@ -52,14 +52,21 @@ function LiteMount:Initialize()
     self:SetAttribute("type", "macro")
 
     for _,ev in ipairs(RescanEvents) do
-        self[ev] = function (self, event, ...) self.ml:ScanMounts() end
+        self[ev] = function (self, event, ...) LM_Print("Got "..event) self.needscan = true end
         self:RegisterEvent(ev)
     end
 
 end
 
+function LiteMount:ScanMounts()
+    if not self.needscan then return end
+    self.ml:ScanMounts()
+    self.needscan = nil
+end
+
 function LiteMount:GetAllMounts()
     if not self.ml then return {} end
+    self:ScanMounts()
     local allmounts = self.ml:GetMounts()
     table.sort(allmounts, function(a,b) return a:Name() < b:Name() end)
     return allmounts
@@ -145,6 +152,8 @@ end
 function LiteMount:PreClick()
 
     if InCombatLockdown() then return end
+
+    self:ScanMounts()
 
     -- Mounted -> dismount
     if IsMounted() then
