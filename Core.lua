@@ -170,12 +170,6 @@ function LiteMount:SetAsCancelForm()
     self:SetAttribute("macrotext", MACRO_CANCELFORM)
 end
 
-function LiteMount:SetAsSpell(spellName)
-    LM_Debug("Setting action to spell " .. spellName)
-    self:SetAttribute("type", "spell")
-    self:SetAttribute("spell", spellName)
-end
-
 -- Fancy SecureActionButton stuff. The default button mechanism is
 -- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to set it to what awe really want to do.
@@ -238,7 +232,7 @@ function LiteMount:PreClick()
     end
 
     if m then
-        self:SetAsSpell(m:SpellName())
+        m:SetupActionButton(self)
         return
     else
         LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)

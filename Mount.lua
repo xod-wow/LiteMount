@@ -34,6 +34,38 @@ function LM_Mount:FixupFlags()
     end
 end
 
+function LM_Mount:GetMountByItem(itemId)
+    local m = LM_Mount:new()
+
+    local ii = { GetItemInfo(itemId) }
+    if not ii[1] then
+        LM_Debug("LM_Mount: Failed GetItemInfo #"..itemId)
+        return
+    end
+
+    m.itemname = ii[1]
+
+    local m.spellname = GetItemSpell(itemId)
+    if not m.spellname then
+        LM_Debug("LM_Mount: Failed GetItemSpell #"..itemId)
+        return
+    end
+
+    local si = { GetSpellInfo(m.spellname) }
+    if not si[1] then
+        LM_Debug("LM_Mount: Failed GetSpellInfo "..spellname)
+        return
+    end
+
+    m.name = si[1]
+    m.icon = si[3]
+    m.flags = 0
+    m.casttime = si[7]
+    m:FixupFlags()
+    m.defaultflags = m.flags
+    return m
+end
+
 function LM_Mount:GetMountBySpell(spellId)
     local m = LM_Mount:new()
     local si = { GetSpellInfo(spellId) }
@@ -132,6 +164,16 @@ end
 
 function LM_Mount:Usable()
     return IsUsableSpell(self.spellid)
+end
+
+function LM_Mount:SetupActionButton(button)
+    if self.itemname then
+        button:SetAttribute("type", "item")
+        button:SetAttribute("item", self.itemname)
+    else
+        button:SetAttribute("type", "spell")
+        button:SetAttribute("spell", self.spellid)
+    end
 end
 
 function LM_Mount:Dump()
