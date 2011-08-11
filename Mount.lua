@@ -52,9 +52,23 @@ function LM_Mount:GetMountByItem(itemId)
         return
     end
 
-    local si = { GetSpellInfo(m.spellname) }
+    local link = GetSpellLink(m.spellname)
+    if not link then
+        LM_Debug("LM_Mount: Failed GetSpellLink "..m.spellname)
+        return
+    end
+
+    -- At the moment excluding only works off spell ID. Usable items
+    -- do have spell IDs, but they're hard to get at.
+    m.spellid = string.find(link, "|Hspell:(%d+)|h")
+    if not m.spellid then
+        LM_Debug("LM_Mount: finding spell ID from link failed "..link)
+        return
+    end
+
+    local si = { GetSpellInfo(m.spellid) }
     if not si[1] then
-        LM_Debug("LM_Mount: Failed GetSpellInfo "..spellname)
+        LM_Debug("LM_Mount: Failed GetSpellInfo #"..m.spellid)
         return
     end
 
