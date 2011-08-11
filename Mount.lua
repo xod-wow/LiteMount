@@ -43,6 +43,7 @@ function LM_Mount:GetMountByItem(itemId)
         return
     end
 
+    m.itemid = itemId
     m.itemname = ii[1]
 
     local m.spellname = GetItemSpell(itemId)
