@@ -8,22 +8,30 @@
 
 LM_MountItem = { }
 
-function LM_MountItem:IsEquipped(itemId)
-    for i = 1,INVSLOT_LAST_EQUIPPED do
-        local id = GetInventoryItemId("player", i)
-        if id and id == itemId then
-            return true
-        end
+function LM_MountItem:HasItem(itemId)
+    if GetItemCount(itemId) > 0 then
+        return true
     end
 end
 
-function LM_MountItem:CanBeEquipped(itemId)
-    local equiploc = select(9, GetItemInfo(itemId))
-    if not equiploc or equiploc == "" or equiploc == "INVTYPE_BAG" then
-        return nil
+function LM_MountItem:IsUsable(itemId)
+
+    if IsEquippableItem(itemId) then
+        if not IsEquippedItem(itemId) then
+            return false
+        end
+    else
+        if GetItemCount(itemId) == 0 then
+            return false
+        end
     end
+
+    -- Either equipped or non-equippable and in bags
+    local start, duration, enable = GetItemCooldown(itemId)
+    if duration > 0 and enable == 0 then
+        return false
+    end
+
     return true
 end
 
-function LM_MountItem:IsInBags(itemId)
-end
