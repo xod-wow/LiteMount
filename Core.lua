@@ -62,9 +62,6 @@ function LiteMount:Initialize()
         self:RegisterEvent(ev)
     end
 
-    -- Keybinding setup
-    self:RegisterEvent("UPDATE_BINDINGS")
-
 end
 
 function LiteMount:ScanMounts()
@@ -129,21 +126,6 @@ end
 function LiteMount:PLAYER_REGEN_ENABLED()
     self:UnregisterEvent("PLAYER_REGEN_ENABLED")
     self:Initialize()
-end
-
-function LiteMount:UPDATE_BINDINGS()
-    if InCombatLockdown() then return end
-
-    LM_Debug("Updating key bindings.")
-
-    local keys = { GetBindingKey("LITEMOUNT_MOUNT") }
-
-    for _,keystr in ipairs(keys) do
-        if keystr ~= "" then
-            LM_Debug("  binding key ".. keystr)
-            SetOverrideBindingClick(self, true, keystr, self)
-        end
-    end
 end
 
 function LiteMount:SetAsDefault()
