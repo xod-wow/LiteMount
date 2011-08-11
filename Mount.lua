@@ -46,7 +46,7 @@ function LM_Mount:GetMountByItem(itemId)
     m.itemid = itemId
     m.itemname = ii[1]
 
-    local m.spellname = GetItemSpell(itemId)
+    m.spellname = GetItemSpell(itemId)
     if not m.spellname then
         LM_Debug("LM_Mount: Failed GetItemSpell #"..itemId)
         return
