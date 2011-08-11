@@ -42,6 +42,8 @@ end
 
 function LM_MountList:AddItemMounts()
     -- Empty for now
+    for _,itemid in ipairs(LM_ITEM_MOUNT_ITEMS) do
+    end
 end
 
 function LM_MountList:new()

@@ -1,0 +1,14 @@
+<!--
+
+LiteMount/KeyBindings.xml
+
+
+ -->
+
+<Bindings>
+
+    <Binding name="LITEMOUNT_MOUNT" header="LITEMOUNT_TITLE">
+        -- Dummy for overriding with SetOverrideBindingClick()
+    </Binding>
+
+</Bindings> 

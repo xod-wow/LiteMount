@@ -25,8 +25,10 @@ local RescanEvents = {
     -- You might have learned instant ghost wolf
     "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE",
 }
-    
+
 function LiteMount:Initialize()
+
+    LM_Debug("Initialize")
 
     self.excludedspells = LM_OptionsDB
     self.needscan = true
@@ -51,15 +53,23 @@ function LiteMount:Initialize()
     self:SetAttribute("macrotext", DismountMacro)
     self:SetAttribute("type", "macro")
 
+    -- Mount event setup
     for _,ev in ipairs(RescanEvents) do
-        self[ev] = function (self, event, ...) LM_Print("Got "..event) self.needscan = true end
+        self[ev] = function (self, event, ...)
+                            LM_Debug("Got rescan event "..event)
+                            self.needscan = true
+                        end
         self:RegisterEvent(ev)
     end
+
+    -- Keybinding setup
+    self:RegisterEvent("UPDATE_BINDINGS")
 
 end
 
 function LiteMount:ScanMounts()
     if not self.needscan then return end
+    LM_Debug("Rescanning list of mounts.")
     self.ml:ScanMounts()
     self.needscan = nil
 end
@@ -79,7 +89,7 @@ function LiteMount:IsExcludedSpell(id)
 end
 
 function LiteMount:AddExcludedSpell(id)
-    -- LM_Print(string.format("Disabling mount %d (%s)", id, GetSpellInfo(id)))
+    LM_Debug(string.format("Disabling mount %s (%d).", GetSpellInfo(id), id))
     if not self:IsExcludedSpell(id) then
         table.insert(self.excludedspells, id)
         table.sort(self.excludedspells)
@@ -87,7 +97,7 @@ function LiteMount:AddExcludedSpell(id)
 end
 
 function LiteMount:RemoveExcludedSpell(id)
-    -- LM_Print(string.format("Enabling mount %d (%s)", id, GetSpellInfo(id)))
+    LM_Debug(string.format("Enabling mount %s (%d).", GetSpellInfo(id), id))
     for i = 1, #self.excludedspells do
         if self.excludedspells[i] == id then
             table.remove(self.excludedspells, i)
@@ -97,6 +107,7 @@ function LiteMount:RemoveExcludedSpell(id)
 end
 
 function LiteMount:SetExcludedSpells(idlist)
+    LM_Debug("Setting complete list of disabled mounts.")
     table.wipe(self.excludedspells)
     for _,id in ipairs(idlist) do
         table.insert(self.excludedspells, id)
@@ -120,27 +131,47 @@ function LiteMount:PLAYER_REGEN_ENABLED()
     self:Initialize()
 end
 
+function LiteMount:UPDATE_BINDINGS()
+    if InCombatLockdown() then return end
+
+    LM_Debug("Updating key bindings.")
+
+    local keys = { GetBindingKey("LITEMOUNT_MOUNT") }
+
+    for _,keystr in ipairs(keys) do
+        if keystr ~= "" then
+            LM_Debug("  binding key ".. keystr)
+            SetOverrideBindingClick(self, true, keystr, self)
+        end
+    end
+end
+
 function LiteMount:SetAsDefault()
+    LM_Debug("Setting action to default.")
     self:SetAttribute("type", "macro")
     self:SetAttribute("macrotext", self.defaultMacro)
 end
 
 function LiteMount:SetAsDismount()
+    LM_Debug("Setting action to Dismount.")
     self:SetAttribute("type", "macro")
     self:SetAttribute("macrotext", MACRO_DISMOUNT)
 end
 
 function LiteMount:SetAsVehicleExit()
+    LM_Debug("Setting action to VehicleExit.")
     self:SetAttribute("type", "macro")
     self:SetAttribute("macrotext", MACRO_EXITVEHICLE)
 end
 
 function LiteMount:SetAsCancelForm()
+    LM_Debug("Setting action to CancelForm.")
     self:SetAttribute("type", "macro")
     self:SetAttribute("macrotext", MACRO_CANCELFORM)
 end
 
 function LiteMount:SetAsSpell(spellName)
+    LM_Debug("Setting action to spell " .. spellName)
     self:SetAttribute("type", "spell")
     self:SetAttribute("spell", spellName)
 end
@@ -152,6 +183,8 @@ end
 function LiteMount:PreClick()
 
     if InCombatLockdown() then return end
+
+    LM_Debug("PreClick handler called.")
 
     self:ScanMounts()
 
@@ -208,14 +241,15 @@ function LiteMount:PreClick()
         self:SetAsSpell(m:SpellName())
         return
     else
-        UIErrorsFrame_OnEvent(UIErrorsFrame, "UI_ERROR_MESSAGE", 
-                              SPELL_FAILED_NO_MOUNTS_ALLOWED)
+        LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
     end
 
 end
 
 function LiteMount:PostClick()
     if InCombatLockdown() then return end
+
+    LM_Debug("PostClick handler called.")
 
     -- We'd like to set the macro to undo whatever we did, but
     -- tests like IsMounted() and CanExitVehicle() will still

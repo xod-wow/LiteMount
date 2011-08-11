@@ -39,7 +39,7 @@ function LM_Mount:GetMountBySpell(spellId)
     local si = { GetSpellInfo(spellId) }
 
     if not si[1] then
-        LM_Print("Failed GetMountBySpell #"..spellId)
+        LM_Debug("LM_Mount: Failed GetMountBySpell #"..spellId)
         return
     end
 
@@ -59,8 +59,8 @@ function LM_Mount:GetMountByIndex(mountIndex)
     local ci = { GetCompanionInfo("MOUNT", mountIndex) }
 
     if not ci[2] then
-        LM_Print("Failed GetMountByIndex #"..mountIndex)
-        LM_Print("GetNumCompanions = " .. GetNumCompanions("MOUNT"))
+        LM_Debug(string.format("LM_Mount: Failed GetMountByIndex #%d (of %d)",
+                               mountIndex, GetNumCompanions("MOUNT")))
         return
     end
 

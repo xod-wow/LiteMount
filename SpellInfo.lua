@@ -48,6 +48,10 @@ LM_CLASS_MOUNT_SPELLS = {
     LM_SPELL_TRAVEL_FORM,
 }
 
+LM_ITEM_MOUNT_ITEMS = {
+    LM_ITEM_DRAGONWRATH_TARECGOSAS_REST
+}
+    
 LM_FlagOverrideTable = {
     [LM_SPELL_AQUATIC_FORM]       = bit.bor(LM_FLAG_BIT_FLOAT,
                                             LM_FLAG_BIT_SWIM),

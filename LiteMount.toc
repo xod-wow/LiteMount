@@ -11,9 +11,11 @@ Print.lua
 SpellInfo.lua
 Mount.lua
 MountSpell.lua
+MountItem.lua
 MountList.lua
 Location.lua
 Core.lua
 Macro.lua
+KeyBindingStrings.lua
 UIOptionsFrame.lua
 UIOptionsFrame.xml
