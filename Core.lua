@@ -21,7 +21,7 @@ local RescanEvents = {
     -- Companion change
     "COMPANION_LEARNED", "COMPANION_UNLEARNED",
     -- Might have learned a new mount spell
-    "LEARNED_SPELL_IN_TAB",
+    "TRAINER_CLOSED",
     -- You might have learned instant ghost wolf
     "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE",
 }
@@ -214,6 +214,7 @@ function LiteMount:PreClick()
     end
 
     if m then
+        LM_Debug("calling m:SetupActionButton")
         m:SetupActionButton(self)
         return
     else

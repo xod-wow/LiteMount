@@ -183,11 +183,13 @@ end
 
 function LM_Mount:SetupActionButton(button)
     if self.itemname then
+        LM_Debug("LM_Mount setting button to item "..self.itemname)
         button:SetAttribute("type", "item")
         button:SetAttribute("item", self.itemname)
     else
+        LM_Debug("LM_Mount setting button to spell "..self.spellname)
         button:SetAttribute("type", "spell")
-        button:SetAttribute("spell", self.spellid)
+        button:SetAttribute("spell", self.spellname)
     end
 end
 
