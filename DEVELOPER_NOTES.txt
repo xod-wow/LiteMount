@@ -1,26 +1,68 @@
 Notes To Myself
 ---------------
 
+
+------------------------------------------------------------------------------
+* Diff since tag
+
+    svn diff svn://svn.curseforge.net/wow/litemount/mainline/tags/4.2.0 \
+             svn://svn.curseforge.net/wow/litemount/mainline/trunk
+
+
+------------------------------------------------------------------------------
 * "Dragonwrath, Tarecgosa's Rest" (71086)
 
+    Item ID 71076.  Spell ID is 101641 (Tarecgosa's Visage)
+
+    What do IsSpellKnown and IsUsableSpell return on the Spell ID if
+    you have it equipped/not equipped?
+
+    Can you summon the mount by casting the spell directly instead of
+    using the item?  That would allow a lot of simplification but I
+    doubt you can.  Testing with Hearthstone doesn't allow it.
+
+
+------------------------------------------------------------------------------
 * Might be better to look for Sea Legs aura for Vashj'ir.
 
+    Seems to be working OK without it, don't worry about it.
+
+
+------------------------------------------------------------------------------
 * You can use flying mounts when you are floating in flyable areas.
-     IsUsableSpell() returns correctly for mount spells for swimming
-     vs floating.
 
+    IsUsableSpell() returns correctly for mount spells for swimming
+    vs floating.
+
+
+------------------------------------------------------------------------------
 * CanExitVehicle() and IsMounted()
-     Added vehicle exit, not sure about in combat.
 
+    Added vehicle exit, not sure about in combat.
+
+
+------------------------------------------------------------------------------
 * Flying in areas you don't know how to.
-     Testing shows IsFlyableArea() works properly for you.
 
+    Testing shows IsFlyableArea() works properly for you.
+
+
+------------------------------------------------------------------------------
 * Does GetUnitSpeed return negative if you go backwards?
-     No it doesn't.
 
+    No it doesn't.
+
+
+------------------------------------------------------------------------------
 * You can know tradeskill-only mounts for tradeskills you unlearned.
-     You can but IsUsableSpell seems to return false for them.
 
+    You can but IsUsableSpell seems to return false for them.
+
+
+------------------------------------------------------------------------------
 * Check when/if IsSpellKnown() is a better idea.
-     So far it seems identical to looping over the spellbook tab. It
-     never returns true for mount spells.
+
+    So far it seems identical to looping over the spellbook tab. It
+    never returns true for mount spells.
+
+

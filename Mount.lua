@@ -178,7 +178,11 @@ function LM_Mount:CastTime()
 end
 
 function LM_Mount:Usable()
-    return IsUsableSpell(self.spellid)
+    if self.itemname then
+        return LM_MountItem:IsUsable(self.itemid)
+    else
+        return IsUsableSpell(self.spellid)
+    end
 end
 
 function LM_Mount:SetupActionButton(button)
