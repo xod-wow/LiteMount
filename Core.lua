@@ -11,7 +11,10 @@ local MACRO_CANCELFORM = "/cancelform"
 local MACRO_EXITVEHICLE = "/run VehicleExit()"
 local MACRO_DISMOUNT_CANCELFORM = "/dismount\n/cancelform"
 
-LM_OptionsDB = { }
+local Default_LM_OptionsDB = {
+    ["excludedspells"] = { },
+    ["flagoverrides"]  = { },
+}
 
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
@@ -30,8 +33,17 @@ function LiteMount:Initialize()
 
     LM_Debug("Initialize")
 
-    self.excludedspells = LM_OptionsDB
+    if not LM_OptionsDB then
+        LM_OptionsDB = Default_LM_OptionsDB
+    elseif not LM_OptionsDB.excludedspells then
+        local orig = LM_OptionsDB
+        LM_OptionsDB = Default_LM_OptionsDB
+        LM_OptionsDB.excludedspells = orig
+    end
+
     self.needscan = true
+    self.excludedspells = LM_OptionsDB.excludedspells
+    self.flagoverrides = LM_OptionsDB.flagoverrides
 
     SLASH_LiteMount1 = "/lm"
     SlashCmdList["LiteMount"] = function () InterfaceOptionsFrame_OpenToCategory(LiteMountOptions) end
@@ -187,8 +199,9 @@ function LiteMount:PreClick()
         return
     end
 
-    -- Propagate the exclusion list
+    -- Propagate the exclusion list and the flag overrides
     self.ml:SetExcludedSpellIds(self.excludedspells)
+    self.ml:SetOverrideSpellFlags(self.overrideflags)
 
     local m
 
