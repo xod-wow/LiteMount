@@ -131,13 +131,13 @@
                     <Anchor point="BOTTOMRIGHT" relativeTo="$parentScrollFrame" relativePoint="TOPRIGHT" x="-2" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit2Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Swim">
+            <FontString name="$parentBit2Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Fly">
                 <Size x="26" y="26" />
                 <Anchors>
                     <Anchor point="RIGHT" relativeTo="$parentBit1Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit3Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Fly">
+            <FontString name="$parentBit3Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Swim">
                 <Size x="26" y="26" />
                 <Anchors>
                     <Anchor point="RIGHT" relativeTo="$parentBit2Text" relativePoint="LEFT" x="-4" />
