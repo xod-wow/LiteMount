@@ -6,7 +6,11 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_Mount = { }
+LM_Mount = {
+    ["CacheByItemId"] = { },
+    ["CacheByName"]   = { },
+    ["CacheBySpellId"] = { }
+}
 LM_Mount.__index = LM_Mount
 function LM_Mount:new() return setmetatable({ }, LM_Mount) end
 
@@ -35,6 +39,11 @@ function LM_Mount:FixupFlags()
 end
 
 function LM_Mount:GetMountByItem(itemId)
+
+    if self.CacheByItemId[itemId] then
+        return self.CacheByItemId[itemId]
+    end
+
     local m = LM_Mount:new()
 
     local ii = { GetItemInfo(itemId) }
@@ -78,10 +87,20 @@ function LM_Mount:GetMountByItem(itemId)
     m.casttime = si[7]
     m:FixupFlags()
     m.defaultflags = m.flags
+
+    self.CacheByItemId[itemId] = m
+    self.CacheByName[m.name] = m
+    self.CacheBySpellId[m.spellid] = m
+
     return m
 end
 
 function LM_Mount:GetMountBySpell(spellId)
+
+    if self.CacheBySpellId[spellId] then
+        return self.CacheBySpellId[spellId]
+    end
+
     local m = LM_Mount:new()
     local si = { GetSpellInfo(spellId) }
 
@@ -98,11 +117,14 @@ function LM_Mount:GetMountBySpell(spellId)
     m.casttime = si[7]
     m:FixupFlags()
     m.defaultflags = m.flags
+
+    self.CacheByName[m.name] = m
+    self.CacheBySpellId[m.spellid] = m
+
     return m
 end
 
 function LM_Mount:GetMountByIndex(mountIndex)
-    local m = LM_Mount:new()
     local ci = { GetCompanionInfo("MOUNT", mountIndex) }
 
     if not ci[2] then
@@ -110,6 +132,12 @@ function LM_Mount:GetMountByIndex(mountIndex)
                                mountIndex, GetNumCompanions("MOUNT")))
         return
     end
+
+    if self.CacheByName[ci[2]] then
+        return self.CacheByName[ci[2]]
+    end
+
+    local m = LM_Mount:new()
 
     m.name = ci[2]
     m.spellid = ci[3]
@@ -122,6 +150,10 @@ function LM_Mount:GetMountByIndex(mountIndex)
 
     m:FixupFlags()
     m.defaultflags = m.flags
+
+    self.CacheByName[m.name] = m
+    self.CacheBySpellId[m.spellid] = m
+
     return m
 end
 
