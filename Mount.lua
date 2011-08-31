@@ -157,7 +157,7 @@ function LM_Mount:GetMountByIndex(mountIndex)
     return m
 end
 
-function LM_Mount:OverrideFlags(f)
+function LM_Mount:SetFlags(f)
     self.flags = f
 end
 

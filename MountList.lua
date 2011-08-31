@@ -64,16 +64,6 @@ function LM_MountList:ScanMounts()
 
 end
 
-function LM_MountList:SetOverrideSpellFlags(spellflaglist)
-    for _, m in pairs(self.byname) do
-        local spellid = m:SpellId()
-        local flagxor = spellflaglist[spellid]
-        if flagxor then
-            m:OverrideFlags(bit.xor(m:DefaultFlags(), flagxor))
-        end
-    end
-end
-
 function LM_MountList:SetExcludedSpellIds(spelllist)
     table.wipe(self.excludedSpellIds)
     for _,s in ipairs(spelllist) do

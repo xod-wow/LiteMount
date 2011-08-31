@@ -199,9 +199,8 @@ function LiteMount:PreClick()
         return
     end
 
-    -- Propagate the exclusion list and the flag overrides
+    -- Propagate the exclusion list
     self.ml:SetExcludedSpellIds(self.excludedspells)
-    self.ml:SetOverrideSpellFlags(self.flagoverrides)
 
     local m
 
