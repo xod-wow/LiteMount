@@ -124,6 +124,25 @@ function LiteMount:SetExcludedSpells(idlist)
     table.sort(self.excludedspells)
 end
 
+function LiteMount:SetMountFlagBit(id, bit, value)
+    LM_Debug(string.format("Setting flag bit %d for spell %s (%d) to %d.",
+                           bit, GetSpellInfo(id), id, value))
+
+    if not self.flagoverrides[id] then
+        self.flagoverrides[id] = { 0, 0 }
+    end
+
+    -- [ mask, values ]
+    self.flagoverrides[id][0] = bit.bor(self.flagoverrides[id][0], bit)
+    self.flagoverrides[id][1] = bit.band(self.flagoverrides[id][1],
+                                         bit.bnot(self.flagoverrides[id][0]))
+    if value == 0 then
+        self.flagoverrides[id][1] = bit.bor(self.flagoverrides[id][1], bit)
+    end
+
+    -- XXX FIXME PROPAGATE
+end
+
 function LiteMount:PLAYER_LOGIN()
     self:UnregisterEvent("PLAYER_LOGIN")
 
