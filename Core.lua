@@ -62,7 +62,7 @@ function LiteMount:Initialize()
     -- SecureActionButton setup
     self:SetScript("PreClick", function () LiteMount:PreClick() end)
     self:SetScript("PostClick", function () LiteMount:PostClick() end)
-    self:SetAttribute("macrotext", DismountMacro)
+    self:SetAttribute("macrotext", self.defaultMacro)
     self:SetAttribute("type", "macro")
 
     -- Mount event setup
@@ -80,6 +80,11 @@ function LiteMount:ScanMounts()
     if not self.needscan then return end
     LM_Debug("Rescanning list of mounts.")
     self.ml:ScanMounts()
+
+    for _,m in ipairs(self.ml:GetMounts()) do
+        self:ApplySavedFlags(m)
+    end
+
     self.needscan = nil
 end
 
@@ -124,23 +129,55 @@ function LiteMount:SetExcludedSpells(idlist)
     table.sort(self.excludedspells)
 end
 
-function LiteMount:SetMountFlagBit(id, bit, value)
-    LM_Debug(string.format("Setting flag bit %d for spell %s (%d) to %d.",
-                           bit, GetSpellInfo(id), id, value))
+function LiteMount:SaveMountFlags(mount)
+    local id = mount:SpellId()
 
     if not self.flagoverrides[id] then
         self.flagoverrides[id] = { 0, 0 }
     end
 
-    -- [ mask, values ]
-    self.flagoverrides[id][0] = bit.bor(self.flagoverrides[id][0], bit)
-    self.flagoverrides[id][1] = bit.band(self.flagoverrides[id][1],
-                                         bit.bnot(self.flagoverrides[id][0]))
-    if value == 0 then
-        self.flagoverrides[id][1] = bit.bor(self.flagoverrides[id][1], bit)
-    end
+    local def = mount:GetDefaultFlags()
+    local cur = mount:GetFlags()
 
-    -- XXX FIXME PROPAGATE
+end
+
+function LiteMount:ApplySavedFlags(mount)
+    local id = mount:SpellId()
+
+    local ov = self.flagoverrides[id]
+
+    if not ov then return end
+
+    local flags = mount:DefaultFlags()
+
+    flags = bit.bor(flags, ov[1])
+    flags = bit.band(flags, bit.bnot(ov[1]))
+
+    mount:SetFlags(flags)
+end
+
+function LiteMount:SetMountFlagBit(mount, flag)
+    LM_Debug(string.format("Setting flag bit %d for spell %s (%d).",
+                           flag, GetSpellInfo(id), id))
+
+    mount:SetFlags(bit.bor(mount:Flags(), flag))
+    LiteMount:SaveMountFlags(mount)
+end
+
+function LiteMount:ClearMountFlagBit(mount, flag)
+    LM_Debug(string.format("Clearing flag bit %d for spell %s (%d).",
+                           flag, GetSpellInfo(id), id))
+
+    mount:SetFlags(bit.band(mount:Flags(), bit.bnot(flag)))
+    LiteMount:SaveMountFlags(mount)
+end
+
+function LiteMount:ResetMountFlags(mount)
+    LM_Debug(string.format("Defaulting flag bit %d for spell %s (%d).",
+                           flag, GetSpellInfo(id), id))
+
+    mount:SetFlags(mount:DefaultFlags())
+    LiteMount:SaveMountFlags(mount)
 end
 
 function LiteMount:PLAYER_LOGIN()
