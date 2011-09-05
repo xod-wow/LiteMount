@@ -210,7 +210,7 @@ function LM_Mount:CastTime()
 end
 
 function LM_Mount:Usable()
-    if self.itemname then
+    if self.itemid then
         return LM_MountItem:IsUsable(self.itemid)
     else
         return IsUsableSpell(self.spellid)

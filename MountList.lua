@@ -42,7 +42,12 @@ end
 
 function LM_MountList:AddItemMounts()
     for _,itemid in ipairs(LM_ITEM_MOUNT_ITEMS) do
-        -- Empty for now
+        if LM_MountItem:HasItem(itemid) then
+            local m = LM_Mount:GetMountByItem(itemid)
+            if m then
+                self.byname[m.name] = m
+            end
+        end
     end
 end
 
