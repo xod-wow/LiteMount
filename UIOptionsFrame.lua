@@ -23,9 +23,9 @@ end
 
 local function EnableDisableSpell(spellid, onoff)
     if onoff == "0" then
-        LiteMount:AddExcludedSpell(spellid)
+        LM_Options:AddExcludedSpell(spellid)
     else
-        LiteMount:RemoveExcludedSpell(spellid)
+        LM_Options:RemoveExcludedSpell(spellid)
     end
 end
 
@@ -49,7 +49,7 @@ local function UpdateMountButton(button, mount)
     button.bit5:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_VASHJIR) == LM_FLAG_BIT_VASHJIR)
     button.bit5:Disable()
 
-    if LiteMount:IsExcludedSpell(button.spellid) then
+    if LM_Options:IsExcludedSpell(button.spellid) then
         button.enabled:SetChecked(false)
     else
         button.enabled:SetChecked(true)

@@ -1,5 +1,8 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
 
+<CheckButton name="LiteMountOptionsBitTemplate" inherits="OptionsBaseCheckButtonTemplate" virtual="true">
+</CheckButton>
+
 <Button name="LiteMountOptionsButtonTemplate" virtual="true">
 
     <Size x="180" y="45" />
@@ -40,19 +43,19 @@
             </Scripts>
         </CheckButton>
 
-        <CheckButton name="$parentBit1" inherits="OptionsBaseCheckButtonTemplate" parentKey="bit1">
+        <CheckButton name="$parentBit1" inherits="LiteMountOptionsBitTemplate" parentKey="bit1">
             <Anchors> <Anchor point="RIGHT" x="-2" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit2" inherits="OptionsBaseCheckButtonTemplate" parentKey="bit2">
+        <CheckButton name="$parentBit2" inherits="LiteMountOptionsBitTemplate" parentKey="bit2">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit1" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit3" inherits="OptionsBaseCheckButtonTemplate" parentKey="bit3">
+        <CheckButton name="$parentBit3" inherits="LiteMountOptionsBitTemplate" parentKey="bit3">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit2" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit4" inherits="OptionsBaseCheckButtonTemplate" parentKey="bit4">
+        <CheckButton name="$parentBit4" inherits="LiteMountOptionsBitTemplate" parentKey="bit4">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit3" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit5" inherits="OptionsBaseCheckButtonTemplate" parentKey="bit5">
+        <CheckButton name="$parentBit5" inherits="LiteMountOptionsBitTemplate" parentKey="bit5">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit4" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
     </Frames>

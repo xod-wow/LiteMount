@@ -11,11 +11,6 @@ local MACRO_CANCELFORM = "/cancelform"
 local MACRO_EXITVEHICLE = "/run VehicleExit()"
 local MACRO_DISMOUNT_CANCELFORM = "/dismount\n/cancelform"
 
-local Default_LM_OptionsDB = {
-    ["excludedspells"] = { },
-    ["flagoverrides"]  = { },
-}
-
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 LiteMount.ml = LM_MountList:new()
@@ -33,17 +28,9 @@ function LiteMount:Initialize()
 
     LM_Debug("Initialize")
 
-    if not LM_OptionsDB then
-        LM_OptionsDB = Default_LM_OptionsDB
-    elseif not LM_OptionsDB.excludedspells then
-        local orig = LM_OptionsDB
-        LM_OptionsDB = Default_LM_OptionsDB
-        LM_OptionsDB.excludedspells = orig
-    end
+    LM_Options:Initialize()
 
     self.needscan = true
-    self.excludedspells = LM_OptionsDB.excludedspells
-    self.flagoverrides = LM_OptionsDB.flagoverrides
 
     SLASH_LiteMount1 = "/lm"
     SlashCmdList["LiteMount"] = function () InterfaceOptionsFrame_OpenToCategory(LiteMountOptions) end
@@ -80,11 +67,6 @@ function LiteMount:ScanMounts()
     if not self.needscan then return end
     LM_Debug("Rescanning list of mounts.")
     self.ml:ScanMounts()
-
-    for _,m in ipairs(self.ml:GetMounts()) do
-        self:ApplySavedFlags(m)
-    end
-
     self.needscan = nil
 end
 
@@ -94,90 +76,6 @@ function LiteMount:GetAllMounts()
     local allmounts = self.ml:GetMounts()
     table.sort(allmounts, function(a,b) return a:Name() < b:Name() end)
     return allmounts
-end
-
-function LiteMount:IsExcludedSpell(id)
-    for _,s in ipairs(self.excludedspells) do
-        if s == id then return true end
-    end
-end
-
-function LiteMount:AddExcludedSpell(id)
-    LM_Debug(string.format("Disabling mount %s (%d).", GetSpellInfo(id), id))
-    if not self:IsExcludedSpell(id) then
-        table.insert(self.excludedspells, id)
-        table.sort(self.excludedspells)
-    end
-end
-
-function LiteMount:RemoveExcludedSpell(id)
-    LM_Debug(string.format("Enabling mount %s (%d).", GetSpellInfo(id), id))
-    for i = 1, #self.excludedspells do
-        if self.excludedspells[i] == id then
-            table.remove(self.excludedspells, i)
-            return
-        end
-    end
-end
-
-function LiteMount:SetExcludedSpells(idlist)
-    LM_Debug("Setting complete list of disabled mounts.")
-    table.wipe(self.excludedspells)
-    for _,id in ipairs(idlist) do
-        table.insert(self.excludedspells, id)
-    end
-    table.sort(self.excludedspells)
-end
-
-function LiteMount:SaveMountFlags(mount)
-    local id = mount:SpellId()
-
-    if not self.flagoverrides[id] then
-        self.flagoverrides[id] = { 0, 0 }
-    end
-
-    local def = mount:GetDefaultFlags()
-    local cur = mount:GetFlags()
-
-end
-
-function LiteMount:ApplySavedFlags(mount)
-    local id = mount:SpellId()
-
-    local ov = self.flagoverrides[id]
-
-    if not ov then return end
-
-    local flags = mount:DefaultFlags()
-
-    flags = bit.bor(flags, ov[1])
-    flags = bit.band(flags, bit.bnot(ov[1]))
-
-    mount:SetFlags(flags)
-end
-
-function LiteMount:SetMountFlagBit(mount, flag)
-    LM_Debug(string.format("Setting flag bit %d for spell %s (%d).",
-                           flag, GetSpellInfo(id), id))
-
-    mount:SetFlags(bit.bor(mount:Flags(), flag))
-    LiteMount:SaveMountFlags(mount)
-end
-
-function LiteMount:ClearMountFlagBit(mount, flag)
-    LM_Debug(string.format("Clearing flag bit %d for spell %s (%d).",
-                           flag, GetSpellInfo(id), id))
-
-    mount:SetFlags(bit.band(mount:Flags(), bit.bnot(flag)))
-    LiteMount:SaveMountFlags(mount)
-end
-
-function LiteMount:ResetMountFlags(mount)
-    LM_Debug(string.format("Defaulting flag bit %d for spell %s (%d).",
-                           flag, GetSpellInfo(id), id))
-
-    mount:SetFlags(mount:DefaultFlags())
-    LiteMount:SaveMountFlags(mount)
 end
 
 function LiteMount:PLAYER_LOGIN()
@@ -254,9 +152,6 @@ function LiteMount:PreClick()
         self:SetAsCancelForm()
         return
     end
-
-    -- Propagate the exclusion list
-    self.ml:SetExcludedSpellIds(self.excludedspells)
 
     local m
 

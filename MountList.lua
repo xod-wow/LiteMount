@@ -64,19 +64,6 @@ function LM_MountList:ScanMounts()
 
 end
 
-function LM_MountList:SetExcludedSpellIds(spelllist)
-    table.wipe(self.excludedSpellIds)
-    for _,s in ipairs(spelllist) do
-        table.insert(self.excludedSpellIds, s)
-    end
-end
-
-function LM_MountList:IsExcludedSpellId(id)
-    for _,s in ipairs(self.excludedSpellIds) do
-        if s == id then return true end
-    end
-end
-
 function LM_MountList:GetMounts(flags)
     local match = { }
 
@@ -110,7 +97,7 @@ function LM_MountList:GetRandomUsableMount(flags)
     local poss = self:GetUsableMounts(flags)
 
     for i = #poss, 1, -1 do
-        if self:IsExcludedSpellId(poss[i]:SpellId()) then
+        if LM_Options:IsExcludedSpell(poss[i]:SpellId()) then
             table.remove(poss, i)
         end
     end
