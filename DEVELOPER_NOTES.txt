@@ -10,6 +10,12 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
+* XML syntax check
+
+    xmllint --noout UIOptionsFrame.xml
+
+
+------------------------------------------------------------------------------
 * "Dragonwrath, Tarecgosa's Rest" (71086)
 
     Item ID 71076.  Spell ID is 101641 (Tarecgosa's Visage)
