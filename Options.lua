@@ -52,7 +52,7 @@ function LM_Options:Initialize()
 end
 
 --[[----------------------------------------------------------------------------
-   Excluded Spell stuff.
+     Excluded Spell stuff.
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:IsExcludedSpell(id)
@@ -89,7 +89,7 @@ function LM_Options:SetExcludedSpells(idlist)
 end
 
 --[[----------------------------------------------------------------------------
-   Mount flag overrides stuff
+     Mount flag overrides stuff
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:ApplySpellFlags(id, flags)
