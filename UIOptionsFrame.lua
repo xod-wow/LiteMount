@@ -7,11 +7,13 @@
 
 ----------------------------------------------------------------------------]]--
 
-local function EnableDisableFlag(spellid, flagbit, onoff)
-    if onoff == "0" then
-        LM_Options:ClearSpellFlagBit(spellid, flagbit)
+function LiteMountOptionsBit_OnClick(checkButton)
+    local spellid = self:GetParent().spellid
+
+    if self:GetChecked() then
+        LM_Options:SetSpellFlagBit(spellid, self.flagbit)
     else
-        LM_Options:SetSpellFlagBit(spellid, flagbit)
+        LM_Options:ClearSpellFlagBit(spellid, self.flagbit)
     end
 end
 
@@ -25,6 +27,11 @@ local function CreateMoreButtons(self)
 
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
+        b.bit1.flagbit = LM_FLAG_BIT_WALK
+        b.bit2.flagbit = LM_FLAG_BIT_FLY
+        b.bit3.flagbit = LM_FLAG_BIT_SWIM
+        b.bit4.flagbit = LM_FLAG_BIT_AQ
+        b.bit5.flagbit = LM_FLAG_BIT_VASHJIR
         b.enabled.dependentControls = { b.bit1, b.bit2, b.bit3, b.bit4, b.bit5 }
     end
 end
@@ -37,32 +44,34 @@ local function EnableDisableSpell(spellid, onoff)
     end
 end
 
+local function BitButtonUpdate(checkButton, mount)
+    local flags = mount:Flags()
+    local defflags = mount:DefaultFlags()
+
+    local checked = bit.band(flags, checkButton.flagbit) == checkButton.flagbit
+    checkButton:SetChecked(checked)
+
+    if flags == defflags then
+        checkButton:GetNormalTexture():SetVertexColor(1.0, 1.0, 1.0)
+        checkButton:GetPushedTexture():SetVertexColor(1.0, 1.0, 1.0)
+        checkButton:GetDisabledTexture():SetVertexColor(1.0, 1.0, 1.0)
+    else
+        checkButton:GetNormalTexture():SetVertexColor(1.0, 0.7, 0.7)
+        checkButton:GetPushedTexture():SetVertexColor(1.0, 0.7, 0.7)
+        checkButton:GetDisabledTexture():SetVertexColor(1.0, 0.7, 0.7)
+    end
+end
+
 local function UpdateMountButton(button, mount)
     button.icon:SetTexture(mount:Icon())
     button.name:SetText(mount:Name())
     button.spellid = mount:SpellId()
 
-    button.bit1:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_WALK) == LM_FLAG_BIT_WALK)
-    button.bit2:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_FLY) == LM_FLAG_BIT_FLY)
-    button.bit3:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_SWIM) == LM_FLAG_BIT_SWIM)
-    button.bit4:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_AQ) == LM_FLAG_BIT_AQ)
-    button.bit5:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_VASHJIR) == LM_FLAG_BIT_VASHJIR)
-
-    b.bit1.setFunc = function(setting)
-            EnableDisableFlag(button.spellid, LM_FLAG_BIT_WALK, setting)
-        end
-    b.bit2.setFunc = function(setting)
-            EnableDisableFlag(button.spellid, LM_FLAG_BIT_FLY, setting)
-        end
-    b.bit3.setFunc = function(setting)
-            EnableDisableFlag(button.spellid, LM_FLAG_BIT_SWIM, setting)
-        end
-    b.bit4.setFunc = function(setting)
-            EnableDisableFlag(button.spellid, LM_FLAG_BIT_AQ, setting)
-        end
-    b.bit5.setFunc = function(setting)
-            EnableDisableFlag(button.spellid, LM_FLAG_BIT_VASHJIR, setting)
-        end
+    BitButtonUpdate(button.bit1, mount)
+    BitButtonUpdate(button.bit2, mount)
+    BitButtonUpdate(button.bit3, mount)
+    BitButtonUpdate(button.bit4, mount)
+    BitButtonUpdate(button.bit5, mount)
 
     if LM_Options:IsExcludedSpell(button.spellid) then
         button.enabled:SetChecked(false)

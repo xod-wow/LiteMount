@@ -1,6 +1,21 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
 
-<CheckButton name="LiteMountOptionsBitTemplate" inherits="OptionsBaseCheckButtonTemplate" virtual="true">
+<!--
+    See OptionsBaseCheckButtonTemplate in FrameXML/OptionsPanelTemplates.xml
+    We don't use it directly because of the hitrect crap we don't want.
+ -->
+<CheckButton name="LiteMountOptionsBitTemplate" virtual="true">
+    <Size x="26" y="26" />
+    <Scripts>
+        <OnClick>
+            LiteMountOptionsBit_OnClick(self)
+        </OnClick>
+    </Scripts>
+    <NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
+    <PushedTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Down"/>
+    <HighlightTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+    <CheckedTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Check"/>
+    <DisabledCheckedTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
 </CheckButton>
 
 <Button name="LiteMountOptionsButtonTemplate" virtual="true">
@@ -23,7 +38,7 @@
     </Scripts>
 
     <Frames>
-        <CheckButton name="$parentCheck" inherits="OptionsBaseCheckButtonTemplate" parentKey="enabled">
+        <CheckButton name="$parentEnabled" inherits="OptionsBaseCheckButtonTemplate" parentKey="enabled">
             <Size x="32" y="32" />
             <Anchors>
                 <Anchor point="LEFT" x="2" />
@@ -65,7 +80,7 @@
             <Texture name="$parentIcon" parentKey="icon">
                 <Size x="36" y="36" />
                 <Anchors>
-                    <Anchor point="LEFT" relativeTo="$parentCheck" relativePoint="RIGHT" x="2" />
+                    <Anchor point="LEFT" relativeTo="$parentEnabled" relativePoint="RIGHT" x="2" />
                 </Anchors>
             </Texture>
             <FontString name="$parentName" inherits="GameFontNormal" justifyH="LEFT" parentKey="name">
