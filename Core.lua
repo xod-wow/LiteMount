@@ -13,7 +13,6 @@ local MACRO_DISMOUNT_CANCELFORM = "/dismount\n/cancelform"
 
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
-LiteMount.ml = LM_MountList:new()
 
 local RescanEvents = {
     -- Companion change
@@ -29,6 +28,7 @@ function LiteMount:Initialize()
     LM_Debug("Initialize")
 
     LM_Options:Initialize()
+    LM_MountList:Initialize()
 
     self.needscan = true
 
@@ -66,14 +66,14 @@ end
 function LiteMount:ScanMounts()
     if not self.needscan then return end
     LM_Debug("Rescanning list of mounts.")
-    self.ml:ScanMounts()
+    LM_MountList:ScanMounts()
     self.needscan = nil
 end
 
 function LiteMount:GetAllMounts()
-    if not self.ml then return {} end
+    if not LM_MountList then return {} end
     self:ScanMounts()
-    local allmounts = self.ml:GetMounts()
+    local allmounts = LM_MountList:GetMounts()
     table.sort(allmounts, function(a,b) return a:Name() < b:Name() end)
     return allmounts
 end
@@ -156,24 +156,24 @@ function LiteMount:PreClick()
     local m
 
     if not m and LM_Location:CanFly() then
-        m = self.ml:GetRandomFlyingMount()
+        m = LM_MountList:GetRandomFlyingMount()
     end
 
     if not m and LM_Location:IsVashjir() then
-        m = self.ml:GetRandomVashjirMount()
+        m = LM_MountList:GetRandomVashjirMount()
     end
 
     if not m and LM_Location:CanSwim() then
-        m = self.ml:GetRandomSwimmingMount()
+        m = LM_MountList:GetRandomSwimmingMount()
     end
 
     if not m and LM_Location:IsAQ() then
-        m = self.ml:GetRandomAQMount()
+        m = LM_MountList:GetRandomAQMount()
     end
 
     if not m and LM_Location:CanWalk() then
-        m = self.ml:GetRandomWalkingMount()
-                or self.ml:GetRandomSlowWalkingMount()
+        m = LM_MountList:GetRandomWalkingMount()
+                or LM_MountList:GetRandomSlowWalkingMount()
     end
 
     if m then

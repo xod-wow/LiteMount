@@ -7,7 +7,10 @@
 ----------------------------------------------------------------------------]]--
 
 LM_MountList = { }
-LM_MountList.__index = LM_MountList
+
+function LM_MountList:Initialize()
+    self.byname = { }
+end
 
 function LM_MountList:AddCompanionMounts()
     for i = 1,GetNumCompanions("MOUNT") do
@@ -49,13 +52,6 @@ function LM_MountList:AddItemMounts()
             end
         end
     end
-end
-
-function LM_MountList:new()
-    local ml = setmetatable({ }, LM_MountList)
-    ml.byname = { }
-    ml.excludedSpellIds = { }
-    return ml
 end
 
 function LM_MountList:ScanMounts()
