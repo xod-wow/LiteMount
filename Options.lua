@@ -97,15 +97,9 @@ function LM_Options:ApplySpellFlags(id, flags)
 
     if not ov then return flags end
 
-    LM_Debug("Overriding flags for spell " .. id)
-    LM_Debug(string.format("  Originally: %x", flags))
-    LM_Debug(string.format("    Set bits: %x", ov[1]))
-    LM_Debug(string.format("  Clear bits: %x", ov[2]))
-
     flags = bit.bor(flags, ov[1])
     flags = bit.band(flags, bit.bnot(ov[2]))
 
-    LM_Debug(string.format("      Result: %x", flags))
     return flags
 end
 
