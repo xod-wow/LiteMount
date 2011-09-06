@@ -7,14 +7,15 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LiteMountOptionsBit_OnClick(checkButton)
+function LiteMountOptionsBit_OnClick(self)
     local spellid = self:GetParent().spellid
 
     if self:GetChecked() then
-        LM_Options:SetSpellFlagBit(spellid, self.flagbit)
+        LM_Options:SetSpellFlagBit(spellid, self.defflags, self.flagbit)
     else
-        LM_Options:ClearSpellFlagBit(spellid, self.flagbit)
+        LM_Options:ClearSpellFlagBit(spellid, self.defflags, self.flagbit)
     end
+    LiteMountOptions_UpdateMountList()
 end
 
 -- Because we get attached inside the blizzard options container, we
@@ -51,14 +52,14 @@ local function BitButtonUpdate(checkButton, mount)
     local checked = bit.band(flags, checkButton.flagbit) == checkButton.flagbit
     checkButton:SetChecked(checked)
 
-    if flags == defflags then
+    checkButton.defflags = defflags
+
+    if bit.band(flags, checkButton.flagbit) == bit.band(defflags, checkButton.flagbit) then
         checkButton:GetNormalTexture():SetVertexColor(1.0, 1.0, 1.0)
         checkButton:GetPushedTexture():SetVertexColor(1.0, 1.0, 1.0)
-        checkButton:GetDisabledTexture():SetVertexColor(1.0, 1.0, 1.0)
     else
-        checkButton:GetNormalTexture():SetVertexColor(1.0, 0.7, 0.7)
-        checkButton:GetPushedTexture():SetVertexColor(1.0, 0.7, 0.7)
-        checkButton:GetDisabledTexture():SetVertexColor(1.0, 0.7, 0.7)
+        checkButton:GetNormalTexture():SetVertexColor(1.0, 0.0, 0.0)
+        checkButton:GetPushedTexture():SetVertexColor(1.0, 0.0, 0.0)
     end
 end
 

@@ -97,24 +97,34 @@ function LM_Options:ApplySpellFlags(id, flags)
 
     if not ov then return flags end
 
+    LM_Debug("Overriding flags for spell " .. id)
+    LM_Debug(string.format("  Originally: %x", flags))
+    LM_Debug(string.format("    Set bits: %x", ov[1]))
+    LM_Debug(string.format("  Clear bits: %x", ov[2]))
+
     flags = bit.bor(flags, ov[1])
     flags = bit.band(flags, bit.bnot(ov[2]))
 
+    LM_Debug(string.format("      Result: %x", flags))
     return flags
 end
 
-function LM_Options:SetSpellFlagBit(id, flagbit)
+function LM_Options:SetSpellFlagBit(id, origflags, flagbit)
     LM_Debug(string.format("Setting flag bit %d for spell %s (%d).",
                            flagbit, GetSpellInfo(id), id))
 
-    self.flagoverrides[id][1] = bit.bor(self.flagoverrides[id][1], flagbit)
+    local newflags = self:ApplySpellFlags(id, origflags)
+    newflags = bit.bor(newflags, flagbit)
+    LM_Options:SetSpellFlags(id, origflags, newflags)
 end
 
-function LM_Options:ClearSpellFlagBit(id, flagbit)
+function LM_Options:ClearSpellFlagBit(id, origflags, flagbit)
     LM_Debug(string.format("Clearing flag bit %d for spell %s (%d).",
                            flagbit, GetSpellInfo(id), id))
 
-    self.flagoverrides[id][2] = bit.bor(self.flagoverrides[id][2], flagbit)
+    local newflags = self:ApplySpellFlags(id, origflags)
+    newflags = bit.band(newflags, bit.bnot(flagbit))
+    LM_Options:SetSpellFlags(id, origflags, newflags)
 end
 
 function LM_Options:ResetSpellFlags(id)
