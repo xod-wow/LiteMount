@@ -7,6 +7,13 @@
 
 ----------------------------------------------------------------------------]]--
 
+local function EnableDisableFlag(spellid, flagbit, onoff)
+    if onoff == "0" then
+        LM_Options:ClearSpellFlagBit(spellid, flagbit)
+    else
+        LM_Options:SetSpellFlagBit(spellid, flagbit)
+    end
+end
 
 -- Because we get attached inside the blizzard options container, we
 -- are size 0x0 on create and even after OnShow, we have to trap
@@ -18,6 +25,7 @@ local function CreateMoreButtons(self)
 
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
+        b.enabled.dependentControls = { b.bit1, b.bit2, b.bit3, b.bit4, b.bit5 }
     end
 end
 
@@ -35,19 +43,26 @@ local function UpdateMountButton(button, mount)
     button.spellid = mount:SpellId()
 
     button.bit1:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_WALK) == LM_FLAG_BIT_WALK)
-    button.bit1:Disable()
-
     button.bit2:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_FLY) == LM_FLAG_BIT_FLY)
-    button.bit2:Disable()
-
     button.bit3:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_SWIM) == LM_FLAG_BIT_SWIM)
-    button.bit3:Disable()
-
     button.bit4:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_AQ) == LM_FLAG_BIT_AQ)
-    button.bit4:Disable()
-
     button.bit5:SetChecked(bit.band(mount:Flags(), LM_FLAG_BIT_VASHJIR) == LM_FLAG_BIT_VASHJIR)
-    button.bit5:Disable()
+
+    b.bit1.setFunc = function(setting)
+            EnableDisableFlag(button.spellid, LM_FLAG_BIT_WALK, setting)
+        end
+    b.bit2.setFunc = function(setting)
+            EnableDisableFlag(button.spellid, LM_FLAG_BIT_FLY, setting)
+        end
+    b.bit3.setFunc = function(setting)
+            EnableDisableFlag(button.spellid, LM_FLAG_BIT_SWIM, setting)
+        end
+    b.bit4.setFunc = function(setting)
+            EnableDisableFlag(button.spellid, LM_FLAG_BIT_AQ, setting)
+        end
+    b.bit5.setFunc = function(setting)
+            EnableDisableFlag(button.spellid, LM_FLAG_BIT_VASHJIR, setting)
+        end
 
     if LM_Options:IsExcludedSpell(button.spellid) then
         button.enabled:SetChecked(false)
@@ -99,7 +114,6 @@ function LiteMountOptionsScrollFrame_OnSizeChanged(self, w, h)
 
     self.stepSize = self.buttonHeight
     self.update = LiteMountOptions_UpdateMountList
-
 end
 
 function LiteMountOptions_OnLoad(self)
@@ -120,7 +134,6 @@ end
 
 
 function LiteMountOptions_OnShow(self)
-    CreateMoreButtons(self.scrollFrame)
     LiteMountOptions_UpdateMountList()
 end
 
