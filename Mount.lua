@@ -86,7 +86,6 @@ function LM_Mount:GetMountByItem(itemId)
     m.flags = 0
     m.casttime = si[7]
     m:FixupFlags()
-    m.defaultflags = m.flags
 
     self.CacheByItemId[itemId] = m
     self.CacheByName[m.name] = m
@@ -116,7 +115,6 @@ function LM_Mount:GetMountBySpell(spellId)
     m.flags = 0
     m.casttime = si[7]
     m:FixupFlags()
-    m.defaultflags = m.flags
 
     self.CacheByName[m.name] = m
     self.CacheBySpellId[m.spellid] = m
@@ -149,7 +147,6 @@ function LM_Mount:GetMountByIndex(mountIndex)
     m.casttime = si[7]
 
     m:FixupFlags()
-    m.defaultflags = m.flags
 
     self.CacheByName[m.name] = m
     self.CacheBySpellId[m.spellid] = m
@@ -178,31 +175,31 @@ function LM_Mount:Name()
 end
 
 function LM_Mount:DefaultFlags()
-    return self.defaultflags
-end
-
-function LM_Mount:Flags()
     return self.flags
 end
 
+function LM_Mount:Flags()
+    return LM_Options:ApplySpellFlags(self.spellid, self.flags)
+end
+
 function LM_Mount:CanFly()
-    return bit.band(self.flags, LM_FLAG_BIT_FLY)
+    return bit.band(self:Flags(), LM_FLAG_BIT_FLY)
 end
 
 function LM_Mount:CanWalk()
-    return bit.band(self.flags, LM_FLAG_BIT_WALK)
+    return bit.band(self:Flags(), LM_FLAG_BIT_WALK)
 end
 
 function LM_Mount:CanSlowWalk()
-    return bit.band(self.flags, LM_FLAG_BIT_SLOWWALK)
+    return bit.band(self:Flags(), LM_FLAG_BIT_SLOWWALK)
 end
 
 function LM_Mount:CanFloat()
-    return bit.band(self.flags, LM_FLAG_BIT_FLOAT)
+    return bit.band(self:Flags(), LM_FLAG_BIT_FLOAT)
 end
 
 function LM_Mount:CanSwim()
-    return bit.band(self.flags, LM_FLAG_BIT_SWIM)
+    return bit.band(self:Flags(), LM_FLAG_BIT_SWIM)
 end
 
 function LM_Mount:CastTime()
@@ -230,5 +227,6 @@ function LM_Mount:SetupActionButton(button)
 end
 
 function LM_Mount:Dump()
-    LM_Print(string.format("%s %d %02x", self.name, self.spellid, self.flags))
+    LM_Print(string.format("%s %d %02x (%02x)",
+             self.name, self.spellid, self:Flags(), self.flags))
 end

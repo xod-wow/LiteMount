@@ -6,6 +6,26 @@
 
 ----------------------------------------------------------------------------]]--
 
+--[[
+
+excludedspells is a list of spell ids the player has disabled
+    ["excludedspells"] = { spellid1, spellid2, spellid3, ... }
+  
+flagoverrides is a table of tuples with bits to set and clear.
+    ["flagoverrides"] = {
+        ["spellid"] = { bits_to_set, bits_to_clear },
+        ...
+    }
+
+The modified mount flags are then:
+    ( flags | bits_to_set ) & !bits_to_clear
+
+The reason to do it this way instead of just storing the xor is that
+the default flags might change and we don't want the override to suddenly
+go from disabling somthing to enabling it.
+
+]]--
+
 local Default_LM_OptionsDB = {
     ["excludedspells"] = { },
     ["flagoverrides"]  = { },
@@ -72,59 +92,53 @@ end
    Mount flag overrides stuff
 ----------------------------------------------------------------------------]]--
 
-function LM_Options:SaveMountFlags(mount, flags)
-    local id = mount:SpellId()
+function LM_Options:ApplySpellFlags(id, flags)
+    local ov = self.flagoverrides[id]
+
+    if not ov then return flags end
+
+    flags = bit.bor(flags, ov[1])
+    flags = bit.band(flags, bit.bnot(ov[2]))
+
+    return flags
+end
+
+function LM_Options:SetSpellFlagBit(id, flagbit)
+    LM_Debug(string.format("Setting flag bit %d for spell %s (%d).",
+                           flagbit, GetSpellInfo(id), id))
+
+    self.flagoverrides[id][1] = bit.bor(self.flagoverrides[id][1], flagbit)
+end
+
+function LM_Options:ClearSpellFlagBit(id, flagbit)
+    LM_Debug(string.format("Clearing flag bit %d for spell %s (%d).",
+                           flagbit, GetSpellInfo(id), id))
+
+    self.flagoverrides[id][2] = bit.bor(self.flagoverrides[id][2], flagbit)
+end
+
+function LM_Options:ResetSpellFlags(id)
+    LM_Debug(string.format("Defaulting flags for spell %s (%d).",
+                           GetSpellInfo(id), id))
+
+    self.flagoverrides[id] = nil
+end
+
+function LM_Options:SetSpellFlags(id, origflags, newflags)
+
+    if origflags == newflags then
+        self:ResetSpellFlags(id)
+        return
+    end
 
     if not self.flagoverrides[id] then
         self.flagoverrides[id] = { 0, 0 }
     end
 
-    local def = mount:GetDefaultFlags()
-    local cur = mount:GetFlags()
-
-    local toset = bit.band(bit.bxor(def, cur), cur)
-    local toclear = bit.band(bit.bxor(def, cur), bit.bnot(cur))
+    local toset = bit.band(bit.bxor(origflags, newflags), newflags)
+    local toclear = bit.band(bit.bxor(origflags, newflags), bit.bnot(newflags))
 
     self.flagoverrides[id][1] = toset
     self.flagoverrides[id][2] = toclear
-end
-
-function LM_Options:ModFlags(mount)
-    local id = mount:SpellId()
-    local flags = mount:DefaultFlags()
-
-    local ov = self.flagoverrides[id]
-
-
-    if not ov then return flags end
-
-    flags = bit.bor(flags, ov[1])
-    flags = bit.band(flags, bit.bnot(ov[1]))
-
-    return flags
-end
-
-function LM_Options:SetMountFlagBit(mount, flag)
-    LM_Debug(string.format("Setting flag bit %d for spell %s (%d).",
-                           flag, GetSpellInfo(id), id))
-
-    local newflags = bit.bor(mount:Flags(), flag)
-    LM_Options:SaveMountFlags(mount, newflags)
-end
-
-function LM_Options:ClearMountFlagBit(mount, flag)
-    LM_Debug(string.format("Clearing flag bit %d for spell %s (%d).",
-                           flag, GetSpellInfo(id), id))
-
-    local newflags = bit.band(mount:Flags(), bit.bnot(flag))
-    LM_Options:SaveMountFlags(mount, newflags)
-end
-
-function LM_Options:ResetMountFlags(mount)
-    LM_Debug(string.format("Defaulting flag bit %d for spell %s (%d).",
-                           flag, GetSpellInfo(id), id))
-
-    local newflags = mount:DefaultFlags()
-    LM_Options:SaveMountFlags(mount, newflags)
 end
 
