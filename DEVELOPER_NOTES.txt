@@ -66,3 +66,94 @@ Notes To Myself
     never returns true for mount spells.
 
 
+------------------------------------------------------------------------------
+* Code documentation.
+
+    Utility stuff:
+        * Print.lua
+            LM_Print(msg) -- prints into current active chat frame
+            LM_SetDebug(onoff) -- turn debugging on/off
+            LM_Debug(msg) -- prints a debug message if debugging is on
+            LM_Warning(msg) -- print a msg into the UIErrorsFrame
+        * AutoEventFrame.lua
+            LM_CreateAutoEventFrame(frameType, ...)
+                * takes the same args as CreateFrame
+                * Adds an OnEvent handler that calls a function named
+                  for the event. E.g., MyFrame:PLAYER_LOGIN().
+
+    Macro stuff:
+        * Macro.lua
+            Standalone code that just creates a macro to click our button.
+
+    Keybinding stuff:
+        * KeyBindingStrings.lua
+            Globals for the menu entries in the blizz key menu.
+
+    Querying stuff:
+        * Location.lua
+            LM_Location:CanFly()
+            LM_Location:CanWalk()
+            LM_Location:CanSwim()
+            LM_Location:CanFloat()
+            LM_Location:IsAQ()
+            LM_Location:IsVashjir()
+        * MountItem.lua
+            LM_MountItem:HasItem(itemId)
+            LM_MountItem:IsUsable(itemId)
+        * MountSpell.lua
+            LM_MountSpell:IsKnown(spellId)
+
+    Options stuff:
+        * Options.lua
+            LM_Options:Initialize()
+
+            LM_Options:AddExcludedSpell(spellId)
+            LM_Options:RemoveExcludedSpell(spellId)
+            LM_Options:SetExcludedSpells(spellIdList)
+            LM_Options:IsExcludedSpell(spellId)
+
+            LM_Options:SetSpellFlagBit(spellId, flagbit)
+            LM_Options:ClearSpellFlagBit(spellId, flagbit)
+            LM_Options:ResetSpellFlags(spellId)
+            LM_Options:ApplySpellFlags(spellId, default_flags)
+
+        * UIOptionsFrame.xml / UIOptionsFrame.lua
+            Here be dragons. UI to twiddle settings in LM_Options.
+
+    Main stuff:
+        * Mount.lua
+            Class representing one mount.
+
+            m = LM_Mount:GetMountByItemId(itemId)
+            m = LM_Mount:GetMountBySpell(spellId)
+            m = LM_Mount:GetMountByIndex(mountCompanionIndex)
+
+            m:SpellId() / m:Icon() / m:Name()
+            m:CanFly() / m:CanWalk() / m:CanSwim()
+            m:Usable()
+            m:Flags() / m:DefaultFlags()
+                Flags call does LM_Options:ApplySpellFlags for you.
+            m:SetupActionButton(button)
+                Sets attributes on a SecureActionButton to summon this mount.
+        * MountList.lua
+            All mounts the player knows.
+
+            LM_MountList:Initialize()
+            LM_MountList:ScanMounts()
+
+            mountlist = LM_MountList:GetMounts(flags)
+                * returns all mounts if flags = nil
+
+            m = LM_MountList:GetRandomUsableMount(flags)
+                LM_MountList:GetRandomFlyingMount()
+                LM_MountList:GetRandomWalkingMount()
+                LM_MountList:GetRandomSlowWalkingMount()
+                LM_MountList:GetRandomSwimmingMount()
+                LM_MountList:GetRandomAQMount()
+                LM_MountList:GetRandomVashjirMount()
+            All the above calls don't return mounts for which
+            LM_Options:IsExcludedSpell() is true.
+        * Core.lua
+            All the core logic for initialization and then actually
+            picking a mount and summoning it.
+            activiting it 
