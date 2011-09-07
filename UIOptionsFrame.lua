@@ -33,7 +33,6 @@ local function CreateMoreButtons(self)
         b.bit3.flagbit = LM_FLAG_BIT_SWIM
         b.bit4.flagbit = LM_FLAG_BIT_AQ
         b.bit5.flagbit = LM_FLAG_BIT_VASHJIR
-        b.enabled.dependentControls = { b.bit1, b.bit2, b.bit3, b.bit4, b.bit5 }
     end
 end
 
@@ -99,6 +98,15 @@ function LiteMountOptions_UpdateMountList()
     if not buttons then return end
 
     mounts = LiteMount:GetAllMounts()
+
+    local filter = string.lower(self.filter:GetText())
+    if filter ~= "" then
+        for i = #mounts, 1, -1 do
+            if not string.find(string.lower(mounts[i]:Name()), filter) then
+                table.remove(mounts, i)
+            end
+        end
+    end
 
     for i = 1, #buttons do
         local button = buttons[i]

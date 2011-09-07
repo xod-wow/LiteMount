@@ -114,13 +114,18 @@
         </ScrollFrame>
 
         <EditBox name="$parentFilterBox" autofocus="false" inherits="InputBoxTemplate" parentKey="filter">
-            <Size x="140" y="26" />
+            <Size x="140" y="28" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" y="-2" />
+                <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="76" y="2" />
             </Anchors>
+            <Scripts>
+                <OnTextChanged>
+                    LiteMountOptions_UpdateMountList()
+                </OnTextChanged>
+            </Scripts>
         </EditBox>
         <Button name="$parentFilterResetButton" inherits="UIPanelButtonTemplate" text="Clear">
-            <Size y="26" />
+            <Size x="48" y="24" />
             <Anchors>
                 <Anchor point="LEFT" relativeTo="$parentFilterBox" relativePoint="RIGHT" x="4" />
             </Anchors>
