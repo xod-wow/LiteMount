@@ -16,6 +16,27 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
+* Better default dismount macro
+
+    Can we do something like this?
+
+    /cancelform [form:2/4] -- druid, shaman is [form:1]
+    /run if IsMounted() then Dismount() end
+    /run if CanExitVehicle() then VehicleExit() end
+
+    According to WoWWiki Dismount() and VehicleExit() aren't protected
+    but CancelShapeshiftForm() is.
+
+
+------------------------------------------------------------------------------
+* Possible UI Improvements
+
+    Have a text substring search box for filtering. And a clear button for it.
+    If the mount list is filtered, make this obvious somehow.
+    Have an enable/disable all button. Have it apply only to the current match.
+
+
+------------------------------------------------------------------------------
 * "Dragonwrath, Tarecgosa's Rest" (71086)
 
     Item ID 71076.  Spell ID is 101641 (Tarecgosa's Visage)
