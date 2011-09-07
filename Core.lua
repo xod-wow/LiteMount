@@ -185,6 +185,9 @@ function LiteMount:PreClick()
         m:SetupActionButton(self)
         return
     else
+        -- This isn't a great message, but there isn't a better one that
+        -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
+        -- LM_Warning("You don't know any mounts you can use right now.")
         LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
     end
 
