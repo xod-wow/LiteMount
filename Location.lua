@@ -52,9 +52,7 @@ function LM_Location:WORLD_MAP_UPDATE()
 end
 
 function LM_Location:CanFly()
-    -- Need some IsMoving() tests?
     return IsUsableSpell(CAN_FLY_IF_USABLE_SPELL)
-    -- return IsOutdoors() and IsFlyableArea()
 end
 
 function LM_Location:CanWalk()
@@ -77,7 +75,6 @@ function LM_Location:GetId()
 end
 
 function LM_Location:IsAQ()
-    -- 766 is probably not right for temple of AQ
     if self.areaid == 766 then return 1 end
 end
 

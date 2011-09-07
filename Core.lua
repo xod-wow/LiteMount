@@ -30,6 +30,10 @@ function LiteMount:Initialize()
     LM_Options:Initialize()
     LM_MountList:Initialize()
 
+    -- Delayed scanning does two things. It stops us rescanning unecessarily,
+    -- but more importantly it prevents a weird situation on loading where
+    -- the scan errors because GetCompanionInfo("MOUNT", i) fails for some
+    -- i < GetNumCompanions("MOUNT").
     self.needscan = true
 
     SLASH_LiteMount1 = "/lm"
