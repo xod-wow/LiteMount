@@ -16,6 +16,11 @@
     <HighlightTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
     <CheckedTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Check"/>
     <DisabledCheckedTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+    <Layer level="BACKGROUND">
+        <Texture alphaMode="ADD" setAllPoints="true" hidden="true" parentKey="modified">
+            <Color r="1.0" g="0.0" b="0.0" />
+        </Texture>
+    </Layer>
 </CheckButton>
 
 <Button name="LiteMountOptionsButtonTemplate" virtual="true">

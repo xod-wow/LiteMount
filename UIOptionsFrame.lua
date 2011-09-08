@@ -55,9 +55,9 @@ local function BitButtonUpdate(checkButton, mount)
 
     -- If we changed this from the default then color the background
     if bit.band(flags, checkButton.flagbit) == bit.band(defflags, checkButton.flagbit) then
-        checkButton:SetBackdropColor(1.0, 0.5, 0.0)
+        checkButton.modified:Hide()
     else
-        checkButton:SetBackdropColor(1.0, 1.0, 1.0)
+        checkButton.modified:Show()
     end
 end
 
