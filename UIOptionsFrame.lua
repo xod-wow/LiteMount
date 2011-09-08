@@ -99,10 +99,11 @@ function LiteMountOptions_UpdateMountList()
 
     mounts = LiteMount:GetAllMounts()
 
-    local filter = string.lower(self.filter:GetText())
-    if filter ~= "" then
+    local filtertext = string.lower(self.filter:GetText())
+    if filtertext == FILTER then filtertext = "" end
+    if filtertext ~= "" then
         for i = #mounts, 1, -1 do
-            if not string.find(string.lower(mounts[i]:Name()), filter) then
+            if not string.find(string.lower(mounts[i]:Name()), filtertext) then
                 table.remove(mounts, i)
             end
         end
