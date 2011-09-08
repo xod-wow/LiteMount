@@ -16,11 +16,17 @@
     <HighlightTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
     <CheckedTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Check"/>
     <DisabledCheckedTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
-    <Layer level="BACKGROUND">
-        <Texture alphaMode="ADD" setAllPoints="true" hidden="true" parentKey="modified">
-            <Color r="1.0" g="0.0" b="0.0" />
-        </Texture>
-    </Layer>
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture name="$parentModified" alphaMode="ADD" hidden="true" parentKey="modified">
+                <Color r="0.5" g="0.0" b="0.0" />
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="5" y="-5" />
+                    <Anchor point="BOTTOMRIGHT" x="-6" y="6" />
+                </Anchors>
+            </Texture>
+        </Layer>
+    </Layers>
 </CheckButton>
 
 <Button name="LiteMountOptionsButtonTemplate" virtual="true">
@@ -119,7 +125,7 @@
         </ScrollFrame>
 
         <EditBox name="$parentFilter" autofocus="false" inherits="InputBoxTemplate" parentKey="filter">
-            <Size x="140" y="20" />
+            <Size x="140" y="26" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="76" y="2" />
             </Anchors>
@@ -145,14 +151,15 @@
         </EditBox>
 
         <Button name="$parentFilterResetButton">
-            <Size x="39" y="39" />
+            <Size x="36" y="36" />
             <Anchors>
-                <Anchor point="LEFT" relativeTo="$parentFilterBox" relativePoint="RIGHT" x="4" />
+                <Anchor point="LEFT" relativeTo="$parentFilter" relativePoint="RIGHT" />
             </Anchors>
             <Scripts>
                 <OnClick>
                     local f = self:GetParent().filter
                     f:HighlightText(0, 0)
+                    f:ClearFocus()
                     f:SetText(FILTER)
                 </OnClick>
             </Scripts>
