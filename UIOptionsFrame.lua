@@ -142,9 +142,13 @@ function LiteMountOptions_OnLoad(self)
     CreateMoreButtons(self.scrollFrame)
 
     self.name = "LiteMount " .. GetAddOnMetadata("LiteMount", "Version")
-    self.okay = function (self) end
-    self.cancel = function (self) end
-
+    self.default = function ()
+            for _,m in LiteMount:GetAllMounts() do
+                LM_Options:ResetSpellFlags(m:SpellId())
+            end
+            LM_Options:SetExcludedSpells({})
+            LiteMountOptions_UpdateMountList()
+        end
     self.title:SetText(self.name)
 
     InterfaceOptions_AddCategory(self)
