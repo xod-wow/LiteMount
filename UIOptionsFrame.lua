@@ -145,7 +145,12 @@ function LiteMountOptions_OnLoad(self)
     -- Because we're the wrong size at the moment we'll only have 1 button
     CreateMoreButtons(self.scrollFrame)
 
-    self.name = "LiteMount " .. GetAddOnMetadata("LiteMount", "Version")
+    local version = GetAddonMetadata("LiteMount", "Version")
+    if string.find(version, "project-version") then
+        version = "Developer Version"
+    end
+
+    self.name = "LiteMount " .. version
     self.default = function ()
             for _,m in LiteMount:GetAllMounts() do
                 LM_Options:ResetSpellFlags(m:SpellId())

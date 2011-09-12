@@ -1,6 +1,6 @@
 ## Interface: 40200
 ## Title: LiteMount
-## Version: 4.2.2
+## Version: @project-version@
 ## Author: Xodiv of Proudmoore
 ## Email: mib@post.com
 ## SavedVariablesPerCharacter: LM_OptionsDB
