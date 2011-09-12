@@ -183,4 +183,3 @@ Notes To Myself
         * Core.lua
             All the core logic for initialization and then actually
             picking a mount and summoning it.
-            activiting it 
