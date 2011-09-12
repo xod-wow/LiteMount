@@ -31,15 +31,13 @@ Notes To Myself
 ------------------------------------------------------------------------------
 * Possible UI Improvements
 
-    Have a text substring search box for filtering. And a clear button for it.
-    If the mount list is filtered, make this obvious somehow.
     Have an enable/disable all button. Have it apply only to the current match.
-
+    Localize the Fly/Walk/Swim texts.
 
 ------------------------------------------------------------------------------
 * "Dragonwrath, Tarecgosa's Rest" (71086)
 
-    Item ID 71076.  Spell ID is 101641 (Tarecgosa's Visage)
+    Item ID 71086.  Spell ID is 101641 (Tarecgosa's Visage)
 
     What do IsSpellKnown and IsUsableSpell return on the Spell ID if
     you have it equipped/not equipped?
