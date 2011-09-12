@@ -127,7 +127,7 @@
         <EditBox name="$parentFilter" autofocus="false" inherits="InputBoxTemplate" parentKey="filter">
             <Size x="140" y="26" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="76" y="2" />
+                <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="96" y="2" />
             </Anchors>
             <Scripts>
                 <OnShow>
@@ -153,7 +153,9 @@
         <Button name="$parentFilterResetButton">
             <Size x="36" y="36" />
             <Anchors>
-                <Anchor point="LEFT" relativeTo="$parentFilter" relativePoint="RIGHT" />
+                <Anchor point="LEFT" relativeTo="$parentFilter" relativePoint="RIGHT">
+                    <Offset x="-2" y="-2" />
+                </Anchor>
             </Anchors>
             <Scripts>
                 <OnClick>
@@ -194,11 +196,6 @@
                     <Anchor point="TOPLEFT" x="16" y="-16" />
                 </Anchors>
             </Fontstring>
-<!--
-            <FontString inherits="GameFontNormal" text="Options panel is a work in progress and doesn't do anything yet.">
-                <Anchors><Anchor point="CENTER" /></Anchors>
-            </FontString>
--->
             <FontString name="$parentBit1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Run">
                 <Size x="26" y="26" />
                 <Anchors>
