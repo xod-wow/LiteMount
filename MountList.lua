@@ -23,7 +23,6 @@ end
 
 function LM_MountList:AddRacialMounts()
     for _,spellid in ipairs(LM_RACIAL_MOUNT_SPELLS) do
-        -- XXX FIXME XXX is IsKnown working here?
         if LM_MountSpell:IsKnown(spellid) then
             local m = LM_Mount:GetMountBySpell(spellid)
             if m then
