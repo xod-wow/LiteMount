@@ -145,8 +145,8 @@ function LiteMountOptions_OnLoad(self)
     -- Because we're the wrong size at the moment we'll only have 1 button
     CreateMoreButtons(self.scrollFrame)
 
-    local version = GetAddonMetadata("LiteMount", "Version")
-    if string.find(version, "project-version") then
+    local version = GetAddOnMetadata("LiteMount", "Version")
+    if string.find(version, "project.version") then
         version = "Developer Version"
     end
 
