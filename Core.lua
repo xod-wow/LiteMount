@@ -21,6 +21,8 @@ local RescanEvents = {
     "TRAINER_CLOSED",
     -- You might have learned instant ghost wolf
     "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE",
+    -- You might have received a mount item
+    "BAG_UPDATE"
 }
 
 function LiteMount:Initialize()
