@@ -16,6 +16,19 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
+* Flying mounts that can walk.
+
+    Since IsUsableSpell() correctly tells you whether you can use a flying
+    mount in a non-flying area, we don't actually need to unflag the ground
+    setting on flying mounts.  They'll get tested and excluded anyway.
+
+    Then again, I don't really like using flying mounts on the ground, since
+    there's already plenty of chance to see them and not much chance to see
+    your ground-only mounts.  And it makes the flags in the UI look weird.
+    The whole UI flag stuff was born out of trying to fix this stupidity.
+
+
+------------------------------------------------------------------------------
 * Better default dismount macro
 
     Can we do something like this?
