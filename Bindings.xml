@@ -8,7 +8,7 @@ LiteMount/KeyBindings.xml
 <Bindings>
 
     <Binding name="CLICK LiteMount:LeftButton" header="LITEMOUNT_TITLE">
-        -- Dummy for overriding with SetOverrideBindingClick()
+        -- Magic name causes it to click the LiteMount button with left mouse
     </Binding>
 
 </Bindings> 

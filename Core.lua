@@ -38,8 +38,8 @@ function LiteMount:Initialize()
     -- i < GetNumCompanions("MOUNT").
     self.needscan = true
 
-    SLASH_LiteMount1 = "/lm"
     SlashCmdList["LiteMount"] = function () InterfaceOptionsFrame_OpenToCategory(LiteMountOptions) end
+    SLASH_LiteMount1 = "/litemount"
 
     self.playerClass = select(2, UnitClass("player"))
 
