@@ -44,9 +44,9 @@ function LM_MountList:AddClassMounts()
 end
 
 function LM_MountList:AddItemMounts()
-    for _,itemid in ipairs(LM_ITEM_MOUNT_ITEMS) do
+    for itemid,spellid in pairs(LM_ITEM_MOUNT_ITEMS) do
         if LM_MountItem:HasItem(itemid) then
-            local m = LM_Mount:GetMountByItem(itemid)
+            local m = LM_Mount:GetMountByItem(itemid, spellid)
             if m then
                 self.byname[m.name] = m
             end

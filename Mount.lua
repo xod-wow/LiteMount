@@ -38,13 +38,14 @@ function LM_Mount:FixupFlags()
     end
 end
 
-function LM_Mount:GetMountByItem(itemId)
+function LM_Mount:GetMountByItem(itemId, spellId)
 
     if self.CacheByItemId[itemId] then
         return self.CacheByItemId[itemId]
     end
 
-    local m = LM_Mount:new()
+    local m = LM_Mount:GetMountBySpell(spellId)
+    if not m then return end
 
     local ii = { GetItemInfo(itemId) }
     if not ii[1] then
@@ -55,41 +56,7 @@ function LM_Mount:GetMountByItem(itemId)
     m.itemid = itemId
     m.itemname = ii[1]
 
-    m.spellname = GetItemSpell(itemId)
-    if not m.spellname then
-        LM_Debug("LM_Mount: Failed GetItemSpell #"..itemId)
-        return
-    end
-
-    local link = GetSpellLink(m.spellname)
-    if not link then
-        LM_Debug("LM_Mount: Failed GetSpellLink "..m.spellname)
-        return
-    end
-
-    -- At the moment excluding only works off spell ID. Usable items
-    -- do have spell IDs, but they're hard to get at.
-    m.spellid = string.find(link, "|Hspell:(%d+)|h")
-    if not m.spellid then
-        LM_Debug("LM_Mount: finding spell ID from link failed "..link)
-        return
-    end
-
-    local si = { GetSpellInfo(m.spellid) }
-    if not si[1] then
-        LM_Debug("LM_Mount: Failed GetSpellInfo #"..m.spellid)
-        return
-    end
-
-    m.name = si[1]
-    m.icon = si[3]
-    m.flags = 0
-    m.casttime = si[7]
-    m:FixupFlags()
-
     self.CacheByItemId[itemId] = m
-    self.CacheByName[m.name] = m
-    self.CacheBySpellId[m.spellid] = m
 
     return m
 end
