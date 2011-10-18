@@ -162,7 +162,7 @@ Notes To Myself
         * Mount.lua
             Class representing one mount.
 
-            m = LM_Mount:GetMountByItemId(itemId)
+            m = LM_Mount:GetMountByItemId(itemId, itemSpellId)
             m = LM_Mount:GetMountBySpell(spellId)
             m = LM_Mount:GetMountByIndex(mountCompanionIndex)
 
