@@ -58,9 +58,9 @@
                 <OnEnter>
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
                     if self:GetChecked() then
-                        GameTooltip:SetText("Click to disable this mount.", 1, 0, 0)
+                        GameTooltip:SetText(DISABLE, 1, 0, 0)
                     else
-                        GameTooltip:SetText("Click to enable this mount.", 0, 1, 0)
+                        GameTooltip:SetText(ENABLE, 0, 1, 0)
                     end
                 </OnEnter>
                 <OnLeave>
