@@ -16,6 +16,15 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
+* Better "undo".
+
+Might be able to set up the macro better for undoing in combat what we
+last did (mount -> dismount, form -> cancelform, aura -> cancelaura, etc.)
+by passing params between the PreClick handler and the PostClick handler
+as button attributes.
+
+
+------------------------------------------------------------------------------
 * Force non-flying?
 
     Should we have a separate binding to force non-flying mounts? Sometimes
