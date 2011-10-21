@@ -51,7 +51,7 @@ function LiteMount:Initialize()
     end
 
     -- Button-fu
-    self:RegisterForClicks("LeftButtonDown")
+    self:RegisterForClicks("AnyDown")
 
     -- SecureActionButton setup
     self:SetScript("PreClick", function () LiteMount:PreClick() end)
