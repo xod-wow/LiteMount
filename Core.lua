@@ -58,6 +58,7 @@ function LiteMount:Initialize()
     self:SetScript("PostClick", function () LiteMount:PostClick() end)
     self:SetAttribute("macrotext", self.defaultMacro)
     self:SetAttribute("type", "macro")
+    self:SetAttribute("unit", "player")
 
     -- Mount event setup
     for _,ev in ipairs(RescanEvents) do
@@ -125,9 +126,40 @@ function LiteMount:SetAsCancelForm()
     self:SetAttribute("macrotext", MACRO_CANCELFORM)
 end
 
+function LiteMount:SetAsPlayerTargetedSpell(spellId)
+    local name = GetSpellInfo(LM_SPELL_SLOW_FALL)
+    LM_Debug("Setting action to " .. name .. ".")
+    self:SetAttribute("type", "spell")
+    self:SetAttribute("spell", name)
+    -- self:SetAttribute("unit", "player") -- Already done in setup
+end
+
+function LiteMount:SetAsFlexweaveUnderlay()
+    LM_Debug("Setting action to Flexweave Underlay.")
+    self:SetAttribute("type", "macro")
+    self:SetAttribute("macro", "/use 15")
+end
+
+function LiteMount:FallingPanic()
+    LM_Debug("Falling! Panic! Trying last resort options.")
+
+    for _,spellid in ipairs(LM_HELP_IM_FALLING_SPELLS) do
+        if IsUsableSpell(spellid) then
+            self:SetAsPlayerTargetedSpell(spellid)
+            return true
+        end
+    end
+
+    local cloakid = GetInventoryItemID("player", INVSLOT_BACK)
+    if cloakid and not GetItemCooldown(cloakid) then
+        self:SetAsFlexweaveUnderlay()
+        return true
+    end
+end
+
 -- Fancy SecureActionButton stuff. The default button mechanism is
 -- type="macro" macrotext="...". If we're not in combat we
--- use a preclick handler to set it to what awe really want to do.
+-- use a preclick handler to set it to what we really want to do.
 
 function LiteMount:PreClick()
 
@@ -186,6 +218,9 @@ function LiteMount:PreClick()
     if m then
         LM_Debug("calling m:SetupActionButton")
         m:SetupActionButton(self)
+        return
+    elseif IsFalling() and self:FallingPanic() then
+        -- Nothing
         return
     else
         -- This isn't a great message, but there isn't a better one that
