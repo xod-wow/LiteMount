@@ -8,7 +8,11 @@
 ----------------------------------------------------------------------------]]--
 
 local MacroName = "LiteMount"
-local MacroText = "# Auto-created by LiteMount addon.\n/click LiteMount"
+local MacroText = [[
+# Auto-created by LiteMount addon
+/click [nobtn:2] LiteMount
+/click [btn:2] LiteMount RightButton
+]]
 
 local MACRO_ICON_MECHASTRIDER = 300
 

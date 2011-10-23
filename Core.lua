@@ -54,8 +54,8 @@ function LiteMount:Initialize()
     self:RegisterForClicks("AnyDown")
 
     -- SecureActionButton setup
-    self:SetScript("PreClick", function () LiteMount:PreClick() end)
-    self:SetScript("PostClick", function () LiteMount:PostClick() end)
+    self:SetScript("PreClick", function (s,m,d) LiteMount:PreClick(m,d) end)
+    self:SetScript("PostClick", function (s,m,d) LiteMount:PostClick(m,d) end)
     self:SetAttribute("macrotext", self.defaultMacro)
     self:SetAttribute("type", "macro")
     self:SetAttribute("unit", "player")
@@ -137,7 +137,7 @@ end
 function LiteMount:SetAsFlexweaveUnderlay()
     LM_Debug("Setting action to Flexweave Underlay.")
     self:SetAttribute("type", "macro")
-    self:SetAttribute("macro", "/use 15")
+    self:SetAttribute("macrotext", string.format("/use %d", INVSLOT_BACK))
 end
 
 function LiteMount:FallingPanic()
@@ -150,8 +150,11 @@ function LiteMount:FallingPanic()
         end
     end
 
+    -- Are there other usable cloaks or cloak enchants? I can't figure out
+    -- how to see the tinker.  It doesn't appear in the enchantid slot of
+    -- GetInventoryItemLink()
     local cloakid = GetInventoryItemID("player", INVSLOT_BACK)
-    if cloakid and not GetItemCooldown(cloakid) then
+    if cloakid and GetItemSpell(cloakid) and GetItemCooldown(cloakid) == 0 then
         self:SetAsFlexweaveUnderlay()
         return true
     end
@@ -161,11 +164,11 @@ end
 -- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to set it to what we really want to do.
 
-function LiteMount:PreClick()
+function LiteMount:PreClick(mouseButton)
 
     if InCombatLockdown() then return end
 
-    LM_Debug("PreClick handler called.")
+    LM_Debug("PreClick handler called. Button " .. (mouseButton or "nil"))
 
     self:ScanMounts()
 
@@ -194,7 +197,7 @@ function LiteMount:PreClick()
 
     local m
 
-    if not m and LM_Location:CanFly() then
+    if not m and LM_Location:CanFly() and mouseButton == "LeftButton" then
         m = LM_MountList:GetRandomFlyingMount()
     end
 
