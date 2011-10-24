@@ -150,9 +150,12 @@ function LiteMount:FallingPanic()
         end
     end
 
-    -- Are there other usable cloaks or cloak enchants? I can't figure out
-    -- how to see the tinker.  It doesn't appear in the enchantid slot of
-    -- GetInventoryItemLink()
+    -- There are definitely usable cloaks (e.g., Muck-Covered Drape) that
+    -- this will mis-trigger.  Are there other usable cloak enchants?
+    -- Hopefully we can not trigger cloaks with their own on-use if we
+    -- test IsUsableItem(itemID).
+    -- I can't figure out how to see the tinker.  It doesn't appear in
+    -- the enchantid slot of GetInventoryItemLink(). 
     local cloakid = GetInventoryItemID("player", INVSLOT_BACK)
     if cloakid and GetItemSpell(cloakid) and GetItemCooldown(cloakid) == 0 then
         self:SetAsFlexweaveUnderlay()
