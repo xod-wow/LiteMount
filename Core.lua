@@ -127,7 +127,7 @@ function LiteMount:SetAsCancelForm()
 end
 
 function LiteMount:SetAsPlayerTargetedSpell(spellId)
-    local name = GetSpellInfo(LM_SPELL_SLOW_FALL)
+    local name = GetSpellInfo(spellId)
     LM_Debug("Setting action to " .. name .. ".")
     self:SetAttribute("type", "spell")
     self:SetAttribute("spell", name)
