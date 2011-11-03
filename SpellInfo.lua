@@ -101,6 +101,4 @@ LM_FlagOverrideTable = {
                                             LM_FLAG_BIT_FLY),
     [LM_SPELL_LOANED_GRYPHON]     = bit.bor(LM_FLAG_BIT_FLY),
     [LM_SPELL_LOANED_WIND_RIDER]  = bit.bor(LM_FLAG_BIT_FLY),
-    [LM_SPELL_RIVER_BOAT]         = bit.bor(LM_FLAG_BIT_FLOAT,
-                                            LM_FLAG_BIT_SWIM),
 }
