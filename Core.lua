@@ -134,8 +134,8 @@ function LiteMount:SetAsPlayerTargetedSpell(spellId)
     -- self:SetAttribute("unit", "player") -- Already done in setup
 end
 
-function LiteMount:SetAsFlexweaveUnderlay()
-    LM_Debug("Setting action to Flexweave Underlay.")
+function LiteMount:SetAsUseCloak()
+    LM_Debug("Setting action to Flexweave Underlay (hopefully).")
     self:SetAttribute("type", "macro")
     self:SetAttribute("macrotext", string.format("/use %d", INVSLOT_BACK))
 end
@@ -158,7 +158,7 @@ function LiteMount:FallingPanic()
     -- the enchantid slot of GetInventoryItemLink(). 
     local cloakid = GetInventoryItemID("player", INVSLOT_BACK)
     if cloakid and GetItemSpell(cloakid) and GetItemCooldown(cloakid) == 0 then
-        self:SetAsFlexweaveUnderlay()
+        self:SetAsUseCloak()
         return true
     end
 end
@@ -225,9 +225,11 @@ function LiteMount:PreClick(mouseButton)
         LM_Debug("calling m:SetupActionButton")
         m:SetupActionButton(self)
         return
+--[[
     elseif IsFalling() and self:FallingPanic() then
         -- Nothing
         return
+]]
     else
         -- This isn't a great message, but there isn't a better one that
         -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
