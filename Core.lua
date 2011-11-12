@@ -216,7 +216,8 @@ function LiteMount:PreClick(mouseButton)
         m = LM_MountList:GetRandomAQMount()
     end
 
-    if not m and LM_Location:CanWalk() then
+--    if not m and LM_Location:CanWalk() then
+    if not m then
         m = LM_MountList:GetRandomWalkingMount()
                 or LM_MountList:GetRandomSlowWalkingMount()
     end
