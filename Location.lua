@@ -56,6 +56,7 @@ function LM_Location:CanFly()
 end
 
 function LM_Location:CanWalk()
+    -- Note, Ghost Wolf can be used indoors.
     return IsOutdoors()
 end
 
