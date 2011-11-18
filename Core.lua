@@ -8,8 +8,7 @@
 
 local MACRO_DISMOUNT = "/dismount"
 local MACRO_CANCELFORM = "/cancelform"
-local MACRO_EXITVEHICLE = "/run VehicleExit()"
-local MACRO_DISMOUNT_CANCELFORM = "/dismount\n/cancelform"
+local MACRO_EXITVEHICLE = "/leavevehicle"
 
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
@@ -24,6 +23,39 @@ local RescanEvents = {
     -- You might have received a mount item
     "BAG_UPDATE"
 }
+
+-- This is the macro that gets set as the default and will trigger if
+-- we are in combat.  Don't put anything in here that isn't specifically
+-- combat-only, because out of combat we've got proper code available.
+-- Relies on self.playerClass being set before this is called.
+-- Note that macros are limited to 255 chars, even inside a SecureActionButton.
+
+function LiteMount:InitCombatMacro()
+
+    local m = "/dismount [mounted]\n" ..
+              "/leavevehicle [vehicleui]\n"
+
+    if self.playerClass ==  "DRUID" then
+        m = m ..  "/cancelform [form:2/4/6]\n"
+        if IsSpellKnown(LM_SPELL_AQUATIC_FORM) then
+            local s = GetSpellInfo(LM_SPELL_AQUATIC_FORM)
+            m = m ..  "/cast [swimming,noform:2/4/6] " .. s .. "\n"
+        end
+        if IsSpellKnown(LM_SPELL_TRAVEL_FORM) then
+            local s = GetSpellInfo(LM_SPELL_TRAVEL_FORM)
+            m = m ..  "/cast [noform:2/4/6] " .. s .. "\n"
+        end
+    elseif self.playerClass == "SHAMAN" then
+        if IsSpellKnown(LM_SPELL_GHOST_WOLF) then
+            local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
+            m = m ..
+                "/cancelform [form]\n" ..
+                "/cast " .. s .. " [noform]\n"
+        end
+    end
+
+    self.inCombatMacro = m
+end
 
 function LiteMount:Initialize()
 
@@ -44,11 +76,7 @@ function LiteMount:Initialize()
 
     self.playerClass = select(2, UnitClass("player"))
 
-    if self.playerClass == "DRUID" or self.playerClass == "SHAMAN" then
-        self.defaultMacro = MACRO_DISMOUNT_CANCELFORM
-    else
-        self.defaultMacro = MACRO_DISMOUNT
-    end
+    self:InitCombatMacro()
 
     -- Button-fu
     self:RegisterForClicks("AnyDown")
@@ -56,7 +84,7 @@ function LiteMount:Initialize()
     -- SecureActionButton setup
     self:SetScript("PreClick", function (s,m,d) LiteMount:PreClick(m,d) end)
     self:SetScript("PostClick", function (s,m,d) LiteMount:PostClick(m,d) end)
-    self:SetAttribute("macrotext", self.defaultMacro)
+    self:SetAttribute("macrotext", self.inCombatMacro)
     self:SetAttribute("type", "macro")
     self:SetAttribute("unit", "player")
 
@@ -102,10 +130,10 @@ function LiteMount:PLAYER_REGEN_ENABLED()
     self:Initialize()
 end
 
-function LiteMount:SetAsDefault()
-    LM_Debug("Setting action to default.")
+function LiteMount:SetAsInCombatAction()
+    LM_Debug("Setting action to default in-combat action.")
     self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", self.defaultMacro)
+    self:SetAttribute("macrotext", self.inCombatMacro)
 end
 
 function LiteMount:SetAsDismount()
@@ -250,5 +278,5 @@ function LiteMount:PostClick()
     -- to just blindly do the opposite of whatever we chose because
     -- it might not have worked.
 
-    self:SetAsDefault()
+    self:SetAsInCombatAction()
 end
