@@ -36,7 +36,6 @@ function LiteMount:InitCombatMacro()
               "/leavevehicle [vehicleui]\n"
 
     if self.playerClass ==  "DRUID" then
-        m = m ..  "/cancelform [form:2/4/6]\n"
         if IsSpellKnown(LM_SPELL_AQUATIC_FORM) then
             local s = GetSpellInfo(LM_SPELL_AQUATIC_FORM)
             m = m ..  "/cast [swimming,noform:2/4/6] " .. s .. "\n"
@@ -45,12 +44,13 @@ function LiteMount:InitCombatMacro()
             local s = GetSpellInfo(LM_SPELL_TRAVEL_FORM)
             m = m ..  "/cast [noform:2/4/6] " .. s .. "\n"
         end
+        m = m ..  "/cancelform [form:2/4/6]\n"
     elseif self.playerClass == "SHAMAN" then
         if IsSpellKnown(LM_SPELL_GHOST_WOLF) then
             local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
             m = m ..
-                "/cancelform [form]\n" ..
-                "/cast " .. s .. " [noform]\n"
+                "/cast " .. s .. " [noform]\n" ..
+                "/cancelform [form]\n"
         end
     end
 
