@@ -9,6 +9,7 @@
 local MACRO_DISMOUNT = "/dismount"
 local MACRO_CANCELFORM = "/cancelform"
 local MACRO_EXITVEHICLE = "/leavevehicle"
+local MACRO_USECLOAK = string.format("/use %d", INVSLOT_BACK)
 
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
@@ -165,7 +166,7 @@ end
 function LiteMount:SetAsUseCloak()
     LM_Debug("Setting action to Flexweave Underlay (hopefully).")
     self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", string.format("/use %d", INVSLOT_BACK))
+    self:SetAttribute("macrotext", MACRO_USECLOAK)
 end
 
 function LiteMount:FallingPanic()
