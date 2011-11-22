@@ -145,7 +145,7 @@ local function LM_Frame_AutoLocalize(f)
     if not L then return end
 
     local regions = { f:GetRegions() }
-    for _,r = ipairs(regions) do
+    for _,r in ipairs(regions) do
         if r and r:IsObjectType("FontString") and not r.autoLocalized then
             r:SetText(L[r:GetText()])
             r.autoLocalized = true
@@ -153,7 +153,7 @@ local function LM_Frame_AutoLocalize(f)
     end
 
     local children = { f:GetChildren() }
-    for _,c = ipairs(children) do
+    for _,c in ipairs(children) do
         if not c.autoLocalized then
             LM_Frame_AutoLocalize(c)
             c.autoLocalized = true
