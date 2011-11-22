@@ -1,4 +1,3 @@
-
 --[[----------------------------------------------------------------------------
 
   LiteMount/UIOptionsFrame.lua
@@ -6,6 +5,8 @@
   Options frame to plug in to the Blizzard interface menu.
 
 ----------------------------------------------------------------------------]]--
+
+local L = LM_Localize
 
 function LiteMountOptionsBit_OnClick(self)
     local spellid = self:GetParent().spellid
@@ -138,9 +139,33 @@ function LiteMountOptionsScrollFrame_OnSizeChanged(self, w, h)
     self.update = LiteMountOptions_UpdateMountList
 end
 
+-- Recurse all children finding any FontStrings and replacing their texts
+-- with localized copies.
+local function LM_Frame_AutoLocalize(f)
+    if not L then return end
+
+    local regions = { f:GetRegions() }
+    for _,r = ipairs(regions) do
+        if r and r:IsObjectType("FontString") and not r.autoLocalized then
+            r:SetText(L[r:GetText()])
+            r.autoLocalized = true
+        end
+    end
+
+    local children = { f:GetChildren() }
+    for _,c = ipairs(children) do
+        if not c.autoLocalized then
+            LM_Frame_AutoLocalize(c)
+            c.autoLocalized = true
+        end
+    end
+end
+
 function LiteMountOptions_OnLoad(self)
 
     local name = self:GetName()
+
+    LM_Frame_AutoLocalize(self)
 
     -- Because we're the wrong size at the moment we'll only have 1 button
     CreateMoreButtons(self.scrollFrame)
