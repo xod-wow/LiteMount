@@ -137,6 +137,12 @@ function LiteMount:SetAsInCombatAction()
     self:SetAttribute("macrotext", self.inCombatMacro)
 end
 
+function LiteMount:SetAsCantMount()
+    LM_Debug("Setting action to can't mount now.")
+    self:SetAttribute("type", "macro")
+    self:SetAttribute("macrotext", nil)
+end
+
 function LiteMount:SetAsDismount()
     LM_Debug("Setting action to Dismount.")
     self:SetAttribute("type", "macro")
@@ -264,6 +270,7 @@ function LiteMount:PreClick(mouseButton)
         -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
         -- LM_Warning("You don't know any mounts you can use right now.")
         LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
+        self:SetAsCantMount()
     end
 
 end
