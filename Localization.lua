@@ -10,19 +10,21 @@ LM_Localize = setmetatable({ }, {__index=function (t,k) return k end})
 
 local L = LM_Localize
 
--- Default locale is enUS
+local locale = GetLocale()
 
-if GetLocale() == "frFR" then
-elseif GetLocale() == "deDE" then
-elseif GetLocale() == "koKR" then
-elseif GetLocale() == "zhCN" then
-elseif GetLocale() == "zhTW" then
+if locale == "enUS" then
+    -- Default locale is enUS
+elseif locale == "frFR" then
+elseif locale == "deDE" then
+elseif locale == "koKR" then
+elseif locale == "zhCN" then
+elseif locale == "zhTW" then
     L["Run"]    = "跑"
     L["Fly"]    = "飞"
     L["Swim"]   = "游"
     L["AQ"]     = "AQL"
-    L["Vashj"]  = "海"
-elseif GetLocale() == "ruRU" then
-elseif GetLocale() == "esES" then
-elseif GetLocale() == "esMX" then
+    L["Vash"]   = "海"
+elseif locale == "ruRU" then
+elseif locale == "esES" then
+elseif locale == "esMX" then
 end
