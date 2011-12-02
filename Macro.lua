@@ -14,15 +14,13 @@ local MacroText = [[
 /click [btn:2] LiteMount RightButton
 ]]
 
-local MACRO_ICON_MECHASTRIDER = 300
-
 LM_Macro = LM_CreateAutoEventFrame("Button", "LM_Macro")
 LM_Macro:RegisterEvent("PLAYER_LOGIN")
 
 function LM_Macro:CreateOrUpdateMacro()
     local index = GetMacroIndexByName(MacroName)
     if index == 0 then
-        index = CreateMacro(MacroName, MACRO_ICON_MECHASTRIDER, MacroText)
+        index = CreateMacro(MacroName, "ABILITY_MOUNT_MECHASTRIDER", MacroText)
     else
         EditMacro(index, nil, nil, MacroText)
     end
