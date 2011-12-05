@@ -18,6 +18,11 @@ elseif locale == "frFR" then
 elseif locale == "deDE" then
 elseif locale == "koKR" then
 elseif locale == "zhCN" then
+    L["Run"]    = "跑"
+    L["Fly"]    = "飞"
+    L["Swim"]   = "游"
+    L["AQ"]     = "AQL"
+    L["Vash"]   = "海"
 elseif locale == "zhTW" then
     L["Run"]    = "跑"
     L["Fly"]    = "飞"
