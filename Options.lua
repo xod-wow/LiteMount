@@ -146,3 +146,15 @@ function LM_Options:SetSpellFlags(id, origflags, newflags)
     self.flagoverrides[id][2] = toclear
 end
 
+--[[----------------------------------------------------------------------------
+     Last resort macro stuff
+----------------------------------------------------------------------------]]--
+
+function LM_Options:GetMacro()
+    return self.macro
+end
+
+function LM_Options:SetMacro(text)
+    self.macro = text
+end
+

@@ -163,8 +163,6 @@ end
 
 function LiteMountOptions_OnLoad(self)
 
-    local name = self:GetName()
-
     LM_Frame_AutoLocalize(self)
 
     -- Because we're the wrong size at the moment we'll only have 1 button
@@ -191,5 +189,39 @@ end
 
 function LiteMountOptions_OnShow(self)
     LiteMountOptions_UpdateMountList()
+end
+
+function LiteMountOptionsMacro_OnLoad(self)
+
+    local parent = LiteMountOptions
+
+    LM_Frame_AutoLocalize(self)
+
+    self.parent = parent.name
+    self.name = MACRO
+
+    self.default = function ()
+            LM_Options:SetMacro(nil)
+        end
+
+    self.title:SetText(self.name)
+
+    InterfaceOptions_AddCategory(self)
+end
+
+function LiteMountOptionsMacro_OnShow(self)
+    local m = LM_Options:GetMacro()
+    if m then
+        LiteMountOptionsMacroEditBox(m)
+    end
+end
+
+function LiteMountOptionsMacro_OnTextChanged(self)
+    local m = LiteMountOptionsMacroEditBox:GetText()
+    if m == "" then
+        LM_Options:SetMacro(nil)
+    else
+        LM_Options:SetMacro("")
+    end
 end
 

@@ -236,4 +236,34 @@
 
 </Frame>
 
+<Frame name="LiteMountOptionsMacro" hidden="true">
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <Fontstring inherits="GameFontNormalLarge" parentKey="title">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="16" y="-16" />
+                </Anchors>
+            </Fontstring>
+        </Layer>
+    </Layers>
+
+    <Frames>
+        <EditBox name="LiteMountOptionsMacroEditBox" multiLine="true" letters="255" autoFocus="true" countInvisibleLetters="true">
+            <Size x="286" y="85" />
+            <Anchor point="CENTER" />
+            <Scripts>
+                <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
+                <OnEscapePressed function="EditBox_ClearFocus" />
+            </Scripts>
+            <FontString inherits="GameFontHighlightSmall" />
+        </EditBox>
+    </Frames>
+
+    <Scripts>
+        <OnLoad function="LiteMountOptionsMacro_OnLoad" />
+        <OnShow function="LiteMountOptionsMacro_OnShow" />
+    </Scripts>
+</Frame>
+
 </Ui>
