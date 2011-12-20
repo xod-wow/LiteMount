@@ -204,7 +204,7 @@ function LiteMountOptionsMacro_OnLoad(self)
             LM_Options:SetMacro(nil)
         end
 
-    self.title:SetText(self.name)
+    self.title:SetText(parent.name .. " - " .. self.name)
 
     InterfaceOptions_AddCategory(self)
 end
@@ -212,7 +212,7 @@ end
 function LiteMountOptionsMacro_OnShow(self)
     local m = LM_Options:GetMacro()
     if m then
-        LiteMountOptionsMacroEditBox(m)
+        LiteMountOptionsMacroEditBox:SetText(m)
     end
 end
 

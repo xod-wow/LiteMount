@@ -250,8 +250,13 @@
 
     <Frames>
         <EditBox name="LiteMountOptionsMacroEditBox" multiLine="true" letters="255" autoFocus="true" countInvisibleLetters="true">
-            <Size x="286" y="85" />
-            <Anchor point="CENTER" />
+            
+            <Size x="286" y="286" />
+
+            <Anchors>
+                <Anchor point="CENTER" />
+            </Anchors>
+
             <Scripts>
                 <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
                 <OnEscapePressed function="EditBox_ClearFocus" />
