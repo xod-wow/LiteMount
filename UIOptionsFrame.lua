@@ -90,7 +90,7 @@ local function UpdateMountButton(button, mount)
 end
 
 function LiteMountOptions_UpdateMountList()
-    local self = LiteMountOptions
+    local self = LiteMountOptionsMounts
 
     local scrollFrame = self.scrollFrame
     local offset = HybridScrollFrame_GetOffset(scrollFrame)
@@ -162,18 +162,27 @@ local function LM_Frame_AutoLocalize(f)
 end
 
 function LiteMountOptions_OnLoad(self)
+    LM_Frame_AutoLocalize(self)
+
+    local version = GetAddOnMetadata("LiteMount", "Version")
+    if string.find(version, "project.version") then
+        version = "Alpha"
+    end
+
+    self.name = "LiteMount " .. version
+    InterfaceOptions_AddCategory(self)
+end
+
+function LiteMountOptionsMounts_OnLoad(self)
 
     LM_Frame_AutoLocalize(self)
 
     -- Because we're the wrong size at the moment we'll only have 1 button
     CreateMoreButtons(self.scrollFrame)
 
-    local version = GetAddOnMetadata("LiteMount", "Version")
-    if string.find(version, "project.version") then
-        version = "Developer Version"
-    end
-
-    self.name = "LiteMount " .. version
+    self.parent = LiteMountOptions
+    self.name = MOUNTS
+    self.title:SetText("LiteMount : " .. self.name)
     self.default = function ()
             for _,m in LiteMount:GetAllMounts() do
                 LM_Options:ResetSpellFlags(m:SpellId())
@@ -181,13 +190,12 @@ function LiteMountOptions_OnLoad(self)
             LM_Options:SetExcludedSpells({})
             LiteMountOptions_UpdateMountList()
         end
-    self.title:SetText(self.name)
 
     InterfaceOptions_AddCategory(self)
 end
 
 
-function LiteMountOptions_OnShow(self)
+function LiteMountOptionsMounts_OnShow(self)
     LiteMountOptions_UpdateMountList()
 end
 
@@ -197,14 +205,13 @@ function LiteMountOptionsMacro_OnLoad(self)
 
     LM_Frame_AutoLocalize(self)
 
-    self.parent = parent.name
+    self.parent = LiteMountOptions
     self.name = MACRO
+    self.title:SetText("LiteMount : " .. self.name)
 
     self.default = function ()
             LM_Options:SetMacro(nil)
         end
-
-    self.title:SetText(parent.name .. " - " .. self.name)
 
     InterfaceOptions_AddCategory(self)
 end
@@ -218,10 +225,10 @@ end
 
 function LiteMountOptionsMacro_OnTextChanged(self)
     local m = LiteMountOptionsMacroEditBox:GetText()
-    if m == "" then
+    if not m or string.match(m, "^%s*$") then
         LM_Options:SetMacro(nil)
     else
-        LM_Options:SetMacro("")
+        LM_Options:SetMacro(m)
     end
 end
 

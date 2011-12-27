@@ -155,6 +155,7 @@ function LM_Options:GetMacro()
 end
 
 function LM_Options:SetMacro(text)
+    LM_Debug("Setting custom macro: " .. (text or "nil"))
     self.macro = text
 end
 

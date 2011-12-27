@@ -107,7 +107,14 @@
 </Button>
 
 <Frame name="LiteMountOptions" hidden="true">
-    <Size x="622" y="567" />
+    <Scripts>
+        <OnShow>
+        </OnShow>
+        <OnLoad function="LiteMountOptions_OnLoad" />
+    </Scripts>
+</Frame>
+
+<Frame name="LiteMountOptionsMounts" hidden="true">
 
     <Frames>
         <ScrollFrame name="$parentScrollFrame" inherits="MinimalHybridScrollFrameTemplate" parentKey="scrollFrame">
@@ -230,8 +237,8 @@
     </Layers>
 
     <Scripts>
-        <OnLoad function="LiteMountOptions_OnLoad" />
-        <OnShow function="LiteMountOptions_OnShow" />
+        <OnLoad function="LiteMountOptionsMounts_OnLoad" />
+        <OnShow function="LiteMountOptionsMounts_OnShow" />
     </Scripts>
 
 </Frame>
@@ -249,20 +256,46 @@
     </Layers>
 
     <Frames>
-        <EditBox name="LiteMountOptionsMacroEditBox" multiLine="true" letters="255" autoFocus="true" countInvisibleLetters="true">
-            
-            <Size x="286" y="286" />
+        <Frame name="LiteMountOptionsMacroEditBoxContainer">
+        
+            <Size x="400" y="400" />
+
 
             <Anchors>
                 <Anchor point="CENTER" />
             </Anchors>
 
+            <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                <EdgeSize val="16" />
+                <TileSize val="16" />
+                <BackgroundInsets>
+                    <AbsInset left="5" right="5" top="5" bottom="5" />
+                </BackgroundInsets>
+            </Backdrop>
+
             <Scripts>
-                <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
-                <OnEscapePressed function="EditBox_ClearFocus" />
+                <OnLoad>
+                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
+                    self:SetBackdropColor(0, 0, 0, 0.8)
+                </OnLoad>
             </Scripts>
-            <FontString inherits="GameFontHighlightSmall" />
-        </EditBox>
+
+            <Frames>
+                <EditBox name="LiteMountOptionsMacroEditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
+                    
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="8" y="-8" />
+                        <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
+                    </Anchors>
+
+                    <Scripts>
+                        <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
+                        <OnEscapePressed function="EditBox_ClearFocus" />
+                    </Scripts>
+                    <FontString inherits="GameFontHighlight" />
+                </EditBox>
+            </Frames>
+        </Frame>
     </Frames>
 
     <Scripts>

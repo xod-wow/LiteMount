@@ -175,6 +175,12 @@ function LiteMount:SetAsUseCloak()
     self:SetAttribute("macrotext", MACRO_USECLOAK)
 end
 
+function LiteMount:SetAsMacroText(macrotext)
+    LM_Debug("Setting as raw macro text.")
+    self:SetAttribute("type", "macro")
+    self:SetAttribute("macrotext", macrotext)
+end
+
 function LiteMount:FallingPanic()
     LM_Debug("Falling! Panic! Trying last resort options.")
 
@@ -260,18 +266,19 @@ function LiteMount:PreClick(mouseButton)
         LM_Debug("calling m:SetupActionButton")
         m:SetupActionButton(self)
         return
---[[
-    elseif IsFalling() and self:FallingPanic() then
-        -- Nothing
-        return
-]]
-    else
-        -- This isn't a great message, but there isn't a better one that
-        -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
-        -- LM_Warning("You don't know any mounts you can use right now.")
-        LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
-        self:SetAsCantMount()
     end
+
+    local macro = LM_Options:GetMacro()
+    if macro then
+        self:SetAsMacroText(macro)
+        return
+    end
+
+    -- This isn't a great message, but there isn't a better one that
+    -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
+    -- LM_Warning("You don't know any mounts you can use right now.")
+    LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
+    self:SetAsCantMount()
 
 end
 
