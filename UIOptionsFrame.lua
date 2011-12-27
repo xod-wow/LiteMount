@@ -218,7 +218,7 @@ function LiteMountOptionsMacro_OnLoad(self)
             LM_Options:SetMacro(nil)
         end
 
-    InterfaceOptions_AddCategory(self)
+    -- InterfaceOptions_AddCategory(self)
 end
 
 function LiteMountOptionsMacro_OnShow(self)
