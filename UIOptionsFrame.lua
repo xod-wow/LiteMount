@@ -166,10 +166,17 @@ function LiteMountOptions_OnLoad(self)
 
     local version = GetAddOnMetadata("LiteMount", "Version")
     if string.find(version, "project.version") then
-        version = "Alpha"
+        version = "Developer Work-in-Progress"
     end
 
-    self.name = "LiteMount " .. version
+    local author = GetAddOnMetadata("LiteMount", "Author")
+
+    self.name = "LiteMount"
+
+    self.title:SetText("LiteMount")
+    self.version:SetText(version)
+    self.author:SetText(author or "")
+
     InterfaceOptions_AddCategory(self)
 end
 

@@ -107,6 +107,47 @@
 </Button>
 
 <Frame name="LiteMountOptions" hidden="true">
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString name="$parentTitle" inherits="GameFontNormalLarge" parentKey="title">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="16" y="-16" />
+                </Anchors>
+            </FontString>
+
+            <FontString inherits="GameFontHighlight" justifyH="LEFT" text="Simple and reliable random mount summoning.">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentTitle" y="-16" />
+                    <Anchor point="RIGHT" />
+                </Anchors>
+            </FontString>
+
+            <FontString name="$parentVersionText" inherits="GameFontNormal" justifyH="RIGHT" text="Version :">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="36" y="-96" />
+                </Anchors>
+            </FontString>
+
+            <FontString inherits="GameFontHighlight" justifyH="LEFT" parentKey="version">
+                <Anchors>
+                    <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parentVersionText" x="4" />
+                </Anchors>
+            </FontString>
+
+            <FontString name="$parentAuthorText" inherits="GameFontNormal" justifyH="RIGHT" text="Author :">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="$parentVersionText" y="-8" />
+                </Anchors>
+            </FontString>
+
+            <FontString inherits="GameFontHighlight" justifyH="LEFT" parentKey="author">
+                <Anchors>
+                    <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parentAuthorText" x="4" />
+                </Anchors>
+            </FontString>
+
+        </Layer>
+    </Layers>
     <Scripts>
         <OnShow>
         </OnShow>
@@ -198,11 +239,11 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <Fontstring inherits="GameFontNormalLarge" parentKey="title">
+            <FontString inherits="GameFontNormalLarge" parentKey="title">
                 <Anchors>
                     <Anchor point="TOPLEFT" x="16" y="-16" />
                 </Anchors>
-            </Fontstring>
+            </FontString>
             <FontString name="$parentBit1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Run">
                 <Size x="26" y="26" />
                 <Anchors>
@@ -247,11 +288,11 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <Fontstring inherits="GameFontNormalLarge" parentKey="title">
+            <FontString inherits="GameFontNormalLarge" parentKey="title">
                 <Anchors>
                     <Anchor point="TOPLEFT" x="16" y="-16" />
                 </Anchors>
-            </Fontstring>
+            </FontString>
         </Layer>
     </Layers>
 

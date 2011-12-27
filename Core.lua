@@ -71,7 +71,7 @@ function LiteMount:Initialize()
     -- i < GetNumCompanions("MOUNT").
     self.needscan = true
 
-    SlashCmdList["LiteMount"] = function () InterfaceOptionsFrame_OpenToCategory(LiteMountOptions) end
+    SlashCmdList["LiteMount"] = function () InterfaceOptionsFrame_OpenToCategory(LiteMountOptionsMounts) end
     SLASH_LiteMount1 = "/litemount"
     SLASH_LiteMount2 = "/lmt"
 
