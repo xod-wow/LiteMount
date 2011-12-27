@@ -50,7 +50,7 @@ function LiteMount:InitCombatMacro()
         if IsSpellKnown(LM_SPELL_GHOST_WOLF) then
             local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
             m = m ..
-                "/cast " .. s .. " [noform]\n" ..
+                "/cast [noform] " .. s .. "\n" ..
                 "/cancelform [form]\n"
         end
     end
