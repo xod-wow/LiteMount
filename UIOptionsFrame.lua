@@ -180,7 +180,7 @@ function LiteMountOptionsMounts_OnLoad(self)
     -- Because we're the wrong size at the moment we'll only have 1 button
     CreateMoreButtons(self.scrollFrame)
 
-    self.parent = LiteMountOptions
+    self.parent = LiteMountOptions.name
     self.name = MOUNTS
     self.title:SetText("LiteMount : " .. self.name)
     self.default = function ()
@@ -201,11 +201,9 @@ end
 
 function LiteMountOptionsMacro_OnLoad(self)
 
-    local parent = LiteMountOptions
-
     LM_Frame_AutoLocalize(self)
 
-    self.parent = LiteMountOptions
+    self.parent = LiteMountOptions.name
     self.name = MACRO
     self.title:SetText("LiteMount : " .. self.name)
 
