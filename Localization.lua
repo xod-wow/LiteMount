@@ -18,6 +18,7 @@ elseif locale == "frFR" then
 elseif locale == "deDE" then
 elseif locale == "koKR" then
 elseif locale == "zhCN" then
+    L["Non-flying Mount"] = "Non-flying Mount"
     L["Author"]  = "Author"
     L["Version"] = "Version"
     L["Run"]     = "跑"
@@ -26,6 +27,7 @@ elseif locale == "zhCN" then
     L["AQ"]      = "AQL"
     L["Vash"]    = "海"
 elseif locale == "zhTW" then
+    L["Non-flying Mount"] = "Non-flying Mount"
     L["Author"]  = "Author"
     L["Version"] = "Version"
     L["Run"]     = "跑"
