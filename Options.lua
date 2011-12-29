@@ -29,6 +29,7 @@ go from disabling somthing to enabling it.
 local Default_LM_OptionsDB = {
     ["excludedspells"] = { },
     ["flagoverrides"]  = { },
+    ["macro"]          = { },
 }
 
 LM_Options = { }
@@ -48,6 +49,12 @@ function LM_Options:Initialize()
 
     self.excludedspells = LM_OptionsDB.excludedspells
     self.flagoverrides = LM_OptionsDB.flagoverrides
+
+    if not LM_OptionsDB.macro then
+        LM_OptionsDB.macro = { }
+    end
+
+    self.macro = LM_OptionsDB.macro
 
 end
 
@@ -151,11 +158,11 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:GetMacro()
-    return self.macro
+    return self.macro[1]
 end
 
 function LM_Options:SetMacro(text)
     LM_Debug("Setting custom macro: " .. (text or "nil"))
-    self.macro = text
+    self.macro[1] = text
 end
 
