@@ -149,9 +149,8 @@
         </Layer>
     </Layers>
     <Scripts>
-        <OnShow>
-        </OnShow>
         <OnLoad function="LiteMountOptions_OnLoad" />
+        <OnShow function="LiteMountOptions_OnShow" />
     </Scripts>
 </Frame>
 
@@ -286,20 +285,10 @@
 
 <Frame name="LiteMountOptionsMacro" hidden="true">
 
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormalLarge" parentKey="title">
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-16" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-
     <Frames>
         <Frame name="LiteMountOptionsMacroEditBoxContainer">
         
-            <Size x="400" y="400" />
+            <Size x="400" y="200" />
 
 
             <Anchors>
@@ -335,9 +324,43 @@
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
                 </EditBox>
+                <Button inherits="UIPanelButtonTemplate" text="RESET">
+                    <Size x="96" y="22" />
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
+                    </Anchors>
+                    <Scripts>
+                        <OnClick>
+                            LiteMountOptionsMacroEditBox:SetText("")
+                        </OnClick>
+                    </Scripts>
+                </Button>
             </Frames>
         </Frame>
     </Frames>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormalLarge" parentKey="title">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="16" y="-16" />
+                </Anchors>
+            </FontString>
+
+            <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="8" y="3" />
+                </Anchors>
+            </FontString>
+
+            <FontString name="LiteMountOptionsMacroCount" inherits="GameFontHighlightSmall">
+                <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOm" relativeTo="LiteMountOptionsMacroEditBoxContainer" y="-3" />
+                </Anchors>
+            </FontString>
+
+        </Layer>
+    </Layers>
 
     <Scripts>
         <OnLoad function="LiteMountOptionsMacro_OnLoad" />

@@ -180,6 +180,10 @@ function LiteMountOptions_OnLoad(self)
     InterfaceOptions_AddCategory(self)
 end
 
+function LiteMountOptions_OnShow(self)
+    LiteMountOptions.CurrentOptionsPanel = self
+end
+
 function LiteMountOptionsMounts_OnLoad(self)
 
     LM_Frame_AutoLocalize(self)
@@ -203,6 +207,7 @@ end
 
 
 function LiteMountOptionsMounts_OnShow(self)
+    LiteMountOptions.CurrentOptionsPanel = self
     LiteMountOptions_UpdateMountList()
 end
 
@@ -218,10 +223,11 @@ function LiteMountOptionsMacro_OnLoad(self)
             LM_Options:SetMacro(nil)
         end
 
-    -- InterfaceOptions_AddCategory(self)
+    InterfaceOptions_AddCategory(self)
 end
 
 function LiteMountOptionsMacro_OnShow(self)
+    LiteMountOptions.CurrentOptionsPanel = self
     local m = LM_Options:GetMacro()
     if m then
         LiteMountOptionsMacroEditBox:SetText(m)
@@ -235,5 +241,16 @@ function LiteMountOptionsMacro_OnTextChanged(self)
     else
         LM_Options:SetMacro(m)
     end
+
+    local c = string.len(m or "")
+    LiteMountOptionsMacroCount:SetText(string.format(MACROFRAME_CHAR_LIMIT, c))
+end
+
+function LiteMount_OpenOptionsPanel()
+    local f = LiteMountOptions
+    if not f.CurrentOptionsPanel then
+        f.CurrentOptionsPanel = LiteMountOptionsMounts
+    end
+    InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)
 end
 
