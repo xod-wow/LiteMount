@@ -18,5 +18,10 @@ Options.lua
 Core.lua
 Macro.lua
 KeyBindingStrings.lua
+UIOptionsCommon.lua
 UIOptionsFrame.lua
 UIOptionsFrame.xml
+UIOptionsMounts.lua
+UIOptionsMounts.xml
+UIOptionsMacro.lua
+UIOptionsMacro.xml
