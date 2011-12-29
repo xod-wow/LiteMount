@@ -305,8 +305,8 @@
 
             <Scripts>
                 <OnLoad>
-                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
-                    self:SetBackdropColor(0, 0, 0, 0.8)
+                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
+                    self:SetBackdropColor(0, 0, 0, 0.5)
                 </OnLoad>
             </Scripts>
 
@@ -324,7 +324,7 @@
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
                 </EditBox>
-                <Button inherits="UIPanelButtonTemplate" text="RESET">
+                <Button inherits="UIPanelButtonTemplate" text="DELETE">
                     <Size x="96" y="22" />
                     <Anchors>
                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
