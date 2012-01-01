@@ -54,6 +54,42 @@
                 </Button>
             </Frames>
         </Frame>
+        <Button name="LiteMountOptionsMacroSuggest1" inherits="ItemButtonTemplate" hidden="true">
+            <Size x="37" y="37" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="8" y="-8" />
+            </Anchors>
+            <Scripts>
+                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
+            </Scripts>
+        </Button>
+        <Button name="LiteMountOptionsMacroSuggest2" inherits="ItemButtonTemplate" hidden="true">
+            <Size x="37" y="37" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest1" y="-8" />
+            </Anchors>
+            <Scripts>
+                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
+            </Scripts>
+        </Button>
+        <Button name="LiteMountOptionsMacroSuggest3" inherits="ItemButtonTemplate" hidden="true">
+            <Size x="37" y="37" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest2" y="-8" />
+            </Anchors>
+            <Scripts>
+                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
+            </Scripts>
+        </Button>
+        <Button name="LiteMountOptionsMacroSuggest4" inherits="ItemButtonTemplate" hidden="true">
+            <Size x="37" y="37" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest3" y="-8" />
+            </Anchors>
+            <Scripts>
+                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
+            </Scripts>
+        </Button>
     </Frames>
 
     <Layers>
