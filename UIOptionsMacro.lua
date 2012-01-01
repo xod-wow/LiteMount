@@ -60,6 +60,10 @@ local ProfessionSuggestions = {
             ["iconspell"] = 55002,
             ["macro"] = "# Cloak (Flexweave Underlay)\n/use 15",
         },
+        {
+            ["iconspell"] = 55002,
+            ["macro"] = "# Belt (Hyperspeed Accelerators)\n/use 6",
+        },
     },
 }
 
@@ -81,7 +85,7 @@ local function GetSuggestions()
     end
 
     local pindex1, pindex2 = GetProfessions()
-    for pindex in ipairs({pindex1, pindex2}) do
+    for _, pindex in ipairs({pindex1, pindex2}) do
         local skillLine = select(7, GetProfessionInfo(pindex))
         if ProfessionSuggestions[skillLine] then
             for _,s in ipairs(ProfessionSuggestions[skillLine]) do
@@ -97,9 +101,11 @@ local function SetSuggestion(button, s)
     if s then
         SetItemButtonTexture(button, select(3, GetSpellInfo(s.iconspell)))
         button.macro = s.macro
+        button.tooltip = s.macro
         button:Show()
     else
         button.macro = nil
+        button.tooltip = nil
         button:Hide()
     end
 end

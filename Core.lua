@@ -31,7 +31,7 @@ local RescanEvents = {
 -- Relies on self.playerClass being set before this is called.
 -- Note that macros are limited to 255 chars, even inside a SecureActionButton.
 
-function LiteMount:InitCombatMacro()
+function LiteMount:BuildCombatMacro()
 
     local m = "/dismount [mounted]\n" ..
               "/leavevehicle [vehicleui]\n"
@@ -77,7 +77,7 @@ function LiteMount:Initialize()
 
     self.playerClass = select(2, UnitClass("player"))
 
-    self:InitCombatMacro()
+    self:BuildCombatMacro()
 
     -- Button-fu
     self:RegisterForClicks("AnyDown")
