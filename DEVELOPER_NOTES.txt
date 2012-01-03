@@ -18,21 +18,12 @@ Notes To Myself
 ------------------------------------------------------------------------------
 * Better "undo".
 
-Might be able to set up the macro better for undoing in combat what we
-last did (mount -> dismount, form -> cancelform, aura -> cancelaura, etc.)
-by passing params between the PreClick handler and the PostClick handler
-as button attributes.
+    Conclusion: seems unncessary.
 
-
-------------------------------------------------------------------------------
-* Force non-flying?
-
-    Should we have a separate binding to force non-flying mounts? Sometimes
-    people do want to ride around on the ground in town.
-
-    Would we want to override it if you were falling?  Would you need to be
-    on the ground for it to work, or should we expect you to hit the other
-    button to stop yourself dying?
+    Might be able to set up the macro better for undoing in combat what we
+    last did (mount -> dismount, form -> cancelform, aura -> cancelaura, etc.)
+    by passing params between the PreClick handler and the PostClick handler
+    as button attributes.
 
 
 ------------------------------------------------------------------------------
@@ -49,35 +40,18 @@ as button attributes.
 
 
 ------------------------------------------------------------------------------
-* Better default dismount macro
-
-    Can we do something like this?
-
-    /cancelform [form:2/4] -- druid, shaman is [form:1]
-    /run if IsMounted() then Dismount() end
-    /run if CanExitVehicle() then VehicleExit() end
-
-    According to WoWWiki Dismount() and VehicleExit() aren't protected
-    but CancelShapeshiftForm() is.
-
-
-------------------------------------------------------------------------------
 * Possible UI Improvements
 
     Have an enable/disable all button. Have it apply only to the current match.
     Localize the Fly/Walk/Swim texts.
+
 
 ------------------------------------------------------------------------------
 * "Dragonwrath, Tarecgosa's Rest" (71086)
 
     Item ID 71086.  Spell ID is 101641 (Tarecgosa's Visage)
 
-    What do IsSpellKnown and IsUsableSpell return on the Spell ID if
-    you have it equipped/not equipped?
-
-    Can you summon the mount by casting the spell directly instead of
-    using the item?  That would allow a lot of simplification but I
-    doubt you can.  Testing with Hearthstone doesn't allow it.
+    You can only use it by "/use slot", you can't cast the spell.
 
 
 ------------------------------------------------------------------------------
@@ -91,12 +65,6 @@ as button attributes.
 
     IsUsableSpell() returns correctly for mount spells for swimming
     vs floating.
-
-
-------------------------------------------------------------------------------
-* CanExitVehicle() and IsMounted()
-
-    Added vehicle exit, not sure about in combat.
 
 
 ------------------------------------------------------------------------------
@@ -175,7 +143,10 @@ as button attributes.
             LM_Options:ResetSpellFlags(spellId)
             LM_Options:ApplySpellFlags(spellId, default_flags)
 
-        * UIOptionsFrame.xml / UIOptionsFrame.lua
+            LM_Options:GetMacro()
+            LM_Options:SetMacro(macrotext)
+
+        * UIOptions*.xml / UIOptions*.lua
             Here be dragons. UI to twiddle settings in LM_Options.
 
     Main stuff:

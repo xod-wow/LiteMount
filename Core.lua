@@ -60,7 +60,7 @@ function LiteMount:Initialize()
     LM_Options:Initialize()
     LM_MountList:Initialize()
 
-    -- Delayed scanning does two things. It stops us rescanning unecessarily,
+    -- Delayed scanning does two things. It stops us rescanning unnecessarily,
     -- but more importantly it prevents a weird situation on loading where
     -- the scan errors because GetCompanionInfo("MOUNT", i) fails for some
     -- i < GetNumCompanions("MOUNT").
