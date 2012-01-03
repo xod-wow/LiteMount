@@ -6,11 +6,6 @@
 
 ----------------------------------------------------------------------------]]--
 
-local MACRO_DISMOUNT = "/dismount"
-local MACRO_CANCELFORM = "/cancelform"
-local MACRO_EXITVEHICLE = "/leavevehicle"
-local MACRO_USECLOAK = string.format("/use %d", INVSLOT_BACK)
-
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 
@@ -146,19 +141,19 @@ end
 function LiteMount:SetAsDismount()
     LM_Debug("Setting action to Dismount.")
     self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", MACRO_DISMOUNT)
+    self:SetAttribute("macrotext", SLASH_DISMOUNT1)
 end
 
 function LiteMount:SetAsVehicleExit()
     LM_Debug("Setting action to VehicleExit.")
     self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", MACRO_EXITVEHICLE)
+    self:SetAttribute("macrotext", SLASH_LEAVEVEHICLE1)
 end
 
 function LiteMount:SetAsCancelForm()
     LM_Debug("Setting action to CancelForm.")
     self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", MACRO_CANCELFORM)
+    self:SetAttribute("macrotext", SLASH_CANCELFORM1)
 end
 
 function LiteMount:SetAsPlayerTargetedSpell(spellId)
@@ -169,39 +164,10 @@ function LiteMount:SetAsPlayerTargetedSpell(spellId)
     -- self:SetAttribute("unit", "player") -- Already done in setup
 end
 
-function LiteMount:SetAsUseCloak()
-    LM_Debug("Setting action to Flexweave Underlay (hopefully).")
-    self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", MACRO_USECLOAK)
-end
-
 function LiteMount:SetAsMacroText(macrotext)
     LM_Debug("Setting as raw macro text.")
     self:SetAttribute("type", "macro")
     self:SetAttribute("macrotext", macrotext)
-end
-
-function LiteMount:FallingPanic()
-    LM_Debug("Falling! Panic! Trying last resort options.")
-
-    for _,spellid in ipairs(LM_HELP_IM_FALLING_SPELLS) do
-        if IsUsableSpell(spellid) then
-            self:SetAsPlayerTargetedSpell(spellid)
-            return true
-        end
-    end
-
-    -- There are definitely usable cloaks (e.g., Muck-Covered Drape) that
-    -- this will mis-trigger.  Are there other usable cloak enchants?
-    -- Hopefully we can not trigger cloaks with their own on-use if we
-    -- test IsUsableItem(itemID).
-    -- I can't figure out how to see the tinker.  It doesn't appear in
-    -- the enchantid slot of GetInventoryItemLink(). 
-    local cloakid = GetInventoryItemID("player", INVSLOT_BACK)
-    if cloakid and GetItemSpell(cloakid) and GetItemCooldown(cloakid) == 0 then
-        self:SetAsUseCloak()
-        return true
-    end
 end
 
 -- Fancy SecureActionButton stuff. The default button mechanism is
