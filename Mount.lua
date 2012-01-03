@@ -7,9 +7,9 @@
 ----------------------------------------------------------------------------]]--
 
 LM_Mount = {
-    ["CacheByItemId"] = { },
-    ["CacheByName"]   = { },
-    ["CacheBySpellId"] = { }
+    ["cacheByItemId"] = { },
+    ["cacheByName"]   = { },
+    ["cacheBySpellId"] = { }
 }
 LM_Mount.__index = LM_Mount
 function LM_Mount:new() return setmetatable({ }, LM_Mount) end
@@ -28,20 +28,20 @@ function LM_Mount:FixupFlags()
         self.flags = self.flags - LM_FLAG_BIT_SWIM
     end
 
-    local flags = LM_FlagOverrideTable[self.spellid]
+    local flags = LM_FlagOverrideTable[self.spellId]
     if flags then
         self.flags = flags
     end
 
-    if self.casttime == 0 then
+    if self.castTime == 0 then
         self.flags = bit.bor(self.flags, LM_FLAG_BIT_MOVING)
     end
 end
 
 function LM_Mount:GetMountByItem(itemId, spellId)
 
-    if self.CacheByItemId[itemId] then
-        return self.CacheByItemId[itemId]
+    if self.cacheByItemId[itemId] then
+        return self.cacheByItemId[itemId]
     end
 
     local m = LM_Mount:GetMountBySpell(spellId)
@@ -53,18 +53,18 @@ function LM_Mount:GetMountByItem(itemId, spellId)
         return
     end
 
-    m.itemid = itemId
-    m.itemname = ii[1]
+    m.itemId = itemId
+    m.itemName = ii[1]
 
-    self.CacheByItemId[itemId] = m
+    self.cacheByItemId[itemId] = m
 
     return m
 end
 
 function LM_Mount:GetMountBySpell(spellId)
 
-    if self.CacheBySpellId[spellId] then
-        return self.CacheBySpellId[spellId]
+    if self.cacheBySpellId[spellId] then
+        return self.cacheBySpellId[spellId]
     end
 
     local m = LM_Mount:new()
@@ -76,15 +76,15 @@ function LM_Mount:GetMountBySpell(spellId)
     end
 
     m.name = si[1]
-    m.spellid = spellId
-    m.spellname = si[1]
+    m.spellId = spellId
+    m.spellName = si[1]
     m.icon = si[3]
     m.flags = 0
-    m.casttime = si[7]
+    m.castTime = si[7]
     m:FixupFlags()
 
-    self.CacheByName[m.name] = m
-    self.CacheBySpellId[m.spellid] = m
+    self.cacheByName[m.name] = m
+    self.cacheBySpellId[m.spellId] = m
 
     return m
 end
@@ -98,25 +98,25 @@ function LM_Mount:GetMountByIndex(mountIndex)
         return
     end
 
-    if self.CacheByName[ci[2]] then
-        return self.CacheByName[ci[2]]
+    if self.cacheByName[ci[2]] then
+        return self.cacheByName[ci[2]]
     end
 
     local m = LM_Mount:new()
 
     m.name = ci[2]
-    m.spellid = ci[3]
+    m.spellId = ci[3]
     m.icon = ci[4]
     m.flags = ci[6]
 
-    local si = { GetSpellInfo(m.spellid) }
-    m.spellname = si[1]
-    m.casttime = si[7]
+    local si = { GetSpellInfo(m.spellId) }
+    m.spellName = si[1]
+    m.castTime = si[7]
 
     m:FixupFlags()
 
-    self.CacheByName[m.name] = m
-    self.CacheBySpellId[m.spellid] = m
+    self.cacheByName[m.name] = m
+    self.cacheBySpellId[m.spellId] = m
 
     return m
 end
@@ -126,11 +126,11 @@ function LM_Mount:SetFlags(f)
 end
 
 function LM_Mount:SpellId()
-    return self.spellid
+    return self.spellId
 end
 
 function LM_Mount:SpellName()
-    return self.spellname
+    return self.spellName
 end
 
 function LM_Mount:Icon()
@@ -146,7 +146,7 @@ function LM_Mount:DefaultFlags()
 end
 
 function LM_Mount:Flags()
-    return LM_Options:ApplySpellFlags(self.spellid, self.flags)
+    return LM_Options:ApplySpellFlags(self.spellId, self.flags)
 end
 
 function LM_Mount:CanFly()
@@ -170,30 +170,30 @@ function LM_Mount:CanSwim()
 end
 
 function LM_Mount:CastTime()
-    return self.casttime
+    return self.castTime
 end
 
 function LM_Mount:Usable()
-    if self.itemid then
-        return LM_MountItem:IsUsable(self.itemid)
+    if self.itemId then
+        return LM_MountItem:IsUsable(self.itemId)
     else
-        return IsUsableSpell(self.spellid)
+        return IsUsableSpell(self.spellId)
     end
 end
 
 function LM_Mount:SetupActionButton(button)
-    if self.itemname then
-        LM_Debug("LM_Mount setting button to item "..self.itemname)
+    if self.itemName then
+        LM_Debug("LM_Mount setting button to item "..self.itemName)
         button:SetAttribute("type", "item")
-        button:SetAttribute("item", self.itemname)
+        button:SetAttribute("item", self.itemName)
     else
-        LM_Debug("LM_Mount setting button to spell "..self.spellname)
+        LM_Debug("LM_Mount setting button to spell "..self.spellName)
         button:SetAttribute("type", "spell")
-        button:SetAttribute("spell", self.spellname)
+        button:SetAttribute("spell", self.spellName)
     end
 end
 
 function LM_Mount:Dump()
     LM_Print(string.format("%s %d %02x (%02x)",
-             self.name, self.spellid, self:Flags(), self.flags))
+             self.name, self.spellId, self:Flags(), self.flags))
 end

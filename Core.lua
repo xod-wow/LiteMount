@@ -64,7 +64,7 @@ function LiteMount:Initialize()
     -- but more importantly it prevents a weird situation on loading where
     -- the scan errors because GetCompanionInfo("MOUNT", i) fails for some
     -- i < GetNumCompanions("MOUNT").
-    self.needscan = true
+    self.needScan = true
 
     SlashCmdList["LiteMount"] = LiteMount_OpenOptionsPanel
     SLASH_LiteMount1 = "/litemount"
@@ -88,7 +88,7 @@ function LiteMount:Initialize()
     for _,ev in ipairs(RescanEvents) do
         self[ev] = function (self, event, ...)
                             LM_Debug("Got rescan event "..event)
-                            self.needscan = true
+                            self.needScan = true
                         end
         self:RegisterEvent(ev)
     end
@@ -96,10 +96,10 @@ function LiteMount:Initialize()
 end
 
 function LiteMount:ScanMounts()
-    if not self.needscan then return end
+    if not self.needScan then return end
     LM_Debug("Rescanning list of mounts.")
     LM_MountList:ScanMounts()
-    self.needscan = nil
+    self.needScan = nil
 end
 
 function LiteMount:GetAllMounts()

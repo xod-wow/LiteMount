@@ -17,10 +17,10 @@ local CAN_FLY_IF_USABLE_SPELL = LM_SPELL_BRONZE_DRAKE
 
 function LM_Location:Initialize()
     self.continent = -1
-    self.areaid = -1
-    self.zonetext = -1
-    self.minimapzonetext = ""
-    self.subzonetext = ""
+    self.areaId = -1
+    self.zoneText = -1
+    self.minimapZoneText = ""
+    self.subZoneText = ""
 
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
     self:RegisterEvent("WORLD_MAP_UPDATE")
@@ -33,10 +33,10 @@ function LM_Location:Update()
 
     -- SetMapToCurrentZone()
     self.continent = GetCurrentMapContinent()
-    self.areaid = GetCurrentMapAreaID()
+    self.areaId = GetCurrentMapAreaID()
     self.realzonetext = GetRealZoneText()
-    self.zonetext = GetZoneText()
-    self.subzonetext = GetSubZoneText()
+    self.zoneText = GetZoneText()
+    self.subZoneText = GetSubZoneText()
 end
 
 function LM_Location:PLAYER_LOGIN()
@@ -72,16 +72,16 @@ function LM_Location:GetName()
 end
 
 function LM_Location:GetId()
-    return self.areaid
+    return self.areaId
 end
 
 function LM_Location:IsAQ()
-    if self.areaid == 766 then return 1 end
+    if self.areaId == 766 then return 1 end
 end
 
 function LM_Location:IsVashjir()
     if not IsSwimming() then return nil end
-    if self.areaid == 610 then return 1 end
-    if self.areaid == 614 then return 1 end
-    if self.areaid == 615 then return 1 end
+    if self.areaId == 610 then return 1 end
+    if self.areaId == 614 then return 1 end
+    if self.areaId == 615 then return 1 end
 end

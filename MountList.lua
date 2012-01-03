@@ -9,14 +9,14 @@
 LM_MountList = { }
 
 function LM_MountList:Initialize()
-    self.byname = { }
+    self.byName = { }
 end
 
 function LM_MountList:AddCompanionMounts()
     for i = 1,GetNumCompanions("MOUNT") do
         local m = LM_Mount:GetMountByIndex(i)
         if m then
-            self.byname[m.name] = m
+            self.byName[m.name] = m
         end
     end
 end
@@ -26,7 +26,7 @@ function LM_MountList:AddRacialMounts()
         if LM_MountSpell:IsKnown(spellid) then
             local m = LM_Mount:GetMountBySpell(spellid)
             if m then
-                self.byname[m.name] = m
+                self.byName[m.name] = m
             end
         end
     end
@@ -37,7 +37,7 @@ function LM_MountList:AddClassMounts()
         if LM_MountSpell:IsKnown(spellid) then
             local m = LM_Mount:GetMountBySpell(spellid)
             if m then
-                self.byname[m.name] = m
+                self.byName[m.name] = m
             end
         end
     end
@@ -48,7 +48,7 @@ function LM_MountList:AddItemMounts()
         if LM_MountItem:HasItem(itemid) then
             local m = LM_Mount:GetMountByItem(itemid, spellid)
             if m then
-                self.byname[m.name] = m
+                self.byName[m.name] = m
             end
         end
     end
@@ -56,7 +56,7 @@ end
 
 function LM_MountList:ScanMounts()
 
-    table.wipe(self.byname)
+    table.wipe(self.byName)
 
     self:AddCompanionMounts()
     self:AddRacialMounts()
@@ -70,7 +70,7 @@ function LM_MountList:GetMounts(flags)
 
     if not flags then flags = 0 end
 
-    for _, m in pairs(self.byname) do
+    for _, m in pairs(self.byName) do
         if bit.band(m:Flags(), flags) == flags then
             table.insert(match, m)
         end
@@ -162,7 +162,7 @@ function LM_MountList:GetRandomSwimmingMount()
 end
 
 function LM_MountList:Dump()
-    for _,m in pairs(self.byname) do
+    for _,m in pairs(self.byName) do
         m:Dump()
     end
 end
