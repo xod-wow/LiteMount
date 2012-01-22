@@ -208,24 +208,33 @@ function LiteMount:PreClick(mouseButton)
     local m
 
     if not m and LM_Location:CanFly() and mouseButton == "LeftButton" then
+        LM_Debug("Trying GetRandomFlyingMount")
         m = LM_MountList:GetRandomFlyingMount()
     end
 
     if not m and LM_Location:IsVashjir() then
+        LM_Debug("Trying GetRandomVashjirMount")
         m = LM_MountList:GetRandomVashjirMount()
     end
 
     if not m and LM_Location:CanSwim() then
+        LM_Debug("Trying GetRandomSwimmingMount")
         m = LM_MountList:GetRandomSwimmingMount()
     end
 
     if not m and LM_Location:IsAQ() then
+        LM_Debug("Trying GetRandomAQMount")
         m = LM_MountList:GetRandomAQMount()
     end
 
     if not m then
+        LM_Debug("Trying GetRandomWalkingMount")
         m = LM_MountList:GetRandomWalkingMount()
-                or LM_MountList:GetRandomSlowWalkingMount()
+    end
+
+    if not m then
+        LM_Debug("Trying GetRandomSlowWalkingMount")
+        m = LM_MountList:GetRandomSlowWalkingMount()
     end
 
     if m then
@@ -234,6 +243,7 @@ function LiteMount:PreClick(mouseButton)
         return
     end
 
+    LM_Debug("No usable mount found, checking for custom macro.")
     local macro = LM_Options:GetMacro()
     if macro then
         self:SetAsMacroText(macro)
