@@ -7,12 +7,12 @@
 ----------------------------------------------------------------------------]]--
 
 -- Bits 1 through 16 match Blizzard's flags in GetCompanionInfo()
-LM_FLAG_BIT_WALK = 1
+LM_FLAG_BIT_RUN = 1
 LM_FLAG_BIT_FLY = 2
 LM_FLAG_BIT_FLOAT = 4
 LM_FLAG_BIT_SWIM = 8
 LM_FLAG_BIT_JUMP = 16
-LM_FLAG_BIT_SLOWWALK = 32
+LM_FLAG_BIT_WALK = 32
 LM_FLAG_BIT_MOVING = 64
 LM_FLAG_BIT_AQ = 128
 LM_FLAG_BIT_VASHJIR = 256
@@ -78,15 +78,15 @@ LM_FlagOverrideTable = {
                                             LM_FLAG_BIT_SWIM),
     [LM_SPELL_RIDING_TURTLE]      = bit.bor(LM_FLAG_BIT_FLOAT,
                                             LM_FLAG_BIT_SWIM,
-                                            LM_FLAG_BIT_SLOWWALK),
+                                            LM_FLAG_BIT_WALK),
     [LM_SPELL_SEA_TURTLE]         = bit.bor(LM_FLAG_BIT_FLOAT,
                                             LM_FLAG_BIT_SWIM,
-                                            LM_FLAG_BIT_SLOWWALK),
+                                            LM_FLAG_BIT_WALK),
     [LM_SPELL_FLIGHT_FORM]        = bit.bor(LM_FLAG_BIT_FLY),
     [LM_SPELL_SWIFT_FLIGHT_FORM]  = bit.bor(LM_FLAG_BIT_FLY),
-    [LM_SPELL_RUNNING_WILD]       = bit.bor(LM_FLAG_BIT_WALK),
-    [LM_SPELL_GHOST_WOLF]         = bit.bor(LM_FLAG_BIT_SLOWWALK),
-    [LM_SPELL_TRAVEL_FORM]        = bit.bor(LM_FLAG_BIT_SLOWWALK),
+    [LM_SPELL_RUNNING_WILD]       = bit.bor(LM_FLAG_BIT_RUN),
+    [LM_SPELL_GHOST_WOLF]         = bit.bor(LM_FLAG_BIT_WALK),
+    [LM_SPELL_TRAVEL_FORM]        = bit.bor(LM_FLAG_BIT_WALK),
     [LM_SPELL_BLUE_QIRAJI_TANK]   = bit.bor(LM_FLAG_BIT_AQ),
     [LM_SPELL_GREEN_QIRAJI_TANK]  = bit.bor(LM_FLAG_BIT_AQ),
     [LM_SPELL_RED_QIRAJI_TANK]    = bit.bor(LM_FLAG_BIT_AQ),
@@ -97,7 +97,7 @@ LM_FlagOverrideTable = {
                                             LM_FLAG_BIT_VASHJIR),
     [LM_SPELL_TARECGOSAS_VISAGE]  = bit.bor(LM_FLAG_BIT_FLY),
     [LM_SPELL_FLYING_BROOM]       = bit.bor(LM_FLAG_BIT_FLY),
-    [LM_SPELL_MAGIC_BROOM]        = bit.bor(LM_FLAG_BIT_WALK,
+    [LM_SPELL_MAGIC_BROOM]        = bit.bor(LM_FLAG_BIT_RUN,
                                             LM_FLAG_BIT_FLY),
     [LM_SPELL_LOANED_GRYPHON]     = bit.bor(LM_FLAG_BIT_FLY),
     [LM_SPELL_LOANED_WIND_RIDER]  = bit.bor(LM_FLAG_BIT_FLY),

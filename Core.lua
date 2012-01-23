@@ -228,13 +228,13 @@ function LiteMount:PreClick(mouseButton)
     end
 
     if not m then
-        LM_Debug("Trying GetRandomWalkingMount")
-        m = LM_MountList:GetRandomWalkingMount()
+        LM_Debug("Trying GetRandomRunningMount")
+        m = LM_MountList:GetRandomRunningMount()
     end
 
     if not m then
-        LM_Debug("Trying GetRandomSlowWalkingMount")
-        m = LM_MountList:GetRandomSlowWalkingMount()
+        LM_Debug("Trying GetRandomWalkingMount")
+        m = LM_MountList:GetRandomWalkingMount()
     end
 
     if m then

@@ -22,8 +22,8 @@ function LM_Mount:FixupFlags()
 
     -- Most ground-only mounts are also flagged to swim
     -- XXX FIXME XXX
-    local fws = bit.bor(LM_FLAG_BIT_FLY, LM_FLAG_BIT_WALK, LM_FLAG_BIT_SWIM)
-    local ws = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_SWIM)
+    local fws = bit.bor(LM_FLAG_BIT_FLY, LM_FLAG_BIT_RUN, LM_FLAG_BIT_SWIM)
+    local ws = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_SWIM)
     if bit.band(self.flags, fws) == ws then
         self.flags = self.flags - LM_FLAG_BIT_SWIM
     end
@@ -153,12 +153,12 @@ function LM_Mount:CanFly()
     return bit.band(self:Flags(), LM_FLAG_BIT_FLY)
 end
 
-function LM_Mount:CanWalk()
-    return bit.band(self:Flags(), LM_FLAG_BIT_WALK)
+function LM_Mount:CanRun()
+    return bit.band(self:Flags(), LM_FLAG_BIT_RUN)
 end
 
-function LM_Mount:CanSlowWalk()
-    return bit.band(self:Flags(), LM_FLAG_BIT_SLOWWALK)
+function LM_Mount:CanWalk()
+    return bit.band(self:Flags(), LM_FLAG_BIT_WALK)
 end
 
 function LM_Mount:CanFloat()

@@ -27,7 +27,7 @@ local function CreateMoreButtons(self)
 
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
-        b.bit1.flagbit = LM_FLAG_BIT_WALK
+        b.bit1.flagbit = LM_FLAG_BIT_RUN
         b.bit2.flagbit = LM_FLAG_BIT_FLY
         b.bit3.flagbit = LM_FLAG_BIT_SWIM
         b.bit4.flagbit = LM_FLAG_BIT_AQ

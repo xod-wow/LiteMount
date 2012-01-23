@@ -43,7 +43,7 @@ Notes To Myself
 * Possible UI Improvements
 
     Have an enable/disable all button. Have it apply only to the current match.
-    Localize the Fly/Walk/Swim texts.
+    Localize the Fly/Run/Swim texts.
 
 
 ------------------------------------------------------------------------------
@@ -118,9 +118,7 @@ Notes To Myself
     Querying stuff:
         * Location.lua
             LM_Location:CanFly()
-            LM_Location:CanWalk()
             LM_Location:CanSwim()
-            LM_Location:CanFloat()
             LM_Location:IsAQ()
             LM_Location:IsVashjir()
         * MountItem.lua
@@ -175,8 +173,8 @@ Notes To Myself
 
             m = LM_MountList:GetRandomUsableMount(flags)
                 LM_MountList:GetRandomFlyingMount()
+                LM_MountList:GetRandomRunningMount()
                 LM_MountList:GetRandomWalkingMount()
-                LM_MountList:GetRandomSlowWalkingMount()
                 LM_MountList:GetRandomSwimmingMount()
                 LM_MountList:GetRandomAQMount()
                 LM_MountList:GetRandomVashjirMount()

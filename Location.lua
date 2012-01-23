@@ -2,11 +2,9 @@
 
   LiteMount/Location.lua
 
-  Figure out what kind of mounts we can use where the player is now.  This
-  has all the complicated mojo in it.  And it probably still won't work.
-  This would be a lot simpler if IsUsableSpell() just told you whether a
-  mount command would succeed, but IsUsableSpell() is client-side and
-  mount success is determined on the server.
+  Some basics about the current location with respect to mounting.  Most of
+  the mojo is done by IsUsableSpell to know if a mount can be cast, this
+  just helps with the prioritization.
 
 ----------------------------------------------------------------------------]]--
 
@@ -55,16 +53,8 @@ function LM_Location:CanFly()
     return IsUsableSpell(CAN_FLY_IF_USABLE_SPELL)
 end
 
-function LM_Location:CanWalk()
-    -- Note, Ghost Wolf can be used indoors.
-    return IsOutdoors()
-end
-
 function LM_Location:CanSwim()
     return IsSwimming()
-end
-
-function LM_Location:CanFloat()
 end
 
 function LM_Location:GetName()

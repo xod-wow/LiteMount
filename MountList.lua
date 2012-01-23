@@ -121,20 +121,20 @@ function LM_MountList:GetRandomFlyingMount()
     return self:GetRandomUsableMount(LM_FLAG_BIT_FLY)
 end
 
-function LM_MountList:GetSlowWalkingMounts()
-    return self:GetMounts(LM_FLAG_BIT_SLOWWALK)
-end
-
-function LM_MountList:GetRandomSlowWalkingMount()
-    return self:GetRandomUsableMount(LM_FLAG_BIT_SLOWWALK)
-end
-
 function LM_MountList:GetWalkingMounts()
     return self:GetMounts(LM_FLAG_BIT_WALK)
 end
 
 function LM_MountList:GetRandomWalkingMount()
     return self:GetRandomUsableMount(LM_FLAG_BIT_WALK)
+end
+
+function LM_MountList:GetRunningMounts()
+    return self:GetMounts(LM_FLAG_BIT_RUN)
+end
+
+function LM_MountList:GetRandomRunningMount()
+    return self:GetRandomUsableMount(LM_FLAG_BIT_RUN)
 end
 
 function LM_MountList:GetAQMounts()
