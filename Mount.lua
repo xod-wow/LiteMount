@@ -150,23 +150,23 @@ function LM_Mount:Flags()
 end
 
 function LM_Mount:CanFly()
-    return bit.band(self:Flags(), LM_FLAG_BIT_FLY)
+    return bit.band(self:Flags(), LM_FLAG_BIT_FLY) == LM_FLAG_BIT_FLY
 end
 
 function LM_Mount:CanRun()
-    return bit.band(self:Flags(), LM_FLAG_BIT_RUN)
+    return bit.band(self:Flags(), LM_FLAG_BIT_RUN) == LM_FLAG_BIT_RUN
 end
 
 function LM_Mount:CanWalk()
-    return bit.band(self:Flags(), LM_FLAG_BIT_WALK)
+    return bit.band(self:Flags(), LM_FLAG_BIT_WALK) == LM_FLAG_BIT_WALK
 end
 
 function LM_Mount:CanFloat()
-    return bit.band(self:Flags(), LM_FLAG_BIT_FLOAT)
+    return bit.band(self:Flags(), LM_FLAG_BIT_FLOAT) == LM_FLAG_BIT_FLOAT
 end
 
 function LM_Mount:CanSwim()
-    return bit.band(self:Flags(), LM_FLAG_BIT_SWIM)
+    return bit.band(self:Flags(), LM_FLAG_BIT_SWIM) == LM_FLAG_BIT_SWIM
 end
 
 function LM_Mount:CastTime()
