@@ -96,7 +96,7 @@ function LiteMountOptions_UpdateMountList()
 
     if not buttons then return end
 
-    local mounts = LiteMount:GetAllMounts()
+    mounts = LiteMount:GetAllMounts()
 
     local filtertext = self.filter:GetText()
     if filtertext == FILTER then
