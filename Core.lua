@@ -58,7 +58,7 @@ function LiteMount:Initialize()
     LM_Debug("Initialize")
 
     LM_Options:Initialize()
-    LM_MountList:Initialize()
+    LM_PlayerMounts:Initialize()
 
     -- Delayed scanning does two things. It stops us rescanning unnecessarily,
     -- but more importantly it prevents a weird situation on loading where
@@ -98,15 +98,15 @@ end
 function LiteMount:ScanMounts()
     if not self.needScan then return end
     LM_Debug("Rescanning list of mounts.")
-    LM_MountList:ScanMounts()
+    LM_PlayerMounts:ScanMounts()
     self.needScan = nil
 end
 
 function LiteMount:GetAllMounts()
-    if not LM_MountList then return {} end
+    if not LM_PlayerMounts then return {} end
     self:ScanMounts()
-    local allmounts = LM_MountList:GetMounts()
-    table.sort(allmounts, function(a,b) return a:Name() < b:Name() end)
+    local allmounts = LM_PlayerMounts:GetAllMounts()
+    allmounts:Sort(function (a,b) return a:Name() < b:Name() end)
     return allmounts
 end
 
@@ -208,33 +208,33 @@ function LiteMount:PreClick(mouseButton)
     local m
 
     if not m and LM_Location:CanFly() and mouseButton == "LeftButton" then
-        LM_Debug("Trying GetRandomFlyingMount")
-        m = LM_MountList:GetRandomFlyingMount()
+        LM_Debug("Trying GetFlyingMount")
+        m = LM_PlayerMounts:GetFlyingMount()
     end
 
     if not m and LM_Location:IsVashjir() then
-        LM_Debug("Trying GetRandomVashjirMount")
-        m = LM_MountList:GetRandomVashjirMount()
+        LM_Debug("Trying GetVashjirMount")
+        m = LM_PlayerMounts:GetVashjirMount()
     end
 
     if not m and LM_Location:CanSwim() then
-        LM_Debug("Trying GetRandomSwimmingMount")
-        m = LM_MountList:GetRandomSwimmingMount()
+        LM_Debug("Trying GetSwimmingMount")
+        m = LM_PlayerMounts:GetSwimmingMount()
     end
 
     if not m and LM_Location:IsAQ() then
-        LM_Debug("Trying GetRandomAQMount")
-        m = LM_MountList:GetRandomAQMount()
+        LM_Debug("Trying GetAQMount")
+        m = LM_PlayerMounts:GetAQMount()
     end
 
     if not m then
-        LM_Debug("Trying GetRandomRunningMount")
-        m = LM_MountList:GetRandomRunningMount()
+        LM_Debug("Trying GetRunningMount")
+        m = LM_PlayerMounts:GetRunningMount()
     end
 
     if not m then
-        LM_Debug("Trying GetRandomWalkingMount")
-        m = LM_MountList:GetRandomWalkingMount()
+        LM_Debug("Trying GetWalkingMount")
+        m = LM_PlayerMounts:GetWalkingMount()
     end
 
     if m then

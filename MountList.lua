@@ -2,167 +2,60 @@
 
   LiteMount/MountList.lua
 
-  Information on all your mounts.
+  Class for a list of LM_Mount mounts.
 
 ----------------------------------------------------------------------------]]--
 
 LM_MountList = { }
+LM_MountList.__index = LM_MountList
 
-function LM_MountList:Initialize()
-    self.byName = { }
+function LM_MountList:New(ml)
+    local ml = ml or { }
+    setmetatable(ml, LM_MountList)
+    return ml
 end
 
-function LM_MountList:AddCompanionMounts()
-    for i = 1,GetNumCompanions("MOUNT") do
-        local m = LM_Mount:GetMountByIndex(i)
-        if m then
-            self.byName[m.name] = m
-        end
-    end
-end
+function LM_MountList:Search(matchfunc)
+    local result = LM_MountList:New()
 
-function LM_MountList:AddRacialMounts()
-    for _,spellid in ipairs(LM_RACIAL_MOUNT_SPELLS) do
-        if LM_MountSpell:IsKnown(spellid) then
-            local m = LM_Mount:GetMountBySpell(spellid)
-            if m then
-                self.byName[m.name] = m
-            end
-        end
-    end
-end
-
-function LM_MountList:AddClassMounts()
-    for _,spellid in ipairs(LM_CLASS_MOUNT_SPELLS) do
-        if LM_MountSpell:IsKnown(spellid) then
-            local m = LM_Mount:GetMountBySpell(spellid)
-            if m then
-                self.byName[m.name] = m
-            end
-        end
-    end
-end
-
-function LM_MountList:AddItemMounts()
-    for itemid,spellid in pairs(LM_ITEM_MOUNT_ITEMS) do
-        if LM_MountItem:HasItem(itemid) then
-            local m = LM_Mount:GetMountByItem(itemid, spellid)
-            if m then
-                self.byName[m.name] = m
-            end
-        end
-    end
-end
-
-function LM_MountList:ScanMounts()
-
-    table.wipe(self.byName)
-
-    self:AddCompanionMounts()
-    self:AddRacialMounts()
-    self:AddClassMounts()
-    self:AddItemMounts()
-
-end
-
-function LM_MountList:GetMounts(flags)
-    local match = { }
-
-    if not flags then flags = 0 end
-
-    for _, m in pairs(self.byName) do
-        if bit.band(m:Flags(), flags) == flags then
-            table.insert(match, m)
+    for m in self:Iterate() do
+        if matchfunc(m) then
+            table.insert(result, m)
         end
     end
 
-    return match
+    return result
 end
 
-function LM_MountList:GetUsableMounts(flags)
-    local match = self:GetMounts(flags)
-    for i = #match, 1, -1 do
-        if not match[i]:Usable() then
-            table.remove(match, i)
-        end
-    end
-    return match
-end
-
-function LM_MountList:GetRandomUsableMount(flags)
-
-    if GetUnitSpeed("player") > 0 or IsFalling() then
-        flags = bit.bor(flags, LM_FLAG_BIT_MOVING)
-    end
-
-    local poss = self:GetUsableMounts(flags)
-
-    for i = #poss, 1, -1 do
-        if LM_Options:IsExcludedSpell(poss[i]:SpellId()) then
-            table.remove(poss, i)
-        end
-    end
-
+function LM_MountList:Shuffle()
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
-    for i = #poss, 2, -1 do
+    for i = #self, 2, -1 do
         local r = math.random(i)
-        poss[i], poss[r] = poss[r], poss[i]
-    end
-
-    return poss[1]
-end
-
-
-function LM_MountList:GetFlyingMounts()
-    return self:GetMounts(LM_FLAG_BIT_FLY)
-end
-
-function LM_MountList:GetRandomFlyingMount()
-    return self:GetRandomUsableMount(LM_FLAG_BIT_FLY)
-end
-
-function LM_MountList:GetWalkingMounts()
-    return self:GetMounts(LM_FLAG_BIT_WALK)
-end
-
-function LM_MountList:GetRandomWalkingMount()
-    return self:GetRandomUsableMount(LM_FLAG_BIT_WALK)
-end
-
-function LM_MountList:GetRunningMounts()
-    return self:GetMounts(LM_FLAG_BIT_RUN)
-end
-
-function LM_MountList:GetRandomRunningMount()
-    return self:GetRandomUsableMount(LM_FLAG_BIT_RUN)
-end
-
-function LM_MountList:GetAQMounts()
-    return self:GetMounts(LM_FLAG_BIT_AQ)
-end
-
-function LM_MountList:GetRandomAQMount()
-    return self:GetRandomUsableMount(LM_FLAG_BIT_AQ)
-end
-
-function LM_MountList:GetVashjirMounts()
-    return self:GetMounts(LM_FLAG_BIT_VASHJIR)
-end
-
-function LM_MountList:GetRandomVashjirMount()
-    return self:GetRandomUsableMount(LM_FLAG_BIT_VASHJIR)
-end
-
-function LM_MountList:GetSwimmingMounts()
-    return self:GetMounts(LM_FLAG_BIT_SWIM)
-end
-
-function LM_MountList:GetRandomSwimmingMount()
-    return self:GetRandomUsableMount(LM_FLAG_BIT_SWIM)
-end
-
-function LM_MountList:Dump()
-    for _,m in pairs(self.byName) do
-        m:Dump()
+        self[i], self[r] = self[r], self[i]
     end
 end
+
+function LM_MountList:Random()
+    local i = math.random(#self)
+    return self[i]
+end
+
+function LM_MountList:Iterate()
+    local i = 0
+    local iter = function ()
+            i = i + 1
+            return self[i]
+        end
+    return iter
+end
+
+function LM_MountList:Sort()
+    table.sort(self, function(a,b) return a:Name() < b:Name() end)
+end
+
+function LM_MountList:Map(mapfunc)
+    for m in self:Iterate() do
+        mapfunc(m)
+    end
+end
+

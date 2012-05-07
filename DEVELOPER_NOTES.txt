@@ -163,21 +163,28 @@ Notes To Myself
             m:SetupActionButton(button)
                 Sets attributes on a SecureActionButton to summon this mount.
         * MountList.lua
+            Class for a list of mounts, used by LM_PlayerMounts.
+
+            LM_MountList:New()
+            LM_MountList:Shuffle()
+            LM_MountList:Random()
+            LM_MountList:Sort(sortfunc)
+            LM_MountList:Search(matchfunc)
+        * PlayerMounts
             All mounts the player knows.
 
-            LM_MountList:Initialize()
-            LM_MountList:ScanMounts()
+            LM_PlayerMounts:Initialize()
+            LM_PlayerMounts:ScanMounts()
 
-            mountlist = LM_MountList:GetMounts(flags)
-                * returns all mounts if flags = nil
+            mountlist = LM_PlayerMounts:GetAllMounts()
 
-            m = LM_MountList:GetRandomUsableMount(flags)
-                LM_MountList:GetRandomFlyingMount()
-                LM_MountList:GetRandomRunningMount()
-                LM_MountList:GetRandomWalkingMount()
-                LM_MountList:GetRandomSwimmingMount()
-                LM_MountList:GetRandomAQMount()
-                LM_MountList:GetRandomVashjirMount()
+            m = LM_PlayerMounts:GetRandomMount(flags)
+                LM_PlayerMounts:GetFlyingMount()
+                LM_PlayerMounts:GetRunningMount()
+                LM_PlayerMounts:GetWalkingMount()
+                LM_PlayerMounts:GetSwimmingMount()
+                LM_PlayerMounts:GetAQMount()
+                LM_PlayerMounts:GetVashjirMount()
             All the above calls don't return mounts for which
             LM_Options:IsExcludedSpell() is true.
         * Core.lua

@@ -12,7 +12,10 @@ LM_Mount = {
     ["cacheBySpellId"] = { }
 }
 LM_Mount.__index = LM_Mount
-function LM_Mount:new() return setmetatable({ }, LM_Mount) end
+
+function LM_Mount:new()
+    return setmetatable({ }, LM_Mount)
+end
 
 function LM_Mount:FixupFlags()
     -- Which fly/walk flagged mounts can mount in no-fly areas is arbitrary.
@@ -33,9 +36,6 @@ function LM_Mount:FixupFlags()
         self.flags = flags
     end
 
-    if self.castTime == 0 then
-        self.flags = bit.bor(self.flags, LM_FLAG_BIT_MOVING)
-    end
 end
 
 function LM_Mount:GetMountByItem(itemId, spellId)
@@ -150,35 +150,49 @@ function LM_Mount:Flags()
 end
 
 function LM_Mount:CanFly()
-    return bit.band(self:Flags(), LM_FLAG_BIT_FLY) == LM_FLAG_BIT_FLY
+    return self:FlagsSet(LM_FLAG_BIT_FLY)
 end
 
 function LM_Mount:CanRun()
-    return bit.band(self:Flags(), LM_FLAG_BIT_RUN) == LM_FLAG_BIT_RUN
+    return self:FlagsSet(LM_FLAG_BIT_RUN)
 end
 
 function LM_Mount:CanWalk()
-    return bit.band(self:Flags(), LM_FLAG_BIT_WALK) == LM_FLAG_BIT_WALK
+    return self:FlagsSet(LM_FLAG_BIT_WALK)
 end
 
 function LM_Mount:CanFloat()
-    return bit.band(self:Flags(), LM_FLAG_BIT_FLOAT) == LM_FLAG_BIT_FLOAT
+    return self:FlagsSet(LM_FLAG_BIT_FLOAT)
 end
 
 function LM_Mount:CanSwim()
-    return bit.band(self:Flags(), LM_FLAG_BIT_SWIM) == LM_FLAG_BIT_SWIM
+    return self:FlagsSet(LM_FLAG_BIT_SWIM)
 end
 
 function LM_Mount:CastTime()
     return self.castTime
 end
 
-function LM_Mount:Usable()
+-- This is a bit of a convenience since bit.isset doesn't exist
+function LM_Mount:FlagsSet(f)
+    return bit.band(self:Flags(), f) == f
+end
+
+function LM_Mount:IsUsable()
+
+    if GetUnitSpeed("player") > 0 or IsFalling() then
+        if self:CastTime() > 0 then return end
+    end
+
     if self.itemId then
         return LM_MountItem:IsUsable(self.itemId)
     else
         return IsUsableSpell(self.spellId)
     end
+end
+
+function LM_Mount:IsExcluded()
+    return LM_Options:IsExcludedSpell(self.spellId)
 end
 
 function LM_Mount:SetupActionButton(button)
@@ -195,5 +209,5 @@ end
 
 function LM_Mount:Dump()
     LM_Print(string.format("%s %d %02x (%02x)",
-             self.name, self.spellId, self:Flags(), self.flags))
+             self.name, self.spellId, self:Flags(), self:DefaultFlags()))
 end

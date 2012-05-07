@@ -26,10 +26,12 @@ end
 
 function LM_Location:Update()
 
-    -- Not sure what to do if this is the case.
+    -- Can just ignore this case because you get a WORLD_MAP_UPDATE
+    -- event when the map is closed anyway.  No point recording the
+    -- areas of the user browsing the world map.
     if WorldMapFrame:IsShown() then return end
 
-    -- SetMapToCurrentZone()
+    -- No matter how much you may want to, do not call SetMapToCurrentZone()
     self.continent = GetCurrentMapContinent()
     self.areaId = GetCurrentMapAreaID()
     self.realzonetext = GetRealZoneText()
