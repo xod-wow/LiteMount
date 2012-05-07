@@ -36,8 +36,12 @@ function LM_MountList:Shuffle()
 end
 
 function LM_MountList:Random()
-    local i = math.random(#self)
-    return self[i]
+    local n = #self
+    if n == 0 then
+        return nil
+    else
+        return self[math.random(n)]
+    end
 end
 
 function LM_MountList:Iterate()
