@@ -4,6 +4,47 @@
 
   Class for a list of LM_Mount mounts.
 
+  A primer reminder for me on LUA metatables and doing OO stuff in
+  them.  If you rewrite this from scratch don't make it OO, OK.
+  See also: http://www.lua.org/pil/13.html
+ 
+  You can set a "metatable" on a table with
+    setmetatable(theTable, theMetaTable)
+
+  Special records in the metatable are used for table access in
+  the case that the table key doesn't exist:
+
+    __index = function (table, key) return value end
+    __newindex = function (table, key, value) store_value_somehow end
+
+  Also arithmetic and comparison operators: __add __mul __eq __lt __le
+
+  The generic case for metatable "inheritence" is
+
+    baseTable = { whatever }
+    childTable = { whateverelse }
+    metaTable = { __index = function (t,k) return baseTable[k] end }
+    setmetatable(childTable, metaTable)
+
+  This is so common that LUA allows a shortcut where you can set __index
+  to be a table instead of a function, and it will do the lookups in
+  that table.
+
+    baseTable = { whatever }
+    childTable = { whateverelse }
+    metaTable = { __index = baseTable }
+    setmetatable(childTable, metaTable)
+
+  Then as a further shortcut, instead of requiring a separate metatable
+  you can just use the base table itself as the metatable by setting its
+  __index record.
+
+    baseTable = { whatever }
+    baseTable.__index = baseTable
+    setmetatable(childTable, baseTable)
+
+  This is typical class-style OO.
+
 ----------------------------------------------------------------------------]]--
 
 LM_MountList = { }
