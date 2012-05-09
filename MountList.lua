@@ -94,8 +94,24 @@ function LM_MountList:Iterate()
     return iter
 end
 
+function LM_MountList:__add(other)
+    local r = LM_MountList:New()
+    local seen = { }
+    for m in self:Iterate() do
+        table.insert(r, m)
+        seen[m:Name()] = true
+    end
+    for m in other:Iterate() do
+        if not seen[m:Name()] then
+            table.insert(r, m)
+        end
+    end
+    return r
+end
+
 function LM_MountList:Sort()
-    table.sort(self, function(a,b) return a:Name() < b:Name() end)
+    -- because LM_Mount has __lt metamethod defined we don't need a func
+    table.sort(self)
 end
 
 function LM_MountList:Map(mapfunc)
