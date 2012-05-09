@@ -106,7 +106,7 @@ function LiteMount:GetAllMounts()
     if not LM_PlayerMounts then return {} end
     self:ScanMounts()
     local allmounts = LM_PlayerMounts:GetAllMounts()
-    allmounts:Sort(function (a,b) return a:Name() < b:Name() end)
+    allmounts:Sort()
     return allmounts
 end
 
