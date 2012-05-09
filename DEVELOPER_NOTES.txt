@@ -166,9 +166,10 @@ Notes To Myself
             Class for a list of mounts, used by LM_PlayerMounts.
 
             LM_MountList:New()
+            LM_MountList:Iterate()
             LM_MountList:Shuffle()
             LM_MountList:Random()
-            LM_MountList:Sort(sortfunc)
+            LM_MountList:Sort()
             LM_MountList:Search(matchfunc)
         * PlayerMounts
             All mounts the player knows.
