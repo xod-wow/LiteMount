@@ -4,6 +4,8 @@
 
   Texts for keybindings menu entries.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 local L = LM_Localize

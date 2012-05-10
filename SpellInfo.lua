@@ -4,6 +4,8 @@
 
   Constants for mount spell information.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 -- Bits 1 through 16 match Blizzard's flags in GetCompanionInfo()

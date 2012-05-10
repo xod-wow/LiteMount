@@ -4,6 +4,8 @@
 
   Options frame to plug in to the Blizzard interface menu.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 local NUM_SUGGESTION_BUTTONS = 4

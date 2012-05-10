@@ -4,9 +4,11 @@
 
   User-settable options.  Theses are queried by different places.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
---[[
+--[[----------------------------------------------------------------------------
 
 excludedspells is a list of spell ids the player has disabled
     ["excludedspells"] = { spellid1, spellid2, spellid3, ... }
@@ -24,7 +26,7 @@ The reason to do it this way instead of just storing the xor is that
 the default flags might change and we don't want the override to suddenly
 go from disabling somthing to enabling it.
 
-]]--
+----------------------------------------------------------------------------]]--
 
 local Default_LM_OptionsDB = {
     ["excludedspells"] = { },

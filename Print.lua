@@ -4,6 +4,8 @@
 
   AddMessage() into the currently displayed chat window.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 local ChatWindowCache = nil

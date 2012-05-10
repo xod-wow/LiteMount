@@ -5,6 +5,8 @@
   Querying mounting spells. Needed because IsSpellKnown() never returns
   true for companion spells.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 LM_MountSpell = { }

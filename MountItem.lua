@@ -4,6 +4,8 @@
 
   Querying mounting items.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 LM_MountItem = { }

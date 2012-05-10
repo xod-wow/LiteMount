@@ -4,6 +4,8 @@
 
   Information about one mount.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 LM_Mount = {

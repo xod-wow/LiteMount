@@ -4,6 +4,8 @@
 
   Information on all your mounts.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 -- We sub-tables so we can wipe() them without losing the methods.

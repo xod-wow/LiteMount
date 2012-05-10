@@ -4,6 +4,8 @@
 
   LiteMount translations into other languages.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 LM_Localize = setmetatable({ }, {__index=function (t,k) return k end})

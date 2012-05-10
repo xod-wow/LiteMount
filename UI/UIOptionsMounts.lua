@@ -4,6 +4,8 @@
 
   Options frame for the mount list.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 function LiteMountOptionsBit_OnClick(self)

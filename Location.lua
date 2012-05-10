@@ -6,6 +6,8 @@
   the mojo is done by IsUsableSpell to know if a mount can be cast, this
   just helps with the prioritization.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")

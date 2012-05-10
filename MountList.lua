@@ -4,6 +4,12 @@
 
   Class for a list of LM_Mount mounts.
 
+  Copyright 2011,2012 Mike Battersby
+
+----------------------------------------------------------------------------]]--
+
+--[[----------------------------------------------------------------------------
+
   A primer reminder for me on LUA metatables and doing OO stuff in
   them.  If you rewrite this from scratch don't make it OO, OK.
   See also: http://www.lua.org/pil/13.html

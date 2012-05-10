@@ -4,6 +4,8 @@
 
   Common utils for the UI options panels.
 
+  Copyright 2011,2012 Mike Battersby
+
 ----------------------------------------------------------------------------]]--
 
 local L = LM_Localize
