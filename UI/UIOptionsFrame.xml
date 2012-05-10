@@ -18,7 +18,7 @@
                 </Anchors>
             </FontString>
 
-            <FontString name="$parentVersionText" inherits="GameFontNormal" justifyH="RIGHT" text="Version :">
+            <FontString name="$parentVersionText" inherits="GameFontNormal" justifyH="RIGHT" text="GAME_VERSION_LABEL">
                 <Anchors>
                     <Anchor point="TOPLEFT" x="36" y="-96" />
                 </Anchors>
@@ -30,7 +30,7 @@
                 </Anchors>
             </FontString>
 
-            <FontString name="$parentAuthorText" inherits="GameFontNormal" justifyH="RIGHT" text="Author :">
+            <FontString name="$parentAuthorText" inherits="GameFontNormal" justifyH="RIGHT" text="Author">
                 <Anchors>
                     <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="$parentVersionText" y="-8" />
                 </Anchors>

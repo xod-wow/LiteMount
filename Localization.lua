@@ -14,30 +14,34 @@ local L = LM_Localize
 
 local locale = GetLocale()
 
-if locale == "enUS" then
-    -- Default locale is enUS
-elseif locale == "frFR" then
+if locale == "enUS" or locale == "enGB" then
+    -- Default locale is English
 elseif locale == "deDE" then
+    L["Author"]  = "Autor"
+elseif locale == "esES" or locale == "esMX" then
+    L["Author"]  = "Autor"
+elseif locale == "frFR" then
+    L["Author"]  = "Auteur"
 elseif locale == "koKR" then
-elseif locale == "zhCN" then
-    L["Non-flying Mount"] = "非飞行坐骑"
-    L["Author"]  = "作者"
-    L["Version"] = "版本"
-    L["Run"]     = "跑"
-    L["Fly"]     = "飞"
-    L["Swim"]    = "游"
-    L["AQ"]      = "AQL"
-    L["Vash"]    = "海"
-elseif locale == "zhTW" then
-    L["Non-flying Mount"] = "非飞行坐骑"
-    L["Author"]  = "作者"
-    L["Version"] = "版本"
-    L["Run"]     = "跑"
-    L["Fly"]     = "飞"
-    L["Swim"]    = "游"
-    L["AQ"]      = "AQL"
-    L["Vash"]    = "海"
+    L["Author"]  = "저자"
+elseif locale == "ptBR" then
+    L["Author"]  = "Autor"
 elseif locale == "ruRU" then
-elseif locale == "esES" then
-elseif locale == "esMX" then
+    L["Author"]  = "Aвтор"
+elseif locale == "zhCN" then
+    L["Author"]  = "作者"
+    L["Non-flying Mount"] = "非飞行坐骑"
+    L["Run"]     = "跑"
+    L["Fly"]     = "飞"
+    L["Swim"]    = "游"
+    L["AQ"]      = "AQL"
+    L["Vash"]    = "瓦丝琪尔"
+elseif locale == "zhTW" then
+    L["Author"]  = "作者"
+    L["Non-flying Mount"] = "非飞行坐骑"
+    L["Run"]     = "跑"
+    L["Fly"]     = "飛"
+    L["Swim"]    = "游"
+    L["AQ"]      = "AQL"
+    L["Vash"]    = "瓦許伊爾"
 end
