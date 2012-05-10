@@ -6,6 +6,7 @@
 ## SavedVariablesPerCharacter: LM_OptionsDB
 
 Localization.lua
+
 AutoEventFrame.lua
 Print.lua
 SpellInfo.lua
