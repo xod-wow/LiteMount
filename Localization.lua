@@ -24,17 +24,20 @@ elseif locale == "frFR" then
     L["Author"]  = "Auteur"
 elseif locale == "koKR" then
     L["Author"]  = "저자"
+    L["Vash"]    = "바쉬르"
+    L["AQ"]      = "안퀴라즈"
 elseif locale == "ptBR" then
     L["Author"]  = "Autor"
 elseif locale == "ruRU" then
     L["Author"]  = "Aвтор"
+    L["AQ"]      = "АК"
 elseif locale == "zhCN" then
     L["Author"]  = "作者"
     L["Non-flying Mount"] = "非飞行坐骑"
     L["Run"]     = "跑"
     L["Fly"]     = "飞"
     L["Swim"]    = "游"
-    L["AQ"]      = "AQL"
+    L["AQ"]      = "安其拉"
     L["Vash"]    = "瓦丝琪尔"
 elseif locale == "zhTW" then
     L["Author"]  = "作者"
@@ -42,6 +45,6 @@ elseif locale == "zhTW" then
     L["Run"]     = "跑"
     L["Fly"]     = "飛"
     L["Swim"]    = "游"
-    L["AQ"]      = "AQL"
+    L["AQ"]      = "安其拉"
     L["Vash"]    = "瓦許伊爾"
 end
