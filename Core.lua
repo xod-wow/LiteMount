@@ -65,7 +65,7 @@ function LiteMount:BuildCombatMacro()
         end
     end
 
-    self.inCombatMacro = m
+    return m
 end
 
 function LiteMount:Initialize()
@@ -95,9 +95,9 @@ function LiteMount:Initialize()
     -- SecureActionButton setup
     self:SetScript("PreClick", function (s,m,d) LiteMount:PreClick(m,d) end)
     self:SetScript("PostClick", function (s,m,d) LiteMount:PostClick(m,d) end)
-    self:SetAttribute("macrotext", self.inCombatMacro)
     self:SetAttribute("type", "macro")
     self:SetAttribute("unit", "player")
+    self:SetAsInCombatAction()
 
     -- Mount event setup
     for _,ev in ipairs(RescanEvents) do
@@ -142,9 +142,14 @@ function LiteMount:PLAYER_REGEN_ENABLED()
 end
 
 function LiteMount:SetAsInCombatAction()
-    LM_Debug("Setting action to default in-combat action.")
+    LM_Debug("Setting action to in-combat action.")
     self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", self.inCombatMacro)
+
+    if LM_Options:UseCombatMacro() then
+        self:SetAttribute("macrotext", LM_Options:GetCombatMacro())
+    else
+        self:SetAttribute("macrotext", self:BuildCombatMacro())
+    end
 end
 
 function LiteMount:SetAsCantMount()
@@ -259,9 +264,8 @@ function LiteMount:PreClick(mouseButton)
     end
 
     LM_Debug("No usable mount found, checking for custom macro.")
-    local macro = LM_Options:GetMacro()
-    if macro then
-        self:SetAsMacroText(macro)
+    if LM_Options:UseMacro() then
+        self:SetAsMacroText(LM_Options:GetMacro())
         return
     end
 

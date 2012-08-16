@@ -31,7 +31,8 @@ go from disabling somthing to enabling it.
 local Default_LM_OptionsDB = {
     ["excludedspells"] = { },
     ["flagoverrides"]  = { },
-    ["macro"]          = { },
+    ["macro"]          = { },       -- [1] = macro
+    ["combatmacro"]    = { },       -- [1] = macro, [2] == 0/1 enabled
 }
 
 LM_Options = { }
@@ -159,6 +160,10 @@ end
      Last resort macro stuff
 ----------------------------------------------------------------------------]]--
 
+function LM_Options:UseMacro()
+    return self.macro[1] ~= nil
+end
+
 function LM_Options:GetMacro()
     return self.macro[1]
 end
@@ -166,5 +171,28 @@ end
 function LM_Options:SetMacro(text)
     LM_Debug("Setting custom macro: " .. (text or "nil"))
     self.macro[1] = text
+end
+
+function LM_Options:UseCombatMacro()
+    return self.combatmacro[2] ~= nil
+end
+
+function LM_Options:GetCombatMacro()
+    return self.combatMacro[1]
+end
+
+function LM_Options:SetCombatMacro(text)
+    LM_Debug("Setting custom combat macro: " .. (text or "nil"))
+    self.combatMacro[1] = text
+end
+
+function LM_Options:EnableCombatMacro()
+    LM_Debug("Enabling custom combat macro.")
+    self.combatMacro[2] = 1
+end
+
+function LM_Options:DisableCombatMacro()
+    LM_Debug("Disabling custom combat macro.")
+    self.combatMacro[2] = nil
 end
 
