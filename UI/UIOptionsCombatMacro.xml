@@ -43,7 +43,7 @@
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
                 </EditBox>
-                <Button inherits="UIPanelButtonTemplate" text="DELETE">
+                <Button inherits="UIPanelButtonTemplate" name="LiteMountOptionsCombatMacroDelete" text="DELETE">
                     <Size x="96" y="22" />
                     <Anchors>
                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
@@ -51,6 +51,17 @@
                     <Scripts>
                         <OnClick>
                             LiteMountOptionsCombatMacroEditBox:SetText("")
+                        </OnClick>
+                    </Scripts>
+                </Button>
+                <Button name="LiteMountOptionsCombatMacroDefault" inherits="UIPanelButtonTemplate" text="DEFAULT">
+                    <Size x="96" y="22" />
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-8" y="3" />
+                    </Anchors>
+                    <Scripts>
+                        <OnClick>
+                            LiteMountOptionsCombatMacroEditBox:SetText(LiteMount:BuildCombatMacro())
                         </OnClick>
                     </Scripts>
                 </Button>
