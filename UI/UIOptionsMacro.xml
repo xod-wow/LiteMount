@@ -110,7 +110,7 @@
 
             <FontString name="LiteMountOptionsMacroCount" inherits="GameFontHighlightSmall">
                 <Anchors>
-                    <Anchor point="TOP" relativePoint="BOTTOm" relativeTo="LiteMountOptionsMacroEditBoxContainer" y="-3" />
+                    <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="LiteMountOptionsMacroEditBoxContainer" y="-3" />
                 </Anchors>
             </FontString>
 
