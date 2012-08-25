@@ -10,8 +10,7 @@
 
 local ChatWindowCache = nil
 
--- local DebugEnabled = false
-local DebugEnabled = 1
+local DebugEnabled = false
 
 local function GetActiveChatFrame()
     if not ChatWindowCache then
