@@ -132,7 +132,7 @@ function LiteMountOptionsMacro_OnLoad(self)
     LiteMount_Frame_AutoLocalize(self)
 
     self.parent = LiteMountOptions.name
-    self.name = MACRO
+    self.name = MACRO .. " : " .. UNAVAILABLE
     self.title:SetText("LiteMount : " .. self.name)
 
     self.default = function ()

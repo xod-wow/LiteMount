@@ -82,6 +82,7 @@
     </Layers>
 
     <Scripts>
+        <OnHide function="LiteMountOptionsCombatMacro_OnHide" />
         <OnLoad function="LiteMountOptionsCombatMacro_OnLoad" />
         <OnShow function="LiteMountOptionsCombatMacro_OnShow" />
     </Scripts>

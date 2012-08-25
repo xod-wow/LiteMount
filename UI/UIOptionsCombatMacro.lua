@@ -32,6 +32,10 @@ function LiteMountOptionsCombatMacro_OnShow(self)
     end
 end
 
+function LiteMountOptionsCombatMacro_OnHide(self)
+    LiteMount:PostClick()
+end
+
 function LiteMountOptionsCombatMacro_OnTextChanged(self)
     local m = LiteMountOptionsCombatMacroEditBox:GetText()
     if not m or string.match(m, "^%s*$") then
