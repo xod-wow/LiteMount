@@ -29,3 +29,5 @@ UI\UIOptionsMounts.lua
 UI\UIOptionsMounts.xml
 UI\UIOptionsMacro.lua
 UI\UIOptionsMacro.xml
+UI\UIOptionsCombatMacro.lua
+UI\UIOptionsCombatMacro.xml

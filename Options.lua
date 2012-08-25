@@ -32,7 +32,7 @@ local Default_LM_OptionsDB = {
     ["excludedspells"] = { },
     ["flagoverrides"]  = { },
     ["macro"]          = { },       -- [1] = macro
-    ["combatmacro"]    = { },       -- [1] = macro, [2] == 0/1 enabled
+    ["combatMacro"]    = { },       -- [1] = macro, [2] == 0/1 enabled
 }
 
 LM_Options = { }
@@ -57,7 +57,12 @@ function LM_Options:Initialize()
         LM_OptionsDB.macro = { }
     end
 
+    if not LM_OptionsDB.combatMacro then
+        LM_OptionsDB.combatMacro = { }
+    end
+
     self.macro = LM_OptionsDB.macro
+    self.combatMacro = LM_OptionsDB.combatMacro
 
 end
 
@@ -174,7 +179,7 @@ function LM_Options:SetMacro(text)
 end
 
 function LM_Options:UseCombatMacro()
-    return self.combatmacro[2] ~= nil
+    return self.combatMacro[2] ~= nil
 end
 
 function LM_Options:GetCombatMacro()
