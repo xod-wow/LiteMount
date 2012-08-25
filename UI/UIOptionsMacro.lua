@@ -103,11 +103,11 @@ local function SetSuggestion(button, s)
     if s then
         SetItemButtonTexture(button, select(3, GetSpellInfo(s.iconspell)))
         button.macro = s.macro
-        button.tooltip = s.macro
+        button.tooltipText = s.macro
         button:Show()
     else
         button.macro = nil
-        button.tooltip = nil
+        button.tooltipText = nil
         button:Hide()
     end
 end

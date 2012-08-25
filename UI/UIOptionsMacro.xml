@@ -2,6 +2,21 @@
 
 <!-- Copyright 2011,2012 Mike Battersby -->
 
+<Button name="LiteMountItemButtonTemplate" virtual="true" inherits="ItemButtonTemplate">
+    <Scripts>
+        <OnEnter>
+            if self.tooltipText then
+                GameTooltip:SetOwner(self)
+                GameTooltip:SetText(self.tooltipText)
+                GameTooltip:Show()
+            end
+        </OnEnter>
+        <OnLeave>
+                GameTooltip:Hide()
+        </OnLeave>
+    </Scripts>
+</Button>
+
 <Frame name="LiteMountOptionsMacro" hidden="true">
 
     <Frames>
@@ -56,7 +71,7 @@
                 </Button>
             </Frames>
         </Frame>
-        <Button name="LiteMountOptionsMacroSuggest1" inherits="ItemButtonTemplate" hidden="true">
+        <Button name="LiteMountOptionsMacroSuggest1" inherits="LiteMountItemButtonTemplate" hidden="true">
             <Size x="37" y="37" />
             <Anchors>
                 <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="8" y="-8" />
@@ -65,7 +80,7 @@
                 <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
             </Scripts>
         </Button>
-        <Button name="LiteMountOptionsMacroSuggest2" inherits="ItemButtonTemplate" hidden="true">
+        <Button name="LiteMountOptionsMacroSuggest2" inherits="LiteMountItemButtonTemplate" hidden="true">
             <Size x="37" y="37" />
             <Anchors>
                 <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest1" y="-8" />
@@ -74,7 +89,7 @@
                 <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
             </Scripts>
         </Button>
-        <Button name="LiteMountOptionsMacroSuggest3" inherits="ItemButtonTemplate" hidden="true">
+        <Button name="LiteMountOptionsMacroSuggest3" inherits="LiteMountItemButtonTemplate" hidden="true">
             <Size x="37" y="37" />
             <Anchors>
                 <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest2" y="-8" />
@@ -83,7 +98,7 @@
                 <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
             </Scripts>
         </Button>
-        <Button name="LiteMountOptionsMacroSuggest4" inherits="ItemButtonTemplate" hidden="true">
+        <Button name="LiteMountOptionsMacroSuggest4" inherits="LiteMountItemButtonTemplate" hidden="true">
             <Size x="37" y="37" />
             <Anchors>
                 <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest3" y="-8" />
