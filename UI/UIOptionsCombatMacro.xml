@@ -56,6 +56,23 @@
                 </Button>
             </Frames>
         </Frame>
+        <CheckButton name="LiteMountOptionsCombatMacroEnable" inherits="OptionsBaseCheckButtonTemplate">
+            <Anchors>
+                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LiteMountOptionsCombatMacroEditBoxContainer" y="32" />
+            </Anchors>
+            <Scripts>
+                <OnShow>
+                    self:SetChecked(LM_Options:UseCombatMacro())
+                </OnShow>
+                <OnClick>
+                    if self:GetChecked() then
+                        LM_Options:EnableCombatMacro()
+                    else
+                        LM_Options:DisableCombatMacro()
+                    end
+                </OnClick>
+            </Scripts>
+        </CheckButton>
     </Frames>
 
     <Layers>
@@ -66,6 +83,11 @@
                 </Anchors>
             </FontString>
 
+            <FontString inherits="GameFontNormalLarge" parentKey="enable" text="ENABLE">
+                <Anchors>
+                    <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="LiteMountOptionsCombatMacroEnable" x="4" />
+                </Anchors>
+            </FontString>
             <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
                 <Anchors>
                     <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LiteMountOptionsCombatMacroEditBoxContainer" x="8" y="3" />
