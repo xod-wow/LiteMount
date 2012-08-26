@@ -117,6 +117,15 @@
                 </Anchors>
             </FontString>
 
+            <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="MACRO_EXP">
+                <Anchors>
+                    <Anchor point="TOP" y="-48" />
+                    <Anchor point="LEFT" relativePoint="LEFT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="-50" />
+                    <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="50" />
+                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" />
+                </Anchors>
+            </FontString>
+
             <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
                 <Anchors>
                     <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="8" y="3" />

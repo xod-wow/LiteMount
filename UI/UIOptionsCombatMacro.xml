@@ -94,6 +94,15 @@
                 </Anchors>
             </FontString>
 
+            <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="COMBAT_MACRO_EXP">
+                <Anchors>
+                    <Anchor point="TOP" y="-48" />
+                    <Anchor point="LEFT" relativePoint="LEFT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="-50" />
+                    <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="50" />
+                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" />
+                </Anchors>
+            </FontString>
+
             <FontString inherits="GameFontNormalLarge" parentKey="enable" text="ENABLE">
                 <Anchors>
                     <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="LiteMountOptionsCombatMacroEnable" x="4" />

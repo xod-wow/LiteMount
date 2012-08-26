@@ -16,6 +16,8 @@ local locale = GetLocale()
 
 if locale == "enUS" or locale == "enGB" then
     -- Default locale is English
+    L["MACRO_EXP"]   = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
+    L["COMBAT_MACRO_EXP"]   = "If enabled, this macro will be run instead of the default combat actions if LiteMount is activated while you are combat."
 elseif locale == "deDE" then
     L["Author"]  = "Autor"
 elseif locale == "esES" or locale == "esMX" then
