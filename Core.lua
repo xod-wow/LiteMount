@@ -45,9 +45,7 @@ function LiteMount:BuildCombatMacro()
 
     local m = "/leavevehicle [vehicleui]\n"
 
-    if LM_Options:UseDismount() then
-        m = m .. "/dismount [mounted]\n"
-    end
+    m = m .. "/dismount [mounted]\n"
 
     if self.playerClass ==  "DRUID" then
         if IsSpellKnown(LM_SPELL_AQUATIC_FORM) then
@@ -62,9 +60,8 @@ function LiteMount:BuildCombatMacro()
     elseif self.playerClass == "SHAMAN" then
         if IsSpellKnown(LM_SPELL_GHOST_WOLF) then
             local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
-            m = m ..
-                "/cast [noform] " .. s .. "\n" ..
-                "/cancelform [form]\n"
+            m = m ..  "/cast [noform] " .. s .. "\n"
+            m = m .. "/cancelform [form]\n"
         end
     end
 
@@ -205,15 +202,15 @@ function LiteMount:PreClick(mouseButton)
 
     self:ScanMounts()
 
-    -- Mounted -> dismount
-    if IsMounted() and LM_Options:UseDismount() then
-        self:SetAsDismount()
-        return
-    end
-
     -- In vehicle -> exit it
     if CanExitVehicle() then
         self:SetAsVehicleExit()
+        return
+    end
+
+    -- Mounted -> dismount
+    if IsMounted() then
+        self:SetAsDismount()
         return
     end
 
