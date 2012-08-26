@@ -101,7 +101,7 @@ function LiteMountOptions_UpdateMountList()
     mounts = LiteMount:GetAllMounts()
 
     local filtertext = self.filter:GetText()
-    if filtertext == FILTER then
+    if filtertext == SEARCH then
         filtertext = ""
     else
         filtertext = string.lower(filtertext)

@@ -125,53 +125,17 @@
             </Scripts>
         </ScrollFrame>
 
-        <EditBox name="$parentFilter" autofocus="false" inherits="InputBoxTemplate" parentKey="filter">
-            <Size x="140" y="26" />
+        <EditBox name="$parentFilter" autofocus="false" inherits="SearchBoxTemplate" parentKey="filter">
+            <Size x="180" y="26" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="96" y="2" />
             </Anchors>
             <Scripts>
-                <OnShow>
-                    if self:GetText() == "" then self:SetText(FILTER) end
-                </OnShow>
-                <OnEnterPressed>
-                    self:ClearFocus()
-                </OnEnterPressed>
-                <OnTextChanged>
-                    LiteMountOptions_UpdateMountList()
-                </OnTextChanged>
-                <OnEditFocusGained>
-                    self:HighlightText()
-                    if self:GetText() == FILTER then self:SetText("") end
-                </OnEditFocusGained>
-                <OnEditFocusLost>
-                    self:HighlightText(0, 0)
-                    if self:GetText() == "" then self:SetText(FILTER) end
-                </OnEditFocusLost>
+                <OnEnterPressed function="EditBox_ClearFocus" />
+                <OnTextChanged function="LiteMountOptions_UpdateMountList" />
             </Scripts>
         </EditBox>
 
-        <Button name="$parentFilterResetButton">
-            <Size x="36" y="36" />
-            <Anchors>
-                <Anchor point="LEFT" relativeTo="$parentFilter" relativePoint="RIGHT">
-                    <Offset x="-2" y="-2" />
-                </Anchor>
-            </Anchors>
-            <Scripts>
-                <OnClick>
-                    local f = self:GetParent().filter
-                    f:HighlightText(0, 0)
-                    f:ClearFocus()
-                    f:SetText(FILTER)
-                </OnClick>
-            </Scripts>
-
-            <NormalTexture file="Interface\Buttons\CancelButton-Up" />
-            <PushedTexture file="Interface\Buttons\CancelButton-Down" />
-            <HighlightTexture file="Interface\Buttons\CancelButton-Highlight" alphaMode="ADD" />
-
-        </Button>
 <!--
         <PlayerModel name="LiteMountOptionsModel">
             <Anchors>
