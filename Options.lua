@@ -33,6 +33,7 @@ local Default_LM_OptionsDB = {
     ["flagoverrides"]  = { },
     ["macro"]          = { },       -- [1] = macro
     ["combatMacro"]    = { },       -- [1] = macro, [2] == 0/1 enabled
+    ["dismount"]       = true,
 }
 
 LM_Options = { }
@@ -50,9 +51,6 @@ function LM_Options:Initialize()
         LM_OptionsDB.excludedspells = orig
     end
 
-    self.excludedspells = LM_OptionsDB.excludedspells
-    self.flagoverrides = LM_OptionsDB.flagoverrides
-
     if not LM_OptionsDB.macro then
         LM_OptionsDB.macro = { }
     end
@@ -61,8 +59,11 @@ function LM_Options:Initialize()
         LM_OptionsDB.combatMacro = { }
     end
 
-    self.macro = LM_OptionsDB.macro
-    self.combatMacro = LM_OptionsDB.combatMacro
+    if not LM_OptionsDB.dismount then
+        LM_OptionsDB.dismount = true
+    end
+
+    self.db = LM_OptionsDB
 
 end
 
@@ -71,7 +72,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:IsExcludedSpell(id)
-    for _,s in ipairs(self.excludedspells) do
+    for _,s in ipairs(self.db.excludedspells) do
         if s == id then return true end
     end
 end
@@ -79,16 +80,16 @@ end
 function LM_Options:AddExcludedSpell(id)
     LM_Debug(string.format("Disabling mount %s (%d).", GetSpellInfo(id), id))
     if not self:IsExcludedSpell(id) then
-        table.insert(self.excludedspells, id)
-        table.sort(self.excludedspells)
+        table.insert(self.db.excludedspells, id)
+        table.sort(self.db.excludedspells)
     end
 end
 
 function LM_Options:RemoveExcludedSpell(id)
     LM_Debug(string.format("Enabling mount %s (%d).", GetSpellInfo(id), id))
-    for i = 1, #self.excludedspells do
-        if self.excludedspells[i] == id then
-            table.remove(self.excludedspells, i)
+    for i = 1, #self.db.excludedspells do
+        if self.db.excludedspells[i] == id then
+            table.remove(self.db.excludedspells, i)
             return
         end
     end
@@ -96,11 +97,11 @@ end
 
 function LM_Options:SetExcludedSpells(idlist)
     LM_Debug("Setting complete list of disabled mounts.")
-    table.wipe(self.excludedspells)
+    table.wipe(self.db.excludedspells)
     for _,id in ipairs(idlist) do
-        table.insert(self.excludedspells, id)
+        table.insert(self.db.excludedspells, id)
     end
-    table.sort(self.excludedspells)
+    table.sort(self.db.excludedspells)
 end
 
 --[[----------------------------------------------------------------------------
@@ -108,7 +109,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:ApplySpellFlags(id, flags)
-    local ov = self.flagoverrides[id]
+    local ov = self.db.flagoverrides[id]
 
     if not ov then return flags end
 
@@ -140,7 +141,7 @@ function LM_Options:ResetSpellFlags(id)
     LM_Debug(string.format("Defaulting flags for spell %s (%d).",
                            GetSpellInfo(id), id))
 
-    self.flagoverrides[id] = nil
+    self.db.flagoverrides[id] = nil
 end
 
 function LM_Options:SetSpellFlags(id, origflags, newflags)
@@ -150,54 +151,65 @@ function LM_Options:SetSpellFlags(id, origflags, newflags)
         return
     end
 
-    if not self.flagoverrides[id] then
-        self.flagoverrides[id] = { 0, 0 }
+    if not self.db.flagoverrides[id] then
+        self.db.flagoverrides[id] = { 0, 0 }
     end
 
     local toset = bit.band(bit.bxor(origflags, newflags), newflags)
     local toclear = bit.band(bit.bxor(origflags, newflags), bit.bnot(newflags))
 
-    self.flagoverrides[id][1] = toset
-    self.flagoverrides[id][2] = toclear
+    self.db.flagoverrides[id][1] = toset
+    self.db.flagoverrides[id][2] = toclear
 end
 
 --[[----------------------------------------------------------------------------
-     Last resort macro stuff
+     Last resort / combat macro stuff
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:UseMacro()
-    return self.macro[1] ~= nil
+    return self.db.macro[1] ~= nil
 end
 
 function LM_Options:GetMacro()
-    return self.macro[1]
+    return self.db.macro[1]
 end
 
 function LM_Options:SetMacro(text)
     LM_Debug("Setting custom macro: " .. (text or "nil"))
-    self.macro[1] = text
+    self.db.macro[1] = text
 end
 
 function LM_Options:UseCombatMacro()
-    return self.combatMacro[2] ~= nil
+    return self.db.combatMacro[2] ~= nil
 end
 
 function LM_Options:GetCombatMacro()
-    return self.combatMacro[1]
+    return self.db.combatMacro[1]
 end
 
 function LM_Options:SetCombatMacro(text)
     LM_Debug("Setting custom combat macro: " .. (text or "nil"))
-    self.combatMacro[1] = text
+    self.db.combatMacro[1] = text
 end
 
 function LM_Options:EnableCombatMacro()
     LM_Debug("Enabling custom combat macro.")
-    self.combatMacro[2] = 1
+    self.db.combatMacro[2] = 1
 end
 
 function LM_Options:DisableCombatMacro()
     LM_Debug("Disabling custom combat macro.")
-    self.combatMacro[2] = nil
+    self.db.combatMacro[2] = nil
 end
 
+--[[----------------------------------------------------------------------------
+     Should we dismount if mounted?
+----------------------------------------------------------------------------]]--
+
+function LM_Options:UseDismount()
+    return self.dismount
+end
+
+function LM_Options:SetDismount(onoff)
+    self.dismount = onoff
+end

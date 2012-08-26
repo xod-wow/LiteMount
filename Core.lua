@@ -43,8 +43,11 @@ local RescanEvents = {
 
 function LiteMount:BuildCombatMacro()
 
-    local m = "/dismount [mounted]\n" ..
-              "/leavevehicle [vehicleui]\n"
+    local m = "/leavevehicle [vehicleui]\n"
+
+    if LM_Options:UseDismount() then
+        m = m .. "/dismount [mounted]\n"
+    end
 
     if self.playerClass ==  "DRUID" then
         if IsSpellKnown(LM_SPELL_AQUATIC_FORM) then
@@ -203,7 +206,7 @@ function LiteMount:PreClick(mouseButton)
     self:ScanMounts()
 
     -- Mounted -> dismount
-    if IsMounted() then
+    if IsMounted() and LM_Options:UseDismount() then
         self:SetAsDismount()
         return
     end
