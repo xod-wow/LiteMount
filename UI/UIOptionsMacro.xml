@@ -117,7 +117,7 @@
                 </Anchors>
             </FontString>
 
-            <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="MACRO_EXP">
+            <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_MACRO_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
                     <Anchor point="LEFT" relativePoint="LEFT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="-50" />
