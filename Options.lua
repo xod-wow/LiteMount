@@ -33,7 +33,6 @@ local Default_LM_OptionsDB = {
     ["flagoverrides"]  = { },
     ["macro"]          = { },       -- [1] = macro
     ["combatMacro"]    = { },       -- [1] = macro, [2] == 0/1 enabled
-    ["dismount"]       = true,
 }
 
 LM_Options = { }
@@ -57,10 +56,6 @@ function LM_Options:Initialize()
 
     if not LM_OptionsDB.combatMacro then
         LM_OptionsDB.combatMacro = { }
-    end
-
-    if not LM_OptionsDB.dismount then
-        LM_OptionsDB.dismount = true
     end
 
     self.db = LM_OptionsDB
@@ -200,16 +195,4 @@ end
 function LM_Options:DisableCombatMacro()
     LM_Debug("Disabling custom combat macro.")
     self.db.combatMacro[2] = nil
-end
-
---[[----------------------------------------------------------------------------
-     Should we dismount if mounted?
-----------------------------------------------------------------------------]]--
-
-function LM_Options:UseDismount()
-    return self.dismount
-end
-
-function LM_Options:SetDismount(onoff)
-    self.dismount = onoff
 end
