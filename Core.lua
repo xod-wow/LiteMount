@@ -87,8 +87,6 @@ function LiteMount:Initialize()
 
     self.playerClass = select(2, UnitClass("player"))
 
-    self:BuildCombatMacro()
-
     -- Button-fu
     self:RegisterForClicks("AnyDown")
 

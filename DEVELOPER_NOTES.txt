@@ -27,6 +27,17 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
+* Suggestions
+
+    The suggestions stuff in the "last resort" macro is a bit clunky and
+    is probably going to be a pain to maintain.  Consider ripping it out
+    completely.
+
+    Also since we are now testing IsUsableSpell we don't need to separate
+    out the spells by class they way they are set up now.
+
+
+------------------------------------------------------------------------------
 * Flying mounts that can walk.
 
     Since IsUsableSpell() correctly tells you whether you can use a flying
@@ -57,7 +68,7 @@ Notes To Myself
 ------------------------------------------------------------------------------
 * Might be better to look for Sea Legs aura for Vashj'ir.
 
-    Seems to be working OK without it, don't worry about it.
+    Sea legs is present even on the surface and flying so don't do it.
 
 
 ------------------------------------------------------------------------------
