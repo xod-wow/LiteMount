@@ -11,6 +11,16 @@
 local NUM_SUGGESTION_BUTTONS = 4
 
 local ClassSuggestions = {
+    ["DRUID"] = {
+        {
+            ["iconspell"] = 102280,
+            ["macro"] = "/cast Displacer Beast",
+        },
+        {
+            ["iconspell"] = 106898,
+            ["macro"] = "/cast Stampeding Roar",
+        },
+    },
     ["HUNTER"] = {
         {
             ["iconspell"] = 5118,
@@ -23,8 +33,24 @@ local ClassSuggestions = {
             ["macro"] = "/cast Blink",
         },
         {
+            ["iconspell"] = 108843,
+            ["macro"] = "/cast Blazing Speed",
+        },
+        {
             ["iconspell"] = 130,
             ["macro"] = "/cast [@player] Slow Fall",
+        },
+    },
+    ["MONK"] = {
+        {
+            ["iconspell"] = 116841,
+            ["macro"] = "/cast Tiger's Lust",
+        },
+    },
+    ["PALADIN"] = {
+        {
+            ["iconspell"] = 85499,
+            ["macro"] = "/cast Speed of Light",
         },
     },
     ["PRIEST"] = {
@@ -35,11 +61,25 @@ local ClassSuggestions = {
     },
     ["ROGUE"] = {
         {
+            ["iconspell"] = 108212,
+            ["macro"] = "/cast Burst of Speed",
+        },
+        {
             ["iconspell"] = 2983,
             ["macro"] = "/cast Sprint",
         },
     },
+    ["SHAMAN"] = {
+        {
+            ["iconspell"] = 58875,
+            ["macro"] = "/cast Spirit Walk",
+        },
+    },
     ["WARLOCK"] = {
+        {
+            ["iconspell"] = 111400,
+            ["macro"] = "/cast Burning Rush",
+        },
         {
             ["iconspell"] = 48020,
             ["macro"] = "/cast Demonic Circle: Teleport",
@@ -60,11 +100,11 @@ local ProfessionSuggestions = {
     [202] = {   -- Engineering
         {
             ["iconspell"] = 55002,
-            ["macro"] = "# Cloak (Flexweave Underlay)\n/use 15",
+            ["macro"] = "# Cloak (Flexweave Underlay/Goblin Glider)\n/use 15",
         },
         {
             ["iconspell"] = 55002,
-            ["macro"] = "# Belt (Hyperspeed Accelerators)\n/use 6",
+            ["macro"] = "# Belt (Hyperspeed Accelerators/Watergliding Jets)\n/use 6",
         },
     },
 }
@@ -75,7 +115,9 @@ local function GetSuggestions()
     local class = select(2, UnitClass("player"))
     if ClassSuggestions[class] then
         for _,s in ipairs(ClassSuggestions[class]) do
-            table.insert(suggestions, s)
+            if IsSpellKnown(s.iconspell) then
+                table.insert(suggestions, s)
+            end
         end
     end
 
@@ -123,7 +165,9 @@ end
 
 function LiteMountOptionsMacroSuggest_OnClick(self)
     if self.macro then
-        LiteMountOptionsMacroEditBox:SetText(self.macro)
+        local t = LiteMountOptionsMacroEditBox:GetText() or ""
+        t = t .. self.macro
+        LiteMountOptionsMacroEditBox:SetText(t)
     end
 end
 

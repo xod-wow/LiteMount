@@ -18,7 +18,7 @@ function LiteMountOptionsCombatMacro_OnLoad(self)
 
     self.default = function ()
             LM_Options:SetCombatMacro(nil)
-            LM_Options:DisableCombatMacro(nil)
+            LM_Options:DisableCombatMacro()
         end
 
     InterfaceOptions_AddCategory(self)
