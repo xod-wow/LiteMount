@@ -191,7 +191,7 @@ function LM_Mount:IsUsable()
     if self.itemId then
         return LM_MountItem:IsUsable(self.itemId)
     else
-        return IsUsableSpell(self.spellId)
+        return LM_MountSpell:IsUsable(self.spellId)
     end
 end
 
