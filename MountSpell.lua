@@ -34,7 +34,7 @@ end
 
 local function KnowProfessionSkillLine(skillLine)
     for _,i in ipairs({ GetProfessions() }) do
-        if i and select(7, GetProfessionInfo(i)) == sl then
+        if i and select(7, GetProfessionInfo(i)) == skillLine then
             return true
         end
     end
