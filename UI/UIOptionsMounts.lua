@@ -67,6 +67,10 @@ local function UpdateMountButton(button, mount)
     button.name:SetText(mount:Name())
     button.spellid = mount:SpellId()
 
+    if not InCombatLockDown() then
+        mount:SetupActionButton(button.mountUp)
+    end
+
     BitButtonUpdate(button.bit1, mount)
     BitButtonUpdate(button.bit2, mount)
     BitButtonUpdate(button.bit3, mount)
