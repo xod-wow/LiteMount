@@ -27,10 +27,8 @@ LiteMount:RegisterEvent("PLAYER_LOGIN")
 local RescanEvents = {
     -- Companion change
     "COMPANION_LEARNED", "COMPANION_UNLEARNED",
-    -- Might have learned a new mount spell
-    "TRAINER_CLOSED",
-    -- You might have learned instant ghost wolf
-    "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE",
+    -- Talents (might have mount abilities)
+    "UNIT_LEVEL", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE",
     -- You might have received a mount item
     "BAG_UPDATE"
 }
