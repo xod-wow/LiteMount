@@ -93,18 +93,12 @@ local function UpdateMountButton(button, mount)
 
 end
 
-function LiteMountOptions_UpdateMountList()
-    local self = LiteMountOptionsMounts
-
-    local scrollFrame = self.scrollFrame
-    local offset = HybridScrollFrame_GetOffset(scrollFrame)
-    local buttons = scrollFrame.buttons
-
-    if not buttons then return end
+local function GetFilteredMountList()
+    local lmom = LiteMountOptionsMounts
 
     mounts = LiteMount:GetAllMounts()
 
-    local filtertext = self.filter:GetText()
+    local filtertext = lmom.filter:GetText()
     if filtertext == SEARCH then
         filtertext = ""
     else
@@ -117,6 +111,18 @@ function LiteMountOptions_UpdateMountList()
             end
         end
     end
+    return mounts
+end
+
+function LiteMountOptions_UpdateMountList()
+
+    local scrollFrame = LiteMountOptionsMounts.scrollFrame
+    local offset = HybridScrollFrame_GetOffset(scrollFrame)
+    local buttons = scrollFrame.buttons
+
+    if not buttons then return end
+
+    mounts = GetFilteredMountList()
 
     for i = 1, #buttons do
         local button = buttons[i]
