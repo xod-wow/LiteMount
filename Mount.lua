@@ -108,6 +108,7 @@ function LM_Mount:GetMountByIndex(mountIndex)
 
     local m = LM_Mount:new()
 
+    m.mountId = mountIndex
     m.name = ci[2]
     m.spellId = ci[3]
     m.icon = ci[4]

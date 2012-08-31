@@ -46,15 +46,19 @@ function LiteMount:BuildCombatMacro()
     m = m .. "/dismount [mounted]\n"
 
     if self.playerClass ==  "DRUID" then
+        -- In MoP the form numbers are not constant again. As far as I can
+        -- see Aquatic is always 2, Travel is 4 and Swift Flight Form is
+        -- the last form you know.
+        local forms = string.format("%d/%d/%d", 2, 4, GetNumShapeshiftForms())
         if IsSpellKnown(LM_SPELL_AQUATIC_FORM) then
             local s = GetSpellInfo(LM_SPELL_AQUATIC_FORM)
-            m = m ..  "/cast [swimming,noform:2/4/6] " .. s .. "\n"
+            m = m .. string.format("/cast [swimming,noform:%s] %s\n", forms, s)
         end
         if IsSpellKnown(LM_SPELL_TRAVEL_FORM) then
             local s = GetSpellInfo(LM_SPELL_TRAVEL_FORM)
-            m = m ..  "/cast [noform:2/4/6] " .. s .. "\n"
+            m = m .. string.format("/cast [noform:%s] %s\n", forms, s)
         end
-        m = m ..  "/cancelform [form:2/4/6]\n"
+        m = m .. string.format("/cancelform [form:%s]\n", forms)
     elseif self.playerClass == "SHAMAN" then
         if IsSpellKnown(LM_SPELL_GHOST_WOLF) then
             local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
@@ -210,13 +214,16 @@ function LiteMount:PreClick(mouseButton)
         return
     end
 
-    -- The (true) here stops it returning stances and other pseudo-forms
-    local form = GetShapeshiftForm(true)
+    --  3 = Travel Form
+    --  4 = Aquatic Form
+    -- 16 = Ghost Wolf
+    -- 27 = Swift Flight Form
+    local form = GetShapeshiftFormID()
 
-    if self.playerClass == "DRUID" and form == 2 or form == 4 or form == 6 then
+    if self.playerClass == "DRUID" and form == 3 or form == 4 or form == 27 then
         self:SetAsCancelForm()
         return
-    elseif self.playerClass == "SHAMAN" and form == 1 then
+    elseif self.playerClass == "SHAMAN" and form == 16 then
         self:SetAsCancelForm()
         return
     end
