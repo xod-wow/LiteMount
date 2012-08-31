@@ -77,6 +77,30 @@
             <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>           
         </CheckButton>
 
+        <Button name="$parentIcon" parentKey="icon" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true">
+            <Size x="36" y="36" />
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.enabled" relativePoint="RIGHT" x="2" />
+            </Anchors>
+            <HighlightTexture name="$parentHighlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
+
+            <Scripts>
+                <OnEnter>
+                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    GameTooltip:SetSpellByID(self:GetParent().spellid)
+                    GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
+                    GameTooltip:Show()
+                </OnEnter>
+                <OnLeave>
+                    GameTooltip:Hide()
+                </OnLeave>
+                <OnLoad>
+                    self:SetAttribute("unit", "player")
+                    self:RegisterForClicks("RightButtonUp")
+                </OnLoad>
+            </Scripts>
+        </Button>
+
         <CheckButton name="$parentBit1" inherits="LiteMountOptionsBitTemplate" parentKey="bit1">
             <Anchors> <Anchor point="RIGHT" x="-2" /> </Anchors>
         </CheckButton>
@@ -95,14 +119,6 @@
     </Frames>
 
     <Layers>
-        <Layer level="BORDER">
-            <Texture name="$parentIcon" parentKey="icon">
-                <Size x="36" y="36" />
-                <Anchors>
-                    <Anchor point="LEFT" relativeKey="$parent.enabled" relativePoint="RIGHT" x="2" />
-                </Anchors>
-            </Texture>
-        </Layer>
         <Layer level="OVERLAY">
             <FontString name="$parentName" inherits="GameFontNormal" justifyH="LEFT" parentKey="name">
                 <Anchors>
@@ -115,34 +131,6 @@
     </Layers>
 
     <Frames>
-        <Button parentKey="mountUp" inherits="SecureActionButtonTemplate" motionScriptsWhileDisabled="true">
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.icon" />
-                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.icon" />
-            </Anchors>
-            <Layers>
-                <Layer level="OVERLAY">
-                    <Texture file="Interface\Buttons\CheckButtonHilight" parentKey="ActiveTexture" alphaMode="ADD"/>
-                </Layer>
-            </Layers>
-            <HighlightTexture name="$parentHighlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
-
-            <Scripts>
-                <OnLoad>
-                    self:SetAttribute("unit", "player")
-                </OnLoad>
-                <OnEnter>
-                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                    GameTooltip:SetSpellByID(self:GetParent().spellid)
-                </OnEnter>
-                <OnLeave>
-                    GameTooltip:Hide()
-                </OnLeave>
-                <OnLoad>
-                    self:RegisterForClicks("RightButtonUp")
-                </OnLoad>
-            </Scripts>
-        </CheckButton>
     </Frames>
 
 </Button>

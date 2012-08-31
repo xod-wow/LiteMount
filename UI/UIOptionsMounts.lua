@@ -63,12 +63,12 @@ local function BitButtonUpdate(checkButton, mount)
 end
 
 local function UpdateMountButton(button, mount)
-    button.icon:SetTexture(mount:Icon())
+    button.icon:SetNormalTexture(mount:Icon())
     button.name:SetText(mount:Name())
     button.spellid = mount:SpellId()
 
-    if not InCombatLockDown() then
-        mount:SetupActionButton(button.mountUp)
+    if not InCombatLockdown() then
+        mount:SetupActionButton(button.icon)
     end
 
     BitButtonUpdate(button.bit1, mount)
@@ -162,6 +162,10 @@ function LiteMountOptionsMounts_OnLoad(self)
         end
 
     InterfaceOptions_AddCategory(self)
+
+    -- We need to refresh the icon SecureActionButtons after exiting combat
+    self:RegisterEvent("PLAYER_REGEN_ENABLED")
+    self:SetScript("OnEvent", function () LiteMountOptions_UpdateMountList() end)
 end
 
 
