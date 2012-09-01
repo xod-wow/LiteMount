@@ -134,6 +134,10 @@ function LM_Mount:SpellId()
     return self.spellId
 end
 
+function LM_Mount:MountID()
+    return self.mountId
+end
+
 function LM_Mount:SpellName()
     return self.spellName
 end
