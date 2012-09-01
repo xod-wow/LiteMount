@@ -86,12 +86,19 @@
 
             <Scripts>
                 <OnEnter>
-                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
                     GameTooltip:SetSpellByID(self:GetParent().spellid)
                     GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
                     GameTooltip:Show()
+
+                    local m = self:GetParent().mountid
+                    if m then
+                        LiteMountOptionsPreview.model:SetCreature(GetCompanionInfo("MOUNT", m))
+                        LiteMountOptionsPreview:Show()
+                    end
                 </OnEnter>
                 <OnLeave>
+                    LiteMountOptionsPreview:Hide()
                     GameTooltip:Hide()
                 </OnLeave>
                 <OnLoad>
@@ -134,6 +141,44 @@
     </Frames>
 
 </Button>
+
+
+<Frame name="LiteMountOptionsPreview" parent="UIParent" hidden="true" frameStrata="TOOLTIP">
+    <Size x="250" y="250" />
+    <Anchors>
+        <Anchor point="TOPLEFT" relativeTo="GameTooltip" relativePoint="BOTTOMLEFT" y="-4" />
+    </Anchors>
+    <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+        <EdgeSize val="16" />
+        <TileSize val="16" />
+        <BackgroundInsets>
+            <AbsInset left="5" right="5" top="5" bottom="5"/>
+        </BackgroundInsets>
+    </Backdrop>
+    <Frames>
+       <PlayerModel name="$parentModel" parentKey="model">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="8" y="-8" />
+                <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
+            </Anchors>
+            <Scripts>
+                <OnLoad>
+                    self:SetRotation(-MODELFRAME_DEFAULT_ROTATION)
+                </OnLoad>
+            </Scripts>
+        </PlayerModel>
+    </Frames>
+    <Scripts>
+        <OnLoad>
+            self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b);
+            self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b);
+        </OnLoad>
+        <OnShow>
+            local d = GameTooltip:GetWidth()
+            self:SetSize(d, d)
+        </OnShow>
+    </Scripts>
+</Frame>
 
 <Frame name="LiteMountOptionsMounts" hidden="true">
 

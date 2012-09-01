@@ -66,6 +66,7 @@ local function UpdateMountButton(button, mount)
     button.icon:SetNormalTexture(mount:Icon())
     button.name:SetText(mount:Name())
     button.spellid = mount:SpellId()
+    button.mountid = mount:MountID()
 
     if not InCombatLockdown() then
         mount:SetupActionButton(button.icon)
