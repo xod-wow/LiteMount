@@ -144,7 +144,7 @@ end
 local function SetSuggestion(button, s)
     if s then
         SetItemButtonTexture(button, select(3, GetSpellInfo(s.iconspell)))
-        button.macro = s.macro
+        button.macro = s.macro .. "\n"
         button.tooltipText = s.macro
         button:Show()
     else
