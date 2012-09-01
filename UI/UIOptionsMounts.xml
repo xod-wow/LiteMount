@@ -197,6 +197,32 @@
             </Scripts>
         </ScrollFrame>
 
+        <CheckButton name="$parentAllSelect" parentKey="allSelect">
+            <Size x="32" y="32" />
+            <Anchors>
+                <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="2" y="-2" />
+            </Anchors>
+            <Scripts>
+                <OnClick function="LiteMountOptions_AllSelect_OnClick" />
+                <OnEnter>
+                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    if not self:GetChecked() then
+                        GameTooltip:SetText(CHECK_ALL, 0, 1, 0)
+                    else
+                        GameTooltip:SetText(CLEAR_ALL, 1, 0, 0)
+                    end
+                </OnEnter>
+                <OnLeave>
+                    GameTooltip:Hide()
+                </OnLeave>
+            </Scripts>
+            <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+            <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+            <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>           
+        </CheckButton>
+
         <EditBox name="$parentFilter" autofocus="false" inherits="SearchBoxTemplate" parentKey="filter">
             <Size x="180" y="26" />
             <Anchors>

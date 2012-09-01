@@ -84,6 +84,10 @@ local ClassSuggestions = {
             ["iconspell"] = 48020,
             ["macro"] = "/cast Demonic Circle: Teleport",
         },
+        {
+            ["iconspell"] = 109151,
+            ["macro"] = "/cast Demonic Leap",
+        },
     },
 }
 
