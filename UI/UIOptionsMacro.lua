@@ -13,8 +13,8 @@ local NUM_SUGGESTION_BUTTONS = 4
 local ClassSuggestions = {
     ["DRUID"] = {
         {
-            ["iconspell"] = 102280,
-            ["macro"] = "/cast Displacer Beast",
+            ["iconspell"] = 1850,
+            ["macro"] = "/cast [form:2] Dash",
         },
         {
             ["iconspell"] = 106898,
