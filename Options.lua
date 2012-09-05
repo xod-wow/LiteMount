@@ -62,6 +62,30 @@ function LM_Options:Initialize()
 
 end
 
+function LM_Options:ApplyClone(clone)
+    for _,setting in pairs(clone) do
+        for k,v in pairs(setting) do
+            self[setting][k] = v
+        end
+        for k,v in pairs(self[setting]) do
+            if not clone[setting][k] then
+                self[setting][k] = nil
+            end
+        end
+    end
+end
+
+function LM_Options:Clone()
+    -- This isn't recursive because the options are just 1 level deep
+    local clone = setmetatable({ }, { __index=self })
+    for k,v in pairs(self) do
+        if type(v) == "table" then
+            clone[k] = setmetatable({ }, { __index = self[k] })
+        end
+    end
+    return clone
+end
+
 --[[----------------------------------------------------------------------------
      Excluded Spell stuff.
 ----------------------------------------------------------------------------]]--
