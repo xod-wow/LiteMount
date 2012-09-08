@@ -91,10 +91,12 @@
                     GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
                     GameTooltip:Show()
 
-                    local m = self:GetParent().mountid
+                    local m = self:GetParent().modelid
                     if m then
-                        LiteMountOptionsPreview.model:SetCreature(GetCompanionInfo("MOUNT", m))
+                        LiteMountOptionsPreview.model:SetCreature(m)
                         LiteMountOptionsPreview:Show()
+                    else
+                        LiteMountOptionsPreview:Hide()
                     end
                 </OnEnter>
                 <OnLeave>
