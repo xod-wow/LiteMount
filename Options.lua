@@ -37,28 +37,43 @@ local Default_LM_OptionsDB = {
 
 LM_Options = { }
 
+local function VersionUpgradeOptions(db)
+
+    -- Compatibility fixups
+    if not db.excludedspells then
+        local orig = db
+        db. = Default_LM_OptionsDB
+        db..excludedspells = orig
+    end
+
+    if not db.macro then
+        db.macro = { }
+    end
+
+    if not db.combatMacro then
+        db.combatMacro = { }
+    end
+
+end
+
 function LM_Options:Initialize()
 
     if not LM_OptionsDB then
         LM_OptionsDB = Default_LM_OptionsDB
     end
 
-    -- Compatibility fixups
-    if not LM_OptionsDB.excludedspells then
-        local orig = LM_OptionsDB
-        LM_OptionsDB = Default_LM_OptionsDB
-        LM_OptionsDB.excludedspells = orig
+    if not LM_GlobalOptionsDB then
+        LM_GlobalOptionsDB = Default_LM_OptionsDB
     end
 
-    if not LM_OptionsDB.macro then
-        LM_OptionsDB.macro = { }
-    end
+    VersionUpgradeOptions(LM_OptionsDB)
+    VersionUpgradeOptions(LM_GlobalOptionsDB)
 
-    if not LM_OptionsDB.combatMacro then
-        LM_OptionsDB.combatMacro = { }
+    if LM_UseGlobalOptions then
+        self.db = LM_GlobalOptionsDB
+    else
+        self.db = LM_OptionsDB
     end
-
-    self.db = LM_OptionsDB
 
 end
 
