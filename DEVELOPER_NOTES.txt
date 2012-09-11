@@ -18,6 +18,19 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
+* Drag button for mounts.
+
+    Because we can filter the mount list and the default UI does not, it's
+    more convenient to find specific mounts using /lmt than use Blizzard's
+    way.
+
+    It would be nice to be able to drag mounts out onto action buttons from
+    the LiteMount mount list.  This probably involves making the icon
+    itself back into a background texture and making the SecureActionButton
+    a transparent overlay that does cursor pickup on drag.
+
+
+------------------------------------------------------------------------------
 * Better "undo".
 
     Conclusion: seems unncessary.
