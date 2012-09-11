@@ -23,6 +23,9 @@ if locale == "deDE" then
     L["Author"]  = "Autor"
 elseif locale == "esES" or locale == "esMX" then
     L["Author"]  = "Autor"
+    L["Fly"]     = "Volar"
+    L["Swim"]    = "Nadar"
+    L["Run"]     = "Correr"
 elseif locale == "frFR" then
     L["Author"]  = "Auteur"
 elseif locale == "koKR" then
