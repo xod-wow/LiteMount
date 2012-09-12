@@ -39,19 +39,10 @@ LM_Options = { }
 
 local function VersionUpgradeOptions(db)
 
-    -- Compatibility fixups
-    if not db.excludedspells then
-        local orig = db
-        db = Default_LM_OptionsDB
-        db.excludedspells = orig
-    end
-
-    if not db.macro then
-        db.macro = { }
-    end
-
-    if not db.combatMacro then
-        db.combatMacro = { }
+    for k,v in pairs(Default_LM_OptionsDB) do
+        if not db[k] then
+            db[k] = v
+        end
     end
 
 end
@@ -69,37 +60,20 @@ function LM_Options:Initialize()
     VersionUpgradeOptions(LM_OptionsDB)
     VersionUpgradeOptions(LM_GlobalOptionsDB)
 
+    -- The annoyance with this is that we don't want global macros, only
+    -- global mount excludes and flags.
+    self.db = { }
+    for k,v in pairs(LM_OptionsDB) do
+        self.db[k] = v
+    end
+
     if LM_UseGlobalOptions then
-        self.db = LM_GlobalOptionsDB
-    else
-        self.db = LM_OptionsDB
+        self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
+        self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
     end
 
 end
 
-function LM_Options:ApplyClone(clone)
-    for _,setting in pairs(clone) do
-        for k,v in pairs(setting) do
-            self[setting][k] = v
-        end
-        for k,v in pairs(self[setting]) do
-            if not clone[setting][k] then
-                self[setting][k] = nil
-            end
-        end
-    end
-end
-
-function LM_Options:Clone()
-    -- This isn't recursive because the options are just 1 level deep
-    local clone = setmetatable({ }, { __index=self })
-    for k,v in pairs(self) do
-        if type(v) == "table" then
-            clone[k] = setmetatable({ }, { __index = self[k] })
-        end
-    end
-    return clone
-end
 
 --[[----------------------------------------------------------------------------
      Excluded Spell stuff.
