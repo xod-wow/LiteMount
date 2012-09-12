@@ -42,8 +42,8 @@ local function VersionUpgradeOptions(db)
     -- Compatibility fixups
     if not db.excludedspells then
         local orig = db
-        db. = Default_LM_OptionsDB
-        db..excludedspells = orig
+        db = Default_LM_OptionsDB
+        db.excludedspells = orig
     end
 
     if not db.macro then
