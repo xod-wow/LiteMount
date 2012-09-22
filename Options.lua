@@ -74,6 +74,28 @@ function LM_Options:Initialize()
 
 end
 
+function LM_Options:UseGlobal()
+    if LM_UseGlobalOptions then
+        return true
+    else
+        return nil
+    end
+end
+
+function LM_Options:SetGlobal(onoff)
+
+    LM_UseGlobalOptions = onoff
+
+    if onoff then
+        self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
+        self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
+    else
+        self.db["excludedspells"] = LM_OptionsDB.excludedspells
+        self.db["flagoverrides"] = LM_OptionsDB.flagoverrides
+    end
+
+end
+
 
 --[[----------------------------------------------------------------------------
      Excluded Spell stuff.
