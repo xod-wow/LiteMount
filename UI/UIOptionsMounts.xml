@@ -236,9 +236,9 @@
             <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
             <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>           
             <Scripts>
-                <OnLoad>
+                <OnShow>
                     self:SetChecked(not LM_Options:UseGlobal())
-                </OnLoad>
+                </OnShow>
                 <OnClick>
                     if self:GetChecked() then
                         LM_Options:SetGlobal()
