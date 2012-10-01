@@ -106,7 +106,12 @@
                 <OnLoad>
                     self:SetAttribute("unit", "player")
                     self:RegisterForClicks("RightButtonUp")
+                    self:RegisterForDrag("LeftButton")
                 </OnLoad>
+                <OnDragStart>
+                    local parent = self:GetParent()
+                    if parent.spellid then PickupSpell(parent.spellid) end
+                </OnDragStart>
             </Scripts>
         </Button>
 
