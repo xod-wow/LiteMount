@@ -46,6 +46,10 @@ local ClassSuggestions = {
             ["iconspell"] = 116841,
             ["macro"] = "/cast Tiger's Lust",
         },
+        {
+            ["iconspell"] = 125883,
+            ["macro"] = "/cast Zen Flight",
+        },
     },
     ["PALADIN"] = {
         {
