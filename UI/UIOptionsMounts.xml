@@ -110,7 +110,11 @@
                 </OnLoad>
                 <OnDragStart>
                     local parent = self:GetParent()
-                    if parent.spellid then PickupSpell(parent.spellid) end
+                    if parent.spellid then
+                        PickupSpell(parent.spellid)
+                    elseif parent.itemid then
+                        PickupItem(parent.itemid)
+                    end
                 </OnDragStart>
             </Scripts>
         </Button>

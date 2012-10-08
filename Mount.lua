@@ -133,6 +133,9 @@ end
 function LM_Mount:SpellId()
     return self.spellId
 end
+function LM_Mount:ItemId()
+    return self.itemId
+end
 
 function LM_Mount:ModelId()
     return self.modelId
