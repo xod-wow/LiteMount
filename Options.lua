@@ -28,6 +28,7 @@ go from disabling somthing to enabling it.
 
 ----------------------------------------------------------------------------]]--
 
+-- All of these values must be arrays so we can copy them by reference.
 local Default_LM_OptionsDB = {
     ["excludedspells"] = { },
     ["flagoverrides"]  = { },
@@ -62,6 +63,7 @@ function LM_Options:Initialize()
 
     -- The annoyance with this is that we don't want global macros, only
     -- global mount excludes and flags.
+
     self.db = { }
     for k,v in pairs(LM_OptionsDB) do
         self.db[k] = v
