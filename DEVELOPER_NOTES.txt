@@ -18,16 +18,36 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
-* Drag button for mounts.
+* To Do List
 
-    Because we can filter the mount list and the default UI does not, it's
-    more convenient to find specific mounts using /lmt than use Blizzard's
-    way.
+    Try to get more translations done.
 
-    It would be nice to be able to drag mounts out onto action buttons from
-    the LiteMount mount list.  This probably involves making the icon
-    itself back into a background texture and making the SecureActionButton
-    a transparent overlay that does cursor pickup on drag.
+    Mount weighting system.
+      - How does it work with the enable/disable all button.
+
+    Option to not create the macro (or possible make the macro something you
+    have to specifically ask for, since the bindings are probably better in
+    99% of cases).
+
+    Revisit and adjust/rewrite all the documentation.
+
+    Revisit the Unavailable macro suggestion buttons.
+
+
+------------------------------------------------------------------------------
+* Running Wild under ShapeShift
+
+    You can't use Running Wild when you are shapeshifted (e.g., you are
+    transformed into a Night Elf or Human by a dungeon buff).  Unfortunately
+    IsUsableSpell() still returns true in that case.
+
+
+------------------------------------------------------------------------------
+* Passenger-capable mounts
+
+    Possibility of preferring a passenger-capable mount if you are in
+    a group.  I think they would need to be flagged by hand though, which
+    is probably too much of a maintenance nightmare.
 
 
 ------------------------------------------------------------------------------
@@ -48,7 +68,7 @@ Notes To Myself
     is probably going to be a pain to maintain.  Consider ripping it out
     completely.
 
-    Also since we are now testing IsUsableSpell we don't need to separate
+    Also since we are now testing IsSpellKnown we don't need to separate
     out the spells by class they way they are set up now.
 
 
@@ -74,6 +94,12 @@ Notes To Myself
     Enable/disable all makes it too easy to accidentally screw up your
     selections.  It needs to be done in conjunction with only applying
     the changes on clicking "Okay".
+
+
+------------------------------------------------------------------------------
+* Drag button for mounts.
+
+    Implemented.  Blizzard are going to add seach on the mount pane anyway.
 
 
 ------------------------------------------------------------------------------
