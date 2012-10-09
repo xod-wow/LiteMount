@@ -25,10 +25,6 @@ Notes To Myself
     Mount weighting system.
       - How does it work with the enable/disable all button.
 
-    Option to not create the macro (or possible make the macro something you
-    have to specifically ask for, since the bindings are probably better in
-    99% of cases).
-
     Revisit and adjust/rewrite all the documentation.
 
     Revisit the Unavailable macro suggestion buttons.
