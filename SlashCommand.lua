@@ -1,9 +1,8 @@
-
 --[[----------------------------------------------------------------------------
 
-  LiteMount/Macro.lua
+  LiteMount/SlashCommand.lua
 
-  Macro maintenance.
+  Chat slash command (/litemount or /lmt) and macro maintenance.
 
   Copyright 2011,2012 Mike Battersby
 
@@ -16,28 +15,32 @@ local MacroText = [[
 /click [btn:2] LiteMount RightButton
 ]]
 
-LM_Macro = LM_CreateAutoEventFrame("Button", "LM_Macro")
-LM_Macro:RegisterEvent("PLAYER_LOGIN")
-
-function LM_Macro:CreateOrUpdateMacro()
+local function CreateOrUpdateMacro()
     local index = GetMacroIndexByName(MacroName)
     if index == 0 then
         index = CreateMacro(MacroName, "ABILITY_MOUNT_MECHASTRIDER", MacroText)
     else
         EditMacro(index, nil, nil, MacroText)
     end
+    return index
 end
 
-function LM_Macro:PLAYER_REGEN_ENABLED()
-    self:UnregisterEvent("PLAYER_REGEN_ENABLED")
-    self:CreateOrUpdateMacro()
-end
+local LOCALIZED_MACRO_WORD = strlower(MACRO)
 
-function LM_Macro:PLAYER_LOGIN()
-    if InCombatLockdown() then
-        self:RegisterEvent("PLAYER_REGEN_ENABLED")
-    else
-        self:CreateOrUpdateMacro()
+function LiteMount_SlashCommandFunc(argstr)
+
+
+    local args = { strsplit(" ", argstr) }
+
+    for _,arg in ipairs(args) do
+        arg = strlower(arg)
+        if arg == "macro" or arg == LOCALIZED_MACRO_WORD then
+            local i = CreateOrUpdateMacro()
+            if i then PickupMacro(i) end
+            return
+        end
     end
+
+    return LiteMount_OpenOptionsPanel()
 end
 
