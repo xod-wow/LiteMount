@@ -136,14 +136,11 @@ Notes To Myself
 
     I was sure this used to work properly with IsUsableSpell() but it
     definitely doesn't as of 5.0.4.  I've had to hard-code a list of
-    profession-specific mounts and the skillLines (clunky) that
+    profession-specific mounts, skillLines and skill level (clunky) that
     indicate the profession for each.
 
-    There is probably still an issue with having enough skill in the
-    profession to know them.
-
-    By the look of the MoP data in wowhead there are no new mounts that
-    require professions to use (they are all BoE, anyone can use).
+    So far there aren't any new mounts in MoP that require professions
+    to use (they are all BoE, anyone can use).
 
 
 ------------------------------------------------------------------------------
