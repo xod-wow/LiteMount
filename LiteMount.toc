@@ -3,8 +3,8 @@
 ## Version: @project-version@
 ## Author: Xodiv of Proudmoore
 ## Email: mib@post.com
-## SavedVariables: LM_UseGlobalOptions, LM_GlobalOptionsDB
-## SavedVariablesPerCharacter: LM_OptionsDB
+## SavedVariables: LM_GlobalOptionsDB
+## SavedVariablesPerCharacter: LM_UseGlobalOptions, LM_OptionsDB
 
 Localization.lua
 
