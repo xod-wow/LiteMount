@@ -5,7 +5,7 @@
   Querying mounting spells. Needed because IsSpellKnown() never returns
   true for companion spells.
 
-  Copyright 2011,2012 Mike Battersby
+  Copyright 2011-2013 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

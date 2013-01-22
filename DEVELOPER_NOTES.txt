@@ -29,9 +29,6 @@ Notes To Myself
 
     Revisit the Unavailable macro suggestion buttons.
 
-    See whether we can simplify any of the location stuff using
-    the new mapid return added to GetInstanceInfo in 5.0.
-
 ------------------------------------------------------------------------------
 * Running Wild under ShapeShift
 

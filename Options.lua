@@ -4,7 +4,7 @@
 
   User-settable options.  Theses are queried by different places.
 
-  Copyright 2011,2012 Mike Battersby
+  Copyright 2011-2013 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
