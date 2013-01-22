@@ -30,19 +30,35 @@ go from disabling somthing to enabling it.
 
 -- All of these values must be arrays so we can copy them by reference.
 local Default_LM_OptionsDB = {
-    ["excludedspells"] = { },
-    ["flagoverrides"]  = { },
-    ["macro"]          = { },       -- [1] = macro
-    ["combatMacro"]    = { },       -- [1] = macro, [2] == 0/1 enabled
+    ["excludedspells"]   = { },
+    ["flagoverrides"]    = { },
+    ["macro"]            = { },       -- [1] = macro
+    ["combatMacro"]      = { },       -- [1] = macro, [2] == 0/1 enabled
+    ["useglobal"]        = { },
 }
 
 LM_Options = { }
 
 local function VersionUpgradeOptions(db)
 
+    -- This is a special case because I made a mistake setting this as
+    -- a global option to begin with.
+
+    if not db["useglobal"] and LM_UseGlobalOptions then
+        db["useglobal"] = { true }
+    end
+
+    -- Add any default settings from Default_LM_OptionsDB we don't have yet
     for k,v in pairs(Default_LM_OptionsDB) do
         if not db[k] then
             db[k] = v
+        end
+    end
+
+    -- Delete any obsolete settings we have that aren't in Default_LM_OptionsDB
+    for k,v in pairs(db) do
+        if not Default_LM_OptionsDB[k] then
+            db[k] = nil
         end
     end
 
@@ -69,7 +85,7 @@ function LM_Options:Initialize()
         self.db[k] = v
     end
 
-    if LM_UseGlobalOptions then
+    if self.db["useglobal"][1] then
         self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
         self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
     end
@@ -77,7 +93,7 @@ function LM_Options:Initialize()
 end
 
 function LM_Options:UseGlobal()
-    if LM_UseGlobalOptions then
+    if self.db["useglobal"][1] then
         return true
     else
         return nil
@@ -86,7 +102,7 @@ end
 
 function LM_Options:SetGlobal(onoff)
 
-    LM_UseGlobalOptions = onoff
+    self.db["useglobal"][1] = onoff
 
     if onoff then
         self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
