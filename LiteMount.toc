@@ -2,6 +2,7 @@
 ## Title: LiteMount
 ## Version: @project-version@
 ## Author: Xodiv of Proudmoore
+## Dependencies: Blizzard_PetBattleUI
 ## Email: mib@post.com
 ## SavedVariables: LM_UseGlobalOptions, LM_GlobalOptionsDB
 ## SavedVariablesPerCharacter: LM_OptionsDB
