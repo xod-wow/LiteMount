@@ -4,7 +4,7 @@
 
   Information on all your mounts.
 
-  Copyright 2011-2013 Mike Battersby
+  Copyright 2011-2014 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
@@ -27,7 +27,7 @@ function LM_PlayerMounts:AddMount(m)
 end
 
 function LM_PlayerMounts:AddCompanionMounts()
-    for i = 1,GetNumCompanions("MOUNT") do
+    for i = 1,C_MountJournal.GetNumMounts() do
         local m = LM_Mount:GetMountByIndex(i)
         self:AddMount(m)
     end

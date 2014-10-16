@@ -4,7 +4,7 @@
 
   Options frame for the mount list.
 
-  Copyright 2011-2013 Mike Battersby
+  Copyright 2011-2014 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
@@ -102,13 +102,13 @@ local function UpdateAllSelected(mounts)
 
     local checkedTexture = LiteMountOptionsMountsAllSelect:GetCheckedTexture()
     if allDisabled == 1 then
-        LiteMountOptionsMountsAllSelect:SetChecked(0)
+        LiteMountOptionsMountsAllSelect:SetChecked(false)
     else
-        LiteMountOptionsMountsAllSelect:SetChecked(1)
+        LiteMountOptionsMountsAllSelect:SetChecked(true)
         if allEnabled == 1 then
-            checkedTexture:SetDesaturated(0)
+            checkedTexture:SetDesaturated(false)
         else
-            checkedTexture:SetDesaturated(1)
+            checkedTexture:SetDesaturated(true)
         end
     end
 end

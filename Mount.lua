@@ -4,7 +4,7 @@
 
   Information about one mount.
 
-  Copyright 2011-2013 Mike Battersby
+  Copyright 2011-2014 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
@@ -84,7 +84,7 @@ function LM_Mount:GetMountBySpell(spellId)
     m.spellName = si[1]
     m.icon = si[3]
     m.flags = 0
-    m.castTime = si[7]
+    m.castTime = si[4]
     m:FixupFlags()
 
     self.cacheByName[m.name] = m
@@ -94,25 +94,69 @@ function LM_Mount:GetMountBySpell(spellId)
 end
 
 function LM_Mount:GetMountByIndex(mountIndex)
-    local ci = { GetCompanionInfo("MOUNT", mountIndex) }
+    local ci = { C_MountJournal.GetMountInfo(mountIndex) }
+    local ce = { C_MountJournal.GetMountInfoExtra(mountIndex) }
 
-    if not ci[2] then
-        LM_Debug(string.format("LM_Mount: Failed GetMountByIndex #%d (of %d)",
-                               mountIndex, GetNumCompanions("MOUNT")))
+    if not ci[1] then
+        LM_Debug(string.format("LM_Mount: Failed GetMountInfo #%d (of %d)",
+                               mountIndex, C_MountJournal:GetNumMounts()))
         return
     end
 
-    if self.cacheByName[ci[2]] then
-        return self.cacheByName[ci[2]]
+    if not ci[11] then
+        -- mount not collected
+        LM_Debug(string.format("LM_Mount: Mount " .. ci[1] .. " not collected #%d (of %d)",
+                               mountIndex, C_MountJournal:GetNumMounts()))
+        return
+    end
+
+    if not ci[5] then
+        -- mount not usable
+        LM_Debug(string.format("LM_Mount: Mount " .. ci[1] .. " not usable #%d (of %d)",
+                               mountIndex, C_MountJournal:GetNumMounts()))
+        return
+    end
+
+    if self.cacheByName[ci[1]] then
+        return self.cacheByName[ci[1]]
     end
 
     local m = LM_Mount:new()
 
-    m.modelId = ci[1]
-    m.name = ci[2]
-    m.spellId = ci[3]
-    m.icon = ci[4]
-    m.flags = ci[6]
+    m.modelId   = ce[1]
+    m.name      = ci[1]
+    m.spellId   = ci[2]
+    m.icon      = ci[3]
+
+    local mountType = ce[5]
+    LM_Debug("LM_Mount: mount type of "..m.name.." is "..mountType)
+
+    -- This attempts to set the old-style flags on mounts based on their new-style "mount type"
+    -- This list is almost certainly not complete
+    -- list source: http://wowpedia.org/API_C_MountJournal.GetMountInfoExtra 20131015
+
+    if mountType == 230 then -- ground mount
+        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
+    elseif mountType == 231 then -- riding/sea turtle
+        m.flags = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM)
+    elseif mountType == 232 then -- Vashj'ir Seahorse
+        m.flags = bit.bor(LM_FLAG_BIT_VASHJIR)
+    elseif mountType == 241 then -- AQ-only bugs
+        m.flags = bit.bor(LM_FLAG_BIT_AQ)
+    elseif mountType == 242 then -- Swift Spectral Gryphon
+        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
+    elseif mountType == 247 then -- Red Flying Cloud
+        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_JUMP)
+    elseif mountType == 248 then -- flying mounts
+        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
+    elseif mountType == 254 then -- Subdued Seahorse
+        m.flags = bit.bor(LM_FLAG_BIT_SWIM)
+    elseif mountType == 269 then -- Water Striders
+        m.flags = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM)
+    else
+        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
+    end
+    LM_Debug("LM_Mount flags for "..m.name.." are "..m.flags)
 
     local si = { GetSpellInfo(m.spellId) }
     m.spellName = si[1]

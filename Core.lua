@@ -4,7 +4,7 @@
 
   Addon core.
 
-  Copyright 2011-2013 Mike Battersby
+  Copyright 2011-2014 Mike Battersby
 
   LiteMount is free software: you can redistribute it and/or modify it under
   the terms of the GNU General Public License, version 2, as published by
@@ -78,10 +78,7 @@ function LiteMount:Initialize()
     LM_Options:Initialize()
     LM_PlayerMounts:Initialize()
 
-    -- Delayed scanning does two things. It stops us rescanning unnecessarily,
-    -- but more importantly it prevents a weird situation on loading where
-    -- the scan errors because GetCompanionInfo("MOUNT", i) fails for some
-    -- i < GetNumCompanions("MOUNT").
+    -- Delayed scanning stops us rescanning unnecessarily.
     self.needScan = true
 
     SlashCmdList["LiteMount"] = LiteMount_SlashCommandFunc

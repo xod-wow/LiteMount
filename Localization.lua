@@ -4,7 +4,7 @@
 
   LiteMount translations into other languages.
 
-  Copyright 2011-2013 Mike Battersby
+  Copyright 2011-2014 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

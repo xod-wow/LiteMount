@@ -6,7 +6,7 @@
   the mojo is done by IsUsableSpell to know if a mount can be cast, this
   just helps with the prioritization.
 
-  Copyright 2011-2013 Mike Battersby
+  Copyright 2011-2014 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
@@ -56,9 +56,11 @@ function LM_Location:WORLD_MAP_UPDATE()
     self:Update()
 end
 
--- In 5.4 Blizzard made the Bronze Drake able to swim, so now there is
--- this double test, one for a mount that can't run and another that can't
--- swim.
+-- In 6.0 Blizzard made all mounts able to to run, so this very accurate
+-- and good test for flyability no longer works.  For now we will fall back
+-- to the rubbish IsFlyableArea() until a better idea comes along.
+
+--[[
 function LM_Location:CanFly()
     for _,s in ipairs(CAN_FLY_IF_USABLE_SPELLS) do
         if not IsUsableSpell(s) then
@@ -66,6 +68,11 @@ function LM_Location:CanFly()
         end
     end
     return true
+end
+]]--
+
+function LM_Location:CanFly()
+    return IsFlyableArea()
 end
 
 function LM_Location:CanSwim()
