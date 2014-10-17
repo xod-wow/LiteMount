@@ -228,14 +228,14 @@ function LiteMount:PreClick(mouseButton)
 
     local m
 
-    if not m and LM_Location:CanFly() and mouseButton == "LeftButton" then
-        LM_Debug("Trying GetFlyingMount")
-        m = LM_PlayerMounts:GetFlyingMount()
-    end
-
     if not m and LM_Location:IsVashjir() then
         LM_Debug("Trying GetVashjirMount")
         m = LM_PlayerMounts:GetVashjirMount()
+    end
+
+    if not m and LM_Location:CanFly() and mouseButton == "LeftButton" then
+        LM_Debug("Trying GetFlyingMount")
+        m = LM_PlayerMounts:GetFlyingMount()
     end
 
     if not m and LM_Location:CanSwim() then
