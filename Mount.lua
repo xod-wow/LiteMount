@@ -103,29 +103,25 @@ function LM_Mount:GetMountByIndex(mountIndex)
         return
     end
 
+    -- Exclude mounts not collected
     if not ci[11] then
-        -- mount not collected
         LM_Debug(string.format("LM_Mount: Mount "..ci[1].." not collected #%d (of %d)",
                                mountIndex, C_MountJournal:GetNumMounts()))
         return
     end
 
-    if ci[8] then
-        -- faction-specific mount
-        local playerFaction,_ = UnitFactionGroup("player")
-        local mountFaction = ci[9]
-
-        -- http://wowpedia.org/API_C_MountJournal.GetMountInfo specifies that ci[9]
-        -- should be 1 if Horde-only, 2 if Alliance-only, and false if not specified
-        -- but it looks like it's 0 for Horde-only, 1 for Alliance-only, based
-        -- on actual debugging of what happens in the actual game.
-
-        if (playerFaction == 'Alliance' and mountFaction == 0) or
-           (playerFaction == 'Horde'    and mountFaction == 1) then
-           LM_Debug(string.format("LM_Mount: "..ci[1].." not available to "..playerFaction.." #%d (of %d)",
-                                mountIndex,C_MountJournal:GetNumMounts()))
-           return
-       end
+    -- Exclude faction-specific mounts
+    -- ci[9] : 0 = Horde, 1 = Alliance.
+    -- See MOUNT_FACTION_TEXTURES in Blizzard_PetJournal.lua and the
+    -- PLAYER_FACTION_GROUP global. Some websites are wrong (at the
+    -- time of writing) about this.
+    if ci[8] and ci[9] then
+        local playerFaction = UnitFactionGroup("player")
+        if playerFaction ~= PLAYER_FACTION_GROUP[ci[9]] then
+            LM_Debug(string.format("LM_Mount: "..ci[1].." not available to "..playerFaction.." #%d (of %d)",
+                                   mountIndex, C_MountJournal:GetNumMounts()))
+            return
+        end
     end
 
     if self.cacheByName[ci[1]] then
@@ -134,40 +130,41 @@ function LM_Mount:GetMountByIndex(mountIndex)
 
     local m = LM_Mount:new()
 
-    m.modelId   = ce[1]
-    m.name      = ci[1]
-    m.spellId   = ci[2]
-    m.icon      = ci[3]
+    m.modelId       = ce[1]
+    m.name          = ci[1]
+    m.spellId       = ci[2]
+    m.icon          = ci[3]
+    m.isSelfMount   = ce[4]
+    m.mountType     = ce[5]
 
-    local mountType = ce[5]
-    LM_Debug("LM_Mount: mount type of "..m.name.." is "..mountType)
+    LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
 
     -- This attempts to set the old-style flags on mounts based on their new-style "mount type"
-    -- This list is almost certainly not complete, and may be mistakena in places
+    -- This list is almost certainly not complete, and may be mistaken in places
     -- list source: http://wowpedia.org/API_C_MountJournal.GetMountInfoExtra 20131015
 
-    if mountType == 230 then -- ground mount
+    if m.mountType == 230 then -- ground mount
         m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
-    elseif mountType == 231 then -- riding/sea turtle
+    elseif m.mountType == 231 then -- riding/sea turtle
         m.flags = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM)
-    elseif mountType == 232 then -- Vashj'ir Seahorse
+    elseif m.mountType == 232 then -- Vashj'ir Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_VASHJIR)
-    elseif mountType == 241 then -- AQ-only bugs
+    elseif m.mountType == 241 then -- AQ-only bugs
         m.flags = bit.bor(LM_FLAG_BIT_AQ)
-    elseif mountType == 242 then -- Swift Spectral Gryphon
+    elseif m.mountType == 242 then -- Swift Spectral Gryphon
         m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
-    elseif mountType == 247 then -- Red Flying Cloud
+    elseif m.mountType == 247 then -- Red Flying Cloud
         m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_JUMP)
-    elseif mountType == 248 then -- flying mounts
+    elseif m.mountType == 248 then -- flying mounts
         m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
-    elseif mountType == 254 then -- Subdued Seahorse
+    elseif m.mountType == 254 then -- Subdued Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_SWIM)
-    elseif mountType == 269 then -- Water Striders
+    elseif m.mountType == 269 then -- Water Striders
         m.flags = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM)
     else
         m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
     end
-    LM_Debug("LM_Mount flags for "..m.name.." are "..m.flags)
+    LM_Debug("LM_Mount flags for "..m.name.." are ".. m.flags)
 
     local si = { GetSpellInfo(m.spellId) }
     m.spellName = si[1]
@@ -195,6 +192,14 @@ end
 
 function LM_Mount:ModelId()
     return self.modelId
+end
+
+function LM_Mount:IsSelfMount()
+    return self.isSelfMount
+end
+
+function LM_Mount:Type()
+    return self.mountType
 end
 
 function LM_Mount:SpellName()

@@ -92,8 +92,14 @@
                     GameTooltip:Show()
 
                     local m = self:GetParent().modelid
+                    local isself = self:GetParent().isself
+
                     if m then
                         LiteMountOptionsPreview.model:SetDisplayInfo(m)
+                        if isself then
+                            LiteMountOptionsPreview.model:SetDoBlend(false)
+                            LiteMountOptionsPreview.model:SetAnimation(618, -1)
+                        end
                         LiteMountOptionsPreview:Show()
                     else
                         LiteMountOptionsPreview:Hide()
