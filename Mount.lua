@@ -110,13 +110,6 @@ function LM_Mount:GetMountByIndex(mountIndex)
         return
     end
 
-    if not ci[5] then
-        -- mount not usable
-        LM_Debug(string.format("LM_Mount: Mount " .. ci[1] .. " not usable #%d (of %d)",
-                               mountIndex, C_MountJournal:GetNumMounts()))
-        return
-    end
-
     if self.cacheByName[ci[1]] then
         return self.cacheByName[ci[1]]
     end
