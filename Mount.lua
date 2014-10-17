@@ -105,9 +105,27 @@ function LM_Mount:GetMountByIndex(mountIndex)
 
     if not ci[11] then
         -- mount not collected
-        LM_Debug(string.format("LM_Mount: Mount " .. ci[1] .. " not collected #%d (of %d)",
+        LM_Debug(string.format("LM_Mount: Mount "..ci[1].." not collected #%d (of %d)",
                                mountIndex, C_MountJournal:GetNumMounts()))
         return
+    end
+
+    if ci[8] then
+        -- faction-specific mount
+        local playerFaction,_ = UnitFactionGroup("player")
+        local mountFaction = ci[9]
+
+        -- http://wowpedia.org/API_C_MountJournal.GetMountInfo specifies that ci[9]
+        -- should be 1 if Horde-only, 2 if Alliance-only, and false if not specified
+        -- but it looks like it's 0 for Horde-only, 1 for Alliance-only, based
+        -- on actual debugging of what happens in the actual game.
+
+        if (playerFaction == 'Alliance' and mountFaction == 0) or
+           (playerFaction == 'Horde'    and mountFaction == 1) then
+           LM_Debug(string.format("LM_Mount: "..ci[1].." not available to "..playerFaction.." #%d (of %d)",
+                                mountIndex,C_MountJournal:GetNumMounts()))
+           return
+       end
     end
 
     if self.cacheByName[ci[1]] then
@@ -125,7 +143,7 @@ function LM_Mount:GetMountByIndex(mountIndex)
     LM_Debug("LM_Mount: mount type of "..m.name.." is "..mountType)
 
     -- This attempts to set the old-style flags on mounts based on their new-style "mount type"
-    -- This list is almost certainly not complete
+    -- This list is almost certainly not complete, and may be mistakena in places
     -- list source: http://wowpedia.org/API_C_MountJournal.GetMountInfoExtra 20131015
 
     if mountType == 230 then -- ground mount
