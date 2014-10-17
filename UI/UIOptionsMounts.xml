@@ -271,8 +271,10 @@
                 <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="96" y="2" />
             </Anchors>
             <Scripts>
-                <OnEnterPressed function="EditBox_ClearFocus" />
-                <OnTextChanged function="LiteMountOptions_UpdateMountList" />
+                <OnTextChanged>
+                    SearchBoxTemplate_OnTextChanged(self)
+                    LiteMountOptions_UpdateMountList()
+                </OnTextChanged>
             </Scripts>
         </EditBox>
 
