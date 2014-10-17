@@ -75,8 +75,13 @@ function LM_Location:CanFly()
     return IsFlyableArea()
 end
 
+-- The difference between IsSwimming and IsSubmerged is that IsSubmerged will
+-- also return true when you are standing on the bottom.  Note that it sadly
+-- does not return false when you are floating on the top, that is still counted
+-- as being submerged.
+
 function LM_Location:CanSwim()
-    return IsSwimming()
+    return IsSubmerged()
 end
 
 function LM_Location:GetName()
@@ -92,7 +97,7 @@ function LM_Location:IsAQ()
 end
 
 function LM_Location:IsVashjir()
-    if not IsSwimming() then return nil end
+    if not self:CanSwim() then return nil end
     if self.areaId == 610 then return 1 end
     if self.areaId == 614 then return 1 end
     if self.areaId == 615 then return 1 end
