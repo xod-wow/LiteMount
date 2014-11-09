@@ -34,6 +34,17 @@ local RescanEvents = {
     "BAG_UPDATE",
 }
 
+local function GetDruidMountForms()
+    local forms = {}
+    for i = 1,GetNumShapeshiftForms() do
+        local spell = select(5, GetShapeshiftFormInfo(i))
+        if spell == LM_SPELL_FLIGHT_FORM or spell == LM_SPELL_TRAVEL_FORM then
+            tinsert(forms, i)
+        end
+    end
+    return table.concat(forms, "/")
+end
+
 -- This is the macro that gets set as the default and will trigger if
 -- we are in combat.  Don't put anything in here that isn't specifically
 -- combat-only, because out of combat we've got proper code available.
@@ -47,14 +58,7 @@ function LiteMount:BuildCombatMacro()
     m = m .. "/dismount [mounted]\n"
 
     if self.playerClass ==  "DRUID" then
-        -- In MoP the form numbers are not constant again. As far as I can
-        -- see Aquatic is always 2, Travel is 4 and Swift Flight Form is
-        -- the last form you know.
-        local forms = string.format("%d/%d/%d", 2, 4, GetNumShapeshiftForms())
-        if IsSpellKnown(LM_SPELL_AQUATIC_FORM) then
-            local s = GetSpellInfo(LM_SPELL_AQUATIC_FORM)
-            m = m .. string.format("/cast [swimming,noform:%s] %s\n", forms, s)
-        end
+        local forms = GetDruidMountForms()
         if IsSpellKnown(LM_SPELL_TRAVEL_FORM) then
             local s = GetSpellInfo(LM_SPELL_TRAVEL_FORM)
             m = m .. string.format("/cast [noform:%s] %s\n", forms, s)
@@ -215,7 +219,7 @@ function LiteMount:PreClick(mouseButton)
     --  3 = Travel Form
     --  4 = Aquatic Form
     -- 16 = Ghost Wolf
-    -- 27 = Swift Flight Form
+    -- 27 = Flight Form
     local form = GetShapeshiftFormID()
 
     if self.playerClass == "DRUID" and form == 3 or form == 4 or form == 27 then
