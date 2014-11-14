@@ -16,7 +16,7 @@ function LM_MountItem:HasItem(itemId)
     end
 end
 
-function LM_MountItem:IsUsable(itemId)
+function LM_MountItem:IsUsable(itemId, flags)
 
     local spell = LM_ITEM_MOUNT_ITEMS[itemId]
 

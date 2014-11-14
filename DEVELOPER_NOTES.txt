@@ -180,9 +180,9 @@ Notes To Myself
             LM_Location:IsVashjir()
         * MountItem.lua
             LM_MountItem:HasItem(itemId)
-            LM_MountItem:IsUsable(itemId)
+            LM_MountItem:IsUsable(itemId, flags)
         * MountSpell.lua
-            LM_MountSpell:IsKnown(spellId)
+            LM_MountSpell:IsKnown(spellId, flags)
 
     Options stuff:
         * Options.lua

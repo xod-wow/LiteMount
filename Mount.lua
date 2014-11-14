@@ -251,16 +251,16 @@ function LM_Mount:FlagsSet(f)
     return bit.band(self:Flags(), f) == f
 end
 
-function LM_Mount:IsUsable()
+function LM_Mount:IsUsable(flags)
 
     if GetUnitSpeed("player") > 0 or IsFalling() then
         if self:CastTime() > 0 then return end
     end
 
     if self.itemId then
-        return LM_MountItem:IsUsable(self.itemId)
+        return LM_MountItem:IsUsable(self.itemId, flags)
     else
-        return LM_MountSpell:IsUsable(self.spellId)
+        return LM_MountSpell:IsUsable(self.spellId, flags)
     end
 end
 

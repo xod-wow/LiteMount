@@ -44,7 +44,7 @@ local function KnowProfessionSkillLine(needSkillLine, needRank)
     return false
 end
 
-function LM_MountSpell:IsUsable(spellId)
+function LM_MountSpell:IsUsable(spellId, flags)
     if not IsUsableSpell(spellId) then
         return nil
     end
