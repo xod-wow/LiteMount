@@ -71,8 +71,14 @@ function LM_Location:CanFly()
 end
 ]]--
 
+-- Draenor (continent 7) is flagged flyable even though you can't fly there
+-- Maybe this will be fixed in 6.1. Is there no end to the horror?
 function LM_Location:CanFly()
-    return IsFlyableArea()
+    if self.continent != 7 then
+        return IsFlyableArea()
+    else
+        return nil
+    end
 end
 
 -- The difference between IsSwimming and IsSubmerged is that IsSubmerged will
