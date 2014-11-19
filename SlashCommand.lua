@@ -30,7 +30,6 @@ local LOCALIZED_MACRO_WORD = strlower(MACRO)
 
 function LiteMount_SlashCommandFunc(argstr)
 
-
     local args = { strsplit(" ", argstr) }
 
     for _,arg in ipairs(args) do
@@ -39,6 +38,8 @@ function LiteMount_SlashCommandFunc(argstr)
             local i = CreateOrUpdateMacro()
             if i then PickupMacro(i) end
             return
+        elseif arg == "nagrand" then
+            LM_Location:NagrandInfo()
         end
     end
 
