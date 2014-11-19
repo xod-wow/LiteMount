@@ -111,7 +111,7 @@ end
 
 function LM_Location:NagrandInfo()
     LM_Print(" Faction: ".. UnitFactionGroup("player"))
-    LM_Print("Location: ".. self:GetName() .. "(" .. self:GetID() .. ")")
+    LM_Print("Location: ".. self:GetName() .. "(" .. self:GetId() .. ")")
     LM_Print("  Talbuk: ".. (IsUsableSpell(LM_SPELL_TELAARI_TALBUK) or "0"))
     LM_Print("    Wolf: ".. (IsUsableSpell(LM_SPELL_FROSTWOLF_WAR_WOLF) or "0"))
     LM_Print("Garrison: ".. GetSpellInfo(161691))
