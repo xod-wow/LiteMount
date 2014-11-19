@@ -33,8 +33,8 @@ function LM_PlayerMounts:AddCompanionMounts()
     end
 end
 
-function LM_PlayerMounts:AddRacialMounts()
-    for _,spellid in ipairs(LM_RACIAL_MOUNT_SPELLS) do
+function LM_PlayerMounts:AddSpellMountsTable(t)
+    for _,spellid in ipairs(t) do
         if LM_MountSpell:IsKnown(spellid) then
             local m = LM_Mount:GetMountBySpell(spellid)
             self:AddMount(m)
@@ -42,13 +42,10 @@ function LM_PlayerMounts:AddRacialMounts()
     end
 end
 
-function LM_PlayerMounts:AddClassMounts()
-    for _,spellid in ipairs(LM_CLASS_MOUNT_SPELLS) do
-        if LM_MountSpell:IsKnown(spellid) then
-            local m = LM_Mount:GetMountBySpell(spellid)
-            self:AddMount(m)
-        end
-    end
+function LM_PlayerMounts:AddSpellMounts()
+    self:AddSpellMountsTable(LM_CLASS_MOUNT_SPELLS)
+    self:AddSpellMountsTable(LM_RACIAL_MOUNT_SPELLS)
+    self:AddSpellMountsTable(LM_ZONE_MOUNT_SPELLS)
 end
 
 function LM_PlayerMounts:AddItemMounts()
@@ -66,8 +63,7 @@ function LM_PlayerMounts:ScanMounts()
     table.wipe(self.list)
 
     self:AddCompanionMounts()
-    self:AddRacialMounts()
-    self:AddClassMounts()
+    self:AddSpellMounts()
     self:AddItemMounts()
 
     self.list:Sort()

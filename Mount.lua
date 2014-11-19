@@ -21,6 +21,15 @@ function LM_Mount:new()
     return setmetatable({ }, LM_Mount)
 end
 
+function LM_Mount:AddTag(tag)
+end
+
+function LM_Mount:RemoveTag(tag)
+end
+
+function LM_Mount:CheckTag(tag)
+end
+
 function LM_Mount:FixupFlags()
     -- Which fly/walk flagged mounts can mount in no-fly areas is arbitrary.
     if bit.band(self.flags, LM_FLAG_BIT_FLY) == LM_FLAG_BIT_FLY then

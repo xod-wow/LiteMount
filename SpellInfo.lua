@@ -65,6 +65,11 @@ LM_CLASS_MOUNT_SPELLS = {
     LM_SPELL_TRAVEL_FORM,
 }
 
+LM_ZONE_MOUNT_SPELLS = {
+    LM_SPELL_FROSTWOLF_WAR_WOLF,
+    LM_SPELL_TELAARI_TALBUK,
+}
+
 -- Skill Lines from select(7, GetProfessionInfo(i))
 --      164 Blacksmithing
 --      165 Leatherworking

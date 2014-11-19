@@ -109,6 +109,10 @@ function LM_Location:IsVashjir()
     if self.areaId == 615 then return 1 end
 end
 
+function LM_Location:IsDraenorNagrand()
+    if self.areaID == 950 then return 1 end
+end
+
 function LM_Location:NagrandInfo()
     LM_Print(" Faction: ".. UnitFactionGroup("player"))
     LM_Print("Location: ".. self:GetName() .. "(" .. self:GetId() .. ")")
