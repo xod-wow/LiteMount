@@ -114,9 +114,18 @@ function LM_Location:IsDraenorNagrand()
 end
 
 function LM_Location:NagrandInfo()
-    LM_Print(" Faction: ".. UnitFactionGroup("player"))
-    LM_Print("Location: ".. self:GetName() .. "(" .. self:GetId() .. ")")
-    LM_Print("  Talbuk: ".. (IsUsableSpell(LM_SPELL_TELAARI_TALBUK) or "0"))
-    LM_Print("    Wolf: ".. (IsUsableSpell(LM_SPELL_FROSTWOLF_WAR_WOLF) or "0"))
-    LM_Print("Garrison: ".. GetSpellInfo(161691))
+    LM_Print(" Faction: " .. UnitFactionGroup("player"))
+    LM_Print("Location: " .. self:GetName() .. " (" .. self:GetId() .. ")")
+    if IsUsableSpell(165803) then
+        LM_Print("  Talbuk: yes")
+    else
+        LM_Print("  Talbuk: no")
+    end
+    if IsUsableSpell(164222) then
+        LM_Print("    Wolf: yes")
+    else
+        LM_Print("    Wolf: no")
+    end
+    local g = GetSpellInfo(161691)
+    LM_Print("Garrison: " .. g)
 end
