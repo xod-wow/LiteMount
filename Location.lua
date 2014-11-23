@@ -110,7 +110,7 @@ function LM_Location:IsVashjir()
 end
 
 function LM_Location:IsDraenorNagrand()
-    if self.areaID == 950 then return 1 end
+    if self.areaId == 950 then return 1 end
 end
 
 function LM_Location:NagrandInfo()
