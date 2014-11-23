@@ -115,6 +115,10 @@ function LM_PlayerMounts:GetVashjirMount()
     return self:GetRandomMount(LM_FLAG_BIT_VASHJIR)
 end
 
+function LM_PlayerMounts:GetNagrandMount()
+    return self:GetRandomMount(LM_FLAG_BIT_NAGRAND)
+end
+
 function LM_PlayerMounts:GetSwimmingMount()
     return self:GetRandomMount(LM_FLAG_BIT_SWIM)
 end

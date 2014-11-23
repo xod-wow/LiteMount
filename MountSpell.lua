@@ -49,10 +49,21 @@ function LM_MountSpell:IsUsable(spellId, flags)
         return nil
     end
 
-    local need = LM_PROFESSION_MOUNT_SPELLS[spellId]
-
+    local need = LM_PROFESSION_MOUNT_REQUIREMENTS[spellId]
     if need and not KnowProfessionSkillLine(need[1], need[2]) then
         return nil
+    end
+
+    -- IsUsableSpell returns true for the Draenor Nagrand garrison perk mount
+    -- spells no matter which faction you are.  But it does seem to obey the
+    -- zone requirements.
+
+    local needFaction = LM_FACTION_MOUNT_REQUIREMENTS[spellId]
+    if needFaction then
+        local playerFaction = UnitFactionGroup("player")
+        if needFaction ~= playerFaction then
+            return nil
+        end
     end
 
     return true
