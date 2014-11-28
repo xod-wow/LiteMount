@@ -297,7 +297,6 @@ function LM_Mount:Dump(prefix)
     local function yesno(t) if t then return "yes" else return "no" end end
 
     LM_Print(prefix .. self:Name())
-    LM_Print(prefix .. "       type: " .. self:Type())
     LM_Print(prefix .. "      spell: " .. string.format("%s (id %d)", self:SpellName(), self:SpellId()))
     LM_Print(prefix .. "   casttime: " .. self:CastTime())
     LM_Print(prefix .. "      flags: " .. string.format("%02x (default %02x)", self:Flags(), self:DefaultFlags()))
