@@ -289,7 +289,18 @@ function LM_Mount:SetupActionButton(button)
     end
 end
 
-function LM_Mount:Dump()
-    LM_Print(string.format("%s %d %02x (%02x)",
-             self.name, self.spellId, self:Flags(), self:DefaultFlags()))
+function LM_Mount:Dump(prefix)
+    if prefix == nil then
+        prefix = ""
+    end
+
+    local function yesno(t) if t then return "yes" else return "no" end end
+
+    LM_Print(prefix .. self:Name())
+    LM_Print(prefix .. "       type: " .. self:Type())
+    LM_Print(prefix .. "      spell: " .. string.format("%s (id %d)", self:SpellName(), self:SpellId()))
+    LM_Print(prefix .. "   casttime: " .. self:CastTime())
+    LM_Print(prefix .. "      flags: " .. string.format("%02x (default %02x)", self:Flags(), self:DefaultFlags()))
+    LM_Print(prefix .. "   excluded: " .. yesno(self:IsExcluded()))
+    LM_Print(prefix .. "     usable: " .. yesno(self:IsUsable()) .. " (spell " .. yesno(IsUsableSpell(self:SpellId())) .. ")")
 end
