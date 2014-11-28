@@ -116,16 +116,9 @@ end
 function LM_Location:NagrandInfo()
     LM_Print(" Faction: " .. UnitFactionGroup("player"))
     LM_Print("Location: " .. self:GetName() .. " (" .. self:GetId() .. ")")
-    if IsUsableSpell(165803) then
-        LM_Print("  Talbuk: yes")
-    else
-        LM_Print("  Talbuk: no")
-    end
-    if IsUsableSpell(164222) then
-        LM_Print("    Wolf: yes")
-    else
-        LM_Print("    Wolf: no")
-    end
-    local g = GetSpellInfo(161691)
-    LM_Print("Garrison: " .. g)
+
+    local tal = LM_Mount:GetMountBySpell(LM_SPELL_TELAARI_TALBUK)
+    local wol = LM_Mount:GetMountBySpell(LM_SPELL_FROSTWOLF_WAR_WOLF)
+    if tal then tal:Dump("  Talbuk: ") end
+    if wol then wol:Dump("    Wolf: ") end
 end
