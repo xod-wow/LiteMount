@@ -260,9 +260,22 @@ function LM_Mount:FlagsSet(f)
     return bit.band(self:Flags(), f) == f
 end
 
+local IceFloesSpellName
+
+function LM_Mount:PlayerHasIceFloes()
+    if not IceFloesSpellName then
+        IceFloesSpellName = GetSpellInfo(108839)
+    end
+    return UnitAura("player", IceFloesSpellName)
+end
+
+function LM_Mount:PlayerIsMovingOrFalling()
+    return (GetUnitSpeed("player") > 0 or IsFalling())
+end
+
 function LM_Mount:IsUsable(flags)
 
-    if GetUnitSpeed("player") > 0 or IsFalling() then
+    if not self:PlayerHasIceFloes() and self:PlayerIsMovingOrFalling() then
         if self:CastTime() > 0 then return end
     end
 
