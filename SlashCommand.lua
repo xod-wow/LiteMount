@@ -40,6 +40,7 @@ function LiteMount_SlashCommandFunc(argstr)
             return
         elseif arg == "nagrand" then
             LM_Location:NagrandInfo()
+            return
         end
     end
 
