@@ -40,6 +40,10 @@ local ClassSuggestions = {
             ["iconspell"] = 130,
             ["macro"] = "/cast [@player] Slow Fall",
         },
+        {
+            ["iconspell"] = 108839,
+            ["macro"] = "/cast Ice Floes",
+        },
     },
     ["MONK"] = {
         {
