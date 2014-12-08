@@ -89,6 +89,14 @@ function LM_Mount:GetMountBySpell(spellId)
         return self.cacheBySpellId[spellId]
     end
 
+    local needFaction = LM_FACTION_MOUNT_REQUIREMENTS[spellId]
+    if needFaction then
+        local playerFaction = UnitFactionGroup("player")
+        if needFaction ~= playerFaction then
+            return
+        end
+    end
+
     local m = LM_Mount:new()
     local spell_info = { GetSpellInfo(spellId) }
 
@@ -172,7 +180,7 @@ function LM_Mount:GetMountByIndex(mountIndex)
         m.flags = bit.bor(LM_FLAG_BIT_AQ)
         m:AddTags(LM_TAG_AQ)
     elseif m.mountType == 247 then -- Red Flying Cloud
-        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY)
+        m.flags = bit.bor(LM_FLAG_BIT_FLY)
         m:AddTags(LM_TAG_RUN, LM_TAG_FLY)
     elseif m.mountType == 248 then -- Flying mounts
         m.flags = bit.bor(LM_FLAG_BIT_FLY)

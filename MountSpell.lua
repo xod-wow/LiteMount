@@ -22,6 +22,11 @@ function LM_MountSpell:IsKnown(spellId)
         return true
     end
 
+    if spellId == LM_SPELL_TELAARI_TALBUK or
+       spellId == LM_SPELL_FROSTWOLF_WAR_WOLF then
+        return true
+    end
+
     for i = 1, C_MountJournal.GetNumMounts() do
         local cs = select(3, GetCompanionInfo("MOUNT", i))
         if cs == spellId then
@@ -52,18 +57,6 @@ function LM_MountSpell:IsUsable(spellId, flags)
     local need = LM_PROFESSION_MOUNT_REQUIREMENTS[spellId]
     if need and not KnowProfessionSkillLine(need[1], need[2]) then
         return nil
-    end
-
-    -- IsUsableSpell returns true for the Draenor Nagrand garrison perk mount
-    -- spells no matter which faction you are.  But it does seem to obey the
-    -- zone requirements.
-
-    local needFaction = LM_FACTION_MOUNT_REQUIREMENTS[spellId]
-    if needFaction then
-        local playerFaction = UnitFactionGroup("player")
-        if needFaction ~= playerFaction then
-            return nil
-        end
     end
 
     return true
