@@ -106,6 +106,29 @@ LM_ITEM_MOUNT_ITEMS = {
     [LM_ITEM_DRAGONWRATH_TARECGOSAS_REST] = LM_SPELL_TARECGOSAS_VISAGE,
 }
 
+LM_TagOverrideTable = {
+    [LM_SPELL_AQUATIC_FORM]       = { "swim" },
+    [LM_SPELL_RIDING_TURTLE]      = { "swim", "walk" },
+    [LM_SPELL_SEA_TURTLE]         = { "swim", "walk" },
+    [LM_SPELL_FLIGHT_FORM]        = { "fly" },
+    [LM_SPELL_RUNNING_WILD]       = { "run" },
+    [LM_SPELL_GHOST_WOLF]         = { "walk" },
+    [LM_SPELL_TRAVEL_FORM]        = { "fly", "swim" },
+    [LM_SPELL_BLUE_QIRAJI_TANK]   = { "aq" },
+    [LM_SPELL_GREEN_QIRAJI_TANK]  = { "aq" },
+    [LM_SPELL_RED_QIRAJI_TANK]    = { "aq" },
+    [LM_SPELL_YELLOW_QIRAJI_TANK] = { "aq" },
+    [LM_SPELL_ABYSSAL_SEAHORSE]   = { "vashjir" },
+    [LM_SPELL_SUBDUED_SEAHORSE]   = { "swim", "vashjir" },
+    [LM_SPELL_TARECGOSAS_VISAGE]  = { "fly" },
+    [LM_SPELL_FLYING_BROOM]       = { "fly" },
+    [LM_SPELL_MAGIC_BROOM]        = { "fly", "run" },
+    [LM_SPELL_LOANED_GRYPHON]     = { "fly" },
+    [LM_SPELL_LOANED_WIND_RIDER]  = { "fly" },
+    [LM_SPELL_TELAARI_TALBUK]     = { "nagrand" },
+    [LM_SPELL_FROSTWOLF_WAR_WOLF] = { "nagrand" },
+}
+
 LM_FlagOverrideTable = {
     [LM_SPELL_AQUATIC_FORM]       = bit.bor(LM_FLAG_BIT_FLOAT,
                                             LM_FLAG_BIT_SWIM),
