@@ -37,6 +37,7 @@ function LiteMount_OpenOptionsPanel()
     if not f.CurrentOptionsPanel then
         f.CurrentOptionsPanel = LiteMountOptionsMounts
     end
+    InterfaceOptionsFrame:Show()
     InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)
 end
 
