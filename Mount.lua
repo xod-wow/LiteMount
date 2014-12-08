@@ -26,7 +26,7 @@ function LM_Mount:ClearTags()
 end
 
 function LM_Mount:AddTags(...)
-    for _,t in ipairs(args) do
+    for _,t in ipairs({...}) do
         self.tags[t] = true
     end
 end
@@ -46,7 +46,7 @@ function LM_Mount:HasTags(...)
 end
 
 function LM_Mount:OverrideTags()
-    local tags = LM_FlagOverrideTable[self.spellId]
+    local tags = LM_TagOverrideTable[self.spellId]
     if tags then
         self:ClearTags()
         self:AddTags(unpack(tags))
