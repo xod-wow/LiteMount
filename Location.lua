@@ -49,10 +49,12 @@ function LM_Location:PLAYER_LOGIN()
 end
 
 function LM_Location:PLAYER_ENTERING_WORLD()
+    LM_Debug("Updating location due to PLAYER_ENTERING_WORLD.")
     self:Update()
 end
 
 function LM_Location:WORLD_MAP_UPDATE()
+    LM_Debug("Updating location due to WORLD_MAP_UPDATE.")
     self:Update()
 end
 
