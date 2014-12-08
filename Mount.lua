@@ -18,16 +18,24 @@ LM_Mount.__eq = function (a,b) return a:Name() == b:Name() end
 LM_Mount.__lt = function (a,b) return a:Name() < b:Name() end
 
 function LM_Mount:new()
-    return setmetatable({ }, LM_Mount)
+    local self = { tags = { } }
+    return setmetatable(self, LM_Mount)
 end
 
-function LM_Mount:AddTag(tag)
+function LM_Mount:AddTags(...)
+    for _,t in ipairs(args) do
+        self.tags[t] = true
+    end
 end
 
-function LM_Mount:RemoveTag(tag)
+function LM_Mount:RemoveTags(...)
+    for _,t in ipairs(args) do
+        self.tags[t] = nil
+    end
 end
 
-function LM_Mount:CheckTag(tag)
+function LM_Mount:HasTag(tag)
+    return self.tags[tag]
 end
 
 function LM_Mount:FixupFlags()
