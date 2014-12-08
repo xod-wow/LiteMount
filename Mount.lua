@@ -18,8 +18,11 @@ LM_Mount.__eq = function (a,b) return a:Name() == b:Name() end
 LM_Mount.__lt = function (a,b) return a:Name() < b:Name() end
 
 function LM_Mount:new()
-    local self = { tags = { } }
-    return setmetatable(self, LM_Mount)
+    return setmetatable({ }, LM_Mount)
+end
+
+function LM_Mount:ClearTags()
+    table.wipe(self.tags)
 end
 
 function LM_Mount:AddTags(...)
@@ -29,34 +32,32 @@ function LM_Mount:AddTags(...)
 end
 
 function LM_Mount:RemoveTags(...)
-    for _,t in ipairs(args) do
+    for _,t in ipairs({...}) do
         self.tags[t] = nil
     end
 end
 
-function LM_Mount:HasTag(tag)
-    return self.tags[tag]
+function LM_Mount:HasTags(...)
+    local rv = true
+    for _,t in ipairs({...}) do
+        rv  = rv and self.tags[t]
+    end
+    return rv
 end
 
-function LM_Mount:FixupFlags()
-    -- Which fly/walk flagged mounts can mount in no-fly areas is arbitrary.
-    if bit.band(self.flags, LM_FLAG_BIT_FLY) == LM_FLAG_BIT_FLY then
-        self.flags = LM_FLAG_BIT_FLY
+function LM_Mount:OverrideTags()
+    local tags = LM_FlagOverrideTable[self.spellId]
+    if tags then
+        self:ClearTags()
+        self:AddTags(unpack(tags))
     end
+end
 
-    -- Most ground-only mounts are also flagged to swim
-    -- XXX FIXME XXX
-    local fws = bit.bor(LM_FLAG_BIT_FLY, LM_FLAG_BIT_RUN, LM_FLAG_BIT_SWIM)
-    local ws = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_SWIM)
-    if bit.band(self.flags, fws) == ws then
-        self.flags = self.flags - LM_FLAG_BIT_SWIM
-    end
-
+function LM_Mount:OverrideFlags()
     local flags = LM_FlagOverrideTable[self.spellId]
     if flags then
         self.flags = flags
     end
-
 end
 
 function LM_Mount:GetMountByItem(itemId, spellId)
@@ -68,14 +69,14 @@ function LM_Mount:GetMountByItem(itemId, spellId)
     local m = LM_Mount:GetMountBySpell(spellId)
     if not m then return end
 
-    local ii = { GetItemInfo(itemId) }
-    if not ii[1] then
+    local item_info = { GetItemInfo(itemId) }
+    if not item_info[1] then
         LM_Debug("LM_Mount: Failed GetItemInfo #"..itemId)
         return
     end
 
     m.itemId = itemId
-    m.itemName = ii[1]
+    m.itemName = item_info[1]
 
     self.cacheByItemId[itemId] = m
 
@@ -89,20 +90,21 @@ function LM_Mount:GetMountBySpell(spellId)
     end
 
     local m = LM_Mount:new()
-    local si = { GetSpellInfo(spellId) }
+    local spell_info = { GetSpellInfo(spellId) }
 
-    if not si[1] then
+    if not spell_info[1] then
         LM_Debug("LM_Mount: Failed GetMountBySpell #"..spellId)
         return
     end
 
-    m.name = si[1]
-    m.spellId = spellId
-    m.spellName = si[1]
-    m.icon = si[3]
+    m.name = spell_info[1]
+    m.spellName = spell_info[1]
+    m.icon = spell_info[3]
     m.flags = 0
-    m.castTime = si[4]
-    m:FixupFlags()
+    m.tags = { }
+    m.castTime = spell_info[4]
+    m.spellId = spell_info[7]
+    m:OverrideFlags()
 
     self.cacheByName[m.name] = m
     self.cacheBySpellId[m.spellId] = m
@@ -111,48 +113,49 @@ function LM_Mount:GetMountBySpell(spellId)
 end
 
 function LM_Mount:GetMountByIndex(mountIndex)
-    local ci = { C_MountJournal.GetMountInfo(mountIndex) }
-    local ce = { C_MountJournal.GetMountInfoExtra(mountIndex) }
+    local mount_info = { C_MountJournal.GetMountInfo(mountIndex) }
+    local mount_extra = { C_MountJournal.GetMountInfoExtra(mountIndex) }
 
-    if not ci[1] then
+    if not mount_info[1] then
         LM_Debug(string.format("LM_Mount: Failed GetMountInfo #%d (of %d)",
                                mountIndex, C_MountJournal:GetNumMounts()))
         return
     end
 
     -- Exclude mounts not collected
-    if not ci[11] then
-        LM_Debug(string.format("LM_Mount: Mount "..ci[1].." not collected #%d (of %d)",
+    if not mount_info[11] then
+        LM_Debug(string.format("LM_Mount: Mount "..mount_info[1].." not collected #%d (of %d)",
                                mountIndex, C_MountJournal:GetNumMounts()))
         return
     end
 
     -- Exclude faction-specific mounts
-    -- ci[9] : 0 = Horde, 1 = Alliance.
+    -- mount_info[9] : 0 = Horde, 1 = Alliance.
     -- See MOUNT_FACTION_TEXTURES in Blizzard_PetJournal.lua and the
     -- PLAYER_FACTION_GROUP global. Some websites are wrong (at the
     -- time of writing) about this.
-    if ci[8] and ci[9] then
+    if mount_info[8] and mount_info[9] then
         local playerFaction = UnitFactionGroup("player")
-        if playerFaction ~= PLAYER_FACTION_GROUP[ci[9]] then
-            LM_Debug(string.format("LM_Mount: "..ci[1].." not available to "..playerFaction.." #%d (of %d)",
+        if playerFaction ~= PLAYER_FACTION_GROUP[mount_info[9]] then
+            LM_Debug(string.format("LM_Mount: "..mount_info[1].." not available to "..playerFaction.." #%d (of %d)",
                                    mountIndex, C_MountJournal:GetNumMounts()))
             return
         end
     end
 
-    if self.cacheByName[ci[1]] then
-        return self.cacheByName[ci[1]]
+    if self.cacheByName[mount_info[1]] then
+        return self.cacheByName[mount_info[1]]
     end
 
     local m = LM_Mount:new()
 
-    m.modelId       = ce[1]
-    m.name          = ci[1]
-    m.spellId       = ci[2]
-    m.icon          = ci[3]
-    m.isSelfMount   = ce[4]
-    m.mountType     = ce[5]
+    m.modelId       = mount_extra[1]
+    m.name          = mount_info[1]
+    m.spellId       = mount_info[2]
+    m.icon          = mount_info[3]
+    m.isSelfMount   = mount_extra[4]
+    m.mountType     = mount_extra[5]
+    m.tags          = { }
 
     LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
 
@@ -161,33 +164,40 @@ function LM_Mount:GetMountByIndex(mountIndex)
     -- list source: http://wowpedia.org/API_C_MountJournal.GetMountInfoExtra 20131015
 
     if m.mountType == 230 then -- ground mount
-        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
+        m.flags = bit.bor(LM_FLAG_BIT_RUN)
+        m:AddTags(LM_TAG_RUN)
     elseif m.mountType == 231 then -- riding/sea turtle
-        m.flags = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM)
+        m.flags = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_SWIM)
+        m:AddTags(LM_TAG_SWIM, LM_TAG_WALK)
     elseif m.mountType == 232 then -- Vashj'ir Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_VASHJIR)
+        m:AddTags(LM_TAG_VASHJIR)
     elseif m.mountType == 241 then -- AQ-only bugs
         m.flags = bit.bor(LM_FLAG_BIT_AQ)
-    elseif m.mountType == 242 then -- Swift Spectral Gryphon
-        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
+        m:AddTags(LM_TAG_AQ)
     elseif m.mountType == 247 then -- Red Flying Cloud
-        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_JUMP)
-    elseif m.mountType == 248 then -- flying mounts
-        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
+        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY)
+        m:AddTags(LM_TAG_RUN, LM_TAG_FLY)
+    elseif m.mountType == 248 then -- Flying mounts
+        m.flags = bit.bor(LM_FLAG_BIT_FLY)
+        m:AddTags(LM_TAG_FLY)
     elseif m.mountType == 254 then -- Subdued Seahorse
-        m.flags = bit.bor(LM_FLAG_BIT_SWIM)
+        m.flags = bit.bor(LM_FLAG_BIT_SWIM, LM_FLAG_BIT_VASHJIR)
+        m:AddTags(LM_TAG_SWIM, LM_TAG_VASHJIR)
     elseif m.mountType == 269 then -- Water Striders
-        m.flags = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM)
+        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLOAT)
+        m:AddTags(LM_TAG_RUN, LM_TAG_WATERWALK)
     else
-        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_FLOAT, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_JUMP)
+        m.flags = 0
     end
     LM_Debug("LM_Mount flags for "..m.name.." are ".. m.flags)
 
-    local si = { GetSpellInfo(m.spellId) }
-    m.spellName = si[1]
-    m.castTime = si[7]
+    local spell_info = { GetSpellInfo(m.spellId) }
+    m.spellName = spell_info[1]
+    m.castTime = spell_info[7]
 
-    m:FixupFlags()
+    m:OverrideFlags()
+    m:OverrideTags()
 
     self.cacheByName[m.name] = m
     self.cacheBySpellId[m.spellId] = m
@@ -195,43 +205,48 @@ function LM_Mount:GetMountByIndex(mountIndex)
     return m
 end
 
-function LM_Mount:SetFlags(f)
-    self.flags = f
-end
-
-function LM_Mount:SpellId()
+function LM_Mount:SpellId(v)
+    if v then self.spellId = v end
     return self.spellId
 end
 
-function LM_Mount:ItemId()
+function LM_Mount:ItemId(v)
+    if v then self.itemId = v end
     return self.itemId
 end
 
-function LM_Mount:ModelId()
+function LM_Mount:ModelId(v)
+    if v then self.modelId = v end
     return self.modelId
 end
 
-function LM_Mount:IsSelfMount()
+function LM_Mount:SelfMount(v)
+    if v then self.isSelfMount = v end
     return self.isSelfMount
 end
 
-function LM_Mount:Type()
+function LM_Mount:Type(v)
+    if v then self.mountType = v end
     return self.mountType
 end
 
-function LM_Mount:SpellName()
+function LM_Mount:SpellName(v)
+    if v then self.spellName = v end
     return self.spellName
 end
 
-function LM_Mount:Icon()
+function LM_Mount:Icon(v)
+    if v then self.icon = v end
     return self.icon
 end
 
-function LM_Mount:Name()
+function LM_Mount:Name(v)
+    if v then self.name = v end
     return self.name
 end
 
-function LM_Mount:DefaultFlags()
+function LM_Mount:DefaultFlags(v)
+    if v then self.flags = v end
     return self.flags
 end
 
