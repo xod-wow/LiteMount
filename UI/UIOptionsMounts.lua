@@ -1,4 +1,4 @@
---[[----------------------------------------------------------------------------
+-[[----------------------------------------------------------------------------
 
   LiteMount/UIOptionsMounts.lua
 
@@ -119,7 +119,7 @@ local function UpdateMountButton(button, mount)
     button.spellid = mount:SpellId()
     button.itemid = mount:ItemId()
     button.modelid = mount:ModelId()
-    button.isself = mount:IsSelfMount()
+    button.isself = mount:SelfMount()
 
     if not InCombatLockdown() then
         mount:SetupActionButton(button.icon)

@@ -123,11 +123,7 @@ function LM_Mount:GetMountByIndex(mountIndex)
     end
 
     -- Exclude mounts not collected
-    if not mount_info[11] then
-        LM_Debug(string.format("LM_Mount: Mount "..mount_info[1].." not collected #%d (of %d)",
-                               mountIndex, C_MountJournal:GetNumMounts()))
-        return
-    end
+    if not mount_info[11] then return end
 
     -- Exclude faction-specific mounts
     -- mount_info[9] : 0 = Horde, 1 = Alliance.

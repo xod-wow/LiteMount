@@ -36,6 +36,8 @@ function LM_Location:Update()
     -- areas of the user browsing the world map.
     if WorldMapFrame:IsShown() then return end
 
+    LM_Debug("World map frame is hidden, actually updating location.")
+
     -- No matter how much you may want to, do not call SetMapToCurrentZone()
     self.continent = GetCurrentMapContinent()
     self.areaId = GetCurrentMapAreaID()
