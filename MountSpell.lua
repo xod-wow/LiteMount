@@ -59,5 +59,12 @@ function LM_MountSpell:IsUsable(spellId, flags)
         return nil
     end
 
+    if spellId == LM_SPELL_TELAARI_TALBUK or
+       spellId == LM_SPELL_FROSTWOLF_WAR_WOLF then
+        if not HasDraenorZoneAbility() then
+            return nil
+        end
+    end
+
     return true
 end
