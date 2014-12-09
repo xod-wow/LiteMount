@@ -21,6 +21,7 @@ local CAN_FLY_IF_USABLE_SPELLS = {
 function LM_Location:Initialize()
     self.continent = -1
     self.areaId = -1
+    self.instanceId = -1
     self.zoneText = -1
     self.minimapZoneText = ""
     self.subZoneText = ""
@@ -41,9 +42,10 @@ function LM_Location:Update()
     -- No matter how much you may want to, do not call SetMapToCurrentZone()
     self.continent = GetCurrentMapContinent()
     self.areaId = GetCurrentMapAreaID()
-    self.realzonetext = GetRealZoneText()
+    self.realZoneText = GetRealZoneText()
     self.zoneText = GetZoneText()
     self.subZoneText = GetSubZoneText()
+    self.instanceId = select(8, GetInstanceInfo())
 end
 
 function LM_Location:PLAYER_LOGIN()
@@ -95,26 +97,30 @@ function LM_Location:CanSwim()
 end
 
 function LM_Location:GetName()
-    return self.realzonetext
+    return self.realZoneText
 end
 
 function LM_Location:GetId()
     return self.areaId
 end
 
+function LM_Location:GetInstanceId()
+    return self.instanceId
+end
+
 function LM_Location:IsAQ()
-    if self.areaId == 766 then return 1 end
+    if self.areaId == 766 then return true end
 end
 
 function LM_Location:IsVashjir()
     if not self:CanSwim() then return nil end
-    if self.areaId == 610 then return 1 end
-    if self.areaId == 614 then return 1 end
-    if self.areaId == 615 then return 1 end
+    if self.areaId == 610 then return true end
+    if self.areaId == 614 then return true end
+    if self.areaId == 615 then return true end
 end
 
 function LM_Location:IsDraenorNagrand()
-    if self.areaId == 950 then return 1 end
+    if self.areaId == 950 then return true end
 end
 
 function LM_Location:NagrandInfo()
