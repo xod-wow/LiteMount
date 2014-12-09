@@ -28,7 +28,7 @@ function LM_MountSpell:IsKnown(spellId)
     end
 
     for i = 1, C_MountJournal.GetNumMounts() do
-        local cs = select(3, GetCompanionInfo("MOUNT", i))
+        local cs = select(2, C_MountJournal.GetMountInfo(i))
         if cs == spellId then
             return true
         end
