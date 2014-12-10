@@ -49,6 +49,10 @@ local function KnowProfessionSkillLine(needSkillLine, needRank)
     return false
 end
 
+-- Draenor Ability spells are weird.  The name of the Garrison Ability
+-- (localized) is name = GetSpellInfo(DraenorZoneAbilitySpellID).
+-- But, GetSpellInfo(name) returns the actual current spell that's active.
+
 function LM_MountSpell:IsUsable(spellId, flags)
     if not IsUsableSpell(spellId) then
         return nil
@@ -59,11 +63,13 @@ function LM_MountSpell:IsUsable(spellId, flags)
         return nil
     end
 
-    if spellId == LM_SPELL_TELAARI_TALBUK or
-       spellId == LM_SPELL_FROSTWOLF_WAR_WOLF then
-        if not HasDraenorZoneAbility() then
-            return nil
-        end
+    if not self.DraenorZoneAbilityName then
+        self.DraenorZoneAbilityName = GetSpellInfo(DraenorZoneAbilitySpellID)
+    end
+
+    if HasDraenorZoneAbility() then
+        local id = select(7, GetSpellInfo(self.DraenorZoneAbilityName))
+        if id == spellId then return true end
     end
 
     return true
