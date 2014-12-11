@@ -237,11 +237,6 @@ function LiteMount:PreClick(mouseButton)
         m = LM_PlayerMounts:GetVashjirMount()
     end
 
-    if not m and LM_Location:IsDraenorNagrand() then
-        LM_Debug("Trying GetNagrandMount")
-        m = LM_PlayerMounts:GetNagrandMount()
-    end
-
     if not m and LM_Location:CanFly() and mouseButton == "LeftButton" then
         LM_Debug("Trying GetFlyingMount")
         m = LM_PlayerMounts:GetFlyingMount()
@@ -250,6 +245,11 @@ function LiteMount:PreClick(mouseButton)
     if not m and LM_Location:CanSwim() then
         LM_Debug("Trying GetSwimmingMount")
         m = LM_PlayerMounts:GetSwimmingMount()
+    end
+
+    if not m and LM_Location:IsDraenorNagrand() then
+        LM_Debug("Trying GetNagrandMount")
+        m = LM_PlayerMounts:GetNagrandMount()
     end
 
     if not m and LM_Location:IsAQ() then
