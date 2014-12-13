@@ -89,6 +89,24 @@ function LM_PlayerMounts:GetAvailableMounts(flags)
     return self:Search(match)
 end
 
+function LM_PlayerMounts:GetMountFromUnitAura(unitid, flags)
+    if not UnitIsPlayer(unitid) or UnitIsUnit(unitid, "player") then
+        return
+    end
+
+    LM_Debug("Trying to clone mount from " .. unitid)
+
+    for i = 1,BUFF_MAX_DISPLAY do
+        local name = UnitAura(unitid, i)
+        if name then
+            if self.byName[name] and self.byName[name]:IsUsable(flags) then
+                return self.byName[name]
+            end
+        end
+    end
+
+end
+
 function LM_PlayerMounts:GetRandomMount(flags)
     local poss = self:GetAvailableMounts(flags)
     return poss:Random()

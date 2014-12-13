@@ -234,6 +234,12 @@ function LiteMount:PreClick(mouseButton)
 
     local m
 
+    -- Got a player target, try copying their mount
+    if not m then
+        LM_Debug("Trying to clone target's mount")
+        m = LM_PlayerMounts:GetMountFromUnitAura("target")
+    end
+
     if not m and LM_Location:IsVashjir() then
         LM_Debug("Trying GetVashjirMount")
         m = LM_PlayerMounts:GetVashjirMount()
