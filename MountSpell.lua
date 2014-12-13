@@ -63,13 +63,12 @@ function LM_MountSpell:IsUsable(spellId, flags)
         return nil
     end
 
-    if not self.DraenorZoneAbilityName then
-        self.DraenorZoneAbilityName = GetSpellInfo(DraenorZoneAbilitySpellID)
-    end
+    if spellId == LM_SPELL_TELAARI_TALBUK or
+       spellId == LM_SPELL_FROSTWOLF_WAR_WOLF then
+        local DraenorZoneAbilityName = GetSpellInfo(DraenorZoneAbilitySpellID)
 
-    if HasDraenorZoneAbility() then
-        local id = select(7, GetSpellInfo(self.DraenorZoneAbilityName))
-        if id == spellId then return true end
+        local id = select(7, GetSpellInfo(DraenorZoneAbilityName))
+        if id ~= spellId then return false end
     end
 
     return true
