@@ -53,7 +53,7 @@ end
 
 function LiteMount:BuildCombatMacro()
 
-    local m = "/leavevehicle [vehicleui]\n"
+    local m = "/leavevehicle\n"
 
     m = m .. "/dismount [mounted]\n"
 
