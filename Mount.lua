@@ -141,8 +141,6 @@ function LM_Mount:GetMountByIndex(mountIndex)
     if mount_info[8] and mount_info[9] then
         local playerFaction = UnitFactionGroup("player")
         if playerFaction ~= PLAYER_FACTION_GROUP[mount_info[9]] then
-            LM_Debug(string.format("LM_Mount: "..mount_info[1].." not available to "..playerFaction.." #%d (of %d)",
-                                   mountIndex, C_MountJournal:GetNumMounts()))
             return
         end
     end
@@ -161,7 +159,7 @@ function LM_Mount:GetMountByIndex(mountIndex)
     m.mountType     = mount_extra[5]
     m.tags          = { }
 
-    LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
+    -- LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
 
     -- This attempts to set the old-style flags on mounts based on their new-style "mount type"
     -- This list is almost certainly not complete, and may be mistaken in places
@@ -194,7 +192,7 @@ function LM_Mount:GetMountByIndex(mountIndex)
     else
         m.flags = 0
     end
-    LM_Debug("LM_Mount flags for "..m.name.." are ".. m.flags)
+    -- LM_Debug("LM_Mount flags for "..m.name.." are ".. m.flags)
 
     local spell_info = { GetSpellInfo(m.spellId) }
     m.spellName = spell_info[1]

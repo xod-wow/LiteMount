@@ -225,9 +225,6 @@ function LiteMountOptionsMounts_OnLoad(self)
 
     InterfaceOptions_AddCategory(self)
 
-    -- We need to refresh the icon SecureActionButtons after exiting combat
-    self:RegisterEvent("PLAYER_REGEN_ENABLED")
-    self:SetScript("OnEvent", function () LiteMountOptions_UpdateMountList() end)
 end
 
 

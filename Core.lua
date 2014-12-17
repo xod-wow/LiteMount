@@ -116,6 +116,7 @@ function LiteMount:ScanMounts()
     if not self.needScan then return end
     LM_Debug("Rescanning list of mounts.")
     LM_PlayerMounts:ScanMounts()
+    LM_Debug("Finished rescan.")
     self.needScan = nil
 end
 
@@ -139,6 +140,7 @@ function LiteMount:PLAYER_LOGIN()
 end
 
 function LiteMount:PLAYER_REGEN_ENABLED()
+    LM_Debug("Got event PLAYER_REGEN_ENABLED")
     self:UnregisterEvent("PLAYER_REGEN_ENABLED")
     self:Initialize()
 end
