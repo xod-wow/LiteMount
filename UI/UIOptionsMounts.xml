@@ -241,7 +241,7 @@
         </CheckButton>
 
         <CheckButton name="$parentCharSpecific" parentkey="charSpecific">
-            <Size x="26" y="26" />
+            <Size x="22" y="22" />
             <Anchors>
                 <Anchor point="TOPRIGHT" x="-4" y="-4" />
             </Anchors>
@@ -261,6 +261,26 @@
                         LM_Options:SetGlobal(true)
                     end
                     LiteMountOptions_UpdateMountList()
+                </OnClick>
+            </Scripts>
+        </CheckButton>
+
+        <CheckButton name="$parentCopyTargetsMount" parentkey="copyTargetsMount">
+            <Size x="22" y="22" />
+            <Anchors>
+                <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parentCharSpecific" y="4" />
+            </Anchors>
+            <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+            <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+            <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>           
+            <Scripts>
+                <OnShow>
+                    self:SetChecked(LM_Options:CopyTargetsMount())
+                </OnShow>
+                <OnClick>
+                    LM_Options:SetCopyTargetsMount(self:GetChecked())
                 </OnClick>
             </Scripts>
         </CheckButton>
@@ -290,6 +310,11 @@
             <FontString inherits="GameFontRedSmall" parentKey="charSpecificText" text="Use character specific settings.">
                 <Anchors>
                     <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.charSpecific" x="-4" />
+                </Anchors>
+            </FontString>
+            <FontString inherits="GameFontRedSmall" parentKey="copyTargetsMountText" text="Try to copy target's mount.">
+                <Anchors>
+                    <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.copyTargetsMount" x="-4" />
                 </Anchors>
             </FontString>
             <FontString name="$parentBit1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Run">
