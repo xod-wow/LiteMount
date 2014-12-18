@@ -35,6 +35,7 @@ local Default_LM_OptionsDB = {
     ["macro"]            = { },       -- [1] = macro
     ["combatMacro"]      = { },       -- [1] = macro, [2] == 0/1 enabled
     ["useglobal"]        = { },
+    ["copyTargetsMount"] = { 1 },
 }
 
 LM_Options = { }
@@ -248,4 +249,17 @@ end
 function LM_Options:DisableCombatMacro()
     LM_Debug("Disabling custom combat macro.")
     self.db.combatMacro[2] = nil
+end
+
+
+--[[----------------------------------------------------------------------------
+     Copying Target's Mount 
+----------------------------------------------------------------------------]]--
+
+function LM_Options:CopyTargetsMount()
+    return self.db.copyTargetsMount[1]
+end
+
+function LM_Options:SetCopyTargetsMount(v)
+    self.db.copyTargetsMount[1] = v
 end

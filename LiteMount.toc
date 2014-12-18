@@ -3,8 +3,6 @@
 ## Version: @project-version@
 ## Author: Xodiv of Proudmoore
 ## Email: mib@post.com
-## Author: Usenet of Spirestone
-## Email: emerson@hayseed.net
 ## OptionalDeps: Blizzard_PetBattleUI
 ## SavedVariables: LM_UseGlobalOptions, LM_GlobalOptionsDB
 ## SavedVariablesPerCharacter: LM_OptionsDB
