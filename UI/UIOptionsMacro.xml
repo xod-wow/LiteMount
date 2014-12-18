@@ -21,7 +21,7 @@
 
     <Frames>
         <Frame name="LiteMountOptionsMacroEditBoxContainer">
-        
+
             <Size x="400" y="200" />
 
 
@@ -46,7 +46,7 @@
 
             <Frames>
                 <EditBox name="LiteMountOptionsMacroEditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
-                    
+
                     <Anchors>
                         <Anchor point="TOPLEFT" x="8" y="-8" />
                         <Anchor point="BOTTOMRIGHT" x="-8" y="8" />

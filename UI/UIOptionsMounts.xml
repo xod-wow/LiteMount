@@ -74,7 +74,7 @@
             <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
             <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
             <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
-            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>           
+            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
         </CheckButton>
 
         <Button name="$parentIcon" parentKey="icon" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true">
@@ -237,7 +237,7 @@
             <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
             <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
             <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
-            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>           
+            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
         </CheckButton>
 
         <CheckButton name="$parentCharSpecific" parentkey="charSpecific">
@@ -249,7 +249,7 @@
             <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
             <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
             <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
-            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>           
+            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
             <Scripts>
                 <OnShow>
                     self:SetChecked(not LM_Options:UseGlobal())
@@ -274,7 +274,7 @@
             <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
             <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
             <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
-            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>           
+            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
             <Scripts>
                 <OnShow>
                     self:SetChecked(LM_Options:CopyTargetsMount())
