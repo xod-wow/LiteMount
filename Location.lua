@@ -122,13 +122,3 @@ end
 function LM_Location:IsDraenorNagrand()
     if self.areaId == 950 then return true end
 end
-
-function LM_Location:NagrandInfo()
-    LM_Print(" Faction: " .. UnitFactionGroup("player"))
-    LM_Print("Location: " .. self:GetName() .. " (" .. self:GetId() .. ")")
-
-    local tal = LM_Mount:GetMountBySpell(LM_SPELL_TELAARI_TALBUK)
-    local wol = LM_Mount:GetMountBySpell(LM_SPELL_FROSTWOLF_WAR_WOLF)
-    if tal then tal:Dump("  Talbuk: ") end
-    if wol then wol:Dump("    Wolf: ") end
-end

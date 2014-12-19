@@ -38,9 +38,6 @@ function LiteMount_SlashCommandFunc(argstr)
             local i = CreateOrUpdateMacro()
             if i then PickupMacro(i) end
             return
-        elseif arg == "nagrand" then
-            LM_Location:NagrandInfo()
-            return
         end
     end
 
