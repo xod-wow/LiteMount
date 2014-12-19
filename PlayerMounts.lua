@@ -111,6 +111,7 @@ function LM_PlayerMounts:GetMountBySpell(id)
 end
 
 function LM_PlayerMounts:GetMountByShapeshiftForm(i)
+    if not i then return end
     local name = select(2, GetShapeshiftFormInfo(i))
     if name then return self:GetMountByName(name) end
 end

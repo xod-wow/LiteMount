@@ -222,16 +222,19 @@ function LiteMount:PreClick(mouseButton)
 
     -- We only want to cancel forms that we will activate (mount-style ones).
     -- See: http://wowprogramming.com/docs/api/GetShapeshiftFormID
-    local form = LM_PlayerMounts:GetMountByShapeshiftForm(GetShapeshiftForm())
-    if form and not form:IsExcluded() then
-        self:SetAsCancelForm()
-        return
+    local formIndex = GetShapeshiftForm()
+    if formIndex > 0 then
+        local form = LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
+        if form and not form:IsExcluded() then
+            self:SetAsCancelForm()
+            return
+        end
     end
 
     local m
 
     -- Got a player target, try copying their mount
-    if not m and LM_Options:CopyTargetsMount() then
+    if not m and UnitExists("target") and LM_Options:CopyTargetsMount() then
         LM_Debug("Trying to clone target's mount")
         m = LM_PlayerMounts:GetMountFromUnitAura("target")
     end
