@@ -53,24 +53,26 @@ end
 
 function LiteMount:BuildCombatMacro()
 
-    local m = "/leavevehicle\n"
 
-    m = m .. "/dismount [mounted]\n"
+    local m = "/dismount [mounted]\n"
 
     if self.playerClass ==  "DRUID" then
         local forms = GetDruidMountForms()
-        if IsSpellKnown(LM_SPELL_TRAVEL_FORM) then
-            local s = GetSpellInfo(LM_SPELL_TRAVEL_FORM)
-            m = m .. string.format("/cast [noform:%s] %s\n", forms, s)
+        local mount = LM_PlayerMounts:GetMountBySpellId(LM_SPELL_TRAVEL_FORM)
+        if mount and not mount:IsExcluded() then
+            m = m..string.format("/cast [noform:%s] %s\n", forms, mount:Name())
+            m = m..string.format("/cancelform [form:%s]\n", forms)
         end
-        m = m .. string.format("/cancelform [form:%s]\n", forms)
     elseif self.playerClass == "SHAMAN" then
-        if IsSpellKnown(LM_SPELL_GHOST_WOLF) then
+        local mount = LM_PlayerMounts:GetMountBySpellId(LM_SPELL_GHOST_WOLF)
+        if mount and not mount:IsExcluded() then
             local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
-            m = m ..  "/cast [noform] " .. s .. "\n"
-            m = m .. "/cancelform [form]\n"
+            m = m.. "/cast [noform] " .. s .. "\n"
+            m = m.."/cancelform [form]\n"
         end
     end
+
+    m = m.."/leavevehicle\n"
 
     return m
 end
@@ -95,8 +97,8 @@ function LiteMount:Initialize()
     self:RegisterForClicks("AnyDown")
 
     -- SecureActionButton setup
-    self:SetScript("PreClick", function (s,m,d) LiteMount:PreClick(m,d) end)
-    self:SetScript("PostClick", function (s,m,d) LiteMount:PostClick(m,d) end)
+    self:SetScript("PreClick", self.PreClick)
+    self:SetScript("PostClick", self.PostClick)
     self:SetAttribute("type", "macro")
     self:SetAttribute("unit", "player")
     self:SetAsInCombatAction()
@@ -218,16 +220,10 @@ function LiteMount:PreClick(mouseButton)
         return
     end
 
-    --  3 = Travel Form
-    --  4 = Aquatic Form
-    -- 16 = Ghost Wolf
-    -- 27 = Flight Form
-    local form = GetShapeshiftFormID()
-
-    if self.playerClass == "DRUID" and form == 3 or form == 4 or form == 27 then
-        self:SetAsCancelForm()
-        return
-    elseif self.playerClass == "SHAMAN" and form == 16 then
+    -- We only want to cancel forms that we will activate (mount-style ones).
+    -- See: http://wowprogramming.com/docs/api/GetShapeshiftFormID
+    local form = LM_PlayerMounts:GetMountByShapeshiftForm(GetShapeshiftForm())
+    if form and not form:IsExcluded() then
         self:SetAsCancelForm()
         return
     end
