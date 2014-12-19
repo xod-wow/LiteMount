@@ -90,28 +90,35 @@ function LM_PlayerMounts:GetAvailableMounts(flags)
 end
 
 function LM_PlayerMounts:GetMountFromUnitAura(unitid, flags)
+    -- Note that UnitIsPlayer tests if the unit is player-controlled
     if not UnitIsPlayer(unitid) or UnitIsUnit(unitid, "player") then
         return
     end
 
-    LM_Debug("Trying to clone mount from " .. unitid)
-
     for i = 1,BUFF_MAX_DISPLAY do
-        local name = UnitAura(unitid, i)
-        if name then
-            if self.byName[name] and self.byName[name]:IsUsable(flags) then
-                return self.byName[name]
-            end
-        end
+        local m = self:GetMountByName(UnitAura(unitid, i))
+        if m and m:IsUsable(flags) then return m end
     end
+end
 
+function LM_PlayerMounts:GetMountByName(name)
+    return self.byName[name]
+end
+
+function LM_PlayerMounts:GetMountBySpell(id)
+    local name = GetSpellInfo(id)
+    if name then return self:GetMountByName(name) end
+end
+
+function LM_PlayerMounts:GetMountByShapeshiftForm(i)
+    local name = select(2, GetShapeshiftFormInfo(i))
+    if name then return self:GetMountByName(name) end
 end
 
 function LM_PlayerMounts:GetRandomMount(flags)
     local poss = self:GetAvailableMounts(flags)
     return poss:Random()
 end
-
 
 function LM_PlayerMounts:GetFlyingMount()
     return self:GetRandomMount(LM_FLAG_BIT_FLY)
