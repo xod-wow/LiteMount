@@ -234,7 +234,7 @@ function LiteMount:PreClick(mouseButton)
     local m
 
     -- Got a player target, try copying their mount
-    if not m and UnitExists("target") and LM_Options:CopyTargetsMount() then
+    if not m and UnitIsPlayer("target") and LM_Options:CopyTargetsMount() then
         LM_Debug("Trying to clone target's mount")
         m = LM_PlayerMounts:GetMountFromUnitAura("target")
     end
