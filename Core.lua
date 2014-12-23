@@ -58,13 +58,13 @@ function LiteMount:BuildCombatMacro()
 
     if self.playerClass ==  "DRUID" then
         local forms = GetDruidMountForms()
-        local mount = LM_PlayerMounts:GetMountBySpellId(LM_SPELL_TRAVEL_FORM)
+        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
         if mount and not mount:IsExcluded() then
             m = m..string.format("/cast [noform:%s] %s\n", forms, mount:Name())
             m = m..string.format("/cancelform [form:%s]\n", forms)
         end
     elseif self.playerClass == "SHAMAN" then
-        local mount = LM_PlayerMounts:GetMountBySpellId(LM_SPELL_GHOST_WOLF)
+        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_GHOST_WOLF)
         if mount and not mount:IsExcluded() then
             local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
             m = m.. "/cast [noform] " .. s .. "\n"
