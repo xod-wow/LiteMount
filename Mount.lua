@@ -21,38 +21,6 @@ function LM_Mount:new()
     return setmetatable({ }, LM_Mount)
 end
 
-function LM_Mount:ClearTags()
-    table.wipe(self.tags)
-end
-
-function LM_Mount:AddTags(...)
-    for _,t in ipairs({...}) do
-        self.tags[t] = true
-    end
-end
-
-function LM_Mount:RemoveTags(...)
-    for _,t in ipairs({...}) do
-        self.tags[t] = nil
-    end
-end
-
-function LM_Mount:HasTags(...)
-    local rv = true
-    for _,t in ipairs({...}) do
-        rv  = rv and self.tags[t]
-    end
-    return rv
-end
-
-function LM_Mount:OverrideTags()
-    local tags = LM_TagOverrideTable[self.spellId]
-    if tags then
-        self:ClearTags()
-        self:AddTags(unpack(tags))
-    end
-end
-
 function LM_Mount:OverrideFlags()
     local flags = LM_FlagOverrideTable[self.spellId]
     if flags then
@@ -117,6 +85,10 @@ function LM_Mount:GetMountBySpell(spellId)
     self.cacheByName[m.name] = m
     self.cacheBySpellId[m.spellId] = m
 
+    if self.spellId == LM_SPELL_TRAVEL_FORM then
+        self.FlagsSet = LM_TravelForm.FlagsSet
+    end
+
     return m
 end
 
@@ -167,28 +139,20 @@ function LM_Mount:GetMountByIndex(mountIndex)
 
     if m.mountType == 230 then -- ground mount
         m.flags = bit.bor(LM_FLAG_BIT_RUN)
-        m:AddTags(LM_TAG_RUN)
     elseif m.mountType == 231 then -- riding/sea turtle
         m.flags = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_SWIM)
-        m:AddTags(LM_TAG_SWIM, LM_TAG_WALK)
     elseif m.mountType == 232 then -- Vashj'ir Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_VASHJIR)
-        m:AddTags(LM_TAG_VASHJIR)
     elseif m.mountType == 241 then -- AQ-only bugs
         m.flags = bit.bor(LM_FLAG_BIT_AQ)
-        m:AddTags(LM_TAG_AQ)
     elseif m.mountType == 247 then -- Red Flying Cloud
         m.flags = bit.bor(LM_FLAG_BIT_FLY)
-        m:AddTags(LM_TAG_RUN, LM_TAG_FLY)
     elseif m.mountType == 248 then -- Flying mounts
         m.flags = bit.bor(LM_FLAG_BIT_FLY)
-        m:AddTags(LM_TAG_FLY)
     elseif m.mountType == 254 then -- Subdued Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_SWIM, LM_FLAG_BIT_VASHJIR)
-        m:AddTags(LM_TAG_SWIM, LM_TAG_VASHJIR)
     elseif m.mountType == 269 then -- Water Striders
         m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLOAT)
-        m:AddTags(LM_TAG_RUN, LM_TAG_WATERWALK)
     else
         m.flags = 0
     end
@@ -199,7 +163,6 @@ function LM_Mount:GetMountByIndex(mountIndex)
     m.castTime = spell_info[7]
 
     m:OverrideFlags()
-    m:OverrideTags()
 
     self.cacheByName[m.name] = m
     self.cacheBySpellId[m.spellId] = m
