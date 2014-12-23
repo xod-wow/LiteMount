@@ -85,8 +85,8 @@ function LM_Mount:GetMountBySpell(spellId)
     self.cacheByName[m.name] = m
     self.cacheBySpellId[m.spellId] = m
 
-    if self.spellId == LM_SPELL_TRAVEL_FORM then
-        self.FlagsSet = LM_TravelForm.FlagsSet
+    if m.spellId == LM_SPELL_TRAVEL_FORM then
+        m.FlagsSet = LM_TravelForm.FlagsSet
     end
 
     return m
