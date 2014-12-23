@@ -12,6 +12,7 @@ Localization.lua
 AutoEventFrame.lua
 Print.lua
 SpellInfo.lua
+TravelForm.lua
 Mount.lua
 MountSpell.lua
 MountItem.lua
