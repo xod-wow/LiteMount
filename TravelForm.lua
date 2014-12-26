@@ -20,7 +20,7 @@ function LM_TravelForm:FlagsSet(f)
     if self:SpellId() == LM_SPELL_TRAVEL_FORM then
         if IsSpellKnown(LM_SPELL_FLIGHT_FORM) then
             LM_Debug("REMOVING FLY FROM TRAVEL FORM")
-            flags = bit.band(self.flags, bit.bnot(LM_FLAG_BIT_FLY))
+            flags = bit.band(flags, bit.bnot(LM_FLAG_BIT_FLY))
         end
     end
 
@@ -30,7 +30,7 @@ end
 function LM_TravelForm:DefaultFlags(v)
     local flags = LM_Mount.DefaultFlags(self, v)
 
-    -- If we have glyph of travel then we are "run" speed, otherwise "walk"
+    -- If we have glyph of travel then we can also "run"
     for i = 1, NUM_GLYPH_SLOTS do
         local spellId = select(4, GetGlyphSocketInfo(i))
         if spellId == LM_SPELL_GLYPH_OF_TRAVEL then
