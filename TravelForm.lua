@@ -45,3 +45,10 @@ function LM_TravelForm:GetMount()
     if m then setmetatable(m, LM_TravelForm) end
     return m
 end
+
+-- IsUsableSpell doesn't return false for Travel Form indoors like it should,
+-- because you can swim indoors with it (apparently).
+function LM_TravelForm:IsUsable(flags)
+    if IsIndoors() and not IsSubmerged() then return false end
+    return LM_Mount.IsUsable(self, flags)
+end
