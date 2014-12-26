@@ -133,8 +133,8 @@ function LM_MountList:__add(other)
 end
 
 function LM_MountList:Sort()
-    -- because LM_Mount has __lt metamethod defined we don't need a func
-    table.sort(self)
+    local ns = function (a,b) return a:Name() < b:Name() end
+    table.sort(self, ns)
 end
 
 function LM_MountList:Map(mapfunc)

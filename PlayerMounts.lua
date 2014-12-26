@@ -36,7 +36,12 @@ end
 function LM_PlayerMounts:AddSpellMountsTable(t)
     for _,spellid in ipairs(t) do
         if LM_MountSpell:IsKnown(spellid) then
-            local m = LM_Mount:GetMountBySpell(spellid)
+            local m
+            if spellid == LM_SPELL_TRAVEL_FORM then
+                m = LM_TravelForm:GetMount()
+            else
+                m = LM_Mount:GetMountBySpell(spellid)
+            end
             self:AddMount(m)
         end
     end

@@ -39,3 +39,9 @@ function LM_TravelForm:DefaultFlags(v)
     end
     return flags
 end
+
+function LM_TravelForm:GetMount()
+    local m = LM_Mount:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
+    if m then setmetatable(m, LM_TravelForm) end
+    return m
+end

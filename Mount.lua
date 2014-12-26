@@ -14,8 +14,6 @@ LM_Mount = {
     ["cacheBySpellId"] = { }
 }
 LM_Mount.__index = LM_Mount
-LM_Mount.__eq = function (a,b) return a:Name() == b:Name() end
-LM_Mount.__lt = function (a,b) return a:Name() < b:Name() end
 
 function LM_Mount:new()
     return setmetatable({ }, LM_Mount)
@@ -84,11 +82,6 @@ function LM_Mount:GetMountBySpell(spellId)
 
     self.cacheByName[m.name] = m
     self.cacheBySpellId[m.spellId] = m
-
-    if m.spellId == LM_SPELL_TRAVEL_FORM then
-        m.FlagsSet = LM_TravelForm.FlagsSet
-        m.DefaultFlags = LM_TravelForm.DefaultFlags
-    end
 
     return m
 end
