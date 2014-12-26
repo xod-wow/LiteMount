@@ -87,6 +87,7 @@ function LM_Mount:GetMountBySpell(spellId)
 
     if m.spellId == LM_SPELL_TRAVEL_FORM then
         m.FlagsSet = LM_TravelForm.FlagsSet
+        m.DefaultFlags = LM_TravelForm.DefaultFlags
     end
 
     return m
@@ -216,7 +217,7 @@ function LM_Mount:DefaultFlags(v)
 end
 
 function LM_Mount:Flags()
-    return LM_Options:ApplySpellFlags(self.spellId, self.flags)
+    return LM_Options:ApplySpellFlags(self.spellId, self:DefaultFlags())
 end
 
 function LM_Mount:CanFly()
