@@ -28,7 +28,7 @@ end
 
 function LM_PlayerMounts:AddCompanionMounts()
     for i = 1,C_MountJournal.GetNumMounts() do
-        local m = LM_MountJournal:Get(i)
+        local m = LM_Journal:Get(i)
         self:AddMount(m)
     end
 end

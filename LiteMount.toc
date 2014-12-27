@@ -14,7 +14,7 @@ Print.lua
 SpellInfo.lua
 Mount.lua
 LM_ItemSummoned.lua
-LM_MountJournal.lua
+LM_Journal.lua
 LM_Spell.lua
 LM_Nagrand.lua
 LM_TravelForm.lua

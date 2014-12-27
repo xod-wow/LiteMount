@@ -1,9 +1,13 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/Mount-TravelForm.lua
+  LiteMount/LM_TravelForm.lua
 
   Travel Form has to update its fly/don't fly status depending on whether
   you have Glyph of the Stag or not.
+
+  It also updates whether it can run or not depending on Glyph of Travel.
+
+  Also IsUsableSpell doesn't work right on it.
 
   Copyright 2011-2014 Mike Battersby
 

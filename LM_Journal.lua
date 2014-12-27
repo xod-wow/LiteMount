@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/LM_MountJournal.lua
+  LiteMount/LM_Journal.lua
 
   Information about a mount from the mount journal.
 

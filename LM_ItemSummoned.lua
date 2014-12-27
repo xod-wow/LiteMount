@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/Mount-ItemSummoned.lua
+  LiteMount/LM_ItemSummoned.lua
 
   Copyright 2011-2014 Mike Battersby
 
