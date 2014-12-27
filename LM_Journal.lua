@@ -70,8 +70,6 @@ function LM_Journal:Get(mountIndex)
     m.spellName = spell_info[1]
     m.castTime = spell_info[7]
 
-    m:OverrideFlags()
-
     self.cacheByName[m.name] = m
     self.cacheBySpellId[m.spellId] = m
 
