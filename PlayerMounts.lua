@@ -28,7 +28,7 @@ end
 
 function LM_PlayerMounts:AddCompanionMounts()
     for i = 1,C_MountJournal.GetNumMounts() do
-        local m = LM_Journal:Get(i)
+        local m = LM_Mount:Get("Journal", i)
         self:AddMount(m)
     end
 end
@@ -37,13 +37,13 @@ function LM_PlayerMounts:AddSpellMountsTable(t)
     for _,spellId in ipairs(t) do
         local m
         if spellId == LM_SPELL_TRAVEL_FORM then
-            m = LM_TravelForm:Get()
+            m = LM_Mount:Get("TravelForm")
         elseif spellId == LM_SPELL_TELAARI_TALBUK then
-            m = LM_Nagrand:Get(spellId)
+            m = LM_Mount:Get("Nagrand", spellId)
         elseif spellId == LM_SPELL_FROSTWOLF_WAR_WOLF then
-            m = LM_Nagrand:Get(spellId)
+            m = LM_Mount:Get("Nagrand", spellId)
         else
-            m = LM_Spell:Get(spellId)
+            m = LM_Mount:Get("Spell", spellId)
         end
         self:AddMount(m)
     end
