@@ -28,22 +28,20 @@ end
 
 function LM_PlayerMounts:AddCompanionMounts()
     for i = 1,C_MountJournal.GetNumMounts() do
-        local m = LM_Mount:GetMountByIndex(i)
+        local m = LM_MountJournal:Get(i)
         self:AddMount(m)
     end
 end
 
 function LM_PlayerMounts:AddSpellMountsTable(t)
-    for _,spellid in ipairs(t) do
-        if LM_MountSpell:IsKnown(spellid) then
-            local m
-            if spellid == LM_SPELL_TRAVEL_FORM then
-                m = LM_TravelForm:GetMount()
-            else
-                m = LM_Mount:GetMountBySpell(spellid)
-            end
-            self:AddMount(m)
+    for _,spellId in ipairs(t) do
+        local m
+        if spellId == LM_SPELL_TRAVEL_FORM then
+            m = LM_TravelForm:Get()
+        else
+            m = LM_Spell:Get(spellId)
         end
+        self:AddMount(m)
     end
 end
 
@@ -55,10 +53,8 @@ end
 
 function LM_PlayerMounts:AddItemMounts()
     for itemid,spellid in pairs(LM_ITEM_MOUNT_ITEMS) do
-        if LM_MountItem:HasItem(itemid) then
-            local m = LM_Mount:GetMountByItem(itemid, spellid)
-            self:AddMount(m)
-        end
+        local m = LM_ItemSummoned:Get(itemid, spellid)
+        self:AddMount(m)
     end
 end
 

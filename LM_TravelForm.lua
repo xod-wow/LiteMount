@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/TravelForm.lua
+  LiteMount/Mount-TravelForm.lua
 
   Travel Form has to update its fly/don't fly status depending on whether
   you have Glyph of the Stag or not.
@@ -9,7 +9,7 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_TravelForm = setmetatable({ }, LM_Mount)
+LM_TravelForm = setmetatable({ }, LM_Spell)
 LM_TravelForm.__index = LM_TravelForm
 
 function LM_TravelForm:FlagsSet(f)
@@ -40,8 +40,8 @@ function LM_TravelForm:DefaultFlags(v)
     return flags
 end
 
-function LM_TravelForm:GetMount()
-    local m = LM_Mount:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
+function LM_TravelForm:Get()
+    local m = LM_Spell:Get(LM_SPELL_TRAVEL_FORM)
     if m then setmetatable(m, LM_TravelForm) end
     return m
 end

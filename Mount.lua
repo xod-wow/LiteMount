@@ -49,121 +49,6 @@ function LM_Mount:GetMountByItem(itemId, spellId)
     return m
 end
 
-function LM_Mount:GetMountBySpell(spellId)
-
-    if self.cacheBySpellId[spellId] then
-        return self.cacheBySpellId[spellId]
-    end
-
-    local needFaction = LM_FACTION_MOUNT_REQUIREMENTS[spellId]
-    if needFaction then
-        local playerFaction = UnitFactionGroup("player")
-        if needFaction ~= playerFaction then
-            return
-        end
-    end
-
-    local m = LM_Mount:new()
-    local spell_info = { GetSpellInfo(spellId) }
-
-    if not spell_info[1] then
-        LM_Debug("LM_Mount: Failed GetMountBySpell #"..spellId)
-        return
-    end
-
-    m.name = spell_info[1]
-    m.spellName = spell_info[1]
-    m.icon = spell_info[3]
-    m.flags = 0
-    m.tags = { }
-    m.castTime = spell_info[4]
-    m.spellId = spell_info[7]
-    m:OverrideFlags()
-
-    self.cacheByName[m.name] = m
-    self.cacheBySpellId[m.spellId] = m
-
-    return m
-end
-
-function LM_Mount:GetMountByIndex(mountIndex)
-    local mount_info = { C_MountJournal.GetMountInfo(mountIndex) }
-    local mount_extra = { C_MountJournal.GetMountInfoExtra(mountIndex) }
-
-    if not mount_info[1] then
-        LM_Debug(string.format("LM_Mount: Failed GetMountInfo #%d (of %d)",
-                               mountIndex, C_MountJournal:GetNumMounts()))
-        return
-    end
-
-    -- Exclude mounts not collected
-    if not mount_info[11] then return end
-
-    -- Exclude faction-specific mounts
-    -- mount_info[9] : 0 = Horde, 1 = Alliance.
-    -- See MOUNT_FACTION_TEXTURES in Blizzard_PetJournal.lua and the
-    -- PLAYER_FACTION_GROUP global. Some websites are wrong (at the
-    -- time of writing) about this.
-    if mount_info[8] and mount_info[9] then
-        local playerFaction = UnitFactionGroup("player")
-        if playerFaction ~= PLAYER_FACTION_GROUP[mount_info[9]] then
-            return
-        end
-    end
-
-    if self.cacheByName[mount_info[1]] then
-        return self.cacheByName[mount_info[1]]
-    end
-
-    local m = LM_Mount:new()
-
-    m.modelId       = mount_extra[1]
-    m.name          = mount_info[1]
-    m.spellId       = mount_info[2]
-    m.icon          = mount_info[3]
-    m.isSelfMount   = mount_extra[4]
-    m.mountType     = mount_extra[5]
-    m.tags          = { }
-
-    -- LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
-
-    -- This attempts to set the old-style flags on mounts based on their new-style "mount type"
-    -- This list is almost certainly not complete, and may be mistaken in places
-    -- list source: http://wowpedia.org/API_C_MountJournal.GetMountInfoExtra 20131015
-
-    if m.mountType == 230 then -- ground mount
-        m.flags = bit.bor(LM_FLAG_BIT_RUN)
-    elseif m.mountType == 231 then -- riding/sea turtle
-        m.flags = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_SWIM)
-    elseif m.mountType == 232 then -- Vashj'ir Seahorse
-        m.flags = bit.bor(LM_FLAG_BIT_VASHJIR)
-    elseif m.mountType == 241 then -- AQ-only bugs
-        m.flags = bit.bor(LM_FLAG_BIT_AQ)
-    elseif m.mountType == 247 then -- Red Flying Cloud
-        m.flags = bit.bor(LM_FLAG_BIT_FLY)
-    elseif m.mountType == 248 then -- Flying mounts
-        m.flags = bit.bor(LM_FLAG_BIT_FLY)
-    elseif m.mountType == 254 then -- Subdued Seahorse
-        m.flags = bit.bor(LM_FLAG_BIT_SWIM, LM_FLAG_BIT_VASHJIR)
-    elseif m.mountType == 269 then -- Water Striders
-        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLOAT)
-    else
-        m.flags = 0
-    end
-    -- LM_Debug("LM_Mount flags for "..m.name.." are ".. m.flags)
-
-    local spell_info = { GetSpellInfo(m.spellId) }
-    m.spellName = spell_info[1]
-    m.castTime = spell_info[7]
-
-    m:OverrideFlags()
-
-    self.cacheByName[m.name] = m
-    self.cacheBySpellId[m.spellId] = m
-
-    return m
-end
-
 function LM_Mount:SpellId(v)
     if v then self.spellId = v end
     return self.spellId
@@ -202,6 +87,11 @@ end
 function LM_Mount:Name(v)
     if v then self.name = v end
     return self.name
+end
+
+function LM_Mount:NeedsFaction(v)
+    if v then self.needsFaction = v end
+    return self.needsFaction
 end
 
 function LM_Mount:DefaultFlags(v)
@@ -261,11 +151,13 @@ function LM_Mount:IsUsable(flags)
         if self:CastTime() > 0 then return end
     end
 
-    if self.itemId then
-        return LM_MountItem:IsUsable(self.itemId, flags)
-    else
-        return LM_MountSpell:IsUsable(self.spellId, flags)
+    local faction = self:NeedsFaction()
+    local pFaction = UnitFactionGroup("player")
+    if faction and faction ~= pFaction then
+        return
     end
+
+    return true
 end
 
 function LM_Mount:IsExcluded()
@@ -273,15 +165,9 @@ function LM_Mount:IsExcluded()
 end
 
 function LM_Mount:SetupActionButton(button)
-    if self.itemName then
-        LM_Debug("LM_Mount setting button to item "..self.itemName)
-        button:SetAttribute("type", "item")
-        button:SetAttribute("item", self.itemName)
-    else
-        LM_Debug("LM_Mount setting button to spell "..self.spellName)
-        button:SetAttribute("type", "spell")
-        button:SetAttribute("spell", self.spellName)
-    end
+    LM_Debug("LM_Mount setting button to spell "..self.spellName)
+    button:SetAttribute("type", "spell")
+    button:SetAttribute("spell", self.spellName)
 end
 
 function LM_Mount:Dump(prefix)

@@ -13,9 +13,10 @@ AutoEventFrame.lua
 Print.lua
 SpellInfo.lua
 Mount.lua
-TravelForm.lua
-MountSpell.lua
-MountItem.lua
+LM_ItemSummoned.lua
+LM_MountJournal.lua
+LM_Spell.lua
+LM_TravelForm.lua
 MountList.lua
 PlayerMounts.lua
 Location.lua
