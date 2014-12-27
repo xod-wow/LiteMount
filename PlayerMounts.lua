@@ -57,7 +57,7 @@ end
 
 function LM_PlayerMounts:AddItemMounts()
     for itemid,spellid in pairs(LM_ITEM_MOUNT_ITEMS) do
-        local m = LM_ItemSummoned:Get(itemid, spellid)
+        local m = LM_Mount:Get("ItemSummoned",itemid, spellid)
         self:AddMount(m)
     end
 end
