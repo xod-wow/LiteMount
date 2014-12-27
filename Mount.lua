@@ -19,6 +19,12 @@ function LM_Mount:new()
     return setmetatable({ }, LM_Mount)
 end
 
+function LM_Mount:SetRequirements()
+    local spellId = self:SpellId()
+    self:NeedsProfession(LM_PROFESSION_MOUNT_REQUIREMENTS[spellId])
+    self:NeedsFaction(LM_FACTION_MOUNT_REQUIREMENTS[spellId])
+end
+
 function LM_Mount:OverrideFlags()
     local flags = LM_FlagOverrideTable[self.spellId]
     if flags then
@@ -26,26 +32,13 @@ function LM_Mount:OverrideFlags()
     end
 end
 
-function LM_Mount:GetMountByItem(itemId, spellId)
-
-    if self.cacheByItemId[itemId] then
-        return self.cacheByItemId[itemId]
-    end
-
-    local m = LM_Mount:GetMountBySpell(spellId)
+function LM_Mount:Get(className, ...)
+    local class = _G["LM_"..className]
+    local m = class:Get(...)
     if not m then return end
 
-    local item_info = { GetItemInfo(itemId) }
-    if not item_info[1] then
-        LM_Debug("LM_Mount: Failed GetItemInfo #"..itemId)
-        return
-    end
-
-    m.itemId = itemId
-    m.itemName = item_info[1]
-
-    self.cacheByItemId[itemId] = m
-
+    m:OverrideFlags()
+    m:SetRequirements()
     return m
 end
 
@@ -94,6 +87,11 @@ function LM_Mount:NeedsFaction(v)
     return self.needsFaction
 end
 
+function LM_Mount:NeedsProfession(v)
+    if v then self.needsProfession = v end
+    return self.needsProfession
+end
+
 function LM_Mount:DefaultFlags(v)
     if v then self.flags = v end
     return self.flags
@@ -134,27 +132,44 @@ end
 
 local IceFloesSpellName
 
-function LM_Mount:PlayerHasIceFloes()
+local function PlayerHasIceFloes()
     if not IceFloesSpellName then
         IceFloesSpellName = GetSpellInfo(108839)
     end
     return UnitAura("player", IceFloesSpellName)
 end
 
-function LM_Mount:PlayerIsMovingOrFalling()
+local function PlayerIsMovingOrFalling()
     return (GetUnitSpeed("player") > 0 or IsFalling())
+end
+
+local function KnowProfessionSkillLine(needSkillLine, needRank)
+    for _,i in ipairs({ GetProfessions() }) do
+        if i then
+            local _, _, rank, _, _, _, sl = GetProfessionInfo(i)
+            if sl == needSkillLine and rank >= needRank then
+                return true
+            end
+        end
+    end
+    return false
 end
 
 function LM_Mount:IsUsable(flags)
 
-    if not self:PlayerHasIceFloes() and self:PlayerIsMovingOrFalling() then
+    if not PlayerHasIceFloes() and PlayerIsMovingOrFalling() then
         if self:CastTime() > 0 then return end
     end
 
     local faction = self:NeedsFaction()
     local pFaction = UnitFactionGroup("player")
     if faction and faction ~= pFaction then
-        return
+        return false
+    end
+
+    local prof = self:NeedsProfession()
+    if prof and not KnowProfessionSkillLine(unpack(prof)) then
+        return false
     end
 
     return true
