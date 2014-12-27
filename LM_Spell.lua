@@ -11,13 +11,9 @@
 LM_Spell = setmetatable({ }, LM_Mount)
 LM_Spell.__index = LM_Spell
 
-function LM_Spell:IsSpellKnown(spellId)
-    return IsSpellKnown(spellId)
-end
+function LM_Spell:Get(spellId, forceKnown)
 
-function LM_Spell:Get(spellId)
-
-    if not self:IsSpellKnown(spellId) then return end
+    if not forceKnown or not IsSpellKnown(spellId) then return end
 
     if self.cacheBySpellId[spellId] then
         return self.cacheBySpellId[spellId]

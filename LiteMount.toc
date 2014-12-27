@@ -16,6 +16,7 @@ Mount.lua
 LM_ItemSummoned.lua
 LM_MountJournal.lua
 LM_Spell.lua
+LM_Nagrand.lua
 LM_TravelForm.lua
 MountList.lua
 PlayerMounts.lua

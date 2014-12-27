@@ -38,6 +38,10 @@ function LM_PlayerMounts:AddSpellMountsTable(t)
         local m
         if spellId == LM_SPELL_TRAVEL_FORM then
             m = LM_TravelForm:Get()
+        elseif spellId == LM_SPELL_TELAARI_TALBUK then
+            m = LM_Nagrand:Get(spellId)
+        elseif spellId == LM_SPELL_FROSTWOLF_WAR_WOLF then
+            m = LM_Nagrand:Get(spellId)
         else
             m = LM_Spell:Get(spellId)
         end
