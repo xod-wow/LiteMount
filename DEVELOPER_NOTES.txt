@@ -3,6 +3,13 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
+* Rework notes
+
+    Profession check.
+    Test item summoning?
+
+
+------------------------------------------------------------------------------
 * Diff since last release:
 
     TAGDIR=svn://svn.curseforge.net/wow/litemount/mainline/tags

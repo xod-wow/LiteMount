@@ -13,7 +13,7 @@ LM_Spell.__index = LM_Spell
 
 function LM_Spell:Get(spellId, forceKnown)
 
-    if not forceKnown or not IsSpellKnown(spellId) then return end
+    if not forceKnown and not IsSpellKnown(spellId) then return end
 
     if self.cacheBySpellId[spellId] then
         return self.cacheBySpellId[spellId]
