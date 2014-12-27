@@ -24,6 +24,7 @@ function LM_Nagrand:Get(spellId)
         setmetatable(m, LM_Nagrand)
         m:NeedsFaction(LM_FACTION_MOUNT_REQUIREMENTS[spellId])
     end
+
     return m
 end
 

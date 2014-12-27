@@ -35,6 +35,7 @@ function LM_Spell:Get(spellId, forceKnown)
     m.tags = { }
     m.castTime = spell_info[4]
     m.spellId = spell_info[7]
+
     m:OverrideFlags()
 
     self.cacheByName[m.name] = m

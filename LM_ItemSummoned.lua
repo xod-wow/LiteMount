@@ -23,8 +23,10 @@ function LM_ItemSummoned:Get(itemId, spellId)
         return self.cacheByItemId[itemId]
     end
 
-    local m = LM_Mount:GetMountBySpell(spellId)
+    local m = LM_Spell:Get(spellId, true)
     if not m then return end
+
+    setmetatable(m, LM_ItemSummoned)
 
     local itemName = GetItemInfo(itemId)
     if not itemName then
