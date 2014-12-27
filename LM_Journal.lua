@@ -8,10 +8,10 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_MountJournal = setmetatable({ }, LM_Mount)
-LM_MountJournal.__index = LM_MountJournal
+LM_Journal = setmetatable({ }, LM_Mount)
+LM_Journal.__index = LM_Journal
 
-function LM_Mount:Get(mountIndex)
+function LM_Journal:Get(mountIndex)
     local mount_info = { C_MountJournal.GetMountInfo(mountIndex) }
     local mount_extra = { C_MountJournal.GetMountInfoExtra(mountIndex) }
 
@@ -28,7 +28,7 @@ function LM_Mount:Get(mountIndex)
         return self.cacheByName[mount_info[1]]
     end
 
-    local m = setmetatable({ }, LM_MountJournal)
+    local m = setmetatable({ }, LM_Journal)
 
     m.modelId       = mount_extra[1]
     m.name          = mount_info[1]
