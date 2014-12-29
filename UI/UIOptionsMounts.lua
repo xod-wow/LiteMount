@@ -120,6 +120,15 @@ local function UpdateMountButton(button, mount)
     button.itemid = mount:ItemId()
     button.modelid = mount:ModelId()
     button.isself = mount:SelfMount()
+    button.journalIndex = mount:JournalIndex()
+    button.isUsable = mount:IsUsable()
+
+    local i = mount:JournalIndex()
+    if i then
+        button.isUsableNow = select(5, C_MountJournal.GetMountInfo(i))
+    else
+        button.isUsableNow = IsUsableSpell(mount:SpellId())
+    end
 
     if not InCombatLockdown() then
         mount:SetupActionButton(button.icon)
@@ -136,6 +145,19 @@ local function UpdateMountButton(button, mount)
     else
         button.enabled:SetChecked(true)
     end
+
+    if button.isUsable then
+        button.icon:Enable()
+        button.name:SetTextColor(1, 1, 0)
+        button.icon.unusable:Hide()
+    else
+        button.icon:Disable()
+        button.name:SetTextColor(1, 0, 0)
+        button.icon.unusable:SetBlendMode("MOD")
+        button.icon.unusable:SetAlpha(1)
+        button.icon.unusable:Show()
+    end
+
     button.enabled.setFunc = function(setting)
                             EnableDisableSpell(button.spellid, setting)
                             button.enabled:GetScript("OnEnter")(button.enabled)

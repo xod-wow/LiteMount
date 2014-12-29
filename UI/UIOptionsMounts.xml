@@ -84,15 +84,31 @@
             </Anchors>
             <HighlightTexture name="$parentHighlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
 
+            <Layers>
+                <Layer level="OVERLAY">
+                    <Texture name="$parentUnusable" setAllPoints="true" hidden="true" parentKey="unusable">
+                        <Color r="1" g="0" b="0" />
+                    </Texture>
+                </Layer>
+            </Layers>
+
             <Scripts>
                 <OnEnter>
-                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
-                    GameTooltip:SetSpellByID(self:GetParent().spellid)
-                    GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
-                    GameTooltip:Show()
+                    local b = self:GetParent()
 
-                    local m = self:GetParent().modelid
-                    local isself = self:GetParent().isself
+                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
+                    if b.journalIndex then
+                        GameTooltip:SetMountBySpellID(b.spellid)
+                    else
+                        GameTooltip:SetSpellByID(b.spellid)
+                    end
+                    if b.isUsableNow then
+                        GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
+                    end
+                        GameTooltip:Show()
+
+                    local m = b.modelid
+                    local isself = b.isself
 
                     if m then
                         LiteMountOptionsPreview.model:SetDisplayInfo(m)
@@ -143,7 +159,7 @@
     </Frames>
 
     <Layers>
-        <Layer level="OVERLAY">
+        <Layer level="ARTWORK">
             <FontString name="$parentName" inherits="GameFontNormal" justifyH="LEFT" parentKey="name">
                 <Anchors>
                     <Anchor point="LEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="4" />

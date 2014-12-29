@@ -11,6 +11,24 @@
 LM_Journal = setmetatable({ }, LM_Mount)
 LM_Journal.__index = LM_Journal
 
+--  [1] creatureName,
+--  [2] spellID,
+--  [3] icon,
+--  [4] active,
+--  [5] isUsable,
+--  [6] sourceType,
+--  [7] isFavorite,
+--  [8] isFactionSpecific,
+--  [9] faction,
+-- [10] hideOnChar,
+-- [11] isCollected = C_MountJournal.GetMountInfo(index)
+
+--  [1]creatureDisplayID,
+--  [2]descriptionText,
+--  [3]sourceText,
+--  [4]isSelfMount,
+--  [5]mountType = C_MountJournal.GetMountInfoExtra(index)
+
 function LM_Journal:Get(mountIndex)
     local mount_info = { C_MountJournal.GetMountInfo(mountIndex) }
     local mount_extra = { C_MountJournal.GetMountInfoExtra(mountIndex) }
@@ -21,8 +39,8 @@ function LM_Journal:Get(mountIndex)
         return
     end
 
-    -- Exclude mounts not collected
-    if not mount_info[11] then return end
+    -- Exclude mounts not collected and ones Blizzard decide are hidden
+    if mount_info[10] or not mount_info[11] then return end
 
     if self.cacheByName[mount_info[1]] then
         return self.cacheByName[mount_info[1]]
@@ -30,6 +48,7 @@ function LM_Journal:Get(mountIndex)
 
     local m = setmetatable({ }, LM_Journal)
 
+    m.journalIndex  = mountIndex
     m.modelId       = mount_extra[1]
     m.name          = mount_info[1]
     m.spellId       = mount_info[2]

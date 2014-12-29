@@ -92,6 +92,11 @@ function LM_Mount:NeedsProfession(v)
     return self.needsProfession
 end
 
+function LM_Mount:JournalIndex(v)
+    if v then self.journalIndex = v end
+    return self.journalIndex
+end
+
 function LM_Mount:DefaultFlags(v)
     if v then self.flags = v end
     return self.flags
