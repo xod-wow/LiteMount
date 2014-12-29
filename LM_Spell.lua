@@ -44,6 +44,5 @@ end
 
 function LM_Spell:IsUsable(flags)
     if not IsUsableSpell(self:SpellId()) then return end
-    if not LM_Mount.IsUsable(self, flags) then return end
-    return true
+    return LM_Mount.IsUsable(self, flags)
 end

@@ -94,3 +94,9 @@ function LM_Journal:Get(mountIndex)
 
     return m
 end
+
+function LM_Journal:IsUsable(flags)
+    local usable = select(5, C_MountJournal.GetMountInfo(self:JournalIndex()))
+    if not usable then return false end
+    return LM_Mount.IsUsable(self, flags)
+end
