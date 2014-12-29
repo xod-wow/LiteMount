@@ -33,31 +33,9 @@ function LM_PlayerMounts:AddCompanionMounts()
     end
 end
 
-function LM_PlayerMounts:AddSpellMountsTable(t)
-    for _,spellId in ipairs(t) do
-        local m
-        if spellId == LM_SPELL_TRAVEL_FORM then
-            m = LM_Mount:Get("TravelForm")
-        elseif spellId == LM_SPELL_TELAARI_TALBUK then
-            m = LM_Mount:Get("Nagrand", spellId)
-        elseif spellId == LM_SPELL_FROSTWOLF_WAR_WOLF then
-            m = LM_Mount:Get("Nagrand", spellId)
-        else
-            m = LM_Mount:Get("Spell", spellId)
-        end
-        self:AddMount(m)
-    end
-end
-
 function LM_PlayerMounts:AddSpellMounts()
-    self:AddSpellMountsTable(LM_CLASS_MOUNT_SPELLS)
-    self:AddSpellMountsTable(LM_RACIAL_MOUNT_SPELLS)
-    self:AddSpellMountsTable(LM_ZONE_MOUNT_SPELLS)
-end
-
-function LM_PlayerMounts:AddItemMounts()
-    for itemid,spellid in pairs(LM_ITEM_MOUNT_ITEMS) do
-        local m = LM_Mount:Get("ItemSummoned",itemid, spellid)
+    for _,typeArgs in ipairs(LM_MOUNT_SPELLS) do
+        local m = LM_Mount:Get(unpack(typeArgs))
         self:AddMount(m)
     end
 end
@@ -69,7 +47,6 @@ function LM_PlayerMounts:ScanMounts()
 
     self:AddCompanionMounts()
     self:AddSpellMounts()
-    self:AddItemMounts()
 
     self.list:Sort()
 end

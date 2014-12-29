@@ -140,7 +140,7 @@ local function UpdateMountButton(button, mount)
     end
 
     if button.isUsable then
-        button.icon:SetEnabled(button.isUsableNow)
+        button.icon:Enable()
         button.icon.unusable:Hide()
     else
         button.icon:Disable()

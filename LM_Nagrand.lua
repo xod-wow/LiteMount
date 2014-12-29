@@ -11,18 +11,26 @@
 LM_Nagrand = setmetatable({ }, LM_Spell)
 LM_Nagrand.__index = LM_Nagrand
 
+local FactionRequirements = {
+    [LM_SPELL_FROSTWOLF_WAR_WOLF] = "Horde",
+    [LM_SPELL_TELAARI_TALBUK] = "Alliance",
+}
+
+
 function LM_Nagrand:DefaultFlags(f)
     return LM_FLAG_BIT_NAGRAND
 end
 
 function LM_Nagrand:Get(spellId)
     local m
+
     if HasDraenorZoneAbility() then
         m = LM_Spell:Get(spellId, true)
     end
+
     if m then
         setmetatable(m, LM_Nagrand)
-        m:NeedsFaction(LM_FACTION_MOUNT_REQUIREMENTS[spellId])
+        m:NeedsFaction(FactionRequirements[spellId])
     end
 
     return m

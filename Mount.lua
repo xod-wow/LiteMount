@@ -22,7 +22,6 @@ end
 function LM_Mount:SetRequirements()
     local spellId = self:SpellId()
     self:NeedsProfession(LM_PROFESSION_MOUNT_REQUIREMENTS[spellId])
-    self:NeedsFaction(LM_FACTION_MOUNT_REQUIREMENTS[spellId])
 end
 
 function LM_Mount:OverrideFlags()
@@ -34,6 +33,7 @@ end
 
 function LM_Mount:Get(className, ...)
     local class = _G["LM_"..className]
+
     local m = class:Get(...)
     if not m then return end
 

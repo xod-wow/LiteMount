@@ -16,6 +16,9 @@
 LM_TravelForm = setmetatable({ }, LM_Spell)
 LM_TravelForm.__index = LM_TravelForm
 
+local LM_SPELL_GLYPH_OF_THE_STAG = 114338
+local LM_SPELL_GLYPH_OF_TRAVEL = 159456
+
 function LM_TravelForm:FlagsSet(f)
 
     local flags = self:Flags()
