@@ -30,32 +30,32 @@ LM_Journal.__index = LM_Journal
 --  [5]mountType = C_MountJournal.GetMountInfoExtra(index)
 
 function LM_Journal:Get(mountIndex)
-    local mount_info = { C_MountJournal.GetMountInfo(mountIndex) }
-    local mount_extra = { C_MountJournal.GetMountInfoExtra(mountIndex) }
+    local name, spellId, icon, _, _, _, _, _, faction, hideOnChar, isCollected = C_MountJournal.GetMountInfo(mountIndex)
+    local modelId, _, _, isSelfMount, mountType = C_MountJournal.GetMountInfoExtra(mountIndex)
 
-    if not mount_info[1] then
+    if not name then
         LM_Debug(string.format("LM_Mount: Failed GetMountInfo #%d (of %d)",
                                mountIndex, C_MountJournal:GetNumMounts()))
         return
     end
 
     -- Exclude mounts not collected and ones Blizzard decide are hidden
-    if mount_info[10] or not mount_info[11] then return end
+    if hideOnChar or not isCollected then return end
 
-    if self.cacheByName[mount_info[1]] then
-        return self.cacheByName[mount_info[1]]
+    if self.cacheByName[name] then
+        return self.cacheByName[name]
     end
 
     local m = setmetatable({ }, LM_Journal)
 
     m.journalIndex  = mountIndex
-    m.modelId       = mount_extra[1]
-    m.name          = mount_info[1]
-    m.spellId       = mount_info[2]
-    m.icon          = mount_info[3]
-    m.isSelfMount   = mount_extra[4]
-    m.mountType     = mount_extra[5]
-    m.needsFaction  = PLAYER_FACTION_GROUP[mount_info[9]]
+    m.modelId       = modelId
+    m.name          = name
+    m.spellId       = spellId
+    m.icon          = icon
+    m.isSelfMount   = isSelfMount
+    m.mountType     = mountType
+    m.needsFaction  = PLAYER_FACTION_GROUP[faction]
 
     -- LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
 
@@ -85,9 +85,9 @@ function LM_Journal:Get(mountIndex)
     end
     -- LM_Debug("LM_Mount flags for "..m.name.." are ".. m.flags)
 
-    local spell_info = { GetSpellInfo(m.spellId) }
-    m.spellName = spell_info[1]
-    m.castTime = spell_info[7]
+    local spellName, _, _, _, _, _, castTime = GetSpellInfo(m.spellId)
+    m.spellName = spellName
+    m.castTime = castTime
 
     self.cacheByName[m.name] = m
     self.cacheBySpellId[m.spellId] = m
