@@ -15,6 +15,12 @@ local function PlayerHasItem(itemId)
     end
 end
 
+-- In theory we might be able to just use the itemId and use
+--      spellName = GetItemSpell(itemId)
+-- the trouble is the names aren't definitely unique and that makes me
+-- worried.  Since there are such a small number of these, keeping track of
+-- the spell as well isn't a burden.
+
 function LM_ItemSummoned:Get(itemId, spellId)
 
     if not PlayerHasItem(itemId) then return end
