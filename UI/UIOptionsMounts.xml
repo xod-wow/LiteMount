@@ -105,7 +105,7 @@
                     if b.isUsable then
                         GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
                     end
-                        GameTooltip:Show()
+                    GameTooltip:Show()
 
                     local m = b.modelid
                     local isself = b.isself
