@@ -69,7 +69,7 @@ LM_MOUNT_SPELLS = {
     { "ItemSummoned", LM_ITEM_DRAGONWRATH_TARECGOSAS_REST, LM_SPELL_TARECGOSAS_VISAGE },
     { "ItemSummoned", LM_ITEM_SHIMMERING_MOONSTONE, LM_SPELL_MOONFANG },
 }
-    
+
 -- Skill Lines from select(7, GetProfessionInfo(i))
 --      164 Blacksmithing
 --      165 Leatherworking
