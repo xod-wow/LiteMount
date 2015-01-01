@@ -244,9 +244,14 @@ function LiteMount:PreClick(mouseButton)
         m = LM_PlayerMounts:GetVashjirMount()
     end
 
-    if not m and LM_Location:CanFly() and mouseButton == "LeftButton" then
-        LM_Debug("Trying GetFlyingMount")
-        m = LM_PlayerMounts:GetFlyingMount()
+    -- We could put CanFly below CanSwim and get the same effect, but I hold
+    -- out hope that one day we can figure out if you're floating again.
+
+    if not m and LM_Location:CanFly() and not LM_Location:CanSwim() then
+        if mouseButton == "LeftButton" then
+            LM_Debug("Trying GetFlyingMount")
+            m = LM_PlayerMounts:GetFlyingMount()
+        end
     end
 
     if not m and LM_Location:CanSwim() then

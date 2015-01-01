@@ -13,11 +13,6 @@
 LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
 LM_Location:RegisterEvent("PLAYER_LOGIN")
 
-local CAN_FLY_IF_USABLE_SPELLS = {
-                                   LM_SPELL_RED_FLYING_CLOUD,  -- can't swim
-                                   LM_SPELL_BRONZE_DRAKE       -- can't run
-                                 }
-
 function LM_Location:Initialize()
     self.continent = -1
     self.areaId = -1
