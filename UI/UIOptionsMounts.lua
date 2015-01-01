@@ -139,15 +139,15 @@ local function UpdateMountButton(button, mount)
         button.enabled:SetChecked(true)
     end
 
-    if button.isUsable then
-        button.icon:Enable()
-        button.icon.unusable:Hide()
-    else
-        button.icon:Disable()
-        button.icon.unusable:SetBlendMode("ADD")
-        button.icon.unusable:SetAlpha(0.25)
-        button.icon.unusable:Show()
-    end
+    -- if button.isUsable then
+    --     button.icon:Enable()
+    --     button.icon.unusable:Hide()
+    -- else
+    --     button.icon:Disable()
+    --     button.icon.unusable:SetBlendMode("ADD")
+    --     button.icon.unusable:SetAlpha(0.25)
+    --     button.icon.unusable:Show()
+    -- end
 
     button.enabled.setFunc = function(setting)
                             EnableDisableSpell(button.spellid, setting)
