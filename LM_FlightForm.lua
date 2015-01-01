@@ -15,6 +15,11 @@ end
 
 function LM_FlightForm:Get(spellId)
     local m = LM_Spell:Get(spellId)
-    if m then setmetatable(m, LM_FlightForm) end
+    if m then
+        setmetatable(m, LM_FlightForm)
+        -- if we knew the modelIds for the various forms across the two
+        -- factions we could set m.modelId here and have the preview window
+        -- display them.
+    end
     return m
 end
