@@ -102,8 +102,7 @@ LM_FlagOverrideTable = {
 
     [LM_SPELL_TARECGOSAS_VISAGE]  = bit.bor(LM_FLAG_BIT_FLY),
     [LM_SPELL_FLYING_BROOM]       = bit.bor(LM_FLAG_BIT_FLY),
-    [LM_SPELL_MAGIC_BROOM]        = bit.bor(LM_FLAG_BIT_RUN,
-                                            LM_FLAG_BIT_FLY),
+    [LM_SPELL_MAGIC_BROOM]        = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY),
     [LM_SPELL_LOANED_GRYPHON]     = bit.bor(LM_FLAG_BIT_FLY),
     [LM_SPELL_LOANED_WIND_RIDER]  = bit.bor(LM_FLAG_BIT_FLY),
     [LM_SPELL_MOONFANG]           = bit.bor(LM_FLAG_BIT_RUN),

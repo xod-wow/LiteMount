@@ -92,8 +92,13 @@ function LM_PlayerMounts:GetMountBySpell(id)
     if name then return self:GetMountByName(name) end
 end
 
+-- For some reason GetShapeshiftFormInfo doesn't work on Ghost Wolf.
 function LM_PlayerMounts:GetMountByShapeshiftForm(i)
     if not i then return end
+    local class = select(2, UnitClass("player"))
+    if class == "SHAMAN" and i == 1 then
+         return self:GetMountBySpell(LM_SPELL_GHOST_WOLF)
+    end
     local name = select(2, GetShapeshiftFormInfo(i))
     if name then return self:GetMountByName(name) end
 end
