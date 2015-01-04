@@ -3,10 +3,11 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
-* Rework notes
+* Git setup
 
-    Profession check.
-    Test item summoning?
+    git config tag.sort version:refname
+    git config user.name 'Mike "Xodiv" Battersby'
+    git config user.email mib@post.com
 
 
 ------------------------------------------------------------------------------
