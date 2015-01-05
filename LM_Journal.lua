@@ -34,8 +34,8 @@ function LM_Journal:Get(mountIndex)
     local modelId, _, _, isSelfMount, mountType = C_MountJournal.GetMountInfoExtra(mountIndex)
 
     if not name then
-        LM_Debug(string.format("LM_Mount: Failed GetMountInfo #%d (of %d)",
-                               mountIndex, C_MountJournal:GetNumMounts()))
+        LM_Debug(format("LM_Mount: Failed GetMountInfo #%d (of %d)",
+                        mountIndex, C_MountJournal:GetNumMounts()))
         return
     end
 
@@ -64,21 +64,21 @@ function LM_Journal:Get(mountIndex)
     -- and may be mistaken in places. List source:
     --   http://wowpedia.org/API_C_MountJournal.GetMountInfoExtra
 
-    if m.mountType == 230 then -- ground mount
+    if m:Type() == 230 then -- ground mount
         m.flags = bit.bor(LM_FLAG_BIT_RUN)
-    elseif m.mountType == 231 then -- riding/sea turtle
+    elseif m:Type() == 231 then -- riding/sea turtle
         m.flags = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_SWIM)
-    elseif m.mountType == 232 then -- Vashj'ir Seahorse
+    elseif m:Type() == 232 then -- Vashj'ir Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_VASHJIR)
-    elseif m.mountType == 241 then -- AQ-only bugs
+    elseif m:Type() == 241 then -- AQ-only bugs
         m.flags = bit.bor(LM_FLAG_BIT_AQ)
-    elseif m.mountType == 247 then -- Red Flying Cloud
+    elseif m:Type() == 247 then -- Red Flying Cloud
         m.flags = bit.bor(LM_FLAG_BIT_FLY)
-    elseif m.mountType == 248 then -- Flying mounts
+    elseif m:Type() == 248 then -- Flying mounts
         m.flags = bit.bor(LM_FLAG_BIT_FLY)
-    elseif m.mountType == 254 then -- Subdued Seahorse
+    elseif m:Type() == 254 then -- Subdued Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_SWIM, LM_FLAG_BIT_VASHJIR)
-    elseif m.mountType == 269 then -- Water Striders
+    elseif m:Type() == 269 then -- Water Striders
         m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLOAT)
     else
         m.flags = 0
@@ -89,8 +89,8 @@ function LM_Journal:Get(mountIndex)
     m.spellName = spellName
     m.castTime = castTime
 
-    self.cacheByName[m.name] = m
-    self.cacheBySpellId[m.spellId] = m
+    self.cacheByName[m:Name()] = m
+    self.cacheBySpellId[m:SpellId()] = m
 
     return m
 end

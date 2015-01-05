@@ -54,28 +54,27 @@ end
 
 function LiteMount:BuildCombatMacro()
 
-
-    local m = "/dismount [mounted]\n"
+    local mt = "/dismount [mounted]\n"
 
     if self.playerClass ==  "DRUID" then
         local forms = GetDruidMountForms()
         local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
         if mount and not mount:IsExcluded() then
-            m = m..string.format("/cast [noform:%s] %s\n", forms, mount:Name())
-            m = m..string.format("/cancelform [form:%s]\n", forms)
+            mt = mt .. format("/cast [noform:%s] %s\n", forms, mount:Name())
+            mt = mt .. format("/cancelform [form:%s]\n", forms)
         end
     elseif self.playerClass == "SHAMAN" then
         local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_GHOST_WOLF)
         if mount and not mount:IsExcluded() then
             local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
-            m = m.. "/cast [noform] " .. s .. "\n"
-            m = m.."/cancelform [form]\n"
+            mt = mt .. "/cast [noform] " .. s .. "\n"
+            mt = mt .. "/cancelform [form]\n"
         end
     end
 
-    m = m.."/leavevehicle\n"
+    mt = mt .. "/leavevehicle\n"
 
-    return m
+    return mt
 end
 
 function LiteMount:Initialize()
@@ -281,7 +280,7 @@ function LiteMount:PreClick(mouseButton)
     end
 
     if m then
-        LM_Debug("calling m:SetupActionButton for "..m.name)
+        LM_Debug("calling m:SetupActionButton for "..m:Name())
         m:SetupActionButton(self)
         return
     end

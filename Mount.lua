@@ -24,20 +24,12 @@ function LM_Mount:SetRequirements()
     self:NeedsProfession(LM_PROFESSION_MOUNT_REQUIREMENTS[spellId])
 end
 
-function LM_Mount:OverrideFlags()
-    local flags = LM_FlagOverrideTable[self.spellId]
-    if flags then
-        self.flags = flags
-    end
-end
-
 function LM_Mount:Get(className, ...)
     local class = _G["LM_"..className]
 
     local m = class:Get(...)
     if not m then return end
 
-    m:OverrideFlags()
     m:SetRequirements()
     return m
 end
@@ -198,9 +190,9 @@ function LM_Mount:Dump(prefix)
     local function yesno(t) if t then return "yes" else return "no" end end
 
     LM_Print(prefix .. self:Name())
-    LM_Print(prefix .. " spell: " .. string.format("%s (id %d)", self:SpellName(), self:SpellId()))
+    LM_Print(prefix .. " spell: " .. format("%s (id %d)", self:SpellName(), self:SpellId()))
     LM_Print(prefix .. " casttime: " .. self:CastTime())
-    LM_Print(prefix .. " flags: " .. string.format("%02x (default %02x)", self:Flags(), self:DefaultFlags()))
+    LM_Print(prefix .. " flags: " .. format("%02x (default %02x)", self:Flags(), self:DefaultFlags()))
     LM_Print(prefix .. " excluded: " .. yesno(self:IsExcluded()))
     LM_Print(prefix .. " usable: " .. yesno(self:IsUsable()) .. " (spell " .. yesno(IsUsableSpell(self:SpellId())) .. ")")
 end

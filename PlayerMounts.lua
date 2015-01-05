@@ -20,22 +20,24 @@ function LM_PlayerMounts:Initialize()
 end
 
 function LM_PlayerMounts:AddMount(m)
-    if m and not self.byName[m.name] then
-        self.byName[m.name] = m
+    if m and not self.byName[m:Name()] then
+        self.byName[m:Name()] = m
         table.insert(self.list, m)
     end
 end
 
-function LM_PlayerMounts:AddCompanionMounts()
+function LM_PlayerMounts:AddJournalMounts()
     for i = 1,C_MountJournal.GetNumMounts() do
         local m = LM_Mount:Get("Journal", i)
         self:AddMount(m)
     end
 end
 
+-- The unpack function turns a table into a list. I.e.,
+--      unpack({ a, b, c }) == a, b, c
 function LM_PlayerMounts:AddSpellMounts()
-    for _,typeArgs in ipairs(LM_MOUNT_SPELLS) do
-        local m = LM_Mount:Get(unpack(typeArgs))
+    for _,typeAndArgs in ipairs(LM_MOUNT_SPELLS) do
+        local m = LM_Mount:Get(unpack(typeAndArgs))
         self:AddMount(m)
     end
 end
@@ -45,7 +47,7 @@ function LM_PlayerMounts:ScanMounts()
     table.wipe(self.byName)
     table.wipe(self.list)
 
-    self:AddCompanionMounts()
+    self:AddJournalMounts()
     self:AddSpellMounts()
 
     self.list:Sort()

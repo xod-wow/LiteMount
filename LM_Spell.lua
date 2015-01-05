@@ -19,25 +19,24 @@ function LM_Spell:Get(spellId, forceKnown)
         return self.cacheBySpellId[spellId]
     end
 
-    local spell_info = { GetSpellInfo(spellId) }
+    local name, rank, icon, castingTime, _, _, _ = GetSpellInfo(spellId)
 
-    if not spell_info[1] then
-        LM_Debug("LM_Mount: Failed GetMountBySpell #"..spellId)
+    if not name then
+        LM_Debug("LM_Mount: Failed GetSpellInfo #"..spellId)
         return
     end
 
     local m = setmetatable({ }, LM_Spell)
 
-    m.name = spell_info[1]
-    m.spellName = spell_info[1]
-    m.icon = spell_info[3]
+    m.name = name
+    m.spellName = name
+    m.icon = icon
     m.flags = 0
-    m.tags = { }
-    m.castTime = spell_info[4]
-    m.spellId = spell_info[7]
+    m.castTime = castingTime
+    m.spellId = spellId
 
-    self.cacheByName[m.name] = m
-    self.cacheBySpellId[m.spellId] = m
+    self.cacheByName[m:Name()] = m
+    self.cacheBySpellId[m:SpellId()] = m
 
     return m
 end

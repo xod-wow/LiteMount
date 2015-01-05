@@ -127,7 +127,7 @@ function LM_Options:IsExcludedSpell(id)
 end
 
 function LM_Options:AddExcludedSpell(id)
-    LM_Debug(string.format("Disabling mount %s (%d).", GetSpellInfo(id), id))
+    LM_Debug(format("Disabling mount %s (%d).", GetSpellInfo(id), id))
     if not self:IsExcludedSpell(id) then
         table.insert(self.db.excludedspells, id)
         table.sort(self.db.excludedspells)
@@ -135,7 +135,7 @@ function LM_Options:AddExcludedSpell(id)
 end
 
 function LM_Options:RemoveExcludedSpell(id)
-    LM_Debug(string.format("Enabling mount %s (%d).", GetSpellInfo(id), id))
+    LM_Debug(format("Enabling mount %s (%d).", GetSpellInfo(id), id))
     for i = 1, #self.db.excludedspells do
         if self.db.excludedspells[i] == id then
             table.remove(self.db.excludedspells, i)
@@ -169,8 +169,8 @@ function LM_Options:ApplySpellFlags(id, flags)
 end
 
 function LM_Options:SetSpellFlagBit(id, origflags, flagbit)
-    LM_Debug(string.format("Setting flag bit %d for spell %s (%d).",
-                           flagbit, GetSpellInfo(id), id))
+    LM_Debug(format("Setting flag bit %d for spell %s (%d).",
+                    flagbit, GetSpellInfo(id), id))
 
     local newflags = self:ApplySpellFlags(id, origflags)
     newflags = bit.bor(newflags, flagbit)
@@ -178,8 +178,8 @@ function LM_Options:SetSpellFlagBit(id, origflags, flagbit)
 end
 
 function LM_Options:ClearSpellFlagBit(id, origflags, flagbit)
-    LM_Debug(string.format("Clearing flag bit %d for spell %s (%d).",
-                           flagbit, GetSpellInfo(id), id))
+    LM_Debug(format("Clearing flag bit %d for spell %s (%d).",
+                     flagbit, GetSpellInfo(id), id))
 
     local newflags = self:ApplySpellFlags(id, origflags)
     newflags = bit.band(newflags, bit.bnot(flagbit))
@@ -187,8 +187,8 @@ function LM_Options:ClearSpellFlagBit(id, origflags, flagbit)
 end
 
 function LM_Options:ResetSpellFlags(id)
-    LM_Debug(string.format("Defaulting flags for spell %s (%d).",
-                           GetSpellInfo(id), id))
+    LM_Debug(format("Defaulting flags for spell %s (%d).",
+                    GetSpellInfo(id), id))
 
     self.db.flagoverrides[id] = nil
 end

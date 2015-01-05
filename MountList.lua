@@ -97,13 +97,13 @@ function LM_MountList:WeightedRandom()
 
     local weightsum = 0
     for m in self:Iterate() do
-        weightsum = weightsum + (m.weight or 10)
+        weightsum = weightsum + (m:Weight() or 10)
     end
 
     local r = math.random(weightsum)
     local t = 0
     for m in self:Iterate() do
-        t = t + (m.weight or 10)
+        t = t + (m:Weight() or 10)
         if t >= r then return m end
     end
 end
