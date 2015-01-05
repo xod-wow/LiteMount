@@ -128,7 +128,7 @@ local function GetSuggestions()
     if ClassSuggestions[class] then
         for _,s in ipairs(ClassSuggestions[class]) do
             if IsSpellKnown(s.iconspell) then
-                table.insert(suggestions, s)
+                tinsert(suggestions, s)
             end
         end
     end
@@ -136,7 +136,7 @@ local function GetSuggestions()
     local race = select(2, UnitRace("player"))
     if RaceSuggestions[race] then
         for _,s in ipairs(RaceSuggestions[race]) do
-            table.insert(suggestions, s)
+            tinsert(suggestions, s)
         end
     end
 
@@ -145,7 +145,7 @@ local function GetSuggestions()
         local skillLine = select(7, GetProfessionInfo(pindex))
         if ProfessionSuggestions[skillLine] then
             for _,s in ipairs(ProfessionSuggestions[skillLine]) do
-                table.insert(suggestions, s)
+                tinsert(suggestions, s)
             end
         end
     end
@@ -209,13 +209,13 @@ end
 
 function LiteMountOptionsMacro_OnTextChanged(self)
     local m = LiteMountOptionsMacroEditBox:GetText()
-    if not m or string.match(m, "^%s*$") then
+    if not m or strmatch(m, "^%s*$") then
         LM_Options:SetMacro(nil)
     else
         LM_Options:SetMacro(m)
     end
 
-    local c = string.len(m or "")
-    LiteMountOptionsMacroCount:SetText(string.format(MACROFRAME_CHAR_LIMIT, c))
+    local c = strlen(m or "")
+    LiteMountOptionsMacroCount:SetText(format(MACROFRAME_CHAR_LIMIT, c))
 end
 

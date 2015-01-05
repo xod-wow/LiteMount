@@ -16,7 +16,7 @@ local function GetActiveChatFrame()
     if not ChatWindowCache then
         ChatWindowCache = { }
         for i = 1,NUM_CHAT_WINDOWS do
-            table.insert(ChatWindowCache, _G["ChatFrame"..i])
+            tinsert(ChatWindowCache, _G["ChatFrame"..i])
         end
     end
 

@@ -38,13 +38,13 @@ end
 
 function LiteMountOptionsCombatMacro_OnTextChanged(self)
     local m = LiteMountOptionsCombatMacroEditBox:GetText()
-    if not m or string.match(m, "^%s*$") then
+    if not m or strmatch(m, "^%s*$") then
         LM_Options:SetCombatMacro(nil)
     else
         LM_Options:SetCombatMacro(m)
     end
 
-    local c = string.len(m or "")
-    LiteMountOptionsCombatMacroCount:SetText(string.format(MACROFRAME_CHAR_LIMIT, c))
+    local c = strlen(m or "")
+    LiteMountOptionsCombatMacroCount:SetText(format(MACROFRAME_CHAR_LIMIT, c))
 end
 

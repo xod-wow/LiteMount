@@ -129,8 +129,8 @@ end
 function LM_Options:AddExcludedSpell(id)
     LM_Debug(format("Disabling mount %s (%d).", GetSpellInfo(id), id))
     if not self:IsExcludedSpell(id) then
-        table.insert(self.db.excludedspells, id)
-        table.sort(self.db.excludedspells)
+        tinsert(self.db.excludedspells, id)
+        sort(self.db.excludedspells)
     end
 end
 
@@ -138,7 +138,7 @@ function LM_Options:RemoveExcludedSpell(id)
     LM_Debug(format("Enabling mount %s (%d).", GetSpellInfo(id), id))
     for i = 1, #self.db.excludedspells do
         if self.db.excludedspells[i] == id then
-            table.remove(self.db.excludedspells, i)
+            tremove(self.db.excludedspells, i)
             return
         end
     end
@@ -146,11 +146,11 @@ end
 
 function LM_Options:SetExcludedSpells(idlist)
     LM_Debug("Setting complete list of disabled mounts.")
-    table.wipe(self.db.excludedspells)
+    wipe(self.db.excludedspells)
     for _,id in ipairs(idlist) do
-        table.insert(self.db.excludedspells, id)
+        tinsert(self.db.excludedspells, id)
     end
-    table.sort(self.db.excludedspells)
+    sort(self.db.excludedspells)
 end
 
 --[[----------------------------------------------------------------------------

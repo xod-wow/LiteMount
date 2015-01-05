@@ -67,7 +67,7 @@ function LM_MountList:Search(matchfunc)
 
     for m in self:Iterate() do
         if matchfunc(m) then
-            table.insert(result, m)
+            tinsert(result, m)
         end
     end
 
@@ -121,12 +121,12 @@ function LM_MountList:__add(other)
     local r = LM_MountList:New()
     local seen = { }
     for m in self:Iterate() do
-        table.insert(r, m)
+        tinsert(r, m)
         seen[m:Name()] = true
     end
     for m in other:Iterate() do
         if not seen[m:Name()] then
-            table.insert(r, m)
+            tinsert(r, m)
         end
     end
     return r
@@ -134,7 +134,7 @@ end
 
 function LM_MountList:Sort()
     local ns = function (a,b) return a:Name() < b:Name() end
-    table.sort(self, ns)
+    sort(self, ns)
 end
 
 function LM_MountList:Map(mapfunc)

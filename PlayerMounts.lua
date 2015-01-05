@@ -15,14 +15,14 @@ LM_PlayerMounts = {
 }
 
 function LM_PlayerMounts:Initialize()
-    table.wipe(self.byName)
-    table.wipe(self.list)
+    wipe(self.byName)
+    wipe(self.list)
 end
 
 function LM_PlayerMounts:AddMount(m)
     if m and not self.byName[m:Name()] then
         self.byName[m:Name()] = m
-        table.insert(self.list, m)
+        tinsert(self.list, m)
     end
 end
 
@@ -44,8 +44,8 @@ end
 
 function LM_PlayerMounts:ScanMounts()
 
-    table.wipe(self.byName)
-    table.wipe(self.list)
+    wipe(self.byName)
+    wipe(self.list)
 
     self:AddJournalMounts()
     self:AddSpellMounts()

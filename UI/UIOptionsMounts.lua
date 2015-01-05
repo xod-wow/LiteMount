@@ -71,12 +71,12 @@ local function GetFilteredMountList()
     if filtertext == SEARCH then
         filtertext = ""
     else
-        filtertext = string.lower(filtertext)
+        filtertext = strlower(filtertext)
     end
     if filtertext ~= "" then
         for i = #mounts, 1, -1 do
-            if not string.find(string.lower(mounts[i]:Name()), filtertext) then
-                table.remove(mounts, i)
+            if not strfind(strlower(mounts[i]:Name()), filtertext) then
+                tremove(mounts, i)
             end
         end
     end

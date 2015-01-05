@@ -12,7 +12,7 @@ function LiteMountOptions_OnLoad(self)
     LiteMount_Frame_AutoLocalize(self)
 
     local version = GetAddOnMetadata("LiteMount", "Version")
-    if string.find(version, "project.version") then
+    if strfind(version, "project.version") then
         version = "Developer Work-in-Progress"
     end
 
