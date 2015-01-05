@@ -62,12 +62,30 @@ LM_MOUNT_SPELLS = {
     { "TravelForm", LM_SPELL_TRAVEL_FORM },
     { "Nagrand", LM_SPELL_FROSTWOLF_WAR_WOLF },
     { "Nagrand", LM_SPELL_TELAARI_TALBUK },
-    { "ItemSummoned", LM_ITEM_LOANED_GRYPHON_REINS, LM_SPELL_LOANED_GRYPHON },
-    { "ItemSummoned", LM_ITEM_LOANED_WIND_RIDER_REINS, LM_SPELL_LOANED_WIND_RIDER },
-    { "ItemSummoned", LM_ITEM_FLYING_BROOM, LM_SPELL_FLYING_BROOM },
-    { "ItemSummoned", LM_ITEM_MAGIC_BROOM, LM_SPELL_MAGIC_BROOM },
-    { "ItemSummoned", LM_ITEM_DRAGONWRATH_TARECGOSAS_REST, LM_SPELL_TARECGOSAS_VISAGE },
-    { "ItemSummoned", LM_ITEM_SHIMMERING_MOONSTONE, LM_SPELL_MOONFANG },
+    { "ItemSummoned",
+        LM_ITEM_LOANED_GRYPHON_REINS, LM_SPELL_LOANED_GRYPHON,
+        bit.bor(LM_FLAG_BIT_FLY)
+    },
+    { "ItemSummoned",
+        LM_ITEM_LOANED_WIND_RIDER_REINS, LM_SPELL_LOANED_WIND_RIDER,
+        bit.bor(LM_FLAG_BIT_FLY)
+    },
+    { "ItemSummoned",
+        LM_ITEM_FLYING_BROOM, LM_SPELL_FLYING_BROOM,
+        bit.bor(LM_FLAG_BIT_FLY),
+    },
+    { "ItemSummoned",
+        LM_ITEM_MAGIC_BROOM, LM_SPELL_MAGIC_BROOM,
+        bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY),
+    },
+    { "ItemSummoned",
+        LM_ITEM_DRAGONWRATH_TARECGOSAS_REST, LM_SPELL_TARECGOSAS_VISAGE,
+        bit.bor(LM_FLAG_BIT_FLY)
+    },
+    { "ItemSummoned",
+        LM_ITEM_SHIMMERING_MOONSTONE, LM_SPELL_MOONFANG,
+        bit.bor(LM_FLAG_BIT_RUN),
+    },
 }
 
 -- Skill Lines from select(7, GetProfessionInfo(i))
@@ -95,15 +113,4 @@ LM_PROFESSION_MOUNT_REQUIREMENTS = {  -- = { skillLine, minSkillLevel }
 }
 
 LM_FlagOverrideTable = {
-    [LM_SPELL_BLUE_QIRAJI_TANK]   = bit.bor(LM_FLAG_BIT_AQ),
-    [LM_SPELL_GREEN_QIRAJI_TANK]  = bit.bor(LM_FLAG_BIT_AQ),
-    [LM_SPELL_RED_QIRAJI_TANK]    = bit.bor(LM_FLAG_BIT_AQ),
-    [LM_SPELL_YELLOW_QIRAJI_TANK] = bit.bor(LM_FLAG_BIT_AQ),
-
-    [LM_SPELL_TARECGOSAS_VISAGE]  = bit.bor(LM_FLAG_BIT_FLY),
-    [LM_SPELL_FLYING_BROOM]       = bit.bor(LM_FLAG_BIT_FLY),
-    [LM_SPELL_MAGIC_BROOM]        = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY),
-    [LM_SPELL_LOANED_GRYPHON]     = bit.bor(LM_FLAG_BIT_FLY),
-    [LM_SPELL_LOANED_WIND_RIDER]  = bit.bor(LM_FLAG_BIT_FLY),
-    [LM_SPELL_MOONFANG]           = bit.bor(LM_FLAG_BIT_RUN),
 }

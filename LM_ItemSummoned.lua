@@ -21,7 +21,7 @@ end
 -- worried.  Since there are such a small number of these, keeping track of
 -- the spell as well isn't a burden.
 
-function LM_ItemSummoned:Get(itemId, spellId)
+function LM_ItemSummoned:Get(itemId, spellId, flags)
 
     if not PlayerHasItem(itemId) then return end
 
@@ -42,6 +42,7 @@ function LM_ItemSummoned:Get(itemId, spellId)
 
     m.itemId = itemId
     m.itemName = itemName
+    m.flags = flags
 
     self.cacheByItemId[itemId] = m
 
