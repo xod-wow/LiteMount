@@ -5,10 +5,32 @@ Notes To Myself
 ------------------------------------------------------------------------------
 * Git setup
 
-    git config tag.sort version:refname
     git config user.name 'Mike "Xodiv" Battersby'
     git config user.email mib@post.com
+    git config tag.sort version:refname
+    git config fetch.prune true
 
+
+------------------------------------------------------------------------------
+* Branch-fu
+
+    Make a branch locally:
+        git checkout -b newfeature
+    Switch between branches:
+        git checkout master
+        git checkout newfeature
+    Push the branch to curseforge:
+        git push --set-upstream origin newfeature
+    Delete the branch locally:
+        git branch -d newfeature
+    Delete the branch on curseforge (after deleting locally):
+        git push origin :newfeature
+    Delete the branch locally when it's already been deleted from curseforge:
+        git branch -d newfeature
+        git remote prune origin
+    Merge the branch into master:
+        git checkout master
+        git merge --log newfeature
 
 ------------------------------------------------------------------------------
 * XML syntax check
