@@ -8,8 +8,10 @@
 
 ----------------------------------------------------------------------------]]--
 
--- Bits 1 through 16 match Blizzard's flags in GetCompanionInfo()
--- See http://us.battle.net/wow/en/forum/topic/2112232816#6
+-- These used to match the returns from the old API function GetCompanionInfo,
+-- plus more of my own. But since 6.0 that was replaced with C_MountJournal
+-- and specific type numbers.
+
 LM_FLAG_BIT_RUN = 1
 LM_FLAG_BIT_FLY = 2
 LM_FLAG_BIT_FLOAT = 4
