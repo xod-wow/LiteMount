@@ -25,7 +25,8 @@ LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActi
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 
 local RescanEvents = {
-    -- Companion change
+    -- Companion change. Don't add COMPANION_UPDATE to this as it fires
+    -- for units other than "player" and triggers constantly.
     "COMPANION_LEARNED", "COMPANION_UNLEARNED",
     -- Talents (might have mount abilities). Glyphs that teach spells   
     -- fire PLAYER_TALENT_UPDATE too, don't need to watch GLYPH_ events.
