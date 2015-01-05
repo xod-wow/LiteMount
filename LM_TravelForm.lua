@@ -26,7 +26,7 @@ function LM_TravelForm:FlagsSet(f)
     -- If we know Flight Form then Travel Form can't fly. Sigh.
     if self:SpellId() == LM_SPELL_TRAVEL_FORM then
         if IsSpellKnown(LM_SPELL_FLIGHT_FORM) then
-            LM_Debug("REMOVING FLY FROM TRAVEL FORM")
+            LM_Debug("Removing FLYING from Travel Form due to glyph.")
             flags = bit.band(flags, bit.bnot(LM_FLAG_BIT_FLY))
         end
     end
@@ -57,5 +57,5 @@ end
 -- because you can swim indoors with it (apparently).
 function LM_TravelForm:IsUsable(flags)
     if IsIndoors() and not IsSubmerged() then return false end
-    return LM_Mount.IsUsable(self, flags)
+    return LM_Spell.IsUsable(self, flags)
 end
