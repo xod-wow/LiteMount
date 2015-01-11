@@ -51,6 +51,57 @@ Notes To Myself
     Revisit the Unavailable macro suggestion buttons.
 
 ------------------------------------------------------------------------------
+* Code to check every spell usability
+
+    MAX_SPELL_ID=197177 -- from wowhead
+
+    if not surfaceUsable then surfaceUsable = {} end
+    if not underUsable then underUsable = {} end
+
+    local function checkUsable(t)
+       local i = #t + 1
+       while true do
+          if i > MAX_SPELL_ID then return end
+          t[i] = IsUsableSpell(i)
+          if i % 1000 == 0 then
+             print(i)
+             coroutine.yield()
+          end
+          i = i + 1
+       end
+    end
+
+    local function compareUsable()
+       for i=1,#surfaceUsable do
+          if surfaceUsable[i] ~= underUsable[i] then
+             print(i .. ": " .. GetSpellInfo(i))
+          end
+       end
+    end
+
+
+    local thread
+
+    if GetMirrorTimerInfo(2) == "BREATH" then
+       wipe(underUsable)
+       thread = coroutine.create(function () checkUsable(underUsable) end)
+    elseif IsSwimming() then
+       wipe(surfaceUsable)
+       thread = coroutine.create(function () checkUsable(surfaceUsable) end)
+    else
+       thread = coroutine.create(compareUsable)
+    end
+
+    UsableChecker = CreateFrame("Frame")
+    UsableChecker:SetScript("OnUpdate", function(self, elapsed)
+          if coroutine.status(thread) == "dead" then
+             self:SetScript("OnUpdate", nil)
+          else
+             coroutine.resume(thread)
+          end
+    end)
+
+------------------------------------------------------------------------------
 * Running Wild under ShapeShift
 
     You can't use Running Wild when you are shapeshifted (e.g., you are
