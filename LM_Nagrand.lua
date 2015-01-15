@@ -43,5 +43,5 @@ function LM_Nagrand:IsUsable(flags)
     local DraenorZoneAbilityName = GetSpellInfo(DraenorZoneAbilitySpellID)
     local id = select(7, GetSpellInfo(DraenorZoneAbilityName))
     if id ~= self:SpellId() then return false end
-    return LM_Mount.IsUsable(self, flags)
+    return LM_Spell.IsUsable(self, flags)
 end
