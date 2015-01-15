@@ -97,6 +97,7 @@ end
 
 function LM_Journal:IsUsable(flags)
     local usable = select(5, C_MountJournal.GetMountInfo(self:JournalIndex()))
-    if not usable then return false end
+    if not usable then return end
+    if not IsUsableSpell(self:SpellId()) then return end
     return LM_Mount.IsUsable(self, flags)
 end
