@@ -113,6 +113,3 @@ LM_PROFESSION_MOUNT_REQUIREMENTS = {  -- = { skillLine, minSkillLevel }
     [LM_SPELL_CREEPING_CARPET] = { 197, 300 },
     [LM_SPELL_DUSTMANE_DIREWOLF] = { 165, 300 },
 }
-
-LM_FlagOverrideTable = {
-}
