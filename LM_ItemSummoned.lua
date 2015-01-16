@@ -2,7 +2,7 @@
 
   LiteMount/LM_ItemSummoned.lua
 
-  Copyright 2011-2014 Mike Battersby
+  Copyright 2011-2015 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
