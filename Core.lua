@@ -239,24 +239,27 @@ function LiteMount:PreClick(mouseButton)
         m = LM_PlayerMounts:GetMountFromUnitAura("target")
     end
 
-    if not m and LM_Location:IsVashjir() then
+    if not m and LM_Location:CanSwim() and LM_Location:IsVashjir() then
         LM_Debug("Trying GetVashjirMount")
         m = LM_PlayerMounts:GetVashjirMount()
     end
 
-    -- We could put CanFly below CanSwim and get the same effect, but I hold
-    -- out hope that one day we can figure out if you're floating again.
-
-    if not m and LM_Location:CanFly() and not LM_Location:CanSwim() then
-        if mouseButton == "LeftButton" then
-            LM_Debug("Trying GetFlyingMount")
-            m = LM_PlayerMounts:GetFlyingMount()
-        end
-    end
+    -- The order of GetSwimmingMount and GetFlyingMount here is uncertain
+    -- now that we can't properly detect if you're under water or floating
+    -- on top.  If one day again we can detect "floating" then either:
+    --  CanSwim returns false if floating and we leave as is; or
+    --  CanFly returns true if floating but not if swimming and reverse.
 
     if not m and LM_Location:CanSwim() then
         LM_Debug("Trying GetSwimmingMount")
         m = LM_PlayerMounts:GetSwimmingMount()
+    end
+
+    if not m and LM_Location:CanFly() then
+        if mouseButton == "LeftButton" then
+            LM_Debug("Trying GetFlyingMount")
+            m = LM_PlayerMounts:GetFlyingMount()
+        end
     end
 
     if not m and LM_Location:IsDraenorNagrand() then
