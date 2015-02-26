@@ -80,6 +80,8 @@ function LM_Journal:Get(mountIndex)
         m.flags = bit.bor(LM_FLAG_BIT_SWIM, LM_FLAG_BIT_VASHJIR)
     elseif m:Type() == 269 then -- Water Striders
         m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLOAT)
+    elseif m:Type() == 284 then -- Chauffeured Mekgineer's Chopper
+        m.flags = bit.bor(LM_FLAG_BIT_WALK)
     else
         m.flags = 0
     end
