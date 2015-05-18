@@ -41,7 +41,8 @@ function LM_TravelForm:DefaultFlags(v)
     for i = 1, NUM_GLYPH_SLOTS do
         local spellId = select(4, GetGlyphSocketInfo(i))
         if spellId == LM_SPELL_GLYPH_OF_TRAVEL then
-             return bit.bor(flags, LM_FLAG_BIT_RUN)
+            LM_Debug("Adding RUNNING to Travel Form due to glyph.")
+            return bit.bor(flags, LM_FLAG_BIT_RUN)
         end
     end
     return flags
