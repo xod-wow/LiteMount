@@ -73,13 +73,44 @@ local function GetFilteredMountList()
     else
         filtertext = strlower(filtertext)
     end
-    if filtertext ~= "" then
+
+    local n
+
+    filtertext, n = gsub(filtertext, "^+fly *", "", 1)
+    if n == 1 then
         for i = #mounts, 1, -1 do
-            if not strfind(strlower(mounts[i]:Name()), filtertext) then
+            if not mounts[i]:DefaultFlagsSet(LM_FLAG_BIT_FLY) then
                 tremove(mounts, i)
             end
         end
     end
+
+    filtertext, n = gsub(filtertext, "^+run *", "", 1)
+    if n == 1 then
+        for i = #mounts, 1, -1 do
+            if not mounts[i]:DefaultFlagsSet(LM_FLAG_BIT_RUN) then
+                tremove(mounts, i)
+            end
+        end
+    end
+
+    filtertext, n = gsub(filtertext, "^+swim *", "", 1)
+    if n == 1 then
+        for i = #mounts, 1, -1 do
+            if not mounts[i]:DefaultFlagsSet(LM_FLAG_BIT_SWIM) then
+                tremove(mounts, i)
+            end
+        end
+    end
+
+    if filtertext ~= "" then
+        for i = #mounts, 1, -1 do
+            if not strfind(strlower(mounts[i]:Name()), filtertext, 1, true) then
+                tremove(mounts, i)
+            end
+        end
+    end
+
     return mounts
 end
 
