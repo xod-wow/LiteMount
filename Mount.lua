@@ -127,6 +127,10 @@ function LM_Mount:FlagsSet(f)
     return bit.band(self:Flags(), f) == f
 end
 
+function LM_Mount:DefaultFlagsSet(f)
+    return bit.band(self:DefaultFlags(), f) == f
+end
+
 local IceFloesSpellName
 
 local function PlayerHasIceFloes()
@@ -154,7 +158,7 @@ end
 
 function LM_Mount:IsUsable(flags)
 
-    if not PlayerHasIceFloes() and PlayerIsMovingOrFalling() then
+    if PlayerIsMovingOrFalling() then
         if self:CastTime() > 0 then return end
     end
 
