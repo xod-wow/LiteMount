@@ -313,7 +313,9 @@
                 </OnTextChanged>
                 <OnEnter>
                     GameTooltip:SetOwner(self, "ANCHOR_TOP")
-                    GameTooltip:AddLine("Start with +fly or +run or +swim to limit.")
+                    GameTooltip:AddLine("Special filters, begin with:")
+                    GameTooltip:AddLine("+fly / +run / +swim")
+                    GameTooltip:AddLine("+enabled / +active")
                     GameTooltip:Show()
                 </OnEnter>
                 <OnLeave>

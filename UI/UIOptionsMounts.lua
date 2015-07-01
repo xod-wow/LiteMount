@@ -103,6 +103,24 @@ local function GetFilteredMountList()
         end
     end
 
+    filtertext, n = gsub(filtertext, "^+enabled *", "", 1)
+    if n == 1 then
+        for i = #mounts, 1, -1 do
+            if LM_Options:IsExcludedSpell(mounts[i]:SpellId()) then
+                tremove(mounts, i)
+            end
+        end
+    end
+
+    filtertext, n = gsub(filtertext, "^+active *", "", 1)
+    if n == 1 then
+        for i = #mounts, 1, -1 do
+            if not UnitAura("player", mounts[i]:SpellName()) then
+                tremove(mounts, i)
+            end
+        end
+    end
+
     if filtertext ~= "" then
         for i = #mounts, 1, -1 do
             if not strfind(strlower(mounts[i]:Name()), filtertext, 1, true) then
