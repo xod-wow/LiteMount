@@ -74,11 +74,6 @@ function LM_PlayerMounts:GetAvailableMounts(flags)
 end
 
 function LM_PlayerMounts:GetMountFromUnitAura(unitid, flags)
-    -- Note that UnitIsPlayer tests if the unit is player-controlled
-    if not UnitIsPlayer(unitid) or UnitIsUnit(unitid, "player") then
-        return
-    end
-
     for i = 1,BUFF_MAX_DISPLAY do
         local m = self:GetMountByName(UnitAura(unitid, i))
         if m and m:IsUsable(flags) then return m end

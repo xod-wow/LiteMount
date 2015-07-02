@@ -26,6 +26,21 @@ local function CreateOrUpdateMacro()
     return index
 end
 
+local function UpdateActiveMount(arg)
+    local m = LM_PlayerMounts:GetMountFromUnitAura("player")
+    if not m then return end
+
+    local mDisabled = LM_Options:IsExcludedSpell(m:SpellId())
+
+    if arg == "enable" or (arg == "toggle" and mDisabled) then
+        LM_Print("Enabling current mount: " .. m:Name())
+        LM_Options:RemoveExcludedSpell(m:SpellId())
+    elseif arg == "disable" or (arg == "toggle" and not mDisabled) then
+        LM_Print("Disabling current mount: " .. m:Name())
+        LM_Options:AddExcludedSpell(m:SpellId())
+    end
+end
+
 local LOCALIZED_MACRO_WORD = strlower(MACRO)
 
 function LiteMount_SlashCommandFunc(argstr)
@@ -37,6 +52,10 @@ function LiteMount_SlashCommandFunc(argstr)
         if arg == "macro" or arg == LOCALIZED_MACRO_WORD then
             local i = CreateOrUpdateMacro()
             if i then PickupMacro(i) end
+            return
+        elseif arg == "toggle" or arg == "enable" or arg == "disable" then
+            UpdateActiveMount(arg)
+            LiteMount_UpdateOptionsListIfShown()
             return
         end
     end

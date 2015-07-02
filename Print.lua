@@ -27,7 +27,7 @@ local function GetActiveChatFrame()
 end
 
 function LM_Print(msg)
-    GetActiveChatFrame():AddMessage("" .. msg)
+    GetActiveChatFrame():AddMessage("|cff00ff00LiteMount:|r " .. msg)
 end
 
 function LM_SetDebug(onoff)
@@ -40,7 +40,7 @@ end
 
 function LM_Debug(msg)
     if DebugEnabled then
-        LM_Print("|cff00ff00LiteMount:|r " .. msg)
+        LM_Print(msg)
     end
 end
 

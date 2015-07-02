@@ -144,6 +144,15 @@ function LM_Options:RemoveExcludedSpell(id)
     end
 end
 
+function LM_Options:ToggleExcludedSpell(id)
+    LM_Debug(format("Toggling mount %s (%d).", GetSpellInfo(id), id))
+    if self:IsExcludedSpell(id) then
+        self:RemoveExcludedSpell(id)
+    else
+        self:AddExcludedSpell(id)
+    end
+end
+
 function LM_Options:SetExcludedSpells(idlist)
     LM_Debug("Setting complete list of disabled mounts.")
     wipe(self.db.excludedspells)

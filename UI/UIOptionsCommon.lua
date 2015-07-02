@@ -41,3 +41,8 @@ function LiteMount_OpenOptionsPanel()
     InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)
 end
 
+function LiteMount_UpdateOptionsListIfShown()
+    if LiteMountOptionsMounts:IsShown() then
+        LiteMountOptions_UpdateMountList()
+    end
+end
