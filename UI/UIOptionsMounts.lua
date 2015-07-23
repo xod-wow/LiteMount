@@ -63,15 +63,13 @@ local function BitButtonUpdate(checkButton, mount)
 end
 
 local function GetFilteredMountList()
-    local lmom = LiteMountOptionsMounts
-
     local mounts = LiteMount:GetAllMounts()
 
-    local filtertext = lmom.filter:GetText()
+    local filtertext = LiteMountOptionsMounts.filter:GetText()
     if filtertext == SEARCH then
         filtertext = ""
     else
-        filtertext = strlower(filtertext)
+        filtertext = CaseAccentInsensitiveParse(filtertext)
     end
 
     local n
@@ -123,7 +121,8 @@ local function GetFilteredMountList()
 
     if filtertext ~= "" then
         for i = #mounts, 1, -1 do
-            if not strfind(strlower(mounts[i]:Name()), filtertext, 1, true) then
+            local matchname = CaseAccentInsensitiveParse(mounts[i]:Name())
+            if not strfind(matchname, filtertext, 1, true) then
                 tremove(mounts, i)
             end
         end
