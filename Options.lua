@@ -10,6 +10,10 @@
 
 --[[----------------------------------------------------------------------------
 
+seenspells is an array of mount spells we've seen before, so we can tell if
+we scan a new mount
+    ["seenspells"] = { [spellid1] = true, [spellid2] = true, ... }
+
 excludedspells is a list of spell ids the player has disabled
     ["excludedspells"] = { spellid1, spellid2, spellid3, ... }
   
@@ -19,22 +23,25 @@ flagoverrides is a table of tuples with bits to set and clear.
         ...
     }
 
+
 The modified mount flags are then:
     ( flags | bits_to_set ) & !bits_to_clear
 
 The reason to do it this way instead of just storing the xor is that
 the default flags might change and we don't want the override to suddenly
-go from disabling somthing to enabling it.
+go from disabling something to enabling it.
 
 ----------------------------------------------------------------------------]]--
 
 -- All of these values must be arrays so we can copy them by reference.
 local Default_LM_OptionsDB = {
+    ["seenspells"]       = { },
     ["excludedspells"]   = { },
     ["flagoverrides"]    = { },
     ["macro"]            = { },       -- [1] = macro
     ["combatMacro"]      = { },       -- [1] = macro, [2] == 0/1 enabled
     ["useglobal"]        = { },
+    ["excludeNewMounts"] = { },
     ["copyTargetsMount"] = { 1 },
 }
 
@@ -117,7 +124,7 @@ end
 
 
 --[[----------------------------------------------------------------------------
-     Excluded Spell stuff.
+    Excluded Spell stuff.
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:IsExcludedSpell(id)
@@ -163,7 +170,7 @@ function LM_Options:SetExcludedSpells(idlist)
 end
 
 --[[----------------------------------------------------------------------------
-     Mount flag overrides stuff
+    Mount flag overrides stuff
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:ApplySpellFlags(id, flags)
@@ -221,7 +228,7 @@ function LM_Options:SetSpellFlags(id, origflags, newflags)
 end
 
 --[[----------------------------------------------------------------------------
-     Last resort / combat macro stuff
+    Last resort / combat macro stuff
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:UseMacro()
@@ -262,7 +269,7 @@ end
 
 
 --[[----------------------------------------------------------------------------
-     Copying Target's Mount 
+    Copying Target's Mount 
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:CopyTargetsMount()
@@ -271,4 +278,23 @@ end
 
 function LM_Options:SetCopyTargetsMount(v)
     self.db.copyTargetsMount[1] = v
+end
+
+
+--[[----------------------------------------------------------------------------
+    Have we seen a mount before on this toon?
+    Includes automatically adding it to the excludes if requested.
+----------------------------------------------------------------------------]]--
+
+function LM_Options:SeenMountSpell(spellId, flagSeen)
+    local seen = self.db.seenspells[spellId]
+
+    if flagSeen and not seen then
+        self.db.seenspells[spellId] = true
+        if self.db.excludeNewMounts[1] == true then
+            self:AddExcludedSpell(spellId)
+        end
+    end
+
+    return seen
 end
