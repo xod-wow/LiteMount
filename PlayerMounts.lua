@@ -54,7 +54,6 @@ function LM_PlayerMounts:ScanMounts()
         LM_Options:SeenMountSpell(m:SpellId(), true)
     end
 
-    self.list:UpdateSeen()
     self.list:Sort()
 end
 
