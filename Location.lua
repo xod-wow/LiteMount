@@ -72,14 +72,26 @@ function LM_Location:CanFly()
 end
 ]]--
 
--- Draenor (continent 7) is flagged flyable even though you can't fly there
--- Maybe this will be fixed in 6.1. Is there no end to the horror?
+-- Draenor (continent 7) is flagged flyable, but you can only fly there if
+-- you have completed a dodgy achievement, "Draenor Pathfinder" (10018).
 function LM_Location:CanFly()
-    if self.continent == 7 or self.areaId == 970 then
-        return nil
-    else
-        return IsFlyableArea()
+
+    -- Can only fly in Draenor if you have the achievement
+    if self.continent == 7 then
+        local completed = select(4, GetAchievementInfo(10018))
+        if not completed then
+            return nil
+        end
     end
+
+    -- This is the Draenor starting area, which is not on the Draenor
+    -- continent (not on any continent). I don't know if you can fly there
+    -- if you have the achievement.
+    if self.areaId == 970 then
+        return nil
+    end
+
+    return IsFlyableArea()
 end
 
 -- The difference between IsSwimming and IsSubmerged is that IsSubmerged will
