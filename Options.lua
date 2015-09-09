@@ -173,7 +173,7 @@ end
     Mount flag overrides stuff
 ----------------------------------------------------------------------------]]--
 
-function LM_Options:ApplySpellFlags(id, flags)
+function LM_Options:ApplyMountFlags(id, flags)
     local ov = self.db.flagoverrides[id]
 
     if not ov then return flags end
@@ -184,35 +184,35 @@ function LM_Options:ApplySpellFlags(id, flags)
     return flags
 end
 
-function LM_Options:SetSpellFlagBit(id, origflags, flagbit)
+function LM_Options:SetMountFlagBit(id, origflags, flagbit)
     LM_Debug(format("Setting flag bit %d for spell %s (%d).",
                     flagbit, GetSpellInfo(id), id))
 
-    local newflags = self:ApplySpellFlags(id, origflags)
+    local newflags = self:ApplyMountFlags(id, origflags)
     newflags = bit.bor(newflags, flagbit)
-    LM_Options:SetSpellFlags(id, origflags, newflags)
+    LM_Options:SetMountFlags(id, origflags, newflags)
 end
 
-function LM_Options:ClearSpellFlagBit(id, origflags, flagbit)
+function LM_Options:ClearMountFlagBit(id, origflags, flagbit)
     LM_Debug(format("Clearing flag bit %d for spell %s (%d).",
                      flagbit, GetSpellInfo(id), id))
 
-    local newflags = self:ApplySpellFlags(id, origflags)
+    local newflags = self:ApplyMountFlags(id, origflags)
     newflags = bit.band(newflags, bit.bnot(flagbit))
-    LM_Options:SetSpellFlags(id, origflags, newflags)
+    LM_Options:SetMountFlags(id, origflags, newflags)
 end
 
-function LM_Options:ResetSpellFlags(id)
+function LM_Options:ResetMountFlags(id)
     LM_Debug(format("Defaulting flags for spell %s (%d).",
                     GetSpellInfo(id), id))
 
     self.db.flagoverrides[id] = nil
 end
 
-function LM_Options:SetSpellFlags(id, origflags, newflags)
+function LM_Options:SetMountFlags(id, origflags, newflags)
 
     if origflags == newflags then
-        self:ResetSpellFlags(id)
+        self:ResetMountFlags(id)
         return
     end
 

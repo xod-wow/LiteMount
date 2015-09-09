@@ -95,7 +95,7 @@ function LM_Mount:DefaultFlags(v)
 end
 
 function LM_Mount:Flags()
-    return LM_Options:ApplySpellFlags(self.spellId, self:DefaultFlags())
+    return LM_Options:ApplyMountFlags(self.spellId, self:DefaultFlags())
 end
 
 function LM_Mount:CanFly()

@@ -12,9 +12,9 @@ function LiteMountOptionsBit_OnClick(self)
     local spellid = self:GetParent().spellid
 
     if self:GetChecked() then
-        LM_Options:SetSpellFlagBit(spellid, self.defflags, self.flagbit)
+        LM_Options:SetMountFlagBit(spellid, self.defflags, self.flagbit)
     else
-        LM_Options:ClearSpellFlagBit(spellid, self.defflags, self.flagbit)
+        LM_Options:ClearMountFlagBit(spellid, self.defflags, self.flagbit)
     end
     LiteMountOptions_UpdateMountList()
 end
@@ -278,7 +278,7 @@ function LiteMountOptionsMounts_OnLoad(self)
     self.title:SetText("LiteMount : " .. self.name)
     self.default = function ()
             for _,m in LiteMount:GetAllMounts() do
-                LM_Options:ResetSpellFlags(m:SpellId())
+                LM_Options:ResetMountFlags(m:SpellId())
             end
             LM_Options:SetExcludedSpells({})
             LiteMountOptions_UpdateMountList()
