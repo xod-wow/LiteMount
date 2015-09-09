@@ -51,7 +51,7 @@ function LM_PlayerMounts:ScanMounts()
     self:AddSpellMounts()
 
     for m in self.list:Iterate() do
-        LM_Options:SeenMount(m), true)
+        LM_Options:SeenMount(m, true)
     end
 
     self.list:Sort()

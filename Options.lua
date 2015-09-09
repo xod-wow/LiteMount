@@ -211,7 +211,7 @@ function LM_Options:ResetMountFlags(m)
     local id = m:SpellId()
     local name = m:SpellName()
 
-    LM_Debug(format("Defaulting flags for spell %s (%d).", name, id)
+    LM_Debug(format("Defaulting flags for spell %s (%d).", name, id))
 
     self.db.flagoverrides[id] = nil
 end
