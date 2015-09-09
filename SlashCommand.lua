@@ -30,14 +30,14 @@ local function UpdateActiveMount(arg)
     local m = LM_PlayerMounts:GetMountFromUnitAura("player")
     if not m then return end
 
-    local mDisabled = LM_Options:IsExcludedSpell(m:SpellId())
+    local mDisabled = LM_Options:IsExcludedMount(m)
 
     if arg == "enable" or (arg == "toggle" and mDisabled) then
         LM_Print("Enabling current mount: " .. m:Name())
-        LM_Options:RemoveExcludedSpell(m:SpellId())
+        LM_Options:RemoveExcludedMount(m)
     elseif arg == "disable" or (arg == "toggle" and not mDisabled) then
         LM_Print("Disabling current mount: " .. m:Name())
-        LM_Options:AddExcludedSpell(m:SpellId())
+        LM_Options:AddExcludedMount(m)
     end
 end
 

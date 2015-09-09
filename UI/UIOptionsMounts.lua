@@ -9,12 +9,12 @@
 ----------------------------------------------------------------------------]]--
 
 function LiteMountOptionsBit_OnClick(self)
-    local spellid = self:GetParent().spellid
+    local mount = self:GetParent().mount
 
     if self:GetChecked() then
-        LM_Options:SetMountFlagBit(spellid, self.defflags, self.flagbit)
+        LM_Options:SetMountFlagBit(mount, self.flagbit)
     else
-        LM_Options:ClearMountFlagBit(spellid, self.defflags, self.flagbit)
+        LM_Options:ClearMountFlagBit(mount, self.flagbit)
     end
     LiteMountOptions_UpdateMountList()
 end
@@ -37,11 +37,11 @@ local function CreateMoreButtons(self)
     end
 end
 
-local function EnableDisableSpell(spellid, onoff)
+local function EnableDisableMount(mount, onoff)
     if onoff == "0" then
-        LM_Options:AddExcludedSpell(spellid)
+        LM_Options:AddExcludedMount(mount)
     else
-        LM_Options:RemoveExcludedSpell(spellid)
+        LM_Options:RemoveExcludedMount(mount)
     end
 end
 
@@ -104,7 +104,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+enabled *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if LM_Options:IsExcludedSpell(mounts[i]:SpellId()) then
+            if LM_Options:IsExcludedMount(mounts[i]) then
                 tremove(mounts, i)
             end
         end
@@ -141,7 +141,7 @@ local function UpdateAllSelected(mounts)
     local allDisabled = 1
 
     for _,m in ipairs(mounts) do
-        if LM_Options:IsExcludedSpell(m:SpellId()) then
+        if LM_Options:IsExcludedMount(m) then
             allEnabled = 0
         else
             allDisabled = 0
@@ -162,14 +162,9 @@ local function UpdateAllSelected(mounts)
 end
 
 local function UpdateMountButton(button, mount)
+    button.mount = mount
     button.icon:SetNormalTexture(mount:Icon())
     button.name:SetText(mount:Name())
-    button.spellid = mount:SpellId()
-    button.itemid = mount:ItemId()
-    button.modelid = mount:ModelId()
-    button.isself = mount:SelfMount()
-    button.journalIndex = mount:JournalIndex()
-    button.isUsable = mount:IsUsable()
 
     if not InCombatLockdown() then
         mount:SetupActionButton(button.icon)
@@ -181,13 +176,13 @@ local function UpdateMountButton(button, mount)
     BitButtonUpdate(button.bit4, mount)
     BitButtonUpdate(button.bit5, mount)
 
-    if LM_Options:IsExcludedSpell(button.spellid) then
+    if LM_Options:IsExcludedMount(mount) then
         button.enabled:SetChecked(false)
     else
         button.enabled:SetChecked(true)
     end
 
-    -- if button.isUsable then
+    -- if mount:IsUsable() then
     --     button.icon:Enable()
     --     button.icon.unusable:Hide()
     -- else
@@ -198,7 +193,7 @@ local function UpdateMountButton(button, mount)
     -- end
 
     button.enabled.setFunc = function(setting)
-                            EnableDisableSpell(button.spellid, setting)
+                            EnableDisableMount(button.mount, setting)
                             button.enabled:GetScript("OnEnter")(button.enabled)
                             UpdateAllSelected()
                         end
@@ -221,7 +216,7 @@ function LiteMountOptions_AllSelect_OnClick(self)
     end
 
     for _,m in ipairs(mounts) do
-        EnableDisableSpell(m:SpellId(), on)
+        EnableDisableMount(m, on)
     end
 
     self:GetScript("OnEnter")(self)
@@ -278,9 +273,9 @@ function LiteMountOptionsMounts_OnLoad(self)
     self.title:SetText("LiteMount : " .. self.name)
     self.default = function ()
             for _,m in LiteMount:GetAllMounts() do
-                LM_Options:ResetMountFlags(m:SpellId())
+                LM_Options:ResetMountFlags(m)
             end
-            LM_Options:SetExcludedSpells({})
+            LM_Options:SetExcludedMounts({})
             LiteMountOptions_UpdateMountList()
         end
 

@@ -94,25 +94,24 @@
 
             <Scripts>
                 <OnEnter>
-                    local b = self:GetParent()
+                    local m = self:GetParent().mount
 
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
-                    if b.journalIndex then
-                        GameTooltip:SetMountBySpellID(b.spellid)
+                    if m:JournalIndex() then
+                        GameTooltip:SetMountBySpellID(m:SpellId())
                     else
-                        GameTooltip:SetSpellByID(b.spellid)
+                        GameTooltip:SetSpellByID(m:SpellId())
                     end
-                    if b.isUsable then
+                    if m:IsUsable() then
                         GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
                     end
                     GameTooltip:Show()
 
-                    local m = b.modelid
-                    local isself = b.isself
+                    local model = m:ModelId()
 
-                    if m then
-                        LiteMountOptionsPreview.model:SetDisplayInfo(m)
-                        if isself then
+                    if model then
+                        LiteMountOptionsPreview.model:SetDisplayInfo(model)
+                        if m:SelfMount() then
                             LiteMountOptionsPreview.model:SetDoBlend(false)
                             LiteMountOptionsPreview.model:SetAnimation(618, -1)
                         end
@@ -131,11 +130,11 @@
                     self:RegisterForDrag("LeftButton")
                 </OnLoad>
                 <OnDragStart>
-                    local parent = self:GetParent()
-                    if parent.spellid then
-                        PickupSpell(parent.spellid)
-                    elseif parent.itemid then
-                        PickupItem(parent.itemid)
+                    local mount = self:GetParent().mount
+                    if mount:SpellId() then
+                        PickupSpell(mount:SpellId())
+                    elseif mount:ItemId() then
+                        PickupItem(mount:ItemId())
                     end
                 </OnDragStart>
             </Scripts>

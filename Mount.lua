@@ -95,7 +95,7 @@ function LM_Mount:DefaultFlags(v)
 end
 
 function LM_Mount:Flags()
-    return LM_Options:ApplyMountFlags(self.spellId, self:DefaultFlags())
+    return LM_Options:ApplyMountFlags(self)
 end
 
 function LM_Mount:CanFly()
@@ -177,7 +177,7 @@ function LM_Mount:IsUsable(flags)
 end
 
 function LM_Mount:IsExcluded()
-    return LM_Options:IsExcludedSpell(self.spellId)
+    return LM_Options:IsExcludedMount(self)
 end
 
 function LM_Mount:SetupActionButton(button)

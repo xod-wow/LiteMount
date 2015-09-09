@@ -198,15 +198,15 @@ Notes To Myself
         * Options.lua
             LM_Options:Initialize()
 
-            LM_Options:AddExcludedSpell(spellId)
-            LM_Options:RemoveExcludedSpell(spellId)
-            LM_Options:SetExcludedSpells(spellIdList)
-            LM_Options:IsExcludedSpell(spellId)
+            LM_Options:AddExcludedMount(m)
+            LM_Options:RemoveExcludedMount(m)
+            LM_Options:SetExcludedMounts(mountList)
+            LM_Options:IsExcludedMount(m)
 
-            LM_Options:SetSpellFlagBit(spellId, flagbit)
-            LM_Options:ClearSpellFlagBit(spellId, flagbit)
-            LM_Options:ResetSpellFlags(spellId)
-            LM_Options:ApplySpellFlags(spellId, default_flags)
+            LM_Options:SetMountFlagBit(m, flagbit)
+            LM_Options:ClearMountFlagBit(m, flagbit)
+            LM_Options:ResetMountFlags(m)
+            LM_Options:ApplyMountFlags(m, default_flags)
 
             LM_Options:GetMacro()
             LM_Options:SetMacro(macrotext)
