@@ -272,7 +272,7 @@ function LiteMountOptionsMounts_OnLoad(self)
     self.name = MOUNTS
     self.title:SetText("LiteMount : " .. self.name)
     self.default = function ()
-            for _,m in LiteMount:GetAllMounts() do
+            for _,m in ipairs(LiteMount:GetAllMounts()) do
                 LM_Options:ResetMountFlags(m)
             end
             LM_Options:SetExcludedMounts({})
