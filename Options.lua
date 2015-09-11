@@ -292,7 +292,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:SeenMount(m, flagSeen)
-    local id = m:SpellId()
+    local spellId = m:SpellId()
     local seen = self.db.seenspells[spellId]
 
     if flagSeen and not seen then
