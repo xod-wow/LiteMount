@@ -57,6 +57,15 @@
                     <Scripts>
                         <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
                         <OnEscapePressed function="EditBox_ClearFocus" />
+                        <OnLoad>
+                            self.default = function (self)
+                                    LM_Options:SetMacro("")
+                                end
+                            self.refresh = function (self)
+                                    self:SetText(LM_Options:GetMacro() or "")
+                                end
+                            LiteMountOptionsPanel_RegisterControl(self, LiteMountOptionsMacro)
+                        </OnLoad>
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
                 </EditBox>

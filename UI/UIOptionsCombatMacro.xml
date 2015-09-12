@@ -42,6 +42,13 @@
                     <Scripts>
                         <OnTextChanged function="LiteMountOptionsCombatMacro_OnTextChanged" />
                         <OnEscapePressed function="EditBox_ClearFocus" />
+                        <OnLoad>
+                            self.refresh = function (self)
+                                    self:SetText(LM_Options:GetCombatMacro() or "")
+                                end
+                            self.default = function () LM_Options:SetCombatmacro("") end
+                            LiteMountOptionsPanel_RegisterControl(self, LiteMountOptionsCombatMacro)
+                        </OnLoad>
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
                 </EditBox>
@@ -77,6 +84,13 @@
                 <OnShow>
                     self:SetChecked(LM_Options:UseCombatMacro())
                 </OnShow>
+                <OnLoad>
+                    self.refresh = function (self)
+                            self:SetChecked(LM_Options:UseCombatMacro())
+                        end
+                    self.default = function () LM_Options:DisableCombatMacro() end
+                    LiteMountOptionsPanel_RegisterControl(self, LiteMountOptionsCombatMacro)
+                </OnLoad>
                 <OnClick>
                     if self:GetChecked() then
                         LM_Options:EnableCombatMacro()

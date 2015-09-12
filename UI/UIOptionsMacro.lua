@@ -191,9 +191,9 @@ function LiteMountOptionsMacro_OnLoad(self)
     self.name = MACRO .. " : " .. UNAVAILABLE
     self.title:SetText("LiteMount : " .. self.name)
 
-    self.default = function ()
-            LM_Options:SetMacro(nil)
-            LiteMountOptionsMacroEditBox:SetText("")
+    self.default = function (self)
+            LiteMountOptionsPanel_Default(self)
+            LiteMountOptionsPanel_Refresh(self)
         end
 
     InterfaceOptions_AddCategory(self)
@@ -201,11 +201,8 @@ end
 
 function LiteMountOptionsMacro_OnShow(self)
     LiteMountOptions.CurrentOptionsPanel = self
-    local m = LM_Options:GetMacro()
-    if m then
-        LiteMountOptionsMacroEditBox:SetText(m)
-    end
     UpdateSuggestionButtons()
+    LiteMountOptionsPanel_Refresh(self)
 end
 
 function LiteMountOptionsMacro_OnTextChanged(self)
