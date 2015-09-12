@@ -1,7 +1,7 @@
 ## Interface: 60200
 ## Title: LiteMount
 ## Version: @project-version@
-## Author: Xodiv of Proudmoore
+## Author: Xodiv-Nagrand
 ## Email: mib@post.com
 ## OptionalDeps: Blizzard_PetBattleUI
 ## SavedVariables: LM_UseGlobalOptions, LM_GlobalOptionsDB
