@@ -31,11 +31,8 @@ Core.lua
 KeyBindingStrings.lua
 
 UI\UIOptionsCommon.lua
-UI\UIOptionsFrame.lua
 UI\UIOptionsFrame.xml
-UI\UIOptionsMounts.lua
+UI\UIOptionsSettings.xml
 UI\UIOptionsMounts.xml
-UI\UIOptionsMacro.lua
 UI\UIOptionsMacro.xml
-UI\UIOptionsCombatMacro.lua
 UI\UIOptionsCombatMacro.xml

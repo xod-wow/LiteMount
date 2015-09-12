@@ -18,7 +18,9 @@ function LiteMountOptionsCombatMacro_OnLoad(self)
 
     self.default = function ()
             LM_Options:SetCombatMacro(nil)
+            LiteMountOptionsCombatMacroEditBox:SetText("")
             LM_Options:DisableCombatMacro()
+            LiteMountOptionsCombatMacroEnable:SetChecked(nil)
         end
 
     InterfaceOptions_AddCategory(self)

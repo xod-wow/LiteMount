@@ -2,6 +2,8 @@
 
 <!-- Copyright 2011-2015 Mike Battersby -->
 
+<Script file="UIOptionsMacro.lua" />
+
 <Button name="LiteMountItemButtonTemplate" virtual="true" inherits="ItemButtonTemplate">
     <Scripts>
         <OnEnter>

@@ -193,6 +193,7 @@ function LiteMountOptionsMacro_OnLoad(self)
 
     self.default = function ()
             LM_Options:SetMacro(nil)
+            LiteMountOptionsMacroEditBox:SetText("")
         end
 
     InterfaceOptions_AddCategory(self)

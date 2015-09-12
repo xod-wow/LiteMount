@@ -2,6 +2,8 @@
 
 <!-- Copyright 2011-2015 Mike Battersby -->
 
+<Script file="UIOptionsFrame.lua" />
+
 <Frame name="LiteMountOptions" hidden="true">
     <Layers>
         <Layer level="ARTWORK">

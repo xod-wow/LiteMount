@@ -46,3 +46,33 @@ function LiteMount_UpdateOptionsListIfShown()
         LiteMountOptions_UpdateMountList()
     end
 end
+
+function LiteMountOptionsPanel_RegisterControl(control, parent)
+    parent = parent or control:GetParent()
+    parent.controls = parent.controls or { }
+    tinsert(parent.controls, control)
+end
+
+function LiteMountOptionsPanel_Refresh(self)
+    for _, control in next, self.controls do
+        if control.refresh then control.refresh(control) end
+    end
+end
+
+function LiteMountOptionsPanel_Default(self)
+    for _, control in next, self.controls do
+        if control.default then control.default(control) end
+    end
+end
+
+function LiteMountOptionsPanel_Okay(self)
+    for _, control in next, self.controls do
+        if control.okay then control.okay(control) end
+    end
+end
+
+function LiteMountOptionsPanel_Cancel(self)
+    for _, control in next, self.controls do
+        if control.okay then control.okay(control) end
+    end
+end

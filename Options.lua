@@ -108,7 +108,7 @@ function LM_Options:UseGlobal()
     end
 end
 
-function LM_Options:SetGlobal(onoff)
+function LM_Options:SetUseGlobal(onoff)
 
     self.db["useglobal"][1] = onoff
 
@@ -285,6 +285,18 @@ function LM_Options:SetCopyTargetsMount(v)
     self.db.copyTargetsMount[1] = v
 end
 
+
+--[[----------------------------------------------------------------------------
+    Exclude newly learned mounts
+----------------------------------------------------------------------------]]--
+
+function LM_Options:ExcludeNewMounts()
+    return self.db.excludeNewMounts[1]
+end
+
+function LM_Options:SetExcludeNewMounts(v)
+    self.db.excludeNewMounts[1] = v
+end
 
 --[[----------------------------------------------------------------------------
     Have we seen a mount before on this toon?
