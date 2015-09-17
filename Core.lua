@@ -33,6 +33,8 @@ local RescanEvents = {
     "UNIT_LEVEL", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE",
     -- You might have received a mount item
     "BAG_UPDATE",
+    -- Draenor flying is an achievement
+    "ACHIEVEMENT_EARNED",
 }
 
 local function GetDruidMountForms()
