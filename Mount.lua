@@ -181,7 +181,6 @@ function LM_Mount:IsExcluded()
 end
 
 function LM_Mount:SetupActionButton(button)
-    LM_Debug("LM_Mount setting button to spell "..self.spellName)
     button:SetAttribute("type", "spell")
     button:SetAttribute("spell", self.spellName)
 end

@@ -285,7 +285,7 @@ function LiteMount:PreClick(mouseButton)
     end
 
     if m then
-        LM_Debug("calling m:SetupActionButton for "..m:Name())
+        LM_Debug(format("Setting button to %s (spell %s)", m:Name(), m:SpellName()))
         m:SetupActionButton(self)
         return
     end
