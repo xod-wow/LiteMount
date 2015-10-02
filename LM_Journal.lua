@@ -67,7 +67,7 @@ function LM_Journal:Get(mountIndex)
     if m:Type() == 230 then -- ground mount
         m.flags = bit.bor(LM_FLAG_BIT_RUN)
     elseif m:Type() == 231 then -- riding/sea turtle
-        m.flags = bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_SWIM)
+        m.flags = bit.bor(LM_FLAG_BIT_WALK)
     elseif m:Type() == 232 then -- Vashj'ir Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_VASHJIR)
     elseif m:Type() == 241 then -- AQ-only bugs
@@ -79,7 +79,7 @@ function LM_Journal:Get(mountIndex)
     elseif m:Type() == 254 then -- Subdued Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_SWIM, LM_FLAG_BIT_VASHJIR)
     elseif m:Type() == 269 then -- Water Striders
-        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLOAT)
+        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_FLOAT)
     elseif m:Type() == 284 then -- Chauffeured Mekgineer's Chopper
         m.flags = bit.bor(LM_FLAG_BIT_WALK)
     else
