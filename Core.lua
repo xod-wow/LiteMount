@@ -252,16 +252,16 @@ function LiteMount:PreClick(mouseButton)
     --  CanSwim returns false if floating and we leave as is; or
     --  CanFly returns true if floating but not if swimming and reverse.
 
-    if not m and LM_Location:CanSwim() then
-        LM_Debug("Trying GetSwimmingMount")
-        m = LM_PlayerMounts:GetSwimmingMount()
-    end
-
     if not m and LM_Location:CanFly() then
         if mouseButton == "LeftButton" then
             LM_Debug("Trying GetFlyingMount")
             m = LM_PlayerMounts:GetFlyingMount()
         end
+    end
+
+    if not m and LM_Location:CanSwim() then
+        LM_Debug("Trying GetSwimmingMount")
+        m = LM_PlayerMounts:GetSwimmingMount()
     end
 
     if not m and LM_Location:IsDraenorNagrand() then
