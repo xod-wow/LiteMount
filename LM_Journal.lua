@@ -46,7 +46,7 @@ function LM_Journal:Get(mountIndex)
         return self.cacheByName[name]
     end
 
-    local m = setmetatable({ }, LM_Journal)
+    local m = setmetatable(LM_Mount:new(), LM_Journal)
 
     m.journalIndex  = mountIndex
     m.modelId       = modelId

@@ -26,7 +26,7 @@ function LM_Spell:Get(spellId, forceKnown)
         return
     end
 
-    local m = setmetatable({ }, LM_Spell)
+    local m = setmetatable(LM_Mount:new(), LM_Spell)
 
     m.name = name
     m.spellName = name
