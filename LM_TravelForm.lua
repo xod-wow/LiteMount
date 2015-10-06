@@ -19,7 +19,7 @@ LM_TravelForm.__index = LM_TravelForm
 local LM_SPELL_GLYPH_OF_THE_STAG = 114338
 local LM_SPELL_GLYPH_OF_TRAVEL = 159456
 
-function LM_TravelForm:FlagsSet(f)
+function LM_TravelForm:CurrentFlagsSet(f)
 
     local flags = self:CurrentFlags()
 

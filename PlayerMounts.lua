@@ -68,7 +68,7 @@ end
 
 function LM_PlayerMounts:GetAvailableMounts(flags)
     local function match(m)
-        if not m:FlagsSet(flags) then return end
+        if not m:CurrentFlagsSet(flags) then return end
         if not m:IsUsable(flags) then return end
         if m:IsExcluded() then return end
         return true

@@ -103,7 +103,7 @@ function LM_Mount:CastTime()
 end
 
 -- This is a bit of a convenience since bit.isset doesn't exist
-function LM_Mount:FlagsSet(f)
+function LM_Mount:CurrentFlagsSet(f)
     return bit.band(self:CurrentFlags(), f) == f
 end
 
