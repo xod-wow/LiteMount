@@ -195,7 +195,7 @@ function LM_Options:SetMountFlagBit(m, flagbit)
     LM_Debug(format("Setting flag bit %d for spell %s (%d).",
                     flagbit, name, id))
 
-    LM_Options:SetMountFlags(m, bit.bor(m:Flags(), flagbit))
+    LM_Options:SetMountFlags(m, bit.bor(m:CurrentFlags(), flagbit))
 end
 
 function LM_Options:ClearMountFlagBit(m, flagbit)
@@ -204,7 +204,7 @@ function LM_Options:ClearMountFlagBit(m, flagbit)
     LM_Debug(format("Clearing flag bit %d for spell %s (%d).",
                      flagbit, name, id))
 
-    LM_Options:SetMountFlags(m, bit.band(m:Flags(), bit.bnot(flagbit)))
+    LM_Options:SetMountFlags(m, bit.band(m:CurrentFlags(), bit.bnot(flagbit)))
 end
 
 function LM_Options:ResetMountFlags(m)

@@ -21,7 +21,7 @@ local LM_SPELL_GLYPH_OF_TRAVEL = 159456
 
 function LM_TravelForm:FlagsSet(f)
 
-    local flags = self:Flags()
+    local flags = self:CurrentFlags()
 
     -- If we know Flight Form then Travel Form can't fly. Sigh.
     if self:SpellId() == LM_SPELL_TRAVEL_FORM then

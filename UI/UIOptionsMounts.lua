@@ -46,7 +46,7 @@ local function EnableDisableMount(mount, onoff)
 end
 
 local function BitButtonUpdate(checkButton, mount)
-    local flags = mount:Flags()
+    local flags = mount:CurrentFlags()
     local defflags = mount:DefaultFlags()
 
     local checked = bit.band(flags, checkButton.flagbit) == checkButton.flagbit

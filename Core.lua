@@ -248,9 +248,7 @@ function LiteMount:PreClick(mouseButton)
 
     -- The order of GetSwimmingMount and GetFlyingMount here is uncertain
     -- now that we can't properly detect if you're under water or floating
-    -- on top.  If one day again we can detect "floating" then either:
-    --  CanSwim returns false if floating and we leave as is; or
-    --  CanFly returns true if floating but not if swimming and reverse.
+    -- on top.
 
     if not m and LM_Location:CanFly() then
         if mouseButton == "LeftButton" then
