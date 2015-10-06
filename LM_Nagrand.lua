@@ -17,7 +17,7 @@ local FactionRequirements = {
 }
 
 
-function LM_Nagrand:DefaultFlags(f)
+function LM_Nagrand:Flags(f)
     return LM_FLAG_BIT_NAGRAND
 end
 

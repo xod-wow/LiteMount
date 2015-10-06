@@ -47,7 +47,7 @@ end
 
 local function BitButtonUpdate(checkButton, mount)
     local flags = mount:CurrentFlags()
-    local defflags = mount:DefaultFlags()
+    local defflags = mount:Flags()
 
     local checked = bit.band(flags, checkButton.flagbit) == checkButton.flagbit
     checkButton:SetChecked(checked)
@@ -77,7 +77,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+fly *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:DefaultFlagsSet(LM_FLAG_BIT_FLY) then
+            if not mounts[i]:FlagsSet(LM_FLAG_BIT_FLY) then
                 tremove(mounts, i)
             end
         end
@@ -86,7 +86,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+run *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:DefaultFlagsSet(LM_FLAG_BIT_RUN) then
+            if not mounts[i]:FlagsSet(LM_FLAG_BIT_RUN) then
                 tremove(mounts, i)
             end
         end
@@ -95,7 +95,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+swim *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:DefaultFlagsSet(LM_FLAG_BIT_SWIM) then
+            if not mounts[i]:FlagsSet(LM_FLAG_BIT_SWIM) then
                 tremove(mounts, i)
             end
         end

@@ -34,8 +34,8 @@ function LM_TravelForm:CurrentFlagsSet(f)
     return bit.band(flags, f) == f
 end
 
-function LM_TravelForm:DefaultFlags(v)
-    local flags = LM_Mount.DefaultFlags(self, v)
+function LM_TravelForm:Flags(v)
+    local flags = LM_Mount.Flags(self, v)
 
     -- If we have glyph of travel then we can also "run"
     for i = 1, NUM_GLYPH_SLOTS do

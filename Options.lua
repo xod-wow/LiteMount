@@ -177,7 +177,7 @@ end
 
 function LM_Options:ApplyMountFlags(m)
     local id = m:SpellId()
-    local flags = m:DefaultFlags()
+    local flags = m:Flags()
     local ov = self.db.flagoverrides[id]
 
     if not ov then return flags end
@@ -218,12 +218,12 @@ end
 
 function LM_Options:SetMountFlags(m, flags)
 
-    if flags == m:DefaultFlags() then
+    if flags == m:Flags() then
         return self:ResetMountFlags(m)
     end
 
     local id = m:SpellId()
-    local def = m:DefaultFlags()
+    local def = m:Flags()
 
     local toset = bit.band(bit.bxor(flags, def), flags)
     local toclear = bit.band(bit.bxor(flags, def), bit.bnot(flags))

@@ -13,7 +13,7 @@ LM_GhostWolf.__index = LM_GhostWolf
 
 local tabletBuffName
 
-function LM_GhostWolf:DefaultFlags(v)
+function LM_GhostWolf:Flags(v)
     if not tabletBuffName then
         tabletBuffName = GetSpellInfo(LM_SPELL_TABLET_OF_GHOST_WOLF)
     end

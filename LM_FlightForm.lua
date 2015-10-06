@@ -9,7 +9,7 @@
 LM_FlightForm = setmetatable({ }, LM_Spell)
 LM_FlightForm.__index = LM_FlightForm
 
-function LM_FlightForm:DefaultFlags(v)
+function LM_FlightForm:Flags(v)
     return LM_FLAG_BIT_FLY
 end
 
