@@ -55,7 +55,7 @@ function LM_ItemSummoned:SetupActionButton(button)
     button:SetAttribute("item", self.itemName)
 end
 
-function LM_ItemSummoned:IsUsable(flags)
+function LM_ItemSummoned:IsUsable()
 
     local spell = self:SpellId()
 

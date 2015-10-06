@@ -69,7 +69,7 @@ end
 function LM_PlayerMounts:GetAvailableMounts(flags)
     local function match(m)
         if not m:CurrentFlagsSet(flags) then return end
-        if not m:IsUsable(flags) then return end
+        if not m:IsUsable() then return end
         if m:IsExcluded() then return end
         return true
     end
@@ -77,10 +77,10 @@ function LM_PlayerMounts:GetAvailableMounts(flags)
     return self:Search(match)
 end
 
-function LM_PlayerMounts:GetMountFromUnitAura(unitid, flags)
+function LM_PlayerMounts:GetMountFromUnitAura(unitid)
     for i = 1,BUFF_MAX_DISPLAY do
         local m = self:GetMountByName(UnitAura(unitid, i))
-        if m and m:IsUsable(flags) then return m end
+        if m and m:IsUsable() then return m end
     end
 end
 

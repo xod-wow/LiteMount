@@ -136,7 +136,7 @@ local function KnowProfessionSkillLine(needSkillLine, needRank)
     return false
 end
 
-function LM_Mount:IsUsable(flags)
+function LM_Mount:IsUsable()
 
     if PlayerIsMovingOrFalling() then
         if self:CastTime() > 0 then return end

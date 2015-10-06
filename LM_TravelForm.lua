@@ -56,7 +56,7 @@ end
 
 -- IsUsableSpell doesn't return false for Travel Form indoors like it should,
 -- because you can swim indoors with it (apparently).
-function LM_TravelForm:IsUsable(flags)
+function LM_TravelForm:IsUsable()
     if IsIndoors() and not IsSubmerged() then return false end
-    return LM_Spell.IsUsable(self, flags)
+    return LM_Spell.IsUsable(self)
 end
