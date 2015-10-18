@@ -30,7 +30,7 @@ local RescanEvents = {
     "COMPANION_LEARNED", "COMPANION_UNLEARNED",
     -- Talents (might have mount abilities). Glyphs that teach spells   
     -- fire PLAYER_TALENT_UPDATE too, don't need to watch GLYPH_ events.
-    "UNIT_LEVEL", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE",
+    "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_LEVEL_UP", "PLAYER_TALENT_UPDATE",
     -- You might have received a mount item
     "BAG_UPDATE",
     -- Draenor flying is an achievement
