@@ -182,9 +182,10 @@ function LiteMount:PreClick(mouseButton)
     }
 
     for _, action in ipairs(ActionList) do
-        if not LM_Action[action] then next end
-        local m = LM_Action[action]()
-        if m then return m:SetupActionButton(self) end
+        if LM_Action[action] then
+            local m = LM_Action[action]()
+            if m then return m:SetupActionButton(self) end
+        end
     end
 
 end
