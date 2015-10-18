@@ -9,17 +9,19 @@
 ----------------------------------------------------------------------------]]--
 
 local LM_ButtonAction = { }
+LM_ButtonAction.__index = LM_ButtonAction
 
 function LM_ButtonAction:new(attr)
     return setmetatable(attr, LM_ButtonAction)
 end
 
 function LM_ButtonAction:SetupActionButton(button)
-    for k,v in pairs(self.attr) do
+    for k,v in pairs(self) do
         button:SetAttribute(k, v)
     end
 end
 
+function LM_ButtonAction:Name() end
 
 LM_Action = {  }
 
@@ -48,14 +50,16 @@ local function BuildCombatMacro()
 
     local mt = "/dismount [mounted]\n"
 
-    if self.playerClass ==  "DRUID" then
+    local playerClass = select(2, UnitClass("player"))
+    
+    if playerClass ==  "DRUID" then
         local forms = GetDruidMountForms()
         local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
         if mount and not mount:IsExcluded() then
             mt = mt .. format("/cast [noform:%s] %s\n", forms, mount:Name())
             mt = mt .. format("/cancelform [form:%s]\n", forms)
         end
-    elseif self.playerClass == "SHAMAN" then
+    elseif playerClass == "SHAMAN" then
         local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_GHOST_WOLF)
         if mount and not mount:IsExcluded() then
             local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
@@ -69,7 +73,7 @@ local function BuildCombatMacro()
     return mt
 end
 
-function LiteMount:Spell(spellId)
+function LM_Action:Spell(spellId)
     local name = GetSpellInfo(spellId)
     LM_Debug("Setting action to " .. name .. ".")
     return LM_ButtonAction:new({
@@ -79,7 +83,7 @@ function LiteMount:Spell(spellId)
         })
 end
 
-function LiteMount:SetAsMacroText(macrotext)
+function LM_Action:SetAsMacroText(macrotext)
     LM_Debug("Setting as raw macro text.")
     return LM_ButtonAction:new({
             ["type"] = "macro",
@@ -87,7 +91,7 @@ function LiteMount:SetAsMacroText(macrotext)
         })
 end
 
-function LM_action:Zone(zoneId)
+function LM_Action:Zone(zoneId)
     if not LM_Location:IsZone(zoneId) then return end
 
     LM_Debug(format("Trying zone mount for %s (%d).", LM_Location:GetName(), LM_Location:GetId()))

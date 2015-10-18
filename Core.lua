@@ -37,48 +37,6 @@ local RescanEvents = {
     "ACHIEVEMENT_EARNED",
 }
 
-local function GetDruidMountForms()
-    local forms = {}
-    for i = 1,GetNumShapeshiftForms() do
-        local spell = select(5, GetShapeshiftFormInfo(i))
-        if spell == LM_SPELL_FLIGHT_FORM or spell == LM_SPELL_TRAVEL_FORM then
-            tinsert(forms, i)
-        end
-    end
-    return table.concat(forms, "/")
-end
-
--- This is the macro that gets set as the default and will trigger if
--- we are in combat.  Don't put anything in here that isn't specifically
--- combat-only, because out of combat we've got proper code available.
--- Relies on self.playerClass being set before this is called.
--- Note that macros are limited to 255 chars, even inside a SecureActionButton.
-
-function LiteMount:BuildCombatMacro()
-
-    local mt = "/dismount [mounted]\n"
-
-    if self.playerClass ==  "DRUID" then
-        local forms = GetDruidMountForms()
-        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
-        if mount and not mount:IsExcluded() then
-            mt = mt .. format("/cast [noform:%s] %s\n", forms, mount:Name())
-            mt = mt .. format("/cancelform [form:%s]\n", forms)
-        end
-    elseif self.playerClass == "SHAMAN" then
-        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_GHOST_WOLF)
-        if mount and not mount:IsExcluded() then
-            local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
-            mt = mt .. "/cast [noform] " .. s .. "\n"
-            mt = mt .. "/cancelform [form]\n"
-        end
-    end
-
-    mt = mt .. "/leavevehicle\n"
-
-    return mt
-end
-
 function LiteMount:Initialize()
 
     LM_Debug("Initialize")
@@ -92,8 +50,6 @@ function LiteMount:Initialize()
     SlashCmdList["LiteMount"] = LiteMount_SlashCommandFunc
     SLASH_LiteMount1 = "/litemount"
     SLASH_LiteMount2 = "/lmt"
-
-    self.playerClass = select(2, UnitClass("player"))
 
     -- Button-fu
     self:RegisterForClicks("AnyDown")
@@ -150,12 +106,44 @@ function LiteMount:PLAYER_REGEN_ENABLED()
 end
 
 function LiteMount:SetAsInCombatAction()
-    LM_Action:Combat()(self)
+    LM_Action:Combat():SetupActionButton(self)
 end
 
 -- Fancy SecureActionButton stuff. The default button mechanism is
 -- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to set it to what we really want to do.
+
+local ActionList = {
+    ["LeftButton"] = [[
+        LeaveVehicle
+        Dismount
+        CancelForm
+        CopyTargetsMount
+        Vashjir
+        Fly
+        Swim
+        Nagrand
+        AQ
+        Run
+        Walk
+        Macro
+        CantMount
+    ]],
+    ["RightButton"] = [[
+        LeaveVehicle
+        Dismount
+        CancelForm
+        CopyTargetsMount
+        Vashjir
+        Swim
+        Nagrand
+        AQ
+        Run
+        Walk
+        Macro
+        CantMount
+    ]]
+}
 
 function LiteMount:PreClick(mouseButton)
 
@@ -165,30 +153,13 @@ function LiteMount:PreClick(mouseButton)
 
     self:ScanMounts()
 
-    local ActionList = {
-        "LeaveVehicle",
-        "Dismount",
-        "CancelForm",
-        "CopyTargetsMount",
-        "Vashjir",
-        "Fly",
-        "Swim",
-        "Nagrand",
-        "AQ",
-        "Run",
-        "Walk",
-        "Macro",
-        "CantMount"
-    }
-
-    if mouseButton ~= "LeftButton" then
-        tDeleteItem(ActionList, "Fly")
-    end
-
-    for _, action in ipairs(ActionList) do
+    for action in gmatch(ActionList, "%S+") do
         if LM_Action[action] then
             local m = LM_Action[action]()
-            if m then return m:SetupActionButton(self) end
+            if m then
+                LM_Debug("Setting up button as " .. (m:Name() or action) .. ".")
+                return m:SetupActionButton(self)
+            end
         end
     end
 

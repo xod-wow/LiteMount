@@ -12,7 +12,6 @@ Localization.lua
 AutoEventFrame.lua
 Print.lua
 SpellInfo.lua
-Action.lua
 Mount.lua
 LM_Journal.lua
 LM_Spell.lua
@@ -27,6 +26,7 @@ PlayerMounts.lua
 Location.lua
 Options.lua
 SlashCommand.lua
+Action.lua
 Core.lua
 
 KeyBindingStrings.lua
