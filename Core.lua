@@ -153,7 +153,7 @@ function LiteMount:PreClick(mouseButton)
 
     self:ScanMounts()
 
-    for action in gmatch(ActionList, "%S+") do
+    for action in gmatch(ActionList[mouseButton], "%S+") do
         if LM_Action[action] then
             local m = LM_Action[action]()
             if m then
