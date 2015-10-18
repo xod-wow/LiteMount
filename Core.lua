@@ -181,6 +181,10 @@ function LiteMount:PreClick(mouseButton)
         "CantMount"
     }
 
+    if mouseButton ~= "LeftButton" then
+        tDeleteItem(ActionList, "Fly")
+    end
+
     for _, action in ipairs(ActionList) do
         if LM_Action[action] then
             local m = LM_Action[action]()
