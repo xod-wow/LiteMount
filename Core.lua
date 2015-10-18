@@ -150,52 +150,7 @@ function LiteMount:PLAYER_REGEN_ENABLED()
 end
 
 function LiteMount:SetAsInCombatAction()
-    LM_Debug("Setting action to in-combat action.")
-    self:SetAttribute("type", "macro")
-
-    if LM_Options:UseCombatMacro() then
-        self:SetAttribute("macrotext", LM_Options:GetCombatMacro())
-    else
-        self:SetAttribute("macrotext", self:BuildCombatMacro())
-    end
-end
-
-function LiteMount:SetAsCantMount()
-    LM_Debug("Setting action to can't mount now.")
-    self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", nil)
-end
-
-function LiteMount:SetAsDismount()
-    LM_Debug("Setting action to Dismount.")
-    self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", SLASH_DISMOUNT1)
-end
-
-function LiteMount:SetAsVehicleExit()
-    LM_Debug("Setting action to VehicleExit.")
-    self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", SLASH_LEAVEVEHICLE1)
-end
-
-function LiteMount:SetAsCancelForm()
-    LM_Debug("Setting action to CancelForm.")
-    self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", SLASH_CANCELFORM1)
-end
-
-function LiteMount:SetAsPlayerTargetedSpell(spellId)
-    local name = GetSpellInfo(spellId)
-    LM_Debug("Setting action to " .. name .. ".")
-    self:SetAttribute("type", "spell")
-    self:SetAttribute("spell", name)
-    -- self:SetAttribute("unit", "player") -- Already done in setup
-end
-
-function LiteMount:SetAsMacroText(macrotext)
-    LM_Debug("Setting as raw macro text.")
-    self:SetAttribute("type", "macro")
-    self:SetAttribute("macrotext", macrotext)
+    LM_Action:Combat()(self)
 end
 
 -- Fancy SecureActionButton stuff. The default button mechanism is
@@ -210,95 +165,27 @@ function LiteMount:PreClick(mouseButton)
 
     self:ScanMounts()
 
-    -- In vehicle -> exit it
-    if CanExitVehicle() then
-        self:SetAsVehicleExit()
-        return
+    local ActionList = {
+        "LeaveVehicle",
+        "Dismount",
+        "CancelForm",
+        "CopyTargetsMount",
+        "Vashjir",
+        "Fly",
+        "Swim",
+        "Nagrand",
+        "AQ",
+        "Run",
+        "Walk",
+        "Macro",
+        "CantMount"
+    }
+
+    for _, action in ipairs(ActionList) do
+        if not LM_Action[action] then next end
+        local m = LM_Action[action]()
+        if m then return m:SetupActionButton(self) end
     end
-
-    -- Mounted -> dismount
-    if IsMounted() then
-        self:SetAsDismount()
-        return
-    end
-
-    -- We only want to cancel forms that we will activate (mount-style ones).
-    -- See: http://wowprogramming.com/docs/api/GetShapeshiftFormID
-    local formIndex = GetShapeshiftForm()
-    if formIndex > 0 then
-        local form = LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
-        if form and not form:IsExcluded() then
-            self:SetAsCancelForm()
-            return
-        end
-    end
-
-    local m
-
-    -- Got a player target, try copying their mount
-    if not m and UnitIsPlayer("target") and LM_Options:CopyTargetsMount() then
-        LM_Debug("Trying to clone target's mount")
-        m = LM_PlayerMounts:GetMountFromUnitAura("target")
-    end
-
-    if not m and LM_Location:CanSwim() and LM_Location:IsVashjir() then
-        LM_Debug("Trying GetVashjirMount")
-        m = LM_PlayerMounts:GetVashjirMount()
-    end
-
-    -- The order of GetSwimmingMount and GetFlyingMount here is uncertain
-    -- now that we can't properly detect if you're under water or floating
-    -- on top.
-
-    if not m and LM_Location:CanFly() then
-        if mouseButton == "LeftButton" then
-            LM_Debug("Trying GetFlyingMount")
-            m = LM_PlayerMounts:GetFlyingMount()
-        end
-    end
-
-    if not m and LM_Location:CanSwim() then
-        LM_Debug("Trying GetSwimmingMount")
-        m = LM_PlayerMounts:GetSwimmingMount()
-    end
-
-    if not m and LM_Location:IsDraenorNagrand() then
-        LM_Debug("Trying GetNagrandMount")
-        m = LM_PlayerMounts:GetNagrandMount()
-    end
-
-    if not m and LM_Location:IsAQ() then
-        LM_Debug("Trying GetAQMount")
-        m = LM_PlayerMounts:GetAQMount()
-    end
-
-    if not m then
-        LM_Debug("Trying GetRunningMount")
-        m = LM_PlayerMounts:GetRunningMount()
-    end
-
-    if not m then
-        LM_Debug("Trying GetWalkingMount")
-        m = LM_PlayerMounts:GetWalkingMount()
-    end
-
-    if m then
-        LM_Debug(format("Setting button to %s (spell %s)", m:Name(), m:SpellName()))
-        m:SetupActionButton(self)
-        return
-    end
-
-    LM_Debug("No usable mount found, checking for custom macro.")
-    if LM_Options:UseMacro() then
-        self:SetAsMacroText(LM_Options:GetMacro())
-        return
-    end
-
-    -- This isn't a great message, but there isn't a better one that
-    -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
-    -- LM_Warning("You don't know any mounts you can use right now.")
-    LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
-    self:SetAsCantMount()
 
 end
 
