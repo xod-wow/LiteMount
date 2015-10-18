@@ -51,7 +51,7 @@ local function BuildCombatMacro()
     local mt = "/dismount [mounted]\n"
 
     local playerClass = select(2, UnitClass("player"))
-    
+
     if playerClass ==  "DRUID" then
         local forms = GetDruidMountForms()
         local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
