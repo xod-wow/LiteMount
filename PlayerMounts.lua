@@ -137,6 +137,14 @@ function LM_PlayerMounts:GetSwimmingMount()
     return self:GetRandomMount(LM_FLAG_BIT_SWIM)
 end
 
+function LM_PlayerMounts:GetPassengerMount()
+    return self:GetRandomMount(LM_FLAG_BIT_PASSENGER)
+end
+
+function LM_PlayerMounts:GetVendorMount()
+    return self:GetRandomMount(LM_FLAG_BIT_VENDOR)
+end
+
 function LM_PlayerMounts:Dump()
     for m in self.list:Iterate() do
         m:Dump()

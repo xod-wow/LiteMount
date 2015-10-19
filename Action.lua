@@ -191,6 +191,16 @@ function LM_Action:Walk()
     return LM_PlayerMounts:GetWalkingMount()
 end
 
+function LM_Action:Passenger()
+    LM_Debug("Trying GetPassengerMount")
+    return LM_PlayerMounts:GetPassengerMount()
+end
+
+function LM_Action:Vendor()
+    LM_Debug("Trying GetVendorMount")
+    return LM_PlayerMounts:GetVendorMount()
+end
+
 function LM_Action:Macro()
     if not LM_Options:UseMacro() then return end
 
@@ -208,7 +218,7 @@ function LM_Action:CantMount()
     LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
 
     LM_Debug("Setting action to can't mount now.")
-    return LM_ButtonAction:new({ ["type"] = "macro", ["macrotext"] = nil });
+    return LM_ButtonAction:new({ ["type"] = "macro", ["macrotext"] = "" });
 end
 
 function LM_Action:Combat()

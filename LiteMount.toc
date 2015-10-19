@@ -27,6 +27,7 @@ Location.lua
 Options.lua
 SlashCommand.lua
 Action.lua
+ActionButton.lua
 Core.lua
 
 KeyBindingStrings.lua

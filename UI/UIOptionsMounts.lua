@@ -34,6 +34,8 @@ local function CreateMoreButtons(self)
         b.bit3.flagbit = LM_FLAG_BIT_SWIM
         b.bit4.flagbit = LM_FLAG_BIT_AQ
         b.bit5.flagbit = LM_FLAG_BIT_VASHJIR
+        b.bit6.flagbit = LM_FLAG_BIT_PASSENGER
+        b.bit7.flagbit = LM_FLAG_BIT_VENDOR
     end
 end
 
@@ -96,6 +98,24 @@ local function GetFilteredMountList()
     if n == 1 then
         for i = #mounts, 1, -1 do
             if not mounts[i]:FlagsSet(LM_FLAG_BIT_SWIM) then
+                tremove(mounts, i)
+            end
+        end
+    end
+
+    filtertext, n = gsub(filtertext, "^+vend *", "", 1)
+    if n == 1 then
+        for i = #mounts, 1, -1 do
+            if not mounts[i]:FlagsSet(LM_FLAG_BIT_VENDOR) then
+                tremove(mounts, i)
+            end
+        end
+    end
+
+    filtertext, n = gsub(filtertext, "^+pass *", "", 1)
+    if n == 1 then
+        for i = #mounts, 1, -1 do
+            if not mounts[i]:FlagsSet(LM_FLAG_BIT_PASSENGER) then
                 tremove(mounts, i)
             end
         end
@@ -175,6 +195,8 @@ local function UpdateMountButton(button, mount)
     BitButtonUpdate(button.bit3, mount)
     BitButtonUpdate(button.bit4, mount)
     BitButtonUpdate(button.bit5, mount)
+    BitButtonUpdate(button.bit6, mount)
+    BitButtonUpdate(button.bit7, mount)
 
     if LM_Options:IsExcludedMount(mount) then
         button.enabled:SetChecked(false)

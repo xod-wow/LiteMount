@@ -8,33 +8,7 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_ActionButton = { }
-LM_ActionButton.__index = LM_ActionButton
-
-function LM_ActionButton:new(n, actionList)
-
-    local name = "LiteMountActionButton" .. n
-
-    local b = CreateFrame("Button", name, UIParent, "SecureActionButtonTemplate")
-
-    -- I don't know if this is possible...
-    setmetatable(b, LM_ActionButton)
-
-    -- Save for use in PreClick handler
-    b.actionList = actionList
-
-    -- Button-fu
-    b:RegisterForClicks("AnyDown")
-
-    -- SecureActionButton setup
-    b:SetScript("PreClick", self.PreClick)
-    b:SetScript("PostClick", self.PostClick)
-
-    b:SetAsInCombatAction()
-
-end
-
-function LM_ActionButton:SetAsInCombatAction()
+local function SetAsInCombatAction(self)
     LM_Action:Combat():SetupActionButton(self)
 end
 
@@ -42,25 +16,14 @@ end
 -- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to set it to what we really want to do.
 
-function LM_ActionButton:PreClick(mouseButton)
-
-    if InCombatLockdown() then return end
-
-    LM_Debug("PreClick handler called on " .. self:Name())
-
-    LiteMount:ScanMounts()
-
-    for action in gmatch(self.actionList, "%S+") do
-        if self:Dispatch(action) then break end
-    end
-end
-
-function LM_ActionButton:Dispatch(action, args)
+local function Dispatch(self, action, args)
 
     if not LM_Action[action] then
         LM_Print(format("Error: bad action '%s' in action list.", action))
         return
     end
+
+    LM_Debug("Dispatching action " .. action .. ".")
 
     -- This is super ugly.
     local m = LM_Action[action](LM_Action, self, args)
@@ -71,7 +34,22 @@ function LM_ActionButton:Dispatch(action, args)
     return true
 end
 
-function LM_ActionButton:PostClick()
+local function PreClick(self, mouseButton)
+
+    if InCombatLockdown() then return end
+
+    LM_Debug("PreClick handler called on " .. self:GetName())
+
+    LiteMount:ScanMounts()
+
+    for action in gmatch(self.actionList, "%S+") do
+        if Dispatch(self, action) then return end
+    end
+
+    Dispatch(self, "CantMount")
+end
+
+local function PostClick(self)
     if InCombatLockdown() then return end
 
     LM_Debug("PostClick handler called.")
@@ -82,5 +60,26 @@ function LM_ActionButton:PostClick()
     -- to just blindly do the opposite of whatever we chose because
     -- it might not have worked.
 
-    self:SetAsInCombatAction()
+    SetAsInCombatAction(self)
+end
+
+function LM_ActionButton_Create(n, actionList)
+
+    local name = "LiteMountActionButton" .. n
+
+    local b = CreateFrame("Button", name, UIParent, "SecureActionButtonTemplate")
+
+    -- Save for use in PreClick handler
+    b.actionList = actionList
+
+    -- Button-fu
+    b:RegisterForClicks("AnyDown")
+
+    -- SecureActionButton setup
+    b:SetScript("PreClick", PreClick)
+    b:SetScript("PostClick", PostClick)
+
+    SetAsInCombatAction(b)
+
+    return b
 end

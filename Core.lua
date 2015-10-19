@@ -51,7 +51,6 @@ local ButtonActions = {
         Run
         Walk
         Macro
-        CantMount
     ]],
     [2] = [[
         LeaveVehicle
@@ -65,16 +64,20 @@ local ButtonActions = {
         Run
         Walk
         Macro
-        CantMount
     ]],
     [3] = [[
+        LeaveVehicle
+        Dismount
+        CancelForm
         Passenger
     ]],
     [4] = [[
-        Custom1
+        LeaveVehicle
+        Dismount
+        CancelForm
+        Vendor
     ]],
     [5] = [[
-        Custom2
     ]],
 }
 
@@ -103,7 +106,7 @@ function LiteMount:Initialize()
 
     -- Create SecureActionButtons
     for i,actions in ipairs(ButtonActions) do
-        self["action"..i] = LM_ActionButton:new(i, actions)
+        self["action"..i] = LM_ActionButton_Create(i, actions)
     end
 
 end
