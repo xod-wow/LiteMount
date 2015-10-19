@@ -21,7 +21,7 @@
 
 ----------------------------------------------------------------------------]]--
 
-LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
+LiteMount = LM_CreateAutoEventFrame("Frame", "LiteMount", UIParent)
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 
 local RescanEvents = {
@@ -35,6 +35,47 @@ local RescanEvents = {
     "BAG_UPDATE",
     -- Draenor flying is an achievement
     "ACHIEVEMENT_EARNED",
+}
+
+local ButtonActions = {
+    [1] = [[
+        LeaveVehicle
+        Dismount
+        CancelForm
+        CopyTargetsMount
+        Vashjir
+        Fly
+        Swim
+        Nagrand
+        AQ
+        Run
+        Walk
+        Macro
+        CantMount
+    ]],
+    [2] = [[
+        LeaveVehicle
+        Dismount
+        CancelForm
+        CopyTargetsMount
+        Vashjir
+        Swim
+        Nagrand
+        AQ
+        Run
+        Walk
+        Macro
+        CantMount
+    ]],
+    [3] = [[
+        Passenger
+    ]],
+    [4] = [[
+        Custom1
+    ]],
+    [5] = [[
+        Custom2
+    ]],
 }
 
 function LiteMount:Initialize()
@@ -51,23 +92,18 @@ function LiteMount:Initialize()
     SLASH_LiteMount1 = "/litemount"
     SLASH_LiteMount2 = "/lmt"
 
-    -- Button-fu
-    self:RegisterForClicks("AnyDown")
-
-    -- SecureActionButton setup
-    self:SetScript("PreClick", self.PreClick)
-    self:SetScript("PostClick", self.PostClick)
-    self:SetAttribute("type", "macro")
-    self:SetAttribute("unit", "player")
-    self:SetAsInCombatAction()
-
-    -- Mount event setup
+    -- Rescan event setup
     for _,ev in ipairs(RescanEvents) do
         self[ev] = function (self, event, ...)
                             LM_Debug("Got rescan event "..event)
                             self.needScan = true
                         end
         self:RegisterEvent(ev)
+    end
+
+    -- Create SecureActionButtons
+    for i,actions in ipairs(ButtonActions) do
+        self["action"..i] = LM_ActionButton:new(i, actions)
     end
 
 end
@@ -105,76 +141,3 @@ function LiteMount:PLAYER_REGEN_ENABLED()
     self:Initialize()
 end
 
-function LiteMount:SetAsInCombatAction()
-    LM_Action:Combat():SetupActionButton(self)
-end
-
--- Fancy SecureActionButton stuff. The default button mechanism is
--- type="macro" macrotext="...". If we're not in combat we
--- use a preclick handler to set it to what we really want to do.
-
-local ActionList = {
-    ["LeftButton"] = [[
-        LeaveVehicle
-        Dismount
-        CancelForm
-        CopyTargetsMount
-        Vashjir
-        Fly
-        Swim
-        Nagrand
-        AQ
-        Run
-        Walk
-        Macro
-        CantMount
-    ]],
-    ["RightButton"] = [[
-        LeaveVehicle
-        Dismount
-        CancelForm
-        CopyTargetsMount
-        Vashjir
-        Swim
-        Nagrand
-        AQ
-        Run
-        Walk
-        Macro
-        CantMount
-    ]]
-}
-
-function LiteMount:PreClick(mouseButton)
-
-    if InCombatLockdown() then return end
-
-    LM_Debug("PreClick handler called. Button " .. (mouseButton or "nil"))
-
-    self:ScanMounts()
-
-    for action in gmatch(ActionList[mouseButton], "%S+") do
-        if LM_Action[action] then
-            local m = LM_Action[action]()
-            if m then
-                LM_Debug("Setting up button as " .. (m:Name() or action) .. ".")
-                return m:SetupActionButton(self)
-            end
-        end
-    end
-
-end
-
-function LiteMount:PostClick()
-    if InCombatLockdown() then return end
-
-    LM_Debug("PostClick handler called.")
-
-    -- We'd like to set the macro to undo whatever we did, but
-    -- tests like IsMounted() and CanExitVehicle() will still
-    -- represent the pre-action state at this point.  We don't want
-    -- to just blindly do the opposite of whatever we chose because
-    -- it might not have worked.
-
-    self:SetAsInCombatAction()
-end

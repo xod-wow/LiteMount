@@ -23,7 +23,7 @@ end
 
 function LM_ButtonAction:Name() end
 
-LM_Action = {  }
+LM_Action = { }
 
 local function GetDruidMountForms()
     local forms = {}
