@@ -27,6 +27,7 @@ local function CreateMoreButtons(self)
                                     0, -1, "TOPLEFT", "TOPLEFT",
                                     0, -1, "TOP", "BOTTOM")
 
+    -- Note: the buttons are laid out right to left
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
         b.bit1.flagbit = LM_FLAG_BIT_RUN
@@ -34,8 +35,8 @@ local function CreateMoreButtons(self)
         b.bit3.flagbit = LM_FLAG_BIT_SWIM
         b.bit4.flagbit = LM_FLAG_BIT_AQ
         b.bit5.flagbit = LM_FLAG_BIT_VASHJIR
-        b.bit6.flagbit = LM_FLAG_BIT_PASSENGER
-        b.bit7.flagbit = LM_FLAG_BIT_VENDOR
+        b.bit6.flagbit = LM_FLAG_BIT_CUSTOM2
+        b.bit7.flagbit = LM_FLAG_BIT_CUSTOM1
     end
 end
 
@@ -190,13 +191,11 @@ local function UpdateMountButton(button, mount)
         mount:SetupActionButton(button.icon)
     end
 
-    BitButtonUpdate(button.bit1, mount)
-    BitButtonUpdate(button.bit2, mount)
-    BitButtonUpdate(button.bit3, mount)
-    BitButtonUpdate(button.bit4, mount)
-    BitButtonUpdate(button.bit5, mount)
-    BitButtonUpdate(button.bit6, mount)
-    BitButtonUpdate(button.bit7, mount)
+    local i = 1
+    while button["bit"..i] do
+        BitButtonUpdate(button["bit"..i], mount)
+        i = i + 1
+    end
 
     if LM_Options:IsExcludedMount(mount) then
         button.enabled:SetChecked(false)

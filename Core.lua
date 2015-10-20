@@ -69,15 +69,13 @@ local ButtonActions = {
         LeaveVehicle
         Dismount
         CancelForm
-        Passenger
+        Custom1
     ]],
     [4] = [[
         LeaveVehicle
         Dismount
         CancelForm
-        Vendor
-    ]],
-    [5] = [[
+        Custom2
     ]],
 }
 

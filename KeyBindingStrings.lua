@@ -11,8 +11,7 @@
 local L = LM_Localize
 
 BINDING_HEADER_LITEMOUNT_TITLE = GetAddOnMetadata("LiteMount", "Title")
-_G["BINDING_NAME_CLICK LiteMountActionButton1:LeftButton"] = MOUNT .. " 1"
-_G["BINDING_NAME_CLICK LiteMountActionButton2:LeftButton"] = MOUNT .. " 2"
-_G["BINDING_NAME_CLICK LiteMountActionButton3:LeftButton"] = MOUNT .. " 3"
-_G["BINDING_NAME_CLICK LiteMountActionButton4:LeftButton"] = MOUNT .. " 4"
-_G["BINDING_NAME_CLICK LiteMountActionButton5:LeftButton"] = MOUNT .. " 5"
+_G["BINDING_NAME_CLICK LiteMountActionButton1:LeftButton"] = MOUNT .. " / " .. BINDING_NAME_DISMOUNT
+_G["BINDING_NAME_CLICK LiteMountActionButton2:LeftButton"] = L["Non-flying Mount"] .. " / " .. BINDING_NAME_DISMOUNT
+_G["BINDING_NAME_CLICK LiteMountActionButton3:LeftButton"] = format("%s %s 1", MOUNT, CUSTOM)
+_G["BINDING_NAME_CLICK LiteMountActionButton4:LeftButton"] = format("%s %s 2", MOUNT, CUSTOM)

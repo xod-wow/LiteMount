@@ -137,12 +137,12 @@ function LM_PlayerMounts:GetSwimmingMount()
     return self:GetRandomMount(LM_FLAG_BIT_SWIM)
 end
 
-function LM_PlayerMounts:GetPassengerMount()
-    return self:GetRandomMount(LM_FLAG_BIT_PASSENGER)
+function LM_PlayerMounts:GetCustom1Mount()
+    return self:GetRandomMount(LM_FLAG_BIT_CUSTOM1)
 end
 
-function LM_PlayerMounts:GetVendorMount()
-    return self:GetRandomMount(LM_FLAG_BIT_VENDOR)
+function LM_PlayerMounts:GetCustom2Mount()
+    return self:GetRandomMount(LM_FLAG_BIT_CUSTOM2)
 end
 
 function LM_PlayerMounts:Dump()

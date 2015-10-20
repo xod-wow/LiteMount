@@ -21,7 +21,4 @@
     <Binding name="CLICK LiteMountActionButton4:LeftButton" category="ADDONS">
     </Binding>
 
-    <Binding name="CLICK LiteMountActionButton5:LeftButton" category="ADDONS">
-    </Binding>
-
 </Bindings> 

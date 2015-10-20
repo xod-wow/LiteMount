@@ -351,13 +351,13 @@
                     <Anchor point="RIGHT" relativeTo="$parentBit4Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit6Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Pass">
+            <FontString name="$parentBit6Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="LM_CUSTOM2">
                 <Size x="26" y="26" />
                 <Anchors>
                     <Anchor point="RIGHT" relativeTo="$parentBit5Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit6Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Vend">
+            <FontString name="$parentBit6Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="LM_CUSTOM1">
                 <Size x="26" y="26" />
                 <Anchors>
                     <Anchor point="RIGHT" relativeTo="$parentBit6Text" relativePoint="LEFT" x="-4" />

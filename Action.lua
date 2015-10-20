@@ -191,14 +191,14 @@ function LM_Action:Walk()
     return LM_PlayerMounts:GetWalkingMount()
 end
 
-function LM_Action:Passenger()
-    LM_Debug("Trying GetPassengerMount")
-    return LM_PlayerMounts:GetPassengerMount()
+function LM_Action:Custom1()
+    LM_Debug("Trying GetCustom1Mount")
+    return LM_PlayerMounts:GetCustom1Mount()
 end
 
-function LM_Action:Vendor()
-    LM_Debug("Trying GetVendorMount")
-    return LM_PlayerMounts:GetVendorMount()
+function LM_Action:Custom2()
+    LM_Debug("Trying GetCustom2Mount")
+    return LM_PlayerMounts:GetCustom2Mount()
 end
 
 function LM_Action:Macro()
