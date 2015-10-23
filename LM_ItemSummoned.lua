@@ -78,7 +78,7 @@ function LM_ItemSummoned:IsUsable()
 
     -- Either equipped or non-equippable and in bags
     local start, duration, enable = GetItemCooldown(itemId)
-    if duration > 0 and enable == 0 then
+    if duration > 0 and enable == 1 then
         return false
     end
 
