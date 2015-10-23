@@ -70,12 +70,14 @@ local ButtonActions = {
         Dismount
         CancelForm
         Custom1
+        Macro
     ]],
     [4] = [[
         LeaveVehicle
         Dismount
         CancelForm
         Custom2
+        Macro
     ]],
 }
 
