@@ -19,9 +19,6 @@ L["LM_MACRO_EXP"]   = "This macro will be run if LiteMount is unable to find a u
 
 L["LM_COMBAT_MACRO_EXP"]   = "If enabled, this macro will be run instead of the default combat actions if LiteMount is activated while you are combat."
 
-L["LM_CUSTOM1"] = format("%s 1", CUSTOM)
-L["LM_CUSTOM2"] = format("%s 2", CUSTOM)
-
 if locale == "deDE" then
     L["Author"]  = "Autor"
 elseif locale == "esES" or locale == "esMX" then
