@@ -81,9 +81,27 @@ local ButtonActions = {
     ]],
 }
 
+function LiteMount:VersionUpgrade()
+    local keys
+
+    -- When there were only 2 bindings they were attached directly to
+    -- the core addon table. Move them to button1 and button2.
+    keys = { GetBindingKey("CLICK LiteMount:LeftButton") }
+    for _,k in ipairs(keys) do
+        SetBinding(k, "CLICK LiteMountActionButton1:LeftButton")
+    end
+
+    keys = { GetBindingKey("CLICK LiteMount:RightButton") }
+    for _,k in ipairs(keys) do
+        SetBinding(k, "CLICK LiteMountActionButton2:LeftButton")
+    end
+end
+
 function LiteMount:Initialize()
 
     LM_Debug("Initialize")
+
+    self:VersionUpgrade()
 
     LM_Options:Initialize()
     LM_PlayerMounts:Initialize()
