@@ -83,14 +83,6 @@ function LM_Action:Spell(spellId)
         })
 end
 
-function LM_Action:SetAsMacroText(macrotext)
-    LM_Debug("Setting as raw macro text.")
-    return LM_ButtonAction:new({
-            ["type"] = "macro",
-            ["macrotext"] = macrotext
-        })
-end
-
 function LM_Action:Zone(zoneId)
     if not LM_Location:IsZone(zoneId) then return end
 
