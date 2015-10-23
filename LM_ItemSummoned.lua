@@ -71,7 +71,7 @@ function LM_ItemSummoned:IsUsable()
             return false
         end
     else
-        if GetItemCount(itemId) == 0 then
+        if not PlayerHasItem(itemId) then
             return false
         end
     end
