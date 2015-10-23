@@ -64,6 +64,8 @@ function LM_ItemSummoned:IsUsable()
         return false
     end
 
+    local itemId = self:ItemId()
+
     if IsEquippableItem(itemId) then
         if not IsEquippedItem(itemId) then
             return false

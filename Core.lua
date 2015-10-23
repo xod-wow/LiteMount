@@ -104,7 +104,7 @@ function LiteMount:Initialize()
 
     -- Create SecureActionButtons
     for i,actions in ipairs(ButtonActions) do
-        self["action"..i] = LM_ActionButton_Create(i, actions)
+        self["action"..i] = LM_ActionButton:Create(i, actions)
     end
 
 end

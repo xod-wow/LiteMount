@@ -8,7 +8,10 @@
 
 ----------------------------------------------------------------------------]]--
 
-local function SetAsInCombatAction(self)
+LM_ActionButton = CreateFrame("Button", nil, nil, "SecureActionButtonTemplate")
+LM_ActionButton.__index = LM_ActionButton
+
+function LM_ActionButton:SetAsInCombatAction()
     LM_Action:Combat():SetupActionButton(self)
 end
 
@@ -16,7 +19,7 @@ end
 -- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to set it to what we really want to do.
 
-local function Dispatch(self, action, args)
+function LM_ActionButton:Dispatch(action, args)
 
     if not LM_Action[action] then
         LM_Print(format("Error: bad action '%s' in action list.", action))
@@ -34,7 +37,7 @@ local function Dispatch(self, action, args)
     return true
 end
 
-local function PreClick(self, mouseButton)
+function LM_ActionButton:PreClick(mouseButton)
 
     if InCombatLockdown() then return end
 
@@ -43,13 +46,13 @@ local function PreClick(self, mouseButton)
     LiteMount:ScanMounts()
 
     for action in gmatch(self.actionList, "%S+") do
-        if Dispatch(self, action) then return end
+        if self:Dispatch(action) then return end
     end
 
-    Dispatch(self, "CantMount")
+    self:Dispatch(self, "CantMount")
 end
 
-local function PostClick(self)
+function LM_ActionButton:PostClick()
     if InCombatLockdown() then return end
 
     LM_Debug("PostClick handler called.")
@@ -60,14 +63,15 @@ local function PostClick(self)
     -- to just blindly do the opposite of whatever we chose because
     -- it might not have worked.
 
-    SetAsInCombatAction(self)
+    self:SetAsInCombatAction()
 end
 
-function LM_ActionButton_Create(n, actionList)
+function LM_ActionButton:Create(n, actionList)
 
     local name = "LiteMountActionButton" .. n
 
     local b = CreateFrame("Button", name, UIParent, "SecureActionButtonTemplate")
+    setmetatable(b, LM_ActionButton)
 
     -- Save for use in PreClick handler
     b.actionList = actionList
@@ -76,10 +80,10 @@ function LM_ActionButton_Create(n, actionList)
     b:RegisterForClicks("AnyDown")
 
     -- SecureActionButton setup
-    b:SetScript("PreClick", PreClick)
-    b:SetScript("PostClick", PostClick)
+    b:SetScript("PreClick", self.PreClick)
+    b:SetScript("PostClick", self.PostClick)
 
-    SetAsInCombatAction(b)
+    b:SetAsInCombatAction()
 
     return b
 end
