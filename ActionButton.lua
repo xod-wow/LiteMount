@@ -49,7 +49,7 @@ function LM_ActionButton:PreClick(mouseButton)
         if self:Dispatch(action) then return end
     end
 
-    self:Dispatch(self, "CantMount")
+    self:Dispatch("CantMount")
 end
 
 function LM_ActionButton:PostClick()
