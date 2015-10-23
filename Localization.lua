@@ -47,6 +47,8 @@ elseif locale == "zhCN" then
     L["Vash"]    = "海底"
     L["LM_MACRO_EXP"] = "如果LiteMount不能找到可用的坐骑会用到此宏，这可能是因为你在室内，或者正在移动中，并且不会任何瞬发坐骑。"
     L["LM_COMBAT_MACRO_EXP"] = "如启用，LiteMount被激活并且当你在战斗中，该宏会被运行替代默认战斗动作。"
+    L["C1"]      = CUSTOM.."1"
+    L["C2"]      = CUSTOM.."1"
 elseif locale == "zhTW" then
     L["Author"]  = "作者"
     L["Non-flying Mount"] = "非飞行坐骑"
@@ -57,4 +59,6 @@ elseif locale == "zhTW" then
     L["Vash"]    = "瓦許"
     L["LM_MACRO_EXP"] = "此巨集將被運作在如果LiteMount無法找到一個可用的坐騎，這有可能是由於你在室內，或在移動中並且沒有任何可瞬間招換的坐騎。"
     L["LM_COMBAT_MACRO_EXP"] = "如果啟用，此巨集將替代預設的戰鬥行動，如果LiteMount是啟用的而且你在戰鬥中。"
+    L["C1"]      = CUSTOM.."1"
+    L["C2"]      = CUSTOM.."1"
 end
