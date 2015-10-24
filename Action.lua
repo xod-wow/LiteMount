@@ -19,7 +19,7 @@ function LM_ActionAsMount:new(attr)
 end
 
 function LM_ActionAsMount:Macro(macrotext)
-    return self:new( { ["type"] = "macro", ["macro"] = macrotext } )
+    return self:new( { ["type"] = "macro", ["macrotext"] = macrotext } )
 end
 
 function LM_ActionAsMount:Spell(spellname)

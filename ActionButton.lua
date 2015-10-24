@@ -30,6 +30,7 @@ function LM_ActionButton:Dispatch(action, args)
 
     LM_Debug("Setting up button as " .. (m:Name() or action) .. ".")
     m:SetupActionButton(self)
+
     return true
 end
 
