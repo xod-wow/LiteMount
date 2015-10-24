@@ -11,10 +11,6 @@
 LM_ActionButton = CreateFrame("Button", nil, nil, "SecureActionButtonTemplate")
 LM_ActionButton.__index = LM_ActionButton
 
-function LM_ActionButton:SetAsInCombatAction()
-    LM_Action:Combat():SetupActionButton(self)
-end
-
 -- Fancy SecureActionButton stuff. The default button mechanism is
 -- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to set it to what we really want to do.
@@ -63,7 +59,7 @@ function LM_ActionButton:PostClick()
     -- to just blindly do the opposite of whatever we chose because
     -- it might not have worked.
 
-    self:SetAsInCombatAction()
+    LM_Action:Combat():SetupActionButton(self)
 end
 
 function LM_ActionButton:Create(n, actionList)
@@ -83,7 +79,7 @@ function LM_ActionButton:Create(n, actionList)
     b:SetScript("PreClick", self.PreClick)
     b:SetScript("PostClick", self.PostClick)
 
-    b:SetAsInCombatAction()
+    b:PostClick()
 
     return b
 end
