@@ -70,7 +70,7 @@
                     </Anchors>
                     <Scripts>
                         <OnClick>
-                            LiteMountOptionsCombatMacroEditBox:SetText(LiteMount:BuildCombatMacro())
+                            LiteMountOptionsCombatMacroEditBox:SetText(LM_Action:DefaultCombatMacro())
                         </OnClick>
                     </Scripts>
                 </Button>

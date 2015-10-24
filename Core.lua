@@ -123,10 +123,20 @@ function LiteMount:Initialize()
     end
 
     -- Create SecureActionButtons
+    self.actions = { }
+
     for i,actions in ipairs(ButtonActions) do
-        self["action"..i] = LM_ActionButton:Create(i, actions)
+        self.actions[i] = LM_ActionButton:Create(i, actions)
     end
 
+end
+
+function LiteMount:Refresh()
+    LM_Debug("Refresh")
+
+    for _,actionButton in ipairs(self.actions) do
+        actionButton:PostClick()
+    end
 end
 
 function LiteMount:ScanMounts()

@@ -31,7 +31,7 @@ end
 
 function LiteMountOptionsCombatMacro_OnHide(self)
     -- Currently set to combat action, refresh
-    LiteMount:PostClick()
+    LiteMount:Refresh()
 end
 
 function LiteMountOptionsCombatMacro_OnTextChanged(self)

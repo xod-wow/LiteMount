@@ -58,14 +58,9 @@ end
 -- This is the macro that gets set as the default and will trigger if
 -- we are in combat.  Don't put anything in here that isn't specifically
 -- combat-only, because out of combat we've got proper code available.
--- Relies on self.playerClass being set before this is called.
 -- Note that macros are limited to 255 chars, even inside a SecureActionButton.
 
-local function BuildCombatMacro()
-
-    if LM_Options:UseCombatMacro() then
-        return LM_Options:GetCombatMacro()
-    end
+function LM_Action:DefaultCombatMacro()
 
     local mt = "/dismount [mounted]\n"
 
@@ -218,5 +213,10 @@ end
 
 function LM_Action:Combat()
     LM_Debug("Setting action to in-combat action.")
-    return LM_ActionAsMount:Macro(BuildCombatMacro())
+
+    if LM_Options:UseCombatMacro() then
+        return LM_ActionAsMount:Macro(LM_Options:GetCombatMacro())
+    else 
+        return LM_ActionAsMount:Macro(self:DefaultCombatMacro())
+    end
 end
