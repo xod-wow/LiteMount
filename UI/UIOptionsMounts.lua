@@ -104,19 +104,19 @@ local function GetFilteredMountList()
         end
     end
 
-    filtertext, n = gsub(filtertext, "^+vend *", "", 1)
+    filtertext, n = gsub(filtertext, "^+c1 *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:FlagsSet(LM_FLAG_BIT_VENDOR) then
+            if not mounts[i]:FlagsSet(LM_FLAG_BIT_CUSTOM1) then
                 tremove(mounts, i)
             end
         end
     end
 
-    filtertext, n = gsub(filtertext, "^+pass *", "", 1)
+    filtertext, n = gsub(filtertext, "^+c2 *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:FlagsSet(LM_FLAG_BIT_PASSENGER) then
+            if not mounts[i]:FlagsSet(LM_FLAG_BIT_CUSTOM2) then
                 tremove(mounts, i)
             end
         end
