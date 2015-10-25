@@ -31,13 +31,16 @@ local RescanEvents = {
     -- Talents (might have mount abilities). Glyphs that teach spells   
     -- fire PLAYER_TALENT_UPDATE too, don't need to watch GLYPH_ events.
     "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_LEVEL_UP", "PLAYER_TALENT_UPDATE",
-    -- You might have received a mount item
+    -- You might have received a mount item (e.g., Magic Broom).
     "BAG_UPDATE",
     -- Draenor flying is an achievement
     "ACHIEVEMENT_EARNED",
 }
 
+-- Need to keep this in sync with KeyBindingStrings.lua and KeyBindings.xml
+-- Buttons are autocreated below based on this table.
 local ButtonActions = {
+    -- Normal mount button.
     [1] = [[
         LeaveVehicle
         Dismount
@@ -52,6 +55,7 @@ local ButtonActions = {
         Walk
         Macro
     ]],
+    -- Ground-only mount button (same as above but no "Fly")
     [2] = [[
         LeaveVehicle
         Dismount
@@ -65,6 +69,7 @@ local ButtonActions = {
         Walk
         Macro
     ]],
+    -- Custom1
     [3] = [[
         LeaveVehicle
         Dismount
@@ -72,6 +77,7 @@ local ButtonActions = {
         Custom1
         Macro
     ]],
+    -- Custom2
     [4] = [[
         LeaveVehicle
         Dismount
