@@ -249,7 +249,15 @@ function LM_Options:SetMacro(text)
     self.db.macro[1] = text
 end
 
-function LM_Options:UseCombatMacro()
+function LM_Options:UseCombatMacro(trueFalse)
+    if trueFalse == true or trueFalse == 1 or trueFalse == "on" then
+        LM_Debug("Enabling custom combat macro.")
+        self.db.combatMacro[2] = 1
+    elseif trueFalse == false or trueFalse == 0 or trueFalse == "off" then
+        LM_Debug("Disabling custom combat macro.")
+        self.db.combatMacro[2] = nil
+    end
+
     return self.db.combatMacro[2] ~= nil
 end
 
@@ -260,16 +268,6 @@ end
 function LM_Options:SetCombatMacro(text)
     LM_Debug("Setting custom combat macro: " .. (text or "nil"))
     self.db.combatMacro[1] = text
-end
-
-function LM_Options:EnableCombatMacro()
-    LM_Debug("Enabling custom combat macro.")
-    self.db.combatMacro[2] = 1
-end
-
-function LM_Options:DisableCombatMacro()
-    LM_Debug("Disabling custom combat macro.")
-    self.db.combatMacro[2] = nil
 end
 
 

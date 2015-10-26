@@ -66,7 +66,7 @@ local function BitButtonUpdate(checkButton, mount)
 end
 
 local function GetFilteredMountList()
-    local mounts = LiteMount:GetAllMounts()
+    local mounts = LM_PlayerMounts:GetAllMounts():Sort()
 
     local filtertext = LiteMountOptionsMounts.filter:GetText()
     if filtertext == SEARCH then
@@ -293,7 +293,7 @@ function LiteMountOptionsMounts_OnLoad(self)
     self.name = MOUNTS
     self.title:SetText("LiteMount : " .. self.name)
     self.default = function ()
-            for _,m in ipairs(LiteMount:GetAllMounts()) do
+            for m in LM_PlayerMounts:Iterate() do
                 LM_Options:ResetMountFlags(m)
             end
             LM_Options:SetExcludedMounts({})

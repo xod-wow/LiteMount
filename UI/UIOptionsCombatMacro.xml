@@ -93,9 +93,9 @@
                 </OnLoad>
                 <OnClick>
                     if self:GetChecked() then
-                        LM_Options:EnableCombatMacro()
+                        LM_Options:UseCombatMacro(true)
                     else
-                        LM_Options:DisableCombatMacro()
+                        LM_Options:UseCombatMacro(false)
                     end
                 </OnClick>
             </Scripts>

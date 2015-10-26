@@ -185,10 +185,6 @@ function LM_Mount:IsUsable()
     return true
 end
 
-function LM_Mount:IsExcluded()
-    return LM_Options:IsExcludedMount(self)
-end
-
 function LM_Mount:SetupActionButton(button)
     button:SetAttribute("type", "spell")
     button:SetAttribute("spell", self.spellName)
@@ -205,6 +201,6 @@ function LM_Mount:Dump(prefix)
     LM_Print(prefix .. " spell: " .. format("%s (id %d)", self:SpellName(), self:SpellId()))
     LM_Print(prefix .. " casttime: " .. self:CastTime())
     LM_Print(prefix .. " flags: " .. format("%02x (default %02x)", self:CurrentFlags(), self:Flags()))
-    LM_Print(prefix .. " excluded: " .. yesno(self:IsExcluded()))
+    LM_Print(prefix .. " excluded: " .. yesno(LM_Options:IsExcludedMount(self)))
     LM_Print(prefix .. " usable: " .. yesno(self:IsUsable()) .. " (spell " .. yesno(IsUsableSpell(self:SpellId())) .. ")")
 end

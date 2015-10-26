@@ -14,12 +14,12 @@
 local LM_ActionAsMount = { }
 LM_ActionAsMount.__index = LM_ActionAsMount
 
-function LM_ActionAsMount:new(attr)
+function LM_ActionAsMount:New(attr)
     return setmetatable(attr, LM_ActionAsMount)
 end
 
 function LM_ActionAsMount:Macro(macrotext)
-    return self:new( { ["type"] = "macro", ["macrotext"] = macrotext } )
+    return self:New( { ["type"] = "macro", ["macrotext"] = macrotext } )
 end
 
 function LM_ActionAsMount:Spell(spellname)
@@ -28,7 +28,7 @@ function LM_ActionAsMount:Spell(spellname)
             ["unit"] = "player",
             ["spell"] = spellname
     }
-    return self:new(attr)
+    return self:New(attr)
 end
 
 function LM_ActionAsMount:SetupActionButton(button)
@@ -69,13 +69,13 @@ function LM_Action:DefaultCombatMacro()
     if playerClass ==  "DRUID" then
         local forms = GetDruidMountForms()
         local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
-        if mount and not mount:IsExcluded() then
+        if mount and not LM_Options:IsExcludedMount(mount) then
             mt = mt .. format("/cast [noform:%s] %s\n", forms, mount:Name())
             mt = mt .. format("/cancelform [form:%s]\n", forms)
         end
     elseif playerClass == "SHAMAN" then
         local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_GHOST_WOLF)
-        if mount and not mount:IsExcluded() then
+        if mount and not LM_Options:IsExcludedMount(mount) then
             local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
             mt = mt .. "/cast [noform] " .. s .. "\n"
             mt = mt .. "/cancelform [form]\n"
@@ -123,7 +123,7 @@ function LM_Action:CancelForm()
     if formIndex == 0 then return end
 
     local form = LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
-    if not form or form:IsExcluded() then return end
+    if not form or LM_Options:IsExcludedMount(form) then return end
 
     LM_Debug("Setting action to CancelForm.")
     return LM_ActionAsMount:Macro(SLASH_CANCELFORM1)

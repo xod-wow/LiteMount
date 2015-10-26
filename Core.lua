@@ -24,19 +24,6 @@
 LiteMount = LM_CreateAutoEventFrame("Frame", "LiteMount", UIParent)
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 
-local RescanEvents = {
-    -- Companion change. Don't add COMPANION_UPDATE to this as it fires
-    -- for units other than "player" and triggers constantly.
-    "COMPANION_LEARNED", "COMPANION_UNLEARNED",
-    -- Talents (might have mount abilities). Glyphs that teach spells   
-    -- fire PLAYER_TALENT_UPDATE too, don't need to watch GLYPH_ events.
-    "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_LEVEL_UP", "PLAYER_TALENT_UPDATE",
-    -- You might have received a mount item (e.g., Magic Broom).
-    "BAG_UPDATE",
-    -- Draenor flying is an achievement
-    "ACHIEVEMENT_EARNED",
-}
-
 -- Need to keep this in sync with KeyBindingStrings.lua and KeyBindings.xml
 -- Buttons are autocreated below based on this table.
 local ButtonActions = {
@@ -112,21 +99,9 @@ function LiteMount:Initialize()
     LM_Options:Initialize()
     LM_PlayerMounts:Initialize()
 
-    -- Delayed scanning stops us rescanning unnecessarily.
-    self.needScan = true
-
     SlashCmdList["LiteMount"] = LiteMount_SlashCommandFunc
     SLASH_LiteMount1 = "/litemount"
     SLASH_LiteMount2 = "/lmt"
-
-    -- Rescan event setup
-    for _,ev in ipairs(RescanEvents) do
-        self[ev] = function (self, event, ...)
-                            LM_Debug("Got rescan event "..event)
-                            self.needScan = true
-                        end
-        self:RegisterEvent(ev)
-    end
 
     -- Create SecureActionButtons
     self.actions = { }
@@ -143,22 +118,6 @@ function LiteMount:Refresh()
     for _,actionButton in ipairs(self.actions) do
         actionButton:PostClick()
     end
-end
-
-function LiteMount:ScanMounts()
-    if not self.needScan then return end
-    LM_Debug("Rescanning list of mounts.")
-    LM_PlayerMounts:ScanMounts()
-    LM_Debug("Finished rescan.")
-    self.needScan = nil
-end
-
-function LiteMount:GetAllMounts()
-    if not LM_PlayerMounts then return {} end
-    self:ScanMounts()
-    local allmounts = LM_PlayerMounts:GetAllMounts()
-    allmounts:Sort()
-    return allmounts
 end
 
 function LiteMount:PLAYER_LOGIN()
