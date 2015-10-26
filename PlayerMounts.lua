@@ -137,42 +137,6 @@ function LM_PlayerMounts:GetRandomMount(flags)
     return poss:Random()
 end
 
-function LM_PlayerMounts:GetFlyingMount()
-    return self:GetRandomMount(LM_FLAG_BIT_FLY)
-end
-
-function LM_PlayerMounts:GetWalkingMount()
-    return self:GetRandomMount(LM_FLAG_BIT_WALK)
-end
-
-function LM_PlayerMounts:GetRunningMount()
-    return self:GetRandomMount(LM_FLAG_BIT_RUN)
-end
-
-function LM_PlayerMounts:GetAQMount()
-    return self:GetRandomMount(LM_FLAG_BIT_AQ)
-end
-
-function LM_PlayerMounts:GetVashjirMount()
-    return self:GetRandomMount(LM_FLAG_BIT_VASHJIR)
-end
-
-function LM_PlayerMounts:GetNagrandMount()
-    return self:GetRandomMount(LM_FLAG_BIT_NAGRAND)
-end
-
-function LM_PlayerMounts:GetSwimmingMount()
-    return self:GetRandomMount(LM_FLAG_BIT_SWIM)
-end
-
-function LM_PlayerMounts:GetCustom1Mount()
-    return self:GetRandomMount(LM_FLAG_BIT_CUSTOM1)
-end
-
-function LM_PlayerMounts:GetCustom2Mount()
-    return self:GetRandomMount(LM_FLAG_BIT_CUSTOM2)
-end
-
 function LM_PlayerMounts:Dump()
     for m in self.list:Iterate() do
         m:Dump()

@@ -259,12 +259,6 @@ Notes To Myself
             mountlist = LM_PlayerMounts:GetAllMounts()
 
             m = LM_PlayerMounts:GetRandomMount(flags)
-                LM_PlayerMounts:GetFlyingMount()
-                LM_PlayerMounts:GetRunningMount()
-                LM_PlayerMounts:GetWalkingMount()
-                LM_PlayerMounts:GetSwimmingMount()
-                LM_PlayerMounts:GetAQMount()
-                LM_PlayerMounts:GetVashjirMount()
                 LM_PlayerMounts:GetMountBySpell(spellId)
                 LM_PlayerMounts:GetMountByName(name)
                 LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
