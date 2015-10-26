@@ -25,9 +25,9 @@
                     self.text:SetText("Try to copy target's mount.")
                     self.setFunc = function (setting)
                             if setting == "1" then
-                                LM_Options:SetCopyTargetsMount(true)
+                                LM_Options:CopyTargetsMount(true)
                             else
-                                LM_Options:SetCopyTargetsMount()
+                                LM_Options:CopyTargetsMount(false)
                             end
                         end
                     self.refresh = function (self)
@@ -47,9 +47,9 @@
                     self.text:SetText("Automatically disable newly learned mounts.")
                     self.setFunc = function (setting)
                             if setting == "1" then
-                                LM_Options:SetExcludeNewMounts(true)
+                                LM_Options:ExcludeNewMounts(true)
                             else
-                                LM_Options:SetExcludeNewMounts()
+                                LM_Options:ExcludeNewMounts(false)
                             end
                         end
                     self.refresh = function (self)

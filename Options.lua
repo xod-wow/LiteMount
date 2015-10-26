@@ -274,12 +274,11 @@ end
     Copying Target's Mount 
 ----------------------------------------------------------------------------]]--
 
-function LM_Options:CopyTargetsMount()
+function LM_Options:CopyTargetsMount(v)
+    if v ~= nil then
+        self.db.copyTargetsMount[1] = v
+    end
     return self.db.copyTargetsMount[1]
-end
-
-function LM_Options:SetCopyTargetsMount(v)
-    self.db.copyTargetsMount[1] = v
 end
 
 
@@ -287,13 +286,13 @@ end
     Exclude newly learned mounts
 ----------------------------------------------------------------------------]]--
 
-function LM_Options:ExcludeNewMounts()
+function LM_Options:ExcludeNewMounts(v)
+    if v ~= nil then
+        self.db.excludeNewMounts[1] = v
+    end
     return self.db.excludeNewMounts[1]
 end
 
-function LM_Options:SetExcludeNewMounts(v)
-    self.db.excludeNewMounts[1] = v
-end
 
 --[[----------------------------------------------------------------------------
     Have we seen a mount before on this toon?
