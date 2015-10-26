@@ -100,26 +100,25 @@ function LM_Options:Initialize()
 
 end
 
-function LM_Options:UseGlobal()
+function LM_Options:UseGlobal(trueFalse)
+
+    if trueFalse ~= nil then
+        if trueFalse then
+            self.db["useglobal"][1] = true
+            self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
+            self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
+        else
+            self.db["useglobal"][1] = false
+            self.db["excludedspells"] = LM_OptionsDB.excludedspells
+            self.db["flagoverrides"] = LM_OptionsDB.flagoverrides
+        end
+    end
+
     if self.db["useglobal"][1] then
         return true
     else
-        return nil
+        return false
     end
-end
-
-function LM_Options:SetUseGlobal(onoff)
-
-    self.db["useglobal"][1] = onoff
-
-    if onoff then
-        self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
-        self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
-    else
-        self.db["excludedspells"] = LM_OptionsDB.excludedspells
-        self.db["flagoverrides"] = LM_OptionsDB.flagoverrides
-    end
-
 end
 
 

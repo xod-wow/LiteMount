@@ -278,9 +278,9 @@
                 </OnShow>
                 <OnClick>
                     if self:GetChecked() then
-                        LM_Options:SetUseGlobal()
+                        LM_Options:UseGlobal(false)
                     else
-                        LM_Options:SetUseGlobal(true)
+                        LM_Options:UseGlobal(true)
                     end
                     LiteMountOptions_UpdateMountList()
                 </OnClick>
