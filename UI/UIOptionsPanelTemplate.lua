@@ -39,15 +39,17 @@ function LiteMountOptionsPanel_OnShow(self)
 end
 
 function LiteMountOptionsPanel_OnLoad(self)
-    self.okay = self.okay or LiteMountOptionsPanel_Okay
-    self.cancel = self.cancel or LiteMountOptionsPanel_Cancel
-    self.default = self.default or LiteMountOptionsPanel_Default
-    self.refresh = self.refresh or LiteMountOptionsPanel_Refresh
 
     LiteMount_Frame_AutoLocalize(self)
 
     self.parent = LiteMountOptions.name
+    self.name = self:GetAttribute("panel-name")
     self.title:SetText("LiteMount : " .. self.name)
+
+    self.okay = self.okay or LiteMountOptionsPanel_Okay
+    self.cancel = self.cancel or LiteMountOptionsPanel_Cancel
+    self.default = self.default or LiteMountOptionsPanel_Default
+    self.refresh = self.refresh or LiteMountOptionsPanel_Refresh
 
     InterfaceOptions_AddCategory(self)
 end
