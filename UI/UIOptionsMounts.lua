@@ -284,7 +284,7 @@ end
 
 function LiteMountOptionsMounts_OnLoad(self)
 
-    LiteMount_Frame_AutoLocalize(self)
+    LiteMountOptionsPanel_AutoLocalize(self)
 
     -- Because we're the wrong size at the moment we'll only have 1 button
     CreateMoreButtons(self.scrollFrame)

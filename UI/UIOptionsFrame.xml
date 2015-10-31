@@ -2,17 +2,9 @@
 
 <!-- Copyright 2011-2015 Mike Battersby -->
 
-<Script file="UIOptionsFrame.lua" />
-
-<Frame name="LiteMountOptions" hidden="true">
+<Frame name="LiteMountOptions" hidden="true" inherits="LiteMountOptionsPanelTemplate">
     <Layers>
         <Layer level="ARTWORK">
-            <FontString name="$parentTitle" inherits="GameFontNormalLarge" parentKey="title">
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-16" />
-                </Anchors>
-            </FontString>
-
             <FontString inherits="GameFontHighlight" justifyH="LEFT" text="Simple and reliable random mount summoning.">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentTitle" y="-16" />
@@ -47,8 +39,11 @@
         </Layer>
     </Layers>
     <Scripts>
-        <OnLoad function="LiteMountOptions_OnLoad" />
-        <OnShow function="LiteMountOptions_OnShow" />
+        <OnLoad>
+            self.version:SetText(GetAddOnMetadata("LiteMount", "Version") or "")
+            self.author:SetText(GetAddOnMetadata("LiteMount", "Author") or "")
+            LiteMountOptionsPanel_OnLoad(self)
+        </OnLoad>
     </Scripts>
 </Frame>
 

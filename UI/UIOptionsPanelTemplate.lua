@@ -6,6 +6,38 @@
 
 ----------------------------------------------------------------------------]]--
 
+-- Recurse all children finding any FontStrings and replacing their texts
+-- with localized copies.
+function LiteMountOptionsPanel_AutoLocalize(f)
+    if not L then return end
+
+    local regions = { f:GetRegions() }
+    for _,r in ipairs(regions) do
+        if r and r:IsObjectType("FontString") and not r.autoLocalized then
+            r:SetText(L[r:GetText()])
+            r.autoLocalized = true
+        end
+    end
+
+    local children = { f:GetChildren() }
+    for _,c in ipairs(children) do
+        if not c.autoLocalized then
+            LiteMountOptionsPanel_AutoLocalize(c)
+            c.autoLocalized = true
+        end
+    end
+end
+
+function LiteMountOptionsPanel_Open()
+    local f = LiteMountOptions
+    if not f.CurrentOptionsPanel then
+        f.CurrentOptionsPanel = LiteMountOptionsMounts
+    end
+    InterfaceOptionsFrame:Show()
+    InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)
+end
+
+
 function LiteMountOptionsPanel_Refresh(self)
     for _, control in next, self.controls do
         control:SetControl(control:GetOption())
@@ -24,9 +56,6 @@ function LiteMountOptionsPanel_Okay(self)
     end
 end
 
-function LiteMountOptionsPanel_Cancel(self)
-end
-
 function LiteMountOptionsPanel_RegisterControl(control, parent)
     parent = parent or control:GetParent()
     parent.controls = parent.controls or { }
@@ -42,19 +71,23 @@ function LiteMountOptionsPanel_OnLoad(self)
 
     LiteMount_Frame_AutoLocalize(self)
 
-    self.parent = LiteMountOptions.name
-    self.name = self:GetAttribute("panel-name")
-    self.title:SetText("LiteMount : " .. self.name)
+    if self ~= LiteMountOptions then
+        self.parent = LiteMountOptions.name
+        self.name = self.name or self:GetAttribute("panel-name")
+        self.title:SetText("LiteMount : " .. self.name)
+    else
+        self.name = "LiteMount"
+        self.title:SetText("LiteMount")
+    end
 
     self.okay = self.okay or LiteMountOptionsPanel_Okay
-    self.cancel = self.cancel or LiteMountOptionsPanel_Cancel
     self.default = self.default or LiteMountOptionsPanel_Default
     self.refresh = self.refresh or LiteMountOptionsPanel_Refresh
 
     InterfaceOptions_AddCategory(self)
 end
 
-function LiteMountOptionsControl_GetValue(self, v)
+function LiteMountOptionsControl_GetControl(self, v)
     if self.GetValue then
         return self:GetValue()
     elseif self.GetChecked then
@@ -64,7 +97,7 @@ function LiteMountOptionsControl_GetValue(self, v)
     end
 end
 
-function LiteMountOptionsControl_SetValue(self, v)
+function LiteMountOptionsControl_SetControl(self, v)
     if self.SetValue then
         self:SetValue(v)
     elseif self.SetChecked then
@@ -74,29 +107,11 @@ function LiteMountOptionsControl_SetValue(self, v)
     end
 end
 
-function LiteMountOptionsControl_Okay(self)
-    self.SetOption(LiteMountOptionsControl_GetValue(self))
-end
-
-function LiteMountOptionsControl_Refresh(self)
-    local v = self.GetOption()
-    LiteMountOptionsControl_SetValue(self, v)
-    self.oldValue = v
-end
-
-function LiteMountOptionsControl_Cancel(self)
-end
-
-function LiteMountOptionsControl_Default(self)
-    LiteMountOptionsControl_SetValue(self, self.defaultValue)
-end
-
 function LiteMountOptionsControl_OnLoad(self, parent)
-    self.GetOption = self.GetOption or function () end
-    self.GetOptionDefault = self.GetOptionDefault or function () end
-    self.SetOption = self.SetOption or function (v) end
-    self.GetControl = self.GetControl or LiteMountOptionsControl_Get
-    self.SetControl = self.SetControl or LiteMountOptionsControl_Set
+    self.GetOption = self.GetOption or function (self) end
+    self.SetOption = self.SetOption or function (self, v) end
+    self.GetControl = self.GetControl or LiteMountOptionsControl_GetControl
+    self.SetControl = self.SetControl or LiteMountOptionsControl_SetControl
 
     -- Note we don't set an OnShow per control, the panel handler takes care
     -- of running the refresh for all the controls in its OnShow
