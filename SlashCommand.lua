@@ -43,14 +43,14 @@ local function UpdateActiveMount(arg)
     end
 end
 
-local LOCALIZED_MACRO_WORD = strlower(MACRO)
+local LOCALIZED_MACRO_WORD = CaseAccentInsensitiveParse(MACRO)
 
 function LiteMount_SlashCommandFunc(argstr)
 
     local args = { strsplit(" ", argstr) }
 
     for _,arg in ipairs(args) do
-        arg = strlower(arg)
+        arg = CaseAccentInsensitiveParse(arg)
         if arg == "macro" or arg == LOCALIZED_MACRO_WORD then
             local i = CreateOrUpdateMacro()
             if i then PickupMacro(i) end
