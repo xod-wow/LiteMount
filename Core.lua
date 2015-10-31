@@ -21,7 +21,10 @@
 
 ----------------------------------------------------------------------------]]--
 
-LiteMount = LM_CreateAutoEventFrame("Frame", "LiteMount", UIParent)
+-- This is still a SecureActionButton for backwards compatibility with
+-- people's macros with /click LiteMount in them.
+
+LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 
 -- Need to keep this in sync with KeyBindingStrings.lua and KeyBindings.xml
@@ -108,6 +111,13 @@ function LiteMount:Initialize()
 
     for i,actions in ipairs(ButtonActions) do
         self.actions[i] = LM_ActionButton:Create(i, actions)
+    end
+
+    -- Backwards-compatibility SecureActionButton setup so you can do
+    -- still do /click LiteMount if you had it in a macro.
+    self:SetAttribute("type", "click")
+    for i = 1,#self.actions do
+        self:SetAttribute("click"..i, self.actions[i])
     end
 
 end
