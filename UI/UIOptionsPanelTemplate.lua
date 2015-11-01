@@ -6,6 +6,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+local L = LM_Localize
+
 -- Recurse all children finding any FontStrings and replacing their texts
 -- with localized copies.
 function LiteMountOptionsPanel_AutoLocalize(f)
@@ -39,21 +41,31 @@ end
 
 
 function LiteMountOptionsPanel_Refresh(self)
-    for _, control in next, self.controls do
+LM_Print("Panel_Refresh " .. self:GetName())
+    for _,control in ipairs(self.controls or {}) do
         control:SetControl(control:GetOption())
     end
 end
 
 function LiteMountOptionsPanel_Default(self)
-    for _, control in next, self.controls do
-        control:SetControl(control:GetOptionDefault())
+LM_Print("Panel_Default " .. self:GetName())
+    for _,control in ipairs(self.controls or {}) do
+        if control.GetOptionDefault then
+            control:SetOption(control:GetOptionDefault())
+        end
     end
 end
 
 function LiteMountOptionsPanel_Okay(self)
-    for _, control in next, self.controls do
+LM_Print("Panel_Okay " .. self:GetName())
+    for i,control in ipairs(self.controls or {}) do
+        LM_Print(i .. " = " .. control:GetName())
         control:SetOption(control:GetControl())
     end
+end
+
+function LiteMountOptionsPanel_Cancel(self)
+LM_Print("Panel_Cancel " .. self:GetName())
 end
 
 function LiteMountOptionsPanel_RegisterControl(control, parent)
@@ -63,17 +75,20 @@ function LiteMountOptionsPanel_RegisterControl(control, parent)
 end
 
 function LiteMountOptionsPanel_OnShow(self)
+LM_Print("Panel_OnShow " .. self:GetName())
     LiteMountOptions.CurrentOptionsPanel = self
     LiteMountOptionsPanel_Refresh(self)
 end
 
 function LiteMountOptionsPanel_OnLoad(self)
-
-    LiteMount_Frame_AutoLocalize(self)
+LM_Print("Panel_OnLoad " .. self:GetName())
 
     if self ~= LiteMountOptions then
         self.parent = LiteMountOptions.name
-        self.name = self.name or self:GetAttribute("panel-name")
+        if not self.name then
+            local n = self:GetAttribute("panel-name")
+            self.name = _G[n] or n
+        end
         self.title:SetText("LiteMount : " .. self.name)
     else
         self.name = "LiteMount"
@@ -81,13 +96,16 @@ function LiteMountOptionsPanel_OnLoad(self)
     end
 
     self.okay = self.okay or LiteMountOptionsPanel_Okay
+    self.cancel = self.cancel or LiteMountOptionsPanel_Cancel
     self.default = self.default or LiteMountOptionsPanel_Default
     self.refresh = self.refresh or LiteMountOptionsPanel_Refresh
+
+    LiteMountOptionsPanel_AutoLocalize(self)
 
     InterfaceOptions_AddCategory(self)
 end
 
-function LiteMountOptionsControl_GetControl(self, v)
+function LiteMountOptionsControl_GetControl(self)
     if self.GetValue then
         return self:GetValue()
     elseif self.GetChecked then
@@ -108,6 +126,7 @@ function LiteMountOptionsControl_SetControl(self, v)
 end
 
 function LiteMountOptionsControl_OnLoad(self, parent)
+LM_Print("Control_OnLoad " .. self:GetName())
     self.GetOption = self.GetOption or function (self) end
     self.SetOption = self.SetOption or function (self, v) end
     self.GetControl = self.GetControl or LiteMountOptionsControl_GetControl

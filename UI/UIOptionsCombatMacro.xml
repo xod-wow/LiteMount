@@ -44,14 +44,14 @@
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
                             self.GetOption = function (self)
-                                    LM_Options:GetCombatMacro() or ""
+                                    return LM_Options:GetCombatMacro() or ""
                                 end
                             self.SetOption = function (self, v)
-                                    LM_Options:SetCombatmacro(v)
+                                    LM_Options:SetCombatMacro(v)
                                     LiteMount:Refresh()
                                 end
                             self.GetOptionDefault = function (self)
-                                    LM_Action:DefaultCombatMacro()
+                                    return LM_Action:DefaultCombatMacro()
                                 end
                             LiteMountOptionsControl_OnLoad(self, LiteMountOptionsCombatMacro)
                         </OnLoad>
@@ -76,7 +76,7 @@
                     </Anchors>
                     <Scripts>
                         <OnClick>
-                            LiteMountOptionsCombatMacroEditBox:SetText(self:GetOptionDefault())
+                            LiteMountOptionsCombatMacroEditBox:SetText(LM_Action:DefaultCombatMacro())
                         </OnClick>
                     </Scripts>
                 </Button>
@@ -89,13 +89,11 @@
             <Scripts>
                 <OnLoad>
                     self.GetOption = function (self)
-                            LM_Options:UseCombatMacro()
+                            return LM_Options:UseCombatMacro()
                         end
-                    self.GetOptionDefault = function (self)
-                            return nil
-                        end
+                    self.GetOptionDefault = function (self) return false end
                     self.SetOption = function (self, v)
-                            LM_Options:UseCombatMacro(v)
+                            LM_Options:UseCombatMacro(v and true or false)
                         end
                     LiteMountOptionsControl_OnLoad(self, LiteMountOptionsCombatMacro)
                 </OnLoad>

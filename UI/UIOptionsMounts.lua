@@ -66,6 +66,7 @@ local function BitButtonUpdate(checkButton, mount)
 end
 
 local function GetFilteredMountList()
+    LM_PlayerMounts:ScanMounts()
     local mounts = LM_PlayerMounts:GetAllMounts():Sort()
 
     local filtertext = LiteMountOptionsMounts.filter:GetText()

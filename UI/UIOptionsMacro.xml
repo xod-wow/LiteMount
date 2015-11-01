@@ -19,7 +19,7 @@
     </Scripts>
 </Button>
 
-<Frame name="LiteMountOptionsMacro" hidden="true">
+<Frame name="LiteMountOptionsMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
         <Frame name="LiteMountOptionsMacroEditBoxContainer">
@@ -59,12 +59,14 @@
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
                             self.SetOption = function (self, v)
-                                    LM_Options:SetMacro(v)
+                                    return LM_Options:SetMacro(v)
                                 end
                             self.GetOption = function (self)
-                                    LM_Options:GetMacro() or ""
+                                    return LM_Options:GetMacro() or ""
                                 end
-                            self.GetDefaultOption = function (self) "" end
+                            self.GetOptionDefault = function (self)
+                                    return ""
+                                end
                             LiteMountOptionsControl_OnLoad(self, LiteMountOptionsMacro)
                         </OnLoad>
                     </Scripts>

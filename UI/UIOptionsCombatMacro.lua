@@ -11,7 +11,6 @@
 function LiteMountOptionsCombatMacro_OnLoad(self)
     self.name = MACRO .. " : " .. COMBAT
     LiteMountOptionsPanel_OnLoad(self)
-    InterfaceOptions_AddCategory(self)
 end
 
 function LiteMountOptionsCombatMacro_OnTextChanged(self)

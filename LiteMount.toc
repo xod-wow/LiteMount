@@ -32,7 +32,7 @@ Core.lua
 
 KeyBindingStrings.lua
 
-UI\UIOpptionsPanelTemplate.xml
+UI\UIOptionsPanelTemplate.xml
 UI\UIOptionsFrame.xml
 UI\UIOptionsSettings.xml
 UI\UIOptionsMounts.xml

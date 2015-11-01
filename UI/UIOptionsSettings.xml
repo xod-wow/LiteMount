@@ -16,15 +16,18 @@
                 <OnLoad>
                     self.Text:SetText("Try to copy target's mount.")
                     self.SetOption = function (self, setting)
-                            if setting == "1" then
-                                LM_Options:CopyTargetsMount(true)
-                            else
+                            LM_Print(self:GetName() .. ":SetOption() YYYY")
+                            if not setting or setting == "0" then
                                 LM_Options:CopyTargetsMount(false)
+                            else
+                                LM_Options:CopyTargetsMount(true)
                             end
                         end
                     self.GetOption = function (self)
-                            LM_Options:CopyTargetsMount()
+                            LM_Print(self:GetName() .. ":GetOption()")
+                            return LM_Options:CopyTargetsMount()
                         end
+                    self.GetOptionDefault = function (self) return true end
                     LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>
             </Scripts>
@@ -37,14 +40,15 @@
                 <OnLoad>
                     self.Text:SetText("Automatically disable newly learned mounts.")
                     self.SetOption = function (self, setting)
-                            if setting == "1" then
-                                LM_Options:ExcludeNewMounts(true)
-                            else
+                            if not setting or setting == "0" then
                                 LM_Options:ExcludeNewMounts(false)
+                            else
+                                LM_Options:ExcludeNewMounts(true)
                             end
                         end
+                    self.GetOptionDefault = function (self) return false end
                     self.GetOption = function (self)
-                        (LM_Options:ExcludeNewMounts()
+                            LM_Options:ExcludeNewMounts()
                         end
                     LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>
