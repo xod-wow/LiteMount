@@ -276,7 +276,6 @@ end
 
 function LM_Options:CopyTargetsMount(v)
     if v ~= nil then
-        LM_Print("LM_Options:CopyTargetsMount(" .. (v and "true" or "false") .. ")")
         self.db.copyTargetsMount[1] = v
     end
     return self.db.copyTargetsMount[1]
