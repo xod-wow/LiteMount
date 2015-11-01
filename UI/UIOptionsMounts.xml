@@ -220,7 +220,7 @@
     </Scripts>
 </Frame>
 
-<Frame name="LiteMountOptionsMounts" hidden="true">
+<Frame name="LiteMountOptionsMounts" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
         <ScrollFrame name="$parentScrollFrame" inherits="MinimalHybridScrollFrameTemplate" parentKey="scrollFrame">
@@ -316,11 +316,6 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormalLarge" parentKey="title">
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-16" />
-                </Anchors>
-            </FontString>
             <FontString name="$parentBit1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Run">
                 <Size x="26" y="26" />
                 <Anchors>

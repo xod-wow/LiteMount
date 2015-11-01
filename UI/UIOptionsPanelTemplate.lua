@@ -41,14 +41,14 @@ end
 
 
 function LiteMountOptionsPanel_Refresh(self)
-LM_Print("Panel_Refresh " .. self:GetName())
+    LM_Debug("Panel_Refresh " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
         control:SetControl(control:GetOption())
     end
 end
 
 function LiteMountOptionsPanel_Default(self)
-LM_Print("Panel_Default " .. self:GetName())
+    LM_Debug("Panel_Default " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
         if control.GetOptionDefault then
             control:SetOption(control:GetOptionDefault())
@@ -57,15 +57,14 @@ LM_Print("Panel_Default " .. self:GetName())
 end
 
 function LiteMountOptionsPanel_Okay(self)
-LM_Print("Panel_Okay " .. self:GetName())
+    LM_Debug("Panel_Okay " .. self:GetName())
     for i,control in ipairs(self.controls or {}) do
-        LM_Print(i .. " = " .. control:GetName())
         control:SetOption(control:GetControl())
     end
 end
 
 function LiteMountOptionsPanel_Cancel(self)
-LM_Print("Panel_Cancel " .. self:GetName())
+    LM_Debug("Panel_Cancel " .. self:GetName())
 end
 
 function LiteMountOptionsPanel_RegisterControl(control, parent)
@@ -75,13 +74,13 @@ function LiteMountOptionsPanel_RegisterControl(control, parent)
 end
 
 function LiteMountOptionsPanel_OnShow(self)
-LM_Print("Panel_OnShow " .. self:GetName())
+    LM_Debug("Panel_OnShow " .. self:GetName())
     LiteMountOptions.CurrentOptionsPanel = self
     LiteMountOptionsPanel_Refresh(self)
 end
 
 function LiteMountOptionsPanel_OnLoad(self)
-LM_Print("Panel_OnLoad " .. self:GetName())
+    LM_Debug("Panel_OnLoad " .. self:GetName())
 
     if self ~= LiteMountOptions then
         self.parent = LiteMountOptions.name
@@ -126,7 +125,6 @@ function LiteMountOptionsControl_SetControl(self, v)
 end
 
 function LiteMountOptionsControl_OnLoad(self, parent)
-LM_Print("Control_OnLoad " .. self:GetName())
     self.GetOption = self.GetOption or function (self) end
     self.SetOption = self.SetOption or function (self, v) end
     self.GetControl = self.GetControl or LiteMountOptionsControl_GetControl

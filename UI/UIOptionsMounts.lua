@@ -285,14 +285,10 @@ end
 
 function LiteMountOptionsMounts_OnLoad(self)
 
-    LiteMountOptionsPanel_AutoLocalize(self)
-
     -- Because we're the wrong size at the moment we'll only have 1 button
     CreateMoreButtons(self.scrollFrame)
 
-    self.parent = LiteMountOptions.name
     self.name = MOUNTS
-    self.title:SetText("LiteMount : " .. self.name)
     self.default = function ()
             for m in LM_PlayerMounts:Iterate() do
                 LM_Options:ResetMountFlags(m)
@@ -301,8 +297,7 @@ function LiteMountOptionsMounts_OnLoad(self)
             LiteMountOptions_UpdateMountList()
         end
 
-    InterfaceOptions_AddCategory(self)
-
+    LiteMountOptionsPanel_OnLoad(self)
 end
 
 
