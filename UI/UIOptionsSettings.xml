@@ -16,7 +16,6 @@
                 <OnLoad>
                     self.Text:SetText("Try to copy target's mount.")
                     self.SetOption = function (self, setting)
-                            LM_Print(self:GetName() .. ":SetOption() YYYY")
                             if not setting or setting == "0" then
                                 LM_Options:CopyTargetsMount(false)
                             else
@@ -24,7 +23,6 @@
                             end
                         end
                     self.GetOption = function (self)
-                            LM_Print(self:GetName() .. ":GetOption()")
                             return LM_Options:CopyTargetsMount()
                         end
                     self.GetOptionDefault = function (self) return true end
