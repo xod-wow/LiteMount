@@ -8,15 +8,36 @@
 
 ----------------------------------------------------------------------------]]--
 
--- We sub-tables so we can wipe() them without losing the methods.
-LM_PlayerMounts = {
-    ["byName"] = { },
-    ["list"] = LM_MountList:New(),
+LM_PlayerMounts = LM_CreateAutoEventFrame("Frame", "LM_PlayerMounts", UIParent)
+
+local RescanEvents = {
+    -- Companion change. Don't add COMPANION_UPDATE to this as it fires
+    -- for units other than "player" and triggers constantly.
+    "COMPANION_LEARNED", "COMPANION_UNLEARNED",
+    -- Talents (might have mount abilities). Glyphs that teach spells
+    -- fire PLAYER_TALENT_UPDATE too, don't need to watch GLYPH_ events.
+    "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_LEVEL_UP", "PLAYER_TALENT_UPDATE",
+    -- You might have received a mount item (e.g., Magic Broom).
+    "BAG_UPDATE",
+    -- Draenor flying is an achievement
+    "ACHIEVEMENT_EARNED",
 }
 
 function LM_PlayerMounts:Initialize()
-    wipe(self.byName)
-    wipe(self.list)
+    -- Delayed scanning stops us rescanning unnecessarily.
+    self.needScan = true
+
+    self.byName = { }
+    self.list = LM_MountList:New()
+
+    -- Rescan event setup
+    for _,ev in ipairs(RescanEvents) do
+        self[ev] = function (self, event, ...)
+                            LM_Debug("Got rescan event "..event)
+                            self.needScan = true
+                        end
+        self:RegisterEvent(ev)
+    end
 end
 
 function LM_PlayerMounts:AddMount(m)
@@ -43,7 +64,10 @@ function LM_PlayerMounts:AddSpellMounts()
 end
 
 function LM_PlayerMounts:ScanMounts()
+    if not self.needScan then return end
+    LM_Debug("Rescanning list of mounts.")
 
+    self.needScan = nil
     wipe(self.byName)
     wipe(self.list)
 
@@ -54,7 +78,11 @@ function LM_PlayerMounts:ScanMounts()
         LM_Options:SeenMount(m, true)
     end
 
-    self.list:Sort()
+    LM_Debug("Finished rescan.")
+end
+
+function LM_PlayerMounts:Iterate()
+    return self.list:Iterate()
 end
 
 function LM_PlayerMounts:Search(matchfunc)
@@ -70,7 +98,7 @@ function LM_PlayerMounts:GetAvailableMounts(flags)
     local function match(m)
         if not m:CurrentFlagsSet(flags) then return end
         if not m:IsUsable() then return end
-        if m:IsExcluded() then return end
+        if LM_Options:IsExcludedMount(m) then return end
         return true
     end
 
@@ -107,34 +135,6 @@ end
 function LM_PlayerMounts:GetRandomMount(flags)
     local poss = self:GetAvailableMounts(flags)
     return poss:Random()
-end
-
-function LM_PlayerMounts:GetFlyingMount()
-    return self:GetRandomMount(LM_FLAG_BIT_FLY)
-end
-
-function LM_PlayerMounts:GetWalkingMount()
-    return self:GetRandomMount(LM_FLAG_BIT_WALK)
-end
-
-function LM_PlayerMounts:GetRunningMount()
-    return self:GetRandomMount(LM_FLAG_BIT_RUN)
-end
-
-function LM_PlayerMounts:GetAQMount()
-    return self:GetRandomMount(LM_FLAG_BIT_AQ)
-end
-
-function LM_PlayerMounts:GetVashjirMount()
-    return self:GetRandomMount(LM_FLAG_BIT_VASHJIR)
-end
-
-function LM_PlayerMounts:GetNagrandMount()
-    return self:GetRandomMount(LM_FLAG_BIT_NAGRAND)
-end
-
-function LM_PlayerMounts:GetSwimmingMount()
-    return self:GetRandomMount(LM_FLAG_BIT_SWIM)
 end
 
 function LM_PlayerMounts:Dump()

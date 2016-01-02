@@ -184,36 +184,17 @@ function LiteMountOptionsMacroSuggest_OnClick(self)
 end
 
 function LiteMountOptionsMacro_OnLoad(self)
-
-    LiteMount_Frame_AutoLocalize(self)
-
-    self.parent = LiteMountOptions.name
     self.name = MACRO .. " : " .. UNAVAILABLE
-    self.title:SetText("LiteMount : " .. self.name)
-
-    self.default = function (self)
-            LiteMountOptionsPanel_Default(self)
-            LiteMountOptionsPanel_Refresh(self)
-        end
-
-    InterfaceOptions_AddCategory(self)
+    LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountOptionsMacro_OnShow(self)
-    LiteMountOptions.CurrentOptionsPanel = self
     UpdateSuggestionButtons()
-    LiteMountOptionsPanel_Refresh(self)
+    LiteMountOptionsPanel_OnShow(self)
 end
 
 function LiteMountOptionsMacro_OnTextChanged(self)
-    local m = LiteMountOptionsMacroEditBox:GetText()
-    if not m or strmatch(m, "^%s*$") then
-        LM_Options:SetMacro(nil)
-    else
-        LM_Options:SetMacro(m)
-    end
-
-    local c = strlen(m or "")
+    local c = strlen(self:GetText() or "")
     LiteMountOptionsMacroCount:SetText(format(MACROFRAME_CHAR_LIMIT, c))
 end
 

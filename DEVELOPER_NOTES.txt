@@ -9,6 +9,7 @@ Notes To Myself
     git config user.email mib@post.com
     git config tag.sort version:refname
     git config fetch.prune true
+    git config --global push.default simple
 
 
 ------------------------------------------------------------------------------
@@ -16,6 +17,8 @@ Notes To Myself
 
     Make a branch locally:
         git checkout -b newfeature
+    List branches:
+        git branch -a
     Switch between branches:
         git checkout master
         git checkout newfeature
@@ -23,8 +26,11 @@ Notes To Myself
         git push --set-upstream origin newfeature
     Delete the branch locally:
         git branch -d newfeature
+        git branch -r -d origin/newfeature
     Delete the branch on curseforge (after deleting locally):
         git push origin :newfeature
+            or
+        git push origin --delete newfeature
     Delete the branch locally when it's already been deleted from curseforge:
         git branch -d newfeature
         git remote prune origin
@@ -52,6 +58,9 @@ Notes To Myself
 
 ------------------------------------------------------------------------------
 * Code to check every spell usability
+
+    I hope that someday the ability to tell if we are on top of the water
+    or under it will return. WTB IsFloating()
 
     MAX_SPELL_ID=197177 -- from wowhead
 
@@ -113,8 +122,7 @@ Notes To Myself
 * Passenger-capable mounts
 
     Possibility of preferring a passenger-capable mount if you are in
-    a group.  I think they would need to be flagged by hand though, which
-    is probably too much of a maintenance nightmare.
+    a group.
 
 
 ------------------------------------------------------------------------------
@@ -157,13 +165,6 @@ Notes To Myself
 * Does GetUnitSpeed return negative if you go backwards?
 
     No it doesn't.
-
-
-------------------------------------------------------------------------------
-* Check when/if IsSpellKnown() is a better idea.
-
-    So far it seems identical to looping over the spellbook tab. It
-    never returns true for mount spells.
 
 
 ------------------------------------------------------------------------------
@@ -211,10 +212,18 @@ Notes To Myself
             LM_Options:GetMacro()
             LM_Options:SetMacro(macrotext)
 
+            LM_Options:GetCombatMacro()
+            LM_Options:SetCombatMacro()
+            LM_Options:UseCombatMacro()
+
         * UI/
             Here be dragons. UI to twiddle settings in LM_Options.
 
     Main stuff:
+        * Core.lua
+            All the core logic for initialization and creating the action
+            buttons that pick a mount and summon it.
+
         * Mount.lua
             Base class representing one mount.  Inherited by all of the
             specific class types.
@@ -222,8 +231,15 @@ Notes To Myself
             m = LM_Mount:Get('SubclassType', ...)
             m:SetupActionButton(button)
                 Sets attributes on a SecureActionButton to summon this mount.
+            m:IsUsable()
+            m:FlagsSet() / m:CurrentFlagsSet()
+            Accessor functions:
+                ItemId SpellId SpellName ModelId SelfMount Name JournalIndex
+                CastTime NeedsFaction NeedsProfession Flags
+
         * LM_*.lua
             Individual mount type classes.
+
         * MountList.lua
             Class for a list of mounts, used by LM_PlayerMounts.
 
@@ -233,6 +249,7 @@ Notes To Myself
             LM_MountList:Random()
             LM_MountList:Sort()
             LM_MountList:Search(matchfunc)
+
         * PlayerMounts
             All mounts the player knows.
 
@@ -242,17 +259,8 @@ Notes To Myself
             mountlist = LM_PlayerMounts:GetAllMounts()
 
             m = LM_PlayerMounts:GetRandomMount(flags)
-                LM_PlayerMounts:GetFlyingMount()
-                LM_PlayerMounts:GetRunningMount()
-                LM_PlayerMounts:GetWalkingMount()
-                LM_PlayerMounts:GetSwimmingMount()
-                LM_PlayerMounts:GetAQMount()
-                LM_PlayerMounts:GetVashjirMount()
                 LM_PlayerMounts:GetMountBySpell(spellId)
                 LM_PlayerMounts:GetMountByName(name)
                 LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
             All the above calls don't return mounts for which
-            LM_Options:IsExcludedSpell() is true.
-        * Core.lua
-            All the core logic for initialization and then actually
-            picking a mount and summoning it.
+            LM_Options:IsExcludedMount(m) is true.

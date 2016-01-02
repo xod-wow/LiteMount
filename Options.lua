@@ -100,26 +100,25 @@ function LM_Options:Initialize()
 
 end
 
-function LM_Options:UseGlobal()
+function LM_Options:UseGlobal(trueFalse)
+
+    if trueFalse ~= nil then
+        if trueFalse then
+            self.db["useglobal"][1] = true
+            self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
+            self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
+        else
+            self.db["useglobal"][1] = false
+            self.db["excludedspells"] = LM_OptionsDB.excludedspells
+            self.db["flagoverrides"] = LM_OptionsDB.flagoverrides
+        end
+    end
+
     if self.db["useglobal"][1] then
         return true
     else
-        return nil
+        return false
     end
-end
-
-function LM_Options:SetUseGlobal(onoff)
-
-    self.db["useglobal"][1] = onoff
-
-    if onoff then
-        self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
-        self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
-    else
-        self.db["excludedspells"] = LM_OptionsDB.excludedspells
-        self.db["flagoverrides"] = LM_OptionsDB.flagoverrides
-    end
-
 end
 
 
@@ -249,7 +248,15 @@ function LM_Options:SetMacro(text)
     self.db.macro[1] = text
 end
 
-function LM_Options:UseCombatMacro()
+function LM_Options:UseCombatMacro(trueFalse)
+    if trueFalse == true or trueFalse == 1 or trueFalse == "on" then
+        LM_Debug("Enabling custom combat macro.")
+        self.db.combatMacro[2] = 1
+    elseif trueFalse == false or trueFalse == 0 or trueFalse == "off" then
+        LM_Debug("Disabling custom combat macro.")
+        self.db.combatMacro[2] = nil
+    end
+
     return self.db.combatMacro[2] ~= nil
 end
 
@@ -262,27 +269,16 @@ function LM_Options:SetCombatMacro(text)
     self.db.combatMacro[1] = text
 end
 
-function LM_Options:EnableCombatMacro()
-    LM_Debug("Enabling custom combat macro.")
-    self.db.combatMacro[2] = 1
-end
-
-function LM_Options:DisableCombatMacro()
-    LM_Debug("Disabling custom combat macro.")
-    self.db.combatMacro[2] = nil
-end
-
 
 --[[----------------------------------------------------------------------------
     Copying Target's Mount 
 ----------------------------------------------------------------------------]]--
 
-function LM_Options:CopyTargetsMount()
+function LM_Options:CopyTargetsMount(v)
+    if v ~= nil then
+        self.db.copyTargetsMount[1] = v
+    end
     return self.db.copyTargetsMount[1]
-end
-
-function LM_Options:SetCopyTargetsMount(v)
-    self.db.copyTargetsMount[1] = v
 end
 
 
@@ -290,13 +286,13 @@ end
     Exclude newly learned mounts
 ----------------------------------------------------------------------------]]--
 
-function LM_Options:ExcludeNewMounts()
+function LM_Options:ExcludeNewMounts(v)
+    if v ~= nil then
+        self.db.excludeNewMounts[1] = v
+    end
     return self.db.excludeNewMounts[1]
 end
 
-function LM_Options:SetExcludeNewMounts(v)
-    self.db.excludeNewMounts[1] = v
-end
 
 --[[----------------------------------------------------------------------------
     Have we seen a mount before on this toon?

@@ -71,14 +71,14 @@ function LM_ItemSummoned:IsUsable()
             return false
         end
     else
-        if GetItemCount(itemId) == 0 then
+        if not PlayerHasItem(itemId) then
             return false
         end
     end
 
     -- Either equipped or non-equippable and in bags
     local start, duration, enable = GetItemCooldown(itemId)
-    if duration > 0 and enable == 0 then
+    if duration > 0 and enable == 1 then
         return false
     end
 

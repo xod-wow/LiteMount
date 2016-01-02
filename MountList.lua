@@ -135,6 +135,7 @@ end
 function LM_MountList:Sort()
     local ns = function (a,b) return a:Name() < b:Name() end
     sort(self, ns)
+    return self
 end
 
 function LM_MountList:Map(mapfunc)

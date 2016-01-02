@@ -12,8 +12,7 @@ local MacroName = "LiteMount"
 local MacroText = [[
 # Auto-created by LiteMount addon, it is safe to delete or edit this macro.
 # To re-create it run "/litemount macro"
-/click [nobtn:2] LiteMount
-/click [btn:2] LiteMount RightButton
+/click [btn:1] LiteMountActionButton1; [btn:2] LiteMountActionButton2; [btn:3] LiteMountActionButton3; [btn:4] LiteMountActionButton4
 ]]
 
 local function CreateOrUpdateMacro()
@@ -41,14 +40,14 @@ local function UpdateActiveMount(arg)
     end
 end
 
-local LOCALIZED_MACRO_WORD = strlower(MACRO)
+local LOCALIZED_MACRO_WORD = CaseAccentInsensitiveParse(MACRO)
 
 function LiteMount_SlashCommandFunc(argstr)
 
     local args = { strsplit(" ", argstr) }
 
     for _,arg in ipairs(args) do
-        arg = strlower(arg)
+        arg = CaseAccentInsensitiveParse(arg)
         if arg == "macro" or arg == LOCALIZED_MACRO_WORD then
             local i = CreateOrUpdateMacro()
             if i then PickupMacro(i) end
@@ -60,6 +59,6 @@ function LiteMount_SlashCommandFunc(argstr)
         end
     end
 
-    return LiteMount_OpenOptionsPanel()
+    return LiteMountOptionsPanel_Open()
 end
 

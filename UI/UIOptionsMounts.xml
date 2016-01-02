@@ -157,6 +157,12 @@
         <CheckButton name="$parentBit5" inherits="LiteMountOptionsBitTemplate" parentKey="bit5">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit4" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
+        <CheckButton name="$parentBit6" inherits="LiteMountOptionsBitTemplate" parentKey="bit6">
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit5" relativePoint="LEFT" x="-4" /> </Anchors>
+        </CheckButton>
+        <CheckButton name="$parentBit7" inherits="LiteMountOptionsBitTemplate" parentKey="bit7">
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit6" relativePoint="LEFT" x="-4" /> </Anchors>
+        </CheckButton>
     </Frames>
 
     <Layers>
@@ -214,7 +220,7 @@
     </Scripts>
 </Frame>
 
-<Frame name="LiteMountOptionsMounts" hidden="true">
+<Frame name="LiteMountOptionsMounts" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
         <ScrollFrame name="$parentScrollFrame" inherits="MinimalHybridScrollFrameTemplate" parentKey="scrollFrame">
@@ -272,9 +278,9 @@
                 </OnShow>
                 <OnClick>
                     if self:GetChecked() then
-                        LM_Options:SetUseGlobal()
+                        LM_Options:UseGlobal(false)
                     else
-                        LM_Options:SetUseGlobal(true)
+                        LM_Options:UseGlobal(true)
                     end
                     LiteMountOptions_UpdateMountList()
                 </OnClick>
@@ -310,11 +316,6 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormalLarge" parentKey="title">
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-16" />
-                </Anchors>
-            </FontString>
             <FontString name="$parentBit1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Run">
                 <Size x="26" y="26" />
                 <Anchors>
@@ -343,6 +344,18 @@
                 <Size x="26" y="26" />
                 <Anchors>
                     <Anchor point="RIGHT" relativeTo="$parentBit4Text" relativePoint="LEFT" x="-4" />
+                </Anchors>
+            </FontString>
+            <FontString name="$parentBit6Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="C2">
+                <Size x="26" y="26" />
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentBit5Text" relativePoint="LEFT" x="-4" />
+                </Anchors>
+            </FontString>
+            <FontString name="$parentBit7Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="C1">
+                <Size x="26" y="26" />
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentBit6Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
         </Layer>

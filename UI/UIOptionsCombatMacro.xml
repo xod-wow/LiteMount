@@ -4,7 +4,7 @@
 
 <Script file="UIOptionsCombatMacro.lua" />
 
-<Frame name="LiteMountOptionsCombatMacro" hidden="true">
+<Frame name="LiteMountOptionsCombatMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
         <Frame name="LiteMountOptionsCombatMacroEditBoxContainer">
@@ -43,11 +43,17 @@
                         <OnTextChanged function="LiteMountOptionsCombatMacro_OnTextChanged" />
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
-                            self.refresh = function (self)
-                                    self:SetText(LM_Options:GetCombatMacro() or "")
+                            self.GetOption = function (self)
+                                    return LM_Options:GetCombatMacro() or ""
                                 end
-                            self.default = function () LM_Options:SetCombatmacro("") end
-                            LiteMountOptionsPanel_RegisterControl(self, LiteMountOptionsCombatMacro)
+                            self.SetOption = function (self, v)
+                                    LM_Options:SetCombatMacro(v)
+                                    LiteMount:Refresh()
+                                end
+                            self.GetOptionDefault = function (self)
+                                    return LM_Action:DefaultCombatMacro()
+                                end
+                            LiteMountOptionsControl_OnLoad(self, LiteMountOptionsCombatMacro)
                         </OnLoad>
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
@@ -70,7 +76,7 @@
                     </Anchors>
                     <Scripts>
                         <OnClick>
-                            LiteMountOptionsCombatMacroEditBox:SetText(LiteMount:BuildCombatMacro())
+                            LiteMountOptionsCombatMacroEditBox:SetText(LM_Action:DefaultCombatMacro())
                         </OnClick>
                     </Scripts>
                 </Button>
@@ -81,35 +87,22 @@
                 <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LiteMountOptionsCombatMacroEditBoxContainer" y="32" />
             </Anchors>
             <Scripts>
-                <OnShow>
-                    self:SetChecked(LM_Options:UseCombatMacro())
-                </OnShow>
                 <OnLoad>
-                    self.refresh = function (self)
-                            self:SetChecked(LM_Options:UseCombatMacro())
+                    self.GetOption = function (self)
+                            return LM_Options:UseCombatMacro()
                         end
-                    self.default = function () LM_Options:DisableCombatMacro() end
-                    LiteMountOptionsPanel_RegisterControl(self, LiteMountOptionsCombatMacro)
+                    self.GetOptionDefault = function (self) return false end
+                    self.SetOption = function (self, v)
+                            LM_Options:UseCombatMacro(v and true or false)
+                        end
+                    LiteMountOptionsControl_OnLoad(self, LiteMountOptionsCombatMacro)
                 </OnLoad>
-                <OnClick>
-                    if self:GetChecked() then
-                        LM_Options:EnableCombatMacro()
-                    else
-                        LM_Options:DisableCombatMacro()
-                    end
-                </OnClick>
             </Scripts>
         </CheckButton>
     </Frames>
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormalLarge" parentKey="title">
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-16" />
-                </Anchors>
-            </FontString>
-
             <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_COMBAT_MACRO_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
@@ -140,9 +133,7 @@
     </Layers>
 
     <Scripts>
-        <OnHide function="LiteMountOptionsCombatMacro_OnHide" />
         <OnLoad function="LiteMountOptionsCombatMacro_OnLoad" />
-        <OnShow function="LiteMountOptionsCombatMacro_OnShow" />
     </Scripts>
 </Frame>
 

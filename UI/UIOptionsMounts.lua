@@ -27,6 +27,7 @@ local function CreateMoreButtons(self)
                                     0, -1, "TOPLEFT", "TOPLEFT",
                                     0, -1, "TOP", "BOTTOM")
 
+    -- Note: the buttons are laid out right to left
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
         b.bit1.flagbit = LM_FLAG_BIT_RUN
@@ -34,6 +35,8 @@ local function CreateMoreButtons(self)
         b.bit3.flagbit = LM_FLAG_BIT_SWIM
         b.bit4.flagbit = LM_FLAG_BIT_AQ
         b.bit5.flagbit = LM_FLAG_BIT_VASHJIR
+        b.bit6.flagbit = LM_FLAG_BIT_CUSTOM2
+        b.bit7.flagbit = LM_FLAG_BIT_CUSTOM1
     end
 end
 
@@ -63,7 +66,8 @@ local function BitButtonUpdate(checkButton, mount)
 end
 
 local function GetFilteredMountList()
-    local mounts = LiteMount:GetAllMounts()
+    LM_PlayerMounts:ScanMounts()
+    local mounts = LM_PlayerMounts:GetAllMounts():Sort()
 
     local filtertext = LiteMountOptionsMounts.filter:GetText()
     if filtertext == SEARCH then
@@ -77,7 +81,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+fly *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:FlagsSet(LM_FLAG_BIT_FLY) then
+            if not mounts[i]:CurrentFlagsSet(LM_FLAG_BIT_FLY) then
                 tremove(mounts, i)
             end
         end
@@ -86,7 +90,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+run *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:FlagsSet(LM_FLAG_BIT_RUN) then
+            if not mounts[i]:CurrentFlagsSet(LM_FLAG_BIT_RUN) then
                 tremove(mounts, i)
             end
         end
@@ -95,7 +99,25 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+swim *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:FlagsSet(LM_FLAG_BIT_SWIM) then
+            if not mounts[i]:CurrentFlagsSet(LM_FLAG_BIT_SWIM) then
+                tremove(mounts, i)
+            end
+        end
+    end
+
+    filtertext, n = gsub(filtertext, "^+c1 *", "", 1)
+    if n == 1 then
+        for i = #mounts, 1, -1 do
+            if not mounts[i]:CurrentFlagsSet(LM_FLAG_BIT_CUSTOM1) then
+                tremove(mounts, i)
+            end
+        end
+    end
+
+    filtertext, n = gsub(filtertext, "^+c2 *", "", 1)
+    if n == 1 then
+        for i = #mounts, 1, -1 do
+            if not mounts[i]:CurrentFlagsSet(LM_FLAG_BIT_CUSTOM2) then
                 tremove(mounts, i)
             end
         end
@@ -170,11 +192,11 @@ local function UpdateMountButton(button, mount)
         mount:SetupActionButton(button.icon)
     end
 
-    BitButtonUpdate(button.bit1, mount)
-    BitButtonUpdate(button.bit2, mount)
-    BitButtonUpdate(button.bit3, mount)
-    BitButtonUpdate(button.bit4, mount)
-    BitButtonUpdate(button.bit5, mount)
+    local i = 1
+    while button["bit"..i] do
+        BitButtonUpdate(button["bit"..i], mount)
+        i = i + 1
+    end
 
     if LM_Options:IsExcludedMount(mount) then
         button.enabled:SetChecked(false)
@@ -263,24 +285,19 @@ end
 
 function LiteMountOptionsMounts_OnLoad(self)
 
-    LiteMount_Frame_AutoLocalize(self)
-
     -- Because we're the wrong size at the moment we'll only have 1 button
     CreateMoreButtons(self.scrollFrame)
 
-    self.parent = LiteMountOptions.name
     self.name = MOUNTS
-    self.title:SetText("LiteMount : " .. self.name)
     self.default = function ()
-            for _,m in ipairs(LiteMount:GetAllMounts()) do
+            for m in LM_PlayerMounts:Iterate() do
                 LM_Options:ResetMountFlags(m)
             end
             LM_Options:SetExcludedMounts({})
             LiteMountOptions_UpdateMountList()
         end
 
-    InterfaceOptions_AddCategory(self)
-
+    LiteMountOptionsPanel_OnLoad(self)
 end
 
 

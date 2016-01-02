@@ -1,0 +1,23 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011-2015 Mike Battersby -->
+
+<Script file="UIOptionsPanelTemplate.lua" />
+
+<Frame name="LiteMountOptionsPanelTemplate" hidden="true" virtual="true">
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString name="$parentTitle" inherits="GameFontNormalLarge" parentKey="title">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="16" y="-16" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Scripts>
+        <OnLoad function="LiteMountOptionsPanel_OnLoad" />
+        <OnShow function="LiteMountOptionsPanel_OnShow" />
+    </Scripts>
+</Frame>
+
+</Ui>

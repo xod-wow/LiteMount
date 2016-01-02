@@ -14,12 +14,12 @@
             end
         </OnEnter>
         <OnLeave>
-                GameTooltip:Hide()
+            GameTooltip:Hide()
         </OnLeave>
     </Scripts>
 </Button>
 
-<Frame name="LiteMountOptionsMacro" hidden="true">
+<Frame name="LiteMountOptionsMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
         <Frame name="LiteMountOptionsMacroEditBoxContainer">
@@ -58,13 +58,16 @@
                         <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
-                            self.default = function (self)
-                                    LM_Options:SetMacro("")
+                            self.SetOption = function (self, v)
+                                    return LM_Options:SetMacro(v)
                                 end
-                            self.refresh = function (self)
-                                    self:SetText(LM_Options:GetMacro() or "")
+                            self.GetOption = function (self)
+                                    return LM_Options:GetMacro() or ""
                                 end
-                            LiteMountOptionsPanel_RegisterControl(self, LiteMountOptionsMacro)
+                            self.GetOptionDefault = function (self)
+                                    return ""
+                                end
+                            LiteMountOptionsControl_OnLoad(self, LiteMountOptionsMacro)
                         </OnLoad>
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
@@ -122,12 +125,6 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormalLarge" parentKey="title">
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-16" />
-                </Anchors>
-            </FontString>
-
             <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_MACRO_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
@@ -148,7 +145,6 @@
                     <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="LiteMountOptionsMacroEditBoxContainer" y="-3" />
                 </Anchors>
             </FontString>
-
         </Layer>
     </Layers>
 

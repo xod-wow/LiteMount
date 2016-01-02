@@ -2,18 +2,11 @@
 
 <!-- Copyright 2011-2015 Mike Battersby -->
 
-<Script file="UIOptionsSettings.lua" />
+<Frame name="LiteMountOptionsSettings" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+    <Attributes>
+        <Attribute name="panel-name" value="SETTINGS" />
+    </Attributes>
 
-<Frame name="LiteMountOptionsSettings" hidden="true">
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString name="$parentTitle" inherits="GameFontNormalLarge" parentKey="title">
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-16" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
     <Frames>
         <CheckButton name="$parentCopyTargetsMount" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
@@ -21,19 +14,19 @@
             </Anchors>
             <Scripts>
                 <OnLoad>
-                    self.text = _G[self:GetName().."Text"]
-                    self.text:SetText("Try to copy target's mount.")
-                    self.setFunc = function (setting)
-                            if setting == "1" then
-                                LM_Options:SetCopyTargetsMount(true)
+                    self.Text:SetText("Try to copy target's mount.")
+                    self.SetOption = function (self, setting)
+                            if not setting or setting == "0" then
+                                LM_Options:CopyTargetsMount(false)
                             else
-                                LM_Options:SetCopyTargetsMount()
+                                LM_Options:CopyTargetsMount(true)
                             end
                         end
-                    self.refresh = function (self)
-                        self:SetChecked(LM_Options:CopyTargetsMount())
-                    end
-                    LiteMountOptionsPanel_RegisterControl(self)
+                    self.GetOption = function (self)
+                            return LM_Options:CopyTargetsMount()
+                        end
+                    self.GetOptionDefault = function (self) return true end
+                    LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>
             </Scripts>
         </CheckButton>
@@ -43,27 +36,23 @@
             </Anchors>
             <Scripts>
                 <OnLoad>
-                    self.text = _G[self:GetName().."Text"]
-                    self.text:SetText("Automatically disable newly learned mounts.")
-                    self.setFunc = function (setting)
-                            if setting == "1" then
-                                LM_Options:SetExcludeNewMounts(true)
+                    self.Text:SetText("Automatically disable newly learned mounts.")
+                    self.SetOption = function (self, setting)
+                            if not setting or setting == "0" then
+                                LM_Options:ExcludeNewMounts(false)
                             else
-                                LM_Options:SetExcludeNewMounts()
+                                LM_Options:ExcludeNewMounts(true)
                             end
                         end
-                    self.refresh = function (self)
-                        self:SetChecked(LM_Options:ExcludeNewMounts())
-                    end
-                    LiteMountOptionsPanel_RegisterControl(self)
+                    self.GetOptionDefault = function (self) return false end
+                    self.GetOption = function (self)
+                            LM_Options:ExcludeNewMounts()
+                        end
+                    LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>
             </Scripts>
         </CheckButton>
     </Frames>
-    <Scripts>
-        <OnLoad function="LiteMountOptionsSettings_OnLoad" />
-        <OnShow function="LiteMountOptionsSettings_OnShow" />
-    </Scripts>
 </Frame>
 
 </Ui>
