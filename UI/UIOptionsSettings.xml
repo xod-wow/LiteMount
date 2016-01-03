@@ -46,7 +46,7 @@
                         end
                     self.GetOptionDefault = function (self) return false end
                     self.GetOption = function (self)
-                            LM_Options:ExcludeNewMounts()
+                            return LM_Options:ExcludeNewMounts()
                         end
                     LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>
