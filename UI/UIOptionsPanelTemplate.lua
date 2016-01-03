@@ -110,7 +110,7 @@ function LiteMountOptionsControl_GetControl(self)
     elseif self.GetChecked then
         return self:GetChecked()
     elseif self.GetText then
-        self:GetText()
+        return self:GetText()
     end
 end
 
