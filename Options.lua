@@ -276,6 +276,8 @@ end
 
 function LM_Options:CopyTargetsMount(v)
     if v ~= nil then
+        local vtext = (v and "true") or "false"
+        LM_Debug(format("Setting copy targets mount: %s", vtext))
         self.db.copyTargetsMount[1] = v
     end
     return self.db.copyTargetsMount[1]
@@ -288,6 +290,8 @@ end
 
 function LM_Options:ExcludeNewMounts(v)
     if v ~= nil then
+        local vtext = (v and "true") or "false"
+        LM_Debug(format("Setting exclude new mounts: %s", vtext))
         self.db.excludeNewMounts[1] = v
     end
     return self.db.excludeNewMounts[1]
