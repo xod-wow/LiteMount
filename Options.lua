@@ -127,23 +127,23 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:IsExcludedMount(m)
-    local id = m:SpellId()
+    local id = m:SpellID()
     for _,s in ipairs(self.db.excludedspells) do
         if s == id then return true end
     end
 end
 
 function LM_Options:AddExcludedMount(m)
-    LM_Debug(format("Disabling mount %s (%d).", m:SpellName(), m:SpellId()))
+    LM_Debug(format("Disabling mount %s (%d).", m:SpellName(), m:SpellID()))
     if not self:IsExcludedMount(m) then
-        tinsert(self.db.excludedspells, m:SpellId())
+        tinsert(self.db.excludedspells, m:SpellID())
         sort(self.db.excludedspells)
     end
 end
 
 function LM_Options:RemoveExcludedMount(m)
-    LM_Debug(format("Enabling mount %s (%d).", m:SpellName(), m:SpellId()))
-    local id = m:SpellId()
+    LM_Debug(format("Enabling mount %s (%d).", m:SpellName(), m:SpellID()))
+    local id = m:SpellID()
     for i = 1, #self.db.excludedspells do
         if self.db.excludedspells[i] == id then
             tremove(self.db.excludedspells, i)
@@ -153,7 +153,7 @@ function LM_Options:RemoveExcludedMount(m)
 end
 
 function LM_Options:ToggleExcludedMount(m)
-    LM_Debug(format("Toggling mount %s (%d).", m:SpellName(), m:SpellId()))
+    LM_Debug(format("Toggling mount %s (%d).", m:SpellName(), m:SpellID()))
     if self:IsExcludedMount(m) then
         self:RemoveExcludedMount(m)
     else
@@ -165,7 +165,7 @@ function LM_Options:SetExcludedMounts(mountlist)
     LM_Debug("Setting complete list of disabled mounts.")
     wipe(self.db.excludedspells)
     for _,m in ipairs(mountlist) do
-        tinsert(self.db.excludedspells, m:SpellId())
+        tinsert(self.db.excludedspells, m:SpellID())
     end
     sort(self.db.excludedspells)
 end
@@ -175,7 +175,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:ApplyMountFlags(m)
-    local id = m:SpellId()
+    local id = m:SpellID()
     local flags = m:Flags()
     local ov = self.db.flagoverrides[id]
 
@@ -188,7 +188,7 @@ function LM_Options:ApplyMountFlags(m)
 end
 
 function LM_Options:SetMountFlagBit(m, flagbit)
-    local id = m:SpellId()
+    local id = m:SpellID()
     local name = m:SpellName()
 
     LM_Debug(format("Setting flag bit %d for spell %s (%d).",
@@ -198,7 +198,7 @@ function LM_Options:SetMountFlagBit(m, flagbit)
 end
 
 function LM_Options:ClearMountFlagBit(m, flagbit)
-    local id = m:SpellId()
+    local id = m:SpellID()
     local name = m:SpellName()
     LM_Debug(format("Clearing flag bit %d for spell %s (%d).",
                      flagbit, name, id))
@@ -207,7 +207,7 @@ function LM_Options:ClearMountFlagBit(m, flagbit)
 end
 
 function LM_Options:ResetMountFlags(m)
-    local id = m:SpellId()
+    local id = m:SpellID()
     local name = m:SpellName()
 
     LM_Debug(format("Defaulting flags for spell %s (%d).", name, id))
@@ -221,7 +221,7 @@ function LM_Options:SetMountFlags(m, flags)
         return self:ResetMountFlags(m)
     end
 
-    local id = m:SpellId()
+    local id = m:SpellID()
     local def = m:Flags()
 
     local toset = bit.band(bit.bxor(flags, def), flags)
@@ -300,11 +300,11 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:SeenMount(m, flagSeen)
-    local spellId = m:SpellId()
-    local seen = self.db.seenspells[spellId]
+    local spellID = m:SpellID()
+    local seen = self.db.seenspells[spellID]
 
     if flagSeen and not seen then
-        self.db.seenspells[spellId] = true
+        self.db.seenspells[spellID] = true
         if self.db.excludeNewMounts[1] == true then
             self:AddExcludedMount(m)
         end

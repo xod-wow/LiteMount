@@ -234,7 +234,7 @@ Notes To Myself
             m:IsUsable()
             m:FlagsSet() / m:CurrentFlagsSet()
             Accessor functions:
-                ItemId SpellId SpellName ModelId SelfMount Name JournalIndex
+                ItemID SpellID SpellName ModelID SelfMount Name JournalIndex
                 CastTime NeedsFaction NeedsProfession Flags
 
         * LM_*.lua
@@ -259,7 +259,7 @@ Notes To Myself
             mountlist = LM_PlayerMounts:GetAllMounts()
 
             m = LM_PlayerMounts:GetRandomMount(flags)
-                LM_PlayerMounts:GetMountBySpell(spellId)
+                LM_PlayerMounts:GetMountBySpell(spellID)
                 LM_PlayerMounts:GetMountByName(name)
                 LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
             All the above calls don't return mounts for which

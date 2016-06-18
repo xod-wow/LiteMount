@@ -9,42 +9,42 @@
 LM_ItemSummoned = setmetatable({ }, LM_Mount)
 LM_ItemSummoned.__index = LM_ItemSummoned
 
-local function PlayerHasItem(itemId)
-    if GetItemCount(itemId) > 0 then
+local function PlayerHasItem(itemID)
+    if GetItemCount(itemID) > 0 then
         return true
     end
 end
 
--- In theory we might be able to just use the itemId and use
---      spellName = GetItemSpell(itemId)
+-- In theory we might be able to just use the itemID and use
+--      spellName = GetItemSpell(itemID)
 -- the trouble is the names aren't definitely unique and that makes me
 -- worried.  Since there are such a small number of these, keeping track of
 -- the spell as well isn't a burden.
 
-function LM_ItemSummoned:Get(itemId, spellId, flags)
+function LM_ItemSummoned:Get(itemID, spellID, flags)
 
-    if not PlayerHasItem(itemId) then return end
+    if not PlayerHasItem(itemID) then return end
 
-    if self.cacheByItemId[itemId] then
-        return self.cacheByItemId[itemId]
+    if self.cacheByItemID[itemID] then
+        return self.cacheByItemID[itemID]
     end
 
-    local m = LM_Spell:Get(spellId, true)
+    local m = LM_Spell:Get(spellID, true)
     if not m then return end
 
     setmetatable(m, LM_ItemSummoned)
 
-    local itemName = GetItemInfo(itemId)
+    local itemName = GetItemInfo(itemID)
     if not itemName then
-        LM_Debug("LM_Mount: Failed GetItemInfo #"..itemId)
+        LM_Debug("LM_Mount: Failed GetItemInfo #"..itemID)
         return
     end
 
-    m.itemId = itemId
+    m.itemID = itemID
     m.itemName = itemName
     m.flags = flags
 
-    self.cacheByItemId[itemId] = m
+    self.cacheByItemID[itemID] = m
 
     return m
 end
@@ -57,27 +57,27 @@ end
 
 function LM_ItemSummoned:IsUsable()
 
-    local spell = self:SpellId()
+    local spell = self:SpellID()
 
     -- IsUsableSpell seems to test correctly whether it's indoors etc.
     if spell and not IsUsableSpell(spell) then
         return false
     end
 
-    local itemId = self:ItemId()
+    local itemID = self:ItemID()
 
-    if IsEquippableItem(itemId) then
-        if not IsEquippedItem(itemId) then
+    if IsEquippableItem(itemID) then
+        if not IsEquippedItem(itemID) then
             return false
         end
     else
-        if not PlayerHasItem(itemId) then
+        if not PlayerHasItem(itemID) then
             return false
         end
     end
 
     -- Either equipped or non-equippable and in bags
-    local start, duration, enable = GetItemCooldown(itemId)
+    local start, duration, enable = GetItemCooldown(itemID)
     if duration > 0 and enable == 1 then
         return false
     end

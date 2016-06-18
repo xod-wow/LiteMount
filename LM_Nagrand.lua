@@ -21,16 +21,16 @@ function LM_Nagrand:Flags(f)
     return LM_FLAG_BIT_NAGRAND
 end
 
-function LM_Nagrand:Get(spellId)
+function LM_Nagrand:Get(spellID)
     local m
 
     if HasDraenorZoneAbility() then
-        m = LM_Spell:Get(spellId, true)
+        m = LM_Spell:Get(spellID, true)
     end
 
     if m then
         setmetatable(m, LM_Nagrand)
-        m:NeedsFaction(FactionRequirements[spellId])
+        m:NeedsFaction(FactionRequirements[spellID])
     end
 
     return m
@@ -42,7 +42,7 @@ end
 function LM_Nagrand:IsUsable()
     local DraenorZoneAbilityName = GetSpellInfo(DraenorZoneAbilitySpellID)
     local id = select(7, GetSpellInfo(DraenorZoneAbilityName))
-    if id ~= self:SpellId() then return false end
+    if id ~= self:SpellID() then return false end
     if not IsUsableSpell(DraenorZoneAbilitySpellID) then return false end
     return LM_Mount.IsUsable(self)
 end

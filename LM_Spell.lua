@@ -11,18 +11,18 @@
 LM_Spell = setmetatable({ }, LM_Mount)
 LM_Spell.__index = LM_Spell
 
-function LM_Spell:Get(spellId, forceKnown)
+function LM_Spell:Get(spellID, forceKnown)
 
-    if not forceKnown and not IsSpellKnown(spellId) then return end
+    if not forceKnown and not IsSpellKnown(spellID) then return end
 
-    if self.cacheBySpellId[spellId] then
-        return self.cacheBySpellId[spellId]
+    if self.cacheBySpellID[spellID] then
+        return self.cacheBySpellID[spellID]
     end
 
-    local name, rank, icon, castingTime, _, _, _ = GetSpellInfo(spellId)
+    local name, rank, icon, castingTime, _, _, _ = GetSpellInfo(spellID)
 
     if not name then
-        LM_Debug("LM_Mount: Failed GetSpellInfo #"..spellId)
+        LM_Debug("LM_Mount: Failed GetSpellInfo #"..spellID)
         return
     end
 
@@ -33,15 +33,15 @@ function LM_Spell:Get(spellId, forceKnown)
     m.icon = icon
     m.flags = 0
     m.castTime = castingTime
-    m.spellId = spellId
+    m.spellID = spellID
 
     self.cacheByName[m:Name()] = m
-    self.cacheBySpellId[m:SpellId()] = m
+    self.cacheBySpellID[m:SpellID()] = m
 
     return m
 end
 
 function LM_Spell:IsUsable()
-    if not IsUsableSpell(self:SpellId()) then return end
+    if not IsUsableSpell(self:SpellID()) then return end
     return LM_Mount.IsUsable(self)
 end
