@@ -15,8 +15,8 @@ LM_Location:RegisterEvent("PLAYER_LOGIN")
 
 function LM_Location:Initialize()
     self.continent = -1
-    self.areaId = -1
-    self.instanceId = -1
+    self.areaID = -1
+    self.instanceID = -1
     self.zoneText = -1
     self.minimapZoneText = ""
     self.subZoneText = ""
@@ -36,11 +36,11 @@ function LM_Location:Update()
 
     -- No matter how much you may want to, do not call SetMapToCurrentZone()
     self.continent = GetCurrentMapContinent()
-    self.areaId = GetCurrentMapAreaID()
+    self.areaID = GetCurrentMapAreaID()
     self.realZoneText = GetRealZoneText()
     self.zoneText = GetZoneText()
     self.subZoneText = GetSubZoneText()
-    self.instanceId = select(8, GetInstanceInfo())
+    self.instanceID = select(8, GetInstanceInfo())
 end
 
 function LM_Location:PLAYER_LOGIN()
@@ -87,7 +87,7 @@ function LM_Location:CanFly()
     -- This is the Draenor starting area, which is not on the Draenor
     -- continent (not on any continent). I don't know if you can fly there
     -- if you have the achievement.
-    if self.areaId == 970 then
+    if self.areaID == 970 then
         return nil
     end
 
@@ -107,24 +107,24 @@ function LM_Location:GetName()
     return self.realZoneText
 end
 
-function LM_Location:GetId()
-    return self.areaId
+function LM_Location:GetID()
+    return self.areaID
 end
 
-function LM_Location:GetInstanceId()
-    return self.instanceId
+function LM_Location:GetInstanceID()
+    return self.instanceID
 end
 
 function LM_Location:IsAQ()
-    if self.areaId == 766 then return true end
+    if self.areaID == 766 then return true end
 end
 
 function LM_Location:IsVashjir()
-    if self.areaId == 610 then return true end
-    if self.areaId == 614 then return true end
-    if self.areaId == 615 then return true end
+    if self.areaID == 610 then return true end
+    if self.areaID == 614 then return true end
+    if self.areaID == 615 then return true end
 end
 
 function LM_Location:IsDraenorNagrand()
-    if self.areaId == 950 then return true end
+    if self.areaID == 950 then return true end
 end

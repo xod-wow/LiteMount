@@ -100,16 +100,16 @@
 
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
                     if m:JournalIndex() then
-                        GameTooltip:SetMountBySpellID(m:SpellId())
+                        GameTooltip:SetMountBySpellID(m:SpellID())
                     else
-                        GameTooltip:SetSpellByID(m:SpellId())
+                        GameTooltip:SetSpellByID(m:SpellID())
                     end
                     if m:IsUsable() then
                         GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
                     end
                     GameTooltip:Show()
 
-                    local model = m:ModelId()
+                    local model = m:ModelID()
 
                     if model then
                         LiteMountOptionsPreview.model:SetDisplayInfo(model)
@@ -133,10 +133,10 @@
                 </OnLoad>
                 <OnDragStart>
                     local mount = self:GetParent().mount
-                    if mount:SpellId() then
-                        PickupSpell(mount:SpellId())
-                    elseif mount:ItemId() then
-                        PickupItem(mount:ItemId())
+                    if mount:SpellID() then
+                        PickupSpell(mount:SpellID())
+                    elseif mount:ItemID() then
+                        PickupItem(mount:ItemID())
                     end
                 </OnDragStart>
             </Scripts>

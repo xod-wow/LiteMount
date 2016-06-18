@@ -24,7 +24,7 @@ function LM_TravelForm:CurrentFlagsSet(f)
     local flags = self:CurrentFlags()
 
     -- If we know Flight Form then Travel Form can't fly. Sigh.
-    if self:SpellId() == LM_SPELL_TRAVEL_FORM then
+    if self:SpellID() == LM_SPELL_TRAVEL_FORM then
         if IsSpellKnown(LM_SPELL_FLIGHT_FORM) then
             LM_Debug("Removing FLYING from Travel Form due to glyph.")
             flags = bit.band(flags, bit.bnot(LM_FLAG_BIT_FLY))
@@ -39,8 +39,8 @@ function LM_TravelForm:Flags(v)
 
     -- If we have glyph of travel then we can also "run"
     for i = 1, NUM_GLYPH_SLOTS do
-        local spellId = select(4, GetGlyphSocketInfo(i))
-        if spellId == LM_SPELL_GLYPH_OF_TRAVEL then
+        local spellID = select(4, GetGlyphSocketInfo(i))
+        if spellID == LM_SPELL_GLYPH_OF_TRAVEL then
             LM_Debug("Adding RUNNING to Travel Form due to glyph.")
             return bit.bor(flags, LM_FLAG_BIT_RUN)
         end

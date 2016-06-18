@@ -48,7 +48,7 @@ function LM_PlayerMounts:AddMount(m)
 end
 
 function LM_PlayerMounts:AddJournalMounts()
-    for i = 1,C_MountJournal.GetNumMounts() do
+    for i = 1,C_MountJournal.GetNumDisplayedMounts() do
         local m = LM_Mount:Get("Journal", i)
         self:AddMount(m)
     end

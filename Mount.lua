@@ -9,9 +9,9 @@
 ----------------------------------------------------------------------------]]--
 
 LM_Mount = {
-    ["cacheByItemId"] = { },
+    ["cacheByItemID"] = { },
     ["cacheByName"]   = { },
-    ["cacheBySpellId"] = { }
+    ["cacheBySpellID"] = { }
 }
 LM_Mount.__index = LM_Mount
 
@@ -20,8 +20,8 @@ function LM_Mount:new()
 end
 
 function LM_Mount:SetRequirements()
-    local spellId = self:SpellId()
-    self:NeedsProfession(LM_PROFESSION_MOUNT_REQUIREMENTS[spellId])
+    local spellID = self:SpellID()
+    self:NeedsProfession(LM_PROFESSION_MOUNT_REQUIREMENTS[spellID])
 end
 
 function LM_Mount:Get(className, ...)
@@ -34,19 +34,19 @@ function LM_Mount:Get(className, ...)
     return m
 end
 
-function LM_Mount:SpellId(v)
-    if v then self.spellId = v end
-    return self.spellId
+function LM_Mount:SpellID(v)
+    if v then self.spellID = v end
+    return self.spellID
 end
 
-function LM_Mount:ItemId(v)
-    if v then self.itemId = v end
-    return self.itemId
+function LM_Mount:ItemID(v)
+    if v then self.itemID = v end
+    return self.itemID
 end
 
-function LM_Mount:ModelId(v)
-    if v then self.modelId = v end
-    return self.modelId
+function LM_Mount:ModelID(v)
+    if v then self.modelID = v end
+    return self.modelID
 end
 
 function LM_Mount:SelfMount(v)
@@ -87,6 +87,11 @@ end
 function LM_Mount:JournalIndex(v)
     if v then self.journalIndex = v end
     return self.journalIndex
+end
+
+function LM_Mount:MountID(v)
+    if v then self.mountID = v end
+    return self.mountID
 end
 
 function LM_Mount:Flags(v)
@@ -198,9 +203,9 @@ function LM_Mount:Dump(prefix)
     local function yesno(t) if t then return "yes" else return "no" end end
 
     LM_Print(prefix .. self:Name())
-    LM_Print(prefix .. " spell: " .. format("%s (id %d)", self:SpellName(), self:SpellId()))
+    LM_Print(prefix .. " spell: " .. format("%s (id %d)", self:SpellName(), self:SpellID()))
     LM_Print(prefix .. " casttime: " .. self:CastTime())
     LM_Print(prefix .. " flags: " .. format("%02x (default %02x)", self:CurrentFlags(), self:Flags()))
     LM_Print(prefix .. " excluded: " .. yesno(LM_Options:IsExcludedMount(self)))
-    LM_Print(prefix .. " usable: " .. yesno(self:IsUsable()) .. " (spell " .. yesno(IsUsableSpell(self:SpellId())) .. ")")
+    LM_Print(prefix .. " usable: " .. yesno(self:IsUsable()) .. " (spell " .. yesno(IsUsableSpell(self:SpellID())) .. ")")
 end
