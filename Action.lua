@@ -216,7 +216,7 @@ function LM_Action:Combat()
 
     if LM_Options:UseCombatMacro() then
         return LM_ActionAsMount:Macro(LM_Options:GetCombatMacro())
-    else 
+    else
         return LM_ActionAsMount:Macro(self:DefaultCombatMacro())
     end
 end
