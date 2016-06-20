@@ -4,7 +4,7 @@
 
   Nagrand mounts, Telaari Talbuk and Frostwolf War Wolf.
 
-  Copyright 2011-2015 Mike Battersby
+  Copyright 2011-2016 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

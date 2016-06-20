@@ -2,7 +2,7 @@
 
   LiteMount/UIOptionsPanelTemplate.lua
 
-  Copyright 2015 Mike Battersby
+  Copyright 2016 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
