@@ -77,9 +77,11 @@ end
 function LM_Location:CanFly()
 
     -- Can only fly in Draenor if you have the achievement
+    -- Achievement check on alts is bugged in 7.0 check for skyterror
     if self.continent == 7 then
         local completed = select(4, GetAchievementInfo(10018))
-        if not completed then
+        local hasSkyTerror = LM_PlayerMounts:GetMountBySpell(LM_SPELL_SOARING_SKYTERROR)
+        if not completed and not hasSkyTerror then
             return nil
         end
     end
