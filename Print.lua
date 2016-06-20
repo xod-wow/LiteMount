@@ -46,5 +46,5 @@ end
 
 -- This prints into the UI error box the same as Blizzards code
 function LM_Warning(msg)
-    UIErrorsFrame_OnEvent(UIErrorsFrame, "UI_ERROR_MESSAGE", msg)
+    UIErrorsFrame:AddMessage(msg, 1.0, 0.1, 0.1)
 end

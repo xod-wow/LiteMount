@@ -16,10 +16,10 @@
 LM_TravelForm = setmetatable({ }, LM_Spell)
 LM_TravelForm.__index = LM_TravelForm
 
-local LM_SPELL_GLYPH_OF_THE_STAG = 114338
-local LM_SPELL_GLYPH_OF_TRAVEL = 159456
+-- local LM_SPELL_GLYPH_OF_THE_STAG = 114338
+-- local LM_SPELL_GLYPH_OF_TRAVEL = 159456
 
-function LM_TravelForm:CurrentFlagsSet(f)
+--[[ function LM_TravelForm:CurrentFlagsSet(f)
 
     local flags = self:CurrentFlags()
 
@@ -34,6 +34,7 @@ function LM_TravelForm:CurrentFlagsSet(f)
     return bit.band(flags, f) == f
 end
 
+
 function LM_TravelForm:Flags(v)
     local flags = LM_Mount.Flags(self, v)
 
@@ -46,6 +47,11 @@ function LM_TravelForm:Flags(v)
         end
     end
     return flags
+end
+]]
+
+function LM_TravelForm:Flags(v)
+    return bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_SWIM)
 end
 
 function LM_TravelForm:Get()

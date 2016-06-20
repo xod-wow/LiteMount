@@ -24,7 +24,7 @@ end
 function LM_Nagrand:Get(spellID)
     local m
 
-    if HasDraenorZoneAbility() then
+    if HasDraenorZoneAbility and HasDraenorZoneAbility() then
         m = LM_Spell:Get(spellID, true)
     end
 
