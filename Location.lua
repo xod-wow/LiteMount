@@ -74,6 +74,8 @@ end
 
 -- Draenor (continent 7) is flagged flyable, but you can only fly there if
 -- you have completed a dodgy achievement, "Draenor Pathfinder" (10018).
+--
+-- Broken Isles is the same except the flying unlock is not available yet.
 function LM_Location:CanFly()
 
     -- Can only fly in Draenor if you have the achievement
@@ -84,6 +86,12 @@ function LM_Location:CanFly()
         if not completed and not hasSkyTerror then
             return nil
         end
+    end
+
+    -- Can't fly on Broken Isles yet, will be eventually unlocked via an
+    -- achievment the same as Draenor.
+    if self.continent == 8 then
+        return nil
     end
 
     -- This is the Draenor starting area, which is not on the Draenor
