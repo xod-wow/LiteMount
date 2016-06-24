@@ -117,7 +117,7 @@ function LiteMount:Initialize()
     -- still do /click LiteMount if you had it in a macro.
     self:SetAttribute("type", "click")
     for i = 1,#self.actions do
-        self:SetAttribute("clickbutton"..i, self.actions[i])
+        self:SetAttribute("*clickbutton"..i, self.actions[i])
     end
 
 end
