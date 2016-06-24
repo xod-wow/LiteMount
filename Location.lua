@@ -138,3 +138,14 @@ end
 function LM_Location:IsDraenorNagrand()
     if self.areaID == 950 then return true end
 end
+
+function LM_Location:Dump()
+    LM_Print("--- Location Dump ---")
+    LM_Print("continent: " .. self.continent)
+    LM_Print("areaID: " .. self.areaID)
+    LM_Print("instanceID: " .. self.instanceID)
+    LM_Print("zoneText: " .. self.zoneText)
+    LM_Print("minimapZoneText: " .. self.minimapZoneText)
+    LM_Print("subZoneText: " .. self.subZoneText)
+    LM_Print("IsFlyableArea(): " .. (IsFlyableArea() and "true" or "false"))
+end
