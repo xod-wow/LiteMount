@@ -40,6 +40,7 @@ function LM_Location:Update()
     self.realZoneText = GetRealZoneText()
     self.zoneText = GetZoneText()
     self.subZoneText = GetSubZoneText()
+    self.minimapZoneText = GetMinimapZoneText()
     self.instanceID = select(8, GetInstanceInfo())
 end
 
@@ -145,7 +146,7 @@ function LM_Location:Dump()
     LM_Print("areaID: " .. self.areaID)
     LM_Print("instanceID: " .. self.instanceID)
     LM_Print("zoneText: " .. self.zoneText)
-    LM_Print("minimapZoneText: " .. self.minimapZoneText)
     LM_Print("subZoneText: " .. self.subZoneText)
+    LM_Print("minimapZoneText: " .. self.minimapZoneText)
     LM_Print("IsFlyableArea(): " .. (IsFlyableArea() and "true" or "false"))
 end
