@@ -24,7 +24,8 @@ end
 function LM_Nagrand:Get(spellID)
     local m
 
-    if HasDraenorZoneAbility and HasDraenorZoneAbility() then
+    local baseSpellID, garrisonType = GetZoneAbilitySpellInfo()
+    if baseSpellID ~= 0 then
         m = LM_Spell:Get(spellID, true)
     end
 
@@ -37,12 +38,14 @@ function LM_Nagrand:Get(spellID)
 end
 
 -- Draenor Ability spells are weird.  The name of the Garrison Ability
--- (localized) is name = GetSpellInfo(DraenorZoneAbilitySpellID).
+-- (localized) is name = GetSpellInfo(161691)
 -- But, GetSpellInfo(name) returns the actual current spell that's active.
 function LM_Nagrand:IsUsable()
-    local DraenorZoneAbilityName = GetSpellInfo(DraenorZoneAbilitySpellID)
-    local id = select(7, GetSpellInfo(DraenorZoneAbilityName))
+    local baseSpellID, garrisonType = GetZoneAbilitySpellInfo()
+    local baseSpellName = GetSpellInfo(baseSpellID)
+
+    local id = select(7, GetSpellInfo(baseSpellName))
     if id ~= self:SpellID() then return false end
-    if not IsUsableSpell(DraenorZoneAbilitySpellID) then return false end
+    if not IsUsableSpell(baseSpellID) then return false end
     return LM_Mount.IsUsable(self)
 end
