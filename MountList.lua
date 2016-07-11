@@ -132,6 +132,20 @@ function LM_MountList:__add(other)
     return r
 end
 
+function LM_MountList:__sub(other)
+    local r = LM_MountList:New()
+    local remove = { }
+    for m in other:Iterate() do
+        remove[m:Name()] = true
+    end
+    for m in self:Iterate() do
+        if not remove[m:Name()] then
+            tinsert(r, m)
+        end
+    end
+    return r
+end
+
 function LM_MountList:Sort()
     local ns = function (a,b) return a:Name() < b:Name() end
     sort(self, ns)
