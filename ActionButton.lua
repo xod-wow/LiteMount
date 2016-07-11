@@ -25,7 +25,10 @@ function LM_ActionButton:Dispatch(action, args)
     LM_Debug("Dispatching action " .. action .. ".")
 
     -- This is super ugly.
-    local m = LM_Action[action](LM_Action, self, args)
+    local ml = LM_Action[action](LM_Action, self, args)
+    if not ml or next(ml) == nil then return end
+
+    local m = ml:Random()
     if not m then return end
 
     LM_Debug("Setting up button as " .. (m:Name() or action) .. ".")
