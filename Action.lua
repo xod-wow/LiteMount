@@ -90,7 +90,7 @@ end
 function LM_Action:Spell(spellID)
     local name = GetSpellInfo(spellID)
     LM_Debug("Setting action to " .. name .. ".")
-    return LM_MountList:New({ LM_ActionAsMount:Spell(name) })
+    return LM_ActionAsMount:Spell(name)
 end
 
 function LM_Action:Zone(zoneID)
@@ -105,7 +105,7 @@ function LM_Action:LeaveVehicle()
     if not CanExitVehicle() then return end
 
     LM_Debug("Setting action to VehicleExit.")
-    return LM_MountList:New({ LM_ActionAsMount:Macro(SLASH_LEAVEVEHICLE1) })
+    return LM_ActionAsMount:Macro(SLASH_LEAVEVEHICLE1)
 end
 
 -- Mounted -> dismount
@@ -113,7 +113,7 @@ function LM_Action:Dismount()
     if not IsMounted() then return end
 
     LM_Debug("Setting action to Dismount.")
-    return LM_MountList:New({ LM_ActionAsMount:Macro(SLASH_DISMOUNT1) })
+    return LM_ActionAsMount:Macro(SLASH_DISMOUNT1)
 end
 
 function LM_Action:CancelForm()
@@ -126,7 +126,7 @@ function LM_Action:CancelForm()
     if not form or LM_Options:IsExcludedMount(form) then return end
 
     LM_Debug("Setting action to CancelForm.")
-    return LM_MountList:New({ LM_ActionAsMount:Macro(SLASH_CANCELFORM1) })
+    return LM_ActionAsMount:Macro(SLASH_CANCELFORM1)
 end
 
 -- Got a player target, try copying their mount
@@ -143,62 +143,62 @@ function LM_Action:Vashjir()
     if not LM_Location:IsVashjir() then return end
 
     LM_Debug("Trying GetVashjirMount")
-    return LM_PlayerMounts:GetAvailableMounts(LM_FLAG_BIT_VASHJIR)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_VASHJIR)
 end
 
 function LM_Action:Fly()
     if not LM_Location:CanFly() then return end
 
     LM_Debug("Trying GetFlyingMount")
-    return LM_PlayerMounts:GetAvailableMounts(LM_FLAG_BIT_FLY)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_FLY)
 end
 
 function LM_Action:Swim()
     if not LM_Location:CanSwim() then return end
 
     LM_Debug("Trying GetSwimmingMount")
-    return LM_PlayerMounts:GetAvailableMounts(LM_FLAG_BIT_SWIM)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_SWIM)
 end
 
 function LM_Action:Nagrand()
     if not LM_Location:IsDraenorNagrand() then return end
 
     LM_Debug("Trying GetNagrandMount")
-    return LM_PlayerMounts:GetAvailableMounts(LM_FLAG_BIT_NAGRAND)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_NAGRAND)
 end
 
 function LM_Action:AQ()
     if not LM_Location:IsAQ() then return end
 
     LM_Debug("Trying GetAQMount")
-    return LM_PlayerMounts:GetAvailableMounts(LM_FLAG_BIT_AQ)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_AQ)
 end
 
 function LM_Action:Run()
     LM_Debug("Trying GetRunningMount")
-    return LM_PlayerMounts:GetAvailableMounts(LM_FLAG_BIT_RUN)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_RUN)
 end
 
 function LM_Action:Walk()
     LM_Debug("Trying GetWalkingMount")
-    return LM_PlayerMounts:GetAvailableMounts(LM_FLAG_BIT_WALK)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_WALK)
 end
 
 function LM_Action:Custom1()
     LM_Debug("Trying GetCustom1Mount")
-    return LM_PlayerMounts:GetAvailableMounts(LM_FLAG_BIT_CUSTOM1)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM1)
 end
 
 function LM_Action:Custom2()
     LM_Debug("Trying GetCustom2Mount")
-    return LM_PlayerMounts:GetAvailableMounts(LM_FLAG_BIT_CUSTOM2)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM2)
 end
 
 function LM_Action:Macro()
     if not LM_Options:UseMacro() then return end
 
     LM_Debug("Using custom macro.")
-    return LM_MountList:New({ LM_ActionAsMount:Macro(LM_Options:GetMacro()) })
+    return LM_ActionAsMount:Macro(LM_Options:GetMacro())
 end
 
 function LM_Action:CantMount()
@@ -208,17 +208,15 @@ function LM_Action:CantMount()
     LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
 
     LM_Debug("Setting action to can't mount now.")
-    return LM_MountList:New({ LM_ActionAsMount:Macro("") })
+    return LM_ActionAsMount:Macro("")
 end
 
 function LM_Action:Combat()
     LM_Debug("Setting action to in-combat action.")
 
     if LM_Options:UseCombatMacro() then
-        local macrotext = LM_Options:GetCombatMacro()
-        return LM_MountList:New({ LM_ActionAsMount:Macro(macrotext) })
+        return LM_ActionAsMount:Macro(LM_Options:GetCombatMacro())
     else
-        local macrotext = LM_Options:DefaultCombatMacro()
-        return LM_MountList:New({ LM_ActionAsMount:Macro(macrotext) })
+        return LM_ActionAsMount:Macro(self:DefaultCombatMacro())
     end
 end
