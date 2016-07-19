@@ -76,7 +76,7 @@ function LM_Journal:Get(mountIndex)
     if m:Type() == 230 then -- ground mount
         m.flags = bit.bor(LM_FLAG_BIT_RUN)
     elseif m:Type() == 231 then -- riding/sea turtle
-        m.flags = bit.bor(LM_FLAG_BIT_WALK)
+        m.flags = 0
     elseif m:Type() == 232 then -- Vashj'ir Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_VASHJIR)
     elseif m:Type() == 241 then -- AQ-only bugs
