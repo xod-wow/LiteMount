@@ -14,8 +14,7 @@ local RescanEvents = {
     -- Companion change. Don't add COMPANION_UPDATE to this as it fires
     -- for units other than "player" and triggers constantly.
     "COMPANION_LEARNED", "COMPANION_UNLEARNED",
-    -- Talents (might have mount abilities). Glyphs that teach spells
-    -- fire PLAYER_TALENT_UPDATE too, don't need to watch GLYPH_ events.
+    -- Talents (might have mount abilities).
     "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_LEVEL_UP", "PLAYER_TALENT_UPDATE",
     -- You might have received a mount item (e.g., Magic Broom).
     "BAG_UPDATE",
