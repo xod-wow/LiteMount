@@ -24,6 +24,12 @@ end
 function LM_Nagrand:Get(spellID)
     local m
 
+    local playerFaction = UnitFactionGroup("player")
+    local requiredFaction = FactionRequirements[spellID]
+    if requiredFaction and playerFaction ~= requiredFaction then
+        return
+    end
+
     local baseSpellID, garrisonType = GetZoneAbilitySpellInfo()
     if baseSpellID ~= 0 then
         m = LM_Spell:Get(spellID, true)
@@ -31,7 +37,6 @@ function LM_Nagrand:Get(spellID)
 
     if m then
         setmetatable(m, LM_Nagrand)
-        m:NeedsFaction(FactionRequirements[spellID])
     end
 
     return m

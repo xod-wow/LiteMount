@@ -84,11 +84,6 @@ function LM_Mount:NeedsProfession(v)
     return self.needsProfession
 end
 
-function LM_Mount:JournalIndex(v)
-    if v then self.journalIndex = v end
-    return self.journalIndex
-end
-
 function LM_Mount:MountID(v)
     if v then self.mountID = v end
     return self.mountID

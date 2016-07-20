@@ -99,7 +99,7 @@
                     local m = self:GetParent().mount
 
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
-                    if m:JournalIndex() then
+                    if m:MountID() then
                         GameTooltip:SetMountBySpellID(m:SpellID())
                     else
                         GameTooltip:SetSpellByID(m:SpellID())

@@ -22,14 +22,7 @@ LM_Journal.__index = LM_Journal
 --  [9] faction,
 -- [10] isFiltered,
 -- [11] isCollected,
--- [12] mountID = C_MountJournal.GetDisplayedMountInfo(index)
-
---  [1] creatureName,
---  [2] spellID,
---  [3] icon,
---  [4] active,
---  [5] isUsable,
---  [6] sourceType = C_MountJournal.GetMountInfoByID(mountID)
+-- [12] mountID = C_MountJournal.GetMountInfoByID(mountID)
 
 --  [1] creatureDisplayID,
 --  [2] descriptionText,
@@ -37,13 +30,12 @@ LM_Journal.__index = LM_Journal
 --  [4] isSelfMount,
 --  [5] mountType = C_MountJournal.GetMountInfoExtraByID(mountID)
 
-function LM_Journal:Get(mountIndex)
-    local name, spellID, icon, _, _, _, _, _, faction, isFiltered, isCollected, mountID = C_MountJournal.GetDisplayedMountInfo(mountIndex)
+function LM_Journal:Get(id)
+    local name, spellID, icon, _, _, _, _, _, faction, isFiltered, isCollected, mountID = C_MountJournal.GetMountInfoByID(id)
     local modelID, _, _, isSelfMount, mountType = C_MountJournal.GetMountInfoExtraByID(mountID)
 
     if not name then
-        LM_Debug(format("LM_Mount: Failed GetMountInfo #%d (of %d)",
-                        mountIndex, C_MountJournal:GetNumDisplayedMounts()))
+        LM_Debug(format("LM_Mount: Failed GetMountInfo for ID = #%d", id))
         return
     end
 
@@ -107,7 +99,7 @@ function LM_Journal:Get(mountIndex)
 end
 
 function LM_Journal:IsUsable()
-    local usable = select(5, C_MountJournal.GetDisplayedMountInfo(self:JournalIndex()))
+    local usable = select(5, C_MountJournal.GetMountInfoByID(self:MountID()))
     if not usable then return end
     if not IsUsableSpell(self:SpellID()) then return end
     return LM_Mount.IsUsable(self)
