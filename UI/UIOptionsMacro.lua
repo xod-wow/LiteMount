@@ -11,6 +11,11 @@
 local NUM_SUGGESTION_BUTTONS = 4
 
 local ClassSuggestions = {
+    ["DEMONHUNTER"] = {
+        {
+            ["iconspell"] = 195072,                 -- Fel Rush
+        },
+    },
     ["DRUID"] = {
         {
             ["iconspell"] = 1850,                   -- Dash
@@ -23,7 +28,6 @@ local ClassSuggestions = {
     ["HUNTER"] = {
         {
             ["iconspell"] = 5118,                   -- Aspect of the Cheetah
-            ["macro"] = "/cast !{name}",
         },
     },
     ["MAGE"] = {
@@ -31,19 +35,14 @@ local ClassSuggestions = {
             ["iconspell"] = 1953,                   -- Blink
         },
         {
-            ["iconspell"] = 108843,                 -- Blazing Speed
-        },
-        {
             ["iconspell"] = 130,                    -- Slow Fall
             ["macro"] = "/cast [@player] {name}",
-        },
-        {
-            ["iconspell"] = 108839,                 -- Ice Floes
         },
     },
     ["MONK"] = {
         {
             ["iconspell"] = 116841,                 -- Tiger's Lust
+            ["macro"] = "/cast [@player] {name}",
         },
         {
             ["iconspell"] = 125883,                 -- Zen Flight
@@ -62,9 +61,6 @@ local ClassSuggestions = {
     },
     ["ROGUE"] = {
         {
-            ["iconspell"] = 108212,                 -- Burst of Speed
-        },
-        {
             ["iconspell"] = 2983,                   -- Sprint
         },
     },
@@ -80,9 +76,8 @@ local ClassSuggestions = {
         {
             ["iconspell"] = 48020,                  -- Demonic Circle: Teleport
         },
-        {
-            ["iconspell"] = 109151,                 -- Demonic Leap
-        },
+    },
+    ["WARRIOR"] = {
     },
 }
 
