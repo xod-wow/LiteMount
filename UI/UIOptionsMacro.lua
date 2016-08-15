@@ -13,88 +13,75 @@ local NUM_SUGGESTION_BUTTONS = 4
 local ClassSuggestions = {
     ["DRUID"] = {
         {
-            ["iconspell"] = 1850,
-            ["macro"] = "/cast [form:2] Dash",
+            ["iconspell"] = 1850,                   -- Dash
+            ["macro"] = "/cast [form:2] {name}",
         },
         {
-            ["iconspell"] = 106898,
-            ["macro"] = "/cast Stampeding Roar",
+            ["iconspell"] = 106898,                 -- Stampeding Roar
         },
     },
     ["HUNTER"] = {
         {
-            ["iconspell"] = 5118,
-            ["macro"] = "/cast !Aspect of the Cheetah",
+            ["iconspell"] = 5118,                   -- Aspect of the Cheetah
+            ["macro"] = "/cast !{name}",
         },
     },
     ["MAGE"] = {
         {
-            ["iconspell"] = 1953,
-            ["macro"] = "/cast Blink",
+            ["iconspell"] = 1953,                   -- Blink
         },
         {
-            ["iconspell"] = 108843,
-            ["macro"] = "/cast Blazing Speed",
+            ["iconspell"] = 108843,                 -- Blazing Speed
         },
         {
-            ["iconspell"] = 130,
-            ["macro"] = "/cast [@player] Slow Fall",
+            ["iconspell"] = 130,                    -- Slow Fall
+            ["macro"] = "/cast [@player] {name}",
         },
         {
-            ["iconspell"] = 108839,
-            ["macro"] = "/cast Ice Floes",
+            ["iconspell"] = 108839,                 -- Ice Floes
         },
     },
     ["MONK"] = {
         {
-            ["iconspell"] = 116841,
-            ["macro"] = "/cast Tiger's Lust",
+            ["iconspell"] = 116841,                 -- Tiger's Lust
         },
         {
-            ["iconspell"] = 125883,
-            ["macro"] = "/cast Zen Flight",
+            ["iconspell"] = 125883,                 -- Zen Flight
         },
     },
     ["PALADIN"] = {
         {
-            ["iconspell"] = 85499,
-            ["macro"] = "/cast Speed of Light",
+            ["iconspell"] = 190784,                 -- Divine Steed
         },
     },
     ["PRIEST"] = {
         {
-            ["iconspell"] = 1706,
-            ["macro"] = "/cast [@player] Levitate",
+            ["iconspell"] = 1706,                   -- Levitate
+            ["macro"] = "/cast [@player] {name}",
         },
     },
     ["ROGUE"] = {
         {
-            ["iconspell"] = 108212,
-            ["macro"] = "/cast Burst of Speed",
+            ["iconspell"] = 108212,                 -- Burst of Speed
         },
         {
-            ["iconspell"] = 2983,
-            ["macro"] = "/cast Sprint",
+            ["iconspell"] = 2983,                   -- Sprint
         },
     },
     ["SHAMAN"] = {
         {
-            ["iconspell"] = 58875,
-            ["macro"] = "/cast Spirit Walk",
+            ["iconspell"] = 58875,                  -- Spirit Walk
         },
     },
     ["WARLOCK"] = {
         {
-            ["iconspell"] = 111400,
-            ["macro"] = "/cast Burning Rush",
+            ["iconspell"] = 111400,                 -- Burning Rush
         },
         {
-            ["iconspell"] = 48020,
-            ["macro"] = "/cast Demonic Circle: Teleport",
+            ["iconspell"] = 48020,                  -- Demonic Circle: Teleport
         },
         {
-            ["iconspell"] = 109151,
-            ["macro"] = "/cast Demonic Leap",
+            ["iconspell"] = 109151,                 -- Demonic Leap
         },
     },
 }
@@ -103,7 +90,6 @@ local RaceSuggestions = {
     ["Worgen"] = {
         {
             ["iconspell"] = 68992,
-            ["macro"] = "/cast Darkflight",
         },
     },
 }
@@ -155,9 +141,14 @@ end
 
 local function SetSuggestion(button, s)
     if s then
-        SetItemButtonTexture(button, select(3, GetSpellInfo(s.iconspell)))
-        button.macro = s.macro .. "\n"
-        button.tooltipText = s.macro
+        local name, _, texture = GetSpellInfo(s.iconspell)
+        SetItemButtonTexture(button, texture)
+        if s.macro then
+            button.macro = gsub(s.macro, "{name}",  name) .. "\n"
+        else
+            button.macro = "/cast " .. name .. "\n";
+        end
+        button.tooltipText = button.macro
         button:Show()
     else
         button.macro = nil
