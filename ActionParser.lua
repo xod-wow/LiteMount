@@ -173,7 +173,7 @@ end
 
 -- Returns action if conditions match, or nil otherwise
 
-function LiteMountCmdParse(line)
+function LiteMountActionParse(line)
 
     line = TrimWS(line)
 
