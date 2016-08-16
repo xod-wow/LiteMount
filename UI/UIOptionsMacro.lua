@@ -68,6 +68,9 @@ local ClassSuggestions = {
         {
             ["iconspell"] = 58875,                  -- Spirit Walk
         },
+        {
+            ["iconspell"] = 192063,                 -- Gust of Wind
+        },
     },
     ["WARLOCK"] = {
         {
