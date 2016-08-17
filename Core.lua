@@ -36,14 +36,14 @@ local ButtonActions = {
         Dismount            [mounted]
         CancelMountForm     [form]
         CopyTargetsMount
-        Vashjir             [swimming,area:610/614/615]
-        Fly                 [flyable]
-        Swim                [swimming]
-        Nagrand             [area:950]
-        AQ                  [area:766]
-        Run
-        Walk
-        Macro
+        Mount(vashjir)      [swimming,area:610/614/615]
+        Mount(fly)          [flyable]
+        Mount(swim)         [swimming]
+        Mount(nagrand)      [area:950]
+        Mount(aq)           [area:766]
+        Mount(run)
+        Mount(walk)
+        UnvailableMacro
     ]],
     -- Ground-only mount button (same as above but no "Fly")
     [2] = [[
@@ -51,29 +51,29 @@ local ButtonActions = {
         Dismount            [mounted]
         CancelMountForm     [form]
         CopyTargetsMount
-        Vashjir             [swimming,area:610/614/615]
-        Swim                [swimming]
-        Nagrand             [area:950]
-        AQ                  [area:766]
-        Run
-        Walk
-        Macro
+        Mount(vashjir)      [swimming,area:610/614/615]
+        Mount(swim)         [swimming]
+        Mount(nagrand)      [area:950]
+        Mount(aq)           [area:766]
+        Mount(run)
+        Mount(walk)
+        UnvailableMacro
     ]],
     -- Custom1
     [3] = [[
         LeaveVehicle        [vehicle]
         Dismount            [mounted]
         CancelMountForm     [form]
-        Custom1
-        Macro
+        Mount(custom1)
+        UnavailableMacro
     ]],
     -- Custom2
     [4] = [[
         LeaveVehicle        [vehicle]
         Dismount            [mounted]
         CancelMountForm     [form]
-        Custom2
-        Macro
+        Mount(custom2)
+        UnavailableMacro
     ]],
 }
 

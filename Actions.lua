@@ -98,11 +98,6 @@ function LM_Actions:Spell(spellID)
     return LM_ActionAsMount:Spell(name)
 end
 
-function LM_Actions:Zone(zoneID)
-    LM_Debug(format("Trying zone mount for %s (%d).", LM_Location:GetName(), LM_Location:GetID()))
-    return LM_PlayerMounts:GetZoneMount(zoneID)
-end
-
 -- In vehicle -> exit it
 function LM_Actions:LeaveVehicle()
     LM_Debug("Setting action to VehicleExit.")
@@ -137,54 +132,37 @@ function LM_Actions:CopyTargetsMount()
     return LM_PlayerMounts:GetMountFromUnitAura("target")
 end
 
-function LM_Actions:Vashjir()
-    LM_Debug("Trying GetVashjirMount")
+function LM_Actions:Mount(tag)
+    if tag == "fly" then
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_FLY)
+    elseif tag == "swim" then
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_SWIM)
+    elseif tag == "nagrand" then
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_NAGRAND)
+    elseif tag == "aq" then
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_AQ)
+    elseif tag == "vashjir" then
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_VASHJIR)
+    elseif tag == "run" then
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_RUN)
+    elseif tag == "walk" then
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_WALK)
+    elseif tag == "custom1" then
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM1)
+    elseif tag == "custom2" then
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM2)
+    end
 end
 
-function LM_Actions:Fly()
-    LM_Debug("Trying GetFlyingMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_FLY)
+--[[
+-- This will have to wait for a better parser that handles spaces
+function LM_Actions:Command(cmd)
+    return LM_ActionAsMount:Macro(cmd)
 end
+]]
 
-function LM_Actions:Swim()
-    LM_Debug("Trying GetSwimmingMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_SWIM)
-end
-
-function LM_Actions:Nagrand()
-    LM_Debug("Trying GetNagrandMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_NAGRAND)
-end
-
-function LM_Actions:AQ()
-    LM_Debug("Trying GetAQMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_AQ)
-end
-
-function LM_Actions:Run()
-    LM_Debug("Trying GetRunningMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_RUN)
-end
-
-function LM_Actions:Walk()
-    LM_Debug("Trying GetWalkingMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_WALK)
-end
-
-function LM_Actions:Custom1()
-    LM_Debug("Trying GetCustom1Mount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM1)
-end
-
-function LM_Actions:Custom2()
-    LM_Debug("Trying GetCustom2Mount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM2)
-end
-
-function LM_Actions:Macro()
+function LM_Actions:UnvailableMacro()
     if not LM_Options:UseMacro() then return end
-
     LM_Debug("Using custom macro.")
     return LM_ActionAsMount:Macro(LM_Options:GetMacro())
 end
