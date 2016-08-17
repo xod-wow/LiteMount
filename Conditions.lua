@@ -39,7 +39,6 @@ local map = {
     -- Location conditions
 
     ["area:v"] = function (v)
-            LM_Debug(format("Checking areaID %d == %d", v, LM_Location.areaID))
             return tonumber(v) == LM_Location.areaID
         end,
 

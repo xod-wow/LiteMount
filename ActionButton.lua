@@ -78,12 +78,13 @@ function LM_ActionButton:LoadActionLines(actionLines)
 
     for _, line in ipairs({ strsplit("\r?\n", actionLines) }) do
         if line then
-            self:LoadActionLine(line)
+            local act = self:ParseActionLine(line)
+            tinsert(self.actionList, act)
         end
     end
 end
 
-function LM_ActionButton:LoadActionLine(line)
+function LM_ActionButton:ParseActionLine(line)
     if line:match("^%s*$") then
         return
     end
@@ -105,13 +106,11 @@ function LM_ActionButton:LoadActionLine(line)
         action = action:sub(1, i-1)
     end
 
-    tinsert(
-        self.actionList,
-        {
+    return {
             ["action"] = action,
             ["args"] = args,
             ["conditions"] = conditions
-        })
+        }
 end
 
 function LM_ActionButton:Create(n, actionLines)
