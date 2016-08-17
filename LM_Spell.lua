@@ -43,6 +43,5 @@ end
 
 function LM_Spell:IsUsable()
     if not IsUsableSpell(self:SpellID()) then return end
-    if GetSpellCooldown(self:SpellID()) > 0 then return end
     return LM_Mount.IsUsable(self)
 end
