@@ -87,6 +87,11 @@ function LM_Action:DefaultCombatMacro()
     return mt
 end
 
+function LM_Action:Print(msg)
+    LM_Print(msg)
+    return false
+end
+
 function LM_Action:Spell(spellID)
     local name = GetSpellInfo(spellID)
     LM_Debug("Setting action to " .. name .. ".")

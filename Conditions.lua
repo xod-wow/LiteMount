@@ -10,11 +10,6 @@
 
 --[[
 
-    <line>          :=  <action> |
-                        <conditions> " " <action>
-
-    <action>        :=  STRING
-
     <conditions>    :=  <condition> |
                         <condition> <conditions>
 
@@ -44,11 +39,12 @@ local map = {
     -- Location conditions
 
     ["area:v"] = function (v)
-            return v == LM_Location.areaID
+            LM_Debug(format("Checking areaID %d == %d", v, LM_Location.areaID))
+            return tonumber(v) == LM_Location.areaID
         end,
 
     ["continent:v"] = function (v)
-            return v == LM_Location.continent
+            return tonumber(v) == LM_Location.continent
         end,
 
     ["flyable"] = function ()
@@ -110,10 +106,10 @@ local map = {
         end,
 
     ["form:v"] = function (v)
-            return GetShapeshiftForm() == v
+            return GetShapeshiftForm() == tonumber(v)
         end,
 
-    ["group:1"] = function (groupType)
+    ["group"] = function (groupType)
             if groupType == "raid" then return IsInRaid() end
             if not groupType or groupType == "group" then return IsInGroup() end
             return false
@@ -125,11 +121,11 @@ local map = {
             return UnitName("pet") == v
         end,
 
-    ["spec:v"] = function (n)
-            return n == GetSpecialization()
+    ["spec:v"] = function (v)
+            return GetSpecialization() == tonumber(v)
         end,
 
-    ["talent:2"] = function (tier, talent)
+    ["talent"] = function (tier, talent)
             return select(2, GetTalentTierInfo(tier, 1)) == talent
         end,
 
@@ -144,16 +140,19 @@ local function any(f, ...)
 end
 
 function LM_Conditions:IsTrue(str)
-    local cond, values = strsplit(':', str)
-
-    values = { strsplit('/', args or "") }
+    local cond, valuestr = strsplit(':', str)
 
     -- Empty condition [] is true
-    if cond == "" then
-        return true
+    if cond == "" then return true end
+
+    local values
+    if valuestr then
+        values = { strsplit('/', valuestr) }
+    else
+        values = { }
     end
 
-    -- Takes one value and should support a/b/c "OR"
+    -- ":v" functions take one value and should support a/b/c "OR"
     if map[cond..":v"] then
         return any(map[cond..":v"], unpack(values))
     end
@@ -165,22 +164,7 @@ function LM_Conditions:IsTrue(str)
         return false
     end
 
-    -- Blizzard screwed this up. In most cases the / separator means "any of these
-    -- values", so [x:1/2] == [x:1][x:2].  But for talent it's separating the 
-    -- tier from the talent in that tier.
-
-    local argList
-
-    if not args then
-        argList = { }
-    else
-        argList = strsplit('/', args)
-    end
-
-    if type(map[cond]) ~= "function" then
-    end
-
-    return map[cond](unpack(argList))
+    return map[cond](unpack(values))
 end
 
 -- "OR" together comma-separated tests

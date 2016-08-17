@@ -15,10 +15,11 @@ LM_ActionButton.__index = LM_ActionButton
 -- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to set it to what we really want to do.
 
-function LM_ActionButton:Dispatch(condAction, args)
+function LM_ActionButton:Dispatch(condAction)
 
     local action = condAction["action"]
     local conditions = condAction["conditions"]
+    local args = condAction["args"]
 
     if not LM_Action[action] then
         LM_Print(format("Error: bad action '%s' in action list.", action))
@@ -27,14 +28,14 @@ function LM_ActionButton:Dispatch(condAction, args)
 
     if conditions then
         local t = LM_Conditions:Eval(conditions)
-        LM_Debug(format("Eval(\"%s\") returned %s", conditions, tostring(t)))
+        LM_Debug(format("Eval \"%s\" -> %s", conditions, tostring(t)))
         if not t then return end
     end
         
-    LM_Debug("Dispatching action " .. action .. ".")
+    LM_Debug("Dispatching action " .. action .. "(" .. (args or "") .. ")")
 
     -- This is super ugly.
-    local m = LM_Action[action](LM_Action, self, args)
+    local m = LM_Action[action](LM_Action, args)
     if not m then return end
 
     LM_Debug("Setting up button as " .. (m:Name() or action) .. ".")
@@ -95,8 +96,22 @@ function LM_ActionButton:LoadActionLine(line)
         conditions = "[]"
     end
 
-    tinsert(self.actionList,
-            { ["action"] = action, ["conditions"] = conditions })
+    local args
+
+    local i, j = action:find("%(.*%)$")
+    if i ~= nil then
+        LM_Debug(format("i, j = %d, %d", i, j))
+        args = action:sub(i+1, j-1)
+        action = action:sub(1, i-1)
+    end
+
+    tinsert(
+        self.actionList,
+        {
+            ["action"] = action,
+            ["args"] = args,
+            ["conditions"] = conditions
+        })
 end
 
 function LM_ActionButton:Create(n, actionLines)
