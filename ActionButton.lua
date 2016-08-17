@@ -15,13 +15,21 @@ LM_ActionButton.__index = LM_ActionButton
 -- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to set it to what we really want to do.
 
-function LM_ActionButton:Dispatch(action, args)
+function LM_ActionButton:Dispatch(condAction, args)
+
+    local action = condAction["action"]
+    local conditions = condAction["conditions"]
 
     if not LM_Action[action] then
         LM_Print(format("Error: bad action '%s' in action list.", action))
         return
     end
 
+    if conditions and not LM_Conditions:Eval(conditions or "") then
+        LM_Debug(format("Eval(%s) returned false for %s", conditions, action))
+        return
+    end
+        
     LM_Debug("Dispatching action " .. action .. ".")
 
     -- This is super ugly.
@@ -42,7 +50,7 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_PlayerMounts:ScanMounts()
 
-    for action in gmatch(self.actionList, "%S+") do
+    for _, condAction in ipairs(self.actionList) do
         if self:Dispatch(action) then return end
     end
 
@@ -63,7 +71,18 @@ function LM_ActionButton:PostClick()
     LM_Action:Combat():SetupActionButton(self)
 end
 
-function LM_ActionButton:Create(n, actionList)
+function LM_ActionButton:LoadActionLines(actionLines)
+    wipe(self.actionList)
+
+    for _, line in ipairs({ strsplit("\r?\n", actionLines) }) do
+        -- trim whitespace
+        line = line:match("^%s*(.-)%s*$")
+        local action, conditions = strsplit("%s+", line, 2)
+        self.actionList.append({ ["action"] = action, ["conditions"] = conditions })
+    end
+end
+
+function LM_ActionButton:Create(n, actionLines)
 
     local name = "LiteMountActionButton" .. n
 
@@ -71,7 +90,8 @@ function LM_ActionButton:Create(n, actionList)
     setmetatable(b, LM_ActionButton)
 
     -- Save for use in PreClick handler
-    b.actionList = actionList
+    b.actionList = { }
+    b:LoadActionLines(actionLines)
 
     -- Button-fu
     b:RegisterForClicks("AnyDown")

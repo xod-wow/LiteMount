@@ -32,46 +32,46 @@ LiteMount:RegisterEvent("PLAYER_LOGIN")
 local ButtonActions = {
     -- Normal mount button.
     [1] = [[
-        LeaveVehicle
-        Dismount
-        CancelForm
+        LeaveVehicle        [vehicle]
+        Dismount            [mounted]
+        CancelForm          [mountform]
         CopyTargetsMount
-        Vashjir
-        Fly
-        Swim
-        Nagrand
-        AQ
+        Vashjir             [area:610/614/615]
+        Fly                 [flyable]
+        Swim                [swimming]
+        Nagrand             [area:950]
+        AQ                  [area:766]
         Run
         Walk
         Macro
     ]],
     -- Ground-only mount button (same as above but no "Fly")
     [2] = [[
-        LeaveVehicle
-        Dismount
-        CancelForm
+        LeaveVehicle        [vehicle]
+        Dismount            [mounted]
+        CancelForm          [mountform]
         CopyTargetsMount
-        Vashjir
-        Swim
-        Nagrand
-        AQ
+        Vashjir             [area:610/614/615]
+        Swim                [swimming]
+        Nagrand             [area:950]
+        AQ                  [area:766]
         Run
         Walk
         Macro
     ]],
     -- Custom1
     [3] = [[
-        LeaveVehicle
-        Dismount
-        CancelForm
+        LeaveVehicle        [vehicle]
+        Dismount            [mounted]
+        CancelForm          [mountform]
         Custom1
         Macro
     ]],
     -- Custom2
     [4] = [[
-        LeaveVehicle
-        Dismount
-        CancelForm
+        LeaveVehicle        [vehicle]
+        Dismount            [mounted]
+        CancelForm          [mountform]
         Custom2
         Macro
     ]],

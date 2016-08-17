@@ -48,3 +48,9 @@ end
 function LM_Warning(msg)
     UIErrorsFrame:AddMessage(msg, 1.0, 0.1, 0.1)
 end
+
+function LM_WarningAndPrint(msg)
+    LM_Warning(msg)
+    LM_Print(msg)
+end
+
