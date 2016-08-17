@@ -52,7 +52,7 @@ local function GetDruidMountForms()
             tinsert(forms, i)
         end
     end
-    return table.concat(forms, "/")
+    return forms
 end
 
 -- This is the macro that gets set as the default and will trigger if
@@ -67,7 +67,7 @@ function LM_Action:DefaultCombatMacro()
     local playerClass = select(2, UnitClass("player"))
 
     if playerClass ==  "DRUID" then
-        local forms = GetDruidMountForms()
+        local forms = table.concat(GetDruidMountForms(), "/")
         local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
         if mount and not LM_Options:IsExcludedMount(mount) then
             mt = mt .. format("/cast [noform:%s] %s\n", forms, mount:Name())
@@ -94,29 +94,23 @@ function LM_Action:Spell(spellID)
 end
 
 function LM_Action:Zone(zoneID)
-    if not LM_Location:IsZone(zoneID) then return end
-
     LM_Debug(format("Trying zone mount for %s (%d).", LM_Location:GetName(), LM_Location:GetID()))
     return LM_PlayerMounts:GetZoneMount(zoneID)
 end
 
 -- In vehicle -> exit it
 function LM_Action:LeaveVehicle()
-    if not CanExitVehicle() then return end
-
     LM_Debug("Setting action to VehicleExit.")
     return LM_ActionAsMount:Macro(SLASH_LEAVEVEHICLE1)
 end
 
 -- Mounted -> dismount
 function LM_Action:Dismount()
-    if not IsMounted() then return end
-
     LM_Debug("Setting action to Dismount.")
     return LM_ActionAsMount:Macro(SLASH_DISMOUNT1)
 end
 
-function LM_Action:CancelForm()
+function LM_Action:CancelMountForm()
     -- We only want to cancel forms that we will activate (mount-style ones).
     -- See: http://wowprogramming.com/docs/api/GetShapeshiftFormID
     local formIndex = GetShapeshiftForm()
@@ -125,7 +119,7 @@ function LM_Action:CancelForm()
     local form = LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
     if not form or LM_Options:IsExcludedMount(form) then return end
 
-    LM_Debug("Setting action to CancelForm.")
+    LM_Debug("Setting action to CancelMountForm.")
     return LM_ActionAsMount:Macro(SLASH_CANCELFORM1)
 end
 
@@ -139,37 +133,26 @@ function LM_Action:CopyTargetsMount()
 end
 
 function LM_Action:Vashjir()
-    if not LM_Location:CanSwim() then return end
-    if not LM_Location:IsVashjir() then return end
-
     LM_Debug("Trying GetVashjirMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_VASHJIR)
 end
 
 function LM_Action:Fly()
-    if not LM_Location:CanFly() then return end
-
     LM_Debug("Trying GetFlyingMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_FLY)
 end
 
 function LM_Action:Swim()
-    if not LM_Location:CanSwim() then return end
-
     LM_Debug("Trying GetSwimmingMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_SWIM)
 end
 
 function LM_Action:Nagrand()
-    if not LM_Location:IsDraenorNagrand() then return end
-
     LM_Debug("Trying GetNagrandMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_NAGRAND)
 end
 
 function LM_Action:AQ()
-    if not LM_Location:IsAQ() then return end
-
     LM_Debug("Trying GetAQMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_AQ)
 end

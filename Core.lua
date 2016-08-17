@@ -34,9 +34,9 @@ local ButtonActions = {
     [1] = [[
         LeaveVehicle        [vehicle]
         Dismount            [mounted]
-        CancelForm          [mountform]
+        CancelMountForm     [form]
         CopyTargetsMount
-        Vashjir             [area:610/614/615]
+        Vashjir             [swimming,area:610/614/615]
         Fly                 [flyable]
         Swim                [swimming]
         Nagrand             [area:950]
@@ -49,9 +49,9 @@ local ButtonActions = {
     [2] = [[
         LeaveVehicle        [vehicle]
         Dismount            [mounted]
-        CancelForm          [mountform]
+        CancelMountForm     [form]
         CopyTargetsMount
-        Vashjir             [area:610/614/615]
+        Vashjir             [swimming,area:610/614/615]
         Swim                [swimming]
         Nagrand             [area:950]
         AQ                  [area:766]
@@ -63,7 +63,7 @@ local ButtonActions = {
     [3] = [[
         LeaveVehicle        [vehicle]
         Dismount            [mounted]
-        CancelForm          [mountform]
+        CancelMountForm     [form]
         Custom1
         Macro
     ]],
@@ -71,7 +71,7 @@ local ButtonActions = {
     [4] = [[
         LeaveVehicle        [vehicle]
         Dismount            [mounted]
-        CancelForm          [mountform]
+        CancelMountForm     [form]
         Custom2
         Macro
     ]],

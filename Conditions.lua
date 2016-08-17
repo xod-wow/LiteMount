@@ -34,7 +34,7 @@
 
     <arg>           :=  [-a-zA-Z0-9]+
 
-    <tag>           :=  See checkMap array in code
+    <tag>           :=  See map array in code
 ]]
 
 LM_Conditions = { }
@@ -109,6 +109,10 @@ local map = {
             return IsEquippedItem(v) or IsEquippedItemType(v)
         end,
 
+    ["form:v"] = function (v)
+            return GetShapeshiftForm() == v
+        end,
+
     ["group:1"] = function (groupType)
             if groupType == "raid" then return IsInRaid() end
             if not groupType or groupType == "group" then return IsInGroup() end
@@ -156,7 +160,7 @@ function LM_Conditions:IsTrue(str)
 
     -- Takes N values
     -- If you give anything that doesn't exist that's error and false
-    if type(conditionMap[cond]) ~= "function" then
+    if type(map[cond]) ~= "function" then
         LM_WarningAndPrint("Unknown LiteMount action list conditional: " .. cond)
         return false
     end
@@ -173,10 +177,10 @@ function LM_Conditions:IsTrue(str)
         argList = strsplit('/', args)
     end
 
-    if type(conditionMap[cond]) ~= "function" then
+    if type(map[cond]) ~= "function" then
     end
 
-    return conditionMap[cond](unpack(argList))
+    return map[cond](unpack(argList))
 end
 
 -- "OR" together comma-separated tests

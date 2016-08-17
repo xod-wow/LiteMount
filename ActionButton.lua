@@ -25,9 +25,10 @@ function LM_ActionButton:Dispatch(condAction, args)
         return
     end
 
-    if conditions and not LM_Conditions:Eval(conditions or "") then
-        LM_Debug(format("Eval(%s) returned false for %s", conditions, action))
-        return
+    if conditions then
+        local t = LM_Conditions:Eval(conditions)
+        LM_Debug(format("Eval(\"%s\") returned %s", conditions, tostring(t)))
+        if not t then return end
     end
         
     LM_Debug("Dispatching action " .. action .. ".")
@@ -50,11 +51,11 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_PlayerMounts:ScanMounts()
 
-    for _, condAction in ipairs(self.actionList) do
-        if self:Dispatch(action) then return end
+    for i, condAction in ipairs(self.actionList) do
+        if self:Dispatch(condAction) then return end
     end
 
-    self:Dispatch("CantMount")
+    self:Dispatch({ action = "CantMount" })
 end
 
 function LM_ActionButton:PostClick()
@@ -75,11 +76,27 @@ function LM_ActionButton:LoadActionLines(actionLines)
     wipe(self.actionList)
 
     for _, line in ipairs({ strsplit("\r?\n", actionLines) }) do
-        -- trim whitespace
-        line = line:match("^%s*(.-)%s*$")
-        local action, conditions = strsplit("%s+", line, 2)
-        self.actionList.append({ ["action"] = action, ["conditions"] = conditions })
+        if line then
+            self:LoadActionLine(line)
+        end
     end
+end
+
+function LM_ActionButton:LoadActionLine(line)
+    if line:match("^%s*$") then
+        return
+    end
+
+    -- trim whitespace
+    line = line:match("^%s*(.-)%s*$")
+
+    local action, conditions = line:match("^(%S+)%s*(.*)$")
+    if conditions == "" then
+        conditions = "[]"
+    end
+
+    tinsert(self.actionList,
+            { ["action"] = action, ["conditions"] = conditions })
 end
 
 function LM_ActionButton:Create(n, actionLines)
