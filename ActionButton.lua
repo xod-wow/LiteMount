@@ -21,7 +21,7 @@ function LM_ActionButton:Dispatch(condAction)
     local conditions = condAction["conditions"]
     local args = condAction["args"]
 
-    if not LM_Action[action] then
+    if not LM_Actions[action] then
         LM_Print(format("Error: bad action '%s' in action list.", action))
         return
     end
@@ -35,7 +35,7 @@ function LM_ActionButton:Dispatch(condAction)
     LM_Debug("Dispatching action " .. action .. "(" .. (args or "") .. ")")
 
     -- This is super ugly.
-    local m = LM_Action[action](LM_Action, args)
+    local m = LM_Actions[action](LM_Actions, args)
     if not m then return end
 
     LM_Debug("Setting up button as " .. (m:Name() or action) .. ".")
@@ -70,7 +70,7 @@ function LM_ActionButton:PostClick()
     -- to just blindly do the opposite of whatever we chose because
     -- it might not have worked.
 
-    LM_Action:Combat():SetupActionButton(self)
+    LM_Actions:Combat():SetupActionButton(self)
 end
 
 function LM_ActionButton:LoadActionLines(actionLines)

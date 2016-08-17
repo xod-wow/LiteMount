@@ -42,7 +42,7 @@ function LM_ActionAsMount:Name() end
 
 --[[------------------------------------------------------------------------]]--
 
-LM_Action = { }
+LM_Actions = { }
 
 local function GetDruidMountForms()
     local forms = {}
@@ -60,7 +60,7 @@ end
 -- combat-only, because out of combat we've got proper code available.
 -- Note that macros are limited to 255 chars, even inside a SecureActionButton.
 
-function LM_Action:DefaultCombatMacro()
+function LM_Actions:DefaultCombatMacro()
 
     local mt = "/dismount [mounted]\n"
 
@@ -87,35 +87,35 @@ function LM_Action:DefaultCombatMacro()
     return mt
 end
 
-function LM_Action:Print(msg)
+function LM_Actions:Print(msg)
     LM_Print(msg)
     return false
 end
 
-function LM_Action:Spell(spellID)
+function LM_Actions:Spell(spellID)
     local name = GetSpellInfo(spellID)
     LM_Debug("Setting action to " .. name .. ".")
     return LM_ActionAsMount:Spell(name)
 end
 
-function LM_Action:Zone(zoneID)
+function LM_Actions:Zone(zoneID)
     LM_Debug(format("Trying zone mount for %s (%d).", LM_Location:GetName(), LM_Location:GetID()))
     return LM_PlayerMounts:GetZoneMount(zoneID)
 end
 
 -- In vehicle -> exit it
-function LM_Action:LeaveVehicle()
+function LM_Actions:LeaveVehicle()
     LM_Debug("Setting action to VehicleExit.")
     return LM_ActionAsMount:Macro(SLASH_LEAVEVEHICLE1)
 end
 
 -- Mounted -> dismount
-function LM_Action:Dismount()
+function LM_Actions:Dismount()
     LM_Debug("Setting action to Dismount.")
     return LM_ActionAsMount:Macro(SLASH_DISMOUNT1)
 end
 
-function LM_Action:CancelMountForm()
+function LM_Actions:CancelMountForm()
     -- We only want to cancel forms that we will activate (mount-style ones).
     -- See: http://wowprogramming.com/docs/api/GetShapeshiftFormID
     local formIndex = GetShapeshiftForm()
@@ -129,7 +129,7 @@ function LM_Action:CancelMountForm()
 end
 
 -- Got a player target, try copying their mount
-function LM_Action:CopyTargetsMount()
+function LM_Actions:CopyTargetsMount()
     if not UnitIsPlayer("target") then return end
     if not LM_Options:CopyTargetsMount() then return end
 
@@ -137,59 +137,59 @@ function LM_Action:CopyTargetsMount()
     return LM_PlayerMounts:GetMountFromUnitAura("target")
 end
 
-function LM_Action:Vashjir()
+function LM_Actions:Vashjir()
     LM_Debug("Trying GetVashjirMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_VASHJIR)
 end
 
-function LM_Action:Fly()
+function LM_Actions:Fly()
     LM_Debug("Trying GetFlyingMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_FLY)
 end
 
-function LM_Action:Swim()
+function LM_Actions:Swim()
     LM_Debug("Trying GetSwimmingMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_SWIM)
 end
 
-function LM_Action:Nagrand()
+function LM_Actions:Nagrand()
     LM_Debug("Trying GetNagrandMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_NAGRAND)
 end
 
-function LM_Action:AQ()
+function LM_Actions:AQ()
     LM_Debug("Trying GetAQMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_AQ)
 end
 
-function LM_Action:Run()
+function LM_Actions:Run()
     LM_Debug("Trying GetRunningMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_RUN)
 end
 
-function LM_Action:Walk()
+function LM_Actions:Walk()
     LM_Debug("Trying GetWalkingMount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_WALK)
 end
 
-function LM_Action:Custom1()
+function LM_Actions:Custom1()
     LM_Debug("Trying GetCustom1Mount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM1)
 end
 
-function LM_Action:Custom2()
+function LM_Actions:Custom2()
     LM_Debug("Trying GetCustom2Mount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM2)
 end
 
-function LM_Action:Macro()
+function LM_Actions:Macro()
     if not LM_Options:UseMacro() then return end
 
     LM_Debug("Using custom macro.")
     return LM_ActionAsMount:Macro(LM_Options:GetMacro())
 end
 
-function LM_Action:CantMount()
+function LM_Actions:CantMount()
     -- This isn't a great message, but there isn't a better one that
     -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
     -- LM_Warning("You don't know any mounts you can use right now.")
@@ -199,7 +199,7 @@ function LM_Action:CantMount()
     return LM_ActionAsMount:Macro("")
 end
 
-function LM_Action:Combat()
+function LM_Actions:Combat()
     LM_Debug("Setting action to in-combat action.")
 
     if LM_Options:UseCombatMacro() then
