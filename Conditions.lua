@@ -155,6 +155,7 @@ local function any(f, ...)
 end
 
 function LM_Conditions:IsTrue(str)
+    -- XXX FIXME support "no" variants FIXME XXX 
     local cond, valuestr = strsplit(':', str)
 
     -- Empty condition [] is true
