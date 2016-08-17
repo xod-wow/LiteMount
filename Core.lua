@@ -37,8 +37,8 @@ local ButtonActions = {
         CancelMountForm     [form]
         CopyTargetsMount
         Mount(vashjir)      [swimming,area:610/614/615]
+        Mount(swim)         [swimming,breathbar]
         Mount(fly)          [flyable]
-        Mount(swim)         [swimming]
         Mount(nagrand)      [area:950]
         Mount(aq)           [area:766]
         Mount(run)
@@ -52,7 +52,7 @@ local ButtonActions = {
         CancelMountForm     [form]
         CopyTargetsMount
         Mount(vashjir)      [swimming,area:610/614/615]
-        Mount(swim)         [swimming]
+        Mount(swim)         [swimming,breathbar]
         Mount(nagrand)      [area:950]
         Mount(aq)           [area:766]
         Mount(run)

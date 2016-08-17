@@ -48,7 +48,7 @@ function LM_ActionButton:PreClick(mouseButton)
 
     if InCombatLockdown() then return end
 
-    LM_Debug("PreClick handler called on " .. self:GetName())
+    LM_Debug("*** PreClick handler called on " .. self:GetName() .. " ***")
 
     LM_PlayerMounts:ScanMounts()
 

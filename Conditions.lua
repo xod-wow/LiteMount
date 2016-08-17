@@ -35,12 +35,15 @@
 LM_Conditions = { }
 
 -- If any of these start with "no" we're screwed
+-- ":*" functions take 0 or more arguments slash separated
+-- ":+" functions take 1 or more arguments slash separated
+-- other functions take defined set of arguments
 
 local map = {
 
     -- Key stuff
 
-    ["mod:v"] = function (v)
+    ["mod:*"] = function (v)
             if not v then
                 return IsModifierKeyDown()
             elseif v == "shift" then
@@ -56,11 +59,15 @@ local map = {
 
     -- Location conditions
 
-    ["area:v"] = function (v)
+    ["area:+"] = function (v)
             return tonumber(v) == LM_Location.areaID
         end,
 
-    ["continent:v"] = function (v)
+    ["breathbar"] = function ()
+            return GetMirrorTimerInfo(2) == "BREATH"
+        end,
+
+    ["continent:+"] = function (v)
             return tonumber(v) == LM_Location.continent
         end,
 
@@ -68,8 +75,12 @@ local map = {
             return LM_Location:CanFly()
         end,
 
-    ["instance"] = function ()
-            return IsInInstance()
+    ["instance:*"] = function (v)
+            if not v then
+                return IsInInstance()
+            else
+                return LM_Location.instanceID == tonumber(v)
+            end
         end,
 
     ["indoors"] = function ()
@@ -110,20 +121,24 @@ local map = {
 
     -- Character conditions
 
-    ["achievement:v"] = function (v)
+    ["achievement:+"] = function (v)
             return select(4, GetAchievementInfo(v))
         end,
 
-    ["class:v"] = function (v)
+    ["class:+"] = function (v)
             return tContains({ UnitClass("player") }, v)
         end,
 
-    ["equipped:v"] = function (v)
+    ["equipped:+"] = function (v)
             return IsEquippedItem(v) or IsEquippedItemType(v)
         end,
 
-    ["form:v"] = function (v)
-            return GetShapeshiftForm() == tonumber(v)
+    ["form:*"] = function (v)
+            if v == nil then 
+                return GetShapeshiftForm() > 0
+            else
+                return GetShapeshiftForm() == tonumber(v)
+            end
         end,
 
     ["group"] = function (groupType)
@@ -132,13 +147,13 @@ local map = {
             return false
         end,
 
-    ["pet:v"] = function (v)
+    ["pet:*"] = function (v)
             --- XXX FIXME XXX pet types
             if not v then return UnitExists("pet") end
             return UnitName("pet") == v
         end,
 
-    ["spec:v"] = function (v)
+    ["spec:+"] = function (v)
             return GetSpecialization() == tonumber(v)
         end,
 
@@ -149,7 +164,8 @@ local map = {
 }
 
 local function any(f, ...)
-    for i = 1, select('#', ...) do
+    local n = select('#', ...)
+    for i = 1, n do
         local v = select(i, ...)
         if f(v) then return true end
     end
@@ -176,15 +192,22 @@ function LM_Conditions:IsTrue(str)
         values = { }
     end
 
-    -- ":v" functions take one value and should support a/b/c "OR"
-    if map[cond..":v"] then
-        return any(map[cond..":v"], unpack(values))
+    -- ":+" functions take one value and should support a/b/c "OR"
+    -- ":*" functions are the same but but can also be called with no arguments
+    -- This is really just for giving an error message when args are missing
+    if #values > 0 and map[cond..":+"] then
+        return any(map[cond..":+"], unpack(values))
+    elseif map[cond..":*"] then
+        if #values == 0 then
+            return map[cond..":*"]()
+        else
+            return any(map[cond..":*"], unpack(values))
+        end
     end
 
-    -- Takes N values
     -- If you give anything that doesn't exist that's error and false
     if type(map[cond]) ~= "function" then
-        LM_WarningAndPrint("Unknown LiteMount action list conditional: " .. cond)
+        LM_WarningAndPrint("Unknown LiteMount action conditional: " .. cond)
         return false
     end
 
