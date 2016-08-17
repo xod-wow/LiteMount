@@ -34,6 +34,8 @@
 
 LM_Conditions = { }
 
+-- If any of these start with "no" we're screwed
+
 local map = {
 
     -- Key stuff
@@ -141,7 +143,7 @@ local map = {
         end,
 
     ["talent"] = function (tier, talent)
-            return select(2, GetTalentTierInfo(tier, 1)) == talent
+            return select(2, GetTalentTierInfo(tier, 1)) == tonumber(talent)
         end,
 
 }
@@ -155,11 +157,17 @@ local function any(f, ...)
 end
 
 function LM_Conditions:IsTrue(str)
-    -- XXX FIXME support "no" variants FIXME XXX 
     local cond, valuestr = strsplit(':', str)
 
     -- Empty condition [] is true
     if cond == "" then return true end
+
+    local isNoTest = false
+
+    if cond:sub(1, 2) == "no" then
+        isNoTest = true
+        cond = cond:sub(3)
+    end
 
     local values
     if valuestr then
@@ -180,7 +188,13 @@ function LM_Conditions:IsTrue(str)
         return false
     end
 
-    return map[cond](unpack(values))
+    local truthValue = map[cond](unpack(values))
+
+    if isNoTest then
+        return not truthValue
+    else
+        return truthValue
+    end
 end
 
 -- "OR" together comma-separated tests
