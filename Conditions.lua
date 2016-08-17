@@ -36,6 +36,22 @@ LM_Conditions = { }
 
 local map = {
 
+    -- Key stuff
+
+    ["mod:v"] = function (v)
+            if not v then
+                return IsModifierKeyDown()
+            elseif v == "shift" then
+                return IsShiftKeyDown()
+            elseif v == "alt" then
+                return IsAltKeyDown()
+            elseif v == "control" then
+                return IsControlKeyDown()
+            else
+                return false
+            end
+        end,
+
     -- Location conditions
 
     ["area:v"] = function (v)
