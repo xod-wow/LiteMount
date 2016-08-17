@@ -180,8 +180,8 @@ function LM_Conditions:IsTrue(str)
 end
 
 -- "OR" together comma-separated tests
-function LM_Conditions:EvalCommaOr
-    for _, e in ipairs({ strsplit("," str) }) do
+function LM_Conditions:EvalCommaOr(str)
+    for _, e in ipairs({ strsplit(",", str) }) do
         if not self:IsTrue(e) then
             return false
         end
