@@ -154,12 +154,10 @@ function LM_Actions:Mount(tag)
     end
 end
 
---[[
 -- This will have to wait for a better parser that handles spaces
-function LM_Actions:Command(cmd)
+function LM_Actions:Slash(cmd)
     return LM_ActionAsMount:Macro(cmd)
 end
-]]
 
 function LM_Actions:UnvailableMacro()
     if not LM_Options:UseMacro() then return end
