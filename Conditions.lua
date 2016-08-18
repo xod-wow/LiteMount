@@ -178,13 +178,6 @@ function LM_Conditions:IsTrue(str)
     -- Empty condition [] is true
     if cond == "" then return true end
 
-    local isNoTest = false
-
-    if cond:sub(1, 2) == "no" then
-        isNoTest = true
-        cond = cond:sub(3)
-    end
-
     local values
     if valuestr then
         values = { strsplit('/', valuestr) }
@@ -211,20 +204,16 @@ function LM_Conditions:IsTrue(str)
         return false
     end
 
-    local truthValue = map[cond](unpack(values))
-
-    if isNoTest then
-        return not truthValue
-    else
-        return truthValue
-    end
+    return map[cond](unpack(values))
 end
 
 -- "OR" together comma-separated tests
 function LM_Conditions:EvalCommaOr(str)
     for _, e in ipairs({ strsplit(",", str) }) do
-        if not self:IsTrue(e) then
-            return false
+        if e:match("^no") then
+            if self:IsTrue(e:sub(3)) then return false end
+        else
+            if not self:IsTrue(e) then return false end
         end
     end
     return true

@@ -38,7 +38,7 @@ local ButtonActions = {
         CopyTargetsMount
         Mount(vashjir)      [swimming,area:610/614/615]
         Mount(swim)         [swimming,breathbar]
-        Mount(fly)          [flyable]
+        Mount(fly)          [nomod:shift,flyable]
         Mount(nagrand)      [area:950]
         Mount(aq)           [area:766]
         Mount(run)
