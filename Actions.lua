@@ -22,6 +22,10 @@ function LM_ActionAsMount:Macro(macrotext)
     return self:New( { ["type"] = "macro", ["macrotext"] = macrotext } )
 end
 
+function LM_ActionAsMount:RunMacro(macroname)
+    return self:New( { ["type"] = "macro", ["macro"] = macroname } )
+end
+
 function LM_ActionAsMount:Spell(spellname)
     local attr = {
             ["type"] = "spell",
@@ -157,6 +161,10 @@ end
 -- This will have to wait for a better parser that handles spaces
 function LM_Actions:Slash(cmd)
     return LM_ActionAsMount:Macro(cmd)
+end
+
+function LM_Actions:RunMacro(macroname)
+    return LMActionAsMount:RunMacro(macroname)
 end
 
 function LM_Actions:UnvailableMacro()
