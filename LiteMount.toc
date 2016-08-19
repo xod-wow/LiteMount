@@ -33,10 +33,10 @@ Core.lua
 
 KeyBindingStrings.lua
 
-UI\PanelTemplate.xml
-UI\Frame.xml
-UI\Settings.xml
-UI\Mounts.xml
-UI\Macro.xml
-UI\CombatMacro.xml
-UI\ActionList.xml
+OptionsUI\PanelTemplate.xml
+OptionsUI\Frame.xml
+OptionsUI\Settings.xml
+OptionsUI\Mounts.xml
+OptionsUI\Macro.xml
+OptionsUI\CombatMacro.xml
+OptionsUI\ActionList.xml
