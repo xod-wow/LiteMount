@@ -105,41 +105,6 @@ function LM_Location:CanFly()
     return IsFlyableArea()
 end
 
--- The difference between IsSwimming and IsSubmerged is that IsSubmerged will
--- also return true when you are standing on the bottom.  Note that it sadly
--- does not return false when you are floating on the top, that is still counted
--- as being submerged.
-
-function LM_Location:CanSwim()
-    return IsSubmerged()
-end
-
-function LM_Location:GetName()
-    return self.realZoneText
-end
-
-function LM_Location:GetID()
-    return self.areaID
-end
-
-function LM_Location:GetInstanceID()
-    return self.instanceID
-end
-
-function LM_Location:IsAQ()
-    if self.areaID == 766 then return true end
-end
-
-function LM_Location:IsVashjir()
-    if self.areaID == 610 then return true end
-    if self.areaID == 614 then return true end
-    if self.areaID == 615 then return true end
-end
-
-function LM_Location:IsDraenorNagrand()
-    if self.areaID == 950 then return true end
-end
-
 function LM_Location:Dump()
     LM_Print("--- Location Dump ---")
     LM_Print("continent: " .. self.continent)

@@ -190,10 +190,9 @@ Notes To Myself
     Querying stuff:
         * Location.lua
             LM_Location:CanFly()
-            LM_Location:CanSwim()
-            LM_Location:IsAQ()
-            LM_Location:IsVashjir()
-            LM_Location:IsDraenorNagrand()
+            LM_Location.areaID
+            LM_Location.continentID
+            LM_Location.instanceID
 
     Options stuff:
         * Options.lua

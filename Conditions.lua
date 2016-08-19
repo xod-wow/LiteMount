@@ -110,6 +110,11 @@ local map = {
             return IsFalling() or GetUnitSpeed("player") > 0
         end,
 
+    -- The difference between IsSwimming and IsSubmerged is that IsSubmerged will
+    -- also return true when you are standing on the bottom.  Note that it sadly
+    -- does not return false when you are floating on the top, that is still counted
+    -- as being submerged.
+
     ["swimming"] = function ()
             return IsSubmerged()
         end,
