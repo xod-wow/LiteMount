@@ -50,7 +50,7 @@ CONDITIONS["area"] =
 CONDITIONS["aura"] =
     function (v)
         local auraName = GetSpellInfo(v)
-        return UnitAura("player", v)
+        return UnitAura("player", auraName)
     end
 
 CONDITIONS["breathbar"] =
