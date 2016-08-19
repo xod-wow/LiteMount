@@ -8,7 +8,7 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_ActionButton = { }
+LM_ActionButton = CreateFrame("Button", "LM_ActionButton", UIParent, "SecureActionButtonTemplate")
 LM_ActionButton.__index = LM_ActionButton
 
 -- Fancy SecureActionButton stuff. The default button mechanism is
@@ -37,12 +37,11 @@ function LM_ActionButton:Dispatch(condAction)
     LM_Debug("Dispatching action " .. action .. "(" .. (args or "") .. ")")
 
     local m = handler(args)
-    if not m then return end
-
-    LM_Debug("Setting up button as " .. (m:Name() or action) .. ".")
-    m:SetupActionButton(self)
-
-    return true
+    if m then
+        LM_Debug("Setting up button as " .. (m:Name() or action) .. ".")
+        m:SetupActionButton(self)
+        return true
+    end
 end
 
 function LM_ActionButton:PreClick(mouseButton)
@@ -66,7 +65,7 @@ function LM_ActionButton:PostClick()
     LM_Debug("PostClick handler called.")
 
     -- Switch back to the default combat actions.
-    LM_Actions:GetHandler("Combat"):SetupActionButton(self)
+    LM_Actions:GetHandler("Combat")():SetupActionButton(self)
 end
 
 function LM_ActionButton:LoadActionLines(actionLines)
@@ -111,7 +110,7 @@ end
 
 function LM_ActionButton:Create(n, actionLines)
 
-    local name = "LM_Act" .. n
+    local name = "LiteMountActionButton" .. n
 
     local b = CreateFrame("Button", name, UIParent, "SecureActionButtonTemplate")
     setmetatable(b, LM_ActionButton)

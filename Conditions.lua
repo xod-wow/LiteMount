@@ -264,7 +264,6 @@ CONDITIONS["true"] =
     end
 
 
-
 local function any(f, ...)
     local n = select('#', ...)
     for i = 1, n do
@@ -296,6 +295,10 @@ function LM_Conditions:IsTrue(str)
     end
 
     handler = CONDITIONS[cond]
+    if handler and #values == 0 then
+        return handler()
+    end
+
     if handler then
         return any(handler, unpack(values))
     end

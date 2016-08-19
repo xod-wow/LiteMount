@@ -157,7 +157,7 @@ ACTIONS.Combat =
         if LM_Options:UseCombatMacro() then
             return LM_ActionAsMount:Macro(LM_Options:GetCombatMacro())
         else
-            return LM_ActionAsMount:Macro(self:DefaultCombatMacro())
+            return LM_ActionAsMount:Macro(LM_Actions:DefaultCombatMacro())
         end
     end
 
