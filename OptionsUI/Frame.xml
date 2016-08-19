@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2016 Mike Battersby -->
 
-<Frame name="LiteMountOptions" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LM_OptionsUI" hidden="true" inherits="LiteMountOptionsPanelTemplate">
     <Layers>
         <Layer level="ARTWORK">
             <FontString inherits="GameFontHighlight" justifyH="LEFT" text="Simple and reliable random mount summoning.">
@@ -42,7 +42,7 @@
         <OnLoad>
             self.version:SetText(GetAddOnMetadata("LiteMount", "Version") or "")
             self.author:SetText(GetAddOnMetadata("LiteMount", "Author") or "")
-            LiteMountOptionsPanel_OnLoad(self)
+            LM_OptionsUIPanel_OnLoad(self)
         </OnLoad>
     </Scripts>
 </Frame>

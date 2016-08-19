@@ -4,7 +4,7 @@
 
 <Script file="UIOptionsPanelTemplate.lua" />
 
-<Frame name="LiteMountOptionsPanelTemplate" hidden="true" virtual="true">
+<Frame name="LM_OptionsUIPanelTemplate" hidden="true" virtual="true">
     <Layers>
         <Layer level="ARTWORK">
             <FontString name="$parentTitle" inherits="GameFontNormalLarge" parentKey="title">
@@ -15,8 +15,8 @@
         </Layer>
     </Layers>
     <Scripts>
-        <OnLoad function="LiteMountOptionsPanel_OnLoad" />
-        <OnShow function="LiteMountOptionsPanel_OnShow" />
+        <OnLoad function="LM_OptionsUIPanel_OnLoad" />
+        <OnShow function="LM_OptionsUIPanel_OnShow" />
     </Scripts>
 </Frame>
 

@@ -8,9 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LiteMountOptionsMounts_OnLoad(self)
+function LM_OptionsUIMounts_OnLoad(self)
 
     self.name = "Action List"
 
-    LiteMountOptionsPanel_OnLoad(self)
+    LM_OptionsUIPanel_OnLoad(self)
 end

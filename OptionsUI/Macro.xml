@@ -19,10 +19,10 @@
     </Scripts>
 </Button>
 
-<Frame name="LiteMountOptionsMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LM_OptionsUIMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
-        <Frame name="LiteMountOptionsMacroEditBoxContainer">
+        <Frame name="LM_OptionsUIMacroEditBoxContainer">
 
             <Size x="400" y="200" />
 
@@ -47,7 +47,7 @@
             </Scripts>
 
             <Frames>
-                <EditBox name="LiteMountOptionsMacroEditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
+                <EditBox name="LM_OptionsUIMacroEditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
 
                     <Anchors>
                         <Anchor point="TOPLEFT" x="8" y="-8" />
@@ -55,7 +55,7 @@
                     </Anchors>
 
                     <Scripts>
-                        <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
+                        <OnTextChanged function="LM_OptionsUIMacro_OnTextChanged" />
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
                             self.SetOption = function (self, v)
@@ -67,7 +67,7 @@
                             self.GetOptionDefault = function (self)
                                     return ""
                                 end
-                            LiteMountOptionsControl_OnLoad(self, LiteMountOptionsMacro)
+                            LM_OptionsUIControl_OnLoad(self, LiteMountOptionsMacro)
                         </OnLoad>
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
@@ -79,46 +79,46 @@
                     </Anchors>
                     <Scripts>
                         <OnClick>
-                            LiteMountOptionsMacroEditBox:SetText("")
+                            LM_OptionsUIMacroEditBox:SetText("")
                         </OnClick>
                     </Scripts>
                 </Button>
             </Frames>
         </Frame>
-        <Button name="LiteMountOptionsMacroSuggest1" inherits="LiteMountItemButtonTemplate" hidden="true">
+        <Button name="LM_OptionsUIMacroSuggest1" inherits="LiteMountItemButtonTemplate" hidden="true">
             <Size x="37" y="37" />
             <Anchors>
-                <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="8" y="-8" />
+                <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="LM_OptionsUIMacroEditBoxContainer" x="8" y="-8" />
             </Anchors>
             <Scripts>
-                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
+                <OnClick function="LM_OptionsUIMacroSuggest_OnClick" />
             </Scripts>
         </Button>
-        <Button name="LiteMountOptionsMacroSuggest2" inherits="LiteMountItemButtonTemplate" hidden="true">
+        <Button name="LM_OptionsUIMacroSuggest2" inherits="LiteMountItemButtonTemplate" hidden="true">
             <Size x="37" y="37" />
             <Anchors>
-                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest1" y="-8" />
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LM_OptionsUIMacroSuggest1" y="-8" />
             </Anchors>
             <Scripts>
-                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
+                <OnClick function="LM_OptionsUIMacroSuggest_OnClick" />
             </Scripts>
         </Button>
-        <Button name="LiteMountOptionsMacroSuggest3" inherits="LiteMountItemButtonTemplate" hidden="true">
+        <Button name="LM_OptionsUIMacroSuggest3" inherits="LiteMountItemButtonTemplate" hidden="true">
             <Size x="37" y="37" />
             <Anchors>
-                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest2" y="-8" />
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LM_OptionsUIMacroSuggest2" y="-8" />
             </Anchors>
             <Scripts>
-                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
+                <OnClick function="LM_OptionsUIMacroSuggest_OnClick" />
             </Scripts>
         </Button>
-        <Button name="LiteMountOptionsMacroSuggest4" inherits="LiteMountItemButtonTemplate" hidden="true">
+        <Button name="LM_OptionsUIMacroSuggest4" inherits="LiteMountItemButtonTemplate" hidden="true">
             <Size x="37" y="37" />
             <Anchors>
-                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest3" y="-8" />
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LM_OptionsUIMacroSuggest3" y="-8" />
             </Anchors>
             <Scripts>
-                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
+                <OnClick function="LM_OptionsUIMacroSuggest_OnClick" />
             </Scripts>
         </Button>
     </Frames>
@@ -128,29 +128,29 @@
             <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_MACRO_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
-                    <Anchor point="LEFT" relativePoint="LEFT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="-50" />
-                    <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="50" />
-                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" />
+                    <Anchor point="LEFT" relativePoint="LEFT" relativeTo="LM_OptionsUIMacroEditBoxContainer" x="-50" />
+                    <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="LM_OptionsUIMacroEditBoxContainer" x="50" />
+                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeTo="LM_OptionsUIMacroEditBoxContainer" />
                 </Anchors>
             </FontString>
 
             <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
                 <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="8" y="3" />
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LM_OptionsUIMacroEditBoxContainer" x="8" y="3" />
                 </Anchors>
             </FontString>
 
-            <FontString name="LiteMountOptionsMacroCount" inherits="GameFontHighlightSmall">
+            <FontString name="LM_OptionsUIMacroCount" inherits="GameFontHighlightSmall">
                 <Anchors>
-                    <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="LiteMountOptionsMacroEditBoxContainer" y="-3" />
+                    <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="LM_OptionsUIMacroEditBoxContainer" y="-3" />
                 </Anchors>
             </FontString>
         </Layer>
     </Layers>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsMacro_OnLoad" />
-        <OnShow function="LiteMountOptionsMacro_OnShow" />
+        <OnLoad function="LM_OptionsUIMacro_OnLoad" />
+        <OnShow function="LM_OptionsUIMacro_OnShow" />
     </Scripts>
 </Frame>
 

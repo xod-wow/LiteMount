@@ -159,31 +159,31 @@ local function UpdateSuggestionButtons()
     local suggestions = GetSuggestions()
 
     for i = 1, NUM_SUGGESTION_BUTTONS do
-        local b = _G["LiteMountOptionsMacroSuggest"..i]
+        local b = _G["LM_OptionsUIMacroSuggest"..i]
         SetSuggestion(b, suggestions[i])
     end
 end
 
-function LiteMountOptionsMacroSuggest_OnClick(self)
+function LM_OptionsUIMacroSuggest_OnClick(self)
     if self.macro then
-        local t = LiteMountOptionsMacroEditBox:GetText() or ""
+        local t = LM_OptionsUIMacroEditBox:GetText() or ""
         t = t .. self.macro
-        LiteMountOptionsMacroEditBox:SetText(t)
+        LM_OptionsUIMacroEditBox:SetText(t)
     end
 end
 
-function LiteMountOptionsMacro_OnLoad(self)
+function LM_OptionsUIMacro_OnLoad(self)
     self.name = MACRO .. " : " .. UNAVAILABLE
-    LiteMountOptionsPanel_OnLoad(self)
+    LM_OptionsUIPanel_OnLoad(self)
 end
 
-function LiteMountOptionsMacro_OnShow(self)
+function LM_OptionsUIMacro_OnShow(self)
     UpdateSuggestionButtons()
-    LiteMountOptionsPanel_OnShow(self)
+    LM_OptionsUIPanel_OnShow(self)
 end
 
-function LiteMountOptionsMacro_OnTextChanged(self)
+function LM_OptionsUIMacro_OnTextChanged(self)
     local c = strlen(self:GetText() or "")
-    LiteMountOptionsMacroCount:SetText(format(MACROFRAME_CHAR_LIMIT, c))
+    LM_OptionsUIMacroCount:SetText(format(MACROFRAME_CHAR_LIMIT, c))
 end
 

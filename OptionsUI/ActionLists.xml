@@ -4,10 +4,10 @@
 
 <Script file="UIOptionsActionLists.lua" />
 
-<Frame name="LiteMountOptionsActionLists" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LM_OptionsUIActionLists" hidden="true" inherits="LM_OptionsUIPanelTemplate">
 
     <Frames>
-        <Frame name="LiteMountOptionsActionListsEditBoxContainer">
+        <Frame name="LM_OptionsUIActionListsEditBoxContainer">
 
             <Size x="400" y="200" />
 
@@ -32,7 +32,7 @@
             </Scripts>
 
             <Frames>
-                <EditBox name="LiteMountOptionsActionListsEditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
+                <EditBox name="LM_OptionsUIActionListsEditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
 
                     <Anchors>
                         <Anchor point="TOPLEFT" x="8" y="-8" />
@@ -40,7 +40,7 @@
                     </Anchors>
 
                     <Scripts>
-                        <OnTextChanged function="LiteMountOptionsActionLists_OnTextChanged" />
+                        <OnTextChanged function="LM_OptionsUIActionLists_OnTextChanged" />
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
                             self.GetOption = function (self)
@@ -51,30 +51,30 @@
                             self.GetOptionDefault = function (self)
                                     return ""
                                 end
-                            LiteMountOptionsControl_OnLoad(self, LiteMountOptionsActionLists)
+                            LM_OptionsUIControl_OnLoad(self, LM_OptionsUIActionLists)
                         </OnLoad>
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
                 </EditBox>
-                <Button inherits="UIPanelButtonTemplate" name="LiteMountOptionsActionListsDelete" text="DELETE">
+                <Button inherits="UIPanelButtonTemplate" name="LM_OptionsUIActionListsDelete" text="DELETE">
                     <Size x="96" y="22" />
                     <Anchors>
                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
                     </Anchors>
                     <Scripts>
                         <OnClick>
-                            LiteMountOptionsActionsListEditBox:SetText("")
+                            LM_OptionsUIActionsListEditBox:SetText("")
                         </OnClick>
                     </Scripts>
                 </Button>
-                <Button name="LiteMountOptionsActionListsDefault" inherits="UIPanelButtonTemplate" text="DEFAULT">
+                <Button name="LM_OptionsUIActionListsDefault" inherits="UIPanelButtonTemplate" text="DEFAULT">
                     <Size x="96" y="22" />
                     <Anchors>
                         <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-8" y="3" />
                     </Anchors>
                     <Scripts>
                         <OnClick>
-                            LiteMountOptionsActionListsEditBox:SetText(LM_Actions:DefaultCombatMacro())
+                            LM_OptionsUIActionListsEditBox:SetText(LM_Actions:DefaultCombatMacro())
                         </OnClick>
                     </Scripts>
                 </Button>
@@ -87,26 +87,26 @@
             <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_ACTION_LIST_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
-                    <Anchor point="LEFT" relativePoint="LEFT" relativeTo="LiteMountOptionsActionListsEditBoxContainer" x="-50" />
-                    <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="50" />
-                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" />
+                    <Anchor point="LEFT" relativePoint="LEFT" relativeTo="LM_OptionsUIActionListsEditBoxContainer" x="-50" />
+                    <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="LM_OptionsUIMacroEditBoxContainer" x="50" />
+                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeTo="LM_OptionsUIMacroEditBoxContainer" />
                 </Anchors>
             </FontString>
 
             <FontString inherits="GameFontNormalLarge" parentKey="enable" text="ENABLE">
                 <Anchors>
-                    <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="LiteMountOptionsActionListsEnable" x="4" />
+                    <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="LM_OptionsUIActionListsEnable" x="4" />
                 </Anchors>
             </FontString>
             <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
                 <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LiteMountOptionsActionListsEditBoxContainer" x="8" y="3" />
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LM_OptionsUIActionListsEditBoxContainer" x="8" y="3" />
                 </Anchors>
             </FontString>
 
-            <FontString name="LiteMountOptionsActionsListCount" inherits="GameFontHighlightSmall">
+            <FontString name="LM_OptionsUIActionsListCount" inherits="GameFontHighlightSmall">
                 <Anchors>
-                    <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="LiteMountOptionsActionListsEditBoxContainer" y="-3" />
+                    <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="LM_OptionsUIActionListsEditBoxContainer" y="-3" />
                 </Anchors>
             </FontString>
 
@@ -114,7 +114,7 @@
     </Layers>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsActionsList_OnLoad" />
+        <OnLoad function="LM_OptionsUIActionsList_OnLoad" />
     </Scripts>
 </Frame>
 

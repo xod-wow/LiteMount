@@ -8,11 +8,11 @@
     See OptionsBaseCheckButtonTemplate in FrameXML/OptionsPanelTemplates.xml
     We don't use it directly because of the hitrect crap we don't want.
  -->
-<CheckButton name="LiteMountOptionsBitTemplate" virtual="true">
+<CheckButton name="LM_OptionsUIBitTemplate" virtual="true">
     <Size x="26" y="26" />
     <Scripts>
         <OnClick>
-            LiteMountOptionsBit_OnClick(self)
+            LM_OptionsUIBit_OnClick(self)
         </OnClick>
     </Scripts>
     <NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
@@ -33,7 +33,7 @@
     </Layers>
 </CheckButton>
 
-<Button name="LiteMountOptionsButtonTemplate" virtual="true">
+<Button name="LM_OptionsUIButtonTemplate" virtual="true">
 
     <Size x="180" y="45" />
 
@@ -112,18 +112,18 @@
                     local model = m:ModelID()
 
                     if model then
-                        LiteMountOptionsPreview.model:SetDisplayInfo(model)
+                        LM_OptionsUIPreview.model:SetDisplayInfo(model)
                         if m:SelfMount() then
-                            LiteMountOptionsPreview.model:SetDoBlend(false)
-                            LiteMountOptionsPreview.model:SetAnimation(618, -1)
+                            LM_OptionsUIPreview.model:SetDoBlend(false)
+                            LM_OptionsUIPreview.model:SetAnimation(618, -1)
                         end
-                        LiteMountOptionsPreview:Show()
+                        LM_OptionsUIPreview:Show()
                     else
-                        LiteMountOptionsPreview:Hide()
+                        LM_OptionsUIPreview:Hide()
                     end
                 </OnEnter>
                 <OnLeave>
-                    LiteMountOptionsPreview:Hide()
+                    LM_OptionsUIPreview:Hide()
                     GameTooltip:Hide()
                 </OnLeave>
                 <OnLoad>
@@ -142,25 +142,25 @@
             </Scripts>
         </Button>
 
-        <CheckButton name="$parentBit1" inherits="LiteMountOptionsBitTemplate" parentKey="bit1">
+        <CheckButton name="$parentBit1" inherits="LM_OptionsUIBitTemplate" parentKey="bit1">
             <Anchors> <Anchor point="RIGHT" x="-2" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit2" inherits="LiteMountOptionsBitTemplate" parentKey="bit2">
+        <CheckButton name="$parentBit2" inherits="LM_OptionsUIBitTemplate" parentKey="bit2">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit1" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit3" inherits="LiteMountOptionsBitTemplate" parentKey="bit3">
+        <CheckButton name="$parentBit3" inherits="LM_OptionsUIBitTemplate" parentKey="bit3">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit2" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit4" inherits="LiteMountOptionsBitTemplate" parentKey="bit4">
+        <CheckButton name="$parentBit4" inherits="LM_OptionsUIBitTemplate" parentKey="bit4">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit3" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit5" inherits="LiteMountOptionsBitTemplate" parentKey="bit5">
+        <CheckButton name="$parentBit5" inherits="LM_OptionsUIBitTemplate" parentKey="bit5">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit4" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit6" inherits="LiteMountOptionsBitTemplate" parentKey="bit6">
+        <CheckButton name="$parentBit6" inherits="LM_OptionsUIBitTemplate" parentKey="bit6">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit5" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit7" inherits="LiteMountOptionsBitTemplate" parentKey="bit7">
+        <CheckButton name="$parentBit7" inherits="LM_OptionsUIBitTemplate" parentKey="bit7">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit6" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
     </Frames>
@@ -183,7 +183,7 @@
 </Button>
 
 
-<Frame name="LiteMountOptionsPreview" parent="UIParent" hidden="true" frameStrata="TOOLTIP">
+<Frame name="LM_OptionsUIPreview" parent="UIParent" hidden="true" frameStrata="TOOLTIP">
     <Size x="250" y="250" />
     <Anchors>
         <Anchor point="TOPLEFT" relativeTo="GameTooltip" relativePoint="BOTTOMLEFT" y="-4" />
@@ -220,7 +220,7 @@
     </Scripts>
 </Frame>
 
-<Frame name="LiteMountOptionsMounts" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LM_OptionsUIMounts" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
         <ScrollFrame name="$parentScrollFrame" inherits="MinimalHybridScrollFrameTemplate" parentKey="scrollFrame">
@@ -233,7 +233,7 @@
                     local track = _G[self.ScrollBar:GetName().."Track"]
                     track:Hide()
                 </OnLoad>
-                <OnSizeChanged function="LiteMountOptionsScrollFrame_OnSizeChanged" />
+                <OnSizeChanged function="LM_OptionsUIScrollFrame_OnSizeChanged" />
             </Scripts>
         </ScrollFrame>
 
@@ -243,7 +243,7 @@
                 <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="2" y="-2" />
             </Anchors>
             <Scripts>
-                <OnClick function="LiteMountOptions_AllSelect_OnClick" />
+                <OnClick function="LM_OptionsUI_AllSelect_OnClick" />
                 <OnEnter>
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
                     if not self:GetChecked() then
@@ -282,7 +282,7 @@
                     else
                         LM_Options:UseGlobal(true)
                     end
-                    LiteMountOptions_UpdateMountList()
+                    LM_OptionsUI_UpdateMountList()
                 </OnClick>
             </Scripts>
         </CheckButton>
@@ -295,7 +295,7 @@
             <Scripts>
                 <OnTextChanged>
                     SearchBoxTemplate_OnTextChanged(self)
-                    LiteMountOptions_UpdateMountList()
+                    LM_OptionsUI_UpdateMountList()
                 </OnTextChanged>
                 <OnEnter>
                     GameTooltip:SetOwner(self, "ANCHOR_TOP")
@@ -362,8 +362,8 @@
     </Layers>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsMounts_OnLoad" />
-        <OnShow function="LiteMountOptionsMounts_OnShow" />
+        <OnLoad function="LM_OptionsUIMounts_OnLoad" />
+        <OnShow function="LM_OptionsUIMounts_OnShow" />
     </Scripts>
 
 </Frame>

@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2016 Mike Battersby -->
 
-<Frame name="LiteMountOptionsSettings" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LM_OptionsUISettings" hidden="true" inherits="LM_OptionsUIPanelTemplate">
     <Attributes>
         <Attribute name="panel-name" value="SETTINGS" />
     </Attributes>
@@ -26,7 +26,7 @@
                             return LM_Options:CopyTargetsMount()
                         end
                     self.GetOptionDefault = function (self) return true end
-                    LiteMountOptionsControl_OnLoad(self)
+                    LM_OptionsUIControl_OnLoad(self)
                 </OnLoad>
             </Scripts>
         </CheckButton>
@@ -48,7 +48,7 @@
                     self.GetOption = function (self)
                             return LM_Options:ExcludeNewMounts()
                         end
-                    LiteMountOptionsControl_OnLoad(self)
+                    LM_OptionsUIControl_OnLoad(self)
                 </OnLoad>
             </Scripts>
         </CheckButton>

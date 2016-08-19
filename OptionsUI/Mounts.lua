@@ -8,7 +8,7 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LiteMountOptionsBit_OnClick(self)
+function LM_OptionsUIBit_OnClick(self)
     local mount = self:GetParent().mount
 
     if self:GetChecked() then
@@ -16,14 +16,14 @@ function LiteMountOptionsBit_OnClick(self)
     else
         LM_Options:ClearMountFlagBit(mount, self.flagbit)
     end
-    LiteMountOptions_UpdateMountList()
+    LM_OptionsUI_UpdateMountList()
 end
 
 -- Because we get attached inside the blizzard options container, we
 -- are size 0x0 on create and even after OnShow, we have to trap
 -- OnSizeChanged on the scrollframe to make the buttons correctly.
 local function CreateMoreButtons(self)
-    HybridScrollFrame_CreateButtons(self, "LiteMountOptionsButtonTemplate",
+    HybridScrollFrame_CreateButtons(self, "LM_OptionsUIButtonTemplate",
                                     0, -1, "TOPLEFT", "TOPLEFT",
                                     0, -1, "TOP", "BOTTOM")
 
@@ -69,7 +69,7 @@ local function GetFilteredMountList()
     LM_PlayerMounts:ScanMounts()
     local mounts = LM_PlayerMounts:GetAllMounts():Sort()
 
-    local filtertext = LiteMountOptionsMounts.filter:GetText()
+    local filtertext = LM_OptionsUIMounts.filter:GetText()
     if filtertext == SEARCH then
         filtertext = ""
     else
@@ -170,11 +170,11 @@ local function UpdateAllSelected(mounts)
         end
     end
 
-    local checkedTexture = LiteMountOptionsMountsAllSelect:GetCheckedTexture()
+    local checkedTexture = LM_OptionsUIMountsAllSelect:GetCheckedTexture()
     if allDisabled == 1 then
-        LiteMountOptionsMountsAllSelect:SetChecked(false)
+        LM_OptionsUIMountsAllSelect:SetChecked(false)
     else
-        LiteMountOptionsMountsAllSelect:SetChecked(true)
+        LM_OptionsUIMountsAllSelect:SetChecked(true)
         if allEnabled == 1 then
             checkedTexture:SetDesaturated(false)
         else
@@ -226,7 +226,7 @@ local function UpdateMountButton(button, mount)
 
 end
 
-function LiteMountOptions_AllSelect_OnClick(self)
+function LM_OptionsUI_AllSelect_OnClick(self)
     local mounts = GetFilteredMountList()
 
     local on
@@ -242,13 +242,13 @@ function LiteMountOptions_AllSelect_OnClick(self)
     end
 
     self:GetScript("OnEnter")(self)
-    LiteMountOptions_UpdateMountList()
+    LM_OptionsUI_UpdateMountList()
 
 end
 
-function LiteMountOptions_UpdateMountList()
+function LM_OptionsUI_UpdateMountList()
 
-    local scrollFrame = LiteMountOptionsMounts.scrollFrame
+    local scrollFrame = LM_OptionsUIMounts.scrollFrame
     local offset = HybridScrollFrame_GetOffset(scrollFrame)
     local buttons = scrollFrame.buttons
 
@@ -275,15 +275,15 @@ function LiteMountOptions_UpdateMountList()
     HybridScrollFrame_Update(scrollFrame, totalHeight, shownHeight)
 end
 
-function LiteMountOptionsScrollFrame_OnSizeChanged(self, w, h)
+function LM_OptionsUIScrollFrame_OnSizeChanged(self, w, h)
     CreateMoreButtons(self)
-    LiteMountOptions_UpdateMountList()
+    LM_OptionsUI_UpdateMountList()
 
     self.stepSize = self.buttonHeight
-    self.update = LiteMountOptions_UpdateMountList
+    self.update = LM_OptionsUI_UpdateMountList
 end
 
-function LiteMountOptionsMounts_OnLoad(self)
+function LM_OptionsUIMounts_OnLoad(self)
 
     -- Because we're the wrong size at the moment we'll only have 1 button
     CreateMoreButtons(self.scrollFrame)
@@ -294,15 +294,15 @@ function LiteMountOptionsMounts_OnLoad(self)
                 LM_Options:ResetMountFlags(m)
             end
             LM_Options:SetExcludedMounts({})
-            LiteMountOptions_UpdateMountList()
+            LM_OptionsUI_UpdateMountList()
         end
 
-    LiteMountOptionsPanel_OnLoad(self)
+    LM_OptionsUIPanel_OnLoad(self)
 end
 
 
-function LiteMountOptionsMounts_OnShow(self)
-    LiteMountOptions.CurrentOptionsPanel = self
-    LiteMountOptions_UpdateMountList()
+function LM_OptionsUIMounts_OnShow(self)
+    LM_OptionsUI.CurrentOptionsPanel = self
+    LM_OptionsUI_UpdateMountList()
 end
 
