@@ -8,7 +8,7 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_ActionButton = CreateFrame("Button", nil, nil, "SecureActionButtonTemplate")
+LM_ActionButton = { }
 LM_ActionButton.__index = LM_ActionButton
 
 -- Fancy SecureActionButton stuff. The default button mechanism is
@@ -115,7 +115,7 @@ end
 
 function LM_ActionButton:Create(n, actionLines)
 
-    local name = "LiteMountActionButton" .. n
+    local name = "LM_Act" .. n
 
     local b = CreateFrame("Button", name, UIParent, "SecureActionButtonTemplate")
     setmetatable(b, LM_ActionButton)
