@@ -21,7 +21,9 @@ function LM_ActionButton:Dispatch(condAction)
     local conditions = condAction["conditions"]
     local args = condAction["args"]
 
-    if not LM_Actions[action] then
+    local handler = LM_Actions:GetHandler(action)
+
+    if not handler then
         LM_Print(format("Error: bad action '%s' in action list.", action))
         return
     end
@@ -34,8 +36,7 @@ function LM_ActionButton:Dispatch(condAction)
         
     LM_Debug("Dispatching action " .. action .. "(" .. (args or "") .. ")")
 
-    -- This is super ugly.
-    local m = LM_Actions[action](LM_Actions, args)
+    local m = handler(args)
     if not m then return end
 
     LM_Debug("Setting up button as " .. (m:Name() or action) .. ".")
@@ -64,13 +65,8 @@ function LM_ActionButton:PostClick()
 
     LM_Debug("PostClick handler called.")
 
-    -- We'd like to set the macro to undo whatever we did, but
-    -- tests like IsMounted() and CanExitVehicle() will still
-    -- represent the pre-action state at this point.  We don't want
-    -- to just blindly do the opposite of whatever we chose because
-    -- it might not have worked.
-
-    LM_Actions:Combat():SetupActionButton(self)
+    -- Switch back to the default combat actions.
+    LM_Actions:GetHandler("Combat"):SetupActionButton(self)
 end
 
 function LM_ActionButton:LoadActionLines(actionLines)

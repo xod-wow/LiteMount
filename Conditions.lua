@@ -239,7 +239,7 @@ CONDITIONS["swimming"] =
     end
 
 CONDITIONS["shapeshift"] =
-    function (v)
+    function ()
         return HasTempShapeshiftActionBar()
     end
 
