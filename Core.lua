@@ -32,7 +32,7 @@ LiteMount:RegisterEvent("PLAYER_LOGIN")
 local ButtonActions = {
     -- Normal mount button.
     [1] = [[
-        LeaveVehicle        [vehicle]
+        LeaveVehicle        [canexitvehicle]
         Dismount            [mounted]
         CancelMountForm     [form]
         CopyTargetsMount
@@ -47,7 +47,7 @@ local ButtonActions = {
     ]],
     -- Ground-only mount button (same as above but no "Fly")
     [2] = [[
-        LeaveVehicle        [vehicle]
+        LeaveVehicle        [canexitvehicle]
         Dismount            [mounted]
         CancelMountForm     [form]
         CopyTargetsMount
@@ -61,7 +61,7 @@ local ButtonActions = {
     ]],
     -- Custom1
     [3] = [[
-        LeaveVehicle        [vehicle]
+        LeaveVehicle        [canexitvehicle]
         Dismount            [mounted]
         CancelMountForm     [form]
         Mount(custom1)
@@ -69,7 +69,7 @@ local ButtonActions = {
     ]],
     -- Custom2
     [4] = [[
-        LeaveVehicle        [vehicle]
+        LeaveVehicle        [canexitvehicle]
         Dismount            [mounted]
         CancelMountForm     [form]
         Mount(custom2)

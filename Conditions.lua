@@ -22,151 +22,248 @@
                         <setting>
 
     <setting>       :=  <tag> |
-                        <tag> "=" <args>
+                        <tag> ":" <args>
 
     <args>          :=  <arg> |
                         <arg> / <args>
 
     <arg>           :=  [-a-zA-Z0-9]+
 
-    <tag>           :=  See map array in code
+    <tag>           :=  See CONDITIONS array in code
 ]]
 
-LM_Conditions = { }
+-- If any condition starts with "no" we're screwed
+-- ":args" functions take a fixed set of arguments rather than 0 or one with / separators
 
--- If any of these start with "no" we're screwed
--- ":*" functions take 0 or more arguments slash separated
--- ":+" functions take 1 or more arguments slash separated
--- other functions take defined set of arguments
+local CONDITIONS = { }
 
-local map = {
+CONDITIONS["achievement"] =
+    function (v)
+        return select(4, GetAchievementInfo(v))
+    end
 
-    -- Key stuff
+CONDITIONS["area"] =
+    function (v)
+        return tonumber(v) == LM_Location.areaID
+    end
 
-    ["mod:*"] = function (v)
-            if not v then
-                return IsModifierKeyDown()
-            elseif v == "shift" then
-                return IsShiftKeyDown()
-            elseif v == "alt" then
-                return IsAltKeyDown()
-            elseif v == "control" then
-                return IsControlKeyDown()
-            else
-                return false
-            end
-        end,
+CONDITIONS["aura"] =
+    function (v)
+        local auraName = GetSpellInfo(v)
+        return UnitAura("player", v)
+    end
 
-    -- Location conditions
+CONDITIONS["breathbar"] =
+    function ()
+        return GetMirrorTimerInfo(2) == "BREATH"
+    end
 
-    ["area:+"] = function (v)
-            return tonumber(v) == LM_Location.areaID
-        end,
+CONDITIONS["canexitvehicle"] =
+    function ()
+        return CanExitVehicle()
+    end
 
-    ["breathbar"] = function ()
-            return GetMirrorTimerInfo(2) == "BREATH"
-        end,
+CONDITIONS["channeling"] =
+    function ()
+        return UnitChannelInfo( "player" ) ~= nil
+    end
 
-    ["continent:+"] = function (v)
-            return tonumber(v) == LM_Location.continent
-        end,
+CONDITIONS["class"] =
+    function (v)
+        return tContains({ UnitClass("player") }, v)
+    end
 
-    ["flyable"] = function ()
-            return LM_Location:CanFly()
-        end,
+CONDITIONS["combat"] =
+    function ()
+        return UnitAffectingCombat("player") or UnitAffectingCombat("pet")
+    end
 
-    ["instance:*"] = function (v)
-            if not v then
-                return IsInInstance()
-            else
-                return LM_Location.instanceID == tonumber(v)
-            end
-        end,
+CONDITIONS["continent"] =
+    function (v)
+        return tonumber(v) == LM_Location.continent
+    end
 
-    ["indoors"] = function ()
-            return IsIndoors()
-        end,
+CONDITIONS["dead:args"] =
+    function (unit)
+        return UnitIsDead(unit or "target")
+    end
 
-    ["outdoors"] = function ()
-            return IsOutdoors()
-        end,
+CONDITIONS["equipped"] =
+    function (v)
+        return IsEquippedItem(v) or IsEquippedItemType(v)
+    end
 
+CONDITIONS["exists:args"] =
+    function (unit)
+        return UnitExists(unit or "target")
+    end
 
-    -- Situation conditions
+CONDITIONS["faction"] =
+    function (v)
+        return tContains({ UnitFactionGroup("player") }, v)
+    end
 
-    ["falling"] = function ()
-            return IsFalling()
-        end,
+CONDITIONS["falling"] =
+    function ()
+        return IsFalling()
+    end
 
-    ["flying"] = function ()
-            return IsFlying()
-        end,
+CONDITIONS["false"] =
+    function ()
+        return false
+    end
 
-    ["mounted"] = function ()
-            return IsMounted()
-        end,
+CONDITIONS["form"] =
+    function (v)
+        if v == nil then 
+            return GetShapeshiftForm() > 0
+        else
+            return GetShapeshiftForm() == tonumber(v)
+        end
+    end
 
-    ["moving"] = function ()
-            return IsFalling() or GetUnitSpeed("player") > 0
-        end,
+CONDITIONS["flyable"] =
+    function ()
+        return LM_Location:CanFly()
+    end
 
-    -- The difference between IsSwimming and IsSubmerged is that IsSubmerged will
-    -- also return true when you are standing on the bottom.  Note that it sadly
-    -- does not return false when you are floating on the top, that is still counted
-    -- as being submerged.
+CONDITIONS["flying"] =
+    function ()
+        return IsFlying()
+    end
 
-    ["swimming"] = function ()
-            return IsSubmerged()
-        end,
+CONDITIONS["group"] =
+    function (groupType)
+        if groupType == "raid" then
+            return IsInRaid()
+        end
+        if not groupType or groupType == "party" then
+            return IsInGroup()
+        end
+        return false
+    end
 
-    ["vehicle"] = function ()
-            return CanExitVehicle()
-        end,
+CONDITIONS["harm:args"] =
+    function (unit)
+        return not UnitIsFriend(unit)
+    end
 
+CONDITIONS["help:args"] =
+    function (unit)
+        return UnitIsFriend("player", unit)
+    end
 
-    -- Character conditions
+CONDITIONS["indoors"] =
+    function ()
+        return IsIndoors()
+    end
 
-    ["achievement:+"] = function (v)
-            return select(4, GetAchievementInfo(v))
-        end,
+CONDITIONS["instance"] =
+    function (v)
+        if not v then
+            return IsInInstance()
+        else
+            return LM_Location.instanceID == tonumber(v)
+        end
+    end
 
-    ["class:+"] = function (v)
-            return tContains({ UnitClass("player") }, v)
-        end,
-
-    ["equipped:+"] = function (v)
-            return IsEquippedItem(v) or IsEquippedItemType(v)
-        end,
-
-    ["form:*"] = function (v)
-            if v == nil then 
-                return GetShapeshiftForm() > 0
-            else
-                return GetShapeshiftForm() == tonumber(v)
-            end
-        end,
-
-    ["group"] = function (groupType)
-            if groupType == "raid" then return IsInRaid() end
-            if not groupType or groupType == "group" then return IsInGroup() end
+CONDITIONS["mod"] =
+     function (v)
+        if not v then
+            return IsModifierKeyDown()
+        elseif v == "alt" then
+            return IsAltKeyDown()
+        elseif v == "ctrl" then
+            return IsControlKeyDown()
+        elseif v == "shift" then
+            return IsShiftKeyDown()
+        else
             return false
-        end,
+        end
+    end
 
-    ["pet:*"] = function (v)
-            --- XXX FIXME XXX pet types
-            if not v then return UnitExists("pet") end
-            return UnitName("pet") == v
-        end,
+CONDITIONS["mounted"] =
+    function ()
+        return IsMounted()
+    end
 
-    ["spec:+"] = function (v)
-            return GetSpecialization() == tonumber(v)
-        end,
+CONDITIONS["moving"] =
+    function ()
+        return IsFalling() or GetUnitSpeed("player") > 0
+    end
 
-    ["talent"] = function (tier, talent)
-            return select(2, GetTalentTierInfo(tier, 1)) == tonumber(talent)
-        end,
+CONDITIONS["outdoors"] =
+    function ()
+        return IsOutdoors()
+    end
 
-}
+CONDITIONS["party:args"] =
+    function (unit)
+        return UnitPlayerOrPetInParty(unit or "target")
+    end
+
+CONDITIONS["pet"] =
+    function (v)
+        if not v then return UnitExists("pet") end
+        return UnitName("pet") == v or UnitCreatureFamily("pet") == v
+    end
+
+CONDITIONS["pvp"] =
+    function ()
+        return UnitIsPVP("player")
+    end
+
+CONDITIONS["race"] =
+    function (v)
+        return tContains({ UnitRace("player") }, v)
+    end
+
+CONDITIONS["raid:args"] =
+    function (unit)
+        return UnitPlayerOrPetInRaid(unit or "target")
+    end
+
+CONDITIONS["resting"] =
+    function ()
+        return IsResting()
+    end
+
+-- The difference between IsSwimming and IsSubmerged is that IsSubmerged
+-- will also return true when you are standing on the bottom.  Note that
+-- it sadly does not return false when you are floating on the top, that
+-- is still counted as being submerged.
+
+CONDITIONS["swimming"] =
+    function ()
+        return IsSubmerged()
+    end
+
+CONDITIONS["shapeshift"] =
+    function (v)
+        return HasTempShapeshiftActionBar()
+    end
+
+CONDITIONS["spec"] =
+    function (v)
+        return GetSpecialization() == tonumber(v)
+    end
+
+CONDITIONS["stealthed"] =
+    function ()
+        return IsStealthed()
+    end
+
+CONDITIONS["talent:args"] =
+    function (tier, talent)
+        return select(2, GetTalentTierInfo(tier, 1)) == tonumber(talent)
+    end
+
+CONDITIONS["true"] =
+    function ()
+        return true
+    end
+
+
 
 local function any(f, ...)
     local n = select('#', ...)
@@ -176,6 +273,9 @@ local function any(f, ...)
     end
     return false
 end
+
+
+LM_Conditions = { }
 
 function LM_Conditions:IsTrue(str)
     local cond, valuestr = strsplit(':', str)
@@ -190,26 +290,18 @@ function LM_Conditions:IsTrue(str)
         values = { }
     end
 
-    -- ":+" functions take one value and should support a/b/c "OR"
-    -- ":*" functions are the same but but can also be called with no arguments
-    -- This is really just for giving an error message when args are missing
-    if #values > 0 and map[cond..":+"] then
-        return any(map[cond..":+"], unpack(values))
-    elseif map[cond..":*"] then
-        if #values == 0 then
-            return map[cond..":*"]()
-        else
-            return any(map[cond..":*"], unpack(values))
-        end
+    local handler = CONDITIONS[cond..":args"]
+    if handler then
+        return handler(unpack(values))
     end
 
-    -- If you give anything that doesn't exist that's error and false
-    if type(map[cond]) ~= "function" then
-        LM_WarningAndPrint("Unknown LiteMount action conditional: " .. cond)
-        return false
+    handler = CONDITIONS[cond]
+    if handler then
+        return any(handler, unpack(values))
     end
 
-    return map[cond](unpack(values))
+    LM_WarningAndPrint("Unknown LiteMount action conditional: " .. cond)
+    return false
 end
 
 -- "OR" together comma-separated tests
@@ -226,7 +318,6 @@ end
 
 -- "AND" together [] sections
 function LM_Conditions:Eval(str)
-
     for e in str:gmatch('%[(.-)%]') do
         if self:EvalCommaOr(e) then
             return true
