@@ -16,7 +16,7 @@ we scan a new mount
 
 excludedspells is a list of spell ids the player has disabled
     ["excludedspells"] = { spellid1, spellid2, spellid3, ... }
-  
+
 flagoverrides is a table of tuples with bits to set and clear.
     ["flagoverrides"] = {
         ["spellid"] = { bits_to_set, bits_to_clear },
@@ -35,14 +35,15 @@ go from disabling something to enabling it.
 
 -- All of these values must be arrays so we can copy them by reference.
 local Default_LM_OptionsDB = {
-    ["seenspells"]       = { },
-    ["excludedspells"]   = { },
-    ["flagoverrides"]    = { },
-    ["macro"]            = { },       -- [1] = macro
-    ["combatMacro"]      = { },       -- [1] = macro, [2] == 0/1 enabled
-    ["useglobal"]        = { },
-    ["excludeNewMounts"] = { },
-    ["copyTargetsMount"] = { 1 },
+    ["seenspells"]              = { },
+    ["excludedspells"]          = { },
+    ["flagoverrides"]           = { },
+    ["macro"]                   = { },      -- [1] = macro
+    ["combatMacro"]             = { },      -- [1] = macro, [2] == 0/1 enabled
+    ["useglobal"]               = { },      -- "mounts", "actions"
+    ["excludeNewMounts"]        = { },
+    ["copyTargetsMount"]        = { 1 },
+    ["actionLists"]             = { },
 }
 
 LM_Options = { }
@@ -53,7 +54,13 @@ local function VersionUpgradeOptions(db)
     -- a global option to begin with.
 
     if not db["useglobal"] and LM_UseGlobalOptions then
-        db["useglobal"] = { true }
+        db["useglobal"] = { ["mounts"] = true }
+    end
+
+    -- Changed this into a key array around 7.0.3
+    if db["useglobal"][1] ~= nil then
+        db["useglobal"] = { ["mounts"] = db["useglobal"][1] }
+        db["useglobal"][1] = nil
     end
 
     -- Add any default settings from Default_LM_OptionsDB we don't have yet
@@ -100,25 +107,35 @@ function LM_Options:Initialize()
 
 end
 
-function LM_Options:UseGlobal(trueFalse)
+function LM_Options:UseGlobal(which, trueFalse)
 
     if trueFalse ~= nil then
-        if trueFalse then
-            self.db["useglobal"][1] = true
-            self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
-            self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
-        else
-            self.db["useglobal"][1] = false
-            self.db["excludedspells"] = LM_OptionsDB.excludedspells
-            self.db["flagoverrides"] = LM_OptionsDB.flagoverrides
-        end
+        if trueFalse then trueFalse = true else trueFalse = false end
     end
 
-    if self.db["useglobal"][1] then
-        return true
-    else
-        return false
+    if which == "mounts" then
+        if trueFalse ~= nil then
+            if trueFalse then
+                self.db["useglobal"][1] = true
+                self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
+                self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
+            else
+                self.db["useglobal"][1] = false
+                self.db["excludedspells"] = LM_OptionsDB.excludedspells
+                self.db["flagoverrides"] = LM_OptionsDB.flagoverrides
+            end
+        end
+        return self.db["useglobal"][1]
     end
+
+    if which == "actions" then
+        if trueFalse ~= nil then
+            self.db["useglobal"][2] = trueFalse
+        end
+        return self.db["useglobal"][2]
+    end
+
+    return false
 end
 
 
@@ -315,4 +332,15 @@ function LM_Options:SeenMount(m, flagSeen)
     end
 
     return seen
+end
+
+--[[----------------------------------------------------------------------------
+    Action Lists
+----------------------------------------------------------------------------]]--
+
+function LM_Options:ActionList(i, v)
+    local actionButton = LiteMount.actions[i]
+    if not actionButton then return end
+    if v ~= nil then
+        actionButton:LoadActionLines
 end

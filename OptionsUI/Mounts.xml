@@ -274,13 +274,13 @@
                     self.text:SetTextColor(1,0,0,1)
                 </OnLoad>
                 <OnShow>
-                    self:SetChecked(not LM_Options:UseGlobal())
+                    self:SetChecked(not LM_Options:UseGlobal("mounts"))
                 </OnShow>
                 <OnClick>
                     if self:GetChecked() then
-                        LM_Options:UseGlobal(false)
+                        LM_Options:UseGlobal("mounts", false)
                     else
-                        LM_Options:UseGlobal(true)
+                        LM_Options:UseGlobal("mounts", true)
                     end
                     LM_OptionsUI_UpdateMountList()
                 </OnClick>
