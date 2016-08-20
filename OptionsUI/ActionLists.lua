@@ -14,16 +14,24 @@ function LM_OptionsUIActionLists_OnLoad(self)
 
     PanelTemplates_SetNumTabs(self, 4)
     LM_OptionsUIActionLists_SetTab(self, 1)
+    PanelTemplates_UpdateTabs(self)
 
     LM_OptionsUIPanel_OnLoad(self)
 end
 
-function LM_OptionsUIActionLists_SetTab(self, n)
+function LM_OptionsUIActionLists_SetTab(self, id)
+    self.selectedTab = id
 
-    if type(n) == "number" then
-        self.selectedTab = 1
+    if self.selectedTab == 1 then
+        self.EditBox:SetTextColor(1, 0.7, 0.4)
+        self.EditBox:Disable()
+        self.Revert:Disable()
+        self.Delete:Disable()
     else
-        self.selectedTab = n:GetID()
+        self.EditBox:SetTextColor(1, 1, 1)
+        self.EditBox:Enable()
+        self.Revert:Enable()
+        self.Delete:Enable()
     end
 
     local spacerL = self.EditBoxContainer.TabTopL
@@ -34,4 +42,24 @@ function LM_OptionsUIActionLists_SetTab(self, n)
     spacerR:SetPoint("LEFT", tab, "RIGHT", -9, 0)
 
     PanelTemplates_UpdateTabs(self)
+end
+
+function LM_OptionsUIActionLists_Tab_OnClick(self)
+    LM_OptionsUIActionLists_SetTab(self:GetParent(), self:GetID())
+    LM_OptionsUIPanel_Refresh(self:GetParent())
+end
+
+function LM_OptionsUIActionListsEditBox_OnLoad(self)
+
+    self.GetOption = function (self)
+            local n = LM_OptionsUIActionLists.selectedTab or 1
+            local b = _G["LiteMountActionButton"..n]
+            return b:GetActionList()
+        end
+    self.SetOption = function (self, v)
+        end
+    self.GetOptionDefault = function (self)
+            return ""
+        end
+    LM_OptionsUIControl_OnLoad(self, LM_OptionsUIActionLists)
 end

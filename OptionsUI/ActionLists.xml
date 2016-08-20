@@ -37,31 +37,21 @@
             </Scripts>
         </Frame>
 
-        <EditBox name="$parentEditBox" multiLine="true" autoFocus="false" countInvisibleLetters="true" font="LiteMountMonoFont">
+        <EditBox name="$parentEditBox" parentKey="EditBox" multiLine="true" autoFocus="false" countInvisibleLetters="true" font="LiteMountMonoFont">
 
             <Anchors>
-                <Anchor relativeTo="$parentEditBoxContainer" point="TOPLEFT" x="16" y="-16" />
-                <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMRIGHT" x="-16" y="16" />
+                <Anchor relativeTo="$parentEditBoxContainer" point="TOPLEFT" x="16" y="-32" />
+                <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMRIGHT" x="-16" y="32" />
             </Anchors>
 
             <Scripts>
                 <!-- <OnTextChanged function="LM_OptionsUIActionLists_OnTextChanged" /> -->
                 <OnEscapePressed function="EditBox_ClearFocus" />
-                <OnLoad>
-                    self.GetOption = function (self)
-                            return LiteMountActionButton1:GetActionList()
-                        end
-                    self.SetOption = function (self, v)
-                        end
-                    self.GetOptionDefault = function (self)
-                            return ""
-                        end
-                    LM_OptionsUIControl_OnLoad(self, LM_OptionsUIActionLists)
-                </OnLoad>
+                <OnLoad function = "LM_OptionsUIActionListsEditBox_OnLoad" />
             </Scripts>
         </EditBox>
 
-        <Button name="$parentDelete" inherits="UIPanelButtonTemplate" text="DELETE">
+        <Button name="$parentDelete" parentKey="Delete" inherits="UIPanelButtonTemplate" text="DELETE">
             <Size x="96" y="22" />
             <Anchors>
                 <Anchor relativeTo="$parentEditBoxContainer" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
@@ -73,14 +63,14 @@
             </Scripts>
         </Button>
 
-        <Button name="$parentDefault" inherits="UIPanelButtonTemplate" text="DEFAULT">
+        <Button name="$parentRevert" parentKey="Revert" inherits="UIPanelButtonTemplate" text="REVERT">
             <Size x="96" y="22" />
             <Anchors>
-                <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-8" y="3" />
+                <Anchor relativeTo="$parentDelete" point="TOPRIGHT" relativePoint="TOPLEFT" />
             </Anchors>
             <Scripts>
                 <OnClick>
-                    LM_OptionsUIActionListsEditBox:SetText(LM_Actions:DefaultCombatMacro())
+                    LM_OptionsUIPanel_Refresh(self:GetParent())
                 </OnClick>
             </Scripts>
         </Button>
@@ -90,10 +80,7 @@
                 <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMLEFT" relativePoint="TOPLEFT" x="6" y="-3" />
             </Anchors>
             <Scripts>
-                <OnClick>
-                    LM_OptionsUIActionLists_SetTab(self:GetParent(), self)
-                    self:GetParent()
-                </OnClick>
+                <OnClick function="LM_OptionsUIActionLists_Tab_OnClick" />
             </Scripts>
         </Button>
 
@@ -102,9 +89,7 @@
                 <Anchor relativeTo="$parentTab1" point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-16" />
             </Anchors>
             <Scripts>
-                <OnClick>
-                    LM_OptionsUIActionLists_SetTab(self:GetParent(), self)
-                </OnClick>
+                <OnClick function="LM_OptionsUIActionLists_Tab_OnClick" />
             </Scripts>
         </Button>
 
@@ -113,9 +98,7 @@
                 <Anchor relativeTo="$parentTab2" point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-16" />
             </Anchors>
             <Scripts>
-                <OnClick>
-                    LM_OptionsUIActionLists_SetTab(self:GetParent(), self)
-                </OnClick>
+                <OnClick function="LM_OptionsUIActionLists_Tab_OnClick" />
             </Scripts>
         </Button>
 
@@ -124,9 +107,7 @@
                 <Anchor relativeTo="$parentTab3" point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-16" />
             </Anchors>
             <Scripts>
-                <OnClick>
-                    LM_OptionsUIActionLists_SetTab(self:GetParent(), self)
-                </OnClick>
+                <OnClick function="LM_OptionsUIActionLists_Tab_OnClick" />
             </Scripts>
         </Button>
 
