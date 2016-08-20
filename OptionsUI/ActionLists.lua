@@ -8,52 +8,61 @@
 
 ----------------------------------------------------------------------------]]--
 
+
+local displayedElements = {
+    "x",
+    "y",
+    "z",
+}
+
+function LM_OptionsUIActionListsSelection_Update(self)
+    local list = self.scrollFrame
+    local offset = FauxScrollFrame_GetOffset(list)
+    local buttons = self.buttons
+
+    local numButtons = #buttons
+    local numElements = #displayedElements
+    local buttonHeight = buttons[1]:GetHeight()
+
+    if numElements > numButtons then
+        OptionsList_DisplayScrollBar(self)
+    else
+        OptionsList_HideScrollBar(self)
+    end
+
+    FauxScrollFrame_Update(list, numElements, numButtons, buttonHeight)
+
+    if self.selection then
+        OptionsList_ClearSelection(self, buttons)
+    end
+
+    for i = 1, numButtons do
+        local e = displayedElements[i + offset]
+        if not e then
+            buttons[i]:Hide()
+        else
+            buttons[i].Text:SetText(e)
+            buttons[i]:Show()
+        end
+    end
+
+    LM_Print(self:GetName())
+    LM_Print(tostring(offset))
+    LM_Print(numButtons)
+    LM_Print(tostring(buttons))
+end
+
 function LM_OptionsUIActionLists_OnLoad(self)
 
     self.name = "Action Lists"
 
-    PanelTemplates_SetNumTabs(self, 4)
-    LM_OptionsUIActionLists_SetTab(self, 1)
-    PanelTemplates_UpdateTabs(self)
-
     LM_OptionsUIPanel_OnLoad(self)
-end
-
-function LM_OptionsUIActionLists_SetTab(self, id)
-    self.selectedTab = id
-
-    if self.selectedTab == 1 then
-        self.EditBox:SetTextColor(1, 0.7, 0.4)
-        self.EditBox:Disable()
-        self.Revert:Disable()
-        self.Delete:Disable()
-    else
-        self.EditBox:SetTextColor(1, 1, 1)
-        self.EditBox:Enable()
-        self.Revert:Enable()
-        self.Delete:Enable()
-    end
-
-    local spacerL = self.EditBoxContainer.TabTopL
-    local spacerR = self.EditBoxContainer.TabTopR
-    local tab = _G[self:GetName() .. "Tab" .. self.selectedTab]
-
-    spacerL:SetPoint("RIGHT", tab, "LEFT", 9, 0)
-    spacerR:SetPoint("LEFT", tab, "RIGHT", -9, 0)
-
-    PanelTemplates_UpdateTabs(self)
-end
-
-function LM_OptionsUIActionLists_Tab_OnClick(self)
-    LM_OptionsUIActionLists_SetTab(self:GetParent(), self:GetID())
-    LM_OptionsUIPanel_Refresh(self:GetParent())
 end
 
 function LM_OptionsUIActionListsEditBox_OnLoad(self)
 
     self.GetOption = function (self)
-            local n = LM_OptionsUIActionLists.selectedTab or 1
-            local b = _G["LiteMountActionButton"..n]
+            local b = LiteMountActionButton1
             return b:GetActionList()
         end
     self.SetOption = function (self, v)

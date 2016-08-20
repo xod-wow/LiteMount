@@ -4,35 +4,67 @@
 
 <Script file="ActionLists.lua" />
 
+<Button name="LM_OptionsUISelectionButtonTemplate" virtual="true">
+    <Size x="128" y="18" />
+    <ButtonText parentKey="Text" justifyH="LEFT" wordwrap="false" />
+    <NormalFont style="GameFontNormal" />
+    <HighlightFont style="GameFontHighlight" />
+    <HighlightTexture file="Interface\QuestFrame\UI-QuestLogTitleHighlight" alphaMode="ADD">
+        <Anchors>
+            <Anchor point="TOPLEFT" x="0" y="1" />
+            <Anchor point="BOTTOMRIGHT" x="0" y="1" />
+        </Anchors>
+    </HighlightTexture>
+    <Scripts>
+        <OnLoad>
+            self:GetHighlightTexture():SetVertexColor(0.196, 0.388, 0.8)
+            self:RegisterForClicks("LeftButtonUp")
+        </OnLoad>
+        <OnClick>
+        </OnClick>
+    </Scripts>
+</Button>
+
 <Frame name="LM_OptionsUIActionLists" hidden="true" inherits="LM_OptionsUIPanelTemplate">
 
     <Frames>
-        <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer" inherits="TooltipBorderedFrameTemplate" >
+
+        <Frame name="$parentSelection" parentKey="Selection" inherits="OptionsFrameListTemplate">
+            <Size x="128" y="376" />
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-128" />
-                <Anchor point="BOTTOMRIGHT" x="-16" y="64" />
+                <Anchor point="BOTTOMLEFT"  x="16" y="64" />
             </Anchors>
-            <Layers>
-                <Layer level="BACKGROUND">
-                    <Texture parentKey="TabTopL" file="Interface\Tooltips\UI-Tooltip-T">
-                        <Size x="8" y="8" />
-                        <Anchors>
-                            <Anchor point="TOPLEFT" relativeKey="$parent.BorderTopLeft" relativePoint="TOPRIGHT"/>
-                        </Anchors>
-                    </Texture>
-                    <Texture parentKey="TabTopR" file="Interface\Tooltips\UI-Tooltip-T">
-                        <Size x="8" y="8" />
-                        <Anchors>
-                            <Anchor point="TOPRIGHT" relativeKey="$parent.BorderTopRight" relativePoint="TOPLEFT"/>
-                        </Anchors>
-                    </Texture>
-                </Layer>
-            </Layers>
-
             <Scripts>
                 <OnLoad>
-                    self:SetAlpha(0.5)
-                    self.BorderTop:Hide()
+                    -- OptionsList_OnLoad relies on a y Size set to know how
+                    -- many buttons to make
+                    self.update = LM_OptionsUIActionListsSelection_Update
+                    OptionsList_OnLoad(self, "LM_OptionsUISelectionButtonTemplate")
+                </OnLoad>
+                <OnShow>
+                    self:update()
+                </OnShow>
+            </Scripts>
+        </Frame>
+
+        <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer" >
+            <Anchors>
+                <Anchor point="TOPLEFT"    relativeTo="$parentSelection" relativePoint="TOPRIGHT" />
+                <Anchor point="BOTTOMLEFT" relativeTo="$parentSelection" relativePoint="BOTTOMRIGHT" />
+                <Anchor point="RIGHT" x="-16" />
+            </Anchors>
+            <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                <EdgeSize val="16" />
+                <TileSize val="16" />
+                <BackgroundInsets>
+                    <AbsInset left="3" right="3" top="3" bottom="3" />
+                </BackgroundInsets>
+            </Backdrop>
+            <Scripts>
+                <OnLoad>
+                    self:SetBackdropColor(0, 0, 0, 0.6)
+                    self:SetBackdropBorderColor(1, 1, 1, 0.6)
                 </OnLoad>
             </Scripts>
         </Frame>
@@ -72,42 +104,6 @@
                 <OnClick>
                     LM_OptionsUIPanel_Refresh(self:GetParent())
                 </OnClick>
-            </Scripts>
-        </Button>
-
-        <Button name="$parentTab1" inherits="OptionsFrameTabButtonTemplate" text="Binding 1" id="1">
-            <Anchors>
-                <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMLEFT" relativePoint="TOPLEFT" x="6" y="-3" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LM_OptionsUIActionLists_Tab_OnClick" />
-            </Scripts>
-        </Button>
-
-        <Button name="$parentTab2" inherits="OptionsFrameTabButtonTemplate" text="Binding 2" id="2">
-            <Anchors>
-                <Anchor relativeTo="$parentTab1" point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-16" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LM_OptionsUIActionLists_Tab_OnClick" />
-            </Scripts>
-        </Button>
-
-        <Button name="$parentTab3" inherits="OptionsFrameTabButtonTemplate" text="Binding 3" id="3">
-            <Anchors>
-                <Anchor relativeTo="$parentTab2" point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-16" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LM_OptionsUIActionLists_Tab_OnClick" />
-            </Scripts>
-        </Button>
-
-        <Button name="$parentTab4" inherits="OptionsFrameTabButtonTemplate" text="Binding 4" id="4">
-            <Anchors>
-                <Anchor relativeTo="$parentTab3" point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-16" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LM_OptionsUIActionLists_Tab_OnClick" />
             </Scripts>
         </Button>
 
