@@ -4,7 +4,7 @@
 
 <Frame name="LM_OptionsUISettings" hidden="true" inherits="LM_OptionsUIPanelTemplate">
     <Attributes>
-        <Attribute name="panel-name" value="SETTINGS" />
+        <Attribute name="panel-name" value="BASE_SETTINGS" />
     </Attributes>
 
     <Frames>
@@ -36,7 +36,7 @@
             </Anchors>
             <Scripts>
                 <OnLoad>
-                    self.Text:SetText("Automatically disable newly learned mounts.")
+                    self.Text:SetText("Disable newly learned mounts.")
                     self.SetOption = function (self, setting)
                             if not setting or setting == "0" then
                                 LM_Options:ExcludeNewMounts(false)

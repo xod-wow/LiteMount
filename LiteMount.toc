@@ -36,7 +36,7 @@ KeyBindingStrings.lua
 OptionsUI\PanelTemplate.xml
 OptionsUI\Frame.xml
 OptionsUI\Settings.xml
-OptionsUI\ActionLists.xml
 OptionsUI\Mounts.xml
+OptionsUI\ActionLists.xml
 OptionsUI\Macro.xml
 OptionsUI\CombatMacro.xml

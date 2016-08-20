@@ -69,11 +69,16 @@ function LM_ActionButton:PostClick()
 end
 
 function LM_ActionButton:LoadActionLines(actionLines)
-    self.actionLines = actionLines
 
+    self.actionLines = ""
     wipe(self.actionList)
 
     for _, line in ipairs({ strsplit("\r?\n", actionLines) }) do
+        -- trim whitespace
+        line = line:match("^%s*(.-)%s*$")
+
+        self.actionLines = self.actionLines .. line .. "\n"
+
         if line then
             local act = self:ParseActionLine(line)
             tinsert(self.actionList, act)
@@ -85,9 +90,6 @@ function LM_ActionButton:ParseActionLine(line)
     if line:match("^%s*$") then
         return
     end
-
-    -- trim whitespace
-    line = line:match("^%s*(.-)%s*$")
 
     local action, conditions = line:match("^(%S+)%s*(.*)$")
     if conditions == "" then

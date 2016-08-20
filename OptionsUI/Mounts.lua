@@ -288,7 +288,7 @@ function LM_OptionsUIMounts_OnLoad(self)
     -- Because we're the wrong size at the moment we'll only have 1 button
     CreateMoreButtons(self.scrollFrame)
 
-    self.name = MOUNTS
+    self.name = format("%s %s", MOUNT, OPTIONS)
     self.default = function ()
             for m in LM_PlayerMounts:Iterate() do
                 LM_Options:ResetMountFlags(m)

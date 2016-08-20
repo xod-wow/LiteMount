@@ -40,8 +40,8 @@
         <EditBox name="$parentEditBox" multiLine="true" autoFocus="false" countInvisibleLetters="true" font="LiteMountMonoFont">
 
             <Anchors>
-                <Anchor relativeTo="$parentEditBoxContainer" point="TOPLEFT" x="8" y="-8" />
-                <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMRIGHT" x="-8" y="8" />
+                <Anchor relativeTo="$parentEditBoxContainer" point="TOPLEFT" x="16" y="-16" />
+                <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMRIGHT" x="-16" y="16" />
             </Anchors>
 
             <Scripts>
