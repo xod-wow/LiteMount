@@ -7,77 +7,129 @@
 <Frame name="LM_OptionsUIActionLists" hidden="true" inherits="LM_OptionsUIPanelTemplate">
 
     <Frames>
-        <Frame name="LM_OptionsUIActionListsEditBoxContainer">
-
+        <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer" inherits="TooltipBorderedFrameTemplate" >
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-128" />
                 <Anchor point="BOTTOMRIGHT" x="-16" y="64" />
             </Anchors>
-
-            <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
-                <EdgeSize val="16" />
-                <TileSize val="16" />
-                <BackgroundInsets>
-                    <AbsInset left="5" right="5" top="5" bottom="5" />
-                </BackgroundInsets>
-            </Backdrop>
+            <Layers>
+                <Layer level="BACKGROUND">
+                    <Texture parentKey="TabTopL" file="Interface\Tooltips\UI-Tooltip-T">
+                        <Size x="8" y="8" />
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeKey="$parent.BorderTopLeft" relativePoint="TOPRIGHT"/>
+                        </Anchors>
+                    </Texture>
+                    <Texture parentKey="TabTopR" file="Interface\Tooltips\UI-Tooltip-T">
+                        <Size x="8" y="8" />
+                        <Anchors>
+                            <Anchor point="TOPRIGHT" relativeKey="$parent.BorderTopRight" relativePoint="TOPLEFT"/>
+                        </Anchors>
+                    </Texture>
+                </Layer>
+            </Layers>
 
             <Scripts>
                 <OnLoad>
-                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
-                    self:SetBackdropColor(0, 0, 0, 0.5)
+                    self:SetAlpha(0.5)
+                    self.BorderTop:Hide()
                 </OnLoad>
             </Scripts>
-
-            <Frames>
-                <EditBox name="LM_OptionsUIActionListsEditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
-
-                    <Anchors>
-                        <Anchor point="TOPLEFT" x="8" y="-8" />
-                        <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
-                    </Anchors>
-
-                    <Scripts>
-                        <!-- <OnTextChanged function="LM_OptionsUIActionLists_OnTextChanged" /> -->
-                        <OnEscapePressed function="EditBox_ClearFocus" />
-                        <OnLoad>
-                            self.GetOption = function (self)
-                                    return ""
-                                end
-                            self.SetOption = function (self, v)
-                                end
-                            self.GetOptionDefault = function (self)
-                                    return ""
-                                end
-                            LM_OptionsUIControl_OnLoad(self, LM_OptionsUIActionLists)
-                        </OnLoad>
-                    </Scripts>
-                    <FontString inherits="GameFontHighlight" />
-                </EditBox>
-                <Button inherits="UIPanelButtonTemplate" name="LM_OptionsUIActionListsDelete" text="DELETE">
-                    <Size x="96" y="22" />
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
-                    </Anchors>
-                    <Scripts>
-                        <OnClick>
-                            LM_OptionsUIActionListsEditBox:SetText("")
-                        </OnClick>
-                    </Scripts>
-                </Button>
-                <Button name="LM_OptionsUIActionListsDefault" inherits="UIPanelButtonTemplate" text="DEFAULT">
-                    <Size x="96" y="22" />
-                    <Anchors>
-                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-8" y="3" />
-                    </Anchors>
-                    <Scripts>
-                        <OnClick>
-                            LM_OptionsUIActionListsEditBox:SetText(LM_Actions:DefaultCombatMacro())
-                        </OnClick>
-                    </Scripts>
-                </Button>
-            </Frames>
         </Frame>
+
+        <EditBox name="$parentEditBox" multiLine="true" autoFocus="false" countInvisibleLetters="true" font="LiteMountMonoFont">
+
+            <Anchors>
+                <Anchor relativeTo="$parentEditBoxContainer" point="TOPLEFT" x="8" y="-8" />
+                <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMRIGHT" x="-8" y="8" />
+            </Anchors>
+
+            <Scripts>
+                <!-- <OnTextChanged function="LM_OptionsUIActionLists_OnTextChanged" /> -->
+                <OnEscapePressed function="EditBox_ClearFocus" />
+                <OnLoad>
+                    self.GetOption = function (self)
+                            return LiteMountActionButton1:GetActionList()
+                        end
+                    self.SetOption = function (self, v)
+                        end
+                    self.GetOptionDefault = function (self)
+                            return ""
+                        end
+                    LM_OptionsUIControl_OnLoad(self, LM_OptionsUIActionLists)
+                </OnLoad>
+            </Scripts>
+        </EditBox>
+
+        <Button name="$parentDelete" inherits="UIPanelButtonTemplate" text="DELETE">
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor relativeTo="$parentEditBoxContainer" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    LM_OptionsUIActionListsEditBox:SetText("")
+                </OnClick>
+            </Scripts>
+        </Button>
+
+        <Button name="$parentDefault" inherits="UIPanelButtonTemplate" text="DEFAULT">
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-8" y="3" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    LM_OptionsUIActionListsEditBox:SetText(LM_Actions:DefaultCombatMacro())
+                </OnClick>
+            </Scripts>
+        </Button>
+
+        <Button name="$parentTab1" inherits="OptionsFrameTabButtonTemplate" text="Binding 1" id="1">
+            <Anchors>
+                <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMLEFT" relativePoint="TOPLEFT" x="6" y="-3" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    LM_OptionsUIActionLists_SetTab(self:GetParent(), self)
+                    self:GetParent()
+                </OnClick>
+            </Scripts>
+        </Button>
+
+        <Button name="$parentTab2" inherits="OptionsFrameTabButtonTemplate" text="Binding 2" id="2">
+            <Anchors>
+                <Anchor relativeTo="$parentTab1" point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-16" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    LM_OptionsUIActionLists_SetTab(self:GetParent(), self)
+                </OnClick>
+            </Scripts>
+        </Button>
+
+        <Button name="$parentTab3" inherits="OptionsFrameTabButtonTemplate" text="Binding 3" id="3">
+            <Anchors>
+                <Anchor relativeTo="$parentTab2" point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-16" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    LM_OptionsUIActionLists_SetTab(self:GetParent(), self)
+                </OnClick>
+            </Scripts>
+        </Button>
+
+        <Button name="$parentTab4" inherits="OptionsFrameTabButtonTemplate" text="Binding 4" id="4">
+            <Anchors>
+                <Anchor relativeTo="$parentTab3" point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-16" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    LM_OptionsUIActionLists_SetTab(self:GetParent(), self)
+                </OnClick>
+            </Scripts>
+        </Button>
+
     </Frames>
 
     <Layers>
@@ -89,8 +141,8 @@
                     <Anchor point="RIGHT" x="-32" />
                 </Anchors>
             </FontString>
-
         </Layer>
+
     </Layers>
 
     <Scripts>

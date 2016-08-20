@@ -4,6 +4,10 @@
 
 <Script file="PanelTemplate.lua" />
 
+<Font name="LiteMountMonoFont" font="Interface\AddOns\LiteMount\Fonts\VeraMono.ttf">
+    <FontHeight val="14" />
+</Font>
+
 <Frame name="LM_OptionsUIPanelTemplate" hidden="true" virtual="true">
     <Layers>
         <Layer level="ARTWORK">

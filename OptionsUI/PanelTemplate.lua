@@ -16,7 +16,7 @@ function LM_OptionsUIPanel_AutoLocalize(f)
     local regions = { f:GetRegions() }
     for _,r in ipairs(regions) do
         if r and r:IsObjectType("FontString") and not r.autoLocalized then
-            r:SetText(L[r:GetText()])
+            -- r:SetText(L[r:GetText()])
             r.autoLocalized = true
         end
     end

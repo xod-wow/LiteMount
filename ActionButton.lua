@@ -69,6 +69,8 @@ function LM_ActionButton:PostClick()
 end
 
 function LM_ActionButton:LoadActionLines(actionLines)
+    self.actionLines = actionLines
+
     wipe(self.actionList)
 
     for _, line in ipairs({ strsplit("\r?\n", actionLines) }) do
@@ -130,3 +132,8 @@ function LM_ActionButton:Create(n, actionLines)
 
     return b
 end
+
+function LM_ActionButton:GetActionList()
+    return self.actionLines
+end
+
