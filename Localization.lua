@@ -15,9 +15,14 @@ local L = LM_Localize
 local locale = GetLocale()
 
 -- Default locale is English (enUS or enGB)
-L["LM_MACRO_EXP"]   = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
+L["LM_MACRO_EXP"] =
+"This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
 
-L["LM_COMBAT_MACRO_EXP"]   = "If enabled, this macro will be run instead of the default combat actions if LiteMount is activated while you are combat."
+L["LM_COMBAT_MACRO_EXP"] =
+"If enabled, this macro will be run instead of the default combat actions if LiteMount is activated while you are combat."
+
+L["LM_ACTION_LIST_EXP"] =
+"This list of actions and conditions will determine what LiteMount tries to do when you push the corresponding keybinding."
 
 if locale == "deDE" then
     L["Author"]  = "Autor"

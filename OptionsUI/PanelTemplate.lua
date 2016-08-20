@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/UIOptionsPanelTemplate.lua
+  LiteMount/OptionsUI/PanelTemplate.lua
 
   Copyright 2016 Mike Battersby
 

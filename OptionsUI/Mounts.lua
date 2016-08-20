@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/UIOptionsMounts.lua
+  LiteMount/OptionsUI/Mounts.lua
 
   Options frame for the mount list.
 

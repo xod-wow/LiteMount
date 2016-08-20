@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2016 Mike Battersby -->
 
-<Script file="UIOptionsMacro.lua" />
+<Script file="Macro.lua" />
 
 <Button name="LiteMountItemButtonTemplate" virtual="true" inherits="ItemButtonTemplate">
     <Scripts>
@@ -19,7 +19,7 @@
     </Scripts>
 </Button>
 
-<Frame name="LM_OptionsUIMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LM_OptionsUIMacro" hidden="true" inherits="LM_OptionsUIPanelTemplate">
 
     <Frames>
         <Frame name="LM_OptionsUIMacroEditBoxContainer">
@@ -67,7 +67,7 @@
                             self.GetOptionDefault = function (self)
                                     return ""
                                 end
-                            LM_OptionsUIControl_OnLoad(self, LiteMountOptionsMacro)
+                            LM_OptionsUIControl_OnLoad(self, LM_OptionsUIMacro)
                         </OnLoad>
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />

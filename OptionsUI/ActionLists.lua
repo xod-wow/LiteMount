@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/UIOptionsActionLists.lua
+  LiteMount/OptionsUI/ActionLists.lua
 
   Options frame for the action list.
 
@@ -8,9 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LM_OptionsUIMounts_OnLoad(self)
+function LM_OptionsUIActionLists_OnLoad(self)
 
-    self.name = "Action List"
+    self.name = "Action Lists"
 
     LM_OptionsUIPanel_OnLoad(self)
 end

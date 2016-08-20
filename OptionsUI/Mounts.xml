@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2016 Mike Battersby -->
 
-<Script file="UIOptionsMounts.lua" />
+<Script file="Mounts.lua" />
 
 <!--
     See OptionsBaseCheckButtonTemplate in FrameXML/OptionsPanelTemplates.xml
@@ -220,7 +220,7 @@
     </Scripts>
 </Frame>
 
-<Frame name="LM_OptionsUIMounts" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LM_OptionsUIMounts" hidden="true" inherits="LM_OptionsUIPanelTemplate">
 
     <Frames>
         <ScrollFrame name="$parentScrollFrame" inherits="MinimalHybridScrollFrameTemplate" parentKey="scrollFrame">

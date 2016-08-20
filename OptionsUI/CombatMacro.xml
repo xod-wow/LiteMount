@@ -2,9 +2,9 @@
 
 <!-- Copyright 2011-2016 Mike Battersby -->
 
-<Script file="UIOptionsCombatMacro.lua" />
+<Script file="CombatMacro.lua" />
 
-<Frame name="LM_OptionsUICombatMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LM_OptionsUICombatMacro" hidden="true" inherits="LM_OptionsUIPanelTemplate">
 
     <Frames>
         <Frame name="LM_OptionsUICombatMacroEditBoxContainer">
@@ -53,7 +53,7 @@
                             self.GetOptionDefault = function (self)
                                     return LM_Actions:DefaultCombatMacro()
                                 end
-                            LM_OptionsUIControl_OnLoad(self, LiteMountOptionsCombatMacro)
+                            LM_OptionsUIControl_OnLoad(self, LM_OptionsUICombatMacro)
                         </OnLoad>
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
@@ -95,7 +95,7 @@
                     self.SetOption = function (self, v)
                             LM_Options:UseCombatMacro(v and true or false)
                         end
-                    LM_OptionsUIControl_OnLoad(self, LiteMountOptionsCombatMacro)
+                    LM_OptionsUIControl_OnLoad(self, LM_OptionsUICombatMacro)
                 </OnLoad>
             </Scripts>
         </CheckButton>

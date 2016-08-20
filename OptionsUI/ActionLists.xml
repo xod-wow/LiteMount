@@ -2,18 +2,16 @@
 
 <!-- Copyright 2011-2016 Mike Battersby -->
 
-<Script file="UIOptionsActionLists.lua" />
+<Script file="ActionLists.lua" />
 
 <Frame name="LM_OptionsUIActionLists" hidden="true" inherits="LM_OptionsUIPanelTemplate">
 
     <Frames>
         <Frame name="LM_OptionsUIActionListsEditBoxContainer">
 
-            <Size x="400" y="200" />
-
-
             <Anchors>
-                <Anchor point="CENTER" />
+                <Anchor point="TOPLEFT" x="16" y="-128" />
+                <Anchor point="BOTTOMRIGHT" x="-16" y="64" />
             </Anchors>
 
             <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
@@ -40,7 +38,7 @@
                     </Anchors>
 
                     <Scripts>
-                        <OnTextChanged function="LM_OptionsUIActionLists_OnTextChanged" />
+                        <!-- <OnTextChanged function="LM_OptionsUIActionLists_OnTextChanged" /> -->
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
                             self.GetOption = function (self)
@@ -63,7 +61,7 @@
                     </Anchors>
                     <Scripts>
                         <OnClick>
-                            LM_OptionsUIActionsListEditBox:SetText("")
+                            LM_OptionsUIActionListsEditBox:SetText("")
                         </OnClick>
                     </Scripts>
                 </Button>
@@ -87,26 +85,8 @@
             <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_ACTION_LIST_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
-                    <Anchor point="LEFT" relativePoint="LEFT" relativeTo="LM_OptionsUIActionListsEditBoxContainer" x="-50" />
-                    <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="LM_OptionsUIMacroEditBoxContainer" x="50" />
-                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeTo="LM_OptionsUIMacroEditBoxContainer" />
-                </Anchors>
-            </FontString>
-
-            <FontString inherits="GameFontNormalLarge" parentKey="enable" text="ENABLE">
-                <Anchors>
-                    <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="LM_OptionsUIActionListsEnable" x="4" />
-                </Anchors>
-            </FontString>
-            <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
-                <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LM_OptionsUIActionListsEditBoxContainer" x="8" y="3" />
-                </Anchors>
-            </FontString>
-
-            <FontString name="LM_OptionsUIActionsListCount" inherits="GameFontHighlightSmall">
-                <Anchors>
-                    <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="LM_OptionsUIActionListsEditBoxContainer" y="-3" />
+                    <Anchor point="LEFT" x="32" />
+                    <Anchor point="RIGHT" x="-32" />
                 </Anchors>
             </FontString>
 
@@ -114,7 +94,7 @@
     </Layers>
 
     <Scripts>
-        <OnLoad function="LM_OptionsUIActionsList_OnLoad" />
+        <OnLoad function="LM_OptionsUIActionLists_OnLoad" />
     </Scripts>
 </Frame>
 

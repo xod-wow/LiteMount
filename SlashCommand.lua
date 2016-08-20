@@ -59,6 +59,6 @@ function LiteMount_SlashCommandFunc(argstr)
         end
     end
 
-    return LiteMountOptionsPanel_Open()
+    return LM_OptionsUIPanel_Open()
 end
 

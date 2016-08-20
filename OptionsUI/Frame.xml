@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2016 Mike Battersby -->
 
-<Frame name="LM_OptionsUI" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LM_OptionsUI" hidden="true" inherits="LM_OptionsUIPanelTemplate">
     <Layers>
         <Layer level="ARTWORK">
             <FontString inherits="GameFontHighlight" justifyH="LEFT" text="Simple and reliable random mount summoning.">

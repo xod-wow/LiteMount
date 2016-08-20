@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2016 Mike Battersby -->
 
-<Script file="UIOptionsPanelTemplate.lua" />
+<Script file="PanelTemplate.lua" />
 
 <Frame name="LM_OptionsUIPanelTemplate" hidden="true" virtual="true">
     <Layers>
