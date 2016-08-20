@@ -44,6 +44,7 @@ local Default_LM_OptionsDB = {
     ["excludeNewMounts"]        = { },
     ["copyTargetsMount"]        = { 1 },
     ["actionLists"]             = { },
+    ["actionListBindings"]      = { },
 }
 
 LM_Options = { }
@@ -100,7 +101,7 @@ function LM_Options:Initialize()
         self.db[k] = v
     end
 
-    if self.db["useglobal"][1] then
+    if self.db["useglobal"]["mounts"]] then
         self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
         self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
     end
@@ -116,23 +117,23 @@ function LM_Options:UseGlobal(which, trueFalse)
     if which == "mounts" then
         if trueFalse ~= nil then
             if trueFalse then
-                self.db["useglobal"][1] = true
+                self.db["useglobal"]["mounts"] = true
                 self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
                 self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
             else
-                self.db["useglobal"][1] = false
+                self.db["useglobal"]["mounts"] = false
                 self.db["excludedspells"] = LM_OptionsDB.excludedspells
                 self.db["flagoverrides"] = LM_OptionsDB.flagoverrides
             end
         end
-        return self.db["useglobal"][1]
+        return self.db["useglobal"]["mounts"]
     end
 
     if which == "actions" then
         if trueFalse ~= nil then
-            self.db["useglobal"][2] = trueFalse
+            self.db["useglobal"]["actions"] = trueFalse
         end
-        return self.db["useglobal"][2]
+        return self.db["useglobal"]["actions"]
     end
 
     return false
@@ -338,9 +339,12 @@ end
     Action Lists
 ----------------------------------------------------------------------------]]--
 
-function LM_Options:ActionList(i, v)
-    local actionButton = LiteMount.actions[i]
-    if not actionButton then return end
-    if v ~= nil then
-        actionButton:LoadActionLines
+function LM_Options:ActionList(name, text)
+    if text ~= nil then
+    end
 end
+
+function LM_Options:ActionListBinding(i, name)
+    
+end
+
