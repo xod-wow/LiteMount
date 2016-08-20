@@ -101,7 +101,7 @@ function LM_Options:Initialize()
         self.db[k] = v
     end
 
-    if self.db["useglobal"]["mounts"]] then
+    if self.db["useglobal"]["mounts"] then
         self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
         self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
     end
