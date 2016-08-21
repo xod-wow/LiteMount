@@ -9,35 +9,6 @@
 ----------------------------------------------------------------------------]]--
 
 
-local displayedElements = {
-    "Element1",
-    "Element2",
-    "Element3",
-    "Element4",
-    "Element5",
-    "Element6",
-    "Element7",
-    "Element8",
-    "Element9",
-    "Element10",
-    "Element11",
-    "Element12",
-    "Element13",
-    "Element14",
-    "Element15",
-    "Element16",
-    "Element17",
-    "Element18",
-    "Element19",
-    "Element20",
-    "Element21",
-    "Element22",
-    "Element23",
-    "Element24",
-    "Element25",
-    "Element26",
-}
-
 -- Always the same. You start out trying to re-use the Blizzard scroll frame
 -- functions but you just end up in a mess that's hard to undertand and do
 -- it all yourself. I'm sure if I made LiteScrollFrame I'd understand why
@@ -56,7 +27,7 @@ local function SetButtonWidths(self, w)
     end
 end
 
-local function SetSelected(button, isSelected)
+local function SelectButton(button, isSelected)
     if isSelected then
         button:GetHighlightTexture():SetVertexColor(1, 1, 0)
         button:LockHighlight()
@@ -83,7 +54,7 @@ function LM_OptionsUIActionListSelection_OnLoad(self)
 
     self.stepSize = self.buttonHeight
     self.update = LM_OptionsUIActionListsSelection_Update
-    self.selected = 1
+    self.selected = "Default"
 end
 
 function LM_OptionsUIScrollFrame_OnSizeChanged(self, w, h)
@@ -96,8 +67,16 @@ function LM_OptionsUIActionListSelection_OnShow(self)
     self:update()
 end
 
+local displayedElements = {}
 function LM_OptionsUIActionListsSelection_Update(self)
     local buttons = self.buttons
+
+    wipe(displayedElements)
+    for name, _ in pairs(LM_Options:ActionLists()) do
+        tinsert(displayedElements, name)
+    end
+    sort(displayedElements)
+    tinsert(displayedElements, 1, "Default")
 
     local numButtons = #buttons
     local numElements = #displayedElements
@@ -123,7 +102,7 @@ function LM_OptionsUIActionListsSelection_Update(self)
             buttons[i].Text:SetText(e)
             buttons[i]:Show()
             buttons[i]:SetID(n)
-            SetSelected(buttons[i], n == self.selected)
+            SelectButton(buttons[i], e == self.selected)
         end
     end
 
@@ -144,8 +123,7 @@ end
 function LM_OptionsUIActionListsEditBox_OnLoad(self)
 
     self.GetOption = function (self)
-            local b = LiteMountActionButton1
-            return b:GetActionList()
+            return LM_Options:ActionList(self.actionName) or ""
         end
     self.SetOption = function (self, v)
         end
@@ -156,6 +134,6 @@ function LM_OptionsUIActionListsEditBox_OnLoad(self)
 end
 
 function LM_OptionsUISelectionButton_OnClick(button)
-    LM_OptionsUIActionListsSelection.selected = button:GetID()
+    LM_OptionsUIActionListsSelection.selected = button.actionName
     LM_OptionsUIActionListsSelection_Update(LM_OptionsUIActionListsSelection)
 end

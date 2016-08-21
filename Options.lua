@@ -339,9 +339,15 @@ end
     Action Lists
 ----------------------------------------------------------------------------]]--
 
+function LM_Options:ActionLists()
+    return self.db.actionLists
+end
+
 function LM_Options:ActionList(name, text)
     if text ~= nil then
+        self.db.actionLists[name] = text
     end
+    return self.db.actionLists[name]
 end
 
 function LM_Options:ActionListBinding(i, name)
