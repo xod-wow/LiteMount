@@ -171,28 +171,36 @@ Notes To Myself
 * Code documentation.
 
     Utility stuff:
-        * Print.lua
+        * Lib\Print.lua
             LM_Print(msg) -- prints into current active chat frame
             LM_SetDebug(onoff) -- turn debugging on/off
             LM_Debug(msg) -- prints a debug message if debugging is on
             LM_Warning(msg) -- print a msg into the UIErrorsFrame
-        * AutoEventFrame.lua
+        * Lib\AutoEventFrame.lua
             LM_CreateAutoEventFrame(frameType, ...)
                 * takes the same args as CreateFrame
                 * Adds an OnEvent handler that calls a function named
                   for the event. E.g., MyFrame:PLAYER_LOGIN().
+        * Lib\FancyList.lua
+            Class for a fancier list, used by LM_PlayerMounts.
+
+            LM_FancyList:New()
+            LM_FancyList:Iterate()
+            LM_FancyList:Shuffle()
+            LM_FancyList:Random()
+            LM_FancyList:Sort()
+            LM_FancyList:Search(matchfunc)
+        * Lib\Location.lua
+            LM_Location:CanFly()
+            LM_Location.areaID
+            LM_Location.continentID
+            LM_Location.instanceID
+
 
     Keybinding stuff:
         * Bindings.xml
         * KeyBindingStrings.lua
             Globals for the menu entries in the blizz key menu.
-
-    Querying stuff:
-        * Location.lua
-            LM_Location:CanFly()
-            LM_Location.areaID
-            LM_Location.continentID
-            LM_Location.instanceID
 
     Options stuff:
         * Options.lua
@@ -236,18 +244,8 @@ Notes To Myself
                 ItemID SpellID SpellName ModelID SelfMount Name JournalIndex
                 CastTime NeedsFaction NeedsProfession Flags
 
-        * LM_*.lua
+        * Mount\*.lua
             Individual mount type classes.
-
-        * MountList.lua
-            Class for a list of mounts, used by LM_PlayerMounts.
-
-            LM_MountList:New()
-            LM_MountList:Iterate()
-            LM_MountList:Shuffle()
-            LM_MountList:Random()
-            LM_MountList:Sort()
-            LM_MountList:Search(matchfunc)
 
         * PlayerMounts
             All mounts the player knows.

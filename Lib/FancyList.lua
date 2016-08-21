@@ -1,8 +1,9 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/MountList.lua
+  LiteMount/Lib/LM_FancyList.lua
 
-  Class for a list of LM_Mount mounts.
+  Fancier list with merging and stuff. I'd quote Bender but now I feel weird
+  about using one of the words.
 
   Copyright 2011-2016 Mike Battersby
 
@@ -53,17 +54,17 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_MountList = { }
-LM_MountList.__index = LM_MountList
+LM_FancyList = { }
+LM_FancyList.__index = LM_FancyList
 
-function LM_MountList:New(ml)
+function LM_FancyList:New(ml)
     local ml = ml or { }
-    setmetatable(ml, LM_MountList)
+    setmetatable(ml, LM_FancyList)
     return ml
 end
 
-function LM_MountList:Search(matchfunc)
-    local result = LM_MountList:New()
+function LM_FancyList:Search(matchfunc)
+    local result = LM_FancyList:New()
 
     for m in self:Iterate() do
         if matchfunc(m) then
@@ -74,7 +75,7 @@ function LM_MountList:Search(matchfunc)
     return result
 end
 
-function LM_MountList:Shuffle()
+function LM_FancyList:Shuffle()
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
     for i = #self, 2, -1 do
         local r = math.random(i)
@@ -82,7 +83,7 @@ function LM_MountList:Shuffle()
     end
 end
 
-function LM_MountList:Random()
+function LM_FancyList:Random()
     local n = #self
     if n == 0 then
         return nil
@@ -91,7 +92,7 @@ function LM_MountList:Random()
     end
 end
 
-function LM_MountList:WeightedRandom()
+function LM_FancyList:WeightedRandom()
     local n = #self
     if n == 0 then return nil end
 
@@ -108,7 +109,7 @@ function LM_MountList:WeightedRandom()
     end
 end
 
-function LM_MountList:Iterate()
+function LM_FancyList:Iterate()
     local i = 0
     local iter = function ()
             i = i + 1
@@ -117,44 +118,42 @@ function LM_MountList:Iterate()
     return iter
 end
 
-function LM_MountList:__add(other)
-    local r = LM_MountList:New()
+function LM_FancyList:__add(other)
+    local r = LM_FancyList:New()
     local seen = { }
     for m in self:Iterate() do
         tinsert(r, m)
-        seen[m:Name()] = true
+        seen[m] = true
     end
     for m in other:Iterate() do
-        if not seen[m:Name()] then
+        if not seen[m] then
             tinsert(r, m)
         end
     end
     return r
 end
 
-function LM_MountList:__sub(other)
-    local r = LM_MountList:New()
+function LM_FancyList:__sub(other)
+    local r = LM_FancyList:New()
     local remove = { }
     for m in other:Iterate() do
-        remove[m:Name()] = true
+        remove[m] = true
     end
     for m in self:Iterate() do
-        if not remove[m:Name()] then
+        if not remove[m] then
             tinsert(r, m)
         end
     end
     return r
 end
 
-function LM_MountList:Sort()
-    local ns = function (a,b) return a:Name() < b:Name() end
-    sort(self, ns)
+function LM_FancyList:Sort(f)
+    sort(self, f)
     return self
 end
 
-function LM_MountList:Map(mapfunc)
+function LM_FancyList:Map(mapfunc)
     for m in self:Iterate() do
         mapfunc(m)
     end
 end
-

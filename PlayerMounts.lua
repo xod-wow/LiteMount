@@ -27,7 +27,7 @@ function LM_PlayerMounts:Initialize()
     self.needScan = true
 
     self.byName = { }
-    self.list = LM_MountList:New()
+    self.list = LM_FancyList:New()
 
     -- Rescan event setup
     for _,ev in ipairs(RescanEvents) do

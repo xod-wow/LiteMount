@@ -11,9 +11,10 @@
 LM_Mount = {
     ["cacheByItemID"] = { },
     ["cacheByName"]   = { },
-    ["cacheBySpellID"] = { }
+    ["cacheBySpellID"] = { },
 }
 LM_Mount.__index = LM_Mount
+LM_Mount.__lt = function (a,b) return a:Name() < b:Name() end,
 
 function LM_Mount:new()
     return setmetatable({ tags = { } }, LM_Mount)
