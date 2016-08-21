@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/Location.lua
+  LiteMount/Lib/Location.lua
 
   Some basics about the current location with respect to mounting.  Most of
   the mojo is done by IsUsableSpell to know if a mount can be cast, this

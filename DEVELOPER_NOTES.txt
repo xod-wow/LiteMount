@@ -119,13 +119,6 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
-* Passenger-capable mounts
-
-    Possibility of preferring a passenger-capable mount if you are in
-    a group.
-
-
-------------------------------------------------------------------------------
 * Better "undo".
 
     Conclusion: seems unncessary.
@@ -183,7 +176,6 @@ Notes To Myself
                   for the event. E.g., MyFrame:PLAYER_LOGIN().
         * Lib\FancyList.lua
             Class for a fancier list, used by LM_PlayerMounts.
-
             LM_FancyList:New()
             LM_FancyList:Iterate()
             LM_FancyList:Shuffle()

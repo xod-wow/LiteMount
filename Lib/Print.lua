@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/Print.lua
+  LiteMount/Lib/Print.lua
 
   AddMessage() into the currently displayed chat window.
 

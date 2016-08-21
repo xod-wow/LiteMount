@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/Lib/LM_FancyList.lua
+  LiteMount/Lib/FancyList.lua
 
   Fancier list with merging and stuff. I'd quote Bender but now I feel weird
   about using one of the words.
