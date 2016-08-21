@@ -6,7 +6,11 @@
 
 <Button name="LM_OptionsUISelectionButtonTemplate" virtual="true">
     <Size x="128" y="18" />
-    <ButtonText parentKey="Text" justifyH="LEFT" wordwrap="false" />
+    <ButtonText parentKey="Text" justifyH="LEFT" wordwrap="false">
+        <Anchors>
+            <Anchor point="LEFT" x="8" />
+        </Anchors>
+    </ButtonText>
     <NormalFont style="GameFontNormal" />
     <HighlightFont style="GameFontHighlight" />
     <HighlightTexture file="Interface\QuestFrame\UI-QuestLogTitleHighlight" alphaMode="ADD">
@@ -20,8 +24,7 @@
             self:GetHighlightTexture():SetVertexColor(0.196, 0.388, 0.8)
             self:RegisterForClicks("LeftButtonUp")
         </OnLoad>
-        <OnClick>
-        </OnClick>
+        <OnClick function="LM_OptionsUISelectionButton_OnClick" />
     </Scripts>
 </Button>
 
@@ -29,29 +32,44 @@
 
     <Frames>
 
-        <Frame name="$parentSelection" parentKey="Selection" inherits="OptionsFrameListTemplate">
-            <Size x="128" y="376" />
+        <Frame name="$parentSelectionContainer" parentKey="SelectionContainer" >
+            <Size x="128" />
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-128" />
                 <Anchor point="BOTTOMLEFT"  x="16" y="64" />
             </Anchors>
+            <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                <EdgeSize val="16" />
+                <TileSize val="16" />
+                <BackgroundInsets>
+                    <AbsInset left="3" right="3" top="3" bottom="3" />
+                </BackgroundInsets>
+            </Backdrop>
             <Scripts>
                 <OnLoad>
-                    -- OptionsList_OnLoad relies on a y Size set to know how
-                    -- many buttons to make
-                    self.update = LM_OptionsUIActionListsSelection_Update
-                    OptionsList_OnLoad(self, "LM_OptionsUISelectionButtonTemplate")
+                    self:SetBackdropColor(0 ,0 ,0, 0.5)
+                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
                 </OnLoad>
-                <OnShow>
-                    self:update()
-                </OnShow>
             </Scripts>
         </Frame>
 
+        <ScrollFrame name="$parentSelection" parentKey="Selection" inherits="MinimalHybridScrollFrameTemplate">
+            <Size x="128" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parentSelectionContainer" x="0" y="-8" />
+                <Anchor point="BOTTOMRIGHT" relativeTo="$parentSelectionContainer" x="0" y="7" />
+            </Anchors>
+            <Scripts>
+                <OnLoad function="LM_OptionsUIActionListSelection_OnLoad" />
+                <OnSizeChanged function="LM_OptionsUIActionListSelection_OnSizeChanged" />
+                <OnShow function="LM_OptionsUIActionListSelection_OnShow" />
+            </Scripts>
+        </ScrollFrame>
+
         <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer" >
             <Anchors>
-                <Anchor point="TOPLEFT"    relativeTo="$parentSelection" relativePoint="TOPRIGHT" />
-                <Anchor point="BOTTOMLEFT" relativeTo="$parentSelection" relativePoint="BOTTOMRIGHT" />
+                <Anchor point="TOPLEFT"    relativeTo="$parentSelectionContainer" relativePoint="TOPRIGHT" />
+                <Anchor point="BOTTOMLEFT" relativeTo="$parentSelectionContainer" relativePoint="BOTTOMRIGHT" />
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
             <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
@@ -63,8 +81,8 @@
             </Backdrop>
             <Scripts>
                 <OnLoad>
-                    self:SetBackdropColor(0, 0, 0, 0.6)
-                    self:SetBackdropBorderColor(1, 1, 1, 0.6)
+                    self:SetBackdropColor(0 ,0 ,0, 0.5)
+                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
                 </OnLoad>
             </Scripts>
         </Frame>
@@ -72,8 +90,8 @@
         <EditBox name="$parentEditBox" parentKey="EditBox" multiLine="true" autoFocus="false" countInvisibleLetters="true" font="LiteMountMonoFont">
 
             <Anchors>
-                <Anchor relativeTo="$parentEditBoxContainer" point="TOPLEFT" x="16" y="-32" />
-                <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMRIGHT" x="-16" y="32" />
+                <Anchor relativeTo="$parentEditBoxContainer" point="TOPLEFT" x="16" y="-16" />
+                <Anchor relativeTo="$parentEditBoxContainer" point="BOTTOMRIGHT" x="-16" y="16" />
             </Anchors>
 
             <Scripts>

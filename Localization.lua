@@ -22,7 +22,7 @@ L["LM_COMBAT_MACRO_EXP"] =
 "If enabled, this macro will be run instead of the default combat actions if LiteMount is activated while you are combat."
 
 L["LM_ACTION_LIST_EXP"] =
-"This list of actions and conditions will determine what LiteMount tries to do when you push the corresponding keybinding."
+"These lists of actions and conditions will determine what LiteMount tries to do when you push the corresponding keybinding."
 
 if locale == "deDE" then
     L["Author"]  = "Autor"

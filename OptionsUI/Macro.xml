@@ -41,7 +41,7 @@
 
             <Scripts>
                 <OnLoad>
-                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
+                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
                     self:SetBackdropColor(0, 0, 0, 0.5)
                 </OnLoad>
             </Scripts>

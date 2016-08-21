@@ -10,14 +10,93 @@
 
 
 local displayedElements = {
-    "x",
-    "y",
-    "z",
+    "Element1",
+    "Element2",
+    "Element3",
+    "Element4",
+    "Element5",
+    "Element6",
+    "Element7",
+    "Element8",
+    "Element9",
+    "Element10",
+    "Element11",
+    "Element12",
+    "Element13",
+    "Element14",
+    "Element15",
+    "Element16",
+    "Element17",
+    "Element18",
+    "Element19",
+    "Element20",
+    "Element21",
+    "Element22",
+    "Element23",
+    "Element24",
+    "Element25",
+    "Element26",
 }
 
+-- Always the same. You start out trying to re-use the Blizzard scroll frame
+-- functions but you just end up in a mess that's hard to undertand and do
+-- it all yourself. I'm sure if I made LiteScrollFrame I'd understand why
+-- it's so hard.
+
+local function CreateButtons(self)
+    HybridScrollFrame_CreateButtons(
+        self, "LM_OptionsUISelectionButtonTemplate",
+        0, -1, "TOPLEFT", "TOPLEFT",
+        0, -1, "TOP", "BOTTOM")
+end
+
+local function SetButtonWidths(self, w)
+    for _, b in ipairs(self.buttons) do
+        b:SetWidth(w)
+    end
+end
+
+local function SetSelected(button, isSelected)
+    if isSelected then
+        button:GetHighlightTexture():SetVertexColor(1, 1, 0)
+        button:LockHighlight()
+    else
+        button:GetHighlightTexture():SetVertexColor(.196, .388, .8)
+        button:UnlockHighlight()
+    end
+end
+
+function LM_OptionsUIActionListSelection_OnLoad(self)
+    local name = self:GetName()
+
+    CreateButtons(self)
+
+    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
+    self:SetBackdropColor(0, 0, 0, 0.5)
+
+    self.scrollBar:ClearAllPoints()
+    self.scrollBar:SetPoint("TOPRIGHT", self, "TOPRIGHT", -3, -17)
+    self.scrollBar:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -3, 17)
+
+    local track = _G[self.scrollBar:GetName().."Track"]
+    track:Hide()
+
+    self.stepSize = self.buttonHeight
+    self.update = LM_OptionsUIActionListsSelection_Update
+    self.selected = 1
+end
+
+function LM_OptionsUIScrollFrame_OnSizeChanged(self, w, h)
+    CreateButtons(self)
+    self:update()
+end
+
+function LM_OptionsUIActionListSelection_OnShow(self)
+    CreateButtons(self)
+    self:update()
+end
+
 function LM_OptionsUIActionListsSelection_Update(self)
-    local list = self.scrollFrame
-    local offset = FauxScrollFrame_GetOffset(list)
     local buttons = self.buttons
 
     local numButtons = #buttons
@@ -25,31 +104,34 @@ function LM_OptionsUIActionListsSelection_Update(self)
     local buttonHeight = buttons[1]:GetHeight()
 
     if numElements > numButtons then
-        OptionsList_DisplayScrollBar(self)
+        self.scrollBar:Show()
+        SetButtonWidths(self, self:GetWidth() - self.scrollBar:GetWidth())
     else
-        OptionsList_HideScrollBar(self)
+        self.scrollBar:Hide()
+        self.scrollBar:Show()
+        SetButtonWidths(self, self:GetWidth())
     end
 
-    FauxScrollFrame_Update(list, numElements, numButtons, buttonHeight)
-
-    if self.selection then
-        OptionsList_ClearSelection(self, buttons)
-    end
+    local offset = HybridScrollFrame_GetOffset(self)
 
     for i = 1, numButtons do
-        local e = displayedElements[i + offset]
+        local n = i + offset
+        local e = displayedElements[n]
         if not e then
             buttons[i]:Hide()
         else
             buttons[i].Text:SetText(e)
             buttons[i]:Show()
+            buttons[i]:SetID(n)
+            SetSelected(buttons[i], n == self.selected)
         end
     end
 
-    LM_Print(self:GetName())
-    LM_Print(tostring(offset))
-    LM_Print(numButtons)
-    LM_Print(tostring(buttons))
+    local totalHeight = self.buttonHeight * numElements
+    local shownHeight = self.buttonHeight * numButtons
+
+    HybridScrollFrame_Update(self, totalHeight, shownHeight)
+
 end
 
 function LM_OptionsUIActionLists_OnLoad(self)
@@ -71,4 +153,9 @@ function LM_OptionsUIActionListsEditBox_OnLoad(self)
             return ""
         end
     LM_OptionsUIControl_OnLoad(self, LM_OptionsUIActionLists)
+end
+
+function LM_OptionsUISelectionButton_OnClick(button)
+    LM_OptionsUIActionListsSelection.selected = button:GetID()
+    LM_OptionsUIActionListsSelection_Update(LM_OptionsUIActionListsSelection)
 end
