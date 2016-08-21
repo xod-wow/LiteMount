@@ -67,7 +67,7 @@ end
 
 local function GetFilteredMountList()
     LM_PlayerMounts:ScanMounts()
-    local mounts = LM_PlayerMounts:GetAllMounts():Sort()
+    local mounts = LM_PlayerMounts:GetAllMounts()
 
     local filtertext = LM_OptionsUIMounts.filter:GetText()
     if filtertext == SEARCH then

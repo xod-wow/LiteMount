@@ -90,7 +90,10 @@ end
 
 function LM_PlayerMounts:GetAllMounts()
     local function match() return true end
-    return self:Search(match)
+    local function cmp(a,b) return a:Name() < b:Name() end
+    result = self:Search(match)
+    sort(result, cmp)
+    return result
 end
 
 function LM_PlayerMounts:GetAvailableMounts(flags)
