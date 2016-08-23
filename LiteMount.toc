@@ -11,6 +11,7 @@ Localization.lua
 
 Lib\AutoEventFrame.lua
 Lib\FancyList.lua
+Lib\LibStub.lua
 Lib\Location.lua
 Lib\Print.lua
 
