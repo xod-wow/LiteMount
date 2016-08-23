@@ -37,9 +37,14 @@ LM_Options = { }
 
 function LM_Options:Initialize()
     self.db = LibStub("AceDB-3.0"):New("LM_GlobalOptionsDB", defaults, true)
+
     -- self.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
     -- self.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
     -- self.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
+
+    self.profileOptions = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db);
+    LibStub("AceConfig-3.0"):RegisterOptionsTable("Profiles", self.profileOptions);
+    self.profilesFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Profiles", "Profiles", "LiteMount");
 end
 
 
