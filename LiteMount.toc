@@ -26,6 +26,7 @@ Mount\GhostWolf.lua
 Mount\Nagrand.lua
 Mount\RunningWild.lua
 Mount\TravelForm.lua
+Mount\SecureAction.lua
 
 PlayerMounts.lua
 Options.lua
