@@ -15,7 +15,7 @@ function LM_SecureAction:Get(attr)
 end
 
 function LM_SecureAction:SetupActionButton(button)
-    for k,v in pairs(self) do
+    for k,v in pairs(self.attr) do
         button:SetAttribute(k, v)
     end
 end
