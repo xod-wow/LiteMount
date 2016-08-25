@@ -108,7 +108,7 @@ ACTIONS.CantMount =
         LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
 
         LM_Debug("Setting action to can't mount now.")
-        return LM_Secureaction:MacroText("")
+        return LM_SecureAction:MacroText("")
     end
 
 ACTIONS.Combat = 
