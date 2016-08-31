@@ -236,7 +236,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:UseMacro()
-    return self.db.macro[1] ~= nil
+    return self.db.macro[1] ~= nil and self.db.macro[1] ~= ""
 end
 
 function LM_Options:GetMacro()
