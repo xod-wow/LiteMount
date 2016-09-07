@@ -107,6 +107,11 @@ function LM_Location:CanFly()
         return nil
     end
 
+    -- Hellheim quest area reached from Stormheim on Lost Isles
+    if self.areaID == 1022 then
+        return nil
+    end
+
     return IsFlyableArea()
 end
 
