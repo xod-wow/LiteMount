@@ -13,6 +13,9 @@
 LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
 LM_Location:RegisterEvent("PLAYER_LOGIN")
 
+-- Magical develper only debugging-fu
+local I_AM_X = GetAddOnMetadata("LiteMount", "Version") == "@project-version@"
+
 function LM_Location:Initialize()
     self.continent = -1
     self.areaID = -1
@@ -109,6 +112,11 @@ function LM_Location:CanFly()
 
     -- Hellheim quest area reached from Stormheim on Lost Isles
     if self.areaID == 1022 then
+        return nil
+    end
+
+    -- Warrior "Class Hall" area Skyhold (1035) and the intro beach area (1031)
+    if tContains({ 1031, 1035 }, self.areaID) then
         return nil
     end
 
