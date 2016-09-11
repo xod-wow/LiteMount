@@ -25,19 +25,29 @@ function LM_Location:Initialize()
     self.subZoneText = ""
 
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
-    self:RegisterEvent("WORLD_MAP_UPDATE")
+    self:RegisterEvent("ZONE_CHANGED")
+    self:RegisterEvent("ZONE_CHANGED_INDOORS")
+    self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 end
+
+local function FrameApply(frames, func, ...)
+    for i,f in ipairs(frames) do f[func](f, ...) end
+end
+
+-- I used to be nice. I swear I tried to be nice and only passively listen to
+-- the map events, but then craptastic addons like Archy decided to constantly
+-- futz with the map on a timer and screw it for everyone. Now it's battle to
+-- the death. :(
 
 function LM_Location:Update()
 
-    -- Can just ignore this case because you get a WORLD_MAP_UPDATE
-    -- event when the map is closed anyway.  No point recording the
-    -- areas of the user browsing the world map.
-    if WorldMapFrame:IsShown() then return end
+    local origID = GetCurrentMapAreaID()
 
-    LM_Debug("World map frame is hidden, actually updating location.")
+    local WMUListeners = { GetFramesRegisteredForEvent("WORLD_MAP_UPDATE") }
+    FrameApply(WMUListeners, "UnregisterEvent", "WORLD_MAP_UPDATE")
 
-    -- No matter how much you may want to, do not call SetMapToCurrentZone()
+    SetMapToCurrentZone()
+
     self.continent = GetCurrentMapContinent()
     self.areaID = GetCurrentMapAreaID()
     self.realZoneText = GetRealZoneText()
@@ -45,6 +55,9 @@ function LM_Location:Update()
     self.subZoneText = GetSubZoneText()
     self.minimapZoneText = GetMinimapZoneText()
     self.instanceID = select(8, GetInstanceInfo())
+
+    SetMapByID(origID)
+    FrameApply(WMUListeners, "RegisterEvent", "WORLD_MAP_UPDATE")
 end
 
 function LM_Location:PLAYER_LOGIN()
@@ -56,8 +69,18 @@ function LM_Location:PLAYER_ENTERING_WORLD()
     self:Update()
 end
 
-function LM_Location:WORLD_MAP_UPDATE()
-    LM_Debug("Updating location due to WORLD_MAP_UPDATE.")
+function LM_Location:ZONE_CHANGED()
+    LM_Debug("Updating location due to ZONE_CHANGED.")
+    self:Update()
+end
+
+function LM_Location:ZONE_CHANGED_INDOORS()
+    LM_Debug("Updating location due to ZONE_CHANGED_INDOORS.")
+    self:Update()
+end
+
+function LM_Location:ZONE_CHANGED_NEW_AREA()
+    LM_Debug("Updating location due to ZONE_CHANGED_NEW_AREA.")
     self:Update()
 end
 
