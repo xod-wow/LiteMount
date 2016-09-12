@@ -351,6 +351,6 @@ function LM_Options:ActionList(name, text)
 end
 
 function LM_Options:ActionListBinding(i, name)
-    
+
 end
 

@@ -33,7 +33,7 @@ function LM_ActionButton:Dispatch(condAction)
         LM_Debug(format("Eval \"%s\" -> %s", conditions, tostring(t)))
         if not t then return end
     end
-        
+
     LM_Debug("Dispatching action " .. action .. "(" .. (args or "") .. ")")
 
     local m = handler(args)

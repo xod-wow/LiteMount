@@ -18,7 +18,7 @@ local defaults = {
         excludedSpells = { },
         flagoverrides = { },
         unavailableMacro = {
-	    enabled = false,
+            enabled = false,
             macroText = nil
         },
         combatMacro = {
