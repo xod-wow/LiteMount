@@ -51,7 +51,7 @@ end
 ]]
 
 function LM_TravelForm:Flags(v)
-    return bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_SWIM)
+    return bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_FLY, LM_FLAG_BIT_SWIM)
 end
 
 function LM_TravelForm:Get()
