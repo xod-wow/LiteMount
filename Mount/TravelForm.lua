@@ -16,42 +16,16 @@
 LM_TravelForm = setmetatable({ }, LM_Spell)
 LM_TravelForm.__index = LM_TravelForm
 
--- local LM_SPELL_GLYPH_OF_THE_STAG = 114338
--- local LM_SPELL_GLYPH_OF_TRAVEL = 159456
+local LM_SPELL_APPRENTICE_RIDING = 33388
 
---[[ function LM_TravelForm:CurrentFlagsSet(f)
-
-    local flags = self:CurrentFlags()
-
-    -- If we know Flight Form then Travel Form can't fly. Sigh.
-    if self:SpellID() == LM_SPELL_TRAVEL_FORM then
-        if IsSpellKnown(LM_SPELL_FLIGHT_FORM) then
-            LM_Debug("Removing FLYING from Travel Form due to glyph.")
-            flags = bit.band(flags, bit.bnot(LM_FLAG_BIT_FLY))
-        end
-    end
-
-    return bit.band(flags, f) == f
-end
-
+local travelFormFlags = bit.bor(LM_FLAG_BIT_FLY, LM_FLAG_BIT_SWIM)
 
 function LM_TravelForm:Flags(v)
-    local flags = LM_Mount.Flags(self, v)
-
-    -- If we have glyph of travel then we can also "run"
-    for i = 1, NUM_GLYPH_SLOTS do
-        local spellID = select(4, GetGlyphSocketInfo(i))
-        if spellID == LM_SPELL_GLYPH_OF_TRAVEL then
-            LM_Debug("Adding RUNNING to Travel Form due to glyph.")
-            return bit.bor(flags, LM_FLAG_BIT_RUN)
-        end
+    if not IsSpellKnown(LM_SPELL_APPRENTICE_RIDING) then
+        return bit.bor(travelFormFlags, LM_FLAG_BIT_WALK)
+    else
+        return travelFormFlags
     end
-    return flags
-end
-]]
-
-function LM_TravelForm:Flags(v)
-    return bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_FLY, LM_FLAG_BIT_SWIM)
 end
 
 function LM_TravelForm:Get()
