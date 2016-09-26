@@ -50,8 +50,17 @@ function LM_TravelForm:Flags(v)
 end
 ]]
 
+local LM_SPELL_APPRENTICE_RIDING = 33388
+local LM_SPELL_JOURNEYMAN_RIDING = 33391
+
+local travelFormFlags = bit.bor(LM_FLAG_BIT_FLY, LM_FLAG_BIT_SWIM)
+
 function LM_TravelForm:Flags(v)
-    return bit.bor(LM_FLAG_BIT_WALK, LM_FLAG_BIT_FLY, LM_FLAG_BIT_SWIM)
+    if not IsSpellKnown(LM_SPELL_APPRENTICE_RIDING) then
+        return bit.bor(travelFormFlags, LM_FLAG_BIT_WALK)
+    else
+        return travelFormFlags
+    end
 end
 
 function LM_TravelForm:Get()
