@@ -55,7 +55,8 @@ CONDITIONS["aura"] =
 
 CONDITIONS["breathbar"] =
     function ()
-        return GetMirrorTimerInfo(2) == "BREATH"
+        local name, _, _, rate = GetMirrorTimeInfo(2)
+        return (name == "BREATH" and rate < 0)
     end
 
 CONDITIONS["canexitvehicle"] =
@@ -83,9 +84,9 @@ CONDITIONS["continent"] =
         return tonumber(v) == LM_Location.continent
     end
 
-CONDITIONS["dead:args"] =
-    function (unit)
-        return UnitIsDead(unit or "target")
+CONDITIONS["dead"] =
+    function ()
+        return UnitIsDead("player")
     end
 
 CONDITIONS["equipped"] =
@@ -145,7 +146,7 @@ CONDITIONS["group"] =
 
 CONDITIONS["harm:args"] =
     function (unit)
-        return not UnitIsFriend(unit)
+        return not UnitIsFriend("player", unit)
     end
 
 CONDITIONS["help:args"] =
