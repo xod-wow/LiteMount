@@ -16,12 +16,20 @@
 LM_TravelForm = setmetatable({ }, LM_Spell)
 LM_TravelForm.__index = LM_TravelForm
 
-local LM_SPELL_APPRENTICE_RIDING = 33388
+-- This is absolutely rubbish
+local RIDING_SKILL_SPELLS = { 33388, 33391, 34090, 34091, 90265 }
+
+local function PlayerKnowsRiding()
+    for _,id in ipairs(RIDING_SKILL_SPELLS) do
+        if IsSpellKnown(id) then return true end
+    end
+    return false
+end
 
 local travelFormFlags = bit.bor(LM_FLAG_BIT_FLY, LM_FLAG_BIT_SWIM)
 
 function LM_TravelForm:Flags(v)
-    if not IsSpellKnown(LM_SPELL_APPRENTICE_RIDING) then
+    if not PlayerKnowsRiding() then
         return bit.bor(travelFormFlags, LM_FLAG_BIT_WALK)
     else
         return travelFormFlags
