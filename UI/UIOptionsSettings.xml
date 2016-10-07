@@ -28,6 +28,7 @@
                     self.GetOptionDefault = function (self) return true end
                     LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
         <CheckButton name="$parentExcludeNewMounts" inherits="InterfaceOptionsCheckButtonTemplate">
@@ -50,6 +51,7 @@
                         end
                     LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
     </Frames>

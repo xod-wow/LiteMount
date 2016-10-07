@@ -17,6 +17,7 @@
     <Scripts>
         <OnLoad function="LiteMountOptionsPanel_OnLoad" />
         <OnShow function="LiteMountOptionsPanel_OnShow" />
+        <OnHide function="LiteMountOptionsPanel_OnHide" />
     </Scripts>
 </Frame>
 

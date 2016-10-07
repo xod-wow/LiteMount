@@ -97,6 +97,7 @@
                         end
                     LiteMountOptionsControl_OnLoad(self, LiteMountOptionsCombatMacro)
                 </OnLoad>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
     </Frames>
