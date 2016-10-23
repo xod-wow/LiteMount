@@ -57,7 +57,7 @@ end
 
 function LM_ItemSummoned:IsUsable()
 
-    local spell = self:SpellID()
+    local spellId = self:SpellID()
 
     -- IsUsableSpell seems to test correctly whether it's indoors etc.
     if spellId and not IsUsableSpell(spellId) then
