@@ -4,28 +4,12 @@
 
 <Script file="UIOptionsMacro.lua" />
 
-<Button name="LiteMountItemButtonTemplate" virtual="true" inherits="ItemButtonTemplate">
-    <Scripts>
-        <OnEnter>
-            if self.tooltipText then
-                GameTooltip:SetOwner(self)
-                GameTooltip:SetText(self.tooltipText)
-                GameTooltip:Show()
-            end
-        </OnEnter>
-        <OnLeave>
-            GameTooltip:Hide()
-        </OnLeave>
-    </Scripts>
-</Button>
-
 <Frame name="LiteMountOptionsMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
         <Frame name="LiteMountOptionsMacroEditBoxContainer">
 
             <Size x="400" y="200" />
-
 
             <Anchors>
                 <Anchor point="CENTER" />
@@ -85,42 +69,6 @@
                 </Button>
             </Frames>
         </Frame>
-        <Button name="LiteMountOptionsMacroSuggest1" inherits="LiteMountItemButtonTemplate" hidden="true">
-            <Size x="37" y="37" />
-            <Anchors>
-                <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="8" y="-8" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
-            </Scripts>
-        </Button>
-        <Button name="LiteMountOptionsMacroSuggest2" inherits="LiteMountItemButtonTemplate" hidden="true">
-            <Size x="37" y="37" />
-            <Anchors>
-                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest1" y="-8" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
-            </Scripts>
-        </Button>
-        <Button name="LiteMountOptionsMacroSuggest3" inherits="LiteMountItemButtonTemplate" hidden="true">
-            <Size x="37" y="37" />
-            <Anchors>
-                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest2" y="-8" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
-            </Scripts>
-        </Button>
-        <Button name="LiteMountOptionsMacroSuggest4" inherits="LiteMountItemButtonTemplate" hidden="true">
-            <Size x="37" y="37" />
-            <Anchors>
-                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="LiteMountOptionsMacroSuggest3" y="-8" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsMacroSuggest_OnClick" />
-            </Scripts>
-        </Button>
     </Frames>
 
     <Layers>
@@ -150,7 +98,6 @@
 
     <Scripts>
         <OnLoad function="LiteMountOptionsMacro_OnLoad" />
-        <OnShow function="LiteMountOptionsMacro_OnShow" />
     </Scripts>
 </Frame>
 
