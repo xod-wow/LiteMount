@@ -56,6 +56,9 @@ function LiteMount_SlashCommandFunc(argstr)
             UpdateActiveMount(arg)
             LiteMount_UpdateOptionsListIfShown()
             return
+        elseif arg == "dumplocation" then
+            LM_Location:Dump()
+            return
         end
     end
 
