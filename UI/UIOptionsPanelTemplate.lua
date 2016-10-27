@@ -68,6 +68,12 @@ end
 
 function LiteMountOptionsPanel_Cancel(self)
     LM_Debug("Panel_Cancel " .. self:GetName())
+    for _,control in ipairs(self.controls or {}) do
+        if control.oldValue ~= nil then
+            control:SetOption(control.oldValue)
+            control.oldValue = nil
+        end
+    end
 end
 
 function LiteMountOptionsPanel_RegisterControl(control, parent)

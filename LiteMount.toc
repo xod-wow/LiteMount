@@ -1,4 +1,4 @@
-## Interface: 70000
+## Interface: 71000
 ## Title: LiteMount
 ## Version: @project-version@
 ## Author: Xodiv-Nagrand
