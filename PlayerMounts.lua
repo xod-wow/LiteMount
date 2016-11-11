@@ -10,6 +10,13 @@
 
 LM_PlayerMounts = LM_CreateAutoEventFrame("Frame", "LM_PlayerMounts", UIParent)
 
+local Broken71MountSpells = {
+    213158,         -- Predatory Bloodgazer
+    213163,         -- Snowfeather Hunter
+    213164,         -- Brilliant Direbeak
+    213165,         -- Viridian Sharptalon
+}
+
 local RescanEvents = {
     -- Companion change. Don't add COMPANION_UPDATE to this as it fires
     -- for units other than "player" and triggers constantly.
@@ -99,6 +106,7 @@ function LM_PlayerMounts:GetAvailableMounts(flags)
         if not m:CurrentFlagsSet(flags) then return end
         if not m:IsUsable() then return end
         if LM_Options:IsExcludedMount(m) then return end
+        if tContains(Broken71MountSpells, m:SpellID()) then return end
         return true
     end
 
