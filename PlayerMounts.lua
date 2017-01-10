@@ -106,7 +106,7 @@ function LM_PlayerMounts:GetAvailableMounts(flags)
         if not m:CurrentFlagsSet(flags) then return end
         if not m:IsUsable() then return end
         if LM_Options:IsExcludedMount(m) then return end
-        if tContains(Broken71MountSpells, m:SpellID()) then return end
+        -- if tContains(Broken71MountSpells, m:SpellID()) then return end
         return true
     end
 

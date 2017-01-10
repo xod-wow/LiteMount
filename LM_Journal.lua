@@ -104,3 +104,20 @@ function LM_Journal:IsUsable()
     if not IsUsableSpell(self:SpellID()) then return end
     return LM_Mount.IsUsable(self)
 end
+
+function LM_Journal:SetupActionButton(button)
+    local t = ""
+    t = t .. "/cancelaura Cat Form\n"
+    t = t .. "/cancelaura Bear Form\n"
+    t = t .. format("/run C_MountJournal.SummonByID(%d)", self:MountID())
+    button:SetAttribute("type", "macro")
+    button:SetAttribute( "macrotext", t)
+end
+
+--[[
+function LM_Journal:SetupActionButton(button)
+    MountJournal.selectedMountID = self.mountID
+    button:SetAttribute("type", "click")
+    button:SetAttribute("clickbutton", MountJournalMountButton)
+end
+]]
