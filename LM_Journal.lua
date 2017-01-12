@@ -105,10 +105,17 @@ function LM_Journal:IsUsable()
     return LM_Mount.IsUsable(self)
 end
 
+-- New mounts can't be summoned by casting their spell any more. :(
+-- Annoyingly when the mount journal UI calls SummonByID it cancels forms
+-- that would prevent mounting. When we call it, it doesn't. :( :(
+
 function LM_Journal:SetupActionButton(button)
     local t = ""
-    t = t .. "/cancelaura Cat Form\n"
-    t = t .. "/cancelaura Bear Form\n"
+
+    if select(2, UnitClass("player")) ==  "DRUID" then
+        t = t .. "/cancelform [form:1/2]\n"
+    end
+
     t = t .. format("/run C_MountJournal.SummonByID(%d)", self:MountID())
     button:SetAttribute("type", "macro")
     button:SetAttribute( "macrotext", t)
