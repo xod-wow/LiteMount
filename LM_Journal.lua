@@ -11,6 +11,13 @@
 LM_Journal = setmetatable({ }, LM_Mount)
 LM_Journal.__index = LM_Journal
 
+local CantSummonBySpell = {
+    213158,         -- Predatory Bloodgazer
+    213163,         -- Snowfeather Hunter
+    213164,         -- Brilliant Direbeak
+    213165,         -- Viridian Sharptalon
+}
+
 --  [1] creatureName,
 --  [2] spellID,
 --  [3] icon,
@@ -110,15 +117,19 @@ end
 -- that would prevent mounting. When we call it, it doesn't. :( :(
 
 function LM_Journal:SetupActionButton(button)
-    local t = ""
+    if tContains(CantSummonBySpell, self:SpellID()) then
+        local t = ""
 
-    if select(2, UnitClass("player")) ==  "DRUID" then
-        t = t .. "/cancelform [form:1/2]\n"
+        if select(2, UnitClass("player")) ==  "DRUID" then
+            t = t .. "/cancelform [form:1/2]\n"
+        end
+
+        t = t .. format("/run C_MountJournal.SummonByID(%d)", self:MountID())
+        button:SetAttribute("type", "macro")
+        button:SetAttribute( "macrotext", t)
+    else
+        LM_Mount.SetupActionButton(self, button)
     end
-
-    t = t .. format("/run C_MountJournal.SummonByID(%d)", self:MountID())
-    button:SetAttribute("type", "macro")
-    button:SetAttribute( "macrotext", t)
 end
 
 --[[
