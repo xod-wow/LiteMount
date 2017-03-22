@@ -154,7 +154,7 @@ function LM_Actions:DefaultCombatMacro()
         local forms = table.concat(GetDruidMountForms(), "/")
         local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
         if mount and not LM_Options:IsExcludedMount(mount) then
-            mt = mt .. format("/cast [noform:%s] %s\n", forms, mount:Name())
+            mt = mt .. format("/cast [noform:%s] %s\n", forms, mount.name)
             mt = mt .. format("/cancelform [form:%s]\n", forms)
         end
     elseif playerClass == "SHAMAN" then

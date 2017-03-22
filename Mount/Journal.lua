@@ -52,6 +52,7 @@ function LM_Journal:Get(id)
     m.modelID       = modelID
     m.name          = name
     m.spellID       = spellID
+    m.spellName     = GetSpellInfo(spellID)
     m.mountID       = mountID
     m.icon          = icon
     m.isSelfMount   = isSelfMount
@@ -65,23 +66,23 @@ function LM_Journal:Get(id)
     -- and may be mistaken in places. List source:
     --   http://wowpedia.org/API_C_MountJournal.GetMountInfoExtra
 
-    if m:Type() == 230 then -- ground mount
+    if m.mountType == 230 then -- ground mount
         m.flags = bit.bor(LM_FLAG_BIT_RUN)
-    elseif m:Type() == 231 then -- riding/sea turtle
+    elseif m.mountType == 231 then -- riding/sea turtle
         m.flags = 0
-    elseif m:Type() == 232 then -- Vashj'ir Seahorse
+    elseif m.mountType == 232 then -- Vashj'ir Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_VASHJIR)
-    elseif m:Type() == 241 then -- AQ-only bugs
+    elseif m.mountType == 241 then -- AQ-only bugs
         m.flags = bit.bor(LM_FLAG_BIT_AQ)
-    elseif m:Type() == 247 then -- Red Flying Cloud
+    elseif m.mountType == 247 then -- Red Flying Cloud
         m.flags = bit.bor(LM_FLAG_BIT_FLY)
-    elseif m:Type() == 248 then -- Flying mounts
+    elseif m.mountType == 248 then -- Flying mounts
         m.flags = bit.bor(LM_FLAG_BIT_FLY)
-    elseif m:Type() == 254 then -- Subdued Seahorse
+    elseif m.mountType == 254 then -- Subdued Seahorse
         m.flags = bit.bor(LM_FLAG_BIT_SWIM, LM_FLAG_BIT_VASHJIR)
-    elseif m:Type() == 269 then -- Water Striders
+    elseif m.mountType == 269 then -- Water Striders
         m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_FLOAT)
-    elseif m:Type() == 284 then -- Chauffeured Mekgineer's Chopper
+    elseif m.mountType == 284 then -- Chauffeured Mekgineer's Chopper
         m.flags = bit.bor(LM_FLAG_BIT_WALK)
     else
         m.flags = 0
@@ -92,8 +93,8 @@ function LM_Journal:Get(id)
     m.spellName = spellName
     m.castTime = castTime
 
-    self.cacheByName[m:Name()] = m
-    self.cacheBySpellID[m:SpellID()] = m
+    self.cacheByName[m.name] = m
+    self.cacheBySpellID[m.spellID] = m
 
     return m
 end
@@ -101,6 +102,6 @@ end
 function LM_Journal:IsUsable()
     local usable = select(5, C_MountJournal.GetMountInfoByID(self:MountID()))
     if not usable then return end
-    if not IsUsableSpell(self:SpellID()) then return end
+    if not IsUsableSpell(self.spellID) then return end
     return LM_Mount.IsUsable(self)
 end

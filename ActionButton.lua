@@ -38,7 +38,7 @@ function LM_ActionButton:Dispatch(condAction)
 
     local m = handler(args)
     if m then
-        LM_Debug("Setting up button as " .. (m:Name() or action) .. ".")
+        LM_Debug("Setting up button as " .. (m.name or action) .. ".")
         m:SetupActionButton(self)
         return true
     end

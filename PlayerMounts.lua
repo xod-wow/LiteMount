@@ -40,8 +40,8 @@ function LM_PlayerMounts:Initialize()
 end
 
 function LM_PlayerMounts:AddMount(m)
-    if m and not self.byName[m:Name()] then
-        self.byName[m:Name()] = m
+    if m and not self.byName[m.name] then
+        self.byName[m.name] = m
         tinsert(self.list, m)
     end
 end
@@ -90,7 +90,7 @@ end
 
 function LM_PlayerMounts:GetAllMounts()
     local function match() return true end
-    local function cmp(a,b) return a:Name() < b:Name() end
+    local function cmp(a,b) return a.name < b.name end
     result = self:Search(match)
     sort(result, cmp)
     return result

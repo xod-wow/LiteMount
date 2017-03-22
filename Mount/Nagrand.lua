@@ -16,11 +16,6 @@ local FactionRequirements = {
     [LM_SPELL_TELAARI_TALBUK] = "Alliance",
 }
 
-
-function LM_Nagrand:Flags(f)
-    return LM_FLAG_BIT_NAGRAND
-end
-
 function LM_Nagrand:Get(spellID)
     local m
 
@@ -37,6 +32,7 @@ function LM_Nagrand:Get(spellID)
 
     if m then
         setmetatable(m, LM_Nagrand)
+        m.flags = LM_FLAG_BIT_NAGRAND
     end
 
     return m
@@ -50,7 +46,7 @@ function LM_Nagrand:IsUsable()
     local baseSpellName = GetSpellInfo(baseSpellID)
 
     local id = select(7, GetSpellInfo(baseSpellName))
-    if id ~= self:SpellID() then return false end
+    if id ~= self.spellID then return false end
     if not IsUsableSpell(baseSpellID) then return false end
     return LM_Mount.IsUsable(self)
 end

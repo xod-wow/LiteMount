@@ -50,15 +50,12 @@ end
 
 local function BitButtonUpdate(checkButton, mount)
     local flags = mount:CurrentFlags()
-    local defflags = mount:Flags()
 
     local checked = bit.band(flags, checkButton.flagbit) == checkButton.flagbit
     checkButton:SetChecked(checked)
 
-    checkButton.defflags = defflags
-
     -- If we changed this from the default then color the background
-    if bit.band(flags, checkButton.flagbit) == bit.band(defflags, checkButton.flagbit) then
+    if bit.band(flags, checkButton.flagbit) == bit.band(mount.flags, checkButton.flagbit) then
         checkButton.modified:Hide()
     else
         checkButton.modified:Show()
@@ -135,7 +132,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+active *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not UnitAura("player", mounts[i]:SpellName()) then
+            if not UnitAura("player", mounts[i].spellName) then
                 tremove(mounts, i)
             end
         end
@@ -185,8 +182,8 @@ end
 
 local function UpdateMountButton(button, mount)
     button.mount = mount
-    button.icon:SetNormalTexture(mount:Icon())
-    button.name:SetText(mount:Name())
+    button.icon:SetNormalTexture(mount.iconTexture)
+    button.name:SetText(mount.name)
 
     if not InCombatLockdown() then
         mount:SetupActionButton(button.icon)

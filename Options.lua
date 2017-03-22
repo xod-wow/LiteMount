@@ -145,25 +145,23 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:IsExcludedMount(m)
-    local id = m:SpellID()
     for _,s in ipairs(self.db.excludedspells) do
-        if s == id then return true end
+        if s == m.spellID then return true end
     end
 end
 
 function LM_Options:AddExcludedMount(m)
-    LM_Debug(format("Disabling mount %s (%d).", m:SpellName(), m:SpellID()))
+    LM_Debug(format("Disabling mount %s (%d).", m.name, m.spellID))
     if not self:IsExcludedMount(m) then
-        tinsert(self.db.excludedspells, m:SpellID())
+        tinsert(self.db.excludedspells, m.spellID)
         sort(self.db.excludedspells)
     end
 end
 
 function LM_Options:RemoveExcludedMount(m)
-    LM_Debug(format("Enabling mount %s (%d).", m:SpellName(), m:SpellID()))
-    local id = m:SpellID()
+    LM_Debug(format("Enabling mount %s (%d).", m.name, m.spellID))
     for i = 1, #self.db.excludedspells do
-        if self.db.excludedspells[i] == id then
+        if self.db.excludedspells[i] == m.spellID then
             tremove(self.db.excludedspells, i)
             return
         end
@@ -171,7 +169,7 @@ function LM_Options:RemoveExcludedMount(m)
 end
 
 function LM_Options:ToggleExcludedMount(m)
-    LM_Debug(format("Toggling mount %s (%d).", m:SpellName(), m:SpellID()))
+    LM_Debug(format("Toggling mount %s (%d).", m.name, m.spellID))
     if self:IsExcludedMount(m) then
         self:RemoveExcludedMount(m)
     else
@@ -183,7 +181,7 @@ function LM_Options:SetExcludedMounts(mountlist)
     LM_Debug("Setting complete list of disabled mounts.")
     wipe(self.db.excludedspells)
     for _,m in ipairs(mountlist) do
-        tinsert(self.db.excludedspells, m:SpellID())
+        tinsert(self.db.excludedspells, m.spellID)
     end
     sort(self.db.excludedspells)
 end
@@ -193,8 +191,8 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:ApplyMountFlags(m)
-    local id = m:SpellID()
-    local flags = m:Flags()
+    local id = m.spellID
+    local flags = m.flags
     local ov = self.db.flagoverrides[id]
 
     if not ov then return flags end
@@ -206,46 +204,35 @@ function LM_Options:ApplyMountFlags(m)
 end
 
 function LM_Options:SetMountFlagBit(m, flagbit)
-    local id = m:SpellID()
-    local name = m:SpellName()
-
     LM_Debug(format("Setting flag bit %d for spell %s (%d).",
-                    flagbit, name, id))
+                    flagbit, m.name, m.spellID))
 
     LM_Options:SetMountFlags(m, bit.bor(m:CurrentFlags(), flagbit))
 end
 
 function LM_Options:ClearMountFlagBit(m, flagbit)
-    local id = m:SpellID()
-    local name = m:SpellName()
     LM_Debug(format("Clearing flag bit %d for spell %s (%d).",
-                     flagbit, name, id))
+                     flagbit, m.name, m.spellID))
 
     LM_Options:SetMountFlags(m, bit.band(m:CurrentFlags(), bit.bnot(flagbit)))
 end
 
 function LM_Options:ResetMountFlags(m)
-    local id = m:SpellID()
-    local name = m:SpellName()
-
-    LM_Debug(format("Defaulting flags for spell %s (%d).", name, id))
+    LM_Debug(format("Defaulting flags for spell %s (%d).", m.name, m.spellID))
 
     self.db.flagoverrides[id] = nil
 end
 
 function LM_Options:SetMountFlags(m, flags)
 
-    if flags == m:Flags() then
+    if flags == m.flags then
         return self:ResetMountFlags(m)
     end
 
-    local id = m:SpellID()
-    local def = m:Flags()
+    local toset = bit.band(bit.bxor(flags, m.flags), flags)
+    local toclear = bit.band(bit.bxor(flags, m.flags), bit.bnot(flags))
 
-    local toset = bit.band(bit.bxor(flags, def), flags)
-    local toclear = bit.band(bit.bxor(flags, def), bit.bnot(flags))
-
-    self.db.flagoverrides[id] = { toset, toclear }
+    self.db.flagoverrides[m.spellID] = { toset, toclear }
 end
 
 
@@ -322,7 +309,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:SeenMount(m, flagSeen)
-    local spellID = m:SpellID()
+    local spellID = m.spellID
     local seen = self.db.seenspells[spellID]
 
     if flagSeen and not seen then

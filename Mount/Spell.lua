@@ -35,13 +35,13 @@ function LM_Spell:Get(spellID, forceKnown)
     m.castTime = castingTime
     m.spellID = spellID
 
-    self.cacheByName[m:Name()] = m
-    self.cacheBySpellID[m:SpellID()] = m
+    self.cacheByName[m.name] = m
+    self.cacheBySpellID[m.spellID] = m
 
     return m
 end
 
 function LM_Spell:IsUsable()
-    if not IsUsableSpell(self:SpellID()) then return end
+    if not IsUsableSpell(self.spellID) then return end
     return LM_Mount.IsUsable(self)
 end
