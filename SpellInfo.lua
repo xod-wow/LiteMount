@@ -63,7 +63,6 @@ LM_ITEM_SHIMMERING_MOONSTONE = 101675
 LM_MOUNT_SPELLS = {
     { "RunningWild", LM_SPELL_RUNNING_WILD },
     { "FlightForm", LM_SPELL_FLIGHT_FORM },
-    { "GhostWolf", LM_SPELL_GHOST_WOLF },
     { "TravelForm", LM_SPELL_TRAVEL_FORM },
     { "Nagrand", LM_SPELL_FROSTWOLF_WAR_WOLF },
     { "Nagrand", LM_SPELL_TELAARI_TALBUK },

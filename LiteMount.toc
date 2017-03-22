@@ -22,7 +22,6 @@ Mount\Journal.lua
 Mount\Spell.lua
 Mount\ItemSummoned.lua
 Mount\FlightForm.lua
-Mount\GhostWolf.lua
 Mount\Nagrand.lua
 Mount\RunningWild.lua
 Mount\TravelForm.lua
