@@ -140,7 +140,7 @@ local function GetFilteredMountList()
 
     if filtertext ~= "" then
         for i = #mounts, 1, -1 do
-            local matchname = CaseAccentInsensitiveParse(mounts[i]:Name())
+            local matchname = CaseAccentInsensitiveParse(mounts[i].name)
             if not strfind(matchname, filtertext, 1, true) then
                 tremove(mounts, i)
             end
