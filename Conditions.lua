@@ -55,7 +55,7 @@ CONDITIONS["aura"] =
 
 CONDITIONS["breathbar"] =
     function ()
-        local name, _, _, rate = GetMirrorTimeInfo(2)
+        local name, _, _, rate = GetMirrorTimerInfo(2)
         return (name == "BREATH" and rate < 0)
     end
 

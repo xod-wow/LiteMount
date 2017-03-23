@@ -43,7 +43,7 @@ local ButtonActions = {
         Mount(aq)           [area:766]
         Mount(run)
         Mount(walk)
-        UnvailableMacro
+        UnavailableMacro
     ]],
     -- Ground-only mount button (same as above but no "Fly")
     [2] = [[
@@ -57,7 +57,7 @@ local ButtonActions = {
         Mount(aq)           [area:766]
         Mount(run)
         Mount(walk)
-        UnvailableMacro
+        UnavailableMacro
     ]],
     -- Custom1
     [3] = [[

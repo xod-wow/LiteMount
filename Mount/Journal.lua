@@ -100,7 +100,7 @@ function LM_Journal:Get(id)
 end
 
 function LM_Journal:IsUsable()
-    local usable = select(5, C_MountJournal.GetMountInfoByID(self:MountID()))
+    local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
     if not usable then return end
     if not IsUsableSpell(self.spellID) then return end
     return LM_Mount.IsUsable(self)

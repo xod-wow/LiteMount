@@ -93,7 +93,7 @@ ACTIONS.RunMacro =
         return LM_SecureAction:Macro(macroname)
     end
 
-ACTIONS.UnvailableMacro =
+ACTIONS.UnavailableMacro =
     function ()
         if not LM_Options:UseMacro() then return end
         LM_Debug("Using custom macro.")
