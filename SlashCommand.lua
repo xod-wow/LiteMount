@@ -51,11 +51,11 @@ function LiteMount_SlashCommandFunc(argstr)
         if arg == "macro" or arg == LOCALIZED_MACRO_WORD then
             local i = CreateOrUpdateMacro()
             if i then PickupMacro(i) end
-            return
+            return true
         elseif arg == "toggle" or arg == "enable" or arg == "disable" then
             UpdateActiveMount(arg)
             LiteMount_UpdateOptionsListIfShown()
-            return
+            return true
         end
     end
 
