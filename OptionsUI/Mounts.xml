@@ -8,11 +8,11 @@
     See OptionsBaseCheckButtonTemplate in FrameXML/OptionsPanelTemplates.xml
     We don't use it directly because of the hitrect crap we don't want.
  -->
-<CheckButton name="LM_OptionsUIBitTemplate" virtual="true">
+<CheckButton name="LM_OptionsUIFlagTemplate" virtual="true">
     <Size x="26" y="26" />
     <Scripts>
         <OnClick>
-            LM_OptionsUIBit_OnClick(self)
+            LM_OptionsUIFlag_OnClick(self)
         </OnClick>
     </Scripts>
     <NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
@@ -140,26 +140,26 @@
             </Scripts>
         </Button>
 
-        <CheckButton name="$parentBit1" inherits="LM_OptionsUIBitTemplate" parentKey="bit1">
+        <CheckButton name="$parentFlag1" inherits="LM_OptionsUIFlagTemplate" parentKey="flag1">
             <Anchors> <Anchor point="RIGHT" x="-2" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit2" inherits="LM_OptionsUIBitTemplate" parentKey="bit2">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit1" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton name="$parentFlag2" inherits="LM_OptionsUIFlagTemplate" parentKey="flag2">
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag1" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit3" inherits="LM_OptionsUIBitTemplate" parentKey="bit3">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit2" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton name="$parentFlag3" inherits="LM_OptionsUIFlagTemplate" parentKey="flag3">
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag2" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit4" inherits="LM_OptionsUIBitTemplate" parentKey="bit4">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit3" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton name="$parentFlag4" inherits="LM_OptionsUIFlagTemplate" parentKey="flag4">
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag3" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit5" inherits="LM_OptionsUIBitTemplate" parentKey="bit5">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit4" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton name="$parentFlag5" inherits="LM_OptionsUIFlagTemplate" parentKey="flag5">
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag4" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit6" inherits="LM_OptionsUIBitTemplate" parentKey="bit6">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit5" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton name="$parentFlag6" inherits="LM_OptionsUIFlagTemplate" parentKey="flag6">
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag5" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit7" inherits="LM_OptionsUIBitTemplate" parentKey="bit7">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit6" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton name="$parentFlag7" inherits="LM_OptionsUIFlagTemplate" parentKey="flag7">
+            <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag6" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
     </Frames>
 
@@ -314,46 +314,46 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString name="$parentBit1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Run">
+            <FontString name="$parentFlag1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Run">
                 <Size x="26" y="26" />
                 <Anchors>
                     <Anchor point="BOTTOMRIGHT" relativeTo="$parentScrollFrame" relativePoint="TOPRIGHT" x="-2" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit2Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Fly">
+            <FontString name="$parentFlag2Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Fly">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit1Text" relativePoint="LEFT" x="-4" />
+                    <Anchor point="RIGHT" relativeTo="$parentFlag1Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit3Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Swim">
+            <FontString name="$parentFlag3Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Swim">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit2Text" relativePoint="LEFT" x="-4" />
+                    <Anchor point="RIGHT" relativeTo="$parentFlag2Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit4Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="AQ">
+            <FontString name="$parentFlag4Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="AQ">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit3Text" relativePoint="LEFT" x="-4" />
+                    <Anchor point="RIGHT" relativeTo="$parentFlag3Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit5Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Vash">
+            <FontString name="$parentFlag5Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Vash">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit4Text" relativePoint="LEFT" x="-4" />
+                    <Anchor point="RIGHT" relativeTo="$parentFlag4Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit6Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="C2">
+            <FontString name="$parentFlag6Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="C2">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit5Text" relativePoint="LEFT" x="-4" />
+                    <Anchor point="RIGHT" relativeTo="$parentFlag5Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit7Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="C1">
+            <FontString name="$parentFlag7Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="C1">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit6Text" relativePoint="LEFT" x="-4" />
+                    <Anchor point="RIGHT" relativeTo="$parentFlag6Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
         </Layer>

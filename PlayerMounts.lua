@@ -96,9 +96,9 @@ function LM_PlayerMounts:GetAllMounts()
     return result
 end
 
-function LM_PlayerMounts:GetAvailableMounts(flags)
+function LM_PlayerMounts:GetAvailableMounts(...)
     local function match(m)
-        if not m:CurrentFlagsSet(flags) then return end
+        if not m:CurrentFlagsSet(...) then return end
         if not m:IsUsable() then return end
         if LM_Options:IsExcludedMount(m) then return end
         return true
@@ -128,14 +128,14 @@ function LM_PlayerMounts:GetMountByShapeshiftForm(i)
     if not i then return end
     local class = select(2, UnitClass("player"))
     if class == "SHAMAN" and i == 1 then
-         return self:GetMountBySpell(LM_SPELL_GHOST_WOLF)
+         return self:GetMountBySpell(LM_SPELL.GHOST_WOLF)
     end
     local name = select(2, GetShapeshiftFormInfo(i))
     if name then return self:GetMountByName(name) end
 end
 
-function LM_PlayerMounts:GetRandomMount(flags)
-    local poss = self:GetAvailableMounts(flags)
+function LM_PlayerMounts:GetRandomMount(...)
+    local poss = self:GetAvailableMounts(...)
     return poss:Random()
 end
 

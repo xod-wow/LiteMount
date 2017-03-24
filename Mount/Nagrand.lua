@@ -12,8 +12,8 @@ LM_Nagrand = setmetatable({ }, LM_Spell)
 LM_Nagrand.__index = LM_Nagrand
 
 local FactionRequirements = {
-    [LM_SPELL_FROSTWOLF_WAR_WOLF] = "Horde",
-    [LM_SPELL_TELAARI_TALBUK] = "Alliance",
+    [LM_SPELL.FROSTWOLF_WAR_WOLF] = "Horde",
+    [LM_SPELL.TELAARI_TALBUK] = "Alliance",
 }
 
 function LM_Nagrand:Get(spellID)

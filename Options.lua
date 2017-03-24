@@ -17,17 +17,12 @@ we scan a new mount
 excludedspells is a list of spell ids the player has disabled
     ["excludedspells"] = { spellid1, spellid2, spellid3, ... }
 
-flagoverrides is a table of tuples with bits to set and clear.
+flagoverrides is a table of sets of flags to set and clear.
     ["flagoverrides"] = {
-        ["spellid"] = { bits_to_set, bits_to_clear },
+        ["spellid"] = { {flags_to_set}, {flags_to_clear} },
         ...
     }
-
-
-The modified mount flags are then:
-    ( flags | bits_to_set ) & !bits_to_clear
-
-The reason to do it this way instead of just storing the xor is that
+The reason to do it this way instead of just storing the new flags is that
 the default flags might change and we don't want the override to suddenly
 go from disabling something to enabling it.
 
@@ -49,6 +44,20 @@ local Default_LM_OptionsDB = {
 
 LM_Options = { }
 
+local UpgradeFlagMap = {
+    [LM_FLAG.RUN] = 1,
+    [LM_FLAG.FLY] = 2,
+    [LM_FLAG.FLOAT] = 4,
+    [LM_FLAG.SWIM] = 8,
+    [LM_FLAG.JUMP] = 16,
+    [LM_FLAG.WALK] = 32,
+    [LM_FLAG.AQ] = 128,
+    [LM_FLAG.VASHJIR] = 256,
+    [LM_FLAG.NAGRAND] = 512,
+    [LM_FLAG.CUSTOM1] = 1024,
+    [LM_FLAG.CUSTOM2] = 2048,
+}
+
 local function VersionUpgradeOptions(db)
 
     -- This is a special case because I made a mistake setting this as
@@ -62,6 +71,16 @@ local function VersionUpgradeOptions(db)
     if db["useglobal"][1] ~= nil then
         db["useglobal"] = { ["mounts"] = db["useglobal"][1] }
         db["useglobal"][1] = nil
+    end
+
+    -- Flag used to be a bitmap, now just a set
+    for k,v in pairs(db.flagoverrides) do
+        local addBits, delBits = v[1], v[2]
+        v[1], v[2] = { }, { }
+        for n, b in pairs(UpgradeFlagMap) do
+            if bit.band(addBits, b) then v[1][n] = true end
+            if bit.band(delBits, b) then v[2][n] = true end
+        end
     end
 
     -- Add any default settings from Default_LM_OptionsDB we don't have yet
@@ -191,48 +210,36 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:ApplyMountFlags(m)
-    local id = m.spellID
-    local flags = m.flags
-    local ov = self.db.flagoverrides[id]
+    local ov = self.db.flagoverrides[m.spellID] or { }
 
-    if not ov then return flags end
+    local flags = CopyTable(m.flags)
 
-    flags = bit.bor(flags, ov[1])
-    flags = bit.band(flags, bit.bnot(ov[2]))
+    for f in pairs(ov[1] or { }) do flags[f] = true end
+    for f in pairs(ov[2] or { }) do flags[f] = nil end
 
     return flags
 end
 
-function LM_Options:SetMountFlagBit(m, flagbit)
-    LM_Debug(format("Setting flag bit %d for spell %s (%d).",
-                    flagbit, m.name, m.spellID))
-
-    LM_Options:SetMountFlags(m, bit.bor(m:CurrentFlags(), flagbit))
+function LM_Options:SetMountFlag(m, flag)
+    if not self.db.flagoverrides[m.spellID] then
+        self.db.flagoverrides[m.spellID] = { { }, { } }
+    end
+        
+    self.db.flagoverrides[m.spellID][1][flag] = m.flags[flag]
+    self.db.flagoverrides[m.spellID][2][flag] = nil
 end
 
-function LM_Options:ClearMountFlagBit(m, flagbit)
-    LM_Debug(format("Clearing flag bit %d for spell %s (%d).",
-                     flagbit, m.name, m.spellID))
+function LM_Options:ClearMountFlag(m, flag)
+    if not self.db.flagoverrides[m.spellID] then
+        self.db.flagoverrides[m.spellID] = { { }, { } }
+    end
 
-    LM_Options:SetMountFlags(m, bit.band(m:CurrentFlags(), bit.bnot(flagbit)))
+    self.db.flagoverrides[m.spellID][1][flag] = nil
+    self.db.flagoverrides[m.spellID][2][flag] = m.flags[flag]
 end
 
 function LM_Options:ResetMountFlags(m)
-    LM_Debug(format("Defaulting flags for spell %s (%d).", m.name, m.spellID))
-
-    self.db.flagoverrides[id] = nil
-end
-
-function LM_Options:SetMountFlags(m, flags)
-
-    if flags == m.flags then
-        return self:ResetMountFlags(m)
-    end
-
-    local toset = bit.band(bit.bxor(flags, m.flags), flags)
-    local toclear = bit.band(bit.bxor(flags, m.flags), bit.bnot(flags))
-
-    self.db.flagoverrides[m.spellID] = { toset, toclear }
+    self.db.flagoverrides[m.spellID] = { {}, {} }
 end
 
 

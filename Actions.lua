@@ -62,23 +62,23 @@ ACTIONS.CopyTargetsMount =
 ACTIONS.Mount =
     function (tag)
         if tag == "fly" then
-            return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_FLY)
+            return LM_PlayerMounts:GetRandomMount(LM_FLAG.FLY)
         elseif tag == "swim" then
-            return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_SWIM)
+            return LM_PlayerMounts:GetRandomMount(LM_FLAG.SWIM)
         elseif tag == "nagrand" then
-            return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_NAGRAND)
+            return LM_PlayerMounts:GetRandomMount(LM_FLAG.NAGRAND)
         elseif tag == "aq" then
-            return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_AQ)
+            return LM_PlayerMounts:GetRandomMount(LM_FLAG.AQ)
         elseif tag == "vashjir" then
-            return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_VASHJIR)
+            return LM_PlayerMounts:GetRandomMount(LM_FLAG.VASHJIR)
         elseif tag == "run" then
-            return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_RUN)
+            return LM_PlayerMounts:GetRandomMount(LM_FLAG.RUN)
         elseif tag == "walk" then
-            return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_WALK)
+            return LM_PlayerMounts:GetRandomMount(LM_FLAG.WALK)
         elseif tag == "custom1" then
-            return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM1)
+            return LM_PlayerMounts:GetRandomMount(LM_FLAG.CUSTOM1)
         elseif tag == "custom2" then
-            return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM2)
+            return LM_PlayerMounts:GetRandomMount(LM_FLAG.CUSTOM2)
         end
     end
 
@@ -132,7 +132,7 @@ local function GetDruidMountForms()
     local forms = {}
     for i = 1,GetNumShapeshiftForms() do
         local spell = select(5, GetShapeshiftFormInfo(i))
-        if spell == LM_SPELL_FLIGHT_FORM or spell == LM_SPELL_TRAVEL_FORM then
+        if spell == LM_SPELL.FLIGHT_FORM or spell == LM_SPELL.TRAVEL_FORM then
             tinsert(forms, i)
         end
     end
@@ -152,15 +152,15 @@ function LM_Actions:DefaultCombatMacro()
 
     if playerClass ==  "DRUID" then
         local forms = table.concat(GetDruidMountForms(), "/")
-        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
+        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL.TRAVEL_FORM)
         if mount and not LM_Options:IsExcludedMount(mount) then
             mt = mt .. format("/cast [noform:%s] %s\n", forms, mount.name)
             mt = mt .. format("/cancelform [form:%s]\n", forms)
         end
     elseif playerClass == "SHAMAN" then
-        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_GHOST_WOLF)
+        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL.GHOST_WOLF)
         if mount and not LM_Options:IsExcludedMount(mount) then
-            local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
+            local s = GetSpellInfo(LM_SPELL.GHOST_WOLF)
             mt = mt .. "/cast [noform] " .. s .. "\n"
             mt = mt .. "/cancelform [form]\n"
         end

@@ -20,7 +20,7 @@ local travelFormFlags = bit.bor(
                         )
 
 function LM_TravelForm:Get()
-    local m = LM_Spell:Get(LM_SPELL_TRAVEL_FORM)
+    local m = LM_Spell:Get(LM_SPELL.TRAVEL_FORM)
     if m then
         setmetatable(m, LM_TravelForm)
         m.flags = travelFormFlags

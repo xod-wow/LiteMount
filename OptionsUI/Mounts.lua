@@ -8,13 +8,13 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LM_OptionsUIBit_OnClick(self)
+function LM_OptionsUIFlag_OnClick(self)
     local mount = self:GetParent().mount
 
     if self:GetChecked() then
-        LM_Options:SetMountFlagBit(mount, self.flagbit)
+        LM_Options:SetMountFlag(mount, self.flag)
     else
-        LM_Options:ClearMountFlagBit(mount, self.flagbit)
+        LM_Options:ClearMountFlag(mount, self.flag)
     end
     LM_OptionsUI_UpdateMountList()
 end
@@ -30,13 +30,13 @@ local function CreateMoreButtons(self)
     -- Note: the buttons are laid out right to left
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
-        b.bit1.flagbit = LM_FLAG_BIT_RUN
-        b.bit2.flagbit = LM_FLAG_BIT_FLY
-        b.bit3.flagbit = LM_FLAG_BIT_SWIM
-        b.bit4.flagbit = LM_FLAG_BIT_AQ
-        b.bit5.flagbit = LM_FLAG_BIT_VASHJIR
-        b.bit6.flagbit = LM_FLAG_BIT_CUSTOM2
-        b.bit7.flagbit = LM_FLAG_BIT_CUSTOM1
+        b.flag1.flag = LM_FLAG.RUN
+        b.flag2.flag = LM_FLAG.FLY
+        b.flag3.flag = LM_FLAG.SWIM
+        b.flag4.flag = LM_FLAG.AQ
+        b.flag5.flag = LM_FLAG.VASHJIR
+        b.flag6.flag = LM_FLAG.CUSTOM2
+        b.flag7.flag = LM_FLAG.CUSTOM1
     end
 end
 
@@ -48,14 +48,13 @@ local function EnableDisableMount(mount, onoff)
     end
 end
 
-local function BitButtonUpdate(checkButton, mount)
+local function FlagButtonUpdate(checkButton, mount)
     local flags = mount:CurrentFlags()
 
-    local checked = bit.band(flags, checkButton.flagbit) == checkButton.flagbit
-    checkButton:SetChecked(checked)
+    checkButton:SetChecked(flags[checkButton.flag])
 
     -- If we changed this from the default then color the background
-    if bit.band(flags, checkButton.flagbit) == bit.band(mount.flags, checkButton.flagbit) then
+    if flags[checkButton.flag] == mount.flags[checkButton.flag] then
         checkButton.modified:Hide()
     else
         checkButton.modified:Show()
@@ -190,8 +189,8 @@ local function UpdateMountButton(button, mount)
     end
 
     local i = 1
-    while button["bit"..i] do
-        BitButtonUpdate(button["bit"..i], mount)
+    while button["flag"..i] do
+        FlagButtonUpdate(button["flag"..i], mount)
         i = i + 1
     end
 

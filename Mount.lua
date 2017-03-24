@@ -33,8 +33,11 @@ function LM_Mount:CurrentFlags()
 end
 
 -- This is a bit of a convenience since bit.isset doesn't exist
-function LM_Mount:CurrentFlagsSet(f)
-    return bit.band(self:CurrentFlags(), f) == f
+function LM_Mount:CurrentFlagsSet(...)
+    for _, f in ipairs({ ...}) do
+        if not tContains(self.flags, f) then return false end
+    end
+    return true
 end
 
 local function PlayerIsMovingOrFalling()
@@ -61,7 +64,7 @@ function LM_Mount:Dump(prefix)
     LM_Print(prefix .. self.name)
     LM_Print(prefix .. " spell: " .. format("%s (id %d)", self.spellName, self.spellID))
     LM_Print(prefix .. " casttime: " .. self.castTime)
-    LM_Print(prefix .. " flags: " .. format("%02x (default %02x)", self:CurrentFlags(), self.flags))
+    LM_Print(prefix .. " flags: " .. table.concats(self.flags, ','))
     LM_Print(prefix .. " excluded: " .. yesno(LM_Options:IsExcludedMount(self)))
     LM_Print(prefix .. " usable: " .. yesno(self:IsUsable()) .. " (spell " .. yesno(IsUsableSpell(self.spellID)) .. ")")
 end
