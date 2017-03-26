@@ -107,3 +107,14 @@ function LM_Journal:IsUsable()
     if not IsUsableSpell(self.spellID) then return end
     return LM_Mount.IsUsable(self)
 end
+
+function LM_Journal:SetupActionButton(button)
+    local t = ""
+    if select(2, UnitClass("player")) == "DRUID" then
+        t = t .. "/cancelform [form:1/2]\n"
+    end
+
+    t = t .. format("/run C_MountJournal.SummonByID(%d)\n", self.mountID)
+    button:SetAttribute("type", "macro")
+    button:SetAttribute("macrotext", t)
+end
