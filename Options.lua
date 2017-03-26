@@ -17,14 +17,11 @@ we scan a new mount
 excludedspells is a list of spell ids the player has disabled
     ["excludedspells"] = { spellid1, spellid2, spellid3, ... }
 
-flagoverrides is a table of sets of flags to set and clear.
-    ["flagoverrides"] = {
-        ["spellid"] = { {flags_to_set}, {flags_to_clear} },
+flagChanges is a table of sets of flags to set or clear.
+    ["flagChanges"] = {
+        ["spellid"] = { [flag] = '+' or '-', ... },
         ...
     }
-The reason to do it this way instead of just storing the new flags is that
-the default flags might change and we don't want the override to suddenly
-go from disabling something to enabling it.
 
 ----------------------------------------------------------------------------]]--
 
@@ -32,7 +29,7 @@ go from disabling something to enabling it.
 local Default_LM_OptionsDB = {
     ["seenspells"]              = { },
     ["excludedspells"]          = { },
-    ["flagoverrides"]           = { },
+    ["flagChanges"]             = { },
     ["macro"]                   = { },      -- [1] = macro
     ["combatMacro"]             = { },      -- [1] = macro, [2] == 0/1 enabled
     ["useglobal"]               = { },      -- "mounts", "actions"
@@ -60,11 +57,9 @@ local UpgradeFlagMap = {
 
 local function VersionUpgradeOptions(db)
 
-    -- This is a special case because I made a mistake setting this as
-    -- a global option to begin with.
-
-    if not db["useglobal"] and LM_UseGlobalOptions then
-        db["useglobal"] = { ["mounts"] = true }
+    -- Add any default settings from Default_LM_OptionsDB we don't have yet
+    for k,v in pairs(Default_LM_OptionsDB) do
+        db[k] = db[k] or v
     end
 
     -- Changed this into a key array around 7.0.3
@@ -74,23 +69,18 @@ local function VersionUpgradeOptions(db)
     end
 
     -- Flag used to be a bitmap, now just a set
-    for k,v in pairs(db.flagoverrides) do
-        if type(v[1]) ~= "table" then
-            local addBits, delBits = v[1], v[2]
-            v[1], v[2] = { }, { }
-            for n, b in pairs(UpgradeFlagMap) do
-                if bit.band(addBits, b) then v[1][n] = true end
-                if bit.band(delBits, b) then v[2][n] = true end
-            end
+    for spell,v in pairs(db.flagoverrides or {}) do
+        local addBits, delBits = v[1], v[2]
+
+        db.flagChanges[spell]= { }
+
+        for n, b in pairs(UpgradeFlagMap) do
+            if bit.band(addBits, b) then db.flagChanges[spell][n] = '+' end
+            if bit.band(delBits, b) then db.flagChanges[spell][n] = '-' end
         end
     end
 
-    -- Add any default settings from Default_LM_OptionsDB we don't have yet
-    for k,v in pairs(Default_LM_OptionsDB) do
-        if not db[k] then
-            db[k] = v
-        end
-    end
+    db.flagoverrides = nil
 
     -- Delete any obsolete settings we have that aren't in Default_LM_OptionsDB
     for k,v in pairs(db) do
@@ -104,11 +94,11 @@ end
 function LM_Options:Initialize()
 
     if not LM_OptionsDB then
-        LM_OptionsDB = Default_LM_OptionsDB
+        LM_OptionsDB = CopyTable(Default_LM_OptionsDB)
     end
 
     if not LM_GlobalOptionsDB then
-        LM_GlobalOptionsDB = Default_LM_OptionsDB
+        LM_GlobalOptionsDB = CopyTable(Default_LM_OptionsDB)
     end
 
     VersionUpgradeOptions(LM_OptionsDB)
@@ -124,7 +114,7 @@ function LM_Options:Initialize()
 
     if self.db["useglobal"]["mounts"] then
         self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
-        self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
+        self.db["flagChanges"] = LM_GlobalOptionsDB.flagChanges
     end
 
 end
@@ -140,11 +130,11 @@ function LM_Options:UseGlobal(which, trueFalse)
             if trueFalse then
                 self.db["useglobal"]["mounts"] = true
                 self.db["excludedspells"] = LM_GlobalOptionsDB.excludedspells
-                self.db["flagoverrides"] = LM_GlobalOptionsDB.flagoverrides
+                self.db["flagChanges"] = LM_GlobalOptionsDB.flagChanges
             else
                 self.db["useglobal"]["mounts"] = false
                 self.db["excludedspells"] = LM_OptionsDB.excludedspells
-                self.db["flagoverrides"] = LM_OptionsDB.flagoverrides
+                self.db["flagChanges"] = LM_OptionsDB.flagChanges
             end
         end
         return self.db["useglobal"]["mounts"]
@@ -214,50 +204,40 @@ end
 function LM_Options:ApplyMountFlags(m)
     local flags = CopyTable(m.flags)
 
-    local ov = self.db.flagoverrides[m.spellID]
+    local ov = self.db.flagChanges[m.spellID]
 
-    if not ov then return flags end
-
-    for _,f in ipairs(ov[1]) do flags[f] = true end
-    for _,f in ipairs(ov[2]) do flags[f] = nil end
-
+    for f,action in pairs(ov or {}) do
+        if action == '+' then
+            flags[f] = true
+        elseif action == '-' then
+            flags[f] = nil
+        end
+    end
     return flags
 end
 
 function LM_Options:SetMountFlag(m, flag)
-    if not self.db.flagoverrides[m.spellID] then
-        self.db.flagoverrides[m.spellID] = { { }, { } }
-    end
-
-    local ov = self.db.flagoverrides[m.spellID]
-
-    if not tContains(ov[1], flag) then
-        tinsert(ov[1], flag)
-    end
-
-    if tContains(ov[2], flag) then
-        tDeleteItem(ov[2], flag)
+    local ov = self.db.flagChanges
+    ov[m.spellID] = ov[m.spellID] or { }
+    if m.flags[flag] then
+        ov[m.spellID][flag] = nil
+    else
+        ov[m.spellID][flag] = '+'
     end
 end
 
 function LM_Options:ClearMountFlag(m, flag)
-    if not self.db.flagoverrides[m.spellID] then
-        self.db.flagoverrides[m.spellID] = { { }, { } }
-    end
-
-    local ov = self.db.flagoverrides[m.spellID]
-
-    if tContains(ov[1], flag) then
-        tDeleteItem(ov[1], flag)
-    end
-
-    if not tContains(ov[2], flag) then
-        tinsert(ov[2], flag)
+    local ov = self.db.flagChanges
+    ov[m.spellID] = ov[m.spellID] or { }
+    if not m.flags[flag] then
+        ov[m.spellID][flag] = nil
+    else
+        ov[m.spellID][flag] = '-'
     end
 end
 
 function LM_Options:ResetMountFlags(m)
-    self.db.flagoverrides[m.spellID] = { {}, {} }
+    self.db.flagChanges[m.spellID] = { }
 end
 
 
