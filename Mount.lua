@@ -16,7 +16,7 @@ LM_Mount = {
 LM_Mount.__index = LM_Mount
 
 function LM_Mount:new()
-    return setmetatable({ tags = { } }, LM_Mount)
+    return setmetatable({ flags = { }}, LM_Mount)
 end
 
 function LM_Mount:Get(className, ...)
@@ -33,9 +33,9 @@ function LM_Mount:CurrentFlags()
 end
 
 -- This is a bit of a convenience since bit.isset doesn't exist
-function LM_Mount:CurrentFlagsSet(...)
-    for _, f in ipairs({ ...}) do
-        if not tContains(self.flags, f) then return false end
+function LM_Mount:CurrentFlagsSet(flags)
+    for f, _ in ipairs(flags) do
+        if not self:CurrentFlags()[f] then return false end
     end
     return true
 end
@@ -54,6 +54,12 @@ function LM_Mount:SetupActionButton(button)
     button:SetAttribute("spell", self.spellName)
 end
 
+local function tKeys(t)
+    local keys = { }
+    for k,v in pairs(t) do tinsert(keys, k) end
+    return keys
+end
+
 function LM_Mount:Dump(prefix)
     if prefix == nil then
         prefix = ""
@@ -64,7 +70,7 @@ function LM_Mount:Dump(prefix)
     LM_Print(prefix .. self.name)
     LM_Print(prefix .. " spell: " .. format("%s (id %d)", self.spellName, self.spellID))
     LM_Print(prefix .. " casttime: " .. self.castTime)
-    LM_Print(prefix .. " flags: " .. table.concats(self.flags, ','))
+    LM_Print(prefix .. " flags: " .. table.concat(tKeys(self.flags), ','))
     LM_Print(prefix .. " excluded: " .. yesno(LM_Options:IsExcludedMount(self)))
     LM_Print(prefix .. " usable: " .. yesno(self:IsUsable()) .. " (spell " .. yesno(IsUsableSpell(self.spellID)) .. ")")
 end

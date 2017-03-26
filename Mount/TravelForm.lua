@@ -13,17 +13,14 @@
 LM_TravelForm = setmetatable({ }, LM_Spell)
 LM_TravelForm.__index = LM_TravelForm
 
-local travelFormFlags = bit.bor(
-                            LM_FLAG_BIT_RUN,
-                            LM_FLAG_BIT_FLY,
-                            LM_FLAG_BIT_SWIM
-                        )
+local travelFormFlags = { LM_FLAG.RUN, LM_FLAG.FLY, LM_FLAG.SWIM }
 
 function LM_TravelForm:Get()
     local m = LM_Spell:Get(LM_SPELL.TRAVEL_FORM)
     if m then
         setmetatable(m, LM_TravelForm)
-        m.flags = travelFormFlags
+        wipe(m.flags)
+        for _, f in ipairs(travelFormFlags) do m.flags[f] = true end
     end
     return m
 end

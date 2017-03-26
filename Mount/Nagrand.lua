@@ -32,7 +32,7 @@ function LM_Nagrand:Get(spellID)
 
     if m then
         setmetatable(m, LM_Nagrand)
-        m.flags = LM_FLAG_BIT_NAGRAND
+        m.flags = { [LM_FLAG.NAGRAND] = true }
     end
 
     return m

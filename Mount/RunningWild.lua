@@ -13,7 +13,7 @@ function LM_RunningWild:Get()
     local m = LM_Spell:Get(LM_SPELL.RUNNING_WILD)
     if m then
         setmetatable(m, LM_RunningWild)
-        m.flags = LM_FLAG_BIT_RUN
+        m.flags[LM_FLAG.RUN] = true
     end
     return m
 end

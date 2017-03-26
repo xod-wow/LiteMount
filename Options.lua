@@ -75,11 +75,13 @@ local function VersionUpgradeOptions(db)
 
     -- Flag used to be a bitmap, now just a set
     for k,v in pairs(db.flagoverrides) do
-        local addBits, delBits = v[1], v[2]
-        v[1], v[2] = { }, { }
-        for n, b in pairs(UpgradeFlagMap) do
-            if bit.band(addBits, b) then v[1][n] = true end
-            if bit.band(delBits, b) then v[2][n] = true end
+        if type(v[1]) ~= "table" then
+            local addBits, delBits = v[1], v[2]
+            v[1], v[2] = { }, { }
+            for n, b in pairs(UpgradeFlagMap) do
+                if bit.band(addBits, b) then v[1][n] = true end
+                if bit.band(delBits, b) then v[2][n] = true end
+            end
         end
     end
 

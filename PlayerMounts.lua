@@ -96,9 +96,10 @@ function LM_PlayerMounts:GetAllMounts()
     return result
 end
 
-function LM_PlayerMounts:GetAvailableMounts(...)
+function LM_PlayerMounts:GetAvailableMounts(f)
+    print("GetAvailableMounts " .. f)
     local function match(m)
-        if not m:CurrentFlagsSet(...) then return end
+        if not m:CurrentFlags()[f] then return end
         if not m:IsUsable() then return end
         if LM_Options:IsExcludedMount(m) then return end
         return true
