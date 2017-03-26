@@ -14,7 +14,6 @@ function LM_OptionsUIMacro_OnLoad(self)
 end
 
 function LM_OptionsUIMacro_OnShow(self)
-    UpdateSuggestionButtons()
     LM_OptionsUIPanel_OnShow(self)
 end
 
