@@ -97,7 +97,6 @@ function LM_PlayerMounts:GetAllMounts()
 end
 
 function LM_PlayerMounts:GetAvailableMounts(f)
-    print("GetAvailableMounts " .. f)
     local function match(m)
         if not m:CurrentFlags()[f] then return end
         if not m:IsUsable() then return end

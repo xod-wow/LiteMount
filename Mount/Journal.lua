@@ -54,7 +54,7 @@ function LM_Journal:Get(id)
     m.spellID       = spellID
     m.spellName     = GetSpellInfo(spellID)
     m.mountID       = mountID
-    m.icon          = icon
+    m.iconTexture   = icon
     m.isSelfMount   = isSelfMount
     m.mountType     = mountType
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]

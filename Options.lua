@@ -212,12 +212,14 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:ApplyMountFlags(m)
-    local ov = self.db.flagoverrides[m.spellID] or { }
-
     local flags = CopyTable(m.flags)
 
-    for f in pairs(ov[1] or { }) do flags[f] = true end
-    for f in pairs(ov[2] or { }) do flags[f] = nil end
+    local ov = self.db.flagoverrides[m.spellID]
+
+    if not ov then return flags end
+
+    for _,f in ipairs(ov[1]) do flags[f] = true end
+    for _,f in ipairs(ov[2]) do flags[f] = nil end
 
     return flags
 end
@@ -226,9 +228,16 @@ function LM_Options:SetMountFlag(m, flag)
     if not self.db.flagoverrides[m.spellID] then
         self.db.flagoverrides[m.spellID] = { { }, { } }
     end
-        
-    self.db.flagoverrides[m.spellID][1][flag] = m.flags[flag]
-    self.db.flagoverrides[m.spellID][2][flag] = nil
+
+    local ov = self.db.flagoverrides[m.spellID]
+
+    if not tContains(ov[1], flag) then
+        tinsert(ov[1], flag)
+    end
+
+    if tContains(ov[2], flag) then
+        tDeleteItem(ov[2], flag)
+    end
 end
 
 function LM_Options:ClearMountFlag(m, flag)
@@ -236,8 +245,15 @@ function LM_Options:ClearMountFlag(m, flag)
         self.db.flagoverrides[m.spellID] = { { }, { } }
     end
 
-    self.db.flagoverrides[m.spellID][1][flag] = nil
-    self.db.flagoverrides[m.spellID][2][flag] = m.flags[flag]
+    local ov = self.db.flagoverrides[m.spellID]
+
+    if tContains(ov[1], flag) then
+        tDeleteItem(ov[1], flag)
+    end
+
+    if not tContains(ov[2], flag) then
+        tinsert(ov[2], flag)
+    end
 end
 
 function LM_Options:ResetMountFlags(m)

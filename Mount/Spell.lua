@@ -30,7 +30,7 @@ function LM_Spell:Get(spellID, forceKnown)
 
     m.name = name
     m.spellName = name
-    m.icon = icon
+    m.iconTexture = icon
     m.flags = 0
     m.castTime = castingTime
     m.spellID = spellID
