@@ -60,24 +60,24 @@ ACTIONS.CopyTargetsMount =
     end
 
 ACTIONS.Mount =
-    function (tag)
-        if tag == "fly" then
+    function (flag)
+        if flag == "fly" then
             return LM_PlayerMounts:GetRandomMount(LM_FLAG.FLY)
-        elseif tag == "swim" then
+        elseif flag == "swim" then
             return LM_PlayerMounts:GetRandomMount(LM_FLAG.SWIM)
-        elseif tag == "nagrand" then
+        elseif flag == "nagrand" then
             return LM_PlayerMounts:GetRandomMount(LM_FLAG.NAGRAND)
-        elseif tag == "aq" then
+        elseif flag == "aq" then
             return LM_PlayerMounts:GetRandomMount(LM_FLAG.AQ)
-        elseif tag == "vashjir" then
+        elseif flag == "vashjir" then
             return LM_PlayerMounts:GetRandomMount(LM_FLAG.VASHJIR)
-        elseif tag == "run" then
+        elseif flag == "run" then
             return LM_PlayerMounts:GetRandomMount(LM_FLAG.RUN)
-        elseif tag == "walk" then
+        elseif flag == "walk" then
             return LM_PlayerMounts:GetRandomMount(LM_FLAG.WALK)
-        elseif tag == "custom1" then
+        elseif flag == "custom1" then
             return LM_PlayerMounts:GetRandomMount(LM_FLAG.CUSTOM1)
-        elseif tag == "custom2" then
+        elseif flag == "custom2" then
             return LM_PlayerMounts:GetRandomMount(LM_FLAG.CUSTOM2)
         end
     end
