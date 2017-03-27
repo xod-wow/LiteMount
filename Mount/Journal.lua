@@ -101,6 +101,11 @@ function LM_Journal:Get(id)
     return m
 end
 
+function LM_Journal:IsCollected()
+    local c = select(11, C_MountJournal.GetMountInfoByID(self.mountID))
+    return c
+end
+
 function LM_Journal:IsUsable()
     local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
     if not usable then return end

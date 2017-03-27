@@ -50,8 +50,6 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_Debug("*** PreClick handler called on " .. self:GetName() .. " ***")
 
-    LM_PlayerMounts:ScanMounts()
-
     for i, condAction in ipairs(self.actionList) do
         if self:Dispatch(condAction) then return end
     end

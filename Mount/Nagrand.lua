@@ -17,25 +17,25 @@ local FactionRequirements = {
 }
 
 function LM_Nagrand:Get(spellID)
-    local m
+    local m = LM_Spell:Get(spellID, true)
 
-    local playerFaction = UnitFactionGroup("player")
-    local requiredFaction = FactionRequirements[spellID]
-    if requiredFaction and playerFaction ~= requiredFaction then
-        return
-    end
+    if not m then return end
 
-    local baseSpellID, garrisonType = GetZoneAbilitySpellInfo()
-    if baseSpellID ~= 0 then
-        m = LM_Spell:Get(spellID, true)
-    end
-
-    if m then
-        setmetatable(m, LM_Nagrand)
-        m.flags = { [LM_FLAG.NAGRAND] = true }
-    end
+    setmetatable(m, LM_Nagrand)
+    m.flags = { [LM_FLAG.NAGRAND] = true }
 
     return m
+end
+
+function LM_Nagrand:IsCollected()
+    local playerFaction = UnitFactionGroup("player")
+    local requiredFaction = FactionRequirements[self.spellID]
+
+    if GetZoneAbilitySpellInfo() and playerFaction == requiredFaction then
+        return true
+    else
+        return false
+    end
 end
 
 -- Draenor Ability spells are weird.  The name of the Garrison Ability

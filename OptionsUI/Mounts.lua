@@ -62,7 +62,6 @@ local function FlagButtonUpdate(checkButton, mount)
 end
 
 local function GetFilteredMountList()
-    LM_PlayerMounts:ScanMounts()
     local mounts = LM_PlayerMounts:GetAllMounts()
 
     local filtertext = LM_OptionsUIMounts.filter:GetText()

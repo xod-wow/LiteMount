@@ -31,7 +31,7 @@ function LM_Spell:Get(spellID, forceKnown)
     m.name = name
     m.spellName = name
     m.iconTexture = icon
-    m.flags = 0
+    m.flags = { }
     m.castTime = castingTime
     m.spellID = spellID
 
@@ -39,6 +39,10 @@ function LM_Spell:Get(spellID, forceKnown)
     self.cacheBySpellID[m.spellID] = m
 
     return m
+end
+
+function LM_Spell:IsCollected()
+    return IsSpellKnown(self.spellID)
 end
 
 function LM_Spell:IsUsable()

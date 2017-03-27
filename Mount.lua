@@ -49,6 +49,10 @@ function LM_Mount:IsUsable()
     return true
 end
 
+function LM_Mount:IsCollected()
+    return true
+end
+
 function LM_Mount:SetupActionButton(button)
     button:SetAttribute("type", "spell")
     button:SetAttribute("spell", self.spellName)

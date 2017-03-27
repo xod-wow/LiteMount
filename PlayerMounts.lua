@@ -10,7 +10,7 @@
 
 LM_PlayerMounts = LM_CreateAutoEventFrame("Frame", "LM_PlayerMounts", UIParent)
 
-local RescanEvents = {
+local LearnMountEvents = {
     -- Companion change. Don't add COMPANION_UPDATE to this as it fires
     -- for units other than "player" and triggers constantly.
     "COMPANION_LEARNED", "COMPANION_UNLEARNED",
@@ -23,26 +23,27 @@ local RescanEvents = {
 }
 
 function LM_PlayerMounts:Initialize()
-    -- Delayed scanning stops us rescanning unnecessarily.
-    self.needScan = true
-
     self.byName = { }
-    self.list = LM_FancyList:New()
+    self.byIndex = LM_FancyList:New()
 
-    -- Rescan event setup
-    for _,ev in ipairs(RescanEvents) do
+    self:AddJournalMounts()
+    self:AddSpellMounts()
+
+    -- Events that might cause a mount to be "learned"
+    for _,ev in ipairs(LearnMountEvents) do
         self[ev] = function (self, event, ...)
-                            LM_Debug("Got rescan event "..event)
-                            self.needScan = true
+                            LM_Debug("Got learn event "..event)
+                            self:UpdateSeenStatus()
                         end
         self:RegisterEvent(ev)
     end
+
 end
 
 function LM_PlayerMounts:AddMount(m)
     if m and not self.byName[m.name] then
         self.byName[m.name] = m
-        tinsert(self.list, m)
+        tinsert(self.byIndex, m)
     end
 end
 
@@ -62,30 +63,19 @@ function LM_PlayerMounts:AddSpellMounts()
     end
 end
 
-function LM_PlayerMounts:ScanMounts()
-    if not self.needScan then return end
-    LM_Debug("Rescanning list of mounts.")
-
-    self.needScan = nil
-    wipe(self.byName)
-    wipe(self.list)
-
-    self:AddJournalMounts()
-    self:AddSpellMounts()
-
-    for m in self.list:Iterate() do
+function LM_PlayerMounts:UpdateSeenStatus()
+    LM_Debug("Updating mount 'seen' status.")
+    for m in self.byIndex:Iterate() do
         LM_Options:SeenMount(m, true)
     end
-
-    LM_Debug("Finished rescan.")
 end
 
 function LM_PlayerMounts:Iterate()
-    return self.list:Iterate()
+    return self.byIndex:Iterate()
 end
 
 function LM_PlayerMounts:Search(matchfunc)
-    return self.list:Search(matchfunc)
+    return self.byIndex:Search(matchfunc)
 end
 
 function LM_PlayerMounts:GetAllMounts()
@@ -98,8 +88,8 @@ end
 
 function LM_PlayerMounts:GetAvailableMounts(f)
     local function match(m)
+        if not m:IsCollected() or not m:IsUsable() then return end
         if not m:CurrentFlags()[f] then return end
-        if not m:IsUsable() then return end
         if LM_Options:IsExcludedMount(m) then return end
         return true
     end
@@ -110,7 +100,7 @@ end
 function LM_PlayerMounts:GetMountFromUnitAura(unitid)
     for i = 1,BUFF_MAX_DISPLAY do
         local m = self:GetMountByName(UnitAura(unitid, i))
-        if m and m:IsUsable() then return m end
+        if m and m:IsCollected() and m:IsUsable() then return m end
     end
 end
 
@@ -140,7 +130,7 @@ function LM_PlayerMounts:GetRandomMount(...)
 end
 
 function LM_PlayerMounts:Dump()
-    for m in self.list:Iterate() do
+    for m in self.byIndex:Iterate() do
         m:Dump()
     end
 end
