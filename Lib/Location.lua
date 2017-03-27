@@ -102,7 +102,7 @@ end
 -- Draenor (continent 7) is flagged flyable, but you can only fly there if
 -- you have completed a dodgy achievement, "Draenor Pathfinder" (10018).
 --
--- Broken Isles is the same except the flying unlock is not available yet.
+-- Broken Isles (continent 8) is the same, the achievement is 11446.
 function LM_Location:CanFly()
 
     -- Can only fly in Draenor if you have the achievement
@@ -115,8 +115,8 @@ function LM_Location:CanFly()
         end
     end
 
-    -- Can't fly on Broken Isles yet, will be eventually unlocked via an
-    -- achievment the same as Draenor.
+    -- Can ony fly on the Broken Isles if you have the achievement. I hope
+    -- it doesn't have the alts bug too, as there's no mount learnt.
     if self.continent == 8 then
         local completed = select(4, GetAchievementInfo(11446))
         if not completed then
