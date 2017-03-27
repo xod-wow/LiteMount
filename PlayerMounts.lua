@@ -28,12 +28,13 @@ function LM_PlayerMounts:Initialize()
 
     self:AddJournalMounts()
     self:AddSpellMounts()
+    self:Refresh()
 
     -- Events that might cause a mount to be "learned"
     for _,ev in ipairs(LearnMountEvents) do
         self[ev] = function (self, event, ...)
                             LM_Debug("Got learn event "..event)
-                            self:UpdateSeenStatus()
+                            self:Refresh()
                         end
         self:RegisterEvent(ev)
     end
@@ -63,9 +64,10 @@ function LM_PlayerMounts:AddSpellMounts()
     end
 end
 
-function LM_PlayerMounts:UpdateSeenStatus()
-    LM_Debug("Updating mount 'seen' status.")
+function LM_PlayerMounts:Refresh()
+    LM_Debug("Refreshing mount statuses.")
     for m in self.byIndex:Iterate() do
+        m:Refresh()
         LM_Options:SeenMount(m, true)
     end
 end
@@ -88,7 +90,7 @@ end
 
 function LM_PlayerMounts:GetAvailableMounts(f)
     local function match(m)
-        if not m:IsCollected() or not m:IsUsable() then return end
+        if not m.isCollected or not m:IsUsable() then return end
         if not m:CurrentFlags()[f] then return end
         if LM_Options:IsExcludedMount(m) then return end
         return true
@@ -100,7 +102,7 @@ end
 function LM_PlayerMounts:GetMountFromUnitAura(unitid)
     for i = 1,BUFF_MAX_DISPLAY do
         local m = self:GetMountByName(UnitAura(unitid, i))
-        if m and m:IsCollected() and m:IsUsable() then return m end
+        if m and m.isCollected and m:IsUsable() then return m end
     end
 end
 

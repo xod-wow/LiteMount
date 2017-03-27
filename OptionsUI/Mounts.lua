@@ -62,7 +62,19 @@ local function FlagButtonUpdate(checkButton, mount)
 end
 
 local function GetFilteredMountList()
-    local mounts = LM_PlayerMounts:GetAllMounts()
+    local mounts = LM_PlayerMounts:Search(function () return true end)
+
+    local function cmp(a,b)
+        if a.isCollected == b.isCollected then
+            return a.name < b.name
+        elseif a.isCollected then
+            return true
+        else
+            return false
+        end
+    end
+
+    sort(mounts, cmp)
 
     local filtertext = LM_OptionsUIMounts.filter:GetText()
     if filtertext == SEARCH then

@@ -49,8 +49,9 @@ function LM_Mount:IsUsable()
     return true
 end
 
-function LM_Mount:IsCollected()
-    return true
+function LM_Mount:Refresh()
+    self.isCollected = true
+    self.isUsable = true
 end
 
 function LM_Mount:SetupActionButton(button)

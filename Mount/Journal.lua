@@ -40,7 +40,7 @@ function LM_Journal:Get(id)
     end
 
     -- Exclude mounts not collected and ones Blizzard decide are hidden
-    if isFiltered or not isCollected then return end
+    if isFiltered then return end
 
     if self.cacheByName[name] then
         return self.cacheByName[name]
@@ -101,9 +101,8 @@ function LM_Journal:Get(id)
     return m
 end
 
-function LM_Journal:IsCollected()
-    local c = select(11, C_MountJournal.GetMountInfoByID(self.mountID))
-    return c
+function LM_Journal:Refresh()
+    self.isCollected = select(11, C_MountJournal.GetMountInfoByID(self.mountID))
 end
 
 function LM_Journal:IsUsable()

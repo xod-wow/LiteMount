@@ -41,8 +41,8 @@ function LM_Spell:Get(spellID, forceKnown)
     return m
 end
 
-function LM_Spell:IsCollected()
-    return IsSpellKnown(self.spellID)
+function LM_Spell:Refresh()
+    self.isCollected = IsSpellKnown(self.spellID)
 end
 
 function LM_Spell:IsUsable()

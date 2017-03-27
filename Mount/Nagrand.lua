@@ -27,14 +27,14 @@ function LM_Nagrand:Get(spellID)
     return m
 end
 
-function LM_Nagrand:IsCollected()
+function LM_Nagrand:Refresh()
     local playerFaction = UnitFactionGroup("player")
     local requiredFaction = FactionRequirements[self.spellID]
 
     if GetZoneAbilitySpellInfo() and playerFaction == requiredFaction then
-        return true
+        self.isCollected = true
     else
-        return false
+        self.isCollected = false
     end
 end
 

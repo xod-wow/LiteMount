@@ -12,6 +12,8 @@ LM_ItemSummoned.__index = LM_ItemSummoned
 local function PlayerHasItem(itemID)
     if GetItemCount(itemID) > 0 then
         return true
+    else
+        return false
     end
 end
 
@@ -42,14 +44,15 @@ function LM_ItemSummoned:Get(itemID, spellID, flagList)
     m.itemName = itemName
     m.flags = { }
     for _,f in ipairs(flagList) do m.flags[f] = true end
+    self:Refresh()
 
     self.cacheByItemID[itemID] = m
 
     return m
 end
 
-function LM_ItemSummoned:IsCollected()
-    return PlayerHasItem(self.itemID)
+function LM_ItemSummoned:Refresh()
+    self.isCollected = PlayerHasItem(self.itemID)
 end
 
 function LM_ItemSummoned:SetupActionButton(button)
