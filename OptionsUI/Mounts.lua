@@ -62,7 +62,11 @@ local function FlagButtonUpdate(checkButton, mount)
 end
 
 local function GetFilteredMountList()
-    local mounts = LM_PlayerMounts:Search(function () return true end)
+    local function notBlizFiltered(m)
+        return m.isFiltered ~= true
+    end
+
+    local mounts = LM_PlayerMounts:Search(notBlizFiltered)
 
     local function cmp(a,b)
         if a.isCollected == b.isCollected then
@@ -190,6 +194,22 @@ local function UpdateAllSelected(mounts)
     end
 end
 
+local function StyleCollected(button, torf)
+    if torf then
+        button.name:SetFontObject("GameFontNormal")
+        button.icon:GetNormalTexture():SetDesaturated(false)
+        button.icon:GetNormalTexture():SetAlpha(1.0)
+        button.enabled:GetCheckedTexture():SetDesaturated(false)
+        button.enabled:GetCheckedTexture():SetAlpha(1.0)
+    else
+        button.name:SetFontObject("GameFontDisable")
+        button.icon:GetNormalTexture():SetDesaturated(true)
+        button.icon:GetNormalTexture():SetAlpha(0.75)
+        button.enabled:GetCheckedTexture():SetDesaturated(true)
+        button.enabled:GetCheckedTexture():SetAlpha(0.75)
+    end
+end
+
 local function UpdateMountButton(button, mount)
     button.mount = mount
     button.icon:SetNormalTexture(mount.iconTexture)
@@ -198,6 +218,8 @@ local function UpdateMountButton(button, mount)
     if not InCombatLockdown() then
         mount:SetupActionButton(button.icon)
     end
+
+    StyleCollected(button, mount.isCollected)
 
     local i = 1
     while button["flag"..i] do
