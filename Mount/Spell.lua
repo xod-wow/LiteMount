@@ -15,10 +15,6 @@ function LM_Spell:Get(spellID, forceKnown)
 
     if not forceKnown and not IsSpellKnown(spellID) then return end
 
-    if self.cacheBySpellID[spellID] then
-        return self.cacheBySpellID[spellID]
-    end
-
     local name, rank, icon, castingTime, _, _, _ = GetSpellInfo(spellID)
 
     if not name then
@@ -34,9 +30,6 @@ function LM_Spell:Get(spellID, forceKnown)
     m.flags = { }
     m.castTime = castingTime
     m.spellID = spellID
-
-    self.cacheByName[m.name] = m
-    self.cacheBySpellID[m.spellID] = m
 
     return m
 end

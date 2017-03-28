@@ -39,10 +39,6 @@ function LM_Journal:Get(id)
         return
     end
 
-    if self.cacheByName[name] then
-        return self.cacheByName[name]
-    end
-
     local m = setmetatable(LM_Mount:new(), LM_Journal)
 
     m.journalIndex  = mountIndex
@@ -93,9 +89,6 @@ function LM_Journal:Get(id)
     local spellName, _, _, castTime = GetSpellInfo(m.spellID)
     m.spellName = spellName
     m.castTime = castTime
-
-    self.cacheByName[m.name] = m
-    self.cacheBySpellID[m.spellID] = m
 
     return m
 end

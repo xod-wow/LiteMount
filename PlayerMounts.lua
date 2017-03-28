@@ -42,10 +42,17 @@ function LM_PlayerMounts:Initialize()
 end
 
 function LM_PlayerMounts:AddMount(m)
-    if m and not self.byName[m.name] then
-        self.byName[m.name] = m
-        tinsert(self.byIndex, m)
+    if not m then return end
+
+    if m.name == "Traveler's Tundra Mammoth" then
+        print('------')
+        LoadAddOn("Blizzard_DebugTools")
+        DevTools_Dump(m)
     end
+
+    tinsert(self.byIndex, m)
+    self.byName[m.name] = m
+
 end
 
 function LM_PlayerMounts:AddJournalMounts()

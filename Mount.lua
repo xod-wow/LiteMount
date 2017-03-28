@@ -8,11 +8,7 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_Mount = {
-    ["cacheByItemID"] = { },
-    ["cacheByName"]   = { },
-    ["cacheBySpellID"] = { },
-}
+LM_Mount = { }
 LM_Mount.__index = LM_Mount
 
 function LM_Mount:new()
@@ -73,6 +69,9 @@ function LM_Mount:Dump(prefix)
     local function yesno(t) if t then return "yes" else return "no" end end
 
     LM_Print(prefix .. self.name)
+    if self.mountID then
+        LM_Print(prefix .. " id: " .. self.mountID)
+    end
     LM_Print(prefix .. " spell: " .. format("%s (id %d)", self.spellName, self.spellID))
     LM_Print(prefix .. " casttime: " .. self.castTime)
     LM_Print(prefix .. " flags: " .. table.concat(tKeys(self.flags), ','))

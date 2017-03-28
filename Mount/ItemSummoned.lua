@@ -25,10 +25,6 @@ end
 
 function LM_ItemSummoned:Get(itemID, spellID, flagList)
 
-    if self.cacheByItemID[itemID] then
-        return self.cacheByItemID[itemID]
-    end
-
     local m = LM_Spell:Get(spellID, true)
     if not m then return end
 
@@ -45,8 +41,6 @@ function LM_ItemSummoned:Get(itemID, spellID, flagList)
     m.flags = { }
     for _,f in ipairs(flagList) do m.flags[f] = true end
     self:Refresh()
-
-    self.cacheByItemID[itemID] = m
 
     return m
 end
