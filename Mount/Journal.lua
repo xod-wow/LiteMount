@@ -55,6 +55,8 @@ function LM_Journal:Get(id)
     m.isSelfMount   = isSelfMount
     m.mountType     = mountType
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
+    m.isCollected   = isCollected
+    m.isFiltered    = isFiltered
 
     -- LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
 
@@ -88,7 +90,7 @@ function LM_Journal:Get(id)
         m.flags[LM_FLAG.WALK] = true
     end
 
-    local spellName, _, _, _, _, _, castTime = GetSpellInfo(m.spellID)
+    local spellName, _, _, castTime = GetSpellInfo(m.spellID)
     m.spellName = spellName
     m.castTime = castTime
 
