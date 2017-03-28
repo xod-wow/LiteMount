@@ -44,14 +44,14 @@ end
 function LM_PlayerMounts:AddMount(m)
     if not m then return end
 
-    if m.name == "Traveler's Tundra Mammoth" then
-        print('------')
-        LoadAddOn("Blizzard_DebugTools")
-        DevTools_Dump(m)
-    end
-
     tinsert(self.byIndex, m)
-    self.byName[m.name] = m
+
+    -- sometimes mounts have the same name because they are
+    -- not both usable
+
+    if not self.byName[m.name] or self.byName[m.name].isFiltered then
+        self.byName[m.name] = m
+    end
 
 end
 
