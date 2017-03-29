@@ -106,6 +106,8 @@ function LM_Journal:IsUsable()
     return LM_Mount.IsUsable(self)
 end
 
+--[[
+-- 7.2 seems to have fixed casting by spell for all mounts
 function LM_Journal:SetupActionButton(button)
     local t = ""
     if select(2, UnitClass("player")) == "DRUID" then
@@ -116,3 +118,4 @@ function LM_Journal:SetupActionButton(button)
     button:SetAttribute("type", "macro")
     button:SetAttribute("macrotext", t)
 end
+]]

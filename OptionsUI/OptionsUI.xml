@@ -5,4 +5,5 @@
     <Include file="Mounts.xml" />
     <Include file="ActionLists.xml" />
     <Include file="Macro.xml" />
+    <Include file="CombatMacro.xml" />
 </Ui>

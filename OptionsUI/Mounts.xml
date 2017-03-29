@@ -266,7 +266,6 @@
                 <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-204" y="-8" />
             </Anchors>
             <Scripts>
-                <OnLoad function="LM_OptionsUIMountsProfile_OnLoad" />
                 <OnShow function="LM_OptionsUIMountsProfile_OnShow" />
             </Scripts>
         </Button>

@@ -95,7 +95,7 @@ ACTIONS.RunMacro =
 
 ACTIONS.UnavailableMacro =
     function ()
-        if not LM_Options:UseMacro() then return end
+        if LM_Options:GetMacro() == "" then return end
         LM_Debug("Using custom macro.")
         return LM_SecureAction:MacroText(LM_Options:GetMacro())
     end
