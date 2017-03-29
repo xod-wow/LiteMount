@@ -29,6 +29,8 @@ flagChanges is a table of sets of flags to set or clear.
 local defaults = {
     profile = {
         excludedSpells              = { },
+    },
+    char = {
         unavailableMacro            = "",
         combatMacro                 = "",
         useCombatMacro              = false,
@@ -131,33 +133,33 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:GetMacro()
-    return self.db.profile.unavailableMacro
+    return self.db.char.unavailableMacro
 end
 
 function LM_Options:SetMacro(text)
     LM_Debug("Setting custom macro: " .. tostring(text))
-    self.db.profile.unavailableMacro = text
+    self.db.char.unavailableMacro = text
 end
 
 function LM_Options:UseCombatMacro(trueFalse)
     if trueFalse == true or trueFalse == 1 or trueFalse == "on" then
         LM_Debug("Enabling custom combat macro.")
-        self.db.profile.useCombatMacro = true
+        self.db.char.useCombatMacro = true
     elseif trueFalse == false or trueFalse == 0 or trueFalse == "off" then
         LM_Debug("Disabling custom combat macro.")
-        self.db.profile.useCombatMacro = false
+        self.db.char.useCombatMacro = false
     end
 
-    return self.db.profile.useCombatMacro
+    return self.db.char.useCombatMacro
 end
 
 function LM_Options:GetCombatMacro()
-    return self.db.profile.combatMacro
+    return self.db.char.combatMacro
 end
 
 function LM_Options:SetCombatMacro(text)
     LM_Debug("Setting custom combat macro: " .. tostring(text))
-    self.db.profile.combatMacro = text
+    self.db.char.combatMacro = text
 end
 
 
