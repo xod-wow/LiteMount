@@ -8,11 +8,11 @@
     See OptionsBaseCheckButtonTemplate in FrameXML/OptionsPanelTemplates.xml
     We don't use it directly because of the hitrect crap we don't want.
  -->
-<CheckButton name="LM_OptionsUIFlagTemplate" virtual="true">
+<CheckButton name="LM_OptionsUIMountsFlagTemplate" virtual="true">
     <Size x="26" y="26" />
     <Scripts>
         <OnClick>
-            LM_OptionsUIFlag_OnClick(self)
+            LM_OptionsUIMountsFlag_OnClick(self)
         </OnClick>
     </Scripts>
     <NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
@@ -33,7 +33,7 @@
     </Layers>
 </CheckButton>
 
-<Button name="LM_OptionsUIButtonTemplate" virtual="true">
+<Button name="LM_OptionsUIMountsButtonTemplate" virtual="true">
 
     <Size x="180" y="45" />
 
@@ -110,18 +110,18 @@
                     GameTooltip:Show()
 
                     if m.modelID then
-                        LM_OptionsUIPreview.model:SetDisplayInfo(m.modelID)
+                        LM_OptionsUIMountsPreview.model:SetDisplayInfo(m.modelID)
                         if m.isSelfMount then
-                            LM_OptionsUIPreview.model:SetDoBlend(false)
-                            LM_OptionsUIPreview.model:SetAnimation(618, -1)
+                            LM_OptionsUIMountsPreview.model:SetDoBlend(false)
+                            LM_OptionsUIMountsPreview.model:SetAnimation(618, -1)
                         end
-                        LM_OptionsUIPreview:Show()
+                        LM_OptionsUIMountsPreview:Show()
                     else
-                        LM_OptionsUIPreview:Hide()
+                        LM_OptionsUIMountsPreview:Hide()
                     end
                 </OnEnter>
                 <OnLeave>
-                    LM_OptionsUIPreview:Hide()
+                    LM_OptionsUIMountsPreview:Hide()
                     GameTooltip:Hide()
                 </OnLeave>
                 <OnLoad>
@@ -140,25 +140,25 @@
             </Scripts>
         </Button>
 
-        <CheckButton name="$parentFlag1" inherits="LM_OptionsUIFlagTemplate" parentKey="flag1">
+        <CheckButton name="$parentFlag1" inherits="LM_OptionsUIMountsFlagTemplate" parentKey="flag1">
             <Anchors> <Anchor point="RIGHT" x="-2" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentFlag2" inherits="LM_OptionsUIFlagTemplate" parentKey="flag2">
+        <CheckButton name="$parentFlag2" inherits="LM_OptionsUIMountsFlagTemplate" parentKey="flag2">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag1" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentFlag3" inherits="LM_OptionsUIFlagTemplate" parentKey="flag3">
+        <CheckButton name="$parentFlag3" inherits="LM_OptionsUIMountsFlagTemplate" parentKey="flag3">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag2" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentFlag4" inherits="LM_OptionsUIFlagTemplate" parentKey="flag4">
+        <CheckButton name="$parentFlag4" inherits="LM_OptionsUIMountsFlagTemplate" parentKey="flag4">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag3" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentFlag5" inherits="LM_OptionsUIFlagTemplate" parentKey="flag5">
+        <CheckButton name="$parentFlag5" inherits="LM_OptionsUIMountsFlagTemplate" parentKey="flag5">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag4" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentFlag6" inherits="LM_OptionsUIFlagTemplate" parentKey="flag6">
+        <CheckButton name="$parentFlag6" inherits="LM_OptionsUIMountsFlagTemplate" parentKey="flag6">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag5" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentFlag7" inherits="LM_OptionsUIFlagTemplate" parentKey="flag7">
+        <CheckButton name="$parentFlag7" inherits="LM_OptionsUIMountsFlagTemplate" parentKey="flag7">
             <Anchors> <Anchor point="RIGHT" relativeTo="$parentFlag6" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
     </Frames>
@@ -181,7 +181,7 @@
 </Button>
 
 
-<Frame name="LM_OptionsUIPreview" parent="UIParent" hidden="true" frameStrata="TOOLTIP">
+<Frame name="LM_OptionsUIMountsPreview" parent="UIParent" hidden="true" frameStrata="TOOLTIP">
     <Size x="250" y="250" />
     <Anchors>
         <Anchor point="TOPLEFT" relativeTo="GameTooltip" relativePoint="BOTTOMLEFT" y="-4" />
@@ -231,7 +231,7 @@
                     local track = _G[self.ScrollBar:GetName().."Track"]
                     track:Hide()
                 </OnLoad>
-                <OnSizeChanged function="LM_OptionsUIScrollFrame_OnSizeChanged" />
+                <OnSizeChanged function="LM_OptionsUIMountsScrollFrame_OnSizeChanged" />
             </Scripts>
         </ScrollFrame>
 
@@ -241,7 +241,7 @@
                 <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="2" y="-2" />
             </Anchors>
             <Scripts>
-                <OnClick function="LM_OptionsUI_AllSelect_OnClick" />
+                <OnClick function="LM_OptionsUIMounts_AllSelect_OnClick" />
                 <OnEnter>
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
                     if not self:GetChecked() then
@@ -261,29 +261,15 @@
             <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
         </CheckButton>
 
-        <CheckButton name="$parentCharSpecific" parentkey="charSpecific" inherits="InterfaceOptionsCheckButtonTemplate">
+        <Button name="$parentProfile" parentkey="profile" inherits="UIDropDownMenuTemplate">
             <Anchors>
-                <Anchor point="TOPRIGHT" x="-210" y="-8" />
+                <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-204" y="-8" />
             </Anchors>
             <Scripts>
-                <OnLoad>
-                    self.text = _G[self:GetName().."Text"]
-                    self.text:SetText("Use character specific settings.")
-                    self.text:SetTextColor(1,0,0,1)
-                </OnLoad>
-                <OnShow>
-                    self:SetChecked(not LM_Options:UseGlobal("mounts"))
-                </OnShow>
-                <OnClick>
-                    if self:GetChecked() then
-                        LM_Options:UseGlobal("mounts", false)
-                    else
-                        LM_Options:UseGlobal("mounts", true)
-                    end
-                    LM_OptionsUI_UpdateMountList()
-                </OnClick>
+                <OnLoad function="LM_OptionsUIMountsProfile_OnLoad" />
+                <OnShow function="LM_OptionsUIMountsProfile_OnShow" />
             </Scripts>
-        </CheckButton>
+        </Button>
 
         <EditBox name="$parentFilter" autofocus="false" inherits="SearchBoxTemplate" parentKey="filter">
             <Size x="180" y="26" />
@@ -293,7 +279,7 @@
             <Scripts>
                 <OnTextChanged>
                     SearchBoxTemplate_OnTextChanged(self)
-                    LM_OptionsUI_UpdateMountList()
+                    LM_OptionsUIMounts_UpdateMountList()
                 </OnTextChanged>
                 <OnEnter>
                     GameTooltip:SetOwner(self, "ANCHOR_TOP")

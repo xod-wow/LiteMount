@@ -4,8 +4,7 @@
 ## Author: Xodiv-Nagrand
 ## Email: mib@post.com
 ## OptionalDeps: Blizzard_PetBattleUI
-## SavedVariables: LM_GlobalOptionsDB
-## SavedVariablesPerCharacter: LM_OptionsDB
+## SavedVariables: LiteMountDB
 
 embeds.xml
 

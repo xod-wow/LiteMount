@@ -57,7 +57,7 @@ function LM_OptionsUIActionListSelection_OnLoad(self)
     self.selected = "Default"
 end
 
-function LM_OptionsUIScrollFrame_OnSizeChanged(self, w, h)
+function LM_OptionsUIActionListSelection_OnSizeChanged(self, w, h)
     CreateButtons(self)
     self:update()
 end
@@ -72,7 +72,8 @@ function LM_OptionsUIActionListsSelection_Update(self)
     local buttons = self.buttons
 
     wipe(displayedElements)
-    for name, _ in pairs(LM_Options:ActionLists()) do
+    -- XXX FIXME XXX
+    for name, _ in pairs({}) do
         tinsert(displayedElements, name)
     end
     sort(displayedElements)
@@ -123,7 +124,8 @@ end
 function LM_OptionsUIActionListsEditBox_OnLoad(self)
 
     self.GetOption = function (self)
-            return LM_Options:ActionList(self.actionName) or ""
+            return ""
+            -- return LM_Options:ActionList(self.actionName) or ""
         end
     self.SetOption = function (self, v)
         end

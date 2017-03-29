@@ -8,7 +8,7 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LM_OptionsUIFlag_OnClick(self)
+function LM_OptionsUIMountsFlag_OnClick(self)
     local mount = self:GetParent().mount
 
     if self:GetChecked() then
@@ -16,14 +16,14 @@ function LM_OptionsUIFlag_OnClick(self)
     else
         LM_Options:ClearMountFlag(mount, self.flag)
     end
-    LM_OptionsUI_UpdateMountList()
+    LM_OptionsUIMounts_UpdateMountList()
 end
 
 -- Because we get attached inside the blizzard options container, we
 -- are size 0x0 on create and even after OnShow, we have to trap
 -- OnSizeChanged on the scrollframe to make the buttons correctly.
 local function CreateMoreButtons(self)
-    HybridScrollFrame_CreateButtons(self, "LM_OptionsUIButtonTemplate",
+    HybridScrollFrame_CreateButtons(self, "LM_OptionsUIMountsButtonTemplate",
                                     0, -1, "TOPLEFT", "TOPLEFT",
                                     0, -1, "TOP", "BOTTOM")
 
@@ -255,7 +255,7 @@ local function UpdateMountButton(button, mount)
 
 end
 
-function LM_OptionsUI_AllSelect_OnClick(self)
+function LM_OptionsUIMounts_AllSelect_OnClick(self)
     local mounts = GetFilteredMountList()
 
     local on
@@ -271,11 +271,11 @@ function LM_OptionsUI_AllSelect_OnClick(self)
     end
 
     self:GetScript("OnEnter")(self)
-    LM_OptionsUI_UpdateMountList()
+    LM_OptionsUIMounts_UpdateMountList()
 
 end
 
-function LM_OptionsUI_UpdateMountList()
+function LM_OptionsUIMounts_UpdateMountList()
 
     local scrollFrame = LM_OptionsUIMounts.scrollFrame
     local offset = HybridScrollFrame_GetOffset(scrollFrame)
@@ -304,12 +304,43 @@ function LM_OptionsUI_UpdateMountList()
     HybridScrollFrame_Update(scrollFrame, totalHeight, shownHeight)
 end
 
-function LM_OptionsUIScrollFrame_OnSizeChanged(self, w, h)
+function LM_OptionsUIMountsScrollFrame_OnSizeChanged(self, w, h)
     CreateMoreButtons(self)
-    LM_OptionsUI_UpdateMountList()
+    LM_OptionsUIMounts_UpdateMountList()
 
     self.stepSize = self.buttonHeight
-    self.update = LM_OptionsUI_UpdateMountList
+    self.update = LM_OptionsUIMounts_UpdateMountList
+end
+
+local function ProfileClick(self, arg1, arg1, checked)
+    UIDropDownMenu_SetSelectedID(UIDROPDOWNMENU_INIT_MENU, self:GetID())
+end
+
+local function ProfileInit(self, level)
+    local info
+
+    info = UIDropDownMenu_CreateInfo()
+    info.isTitle = 1
+    info.text = "Select Profile"
+    info.notCheckable = 1
+    UIDropDownMenu_AddButton(info, level)
+
+    for _,v in ipairs(LM_Options.db:GetProfiles()) do
+        info = UIDropDownMenu_CreateInfo()
+        info.text = v
+        info.value = v
+        info.checked = (v == LM_Options.db:GetCurrentProfile())
+        info.func = ProfileClick
+        UIDropDownMenu_AddButton(info, level)
+    end
+end
+
+function LM_OptionsUIMountsProfile_OnShow(self)
+    UIDropDownMenu_Initialize(self, ProfileInit)
+    UIDropDownMenu_SetWidth(self, 100)
+    UIDropDownMenu_SetButtonWidth(self, 124)
+    UIDropDownMenu_JustifyText(self, "RIGHT")
+    UIDropDownMenu_SetSelectedValue(self, LM_Options.db:GetCurrentProfile())
 end
 
 function LM_OptionsUIMounts_OnLoad(self)
@@ -323,7 +354,7 @@ function LM_OptionsUIMounts_OnLoad(self)
                 LM_Options:ResetMountFlags(m)
             end
             LM_Options:SetExcludedMounts({})
-            LM_OptionsUI_UpdateMountList()
+            LM_OptionsUIMounts_UpdateMountList()
         end
 
     LM_OptionsUIPanel_OnLoad(self)
@@ -332,6 +363,5 @@ end
 
 function LM_OptionsUIMounts_OnShow(self)
     LM_OptionsUI.CurrentOptionsPanel = self
-    LM_OptionsUI_UpdateMountList()
+    LM_OptionsUIMounts_UpdateMountList()
 end
-

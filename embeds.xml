@@ -1,4 +1,4 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-    <Include file="Libs\LibStub.lua" />
-    <Include file="Libs\AceDB-3.0\AceDB-3.0.xml" />
+    <Include file="Lib\LibStub.lua" />
+    <Include file="Lib\AceDB-3.0\AceDB-3.0.xml" />
 </Ui>
