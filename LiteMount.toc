@@ -7,17 +7,18 @@
 ## SavedVariables: LM_GlobalOptionsDB
 ## SavedVariablesPerCharacter: LM_OptionsDB
 
+embeds.xml
+
 Localization.lua
 
 Lib\AutoEventFrame.lua
 Lib\FancyList.lua
-Lib\LibStub.lua
 Lib\Location.lua
 Lib\Print.lua
 
 Constants.lua
-Mount.lua
 
+Mount.lua
 Mount\Journal.lua
 Mount\Spell.lua
 Mount\ItemSummoned.lua
@@ -37,10 +38,4 @@ Core.lua
 
 KeyBindingStrings.lua
 
-OptionsUI\PanelTemplate.xml
-OptionsUI\Frame.xml
-OptionsUI\Settings.xml
-OptionsUI\Mounts.xml
-OptionsUI\ActionLists.xml
-OptionsUI\Macro.xml
-OptionsUI\CombatMacro.xml
+OptionsUI\OptionsUI.xml

@@ -1,0 +1,8 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Include file="OptionsUI\PanelTemplate.xml" />
+    <Include file="OptionsUI\Frame.xml" />
+    <Include file="OptionsUI\Settings.xml" />
+    <Include file="OptionsUI\Mounts.xml" />
+    <Include file="OptionsUI\ActionLists.xml" />
+    <Include file="OptionsUI\Macro.xml" />
+</Ui>
