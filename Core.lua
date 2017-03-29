@@ -4,7 +4,7 @@
 
   Addon core.
 
-  Copyright 2011-2016 Mike Battersby
+  Copyright 2011-2017 Mike Battersby
 
   LiteMount is free software: you can redistribute it and/or modify it under
   the terms of the GNU General Public License, version 2, as published by
@@ -39,6 +39,7 @@ local ButtonActions = {
         Mount(vashjir)      [swimming,area:610/614/615]
         Mount(swim)         [swimming,breathbar]
         Mount(fly)          [nomod:shift,flyable]
+        Mount(float)        [swimming]
         Mount(nagrand)      [area:950]
         Mount(aq)           [area:766]
         Mount(run)
@@ -53,6 +54,7 @@ local ButtonActions = {
         CopyTargetsMount
         Mount(vashjir)      [swimming,area:610/614/615]
         Mount(swim)         [swimming,breathbar]
+        Mount(float)        [swimming]
         Mount(nagrand)      [area:950]
         Mount(aq)           [area:766]
         Mount(run)

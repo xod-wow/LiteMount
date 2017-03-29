@@ -4,11 +4,33 @@
 
   Information on all your mounts.
 
-  Copyright 2011-2016 Mike Battersby
+  Copyright 2011-2017 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
 LM_PlayerMounts = LM_CreateAutoEventFrame("Frame", "LM_PlayerMounts", UIParent)
+
+local ExtraMountList = {
+    -- { Type, type class create args ... }
+    {"RunningWild", LM_SPELL.RUNNING_WILD },
+    { "FlightForm", LM_SPELL.FLIGHT_FORM },
+    { "TravelForm", LM_SPELL.TRAVEL_FORM },
+    { "Nagrand", LM_SPELL.FROSTWOLF_WAR_WOLF },
+    { "Nagrand", LM_SPELL.TELAARI_TALBUK },
+    { "ItemSummoned",
+        LM_ITEM.FLYING_BROOM, LM_SPELL.FLYING_BROOM, { LM_FLAG.FLY }
+    },
+    { "ItemSummoned",
+        LM_ITEM.MAGIC_BROOM, LM_SPELL.MAGIC_BROOM, { LM_FLAG.FLY, LM_FLAG.RUN }
+    },
+    { "ItemSummoned",
+        LM_ITEM.DRAGONWRATH_TARECGOSAS_REST, LM_SPELL.TARECGOSAS_VISAGE,
+        { LM_FLAG.FLY }
+    },
+    { "ItemSummoned",
+        LM_ITEM.SHIMMERING_MOONSTONE, LM_SPELL.MOONFANG, { LM_FLAG.RUN }
+    },
+}
 
 local LearnMountEvents = {
     -- Companion change. Don't add COMPANION_UPDATE to this as it fires
@@ -27,7 +49,7 @@ function LM_PlayerMounts:Initialize()
     self.byIndex = LM_FancyList:New()
 
     self:AddJournalMounts()
-    self:AddSpellMounts()
+    self:AddExtraMounts()
     self:Refresh()
 
     -- Events that might cause a mount to be "learned"
@@ -64,8 +86,8 @@ end
 
 -- The unpack function turns a table into a list. I.e.,
 --      unpack({ a, b, c }) == a, b, c
-function LM_PlayerMounts:AddSpellMounts()
-    for _,typeAndArgs in ipairs(LM_MOUNT_SPELLS) do
+function LM_PlayerMounts:AddExtraMounts()
+    for _,typeAndArgs in ipairs(ExtraMountList) do
         local m = LM_Mount:Get(unpack(typeAndArgs))
         self:AddMount(m)
     end

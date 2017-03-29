@@ -1,10 +1,10 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/SpellInfo.lua
+  LiteMount/Constants.lua
 
   Constants for mount spell information.
 
-  Copyright 2011-2016 Mike Battersby
+  Copyright 2011-2017 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
@@ -43,25 +43,3 @@ LM_ITEM.MAGIC_BROOM = 37011
 LM_ITEM.DRAGONWRATH_TARECGOSAS_REST = 71086
 LM_ITEM.SHIMMERING_MOONSTONE = 101675
 
-
--- Type, type class create args
-LM_MOUNT_SPELLS = {
-    { "RunningWild", LM_SPELL.RUNNING_WILD },
-    { "FlightForm", LM_SPELL.FLIGHT_FORM },
-    { "TravelForm", LM_SPELL.TRAVEL_FORM },
-    { "Nagrand", LM_SPELL.FROSTWOLF_WAR_WOLF },
-    { "Nagrand", LM_SPELL.TELAARI_TALBUK },
-    { "ItemSummoned",
-        LM_ITEM.FLYING_BROOM, LM_SPELL.FLYING_BROOM, { LM_FLAG.FLY }
-    },
-    { "ItemSummoned",
-        LM_ITEM.MAGIC_BROOM, LM_SPELL.MAGIC_BROOM, { LM_FLAG.FLY, LM_FLAG.RUN }
-    },
-    { "ItemSummoned",
-        LM_ITEM.DRAGONWRATH_TARECGOSAS_REST, LM_SPELL.TARECGOSAS_VISAGE,
-        { LM_FLAG.FLY }
-    },
-    { "ItemSummoned",
-        LM_ITEM.SHIMMERING_MOONSTONE, LM_SPELL.MOONFANG, { LM_FLAG.RUN }
-    },
-}

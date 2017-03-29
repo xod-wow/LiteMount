@@ -15,7 +15,7 @@ Lib\LibStub.lua
 Lib\Location.lua
 Lib\Print.lua
 
-SpellInfo.lua
+Constants.lua
 Mount.lua
 
 Mount\Journal.lua

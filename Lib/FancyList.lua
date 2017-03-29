@@ -5,7 +5,7 @@
   Fancier list with merging and stuff. I'd quote Bender but now I feel weird
   about using one of the words.
 
-  Copyright 2011-2016 Mike Battersby
+  Copyright 2011-2017 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
