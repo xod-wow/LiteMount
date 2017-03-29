@@ -54,7 +54,7 @@ function LiteMount_SlashCommandFunc(argstr)
             return true
         elseif arg == "toggle" or arg == "enable" or arg == "disable" then
             UpdateActiveMount(arg)
-            LiteMount_UpdateOptionsListIfShown()
+            LM_OptionsUIMounts_UpdateMountList()
             return true
         end
     end
