@@ -29,6 +29,7 @@ flagChanges is a table of sets of flags to set or clear.
 local defaults = {
     profile = {
         excludedSpells              = { },
+        flagChanges                 = { },
     },
     char = {
         unavailableMacro            = "",
@@ -39,7 +40,6 @@ local defaults = {
         seenSpells                  = { },
         copyTargetsMount            = true,
         excludeNewMounts            = false,
-        flagChanges                 = { },
     }
 }
 
@@ -91,7 +91,7 @@ end
 function LM_Options:ApplyMountFlags(m)
     local flags = CopyTable(m.flags)
 
-    local ov = self.db.global.flagChanges[m.spellID]
+    local ov = self.db.profile.flagChanges[m.spellID]
 
     for f,action in pairs(ov or {}) do
         if action == '+' then
@@ -104,7 +104,7 @@ function LM_Options:ApplyMountFlags(m)
 end
 
 function LM_Options:SetMountFlag(m, flag)
-    local ov = self.db.global.flagChanges
+    local ov = self.db.profile.flagChanges
     ov[m.spellID] = ov[m.spellID] or { }
     if m.flags[flag] then
         ov[m.spellID][flag] = nil
@@ -114,7 +114,7 @@ function LM_Options:SetMountFlag(m, flag)
 end
 
 function LM_Options:ClearMountFlag(m, flag)
-    local ov = self.db.global.flagChanges
+    local ov = self.db.profile.flagChanges
     ov[m.spellID] = ov[m.spellID] or { }
     if not m.flags[flag] then
         ov[m.spellID][flag] = nil
@@ -124,7 +124,7 @@ function LM_Options:ClearMountFlag(m, flag)
 end
 
 function LM_Options:ResetMountFlags(m)
-    self.db.global.flagChanges[m.spellID] = nil
+    self.db.profile.flagChanges[m.spellID] = nil
 end
 
 
