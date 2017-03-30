@@ -29,16 +29,14 @@ local defaults = {
     profile = {
         excludedSpells              = { },
         flagChanges                 = { },
+        copyTargetsMount            = true,
+        excludeNewMounts            = false,
     },
     char = {
         unavailableMacro            = "",
         combatMacro                 = "",
         useCombatMacro              = false,
     },
-    global = {
-        copyTargetsMount            = true,
-        excludeNewMounts            = false,
-    }
 }
 
 LM_Options = { }
@@ -168,9 +166,9 @@ end
 function LM_Options:CopyTargetsMount(v)
     if v ~= nil then
         LM_Debug(format("Setting copy targets mount: %s", tostring(v)))
-        self.db.global.copyTargetsMount = v
+        self.db.profile.copyTargetsMount = v
     end
-    return self.db.global.copyTargetsMount
+    return self.db.profile.copyTargetsMount
 end
 
 
@@ -181,9 +179,9 @@ end
 function LM_Options:ExcludeNewMounts(v)
     if v ~= nil then
         LM_Debug(format("Setting exclude new mounts: %s", tostring(v)))
-        self.db.global.excludeNewMounts = v
+        self.db.profile.excludeNewMounts = v
     end
-    return self.db.global.excludeNewMounts
+    return self.db.profile.excludeNewMounts
 end
 
 
