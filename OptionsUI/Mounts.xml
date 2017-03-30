@@ -261,7 +261,7 @@
             <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
         </CheckButton>
 
-        <Button name="$parentProfile" parentkey="profile" inherits="UIDropDownMenuTemplate">
+        <Button name="$parentProfile" parentkey="Profile" inherits="UIDropDownMenuTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-204" y="-8" />
             </Anchors>

@@ -312,35 +312,197 @@ function LM_OptionsUIMountsScrollFrame_OnSizeChanged(self, w, h)
     self.update = LM_OptionsUIMounts_UpdateMountList
 end
 
-local function ProfileClick(self, arg1, arg1, checked)
-    UIDropDownMenu_SetSelectedID(UIDROPDOWNMENU_INIT_MENU, self:GetID())
+StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
+    text = "LiteMount : New Profile",
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    hasEditBox = 1,
+    maxLetters = 24,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            local text = self.editBox:GetText()
+            LM_Options.db:SetProfile(text)
+        end,
+    EditBoxOnEnterPressed = function (self)
+            local parent = self:GetParent()
+            local text = parent.editBox:GetText()
+            LM_Options.db:SetProfile(text)
+            parent:Hide()
+        end,
+    OnShow = function (self)
+            self.editBox:SetFocus()
+        end,
+    OnHide = function (self)
+            LM_OptionsUIMounts_UpdateMountList()
+        end,
+}
+
+StaticPopupDialogs["LM_OPTIONS_DELETE_PROFILE"] = {
+    text = "LiteMount : Delete Profile %s",
+    button1 = DELETE,
+    button2 = CANCEL,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            LM_Options.db:DeleteProfile(self.data)
+        end,
+}
+
+StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
+    text = "LiteMount : Reset Profile %s",
+    button1 = OKAY,
+    button2 = CANCEL,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            LM_Options.db:ResetProfile(self.data)
+        end,
+    OnHide = function (self)
+            LM_OptionsUIMounts_UpdateMountList()
+        end,
+}
+
+StaticPopupDialogs["LM_OPTIONS_DUPLICATE_PROFILE"] = {
+    text = "LiteMount : Duplicate Profile %s",
+    button1 = OKAY,
+    button2 = CANCEL,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    hasEditBox = 1,
+    OnAccept = function (self)
+            local text = self.editBox:GetText()
+            LM_Options.db:SetProfile(text)
+            LM_Options.db:CopyProfile(self.data)
+        end,
+    EditBoxOnEnterPressed = function (self)
+            local parent = self:GetParent()
+            LM_Options.db:SetProfile(self:GetText())
+            LM_Options.db:CopyProfile(parent.data)
+            parent:Hide()
+        end,
+    OnShow = function (self)
+            self.editBox:SetFocus()
+        end,
+    OnHide = function (self)
+            LM_OptionsUIMounts_UpdateMountList()
+        end,
+}
+
+local function ClickSetProfile(self, arg1, arg2, checked)
+    LM_Options.db:SetProfile(self.value)
+    UIDropDownMenu_RefreshAll(UIDROPDOWNMENU_OPEN_MENU)
+    LM_OptionsUIMounts_UpdateMountList()
+end
+
+local function ClickNewProfile(self, arg1, arg2, check)
+    StaticPopup_Show("LM_OPTIONS_NEW_PROFILE")
+end
+
+local function ClickResetProfile(self, arg1, arg2, check)
+    local value = UIDROPDOWNMENU_MENU_VALUE
+    StaticPopup_Show("LM_OPTIONS_RESET_PROFILE", value, nil, value)
+end
+
+local function ClickDeleteProfile(self, arg1, arg2, check)
+    local value = UIDROPDOWNMENU_MENU_VALUE
+    StaticPopup_Show("LM_OPTIONS_DELETE_PROFILE", value, nil, value)
+end
+
+local function ClickDuplicateProfile(self, arg1, arg2, check)
+    local value = UIDROPDOWNMENU_MENU_VALUE
+    StaticPopup_Show("LM_OPTIONS_DUPLICATE_PROFILE", value, nil, value)
 end
 
 local function ProfileInit(self, level)
     local info
 
-    info = UIDropDownMenu_CreateInfo()
-    info.isTitle = 1
-    info.text = "Select Profile"
-    info.notCheckable = 1
-    UIDropDownMenu_AddButton(info, level)
-
-    for _,v in ipairs(LM_Options.db:GetProfiles()) do
+    if (level or 1) == 1 then
         info = UIDropDownMenu_CreateInfo()
-        info.text = v
-        info.value = v
-        info.checked = (v == LM_Options.db:GetCurrentProfile())
-        info.func = ProfileClick
+        info.text = "Profiles"
+        info.isTitle = 1
+        info.notCheckable = 1
+        UIDropDownMenu_AddButton(info, level)
+
+        UIDropDownMenu_AddSeparator(info, level)
+
+        local p = LM_Options.db:GetProfiles()
+        tDeleteItem(p, "Default")
+        sort(p)
+        tinsert(p, 1, "Default")
+
+        for _,v in ipairs(p) do
+            info = UIDropDownMenu_CreateInfo()
+            info.text = v
+            info.value = v
+            info.checked = function ()
+                    local currentProfile = LM_Options.db:GetCurrentProfile()
+                    return (v == currentProfile)
+                end
+            info.keepShownOnClick = 1
+            info.func = ClickSetProfile
+            info.hasArrow = 1
+
+            UIDropDownMenu_AddButton(info, level)
+        end
+
+        UIDropDownMenu_AddSeparator(info, level)
+
+        info = UIDropDownMenu_CreateInfo()
+        info.text = "New Profile"
+        info.notCheckable = 1
+        info.justifyH = "CENTER"
+        info.func = function () StaticPopup_Show("LM_OPTIONS_NEW_PROFILE") end
+        UIDropDownMenu_AddButton(info, level)
+
+    elseif level == 2 then
+        -- Profile Options
+        info = UIDropDownMenu_CreateInfo()
+        info.isTitle = 1
+        info.notCheckable = 1 
+        info.text = UIDROPDOWNMENU_MENU_VALUE
+        UIDropDownMenu_AddButton(info, level)
+
+        info = UIDropDownMenu_CreateInfo()
+        info.text = "Delete"
+        info.notCheckable = 1
+        info.disabled = (UIDROPDOWNMENU_MENU_VALUE == LM_Options.db:GetCurrentProfile() or UIDROPDOWNMENU_MENU_VALUE == "Default")
+        info.func = ClickDeleteProfile
+        info.arg1 = UIDROPDOWNMENU_MENU_VALUE
+        UIDropDownMenu_AddButton(info, level)
+
+        info = UIDropDownMenu_CreateInfo()
+        info.text = "Duplicate"
+        info.notCheckable = 1
+        info.func = ClickDuplicateProfile
+        info.arg1 = UIDROPDOWNMENU_MENU_VALUE
+        UIDropDownMenu_AddButton(info, level)
+
+        info = UIDropDownMenu_CreateInfo()
+        info.text = "Reset"
+        info.notCheckable = 1
+        info.func = ClickResetProfile
+        info.arg1 = UIDROPDOWNMENU_MENU_VALUE
         UIDropDownMenu_AddButton(info, level)
     end
 end
+
+-- This can't be OnLoad because LM_Options.db isn't set yet.
 
 function LM_OptionsUIMountsProfile_OnShow(self)
     UIDropDownMenu_Initialize(self, ProfileInit)
     UIDropDownMenu_SetWidth(self, 100)
     UIDropDownMenu_SetButtonWidth(self, 124)
     UIDropDownMenu_JustifyText(self, "RIGHT")
-    UIDropDownMenu_SetSelectedValue(self, LM_Options.db:GetCurrentProfile())
+    UIDropDownMenu_SetText(self, LM_Options.db:GetCurrentProfile())
 end
 
 function LM_OptionsUIMounts_OnLoad(self)
