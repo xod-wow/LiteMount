@@ -10,14 +10,13 @@
 
 --[[----------------------------------------------------------------------------
 
-seenSpells is an array of mount spells we've seen before, so we can tell if
-we scan a new mount
-    ["seenSpells"] = { [spellid1] = true, [spellid2] = true, ... }
+excludedSpells is a list of spell ids the player has seen and a true/false
+flag for whether they are disabled or not.
 
-excludedSpells is a list of spell ids the player has disabled
     ["excludedSpells"] = { [spellid1] = true, [spellid2] = true, ... }
 
 flagChanges is a table of sets of flags to set or clear.
+
     ["flagChanges"] = {
         [spellid1] = { [flag] = '+' or '-', ... },
         ...
@@ -37,7 +36,6 @@ local defaults = {
         useCombatMacro              = false,
     },
     global = {
-        seenSpells                  = { },
         copyTargetsMount            = true,
         excludeNewMounts            = false,
     }
@@ -54,15 +52,15 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:IsExcludedMount(m)
-    return self.db.profile.excludedSpells[m.spellID]
+    return (self.db.profile.excludedSpells[m.spellID] == true)
 end
 
-function LM_Options:AddExcludedMount(m)
+function LM_Options:ExcludeMount(m)
     LM_Debug(format("Disabling mount %s (%d).", m.name, m.spellID))
     self.db.profile.excludedSpells[m.spellID] = true
 end
 
-function LM_Options:RemoveExcludedMount(m)
+function LM_Options:IncludeMount(m)
     LM_Debug(format("Enabling mount %s (%d).", m.name, m.spellID))
     self.db.profile.excludedSpells[m.spellID] = false
 end
@@ -70,9 +68,9 @@ end
 function LM_Options:ToggleExcludedMount(m)
     LM_Debug(format("Toggling mount %s (%d).", m.name, m.spellID))
     if self:IsExcludedMount(m) then
-        self:RemoveExcludedMount(m)
+        self:IncludeMount(m)
     else
-        self:AddExcludedMount(m)
+        self:ExcludeMount(m)
     end
 end
 
@@ -194,14 +192,16 @@ end
     Includes automatically adding it to the excludes if requested.
 ----------------------------------------------------------------------------]]--
 
-function LM_Options:SeenMount(m, flagSeen)
-    if flagSeen and not self.db.global.seenSpells[m.spellID] then
-        self.db.global.seenSpells[m.spellID] = true
+function LM_Options:IsNewMount(m)
+    local new = (self.db.profile.excludedSpells[m.spellID] == nil)
+
+    if new then
         if self:ExcludeNewMounts() then
-            self:AddExcludedMount(m)
+            self:ExcludeMount(m)
+        else
+            self:IncludeMount(m)
         end
     end
-
-    return seen
+    return new
 end
 

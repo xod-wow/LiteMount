@@ -47,6 +47,7 @@ local LearnMountEvents = {
 function LM_PlayerMounts:Initialize()
     self.byName = { }
     self.byIndex = LM_FancyList:New()
+    self.newMounts = { }
 
     self:AddJournalMounts()
     self:AddExtraMounts()
@@ -97,7 +98,7 @@ function LM_PlayerMounts:Refresh()
     LM_Debug("Refreshing mount statuses.")
     for m in self.byIndex:Iterate() do
         m:Refresh()
-        LM_Options:SeenMount(m, true)
+        m.isNew = m.isNew or LM_Options:IsNewMount(m)
     end
 end
 
