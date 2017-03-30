@@ -42,9 +42,9 @@ end
 
 local function EnableDisableMount(mount, onoff)
     if onoff == "0" then
-        LM_Options:AddExcludedMount(mount)
+        LM_Options:ExcludeMount(mount)
     else
-        LM_Options:RemoveExcludedMount(mount)
+        LM_Options:IncludeMount(mount)
     end
 end
 

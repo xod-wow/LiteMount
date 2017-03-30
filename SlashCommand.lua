@@ -33,10 +33,10 @@ local function UpdateActiveMount(arg)
 
     if arg == "enable" or (arg == "toggle" and mDisabled) then
         LM_Print("Enabling current mount: " .. m.name)
-        LM_Options:RemoveExcludedMount(m)
+        LM_Options:IncludeMount(m)
     elseif arg == "disable" or (arg == "toggle" and not mDisabled) then
         LM_Print("Disabling current mount: " .. m.name)
-        LM_Options:AddExcludedMount(m)
+        LM_Options:ExcludeMount(m)
     end
 end
 
