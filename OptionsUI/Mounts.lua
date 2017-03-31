@@ -346,7 +346,6 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
     OnHide = function (self)
             local currentProfile = LM_Options.db:GetCurrentProfile()
             LM_OptionsUIMounts_UpdateMountList()
-            LM_OptionsUIMounts.ProfileButton:SetText(currentProfile)
         end,
 }
 
@@ -381,9 +380,7 @@ StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
 
 local function ClickSetProfile(self, arg1, arg2, checked)
     LM_Options.db:SetProfile(self.value)
-    LM_OptionsUIMounts.ProfileButton:SetText(self.value)
     UIDropDownMenu_RefreshAll(UIDROPDOWNMENU_OPEN_MENU)
-    LM_OptionsUIMounts_UpdateMountList()
 end
 
 local function ClickNewProfile(self, arg1, arg2, check)
@@ -503,8 +500,19 @@ function LM_OptionsUIMounts_OnLoad(self)
     LM_OptionsUIPanel_OnLoad(self)
 end
 
+local function UpdateProfileCallback(self)
+    LM_OptionsUIMounts.ProfileButton:SetText(LM_Options.db:GetCurrentProfile())
+    LM_OptionsUIMounts_UpdateMountList()
+end
 
 function LM_OptionsUIMounts_OnShow(self)
     LM_OptionsUI.CurrentOptionsPanel = self
     LM_OptionsUIMounts_UpdateMountList()
+    LM_Options.db.RegisterCallback(self, "OnProfileCopied", UpdateProfileCallback)
+    LM_Options.db.RegisterCallback(self, "OnProfileChanged", UpdateProfileCallback)
+    LM_Options.db.RegisterCallback(self, "OnProfileReset", UpdateProfileCallback)
+end
+
+function LM_OptionsUIMounts_OnHide(self)
+    LM_Options.db:UnregisterAllCallbacks(self)
 end
