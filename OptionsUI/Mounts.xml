@@ -261,14 +261,37 @@
             <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
         </CheckButton>
 
-        <Button name="$parentProfile" parentkey="Profile" inherits="UIDropDownMenuTemplate">
+        <Button name="$parentProfileButton" parentKey="ProfileButton" inherits="UIMenuButtonStretchTemplate">
+            <Size x="160" y="22" />
             <Anchors>
-                <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-204" y="-8" />
+                <Anchor point="TOPRIGHT" x="-5" y="-9" />
             </Anchors>
+            <Layers>
+                <Layer level="ARTWORK">
+                    <Texture parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
+                        <Size x="10" y="12"/>
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="RIGHT" x="-5"/>
+                        </Anchors>
+                    </Texture>
+                </Layer>
+            </Layers>
+
             <Scripts>
-                <OnShow function="LM_OptionsUIMountsProfile_OnShow" />
+                <OnShow>
+                    self:SetText(LM_Options.db:GetCurrentProfile())
+                </OnShow>
+                <OnClick>
+                    ToggleDropDownMenu(1, nil, LM_OptionsUIMountsProfileDropDown, self:GetName(), 137, 15)
+                </OnClick>
             </Scripts>
         </Button>
+
+        <Frame name="$parentProfileDropDown" parentkey="ProfileDropDown" inherits="UIDropDownMenuTemplate">
+            <Scripts>
+                <OnShow function="LM_OptionsUIMountsProfileDropDown_OnShow" />
+            </Scripts>
+        </Frame>
 
         <EditBox parentKey="SearchBox" autofocus="false" inherits="SearchBoxTemplate">
             <Size x="180" y="26" />
