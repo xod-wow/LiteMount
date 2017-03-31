@@ -1,4 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
     <Include file="Lib\LibStub.lua" />
+    <Include file="Lib\CallbackHandler-1.0\CallbackHandler-1.0.xml" />
     <Include file="Lib\AceDB-3.0\AceDB-3.0.xml" />
 </Ui>
