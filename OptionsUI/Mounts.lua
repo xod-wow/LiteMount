@@ -80,16 +80,16 @@ local function GetFilteredMountList()
 
     sort(mounts, cmp)
 
-    local filtertext = LM_OptionsUIMounts.filter:GetText()
-    if filtertext == SEARCH then
-        filtertext = ""
+    local searchtext = LM_OptionsUIMounts.SearchBox:GetText()
+    if searchtext == SEARCH then
+        searchtext = ""
     else
-        filtertext = CaseAccentInsensitiveParse(filtertext)
+        searchtext = CaseAccentInsensitiveParse(searchtext)
     end
 
     local n
 
-    filtertext, n = gsub(filtertext, "^+fly *", "", 1)
+    searchtext, n = gsub(searchtext, "^+fly *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
             if not tContains(mounts[i]:CurrentFlags(), LM_FLAG.FLY) then
@@ -98,7 +98,7 @@ local function GetFilteredMountList()
         end
     end
 
-    filtertext, n = gsub(filtertext, "^+run *", "", 1)
+    searchtext, n = gsub(searchtext, "^+run *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
             if not tContains(mounts[i]:CurrentFlags(), LM_FLAG.RUN) then
@@ -107,7 +107,7 @@ local function GetFilteredMountList()
         end
     end
 
-    filtertext, n = gsub(filtertext, "^+swim *", "", 1)
+    searchtext, n = gsub(searchtext, "^+swim *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
             if not tContains(mounts[i]:CurrentFlags(), LM_FLAG.SWIM) then
@@ -116,7 +116,7 @@ local function GetFilteredMountList()
         end
     end
 
-    filtertext, n = gsub(filtertext, "^+c1 *", "", 1)
+    searchtext, n = gsub(searchtext, "^+c1 *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
             if not tContains(mounts[i]:CurrentFlags(), LM_FLAG.CUSTOM1) then
@@ -125,7 +125,7 @@ local function GetFilteredMountList()
         end
     end
 
-    filtertext, n = gsub(filtertext, "^+c2 *", "", 1)
+    searchtext, n = gsub(searchtext, "^+c2 *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
             if not tContains(mounts[i]:CurrentFlags(), LM_FLAG.CUSTOM2) then
@@ -134,7 +134,7 @@ local function GetFilteredMountList()
         end
     end
 
-    filtertext, n = gsub(filtertext, "^+enabled *", "", 1)
+    searchtext, n = gsub(searchtext, "^+enabled *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
             if LM_Options:IsExcludedMount(mounts[i]) then
@@ -143,7 +143,7 @@ local function GetFilteredMountList()
         end
     end
 
-    filtertext, n = gsub(filtertext, "^+active *", "", 1)
+    searchtext, n = gsub(searchtext, "^+active *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
             if not UnitAura("player", mounts[i].spellName) then
@@ -152,10 +152,10 @@ local function GetFilteredMountList()
         end
     end
 
-    if filtertext ~= "" then
+    if searchtext ~= "" then
         for i = #mounts, 1, -1 do
             local matchname = CaseAccentInsensitiveParse(mounts[i].name)
-            if not strfind(matchname, filtertext, 1, true) then
+            if not strfind(matchname, searchtext, 1, true) then
                 tremove(mounts, i)
             end
         end

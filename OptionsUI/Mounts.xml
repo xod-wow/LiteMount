@@ -270,7 +270,7 @@
             </Scripts>
         </Button>
 
-        <EditBox name="$parentFilter" autofocus="false" inherits="SearchBoxTemplate" parentKey="filter">
+        <EditBox parentKey="SearchBox" autofocus="false" inherits="SearchBoxTemplate">
             <Size x="180" y="26" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="96" y="2" />
