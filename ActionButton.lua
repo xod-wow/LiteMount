@@ -69,7 +69,7 @@ function LM_ActionButton:PostClick()
     LM_Debug("PostClick handler called.")
 
     -- Switch back to the default combat actions.
-    self:SetupActionButton(LM_Actions:GetHandler("Combat"))
+    self:SetupActionButton(LM_Actions:GetHandler("Combat")())
 end
 
 function LM_ActionButton:LoadActionLines(actionLines)
