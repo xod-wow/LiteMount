@@ -28,7 +28,7 @@ local ExtraMountList = {
         { LM_FLAG.FLY }
     },
     { "ItemSummoned",
-        LM_ITEM.SHIMMERING_MOONSTONE, LM_SPELL.MOONFANG, { LM_FLAG.RUN }
+        LM_ITEM.RATSTALLION_HARNESS, LM_SPELL.RATSTALLION_HARNESS, { LM_FLAG.RUN }
     },
 }
 
