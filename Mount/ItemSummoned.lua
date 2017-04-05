@@ -49,7 +49,7 @@ function LM_ItemSummoned:Refresh()
     self.isCollected = PlayerHasItem(self.itemID)
 end
 
-function LM_ItemSummoned:GetSecureAttibutes()
+function LM_ItemSummoned:GetSecureAttributes()
     LM_Debug("LM_Mount setting button to item "..self.itemName)
     return { type = "item", item = self.itemName }
 end
