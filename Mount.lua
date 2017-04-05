@@ -50,9 +50,8 @@ function LM_Mount:Refresh()
     self.isUsable = true
 end
 
-function LM_Mount:SetupActionButton(button)
-    button:SetAttribute("type", "spell")
-    button:SetAttribute("spell", self.spellName)
+function LM_Mount:GetSecureAttributes()
+    return { type="spell", spell=self.spellName }
 end
 
 local function tKeys(t)

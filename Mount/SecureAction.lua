@@ -14,10 +14,8 @@ function LM_SecureAction:Get(attr)
     return setmetatable(self, LM_SecureAction)
 end
 
-function LM_SecureAction:SetupActionButton(button)
-    for k,v in pairs(self.attr) do
-        button:SetAttribute(k, v)
-    end
+function LM_SecureAction:GetSecureAttributes()
+    return self.attr
 end
 
 function LM_SecureAction:MacroText(macrotext)

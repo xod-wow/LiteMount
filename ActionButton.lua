@@ -39,8 +39,14 @@ function LM_ActionButton:Dispatch(condAction)
     local m = handler(args)
     if m then
         LM_Debug("Setting up button as " .. (m.name or action) .. ".")
-        m:SetupActionButton(self)
+        self:SetupActionButton(m)
         return true
+    end
+end
+
+function LM_ActionButton:SetupActionButton(mount)
+    for k,v in pairs(mount:GetSecureAttributes()) do
+        self:SetAttribute(k, v)
     end
 end
 
@@ -63,7 +69,7 @@ function LM_ActionButton:PostClick()
     LM_Debug("PostClick handler called.")
 
     -- Switch back to the default combat actions.
-    LM_Actions:GetHandler("Combat")():SetupActionButton(self)
+    self:SetupActionButton(LM_Actions:GetHandler("Combat"))
 end
 
 function LM_ActionButton:LoadActionLines(actionLines)
