@@ -112,7 +112,7 @@ end
 
 function LM_ActionButton:Create(n, actionLines)
 
-    local name = "LiteMountActionButton" .. n
+    local name = "LM_B" .. n
 
     local b = CreateFrame("Button", name, UIParent, "SecureActionButtonTemplate")
     setmetatable(b, LM_ActionButton)

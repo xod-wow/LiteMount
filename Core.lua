@@ -86,12 +86,12 @@ function LiteMount:VersionUpgrade()
     -- the core addon table. Move them to button1 and button2.
     keys = { GetBindingKey("CLICK LiteMount:LeftButton") }
     for _,k in ipairs(keys) do
-        SetBinding(k, "CLICK LiteMountActionButton1:LeftButton")
+        SetBinding(k, "CLICK LM_B1:LeftButton")
     end
 
     keys = { GetBindingKey("CLICK LiteMount:RightButton") }
     for _,k in ipairs(keys) do
-        SetBinding(k, "CLICK LiteMountActionButton2:LeftButton")
+        SetBinding(k, "CLICK LM_B2:LeftButton")
     end
 end
 
