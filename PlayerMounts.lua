@@ -9,6 +9,9 @@
 ----------------------------------------------------------------------------]]--
 
 LM_PlayerMounts = LM_CreateAutoEventFrame("Frame", "LM_PlayerMounts", UIParent)
+LM_PlayerMounts.byName = { }
+LM_PlayerMounts.byIndex = LM_FancyList:New()
+LM_PlayerMounts.newMounts = { }
 
 local ExtraMountList = {
     -- { Type, type class create args ... }
@@ -45,10 +48,6 @@ local LearnMountEvents = {
 }
 
 function LM_PlayerMounts:Initialize()
-    self.byName = { }
-    self.byIndex = LM_FancyList:New()
-    self.newMounts = { }
-
     self:AddJournalMounts()
     self:AddExtraMounts()
     self:Refresh()
