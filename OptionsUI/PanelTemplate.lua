@@ -32,17 +32,16 @@ function LM_OptionsUIPanel_AutoLocalize(f)
 end
 
 function LM_OptionsUIPanel_Open()
-    if InCombatLockdown() then LM_Error("LM_OptionsUIPanel_Open in combat.") end
-
-    local f = LM_OptionsUI
-    if not f.CurrentOptionsPanel then
-        f.CurrentOptionsPanel = LM_OptionsUIMounts
+    if InCombatLockdown() then
+        LM_Error("Can't open options panel while in combat.")
+        return
     end
-    if InCombatLockdown() then LM_Error(" > InterfaceOptionsFrame:Show()") end
+
+    if not LM_OptionsUI.CurrentOptionsPanel then
+        LM_OptionsUI.CurrentOptionsPanel = LM_OptionsUIMounts
+    end
     InterfaceOptionsFrame:Show()
-    if InCombatLockdown() then LM_Error(" > InterfaceOptionsFrame_OpenToCategory") end
-    InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)
-    if InCombatLockdown() then LM_Error(" > End") end
+    InterfaceOptionsFrame_OpenToCategory(LM_OptionsUI.CurrentOptionsPanel)
 end
 
 

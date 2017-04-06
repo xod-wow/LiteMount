@@ -45,12 +45,6 @@ function LM_ActionButton:Dispatch(condAction)
 end
 
 function LM_ActionButton:SetupActionButton(mount)
-    -- XXX Debugging XXX
-    if InCombatLockdown() then
-        LM_Error("Fatal: LM_ActionButton:SetupActionButton() in combat.")
-        return
-    end
-
     for k,v in pairs(mount:GetSecureAttributes()) do
         self:SetAttribute(k, v)
     end
@@ -58,13 +52,7 @@ end
 
 function LM_ActionButton:PreClick(mouseButton)
 
-    if InCombatLockdown() then
-        -- Temporary debugging test
-        if self:GetAttribute("type") ~= "macro" then
-            LM_Error("Fatal: PreClick in combat but type is not macro.")
-        end
-        return
-    end
+    if InCombatLockdown() then return end
 
     LM_Debug("*** PreClick handler called on " .. self:GetName() .. " ***")
 
@@ -76,15 +64,9 @@ function LM_ActionButton:PreClick(mouseButton)
 end
 
 function LM_ActionButton:PostClick()
-    if InCombatLockdown() then
-        -- Temporary debugging test (paired with PreClicK)
-        if self:GetAttribute("type") ~= "macro" then
-            LM_Error("Fatal: PostClick in combat but type is not macro.")
-        end
-        return
-    end
+    if InCombatLockdown() then return end
 
-    LM_Debug("PostClick handler called.")
+    LM_Debug("*** PostClick handler called on " .. self:GetName() .. " ***")
 
     -- Switch back to the default combat actions.
     self:SetupActionButton(LM_Actions:GetHandler("Combat")())
