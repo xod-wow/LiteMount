@@ -26,8 +26,12 @@ local function GetActiveChatFrame()
     return DEFAULT_CHAT_FRAME
 end
 
-function LM_Print(msg)
-    GetActiveChatFrame():AddMessage("|cff00ff00LiteMount:|r " .. msg)
+function LM_Error(...)
+    GetActiveChatFrame():AddMessage("|cffff0000LiteMount:|r " .. format(...))
+end
+
+function LM_Print(...)
+    GetActiveChatFrame():AddMessage("|cff00ff00LiteMount:|r " .. format(...))
 end
 
 function LM_SetDebug(onoff)
@@ -38,19 +42,18 @@ function LM_SetDebug(onoff)
     end
 end
 
-function LM_Debug(msg)
+function LM_Debug(...)
     if DebugEnabled then
-        LM_Print(msg)
+        LM_Print(...)
     end
 end
 
 -- This prints into the UI error box the same as Blizzards code
-function LM_Warning(msg)
-    UIErrorsFrame:AddMessage(msg, 1.0, 0.1, 0.1)
+function LM_Warning(...)
+    UIErrorsFrame:AddMessage(format(...), 1.0, 0.1, 0.1)
 end
 
-function LM_WarningAndPrint(msg)
-    LM_Warning(msg)
-    LM_Print(msg)
+function LM_WarningAndPrint(...)
+    LM_Warning(...)
+    LM_Print(...)
 end
-
