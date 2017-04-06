@@ -23,6 +23,11 @@ end
 -- are size 0x0 on create and even after OnShow, we have to trap
 -- OnSizeChanged on the scrollframe to make the buttons correctly.
 local function CreateMoreButtons(self)
+
+    if InCombatLockdown() then
+        LM_Error("Fatal: CreateMoreButtons in Combat, we're in trouble.")
+    end
+
     HybridScrollFrame_CreateButtons(self, "LM_OptionsUIMountsButtonTemplate",
                                     0, -1, "TOPLEFT", "TOPLEFT",
                                     0, -1, "TOP", "BOTTOM")
@@ -219,6 +224,8 @@ local function UpdateMountButton(button, mount)
         for k,v in pairs(mount:GetSecureAttributes()) do
             button.icon:SetAttribute(k, v)
         end
+    else
+        LM_Error("Fatal: %s UpdateMountButton in combat.", button:GetName())
     end
 
     StyleCollected(button, mount.isCollected)

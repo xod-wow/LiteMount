@@ -45,6 +45,12 @@ function LM_ActionButton:Dispatch(condAction)
 end
 
 function LM_ActionButton:SetupActionButton(mount)
+    -- XXX Debugging XXX
+    if InCombatLockdown() then
+        LM_Error("Fatal: LM_ActionButton:SetupActionButton() in combat.")
+        return
+    end
+
     for k,v in pairs(mount:GetSecureAttributes()) do
         self:SetAttribute(k, v)
     end
@@ -52,7 +58,13 @@ end
 
 function LM_ActionButton:PreClick(mouseButton)
 
-    if InCombatLockdown() then return end
+    if InCombatLockdown() then
+        -- Temporary debugging test
+        if self:GetAttribute("type") ~= "macro" then
+            LM_Error("Fatal: PreClick in combat but type is not macro.")
+        end
+        return
+    end
 
     LM_Debug("*** PreClick handler called on " .. self:GetName() .. " ***")
 
@@ -64,7 +76,13 @@ function LM_ActionButton:PreClick(mouseButton)
 end
 
 function LM_ActionButton:PostClick()
-    if InCombatLockdown() then return end
+    if InCombatLockdown() then
+        -- Temporary debugging test (paired with PreClicK)
+        if self:GetAttribute("type") ~= "macro" then
+            LM_Error("Fatal: PostClick in combat but type is not macro.")
+        end
+        return
+    end
 
     LM_Debug("PostClick handler called.")
 
@@ -119,6 +137,11 @@ end
 function LM_ActionButton:Create(n, actionLines)
 
     local name = "LM_B" .. n
+
+    if InCombatLockdown() then
+        LM_Error("Fatal: LM_ActionButton:Create(%d) in combat", n)
+        return
+    end
 
     local b = CreateFrame("Button", name, UIParent, "SecureActionButtonTemplate")
     setmetatable(b, LM_ActionButton)
