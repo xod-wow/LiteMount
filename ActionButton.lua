@@ -122,7 +122,6 @@ function LM_ActionButton:ParseActionLine(line)
 
     local i, j = action:find("%(.*%)$")
     if i ~= nil then
-        LM_Debug(format("i, j = %d, %d", i, j))
         args = action:sub(i+1, j-1)
         action = action:sub(1, i-1)
     end
