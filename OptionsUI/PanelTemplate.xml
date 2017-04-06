@@ -8,7 +8,11 @@
     <FontHeight val="14" />
 </Font>
 
-<Frame name="LM_OptionsUIPanelTemplate" hidden="true" virtual="true">
+<Frame name="LM_OptionsUIPanelTemplate" hidden="true" toplevel="true" parent="UIParent" enableMounts="true" frameStrata="HIGH" virtual="true">
+    <Size x="623" y="768" />
+    <Anchors>
+        <Anchor point="CENTER" />
+    </Anchors>
     <Layers>
         <Layer level="ARTWORK">
             <FontString name="$parentTitle" inherits="GameFontNormalLarge" parentKey="title">

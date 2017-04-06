@@ -218,7 +218,7 @@
     </Scripts>
 </Frame>
 
-<Frame name="LM_OptionsUIMounts" hidden="true" inherits="LM_OptionsUIPanelTemplate">
+<Frame name="LM_OptionsUIMounts" inherits="LM_OptionsUIPanelTemplate">
 
     <Frames>
         <ScrollFrame name="$parentScrollFrame" inherits="MinimalHybridScrollFrameTemplate" parentKey="scrollFrame">
@@ -230,8 +230,9 @@
                 <OnLoad>
                     local track = _G[self.ScrollBar:GetName().."Track"]
                     track:Hide()
+                    LM_Debug(format("%s = %d,%d", self:GetName(), self:GetSize()))
+                    LM_Debug(format("%s = %d,%d", self:GetParent():GetName(), self:GetParent():GetSize()))
                 </OnLoad>
-                <OnSizeChanged function="LM_OptionsUIMountsScrollFrame_OnSizeChanged" />
             </Scripts>
         </ScrollFrame>
 

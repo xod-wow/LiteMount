@@ -61,7 +61,6 @@
             </Anchors>
             <Scripts>
                 <OnLoad function="LM_OptionsUIActionListSelection_OnLoad" />
-                <OnSizeChanged function="LM_OptionsUIActionListSelection_OnSizeChanged" />
                 <OnShow function="LM_OptionsUIActionListSelection_OnShow" />
             </Scripts>
         </ScrollFrame>

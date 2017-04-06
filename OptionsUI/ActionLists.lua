@@ -57,11 +57,6 @@ function LM_OptionsUIActionListSelection_OnLoad(self)
     self.selected = "Default"
 end
 
-function LM_OptionsUIActionListSelection_OnSizeChanged(self, w, h)
-    CreateButtons(self)
-    self:update()
-end
-
 function LM_OptionsUIActionListSelection_OnShow(self)
     CreateButtons(self)
     self:update()

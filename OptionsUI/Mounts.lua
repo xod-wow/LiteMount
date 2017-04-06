@@ -19,9 +19,6 @@ function LM_OptionsUIMountsFlag_OnClick(self)
     LM_OptionsUIMounts_UpdateMountList()
 end
 
--- Because we get attached inside the blizzard options container, we
--- are size 0x0 on create and even after OnShow, we have to trap
--- OnSizeChanged on the scrollframe to make the buttons correctly.
 local function CreateMoreButtons(self)
 
     if InCombatLockdown() then
@@ -313,14 +310,6 @@ function LM_OptionsUIMounts_UpdateMountList()
     HybridScrollFrame_Update(scrollFrame, totalHeight, shownHeight)
 end
 
-function LM_OptionsUIMountsScrollFrame_OnSizeChanged(self, w, h)
-    CreateMoreButtons(self)
-    LM_OptionsUIMounts_UpdateMountList()
-
-    self.stepSize = self.buttonHeight
-    self.update = LM_OptionsUIMounts_UpdateMountList
-end
-
 StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
     text = "LiteMount : New Profile",
     button1 = ACCEPT,
@@ -505,6 +494,9 @@ function LM_OptionsUIMounts_OnLoad(self)
             LM_Options:SetExcludedMounts({})
             LM_OptionsUIMounts_UpdateMountList()
         end
+
+    self.scrollFrame.stepSize = self.scrollFrame.buttonHeight
+    self.scrollFrame.update = LM_OptionsUIMounts_UpdateMountList
 
     LM_OptionsUIPanel_OnLoad(self)
 end
