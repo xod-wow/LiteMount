@@ -123,10 +123,10 @@ function LM_Location:CanFly()
         end
     end
 
-    -- Can't fly in the Legion Class Hall areas
-    if C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0) then
-        return nil
-    end
+    -- Can't fly in the Legion Class Hall areas. Or can you?
+    -- if C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0) then
+    --     return nil
+    -- end
 
     -- This is the Draenor starting area, which is not on the Draenor
     -- continent (not on any continent). I don't know if you can fly there
@@ -155,11 +155,6 @@ end
 
 function LM_Location:CanSwim()
     return IsSubmerged()
-end
-
-function LM_Location:CantBreathe()
-    local name, _, _, rate = GetMirrorTimerInfo(2)
-    return (name == "BREATH" and rate < 0)
 end
 
 function LM_Location:GetName()

@@ -38,7 +38,6 @@ local ButtonActions = {
         CopyTargetsMount
         Vashjir
         Fly
-        Float
         Swim
         Nagrand
         AQ
@@ -53,7 +52,6 @@ local ButtonActions = {
         CancelForm
         CopyTargetsMount
         Vashjir
-        Float
         Swim
         Nagrand
         AQ
