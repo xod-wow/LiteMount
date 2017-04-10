@@ -42,6 +42,13 @@ function LM_Nagrand:Get(spellID)
     return m
 end
 
+function LM_Nagrand:SetupActionButton(button)
+    local id = GetZoneAbilitySpellInfo()
+    local spellName = GetSpellinfo(id)
+    button:SetAttribute("type", "spell")
+    button:SetAttribute("spell", spellname)
+end
+
 -- Draenor Ability spells are weird.  The name of the Garrison Ability
 -- (localized) is name = GetSpellInfo(161691)
 -- But, GetSpellInfo(name) returns the actual current spell that's active.
