@@ -138,6 +138,12 @@ function LM_Action:CopyTargetsMount()
     return LM_PlayerMounts:GetMountFromUnitAura("target")
 end
 
+-- Waterstriders on top of the water if we can detect it.
+function LM_Action:Float()
+    if not LM_Location:CanSwim() or LM_Location:CantBreathe() then return end
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_FLOAT)
+end
+
 function LM_Action:Vashjir()
     if not LM_Location:CanSwim() then return end
     if not LM_Location:IsVashjir() then return end

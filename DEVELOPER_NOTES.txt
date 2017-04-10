@@ -62,7 +62,7 @@ Notes To Myself
     I hope that someday the ability to tell if we are on top of the water
     or under it will return. WTB IsFloating()
 
-    MAX_SPELL_ID=197177 -- from wowhead
+    MAX_SPELL_ID=250000 -- from wowhead
 
     if not surfaceUsable then surfaceUsable = {} end
     if not underUsable then underUsable = {} end

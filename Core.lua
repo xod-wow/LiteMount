@@ -38,6 +38,7 @@ local ButtonActions = {
         CopyTargetsMount
         Vashjir
         Fly
+        Float
         Swim
         Nagrand
         AQ
@@ -52,6 +53,7 @@ local ButtonActions = {
         CancelForm
         CopyTargetsMount
         Vashjir
+        Float
         Swim
         Nagrand
         AQ
@@ -82,14 +84,32 @@ function LiteMount:VersionUpgrade()
 
     -- When there were only 2 bindings they were attached directly to
     -- the core addon table. Move them to button1 and button2.
-    keys = { GetBindingKey("CLICK LiteMount:LeftButton") }
+    --
+    -- I later renamed the buttons to be a lot shorter for macro purposes
+    keys = {
+        GetBindingKey("CLICK LiteMountActionButton1:LeftButton"),
+        GetBindingKey("CLICK LiteMount:LeftButton")
+    }
     for _,k in ipairs(keys) do
-        SetBinding(k, "CLICK LiteMountActionButton1:LeftButton")
+        SetBinding(k, "CLICK LM_B1:LeftButton")
     end
 
-    keys = { GetBindingKey("CLICK LiteMount:RightButton") }
+    keys = {
+        GetBindingKey("CLICK LiteMountActionButton2:LeftButton"),
+        GetBindingKey("CLICK LiteMount:RightButton")
+    }
     for _,k in ipairs(keys) do
-        SetBinding(k, "CLICK LiteMountActionButton2:LeftButton")
+        SetBinding(k, "CLICK LM_B2:LeftButton")
+    end
+
+    -- Update any macros
+    local body, n
+    for i = 1, MAX_ACCOUNT_MACROS + MAX_CHARACTER_MACROS do
+        body = GetMacroBody(i)
+        if body then
+            body, n = body:gsub("LiteMountActionButton", "LM_B")
+            if n > 0 then EditMacro(i, nil, nil, body) end
+        end
     end
 end
 
