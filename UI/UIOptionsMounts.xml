@@ -282,7 +282,6 @@
                     else
                         LM_Options:UseGlobal(true)
                     end
-                    LiteMountOptions_UpdateMountList()
                 </OnClick>
             </Scripts>
         </CheckButton>
@@ -364,6 +363,7 @@
     <Scripts>
         <OnLoad function="LiteMountOptionsMounts_OnLoad" />
         <OnShow function="LiteMountOptionsMounts_OnShow" />
+        <OnHide function="LiteMountOptionsMounts_OnHide" />
     </Scripts>
 
 </Frame>

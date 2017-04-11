@@ -126,7 +126,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+enabled *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if LM_Options:IsExcludedMount(mounts[i]) then
+            if LM_Options.db.profile.excludedSpells[mounts[i]:SpellID()] then
                 tremove(mounts, i)
             end
         end
@@ -163,7 +163,7 @@ local function UpdateAllSelected(mounts)
     local allDisabled = 1
 
     for _,m in ipairs(mounts) do
-        if LM_Options:IsExcludedMount(m) then
+        if LM_Options.db.profile.excludedSpells[m:SpellID()] then
             allEnabled = 0
         else
             allDisabled = 0
@@ -198,7 +198,7 @@ local function UpdateMountButton(button, mount)
         i = i + 1
     end
 
-    if LM_Options:IsExcludedMount(mount) then
+    if LM_Options.db.profile.excludedSpells[mount:SpellID()] then
         button.enabled:SetChecked(false)
     else
         button.enabled:SetChecked(true)
@@ -248,6 +248,8 @@ end
 
 function LiteMountOptions_UpdateMountList()
 
+    LM_Debug("Updating Mount List: " .. LM_Options.db:GetCurrentProfile())
+
     local scrollFrame = LiteMountOptionsMounts.scrollFrame
     local offset = HybridScrollFrame_GetOffset(scrollFrame)
     local buttons = scrollFrame.buttons
@@ -293,7 +295,7 @@ function LiteMountOptionsMounts_OnLoad(self)
             for m in LM_PlayerMounts:Iterate() do
                 LM_Options:ResetMountFlags(m)
             end
-            LM_Options:SetExcludedMounts({})
+            LM_Options:ResetExcludedMounts({})
             LiteMountOptions_UpdateMountList()
         end
 
@@ -304,5 +306,11 @@ end
 function LiteMountOptionsMounts_OnShow(self)
     LiteMountOptions.CurrentOptionsPanel = self
     LiteMountOptions_UpdateMountList()
+    LM_Options.db.RegisterCallback(self, "OnProfileChanged", function () LiteMountOptions_UpdateMountList() end)
+    LM_Options.db.RegisterCallback(self, "OnProfileCopied", function () LiteMountOptions_UpdateMountList() end)
+    LM_Options.db.RegisterCallback(self, "OnProfileReset", function () LiteMountOptions_UpdateMountList() end)
 end
 
+function LiteMountOptionsMounts_OnHide(self)
+    LM_Options.db:UnregisterAllCallbacks(self)
+end
