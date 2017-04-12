@@ -137,6 +137,11 @@ function LM_Location:CanSwim()
     return IsSubmerged()
 end
 
+function LM_Location:CantBreathe()
+    local name, _, _, rate = GetMirrorTimerInfo(2)
+    return (name == "BREATH" and rate < 0)
+end
+
 function LM_Location:GetName()
     return self.realZoneText
 end
