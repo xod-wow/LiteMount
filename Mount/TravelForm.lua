@@ -2,7 +2,11 @@
 
   LiteMount/LM_TravelForm.lua
 
-  It also updates whether it can run or not depending on Glyph of Travel.
+  Travel Form is the biggest pain in the butt ever invented.  Blizzard
+  change how it works, how fast it is, how many spells it is, and almost
+  every other aspect of it ALL THE DAMN TIME.
+ 
+  LEAVE TRAVEL FORM ALONE!
 
   Also IsUsableSpell doesn't work right on it.
 

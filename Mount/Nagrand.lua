@@ -50,3 +50,12 @@ function LM_Nagrand:IsUsable()
     if not IsUsableSpell(baseSpellID) then return false end
     return LM_Mount.IsUsable(self)
 end
+
+-- To cast it you now have to cast the Garrison Ability spell, whereas
+-- previously you could cast the mount spell directly.
+
+function  LM_Nagrand:GetSecureAttributes()
+    local id = GEtZoneAbilitySpellInfo()
+    local spellName = GetSpellInfo(id)
+    return { type="spell", spell=spellName }
+end

@@ -6,10 +6,15 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_SPELL.TABLET_OF_GHOST_WOLF = 168799
+local TABLET_OF_GHOST_WOLF_AURA = GetSpellInfo(168799)
+local SPIRIT_PACK_AURA = GetSpellInfo(217850)
 
 LM_GhostWolf = setmetatable({ }, LM_Spell)
 LM_GhostWolf.__index = LM_GhostWolf
+
+function LM_GhostWolf:CurrentFlags()
+    return LM_Options:ApplyMountFlags(self)
+end
 
 function LM_GhostWolf:Get()
     local m = LM_Spell:Get(LM_SPELL.GHOST_WOLF)

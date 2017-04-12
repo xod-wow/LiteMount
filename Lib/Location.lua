@@ -99,19 +99,21 @@ function LM_Location:CanFly()
 end
 ]]--
 
--- Draenor (continent 7) is flagged flyable, but you can only fly there if
--- you have completed a dodgy achievement, "Draenor Pathfinder" (10018).
---
--- Broken Isles (continent 8) is the same, the achievement is 11446.
++-- Draenor and Lost Isles need achievement unlocks to be able to fly.
 function LM_Location:CanFly()
 
-    -- Can only fly in Draenor if you have the achievement
-    -- Achievement check on alts is bugged in 7.0 check for skyterror
+    -- I'm going to assume, across the board, that you can't fly in
+    -- "no continent" / -1 and fix it up later if it turns out you can.
+    if self.continent == -1 then
+        return false
+    end
+
+    -- Achievement check on alts is (was?) bugged in 7.0 check for skyterror
     if self.continent == 7 then
         local completed = select(4, GetAchievementInfo(10018))
         local hasSkyTerror = LM_PlayerMounts:GetMountBySpell(LM_SPELL.SOARING_SKYTERROR)
         if not completed and not hasSkyTerror then
-            return nil
+            return false
         end
     end
 
@@ -120,30 +122,8 @@ function LM_Location:CanFly()
     if self.continent == 8 then
         local completed = select(4, GetAchievementInfo(11446))
         if not completed then
-            return nil
+            return false
         end
-    end
-
-    -- Can't fly in the Legion Class Hall areas
-    if C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0) then
-        return nil
-    end
-
-    -- This is the Draenor starting area, which is not on the Draenor
-    -- continent (not on any continent). I don't know if you can fly there
-    -- if you have the achievement.
-    if self.areaID == 970 then
-        return nil
-    end
-
-    -- Hellheim quest area reached from Stormheim on Lost Isles
-    if self.areaID == 1022 then
-        return nil
-    end
-
-    -- Warrior "Class Hall" area Skyhold (1035) and the intro beach area (1031)
-    if tContains({ 1031, 1035 }, self.areaID) then
-        return nil
     end
 
     return IsFlyableArea()
