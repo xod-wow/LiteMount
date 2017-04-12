@@ -2,10 +2,11 @@
 
   LiteMount/LM_TravelForm.lua
 
-  Travel Form has to update its fly/don't fly status depending on whether
-  you have Glyph of the Stag or not.
+  Travel Form is the biggest pain in the butt ever invented.  Blizzard
+  change how it works, how fast it is, how many spells it is, and almost
+  every other aspect of it ALL THE DAMN TIME.
 
-  It also updates whether it can run or not depending on Glyph of Travel.
+  LEAVE TRAVEL FORM ALONE!
 
   Also IsUsableSpell doesn't work right on it.
 
@@ -26,7 +27,11 @@ local function PlayerKnowsRiding()
     return false
 end
 
-local travelFormFlags = bit.bor(LM_FLAG_BIT_FLY, LM_FLAG_BIT_SWIM)
+local travelFormFlags = bit.bor(
+                            LM_FLAG_BIT_FLY,
+                            LM_FLAG_BIT_SWIM,
+                            LM_FLAG_BIT_RUN
+                        )
 
 function LM_TravelForm:Flags(v)
     if not PlayerKnowsRiding() then
