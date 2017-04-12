@@ -82,22 +82,23 @@ function LiteMount:VersionUpgrade()
 
     -- When there were only 2 bindings they were attached directly to
     -- the core addon table. Move them to button1 and button2.
-    --
     -- I later renamed the buttons to be a lot shorter for macro purposes
-    keys = {
-        GetBindingKey("CLICK LiteMountActionButton1:LeftButton"),
-        GetBindingKey("CLICK LiteMount:LeftButton")
-    }
+    keys = { GetBindingKey("CLICK LiteMount:LeftButton") }
     for _,k in ipairs(keys) do
         SetBinding(k, "CLICK LM_B1:LeftButton")
     end
-
-    keys = {
-        GetBindingKey("CLICK LiteMountActionButton2:LeftButton"),
-        GetBindingKey("CLICK LiteMount:RightButton")
-    }
+    keys = { GetBindingKey("CLICK LiteMount:RightButton") }
     for _,k in ipairs(keys) do
         SetBinding(k, "CLICK LM_B2:LeftButton")
+    end
+
+    local old, new
+    for i=1,4 do
+        old = format("CLICK LiteMountActionButton%d:LeftButton", i)
+        new = format("CLICK LM_B%d:LeftButton", i)
+        for _,k in ipairs({ GetBindingKey(old) }) do
+            SetBinding(k, new)
+        end
     end
 
     -- Update any macros

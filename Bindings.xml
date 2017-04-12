@@ -18,7 +18,7 @@
     <Binding name="CLICK LM_B3:LeftButton" category="ADDONS">
     </Binding>
 
-    <Binding name="CLICK LMB_4:LeftButton" category="ADDONS">
+    <Binding name="CLICK LM_B4:LeftButton" category="ADDONS">
     </Binding>
 
 </Bindings> 
