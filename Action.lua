@@ -153,6 +153,19 @@ function LM_Action:Fly()
     return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_FLY)
 end
 
+function LM_Action:Underwater()
+    if select(2, UnitRace("player")) == "Undead" then return end
+    if not LM_Location:CanSwim() then return end
+    if not LM_Location:CantBreathe() then return end
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_SWIM)
+end
+
+function LM_Action:Float()
+    if not LM_Location:CanSwim() then return end
+    if LM_Location:CantBreathe() then return end
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_FLOAT)
+end
+
 function LM_Action:Swim()
     if not LM_Location:CanSwim() then return end
 
