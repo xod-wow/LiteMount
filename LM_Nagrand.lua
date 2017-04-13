@@ -44,9 +44,9 @@ end
 
 function LM_Nagrand:SetupActionButton(button)
     local id = GetZoneAbilitySpellInfo()
-    local spellName = GetSpellinfo(id)
+    local spellName = GetSpellInfo(id)
     button:SetAttribute("type", "spell")
-    button:SetAttribute("spell", spellname)
+    button:SetAttribute("spell", spellName)
 end
 
 -- Draenor Ability spells are weird.  The name of the Garrison Ability
