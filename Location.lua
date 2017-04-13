@@ -170,7 +170,7 @@ end
 
 -- 169 = ExtraActionButton1, check for Masquerade action
 function LM_Location:CanSuramarMasquerade()
-    if HasAction(169) then
+    if HasAction(169) and ExtraActionButton1:IsShown() then
         local aType, aID = GetActionInfo(169)
         if aType == "spell" and aID == 202477 then
             return true
