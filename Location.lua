@@ -168,6 +168,16 @@ function LM_Location:IsDraenorNagrand()
     if self.areaID == 950 then return true end
 end
 
+-- 169 = ExtraActionButton1, check for Masquerade action
+function LM_Location:CanSuramarMasquerade()
+    if HasAction(169) then
+        local aType, aID = GetActionInfo(169)
+        if aType == "spell" and aID == 211086 then
+            return true
+        end
+    end
+end
+
 function LM_Location:Dump()
     LM_Print("--- Location Dump ---")
     LM_Print("continent: " .. self.continent)
