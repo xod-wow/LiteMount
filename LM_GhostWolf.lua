@@ -13,14 +13,14 @@ LM_GhostWolf.__index = LM_GhostWolf
 
 function LM_GhostWolf:Flags(v)
     if UnitAura("player", TABLET_OF_GHOST_WOLF_AURA) then
-        return LM_FLAG_BIT_RUN
+        return LM_FLAG_BIT.RUN
     else
-        return LM_FLAG_BIT_WALK
+        return LM_FLAG_BIT.WALK
     end
 end
 
 function LM_GhostWolf:Get()
-    local m = LM_Spell:Get(LM_SPELL_GHOST_WOLF)
+    local m = LM_Spell:Get(LM_SPELL.GHOST_WOLF)
     if m then setmetatable(m, LM_GhostWolf) end
     return m
 end

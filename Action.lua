@@ -48,7 +48,7 @@ local function GetDruidMountForms()
     local forms = {}
     for i = 1,GetNumShapeshiftForms() do
         local spell = select(5, GetShapeshiftFormInfo(i))
-        if spell == LM_SPELL_FLIGHT_FORM or spell == LM_SPELL_TRAVEL_FORM then
+        if spell == LM_SPELL.FLIGHT_FORM or spell == LM_SPELL.TRAVEL_FORM then
             tinsert(forms, i)
         end
     end
@@ -68,15 +68,15 @@ function LM_Action:DefaultCombatMacro()
 
     if playerClass ==  "DRUID" then
         local forms = GetDruidMountForms()
-        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_TRAVEL_FORM)
+        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL.TRAVEL_FORM)
         if mount and not LM_Options:IsExcludedMount(mount) then
             mt = mt .. format("/cast [noform:%s] %s\n", forms, mount:Name())
             mt = mt .. format("/cancelform [form:%s]\n", forms)
         end
     elseif playerClass == "SHAMAN" then
-        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL_GHOST_WOLF)
+        local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL.GHOST_WOLF)
         if mount and not LM_Options:IsExcludedMount(mount) then
-            local s = GetSpellInfo(LM_SPELL_GHOST_WOLF)
+            local s = GetSpellInfo(LM_SPELL.GHOST_WOLF)
             mt = mt .. "/cast [noform] " .. s .. "\n"
             mt = mt .. "/cancelform [form]\n"
         end
@@ -143,68 +143,68 @@ function LM_Action:Vashjir()
     if not LM_Location:IsVashjir() then return end
 
     LM_Debug("Trying GetVashjirMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_VASHJIR)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.VASHJIR)
 end
 
 function LM_Action:Fly()
     if not LM_Location:CanFly() then return end
 
     LM_Debug("Trying GetFlyingMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_FLY)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.FLY)
 end
 
 function LM_Action:Underwater()
     if select(2, UnitRace("player")) == "Undead" then return end
     if not LM_Location:CanSwim() then return end
     if not LM_Location:CantBreathe() then return end
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_SWIM)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.SWIM)
 end
 
 function LM_Action:Float()
     if not LM_Location:CanSwim() then return end
     if LM_Location:CantBreathe() then return end
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_FLOAT)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.FLOAT)
 end
 
 function LM_Action:Swim()
     if not LM_Location:CanSwim() then return end
 
     LM_Debug("Trying GetSwimmingMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_SWIM)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.SWIM)
 end
 
 function LM_Action:Nagrand()
     if not LM_Location:IsDraenorNagrand() then return end
 
     LM_Debug("Trying GetNagrandMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_NAGRAND)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.NAGRAND)
 end
 
 function LM_Action:AQ()
     if not LM_Location:IsAQ() then return end
 
     LM_Debug("Trying GetAQMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_AQ)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.AQ)
 end
 
 function LM_Action:Run()
     LM_Debug("Trying GetRunningMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_RUN)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.RUN)
 end
 
 function LM_Action:Walk()
     LM_Debug("Trying GetWalkingMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_WALK)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.WALK)
 end
 
 function LM_Action:Custom1()
     LM_Debug("Trying GetCustom1Mount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM1)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.CUSTOM1)
 end
 
 function LM_Action:Custom2()
     LM_Debug("Trying GetCustom2Mount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT_CUSTOM2)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.CUSTOM2)
 end
 
 function LM_Action:Macro()

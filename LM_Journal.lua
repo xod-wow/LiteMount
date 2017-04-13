@@ -66,23 +66,23 @@ function LM_Journal:Get(id)
     --   http://wowpedia.org/API_C_MountJournal.GetMountInfoExtra
 
     if m:Type() == 230 then -- ground mount
-        m.flags = bit.bor(LM_FLAG_BIT_RUN)
+        m.flags = bit.bor(LM_FLAG_BIT.RUN)
     elseif m:Type() == 231 then -- riding/sea turtle
         m.flags = 0
     elseif m:Type() == 232 then -- Vashj'ir Seahorse
-        m.flags = bit.bor(LM_FLAG_BIT_VASHJIR)
+        m.flags = bit.bor(LM_FLAG_BIT.VASHJIR)
     elseif m:Type() == 241 then -- AQ-only bugs
-        m.flags = bit.bor(LM_FLAG_BIT_AQ)
+        m.flags = bit.bor(LM_FLAG_BIT.AQ)
     elseif m:Type() == 247 then -- Red Flying Cloud
-        m.flags = bit.bor(LM_FLAG_BIT_FLY)
+        m.flags = bit.bor(LM_FLAG_BIT.FLY)
     elseif m:Type() == 248 then -- Flying mounts
-        m.flags = bit.bor(LM_FLAG_BIT_FLY)
+        m.flags = bit.bor(LM_FLAG_BIT.FLY)
     elseif m:Type() == 254 then -- Subdued Seahorse
-        m.flags = bit.bor(LM_FLAG_BIT_SWIM, LM_FLAG_BIT_VASHJIR)
+        m.flags = bit.bor(LM_FLAG_BIT.SWIM, LM_FLAG_BIT.VASHJIR)
     elseif m:Type() == 269 then -- Water Striders
-        m.flags = bit.bor(LM_FLAG_BIT_RUN, LM_FLAG_BIT_SWIM, LM_FLAG_BIT_FLOAT)
+        m.flags = bit.bor(LM_FLAG_BIT.RUN, LM_FLAG_BIT.SWIM, LM_FLAG_BIT.FLOAT)
     elseif m:Type() == 284 then -- Chauffeured Mekgineer's Chopper
-        m.flags = bit.bor(LM_FLAG_BIT_WALK)
+        m.flags = bit.bor(LM_FLAG_BIT.WALK)
     else
         m.flags = 0
     end

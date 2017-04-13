@@ -28,21 +28,21 @@ local function PlayerKnowsRiding()
 end
 
 local travelFormFlags = bit.bor(
-                            LM_FLAG_BIT_FLY,
-                            LM_FLAG_BIT_SWIM,
-                            LM_FLAG_BIT_RUN
+                            LM_FLAG_BIT.FLY,
+                            LM_FLAG_BIT.SWIM,
+                            LM_FLAG_BIT.RUN
                         )
 
 function LM_TravelForm:Flags(v)
     if not PlayerKnowsRiding() then
-        return bit.bor(travelFormFlags, LM_FLAG_BIT_WALK)
+        return bit.bor(travelFormFlags, LM_FLAG_BIT.WALK)
     else
         return travelFormFlags
     end
 end
 
 function LM_TravelForm:Get()
-    local m = LM_Spell:Get(LM_SPELL_TRAVEL_FORM)
+    local m = LM_Spell:Get(LM_SPELL.TRAVEL_FORM)
     if m then setmetatable(m, LM_TravelForm) end
     return m
 end

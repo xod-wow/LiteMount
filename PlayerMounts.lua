@@ -10,6 +10,44 @@
 
 LM_PlayerMounts = LM_CreateAutoEventFrame("Frame", "LM_PlayerMounts", UIParent)
 
+-- Type, type class create args
+local LM_MOUNT_SPELLS = {
+    { "RunningWild", LM_SPELL.RUNNING_WILD },
+    { "FlightForm", LM_SPELL.FLIGHT_FORM },
+    { "GhostWolf", LM_SPELL.GHOST_WOLF },
+    { "TravelForm", LM_SPELL.TRAVEL_FORM },
+    { "Nagrand", LM_SPELL.FROSTWOLF_WAR_WOLF },
+    { "Nagrand", LM_SPELL.TELAARI_TALBUK },
+    { "ItemSummoned",
+        LM_ITEM.LOANED_GRYPHON_REINS, LM_SPELL.LOANED_GRYPHON,
+        bit.bor(LM_FLAG_BIT.FLY)
+    },
+    { "ItemSummoned",
+        LM_ITEM.LOANED_WIND_RIDER_REINS, LM_SPELL.LOANED_WIND_RIDER,
+        bit.bor(LM_FLAG_BIT.FLY)
+    },
+    { "ItemSummoned",
+        LM_ITEM.FLYING_BROOM, LM_SPELL.FLYING_BROOM,
+        bit.bor(LM_FLAG_BIT.FLY),
+    },
+    { "ItemSummoned",
+        LM_ITEM.MAGIC_BROOM, LM_SPELL.MAGIC_BROOM,
+        bit.bor(LM_FLAG_BIT.RUN, LM_FLAG_BIT.FLY),
+    },
+    { "ItemSummoned",
+        LM_ITEM.DRAGONWRATH_TARECGOSAS_REST, LM_SPELL.TARECGOSAS_VISAGE,
+        bit.bor(LM_FLAG_BIT.FLY)
+    },
+    { "ItemSummoned",
+        LM_ITEM.SHIMMERING_MOONSTONE, LM_SPELL.MOONFANG,
+        bit.bor(LM_FLAG_BIT.RUN),
+    },
+    { "ItemSummoned",
+        LM_ITEM.RATSTALLION_HARNESS, LM_SPELL.RATSTALLION_HARNESS,
+        bit.bor(LM_FLAG_BIT.RUN),
+    },
+}
+
 local RescanEvents = {
     -- Companion change. Don't add COMPANION_UPDATE to this as it fires
     -- for units other than "player" and triggers constantly.
@@ -126,7 +164,7 @@ function LM_PlayerMounts:GetMountByShapeshiftForm(i)
     if not i then return end
     local class = select(2, UnitClass("player"))
     if class == "SHAMAN" and i == 1 then
-         return self:GetMountBySpell(LM_SPELL_GHOST_WOLF)
+         return self:GetMountBySpell(LM_SPELL.GHOST_WOLF)
     end
     local name = select(2, GetShapeshiftFormInfo(i))
     if name then return self:GetMountByName(name) end
