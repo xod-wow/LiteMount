@@ -333,7 +333,8 @@ function LM_Options:SeenMount(m, flagSeen)
     local seen = (self.excludedSpells[spellID] ~= nil)
 
     if flagSeen and not seen then
-        self.excludedSpells[spellID] = (self.db.excludeNewMounts[1] and true) or false
+        LM_Print("seen a new spell: " .. m:Name())
+        self.excludedSpells[spellID] = self.db.excludeNewMounts
     end
 
     return seen
