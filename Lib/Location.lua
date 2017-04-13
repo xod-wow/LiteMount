@@ -99,7 +99,7 @@ function LM_Location:CanFly()
 end
 ]]--
 
-+-- Draenor and Lost Isles need achievement unlocks to be able to fly.
+-- Draenor and Lost Isles need achievement unlocks to be able to fly.
 function LM_Location:CanFly()
 
     -- I'm going to assume, across the board, that you can't fly in
