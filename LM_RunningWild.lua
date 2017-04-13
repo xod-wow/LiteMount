@@ -10,7 +10,7 @@ LM_RunningWild = setmetatable({ }, LM_Spell)
 LM_RunningWild.__index = LM_RunningWild
 
 function LM_RunningWild:Flags(v)
-    return LM_FLAG_BIT.RUN
+    return LM_FLAG.RUN
 end
 
 function LM_RunningWild:Get()

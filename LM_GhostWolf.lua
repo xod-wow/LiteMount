@@ -13,9 +13,9 @@ LM_GhostWolf.__index = LM_GhostWolf
 
 function LM_GhostWolf:Flags(v)
     if UnitAura("player", TABLET_OF_GHOST_WOLF_AURA) then
-        return LM_FLAG_BIT.RUN
+        return LM_FLAG.RUN
     else
-        return LM_FLAG_BIT.WALK
+        return LM_FLAG.WALK
     end
 end
 

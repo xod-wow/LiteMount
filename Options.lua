@@ -39,7 +39,7 @@ LM_Options = { }
 local function FlagConvert(toSet, toClear)
     local changes = { }
 
-    for flagName,flagBit in pairs(LM_FLAG_BIT) do
+    for flagName,flagBit in pairs(LM_FLAG) do
         if bit.band(toSet, flagBit) == flagBit then
             changes[flagName] = '+'
         elseif bit.band(toClear, flagBit) == flagBit then
@@ -202,11 +202,11 @@ function LM_Options:ApplyMountFlags(m)
     local flags = m:Flags()
     local changes = self.flagChanges[id] or { }
 
-    for flagName,flagBit in pairs(LM_FLAG_BIT) do
+    for flagName,flagBit in pairs(LM_FLAG) do
         if changes[flagName] == '+' then
-            flags = bit.bor(flags, LM_FLAG_BIT[flagName])
+            flags = bit.bor(flags, LM_FLAG[flagName])
         elseif changes[flagName] == '-' then
-            flags = bit.band(flags, bit.bnot(LM_FLAG_BIT[flagName]))
+            flags = bit.band(flags, bit.bnot(LM_FLAG[flagName]))
         end
     end
 

@@ -30,13 +30,13 @@ local function CreateMoreButtons(self)
     -- Note: the buttons are laid out right to left
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
-        b.bit1.flagbit = LM_FLAG_BIT.RUN
-        b.bit2.flagbit = LM_FLAG_BIT.FLY
-        b.bit3.flagbit = LM_FLAG_BIT.SWIM
-        b.bit4.flagbit = LM_FLAG_BIT.AQ
-        b.bit5.flagbit = LM_FLAG_BIT.VASHJIR
-        b.bit6.flagbit = LM_FLAG_BIT.CUSTOM2
-        b.bit7.flagbit = LM_FLAG_BIT.CUSTOM1
+        b.bit1.flagbit = LM_FLAG.RUN
+        b.bit2.flagbit = LM_FLAG.FLY
+        b.bit3.flagbit = LM_FLAG.SWIM
+        b.bit4.flagbit = LM_FLAG.AQ
+        b.bit5.flagbit = LM_FLAG.VASHJIR
+        b.bit6.flagbit = LM_FLAG.CUSTOM2
+        b.bit7.flagbit = LM_FLAG.CUSTOM1
     end
 end
 
@@ -81,7 +81,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+fly *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:CurrentFlagsSet(LM_FLAG_BIT.FLY) then
+            if not mounts[i]:CurrentFlagsSet(LM_FLAG.FLY) then
                 tremove(mounts, i)
             end
         end
@@ -90,7 +90,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+run *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:CurrentFlagsSet(LM_FLAG_BIT.RUN) then
+            if not mounts[i]:CurrentFlagsSet(LM_FLAG.RUN) then
                 tremove(mounts, i)
             end
         end
@@ -99,7 +99,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+swim *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:CurrentFlagsSet(LM_FLAG_BIT.SWIM) then
+            if not mounts[i]:CurrentFlagsSet(LM_FLAG.SWIM) then
                 tremove(mounts, i)
             end
         end
@@ -108,7 +108,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+c1 *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:CurrentFlagsSet(LM_FLAG_BIT.CUSTOM1) then
+            if not mounts[i]:CurrentFlagsSet(LM_FLAG.CUSTOM1) then
                 tremove(mounts, i)
             end
         end
@@ -117,7 +117,7 @@ local function GetFilteredMountList()
     filtertext, n = gsub(filtertext, "^+c2 *", "", 1)
     if n == 1 then
         for i = #mounts, 1, -1 do
-            if not mounts[i]:CurrentFlagsSet(LM_FLAG_BIT.CUSTOM2) then
+            if not mounts[i]:CurrentFlagsSet(LM_FLAG.CUSTOM2) then
                 tremove(mounts, i)
             end
         end

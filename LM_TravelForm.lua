@@ -28,14 +28,14 @@ local function PlayerKnowsRiding()
 end
 
 local travelFormFlags = bit.bor(
-                            LM_FLAG_BIT.FLY,
-                            LM_FLAG_BIT.SWIM,
-                            LM_FLAG_BIT.RUN
+                            LM_FLAG.FLY,
+                            LM_FLAG.SWIM,
+                            LM_FLAG.RUN
                         )
 
 function LM_TravelForm:Flags(v)
     if not PlayerKnowsRiding() then
-        return bit.bor(travelFormFlags, LM_FLAG_BIT.WALK)
+        return bit.bor(travelFormFlags, LM_FLAG.WALK)
     else
         return travelFormFlags
     end

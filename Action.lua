@@ -143,68 +143,68 @@ function LM_Action:Vashjir()
     if not LM_Location:IsVashjir() then return end
 
     LM_Debug("Trying GetVashjirMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.VASHJIR)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG.VASHJIR)
 end
 
 function LM_Action:Fly()
     if not LM_Location:CanFly() then return end
 
     LM_Debug("Trying GetFlyingMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.FLY)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG.FLY)
 end
 
 function LM_Action:Underwater()
     if select(2, UnitRace("player")) == "Undead" then return end
     if not LM_Location:CanSwim() then return end
     if not LM_Location:CantBreathe() then return end
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.SWIM)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG.SWIM)
 end
 
 function LM_Action:Float()
     if not LM_Location:CanSwim() then return end
     if LM_Location:CantBreathe() then return end
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.FLOAT)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG.FLOAT)
 end
 
 function LM_Action:Swim()
     if not LM_Location:CanSwim() then return end
 
     LM_Debug("Trying GetSwimmingMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.SWIM)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG.SWIM)
 end
 
 function LM_Action:Nagrand()
     if not LM_Location:IsDraenorNagrand() then return end
 
     LM_Debug("Trying GetNagrandMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.NAGRAND)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG.NAGRAND)
 end
 
 function LM_Action:AQ()
     if not LM_Location:IsAQ() then return end
 
     LM_Debug("Trying GetAQMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.AQ)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG.AQ)
 end
 
 function LM_Action:Run()
     LM_Debug("Trying GetRunningMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.RUN)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG.RUN)
 end
 
 function LM_Action:Walk()
     LM_Debug("Trying GetWalkingMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.WALK)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG.WALK)
 end
 
 function LM_Action:Custom1()
     LM_Debug("Trying GetCustom1Mount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.CUSTOM1)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG.CUSTOM1)
 end
 
 function LM_Action:Custom2()
     LM_Debug("Trying GetCustom2Mount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG_BIT.CUSTOM2)
+    return LM_PlayerMounts:GetRandomMount(LM_FLAG.CUSTOM2)
 end
 
 function LM_Action:Macro()

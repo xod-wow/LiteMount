@@ -20,31 +20,31 @@ local LM_MOUNT_SPELLS = {
     { "Nagrand", LM_SPELL.TELAARI_TALBUK },
     { "ItemSummoned",
         LM_ITEM.LOANED_GRYPHON_REINS, LM_SPELL.LOANED_GRYPHON,
-        bit.bor(LM_FLAG_BIT.FLY)
+        bit.bor(LM_FLAG.FLY)
     },
     { "ItemSummoned",
         LM_ITEM.LOANED_WIND_RIDER_REINS, LM_SPELL.LOANED_WIND_RIDER,
-        bit.bor(LM_FLAG_BIT.FLY)
+        bit.bor(LM_FLAG.FLY)
     },
     { "ItemSummoned",
         LM_ITEM.FLYING_BROOM, LM_SPELL.FLYING_BROOM,
-        bit.bor(LM_FLAG_BIT.FLY),
+        bit.bor(LM_FLAG.FLY),
     },
     { "ItemSummoned",
         LM_ITEM.MAGIC_BROOM, LM_SPELL.MAGIC_BROOM,
-        bit.bor(LM_FLAG_BIT.RUN, LM_FLAG_BIT.FLY),
+        bit.bor(LM_FLAG.RUN, LM_FLAG.FLY),
     },
     { "ItemSummoned",
         LM_ITEM.DRAGONWRATH_TARECGOSAS_REST, LM_SPELL.TARECGOSAS_VISAGE,
-        bit.bor(LM_FLAG_BIT.FLY)
+        bit.bor(LM_FLAG.FLY)
     },
     { "ItemSummoned",
         LM_ITEM.SHIMMERING_MOONSTONE, LM_SPELL.MOONFANG,
-        bit.bor(LM_FLAG_BIT.RUN),
+        bit.bor(LM_FLAG.RUN),
     },
     { "ItemSummoned",
         LM_ITEM.RATSTALLION_HARNESS, LM_SPELL.RATSTALLION_HARNESS,
-        bit.bor(LM_FLAG_BIT.RUN),
+        bit.bor(LM_FLAG.RUN),
     },
 }
 

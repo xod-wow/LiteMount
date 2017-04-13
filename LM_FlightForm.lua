@@ -10,7 +10,7 @@ LM_FlightForm = setmetatable({ }, LM_Spell)
 LM_FlightForm.__index = LM_FlightForm
 
 function LM_FlightForm:Flags(v)
-    return LM_FLAG_BIT.FLY
+    return LM_FLAG.FLY
 end
 
 function LM_FlightForm:Get(spellID)

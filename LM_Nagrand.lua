@@ -18,7 +18,7 @@ local FactionRequirements = {
 
 
 function LM_Nagrand:Flags(f)
-    return LM_FLAG_BIT.NAGRAND
+    return LM_FLAG.NAGRAND
 end
 
 function LM_Nagrand:Get(spellID)
