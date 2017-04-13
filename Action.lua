@@ -160,6 +160,14 @@ function LM_Action:Underwater()
     return LM_PlayerMounts:GetRandomMount(LM_FLAG.SWIM)
 end
 
+function LM_Action:SuramarCity()
+    if not LM_Location:CanSuramarMasquerade() then return end
+    local m = LM_PlayerMounts:GetMountBySpell(230987)
+    if m and m:IsUsable() and not LM_Options:IsExcludedMount(m) then
+        return m
+    end
+end
+
 function LM_Action:Float()
     if not LM_Location:CanSwim() then return end
     if LM_Location:CantBreathe() then return end

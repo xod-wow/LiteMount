@@ -168,13 +168,15 @@ function LM_Location:IsDraenorNagrand()
     if self.areaID == 950 then return true end
 end
 
--- 169 = ExtraActionButton1, check for Masquerade action
+-- 169 = ExtraActionButton1, check for Masquerade action or aura (202477)
 function LM_Location:CanSuramarMasquerade()
-    if HasAction(169) and ExtraActionButton1:IsShown() then
+    if HasExtraActionBar() and HasAction(169) then
         local aType, aID = GetActionInfo(169)
         if aType == "spell" and aID == 202477 then
             return true
         end
+    elseif UnitAura("player", GetSpellInfo(202477)) then
+        return true
     end
 end
 
