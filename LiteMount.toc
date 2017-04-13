@@ -3,7 +3,7 @@
 ## Version: @project-version@
 ## Author: Xodiv-Nagrand
 ## Email: mib@post.com
-## SavedVariables: LM_UseGlobalOptions, LM_GlobalOptionsDB
+## SavedVariables: LM_GlobalOptionsDB
 ## SavedVariablesPerCharacter: LM_OptionsDB
 
 Localization.lua
