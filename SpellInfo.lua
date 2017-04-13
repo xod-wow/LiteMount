@@ -17,13 +17,24 @@ LM_FLAG_BIT.RUN = 1
 LM_FLAG_BIT.FLY = 2
 LM_FLAG_BIT.FLOAT = 4
 LM_FLAG_BIT.SWIM = 8
-LM_FLAG_BIT.JUMP = 16
 LM_FLAG_BIT.WALK = 32
 LM_FLAG_BIT.AQ = 128
 LM_FLAG_BIT.VASHJIR = 256
 LM_FLAG_BIT.NAGRAND = 512
 LM_FLAG_BIT.CUSTOM1 = 1024
 LM_FLAG_BIT.CUSTOM2 = 2048
+
+LM_FLAG = { }
+LM_FLAG.RUN = "run"
+LM_FLAG.FLY = "fly"
+LM_FLAG.FLOAT = "float"
+LM_FLAG.SWIM = "swim"
+LM_FLAG.WALK = "walk"
+LM_FLAG.AQ = "aq"
+LM_FLAG.VASHJIR = "vashjir"
+LM_FLAG.NAGRAND = "nagrand"
+LM_FLAG.CUSTOM1 = "custom1"
+LM_FLAG.CUSTOM2 = "custom2"
 
 LM_SPELL = { }
 LM_SPELL.TRAVEL_FORM = 783
@@ -62,27 +73,3 @@ LM_ITEM.LOANED_WIND_RIDER_REINS = 44229
 LM_ITEM.DRAGONWRATH_TARECGOSAS_REST = 71086
 LM_ITEM.SHIMMERING_MOONSTONE = 101675
 LM_ITEM.RATSTALLION_HARNESS = 139421
-
--- Skill Lines from select(7, GetProfessionInfo(i))
---      164 Blacksmithing
---      165 Leatherworking
---      171 Alchemy
---      182 Herbalism
---      185 Cooking
---      186 Mining
---      197 Tailoring
---      202 Engineering
---      333 Enchanting
---      393 Skinning
---      755 Jewelcrafting
---      773 Inscription
-
-LM_PROFESSION_MOUNT_REQUIREMENTS = {  -- = { skillLine, minSkillLevel }
-    [LM_SPELL.FLYING_MACHINE] = { 202, 300 },
-    [LM_SPELL.TURBO_CHARGED_FLYING_MACHINE] = { 202, 375 },
-    [LM_SPELL.MAGNIFICENT_FLYING_CARPET] = { 197, 425 },
-    [LM_SPELL.FROSTY_FLYING_CARPET] = { 197, 425 },
-    [LM_SPELL.FLYING_CARPET] = { 197, 300 },
-    [LM_SPELL.CREEPING_CARPET] = { 197, 300 },
-    [LM_SPELL.DUSTMANE_DIREWOLF] = { 165, 300 },
-}

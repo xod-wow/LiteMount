@@ -19,18 +19,12 @@ function LM_Mount:new()
     return setmetatable({ tags = { } }, LM_Mount)
 end
 
-function LM_Mount:SetRequirements()
-    local spellID = self:SpellID()
-    self:NeedsProfession(LM_PROFESSION_MOUNT_REQUIREMENTS[spellID])
-end
-
 function LM_Mount:Get(className, ...)
     local class = _G["LM_"..className]
 
     local m = class:Get(...)
     if not m then return end
 
-    m:SetRequirements()
     return m
 end
 
