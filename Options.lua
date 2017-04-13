@@ -75,7 +75,11 @@ local function VersionUpgradeOptions(db)
     if db.seenspells then
         for id in pairs(db.seenspells) do
             if db.excludedSpells[id] == nil then
-                db.excludedSpells[id] = tContains(db.excludedspells or {}, id)
+                if tContains(db.excludedspells or {}, id) then
+                    db.excludedSpells[id] = true
+                else
+                    db.excludedSpells[id] = false
+                end
             end
         end
     end
@@ -115,15 +119,10 @@ end
 
 function LM_Options:Initialize()
 
-    if not LM_OptionsDB then
-        LM_OptionsDB = Default_LM_OptionsDB
-    end
-
-    if not LM_GlobalOptionsDB then
-        LM_GlobalOptionsDB = Default_LM_OptionsDB
-    end
-
+    LM_OptionsDB = LM_OptionsDB or CopyTable(Default_LM_OptionsDB)
     VersionUpgradeOptions(LM_OptionsDB)
+
+    LM_GlobalOptionsDB = LM_GlobalOptionsDB or CopyTable(Default_LM_OptionsDB)
     VersionUpgradeOptions(LM_GlobalOptionsDB)
 
     -- The annoyance with this is that we don't want global macros, only
