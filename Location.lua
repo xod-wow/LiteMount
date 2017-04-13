@@ -172,7 +172,7 @@ end
 function LM_Location:CanSuramarMasquerade()
     if HasAction(169) then
         local aType, aID = GetActionInfo(169)
-        if aType == "spell" and aID == 211086 then
+        if aType == "spell" and aID == 202477 then
             return true
         end
     end
