@@ -169,14 +169,14 @@ function LM_Action:SuramarCity()
 end
 
 function LM_Action:Float()
-    if LM_Location:CanSwim() and not LM_Location:CantBreathe() then
+    if LM_Location:IsFloating() then
         LM_Debug("Trying Floating mount")
         return LM_PlayerMounts:GetRandomMount(LM_FLAG.FLOAT)
     end
 end
 
 function LM_Action:Swim()
-    if LM_Location:CanSwim() then
+    if LM_Location:CanSwim() and not LM_Location:IsFloating() then
         LM_Debug("Trying Swimming Mount")
         return LM_PlayerMounts:GetRandomMount(LM_FLAG.SWIM)
     end

@@ -24,14 +24,28 @@ function LM_Location:Initialize()
     self.minimapZoneText = ""
     self.subZoneText = ""
 
+    self:UpdateSwimTimes()
+
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
     self:RegisterEvent("ZONE_CHANGED")
     self:RegisterEvent("ZONE_CHANGED_INDOORS")
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+    self:RegisterEvent("MOUNT_JOURNAL_USABILITY_CHANGED")
 end
 
 local function FrameApply(frames, func, ...)
     for i,f in ipairs(frames) do f[func](f, ...) end
+end
+
+function LM_Location:UpdateSwimTimes()
+    if not IsSubmerged() then
+        self.lastDryTime = GetTime()
+    end
+end
+
+function LM_Location:IsFloating()
+    return IsSubmerged() and not self:CantBreathe() and
+           ( GetTime() - (self.lastDryTime or 0 ) < 1.0)
 end
 
 -- I used to be nice. I swear I tried to be nice and only passively listen to
@@ -62,6 +76,10 @@ end
 
 function LM_Location:PLAYER_LOGIN()
     self:Initialize()
+end
+
+function LM_Location:MOUNT_JOURNAL_USABILITY_CHANGED()
+    self:UpdateSwimTimes()
 end
 
 function LM_Location:PLAYER_ENTERING_WORLD()

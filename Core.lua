@@ -37,10 +37,10 @@ local ButtonActions = {
         CancelForm
         CopyTargetsMount
         Vashjir
-        Underwater
+        Swim
         SuramarCity
         Fly
-        Swim
+        Float
         Nagrand
         AQ
         Run
@@ -54,8 +54,9 @@ local ButtonActions = {
         CancelForm
         CopyTargetsMount
         Vashjir
-        SuramarCity
         Swim
+        SuramarCity
+        Float
         Nagrand
         AQ
         Run
