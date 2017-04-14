@@ -131,95 +131,96 @@ end
 
 -- Got a player target, try copying their mount
 function LM_Action:CopyTargetsMount()
-    if not UnitIsPlayer("target") then return end
-    if not LM_Options:CopyTargetsMount() then return end
-
-    LM_Debug("Trying to clone target's mount")
-    return LM_PlayerMounts:GetMountFromUnitAura("target")
+    if LM_Options:CopyTargetsMount() and UnitIsPlayer("target") then
+        LM_Debug("Trying to clone target's mount")
+        return LM_PlayerMounts:GetMountFromUnitAura("target")
+    end
 end
 
 function LM_Action:Vashjir()
-    if not LM_Location:CanSwim() then return end
-    if not LM_Location:IsVashjir() then return end
-
-    LM_Debug("Trying GetVashjirMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG.VASHJIR)
+    if LM_Location:CanSwim() and LM_Location:IsVashjir() then
+        LM_Debug("Trying Vashjir Mount")
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG.VASHJIR)
+    end
 end
 
 function LM_Action:Fly()
-    if not LM_Location:CanFly() then return end
-
-    LM_Debug("Trying GetFlyingMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG.FLY)
+    if LM_Location:CanFly() then
+        LM_Debug("Trying Flying Mount")
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG.FLY)
+    end
 end
 
 function LM_Action:Underwater()
     if select(2, UnitRace("player")) == "Undead" then return end
-    if not LM_Location:CanSwim() then return end
-    if not LM_Location:CantBreathe() then return end
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG.SWIM)
+    if LM_Location:CanSwim() and LM_Location:CantBreathe() then
+        LM_Debug("Trying SuramarCity mount")
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG.SWIM)
+    end
 end
 
 function LM_Action:SuramarCity()
-    if not LM_Location:CanSuramarMasquerade() then return end
-    local m = LM_PlayerMounts:GetMountBySpell(230987)
-    if m and m:IsUsable() and not LM_Options:IsExcludedMount(m) then
-        return m
+    if LM_Location:CanSuramarMasquerade() then
+        local m = LM_PlayerMounts:GetMountBySpell(230987)
+        if m and m:IsUsable() and not LM_Options:IsExcludedMount(m) then
+            return m
+        end
     end
 end
 
 function LM_Action:Float()
-    if not LM_Location:CanSwim() then return end
-    if LM_Location:CantBreathe() then return end
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG.FLOAT)
+    if LM_Location:CanSwim() and not LM_Location:CantBreathe() then
+        LM_Debug("Trying Floating mount")
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG.FLOAT)
+    end
 end
 
 function LM_Action:Swim()
-    if not LM_Location:CanSwim() then return end
-
-    LM_Debug("Trying GetSwimmingMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG.SWIM)
+    if LM_Location:CanSwim() then
+        LM_Debug("Trying Swimming Mount")
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG.SWIM)
+    end
 end
 
 function LM_Action:Nagrand()
-    if not LM_Location:IsDraenorNagrand() then return end
-
-    LM_Debug("Trying GetNagrandMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG.NAGRAND)
+    if LM_Location:IsDraenorNagrand() then
+        LM_Debug("Trying Nagrand Mount")
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG.NAGRAND)
+    end
 end
 
 function LM_Action:AQ()
-    if not LM_Location:IsAQ() then return end
-
-    LM_Debug("Trying GetAQMount")
-    return LM_PlayerMounts:GetRandomMount(LM_FLAG.AQ)
+    if LM_Location:IsAQ() then
+        LM_Debug("Trying AQ Mount")
+        return LM_PlayerMounts:GetRandomMount(LM_FLAG.AQ)
+    end
 end
 
 function LM_Action:Run()
-    LM_Debug("Trying GetRunningMount")
+    LM_Debug("Trying Running Mount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG.RUN)
 end
 
 function LM_Action:Walk()
-    LM_Debug("Trying GetWalkingMount")
+    LM_Debug("Trying Walking Mount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG.WALK)
 end
 
 function LM_Action:Custom1()
-    LM_Debug("Trying GetCustom1Mount")
+    LM_Debug("Trying Custom1 Mount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG.CUSTOM1)
 end
 
 function LM_Action:Custom2()
-    LM_Debug("Trying GetCustom2Mount")
+    LM_Debug("Trying Custom2 Mount")
     return LM_PlayerMounts:GetRandomMount(LM_FLAG.CUSTOM2)
 end
 
 function LM_Action:Macro()
-    if not LM_Options:UseMacro() then return end
-
-    LM_Debug("Using custom macro.")
-    return LM_ActionAsMount:Macro(LM_Options:GetMacro())
+    if LM_Options:UseMacro() then
+        LM_Debug("Using custom macro.")
+        return LM_ActionAsMount:Macro(LM_Options:GetMacro())
+    end
 end
 
 function LM_Action:CantMount()
