@@ -77,8 +77,8 @@ function LM_Journal:Get(id)
         m.flags = bit.bor(LM_FLAG.FLY)
     elseif m:Type() == 248 then -- Flying mounts
         m.flags = bit.bor(LM_FLAG.FLY)
-    elseif m:Type() == 254 then -- Subdued Seahorse
-        m.flags = bit.bor(LM_FLAG.SWIM, LM_FLAG.VASHJIR)
+    elseif m:Type() == 254 then -- Swimming only mounts
+        m.flags = bit.bor(LM_FLAG.SWIM)
     elseif m:Type() == 269 then -- Water Striders
         m.flags = bit.bor(LM_FLAG.RUN, LM_FLAG.FLOAT)
     elseif m:Type() == 284 then -- Chauffeured Mekgineer's Chopper
