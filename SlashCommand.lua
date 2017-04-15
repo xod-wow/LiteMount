@@ -12,7 +12,7 @@ local MacroName = "LiteMount"
 local MacroText = [[
 # Auto-created by LiteMount addon, it is safe to delete or edit this macro.
 # To re-create it run "/litemount macro"
-/click [btn:1] LM_B2; [btn:2] LM_B2; [btn:3] LM_B3; [btn:4] LM_B4
+/click [btn:1] LM_B1; [btn:2] LM_B2; [btn:3] LM_B3; [btn:4] LM_B4
 ]]
 
 local function CreateOrUpdateMacro()
