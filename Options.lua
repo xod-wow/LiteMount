@@ -85,11 +85,11 @@ local function VersionUpgradeOptions(db)
     end
 
     if type(db.excludeNewMounts) == "table" then
-        db.excludeNewMounts = (db.excludeNewMounts[1] ~= nil)
+        db.excludeNewMounts = (not not db.excludeNewMounts[1])
     end
 
     if type(db.copyTargetsMount) == "table" then
-        db.copyTargetsMount = (db.copyTargetsMount[1] ~= nil)
+        db.copyTargetsMount = (not not db.copyTargetsMount[1])
     end
 
     if type(db.macro) == "table" then
@@ -103,7 +103,7 @@ local function VersionUpgradeOptions(db)
     end
 
     if db.useglobal then
-        db.useGlobal = (db.useglobal[1] ~= nil)
+        db.useGlobal = (not not db.useglobal[1])
     end
 
     -- LoadAddOn("Blizzard_DebugTools")
