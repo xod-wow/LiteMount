@@ -44,6 +44,8 @@ local LOCALIZED_MACRO_WORD = CaseAccentInsensitiveParse(MACRO)
 
 function LiteMount_SlashCommandFunc(argstr)
 
+    if InCombatLockdown() then return true end
+
     local args = { strsplit(" ", argstr) }
 
     for _,arg in ipairs(args) do
