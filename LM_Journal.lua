@@ -91,7 +91,7 @@ function LM_Journal:Get(id)
 end
 
 function LM_Journal:Refresh()
-    local isFiltered, isCollected, mountID = select(10, C_MountJournal.GetMountInfoByID(id))
+    local isFiltered, isCollected = select(10, C_MountJournal.GetMountInfoByID(self.mountID))
     self.isFiltered = isFiltered
     self.isCollected = isCollected
 end
