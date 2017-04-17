@@ -13,7 +13,7 @@ LM_Spell.__index = LM_Spell
 
 function LM_Spell:Get(spellID)
 
-    local name, rank, icon, castingTime, _, _, _ = GetSpellInfo(spellID)
+    local name, rank, icon, castTime, _, _, _ = GetSpellInfo(spellID)
 
     if not name then
         LM_Debug("LM_Mount: Failed GetSpellInfo #"..spellID)
@@ -26,7 +26,7 @@ function LM_Spell:Get(spellID)
     m.spellName = name
     m.icon = icon
     m.flags = 0
-    m.castTime = castingTime
+    m.castTime = castTime
     m.spellID = spellID
     m.isCollected = IsSpellKnown(m.spellID)
 

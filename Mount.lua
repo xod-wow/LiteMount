@@ -132,8 +132,12 @@ end
 
 function LM_Mount:IsUsable()
 
+    if not self.isCollected then
+        return false
+    end
+
     if PlayerIsMovingOrFalling() then
-        if self:CastTime() > 0 then return end
+        if self:CastTime() > 0 then return false end
     end
 
     local faction = self:NeedsFaction()
