@@ -25,10 +25,6 @@ function LM_ItemSummoned:Get(itemID, spellID, flags)
 
     if not PlayerHasItem(itemID) then return end
 
-    if self.cacheByItemID[itemID] then
-        return self.cacheByItemID[itemID]
-    end
-
     local m = LM_Spell:Get(spellID, true)
     if not m then return end
 
@@ -43,8 +39,6 @@ function LM_ItemSummoned:Get(itemID, spellID, flags)
     m.itemID = itemID
     m.itemName = itemName
     m.flags = flags
-
-    self.cacheByItemID[itemID] = m
 
     return m
 end

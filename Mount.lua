@@ -8,15 +8,11 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_Mount = {
-    ["cacheByItemID"] = { },
-    ["cacheByName"]   = { },
-    ["cacheBySpellID"] = { }
-}
+LM_Mount = { }
 LM_Mount.__index = LM_Mount
 
 function LM_Mount:new()
-    return setmetatable({ tags = { } }, LM_Mount)
+    return setmetatable({ }, LM_Mount)
 end
 
 function LM_Mount:Get(className, ...)
@@ -92,35 +88,6 @@ function LM_Mount:CurrentFlags()
     return LM_Options:ApplyMountFlags(self)
 end
 
-function LM_Mount:ClearTags()
-    wipe(self.tags)
-end
-
-function LM_Mount:Tags(v)
-    if v then self.tags = v end
-    return self.tags
-end
-
-function LM_Mount:CurrentTags()
-    return LM_Options:ApplyMountTags(self)
-end
-
-function LM_Mount:AddTag(t)
-    self.tags[t] = true
-end
-
-function LM_Mount:DelTag(t)
-    self.tags[t] = nil
-end
-
-function LM_Mount:HasTag(t)
-    return self.tags[t]
-end
-
-function LM_Mount:HasCurrentTag(t)
-    return self:CurrentTags()[t]
-end
-
 function LM_Mount:CastTime()
     return self.castTime
 end
@@ -193,8 +160,11 @@ function LM_Mount:Dump(prefix)
 
     LM_Print(prefix .. self:Name())
     LM_Print(prefix .. " spell: " .. format("%s (id %d)", self:SpellName(), self:SpellID()))
+    LM_Print(prefix .. " mountID: " .. tostring(self.mountID))
     LM_Print(prefix .. " casttime: " .. self:CastTime())
     LM_Print(prefix .. " flags: " .. format("%02x (default %02x)", self:CurrentFlags(), self:Flags()))
+    LM_Print(prefix .. " isCollected: " .. tostring(self.isCollected))
+    LM_Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))
     LM_Print(prefix .. " excluded: " .. yesno(LM_Options:IsExcludedMount(self)))
     LM_Print(prefix .. " usable: " .. yesno(self:IsUsable()) .. " (spell " .. yesno(IsUsableSpell(self:SpellID())) .. ")")
 end
