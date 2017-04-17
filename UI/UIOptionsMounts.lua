@@ -70,7 +70,6 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
     info.keepShownOnClick = true
 
     local function flagFunc(self, arg1, arg2, v)
-        LM_Print(arg1 .. " = " .. tostring(v))
         LM_Options.db.uiMountFilterList[arg1] = (not v or nil)
         LiteMountOptions_UpdateMountList()
     end
@@ -80,16 +79,6 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         info.func = flagFunc
         info.isNotRadio = true
 
-        info.text = COLLECTED
-        info.arg1 = "COLLECTED"
-        info.checked = not LM_Options.db.uiMountFilterList.COLLECTED
-        UIDropDownMenu_AddButton(info, level)
-
-        info.text = NOT_COLLECTED
-        info.arg1 = "NOT_COLLECTED"
-        info.checked = not LM_Options.db.uiMountFilterList.NOT_COLLECTED
-        UIDropDownMenu_AddButton(info, level)
-
         info.text = VIDEO_OPTIONS_ENABLED
         info.arg1 = "ENABLED"
         info.checked = not LM_Options.db.uiMountFilterList.ENABLED
@@ -98,6 +87,11 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         info.text = VIDEO_OPTIONS_DISABLED
         info.arg1 = "DISABLED"
         info.checked = not LM_Options.db.uiMountFilterList.DISABLED
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = NOT_COLLECTED
+        info.arg1 = "NOT_COLLECTED"
+        info.checked = not LM_Options.db.uiMountFilterList.NOT_COLLECTED
         UIDropDownMenu_AddButton(info, level)
 
         info.text = MOUNT_JOURNAL_FILTER_UNUSABLE
@@ -160,6 +154,9 @@ function LiteMountOptionsMountsFilterDropDown_OnLoad(self)
 end
 
 local function GetFilteredMountList()
+
+    local filters = LM_Options.db.uiMountFilterList
+
     LM_PlayerMounts:ScanMounts()
     local mounts = LM_PlayerMounts:GetAllMounts():Sort()
 
@@ -170,77 +167,37 @@ local function GetFilteredMountList()
         filtertext = CaseAccentInsensitiveParse(filtertext)
     end
 
-    local n
+    for i = #mounts, 1, -1 do
+        local m = mounts[i]
 
-    filtertext, n = gsub(filtertext, "^+fly *", "", 1)
-    if n == 1 then
-        for i = #mounts, 1, -1 do
-            if not mounts[i]:CurrentFlagsSet(LM_FLAG.FLY) then
-                tremove(mounts, i)
+        local remove = false
+
+        local matchname = CaseAccentInsensitiveParse(m:Name())
+        if not strfind(matchname, filtertext, 1, true) then
+            remove = true
+        end
+
+        if LM_Options:IsExcludedMount(m) and filters.DISABLED then
+            remove = true
+        end
+
+        if not LM_Options:IsExcludedMount(m) and filters.ENABLED then
+            remove = true
+        end
+
+        local filterFlags = 0
+        for flagName, flagBit in pairs(LM_FLAG) do
+            if filters[flagName] then
+                filterFlags = bit.bor(filterFlags, flagBit)
             end
         end
-    end
 
-    filtertext, n = gsub(filtertext, "^+run *", "", 1)
-    if n == 1 then
-        for i = #mounts, 1, -1 do
-            if not mounts[i]:CurrentFlagsSet(LM_FLAG.RUN) then
-                tremove(mounts, i)
-            end
+        if bit.band(m:CurrentFlags(), filterFlags) == m:CurrentFlags() then
+            remove = true
         end
-    end
 
-    filtertext, n = gsub(filtertext, "^+swim *", "", 1)
-    if n == 1 then
-        for i = #mounts, 1, -1 do
-            if not mounts[i]:CurrentFlagsSet(LM_FLAG.SWIM) then
-                tremove(mounts, i)
-            end
-        end
-    end
-
-    filtertext, n = gsub(filtertext, "^+c1 *", "", 1)
-    if n == 1 then
-        for i = #mounts, 1, -1 do
-            if not mounts[i]:CurrentFlagsSet(LM_FLAG.CUSTOM1) then
-                tremove(mounts, i)
-            end
-        end
-    end
-
-    filtertext, n = gsub(filtertext, "^+c2 *", "", 1)
-    if n == 1 then
-        for i = #mounts, 1, -1 do
-            if not mounts[i]:CurrentFlagsSet(LM_FLAG.CUSTOM2) then
-                tremove(mounts, i)
-            end
-        end
-    end
-
-    filtertext, n = gsub(filtertext, "^+enabled *", "", 1)
-    if n == 1 then
-        for i = #mounts, 1, -1 do
-            if LM_Options:IsExcludedMount(mounts[i]) then
-                tremove(mounts, i)
-            end
-        end
-    end
-
-    filtertext, n = gsub(filtertext, "^+active *", "", 1)
-    if n == 1 then
-        for i = #mounts, 1, -1 do
-            if not UnitAura("player", mounts[i]:SpellName()) then
-                tremove(mounts, i)
-            end
-        end
-    end
-
-    if filtertext ~= "" then
-        for i = #mounts, 1, -1 do
-            local matchname = CaseAccentInsensitiveParse(mounts[i]:Name())
-            if not strfind(matchname, filtertext, 1, true) then
-                tremove(mounts, i)
-            end
+        if remove then
+            tremove(mounts, i)
         end
     end
 

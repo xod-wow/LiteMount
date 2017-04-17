@@ -297,18 +297,6 @@
                     SearchBoxTemplate_OnTextChanged(self)
                     LiteMountOptions_UpdateMountList()
                 </OnTextChanged>
-                <OnEnter>
-                    GameTooltip:SetOwner(self, "ANCHOR_TOP")
-                    GameTooltip:AddLine("Special filters, begin with:")
-                    GameTooltip:AddLine("+fly / +run / +swim")
-                    GameTooltip:AddLine("+enabled / +active")
-                    GameTooltip:Show()
-                </OnEnter>
-                <OnLeave>
-                    if GameTooltip:GetOwner() == self then
-                        GameTooltip:Hide()
-                    end
-                </OnLeave>
             </Scripts>
         </EditBox>
 
