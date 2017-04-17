@@ -34,7 +34,7 @@ function LM_Spell:Get(spellID)
 end
 
 function LM_Spell:Refresh()
-    m.isCollected = IsSpellKnown(m.spellID)
+    self.isCollected = IsSpellKnown(m.spellID)
 end
 
 function LM_Spell:IsUsable()
