@@ -303,7 +303,7 @@
         <Button name="$parentFilterButton" parentKey="FilterButton" inherits="UIMenuButtonStretchTemplate" text="FILTER">
             <Size x="93" y="22" />
             <Anchors>
-                <Anchor point="LEFT" relativeTo="$parentSearch" relativePoint="RIGHT" x="12" />
+                <Anchor point="LEFT" relativeTo="$parentSearch" relativePoint="RIGHT" x="12" y="-0.5" />
             </Anchors>
             <Layers>
                 <Layer level="ARTWORK">

@@ -39,9 +39,6 @@ function LM_Journal:Get(id)
         return
     end
 
-    -- Exclude mounts Blizzard decide are hidden
-    if isFiltered then return end
-
     if self.cacheByName[name] then
         return self.cacheByName[name]
     end
@@ -56,6 +53,7 @@ function LM_Journal:Get(id)
     m.icon          = icon
     m.isSelfMount   = isSelfMount
     m.mountType     = mountType
+    m.isFiltered    = isFiltered
     m.isCollected   = isCollected
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
 

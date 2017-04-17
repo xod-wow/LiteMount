@@ -178,8 +178,7 @@ local function GetFilteredMountList()
 
         local remove = false
 
-        local matchname = CaseAccentInsensitiveParse(m:Name())
-        if not strfind(matchname, filtertext, 1, true) then
+        if m.isFiltered then
             remove = true
         end
 
@@ -205,6 +204,15 @@ local function GetFilteredMountList()
         if bit.band(m:CurrentFlags(), filterFlags) == m:CurrentFlags() then
             remove = true
         end
+
+        -- strfind is expensive, avoid if possible
+        if not remove and filtertext ~= "" then
+            local matchname = CaseAccentInsensitiveParse(m:Name())
+            if not strfind(matchname, filtertext, 1, true) then
+                remove = true
+            end
+        end
+
 
         if remove then
             tremove(mounts, i)
