@@ -32,6 +32,7 @@ local Default_LM_OptionsDB = {
     ["useGlobal"]           = true,
     ["excludeNewMounts"]    = false,
     ["copyTargetsMount"]    = true,
+    ["uiMountFilterList"]   = { },
 }
 
 LM_Options = { }

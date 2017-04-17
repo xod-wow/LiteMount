@@ -69,35 +69,40 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
     local info = UIDropDownMenu_CreateInfo()
     info.keepShownOnClick = true
 
+    local function flagFunc(self, arg1, arg2, v)
+        LM_Print(arg1 .. " = " .. tostring(v))
+        LM_Options.db.uiMountFilterList[arg1] = (not v or nil)
+        LiteMountOptions_UpdateMountList()
+    end
+
     if level == 1 then
-        info.text = COLLECTED
-        info.func = function (_,_,_,v) end
-        info.checked = true
+
+        info.func = flagFunc
         info.isNotRadio = true
+
+        info.text = COLLECTED
+        info.arg1 = "COLLECTED"
+        info.checked = not LM_Options.db.uiMountFilterList.COLLECTED
         UIDropDownMenu_AddButton(info, level)
 
         info.text = NOT_COLLECTED
-        info.func = function (_,_,_,v) end
-        info.checked = true
-        info.isNotRadio = true
+        info.arg1 = "NOT_COLLECTED"
+        info.checked = not LM_Options.db.uiMountFilterList.NOT_COLLECTED
         UIDropDownMenu_AddButton(info, level)
 
         info.text = VIDEO_OPTIONS_ENABLED
-        info.func = function (_,_,_,v) end
-        info.checked = true
-        info.isNotRadio = true
+        info.arg1 = "ENABLED"
+        info.checked = not LM_Options.db.uiMountFilterList.ENABLED
         UIDropDownMenu_AddButton(info, level)
 
         info.text = VIDEO_OPTIONS_DISABLED
-        info.func = function (_,_,_,v) end
-        info.checked = true
-        info.isNotRadio = true
+        info.arg1 = "DISABLED"
+        info.checked = not LM_Options.db.uiMountFilterList.DISABLED
         UIDropDownMenu_AddButton(info, level)
 
         info.text = MOUNT_JOURNAL_FILTER_UNUSABLE
-        info.func = function (_,_,_,v) end
-        info.checked = true
-        info.isNotRadio = true
+        info.arg1 = "UNUSABLE"
+        info.checked = not LM_Options.db.uiMountFilterList.UNUSABLE
         UIDropDownMenu_AddButton(info, level)
 
         info.text = "Flags"
@@ -113,25 +118,38 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         info.notCheckable = true
 
         info.text = CHECK_ALL
-        info.func = function () end
+        info.func = function () 
+                for k in pairs(LM_FLAG) do 
+                    LM_Options.db.uiMountFilterList[k] = nil
+                end
+                UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, 1, 2)
+                LiteMountOptions_UpdateMountList()
+            end
         UIDropDownMenu_AddButton(info, level)
 
         info.text = UNCHECK_ALL
-        info.func = function () end
+        info.func = function ()
+                for k in pairs(LM_FLAG) do 
+                    LM_Options.db.uiMountFilterList[k] = true
+                end
+                UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, 1, 2)
+                LiteMountOptions_UpdateMountList()
+            end
         UIDropDownMenu_AddButton(info, level)
 
         info.notCheckable = false
-        info.func = function () end
-        info.checked = function () end
+        info.func = flagFunc
 
         local allFlags = { }
-        for flagName in pairs(LM_FLAG) do
-            tinsert(allFlags, flagName)
-        end
+        for flagName in pairs(LM_FLAG) do tinsert(allFlags, flagName) end
         sort(allFlags, function(a,b) return LM_FLAG[a] < LM_FLAG[b] end)
 
         for _, flagName in ipairs(allFlags) do 
             info.text = flagName
+            info.arg1 = flagName
+            info.checked = function ()
+                    return not LM_Options.db.uiMountFilterList[flagName]
+                end
             UIDropDownMenu_AddButton(info, level)
         end
     end
