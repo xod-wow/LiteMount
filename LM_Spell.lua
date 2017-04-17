@@ -11,9 +11,7 @@
 LM_Spell = setmetatable({ }, LM_Mount)
 LM_Spell.__index = LM_Spell
 
-function LM_Spell:Get(spellID, forceKnown)
-
-    if not forceKnown and not IsSpellKnown(spellID) then return end
+function LM_Spell:Get(spellID)
 
     local name, rank, icon, castingTime, _, _, _ = GetSpellInfo(spellID)
 
@@ -30,8 +28,13 @@ function LM_Spell:Get(spellID, forceKnown)
     m.flags = 0
     m.castTime = castingTime
     m.spellID = spellID
+    m.isCollected = IsSpellKnown(m.spellID)
 
     return m
+end
+
+function LM_Spell:Refresh()
+    m.isCollected = IsSpellKnown(m.spellID)
 end
 
 function LM_Spell:IsUsable()

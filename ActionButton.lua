@@ -40,7 +40,7 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_Debug("PreClick handler called on " .. self:GetName())
 
-    LM_PlayerMounts:ScanMounts()
+    LM_PlayerMounts:RefreshMounts()
 
     for action in gmatch(self.actionList, "%S+") do
         if self:Dispatch(action) then return end

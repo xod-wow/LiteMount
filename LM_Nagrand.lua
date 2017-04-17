@@ -30,10 +30,7 @@ function LM_Nagrand:Get(spellID)
         return
     end
 
-    local baseSpellID, garrisonType = GetZoneAbilitySpellInfo()
-    if baseSpellID ~= 0 then
-        m = LM_Spell:Get(spellID, true)
-    end
+    m = LM_Spell:Get(spellID, true)
 
     if m then
         setmetatable(m, LM_Nagrand)

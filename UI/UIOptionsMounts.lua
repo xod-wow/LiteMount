@@ -163,7 +163,6 @@ local function GetFilteredMountList()
 
     local filters = LM_Options.db.uiMountFilterList
 
-    LM_PlayerMounts:ScanMounts()
     local mounts = LM_PlayerMounts:GetAllMounts():Sort(FilterSort)
 
     local filtertext = LiteMountOptionsMounts.Search:GetText()
@@ -190,7 +189,7 @@ local function GetFilteredMountList()
             remove = true
         end
 
-        if m.mountID and not m.isCollected and filters.NOT_COLLECTED then
+        if not m.isCollected and filters.NOT_COLLECTED then
             remove = true
         end
 
@@ -267,7 +266,7 @@ local function UpdateMountButton(button, mount)
         i = i + 1
     end
 
-    if mount.mountID and not mount.isCollected then
+    if not mount.isCollected then
         button.name:SetFontObject("GameFontDisable")
         button.icon:GetNormalTexture():SetDesaturated(true)
     else

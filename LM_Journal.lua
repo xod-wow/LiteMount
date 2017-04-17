@@ -90,6 +90,12 @@ function LM_Journal:Get(id)
     return m
 end
 
+function LM_Journal:Refresh()
+    local isFiltered, isCollected, mountID = select(10, C_MountJournal.GetMountInfoByID(id))
+    self.isFiltered = isFiltered
+    self.isCollected = isCollected
+end
+
 function LM_Journal:IsUsable()
     local usable = select(5, C_MountJournal.GetMountInfoByID(self:MountID()))
     if not usable then return end

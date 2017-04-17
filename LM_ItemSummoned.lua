@@ -23,8 +23,6 @@ end
 
 function LM_ItemSummoned:Get(itemID, spellID, flags)
 
-    if not PlayerHasItem(itemID) then return end
-
     local m = LM_Spell:Get(spellID, true)
     if not m then return end
 
@@ -39,8 +37,13 @@ function LM_ItemSummoned:Get(itemID, spellID, flags)
     m.itemID = itemID
     m.itemName = itemName
     m.flags = flags
+    m.isCollected = PlayerHasItem(m.itemID)
 
     return m
+end
+
+function LM_ItemSummoned:Refresh()
+    m.isCollected = PlayerHasItem(m.itemID)
 end
 
 function LM_ItemSummoned:SetupActionButton(button)

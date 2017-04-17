@@ -48,7 +48,7 @@ local LM_MOUNT_SPELLS = {
     },
 }
 
-local RescanEvents = {
+local RefreshEvents = {
     -- Companion change. Don't add COMPANION_UPDATE to this as it fires
     -- for units other than "player" and triggers constantly.
     "COMPANION_LEARNED", "COMPANION_UNLEARNED",
@@ -62,17 +62,17 @@ local RescanEvents = {
 }
 
 function LM_PlayerMounts:Initialize()
-    -- Delayed scanning stops us rescanning unnecessarily.
-    self.needScan = true
 
     self.byName = { }
     self.list = LM_MountList:New()
 
-    -- Rescan event setup
-    for _,ev in ipairs(RescanEvents) do
+    self:ScanMounts()
+
+    -- Refresh event setup
+    for _,ev in ipairs(RefreshEvents) do
         self[ev] = function (self, event, ...)
                             LM_Debug("Got rescan event "..event)
-                            self.needScan = true
+                            self.needRefresh = true
                         end
         self:RegisterEvent(ev)
     end
@@ -102,21 +102,30 @@ function LM_PlayerMounts:AddSpellMounts()
 end
 
 function LM_PlayerMounts:ScanMounts()
-    if not self.needScan then return end
-    LM_Debug("Rescanning list of mounts.")
+    LM_Debug("Scanning all mounts.")
 
-    self.needScan = nil
     wipe(self.byName)
     wipe(self.list)
 
     self:AddJournalMounts()
     self:AddSpellMounts()
 
-    for m in self.list:Iterate() do
+    for m in self:Iterate() do
         LM_Options:SeenMount(m, true)
     end
 
-    LM_Debug("Finished rescan.")
+    LM_Debug("Finished scan.")
+end
+
+function LM_PlayerMounts:RefreshMounts()
+    if self.needRefresh then
+        LM_Debug("Refreshing status of all mounts.")
+
+        for m in self:Iterate() do
+            m:Refresh()
+        end
+        self.needRefresh = nil
+    end
 end
 
 function LM_PlayerMounts:Iterate()
@@ -124,7 +133,12 @@ function LM_PlayerMounts:Iterate()
 end
 
 function LM_PlayerMounts:Search(matchfunc)
+    self:RefreshMounts()
     return self.list:Search(matchfunc)
+end
+
+function LM_PlayerMounts:Find(matchfunc)
+    return self.list:Search(matchfunc)[1]
 end
 
 function LM_PlayerMounts:GetAllMounts()
@@ -145,18 +159,20 @@ end
 
 function LM_PlayerMounts:GetMountFromUnitAura(unitid)
     for i = 1,BUFF_MAX_DISPLAY do
-        local m = self:GetMountByName(UnitAura(unitid, i))
-        if m and m:IsUsable() then return m end
+        local aura = UnitAura(unitid, i)
+        local function match(m) return m.isCollected and m.name == aura end
+        return self:Find(match)
     end
 end
 
 function LM_PlayerMounts:GetMountByName(name)
-    return self.byName[name]
+    local function match(m) return m.name == name end
+    return self:Find(match)
 end
 
 function LM_PlayerMounts:GetMountBySpell(id)
-    local name = GetSpellInfo(id)
-    if name then return self:GetMountByName(name) end
+    local function match(m) return m.spellID == id end
+    return self:Find(match)
 end
 
 -- For some reason GetShapeshiftFormInfo doesn't work on Ghost Wolf.
