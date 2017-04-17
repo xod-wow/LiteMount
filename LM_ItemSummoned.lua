@@ -43,7 +43,7 @@ function LM_ItemSummoned:Get(itemID, spellID, flags)
 end
 
 function LM_ItemSummoned:Refresh()
-    m.isCollected = PlayerHasItem(m.itemID)
+    self.isCollected = PlayerHasItem(self.itemID)
 end
 
 function LM_ItemSummoned:SetupActionButton(button)
