@@ -4,7 +4,7 @@
 
   Options frame for the mount list.
 
-  Copyright 2011-2016 Mike Battersby
+  Copyright 2011-2017 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
@@ -169,7 +169,7 @@ local function GetFilteredMountList()
     if filtertext == SEARCH then
         filtertext = ""
     else
-        filtertext = CaseAccentInsensitiveParse(filtertext)
+        filtertext = strlower(filtertext)
     end
 
     for i = #mounts, 1, -1 do
@@ -206,7 +206,7 @@ local function GetFilteredMountList()
 
         -- strfind is expensive, avoid if possible
         if not remove and filtertext ~= "" then
-            local matchname = CaseAccentInsensitiveParse(m:Name())
+            local matchname = strlower(m:Name())
             if not strfind(matchname, filtertext, 1, true) then
                 remove = true
             end

@@ -5,7 +5,7 @@
   Wrappers CreateFrame with an on-event handler that looks for a function
   named for the event and calls it.
 
-  Copyright 2011-2016 Mike Battersby
+  Copyright 2011-2017 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
