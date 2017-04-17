@@ -153,12 +153,18 @@ function LiteMountOptionsMountsFilterDropDown_OnLoad(self)
     UIDropDownMenu_Initialize(self, LiteMountOptionsMountsFilterDropDown_Initialize, "MENU")
 end
 
+local function FilterSort(a, b)
+    if a.isCollected and not b.isCollected then return true end
+    if not a.isCollected and b.isCollected then return false end
+    return a.name < b.name
+end
+
 local function GetFilteredMountList()
 
     local filters = LM_Options.db.uiMountFilterList
 
     LM_PlayerMounts:ScanMounts()
-    local mounts = LM_PlayerMounts:GetAllMounts():Sort()
+    local mounts = LM_PlayerMounts:GetAllMounts():Sort(FilterSort)
 
     local filtertext = LiteMountOptionsMounts.Search:GetText()
     if filtertext == SEARCH then
@@ -182,6 +188,10 @@ local function GetFilteredMountList()
         end
 
         if not LM_Options:IsExcludedMount(m) and filters.ENABLED then
+            remove = true
+        end
+
+        if m.mountID and not m.isCollected and filters.NOT_COLLECTED then
             remove = true
         end
 
@@ -247,6 +257,14 @@ local function UpdateMountButton(button, mount)
     while button["bit"..i] do
         BitButtonUpdate(button["bit"..i], mount)
         i = i + 1
+    end
+
+    if mount.mountID and not mount.isCollected then
+        button.name:SetFontObject("GameFontDisable")
+        button.icon:GetNormalTexture():SetDesaturated(true)
+    else
+        button.name:SetFontObject("GameFontNormal")
+        button.icon:GetNormalTexture():SetDesaturated(false)
     end
 
     if LM_Options:IsExcludedMount(mount) then

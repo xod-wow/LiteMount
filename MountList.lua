@@ -146,9 +146,9 @@ function LM_MountList:__sub(other)
     return r
 end
 
-function LM_MountList:Sort()
-    local ns = function (a,b) return a:Name() < b:Name() end
-    sort(self, ns)
+function LM_MountList:Sort(func)
+    local func = func or function (a,b) return a:Name() < b:Name() end
+    sort(self, func)
     return self
 end
 

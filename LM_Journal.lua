@@ -39,8 +39,8 @@ function LM_Journal:Get(id)
         return
     end
 
-    -- Exclude mounts not collected and ones Blizzard decide are hidden
-    if isFiltered or not isCollected then return end
+    -- Exclude mounts Blizzard decide are hidden
+    if isFiltered then return end
 
     if self.cacheByName[name] then
         return self.cacheByName[name]
@@ -56,6 +56,7 @@ function LM_Journal:Get(id)
     m.icon          = icon
     m.isSelfMount   = isSelfMount
     m.mountType     = mountType
+    m.isCollected   = isCollected
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
 
     -- LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
