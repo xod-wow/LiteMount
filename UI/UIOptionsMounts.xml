@@ -287,10 +287,10 @@
             </Scripts>
         </CheckButton>
 
-        <EditBox name="$parentFilter" autofocus="false" inherits="SearchBoxTemplate" parentKey="filter">
-            <Size x="180" y="26" />
+        <EditBox name="$parentSearch" autofocus="false" inherits="SearchBoxTemplate" parentKey="Search" letters="40">
+            <Size x="145" y="20" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="96" y="2" />
+                <Anchor point="BOTTOMLEFT" relativeTo="$parentScrollFrame" relativePoint="TOPLEFT" x="46" y="5" />
             </Anchors>
             <Scripts>
                 <OnTextChanged>
@@ -311,6 +311,34 @@
                 </OnLeave>
             </Scripts>
         </EditBox>
+
+        <Button name="$parentFilterButton" parentKey="FilterButton" inherits="UIMenuButtonStretchTemplate" text="FILTER">
+            <Size x="93" y="22" />
+            <Anchors>
+                <Anchor point="LEFT" relativeTo="$parentSearch" relativePoint="RIGHT" x="12" />
+            </Anchors>
+            <Layers>
+                <Layer level="ARTWORK">
+                    <Texture parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
+                        <Size x="10" y="12"/>
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="RIGHT" x="-5"/>
+                        </Anchors>
+                    </Texture>
+                </Layer>
+            </Layers>
+            <Scripts>
+                <OnClick>
+                    ToggleDropDownMenu(1, nil, LiteMountOptionsMountsFilterDropDown, self:GetName(), 74, 15)
+                </OnClick>
+            </Scripts>
+        </Button>
+
+        <Frame name="$parentFilterDropDown" parentKey="FilterDropDown" inherits="UIDropDownMenuTemplate">
+            <Scripts>
+                <OnLoad function="LiteMountOptionsMountsFilterDropDown_OnLoad" />
+            </Scripts>
+        </Frame>
 
     </Frames>
 

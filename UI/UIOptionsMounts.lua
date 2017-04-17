@@ -65,11 +65,87 @@ local function BitButtonUpdate(checkButton, mount)
     end
 end
 
+function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
+    local info = UIDropDownMenu_CreateInfo()
+    info.keepShownOnClick = true
+
+    if level == 1 then
+        info.text = COLLECTED
+        info.func = function (_,_,_,v) end
+        info.checked = true
+        info.isNotRadio = true
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = NOT_COLLECTED
+        info.func = function (_,_,_,v) end
+        info.checked = true
+        info.isNotRadio = true
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = VIDEO_OPTIONS_ENABLED
+        info.func = function (_,_,_,v) end
+        info.checked = true
+        info.isNotRadio = true
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = VIDEO_OPTIONS_DISABLED
+        info.func = function (_,_,_,v) end
+        info.checked = true
+        info.isNotRadio = true
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = MOUNT_JOURNAL_FILTER_UNUSABLE
+        info.func = function (_,_,_,v) end
+        info.checked = true
+        info.isNotRadio = true
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = "Flags"
+        info.checked = nil
+        info.func = nil
+        info.isNotRadio = nil
+        info.hasArrow = true
+        info.notCheckable = true
+        info.value = 1
+        UIDropDownMenu_AddButton(info, level)
+    elseif level == 2 then
+        info.isNotRadio = true
+        info.notCheckable = true
+
+        info.text = CHECK_ALL
+        info.func = function () end
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = UNCHECK_ALL
+        info.func = function () end
+        UIDropDownMenu_AddButton(info, level)
+
+        info.notCheckable = false
+        info.func = function () end
+        info.checked = function () end
+
+        local allFlags = { }
+        for flagName in pairs(LM_FLAG) do
+            tinsert(allFlags, flagName)
+        end
+        sort(allFlags, function(a,b) return LM_FLAG[a] < LM_FLAG[b] end)
+
+        for _, flagName in ipairs(allFlags) do 
+            info.text = flagName
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end
+end
+
+function LiteMountOptionsMountsFilterDropDown_OnLoad(self)
+    UIDropDownMenu_Initialize(self, LiteMountOptionsMountsFilterDropDown_Initialize, "MENU")
+end
+
 local function GetFilteredMountList()
     LM_PlayerMounts:ScanMounts()
     local mounts = LM_PlayerMounts:GetAllMounts():Sort()
 
-    local filtertext = LiteMountOptionsMounts.filter:GetText()
+    local filtertext = LiteMountOptionsMounts.Search:GetText()
     if filtertext == SEARCH then
         filtertext = ""
     else
