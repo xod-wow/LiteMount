@@ -38,6 +38,8 @@ function LM_Spell:Refresh()
 end
 
 function LM_Spell:IsUsable()
-    if not IsUsableSpell(self:SpellID()) then return end
+    if not IsSpellKnown(self.spellID) or not IsUsableSpell(self.spellID) then
+        return false
+    end
     return LM_Mount.IsUsable(self)
 end
