@@ -49,12 +49,12 @@ end
 -- Draenor Ability spells are weird.  The name of the Garrison Ability
 -- (localized) is name = GetSpellInfo(161691)
 -- But, GetSpellInfo(name) returns the actual current spell that's active.
-function LM_Nagrand:IsUsable()
+function LM_Nagrand:IsCastable()
     local baseSpellID, garrisonType = GetZoneAbilitySpellInfo()
     local baseSpellName = GetSpellInfo(baseSpellID)
 
     local id = select(7, GetSpellInfo(baseSpellName))
     if id ~= self:SpellID() then return false end
     if not IsUsableSpell(baseSpellID) then return false end
-    return LM_Mount.IsUsable(self)
+    return LM_Mount.IsCastable(self)
 end

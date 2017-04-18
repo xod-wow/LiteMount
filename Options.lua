@@ -23,16 +23,16 @@ flagChanges is a table of spellIDs with flags to set (+) and clear (-).
 
 -- You can't have these be nil or they will always be deleted by the cleaner
 local Default_LM_OptionsDB = {
-    ["excludedSpells"]      = { },
-    ["flagChanges"]         = { },
-    ["unavailableMacro"]    = "",
-    ["useUnavailableMacro"] = false,
-    ["combatMacro"]         = "",
-    ["useCombatMacro"]      = false,
-    ["useGlobal"]           = true,
-    ["excludeNewMounts"]    = false,
-    ["copyTargetsMount"]    = true,
-    ["uiMountFilterList"]   = { NOT_COLLECTED = true },
+    excludedSpells      = { },
+    flagChanges         = { },
+    unavailableMacro    = "",
+    useUnavailableMacro = false,
+    combatMacro         = "",
+    useCombatMacro      = false,
+    useGlobal           = true,
+    excludeNewMounts    = false,
+    copyTargetsMount    = true,
+    uiMountFilterList   = { NOT_COLLECTED = true },
 }
 
 LM_Options = { }
@@ -126,17 +126,15 @@ function LM_Options:Initialize()
     LM_GlobalOptionsDB = LM_GlobalOptionsDB or CopyTable(Default_LM_OptionsDB)
     VersionUpgradeOptions(LM_GlobalOptionsDB)
 
-    -- The annoyance with this is that we don't want global macros, only
-    -- global mount excludes and flags.
+    -- I'm going to fake this up to look like AceDB-3.0 until I can migrate.
 
-    self.db = LM_OptionsDB
+    self.db = { }
+    self.db.char = LM_OptionsDB
 
-    if self.db.useGlobal then
-        self.excludedSpells = LM_GlobalOptionsDB.excludedSpells
-        self.flagChanges = LM_GlobalOptionsDB.flagChanges
+    if self.db.char.useGlobal then
+        self.db.profile = LM_GlobalOptionsDB
     else
-        self.excludedSpells = LM_OptionsDB.excludedSpells
-        self.flagChanges = LM_OptionsDB.flagChanges
+        self.db.profile = LM_OptionsDB
     end
 
 end
@@ -145,17 +143,15 @@ function LM_Options:UseGlobal(trueFalse)
 
     if trueFalse ~= nil then
         if trueFalse then
-            self.db.useGlobal = true
-            self.excludedSpells = LM_GlobalOptionsDB.excludedSpells
-            self.flagChanges = LM_GlobalOptionsDB.flagChanges
+            self.db.char.useGlobal = true
+            self.db.profile = LM_GlobalOptionsDB
         else
-            self.db.useGlobal = false
-            self.excludedSpells = LM_OptionsDB.excludedSpells
-            self.flagChanges = LM_OptionsDB.flagChanges
+            self.db.char.useGlobal = false
+            self.db.profile = LM_OptionsDB
         end
     end
 
-    return (self.db.useGlobal == true)
+    return (self.db.char.useGlobal == true)
 end
 
 
@@ -164,29 +160,29 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:IsExcludedMount(m)
-    return self.excludedSpells[m:SpellID()]
+    return self.db.profile.excludedSpells[m:SpellID()]
 end
 
 function LM_Options:AddExcludedMount(m)
     LM_Debug(format("Disabling mount %s (%d).", m:SpellName(), m:SpellID()))
-    self.excludedSpells[m:SpellID()] = true
+    self.db.profile.excludedSpells[m:SpellID()] = true
 end
 
 function LM_Options:RemoveExcludedMount(m)
     LM_Debug(format("Enabling mount %s (%d).", m:SpellName(), m:SpellID()))
-    self.excludedSpells[m:SpellID()] = false
+    self.db.profile.excludedSpells[m:SpellID()] = false
 end
 
 function LM_Options:ToggleExcludedMount(m)
     local id = m:SpellID()
     LM_Debug(format("Toggling mount %s (%d).", m:SpellName(), id))
-    self.excludedSpells[id] = not self.excludedSpells[id]
+    self.db.profile.excludedSpells[id] = not self.db.profile.excludedSpells[id]
 end
 
 function LM_Options:SetExcludedMounts(mountlist)
     LM_Debug("Setting complete list of disabled mounts.")
-    for k in pairs(self.excludedSpells) do
-        self.excludedSpells[k] = false
+    for k in pairs(self.db.profile.excludedSpells) do
+        self.db.profile.excludedSpells[k] = false
     end
     for _,m in ipairs(mountlist) do
         self:AddExcludedMount(m)
@@ -200,7 +196,7 @@ end
 function LM_Options:ApplyMountFlags(m)
     local id = m:SpellID()
     local flags = m:Flags()
-    local changes = self.flagChanges[id] or { }
+    local changes = self.db.profile.flagChanges[id] or { }
 
     for flagName,flagBit in pairs(LM_FLAG) do
         if changes[flagName] == '+' then
@@ -238,7 +234,7 @@ function LM_Options:ResetMountFlags(m)
 
     LM_Debug(format("Defaulting flags for spell %s (%d).", name, id))
 
-    self.flagChanges[id] = nil
+    self.db.profile.flagChanges[id] = nil
 end
 
 function LM_Options:SetMountFlags(m, flags)
@@ -253,7 +249,7 @@ function LM_Options:SetMountFlags(m, flags)
     local toSet = bit.band(bit.bxor(flags, def), flags)
     local toClear = bit.band(bit.bxor(flags, def), bit.bnot(flags))
 
-    self.flagChanges[id] = FlagConvert(toSet, toClear)
+    self.db.profile.flagChanges[id] = FlagConvert(toSet, toClear)
 end
 
 
@@ -262,38 +258,38 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM_Options:UseMacro()
-    return self.db.useUnavailableMacro
+    return self.db.char.useUnavailableMacro
 end
 
 function LM_Options:GetMacro()
-    return self.db.unavailableMacro
+    return self.db.char.unavailableMacro
 end
 
 function LM_Options:SetMacro(text)
     LM_Debug("Setting unavailable macro: " .. tostring(text))
-    self.db.unavailableMacro = text
-    self.db.useUnavailableMacro = (text ~= "")
+    self.db.char.unavailableMacro = text
+    self.db.char.useUnavailableMacro = (text ~= "")
 end
 
 function LM_Options:UseCombatMacro(trueFalse)
     if trueFalse == true or trueFalse == 1 or trueFalse == "on" then
         LM_Debug("Enabling custom combat macro.")
-        self.db.useCombatMacro = true
+        self.db.char.useCombatMacro = true
     elseif trueFalse == false or trueFalse == 0 or trueFalse == "off" then
         LM_Debug("Disabling custom combat macro.")
-        self.db.useCombatMacro = false
+        self.db.char.useCombatMacro = false
     end
 
-    return self.db.useCombatMacro
+    return self.db.char.useCombatMacro
 end
 
 function LM_Options:GetCombatMacro()
-    return self.db.combatMacro
+    return self.db.char.combatMacro
 end
 
 function LM_Options:SetCombatMacro(text)
     LM_Debug("Setting custom combat macro: " .. tostring(text))
-    self.db.combatMacro = text
+    self.db.char.combatMacro = text
 end
 
 
@@ -304,9 +300,9 @@ end
 function LM_Options:CopyTargetsMount(v)
     if v ~= nil then
         LM_Debug(format("Setting copy targets mount: %s", tostring(v)))
-        self.db.copyTargetsMount = v
+        self.db.char.copyTargetsMount = v
     end
-    return self.db.copyTargetsMount
+    return self.db.char.copyTargetsMount
 end
 
 
@@ -317,9 +313,9 @@ end
 function LM_Options:ExcludeNewMounts(v)
     if v ~= nil then
         LM_Debug(format("Setting exclude new mounts: %s", tostring(v)))
-        self.db.excludeNewMounts = v
+        self.db.profile.excludeNewMounts = v
     end
-    return self.db.excludeNewMounts
+    return self.db.profile.excludeNewMounts
 end
 
 
@@ -330,10 +326,10 @@ end
 
 function LM_Options:SeenMount(m, flagSeen)
     local spellID = m:SpellID()
-    local seen = (self.excludedSpells[spellID] ~= nil)
+    local seen = (self.db.profile.excludedSpells[spellID] ~= nil)
 
     if flagSeen and not seen then
-        self.excludedSpells[spellID] = self.db.excludeNewMounts
+        self.db.profile.excludedSpells[spellID] = self.db.profile.excludeNewMounts
     end
 
     return seen

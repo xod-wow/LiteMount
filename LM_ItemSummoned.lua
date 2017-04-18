@@ -52,7 +52,7 @@ function LM_ItemSummoned:SetupActionButton(button)
     button:SetAttribute("item", self.itemName)
 end
 
-function LM_ItemSummoned:IsUsable()
+function LM_ItemSummoned:IsCastable()
 
     local spellId = self:SpellID()
 

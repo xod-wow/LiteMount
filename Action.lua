@@ -162,7 +162,7 @@ end
 function LM_Action:SuramarCity()
     if LM_Location:CanSuramarMasquerade() then
         local m = LM_PlayerMounts:GetMountBySpell(230987)
-        if m and m:IsUsable() and not LM_Options:IsExcludedMount(m) then
+        if m and m:IsCastable() and not LM_Options:IsExcludedMount(m) then
             return m
         end
     end

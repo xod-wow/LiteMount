@@ -161,7 +161,7 @@ end
 
 local function GetFilteredMountList()
 
-    local filters = LM_Options.db.uiMountFilterList
+    local filters = LM_Options.db.chauiMountFilterList
 
     local mounts = LM_PlayerMounts:GetAllMounts():Sort(FilterSort)
 
@@ -179,29 +179,25 @@ local function GetFilteredMountList()
 
         if m.isFiltered then
             remove = true
-        end
-
-        if LM_Options:IsExcludedMount(m) and filters.DISABLED then
+        elseif filters.DISABLED and LM_Options:IsExcludedMount(m) then
             remove = true
-        end
-
-        if not LM_Options:IsExcludedMount(m) and filters.ENABLED then
+        elseif filters.ENABLED and not LM_Options:IsExcludedMount(m) then
             remove = true
-        end
-
-        if not m.isCollected and filters.NOT_COLLECTED then
+        elseif filters.NOT_COLLECTED and not m.isCollected then
             remove = true
-        end
-
-        local filterFlags = 0
-        for flagName, flagBit in pairs(LM_FLAG) do
-            if filters[flagName] then
-                filterFlags = bit.bor(filterFlags, flagBit)
+        elseif filters.UNUSABLE and m.needsFaction and m.needsFaction ~= UnitFactionGroup("player") then           remove = true
+            remove = true
+        else
+            local filterFlags = 0
+            for flagName, flagBit in pairs(LM_FLAG) do
+                if filters[flagName] then
+                    filterFlags = bit.bor(filterFlags, flagBit)
+                end
             end
-        end
 
-        if bit.band(m:CurrentFlags(), filterFlags) == m:CurrentFlags() then
-            remove = true
+            if bit.band(m:CurrentFlags(), filterFlags) == m:CurrentFlags() then
+                remove = true
+            end
         end
 
         -- strfind is expensive, avoid if possible

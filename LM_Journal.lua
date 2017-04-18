@@ -53,6 +53,8 @@ function LM_Journal:Get(id)
     m.isCollected   = isCollected
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
 
+    m.spellName     = GetSpellInfo(m.spellID)
+
     -- LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
 
     -- This attempts to set the old-style flags on mounts based on their
@@ -83,10 +85,6 @@ function LM_Journal:Get(id)
     end
     -- LM_Debug("LM_Mount flags for "..m.name.." are ".. m.flags)
 
-    local spellName, _, _, castTime = GetSpellInfo(m.spellID)
-    m.spellName = spellName
-    m.castTime = castTime
-
     return m
 end
 
@@ -96,11 +94,11 @@ function LM_Journal:Refresh()
     self.isCollected = isCollected
 end
 
-function LM_Journal:IsUsable()
+function LM_Journal:IsCastable()
     local usable = select(5, C_MountJournal.GetMountInfoByID(self:MountID()))
     if not usable then return end
     if not IsUsableSpell(self:SpellID()) then return end
-    return LM_Mount.IsUsable(self)
+    return LM_Mount.IsCastable(self)
 end
 
 -- Note, at some point we needed to use type=macro and

@@ -88,10 +88,6 @@ function LM_Mount:CurrentFlags()
     return LM_Options:ApplyMountFlags(self)
 end
 
-function LM_Mount:CastTime()
-    return self.castTime
-end
-
 function LM_Mount:Refresh()
     -- Nothing in base
 end
@@ -105,50 +101,15 @@ function LM_Mount:FlagsSet(f)
     return bit.band(self:Flags(), f) == f
 end
 
-local IceFloesSpellName
-
-local function PlayerHasIceFloes()
-    if not IceFloesSpellName then
-        IceFloesSpellName = GetSpellInfo(108839)
-    end
-    return UnitAura("player", IceFloesSpellName)
-end
-
 local function PlayerIsMovingOrFalling()
     return (GetUnitSpeed("player") > 0 or IsFalling())
 end
 
-local function KnowProfessionSkillLine(needSkillLine, needRank)
-    for _,i in ipairs({ GetProfessions() }) do
-        if i then
-            local _, _, rank, _, _, _, sl = GetProfessionInfo(i)
-            if sl == needSkillLine and rank >= needRank then
-                return true
-            end
-        end
-    end
-    return false
-end
-
-function LM_Mount:IsUsable()
-
-    if not self.isCollected then
-        return false
-    end
+function LM_Mount:IsCastable()
 
     if PlayerIsMovingOrFalling() then
-        if self:CastTime() > 0 then return false end
-    end
-
-    local faction = self:NeedsFaction()
-    local pFaction = UnitFactionGroup("player")
-    if faction and faction ~= pFaction then
-        return false
-    end
-
-    local prof = self:NeedsProfession()
-    if prof and not KnowProfessionSkillLine(unpack(prof)) then
-        return false
+        local castTime = select(4, GetSpellInfo(self.spellID))
+        if castTime() > 0 then return false end
     end
 
     return true
@@ -169,10 +130,9 @@ function LM_Mount:Dump(prefix)
     LM_Print(prefix .. self:Name())
     LM_Print(prefix .. " spell: " .. format("%s (id %d)", self:SpellName(), self:SpellID()))
     LM_Print(prefix .. " mountID: " .. tostring(self.mountID))
-    LM_Print(prefix .. " casttime: " .. self:CastTime())
     LM_Print(prefix .. " flags: " .. format("%02x (default %02x)", self:CurrentFlags(), self:Flags()))
     LM_Print(prefix .. " isCollected: " .. tostring(self.isCollected))
     LM_Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))
     LM_Print(prefix .. " excluded: " .. yesno(LM_Options:IsExcludedMount(self)))
-    LM_Print(prefix .. " usable: " .. yesno(self:IsUsable()) .. " (spell " .. yesno(IsUsableSpell(self:SpellID())) .. ")")
+    LM_Print(prefix .. " castable: " .. yesno(self:IsCastable()) .. " (spell " .. yesno(IsUsableSpell(self:SpellID())) .. ")")
 end

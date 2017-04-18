@@ -104,7 +104,7 @@
                     else
                         GameTooltip:SetSpellByID(m:SpellID())
                     end
-                    if m:IsUsable() then
+                    if m:IsCastable() then
                         GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
                     end
                     GameTooltip:Show()
