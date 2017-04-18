@@ -17,13 +17,13 @@
                     self.Text:SetText("Try to copy target's mount.")
                     self.SetOption = function (self, setting)
                             if not setting or setting == "0" then
-                                LM_Options:CopyTargetsMount(false)
+                                LM_Options.db.char.copyTargetsMount = false
                             else
-                                LM_Options:CopyTargetsMount(true)
+                                LM_Options.db.char.copyTargetsMount = true
                             end
                         end
                     self.GetOption = function (self)
-                            return LM_Options:CopyTargetsMount()
+                            return LM_Options.db.char.copyTargetsMount
                         end
                     self.GetOptionDefault = function (self) return true end
                     LiteMountOptionsControl_OnLoad(self)
@@ -40,14 +40,14 @@
                     self.Text:SetText("Automatically disable newly learned mounts.")
                     self.SetOption = function (self, setting)
                             if not setting or setting == "0" then
-                                LM_Options:ExcludeNewMounts(false)
+                                LM_Options.db.profile.excludeNewMounts = false
                             else
-                                LM_Options:ExcludeNewMounts(true)
+                                LM_Options.db.profile.excludeNewMounts = true
                             end
                         end
                     self.GetOptionDefault = function (self) return false end
                     self.GetOption = function (self)
-                            return LM_Options:ExcludeNewMounts()
+                            return LM_Options.db.profile.excludeNewMounts
                         end
                     LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>

@@ -43,10 +43,11 @@
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
                             self.SetOption = function (self, v)
-                                    return LM_Options:SetMacro(v)
+                                    LM_Options.db.char.unavailableMacro = v
+                                    LM_Options.db.char.useUnavailableMacro = (v ~= "")
                                 end
                             self.GetOption = function (self)
-                                    return LM_Options:GetMacro() or ""
+                                    return LM_Options.db.char.unavailableMacro or ""
                                 end
                             self.GetOptionDefault = function (self)
                                     return ""

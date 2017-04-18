@@ -131,7 +131,7 @@ end
 
 -- Got a player target, try copying their mount
 function LM_Action:CopyTargetsMount()
-    if LM_Options:CopyTargetsMount() and UnitIsPlayer("target") then
+    if LM_Options.db.char.copyTargetsMount and UnitIsPlayer("target") then
         LM_Debug("Trying to clone target's mount")
         return LM_PlayerMounts:GetMountFromUnitAura("target")
     end
@@ -217,9 +217,9 @@ function LM_Action:Custom2()
 end
 
 function LM_Action:Macro()
-    if LM_Options:UseMacro() then
+    if LM_Options.db.char.useUnavailableMacro then
         LM_Debug("Using custom macro.")
-        return LM_ActionAsMount:Macro(LM_Options:GetMacro())
+        return LM_ActionAsMount:Macro(LM_Options.db.char.unavailableMacro)
     end
 end
 
@@ -236,8 +236,8 @@ end
 function LM_Action:Combat()
     LM_Debug("Setting action to in-combat action.")
 
-    if LM_Options:UseCombatMacro() then
-        return LM_ActionAsMount:Macro(LM_Options:GetCombatMacro())
+    if LM_Options.db.char.useCombatMacro then
+        return LM_ActionAsMount:Macro(LM_Options.db.char.combatMacro)
     else
         return LM_ActionAsMount:Macro(self:DefaultCombatMacro())
     end

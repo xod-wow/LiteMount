@@ -44,10 +44,10 @@
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
                             self.GetOption = function (self)
-                                    return LM_Options:GetCombatMacro() or ""
+                                    return LM_Options.db.char.combatMacro or ""
                                 end
                             self.SetOption = function (self, v)
-                                    LM_Options:SetCombatMacro(v)
+                                    LM_Options.db.char.combatMacro = v
                                     LiteMount:Refresh()
                                 end
                             self.GetOptionDefault = function (self)
@@ -89,11 +89,11 @@
             <Scripts>
                 <OnLoad>
                     self.GetOption = function (self)
-                            return LM_Options:UseCombatMacro()
+                            return LM_Options.db.char.useCombatMacro
                         end
                     self.GetOptionDefault = function (self) return false end
                     self.SetOption = function (self, v)
-                            LM_Options:UseCombatMacro(v and true or false)
+                            LM_Options.db.char.useCombatMacro = (v or false)
                         end
                     LiteMountOptionsControl_OnLoad(self, LiteMountOptionsCombatMacro)
                 </OnLoad>
