@@ -254,19 +254,6 @@ end
 
 
 --[[----------------------------------------------------------------------------
-    Exclude newly learned mounts
-----------------------------------------------------------------------------]]--
-
-function LM_Options:ExcludeNewMounts(v)
-    if v ~= nil then
-        LM_Debug(format("Setting exclude new mounts: %s", tostring(v)))
-        self.db.profile.excludeNewMounts = v
-    end
-    return self.db.profile.excludeNewMounts
-end
-
-
---[[----------------------------------------------------------------------------
     Have we seen a mount before on this toon?
     Includes automatically adding it to the excludes if requested.
 ----------------------------------------------------------------------------]]--
