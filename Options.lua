@@ -32,7 +32,7 @@ local Default_LM_OptionsDB = {
     useGlobal           = true,
     excludeNewMounts    = false,
     copyTargetsMount    = true,
-    uiMountFilterList   = { NOT_COLLECTED = true },
+    uiMountFilterList   = { NOT_COLLECTED = true, UNUSABLE = true },
 }
 
 LM_Options = { }
@@ -59,7 +59,7 @@ local function VersionUpgradeOptions(db)
 
     -- Add any default settings from Default_LM_OptionsDB we don't have yet
     for k,v in pairs(Default_LM_OptionsDB) do
-        if not db[k] then
+        if db[k] == nil then
             db[k] = CopyTable({ v })[1]
         end
     end
