@@ -13,9 +13,6 @@
 LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
 LM_Location:RegisterEvent("PLAYER_LOGIN")
 
--- Magical develper only debugging-fu
-local I_AM_X = GetAddOnMetadata("LiteMount", "Version") == "@project-version@"
-
 function LM_Location:Initialize()
     self.continent = -1
     self.areaID = -1
@@ -57,6 +54,8 @@ function LM_Location:Update()
 
     local origID = GetCurrentMapAreaID()
 
+    -- I lied: I'm still nice.
+
     local WMUListeners = { GetFramesRegisteredForEvent("WORLD_MAP_UPDATE") }
     FrameApply(WMUListeners, "UnregisterEvent", "WORLD_MAP_UPDATE")
 
@@ -79,6 +78,7 @@ function LM_Location:PLAYER_LOGIN()
 end
 
 function LM_Location:MOUNT_JOURNAL_USABILITY_CHANGED()
+    LM_Debug("Updating swim times due to MOUNT_JOURNAL_USABILITY_CHANGED.")
     self:UpdateSwimTimes()
 end
 
@@ -126,11 +126,10 @@ function LM_Location:CanFly()
         return false
     end
 
-    -- Achievement check on alts is (was?) bugged in 7.0 check for skyterror
+    -- Draenor Pathfinder
     if self.continent == 7 then
         local completed = select(4, GetAchievementInfo(10018))
-        local hasSkyTerror = LM_PlayerMounts:GetMountBySpell(LM_SPELL.SOARING_SKYTERROR)
-        if not completed and not hasSkyTerror then
+        if not completed then
             return false
         end
     end
@@ -160,17 +159,6 @@ function LM_Location:CantBreathe()
     return (name == "BREATH" and rate < 0)
 end
 
-function LM_Location:GetName()
-    return self.realZoneText
-end
-
-function LM_Location:GetID()
-    return self.areaID
-end
-
-function LM_Location:GetInstanceID()
-    return self.instanceID
-end
 
 function LM_Location:IsAQ()
     if self.areaID == 766 then return true end

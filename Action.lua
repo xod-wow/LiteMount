@@ -61,13 +61,6 @@ function LM_Action:Spell(spellID)
     return LM_SecureAction:Spell(name)
 end
 
-function LM_Action:Zone(zoneID)
-    if not LM_Location:IsZone(zoneID) then return end
-
-    LM_Debug(format("Trying zone mount for %s (%d).", LM_Location:GetName(), LM_Location:GetID()))
-    return LM_PlayerMounts:GetZoneMount(zoneID)
-end
-
 -- In vehicle -> exit it
 function LM_Action:LeaveVehicle()
     if not CanExitVehicle() then return end
