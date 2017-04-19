@@ -151,7 +151,7 @@ function LiteMountOptionsMountsFilterDropDown_OnLoad(self)
 end
 
 StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
-    text = "LiteMount : New Profile",
+    text = format("LiteMount : %s", NEW_COMPACT_UNIT_FRAME_PROFILE),
     button1 = ACCEPT,
     button2 = CANCEL,
     hasEditBox = 1,
@@ -162,18 +162,15 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             local text = self.editBox:GetText()
-            LM_Options.db:SetProfile(text)
-        end,
-    EditBoxOnEnterPressed = function (self)
-            local parent = self:GetParent()
-            local text = parent.editBox:GetText()
             if text and text ~= "" then
                 LM_Options.db:SetProfile(text)
-                if parent.data then
-                    LM_Options.db:CopyProfile(parent.data)
+                if self.data then
+                    LM_Options.db:CopyProfile(self.data)
                 end
             end
-            parent:Hide()
+        end,
+    EditBoxOnEnterPressed = function (self)
+            StaticPopup_OnClick(self:GetParent(), 1)
         end,
     EditBoxOnEscapePressed = function (self)
             self:GetParent():Hide()
@@ -182,13 +179,12 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
             self.editBox:SetFocus()
         end,
     OnHide = function (self)
-            local currentProfile = LM_Options.db:GetCurrentProfile()
             LiteMountOptions_UpdateMountList()
         end,
 }
 
 StaticPopupDialogs["LM_OPTIONS_DELETE_PROFILE"] = {
-    text = "LiteMount : Delete Profile %s",
+    text = "LiteMount : " .. CONFIRM_COMPACT_UNIT_FRAME_PROFILE_DELETION,
     button1 = DELETE,
     button2 = CANCEL,
     timeout = 0,
@@ -201,7 +197,7 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_PROFILE"] = {
 }
 
 StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
-    text = "LiteMount : Reset Profile %s",
+    text = "LiteMount : " .. RESET .. " %s",
     button1 = OKAY,
     button2 = CANCEL,
     timeout = 0,
@@ -271,27 +267,27 @@ function LiteMountOptionsMountsProfileDropDown_Initialize(self, level)
         UIDropDownMenu_AddSeparator(info, level)
 
         info = UIDropDownMenu_CreateInfo()
-        info.text = "Reset"
+        info.text = RESET
         info.notCheckable = 1
         info.func = ClickResetProfile
         UIDropDownMenu_AddButton(info, level)
 
         info = UIDropDownMenu_CreateInfo()
         info.text = "New Profile"
-        info.value = "NEW"
+        info.value = NEW
         info.notCheckable = 1
         info.hasArrow = 1
         UIDropDownMenu_AddButton(info, level)
 
         info = UIDropDownMenu_CreateInfo()
         info.text = "Delete Profile"
-        info.value = "DELETE"
+        info.value = DELETE
         info.notCheckable = 1
         info.hasArrow = 1
         UIDropDownMenu_AddButton(info, level)
 
     elseif level == 2 then
-        if UIDROPDOWNMENU_MENU_VALUE == "DELETE" then
+        if UIDROPDOWNMENU_MENU_VALUE == DELETE then
             tDeleteItem(dbProfiles, "Default")
             tDeleteItem(dbProfiles, currentProfile)
 
@@ -303,19 +299,18 @@ function LiteMountOptionsMountsProfileDropDown_Initialize(self, level)
                 info.func = ClickDeleteProfile
                 UIDropDownMenu_AddButton(info, level)
             end
-        elseif UIDROPDOWNMENU_MENU_VALUE == "NEW" then
+        elseif UIDROPDOWNMENU_MENU_VALUE == NEW then
             info = UIDropDownMenu_CreateInfo()
             info.text = "Current Settings"
             info.notCheckable = 1
-            info.func = ClickNewProfile
             info.arg1 = currentProfile
+            info.func = ClickNewProfile
             UIDropDownMenu_AddButton(info, level)
 
             info = UIDropDownMenu_CreateInfo()
             info.text = "Default Settings"
             info.notCheckable = 1
             info.func = ClickNewProfile
-            info.arg1 = "Default"
             UIDropDownMenu_AddButton(info, level)
         end
     end
