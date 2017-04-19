@@ -16,23 +16,12 @@ local FactionRequirements = {
     [LM_SPELL.TELAARI_TALBUK] = "Alliance",
 }
 
-
-function LM_Nagrand:Flags(f)
-    return LM_FLAG.NAGRAND
-end
-
 function LM_Nagrand:Get(spellID)
-    local m
-
-    local playerFaction = UnitFactionGroup("player")
-    local requiredFaction = FactionRequirements[spellID]
-    if requiredFaction and playerFaction ~= requiredFaction then
-        return
-    end
-
-    m = LM_Spell:Get(spellID, true)
+    local m = LM_Spell:Get(spellID, true)
 
     if m then
+        m.flags = LM_FLAG.NAGRAND
+        m.needsFaction = FactionRequirements[spellID]
         setmetatable(m, LM_Nagrand)
     end
 
@@ -40,8 +29,7 @@ function LM_Nagrand:Get(spellID)
 end
 
 function LM_Nagrand:SetupActionButton(button)
-    local id = GetZoneAbilitySpellInfo()
-    local spellName = GetSpellInfo(id)
+    local spellName = GetSpellInfo(LM_SPELL.GARRISON_ABILITY)
     button:SetAttribute("type", "spell")
     button:SetAttribute("spell", spellName)
 end
@@ -54,7 +42,7 @@ function LM_Nagrand:IsCastable()
     local baseSpellName = GetSpellInfo(baseSpellID)
 
     local id = select(7, GetSpellInfo(baseSpellName))
-    if id ~= self:SpellID() then return false end
+    if id ~= self.spellID then return false end
     if not IsUsableSpell(baseSpellID) then return false end
     return LM_Mount.IsCastable(self)
 end

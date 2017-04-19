@@ -53,8 +53,6 @@ function LM_Journal:Get(id)
     m.isCollected   = isCollected
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
 
-    m.spellName     = GetSpellInfo(m.spellID)
-
     -- LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
 
     -- This attempts to set the old-style flags on mounts based on their
@@ -62,24 +60,24 @@ function LM_Journal:Get(id)
     -- and may be mistaken in places. List source:
     --   http://wowpedia.org/API_C_MountJournal.GetMountInfoExtra
 
-    if m:Type() == 230 then -- ground mount
-        m.flags = bit.bor(LM_FLAG.RUN)
-    elseif m:Type() == 231 then -- riding/sea turtle
+    if m.mountType == 230 then          -- ground mount
+        m.flags = LM_FLAG.RUN
+    elseif m.mountType == 231 then      -- riding/sea turtle
         m.flags = 0
-    elseif m:Type() == 232 then -- Vashj'ir Seahorse
-        m.flags = bit.bor(LM_FLAG.VASHJIR)
-    elseif m:Type() == 241 then -- AQ-only bugs
-        m.flags = bit.bor(LM_FLAG.AQ)
-    elseif m:Type() == 247 then -- Red Flying Cloud
-        m.flags = bit.bor(LM_FLAG.FLY)
-    elseif m:Type() == 248 then -- Flying mounts
-        m.flags = bit.bor(LM_FLAG.FLY)
-    elseif m:Type() == 254 then -- Swimming only mounts
-        m.flags = bit.bor(LM_FLAG.SWIM)
-    elseif m:Type() == 269 then -- Water Striders
+    elseif m.mountType == 232 then      -- Vashj'ir Seahorse
+        m.flags = LM_FLAG.VASHJIR
+    elseif m.mountType == 241 then      -- AQ-only bugs
+        m.flags = LM_FLAG.AQ
+    elseif m.mountType == 247 then      -- Red Flying Cloud
+        m.flags = LM_FLAG.FLY
+    elseif m.mountType == 248 then      -- Flying mounts
+        m.flags = LM_FLAG.FLY
+    elseif m.mountType == 254 then      -- Swimming only mounts
+        m.flags = LM_FLAG.SWIM
+    elseif m.mountType == 269 then      -- Water Striders (floating)
         m.flags = bit.bor(LM_FLAG.RUN, LM_FLAG.FLOAT)
-    elseif m:Type() == 284 then -- Chauffeured Mekgineer's Chopper
-        m.flags = bit.bor(LM_FLAG.WALK)
+    elseif m.mountType == 284 then      -- Chauffeured Mekgineer's Chopper
+        m.flags = LM_FLAG.WALK
     else
         m.flags = 0
     end
@@ -95,9 +93,9 @@ function LM_Journal:Refresh()
 end
 
 function LM_Journal:IsCastable()
-    local usable = select(5, C_MountJournal.GetMountInfoByID(self:MountID()))
+    local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
     if not usable then return end
-    if not IsUsableSpell(self:SpellID()) then return end
+    if not IsUsableSpell(self.spellID) then return end
     return LM_Mount.IsCastable(self)
 end
 

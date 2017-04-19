@@ -23,10 +23,9 @@ function LM_Spell:Get(spellID)
     local m = setmetatable(LM_Mount:new(), LM_Spell)
 
     m.name = name
-    m.spellName = name
+    m.spellID = spellID
     m.icon = icon
     m.flags = 0
-    m.spellID = spellID
     m.isCollected = IsSpellKnown(m.spellID)
 
     return m

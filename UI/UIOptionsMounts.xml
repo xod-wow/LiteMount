@@ -99,21 +99,19 @@
                     local m = self:GetParent().mount
 
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
-                    if m:MountID() then
-                        GameTooltip:SetMountBySpellID(m:SpellID())
+                    if m.mountID then
+                        GameTooltip:SetMountBySpellID(m.spellID)
                     else
-                        GameTooltip:SetSpellByID(m:SpellID())
+                        GameTooltip:SetSpellByID(m.spellID)
                     end
                     if m:IsCastable() then
                         GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
                     end
                     GameTooltip:Show()
 
-                    local model = m:ModelID()
-
-                    if model then
-                        LiteMountOptionsPreview.model:SetDisplayInfo(model)
-                        if m:SelfMount() then
+                    if m.modelID then
+                        LiteMountOptionsPreview.model:SetDisplayInfo(m.modelID)
+                        if m.isSelfMount then
                             LiteMountOptionsPreview.model:SetDoBlend(false)
                             LiteMountOptionsPreview.model:SetAnimation(618, -1)
                         end
@@ -133,10 +131,10 @@
                 </OnLoad>
                 <OnDragStart>
                     local mount = self:GetParent().mount
-                    if mount:SpellID() then
-                        PickupSpell(mount:SpellID())
-                    elseif mount:ItemID() then
-                        PickupItem(mount:ItemID())
+                    if mount.spellID then
+                        PickupSpell(mount.spellID)
+                    elseif mount.itemID then
+                        PickupItem(mount.itemID)
                     end
                 </OnDragStart>
             </Scripts>

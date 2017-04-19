@@ -28,7 +28,7 @@ function LM_ActionButton:Dispatch(action, args)
     local m = LM_Action[action](LM_Action, self, args)
     if not m then return end
 
-    LM_Debug("Setting up button as " .. (m:Name() or action) .. ".")
+    LM_Debug("Setting up button as " .. (m.name or action) .. ".")
     m:SetupActionButton(self)
 
     return true

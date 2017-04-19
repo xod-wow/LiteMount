@@ -24,66 +24,6 @@ function LM_Mount:Get(className, ...)
     return m
 end
 
-function LM_Mount:SpellID(v)
-    if v then self.spellID = v end
-    return self.spellID
-end
-
-function LM_Mount:ItemID(v)
-    if v then self.itemID = v end
-    return self.itemID
-end
-
-function LM_Mount:ModelID(v)
-    if v then self.modelID = v end
-    return self.modelID
-end
-
-function LM_Mount:SelfMount(v)
-    if v then self.isSelfMount = v end
-    return self.isSelfMount
-end
-
-function LM_Mount:Type(v)
-    if v then self.mountType = v end
-    return self.mountType
-end
-
-function LM_Mount:SpellName(v)
-    if v then self.spellName = v end
-    return self.spellName
-end
-
-function LM_Mount:Icon(v)
-    if v then self.icon = v end
-    return self.icon
-end
-
-function LM_Mount:Name(v)
-    if v then self.name = v end
-    return self.name
-end
-
-function LM_Mount:NeedsFaction(v)
-    if v then self.needsFaction = v end
-    return self.needsFaction
-end
-
-function LM_Mount:NeedsProfession(v)
-    if v then self.needsProfession = v end
-    return self.needsProfession
-end
-
-function LM_Mount:MountID(v)
-    if v then self.mountID = v end
-    return self.mountID
-end
-
-function LM_Mount:Flags(v)
-    if v then self.flags = v end
-    return self.flags
-end
-
 function LM_Mount:CurrentFlags()
     return LM_Options:ApplyMountFlags(self)
 end
@@ -98,7 +38,7 @@ function LM_Mount:CurrentFlagsSet(f)
 end
 
 function LM_Mount:FlagsSet(f)
-    return bit.band(self:Flags(), f) == f
+    return bit.band(self.flags, f) == f
 end
 
 local function PlayerIsMovingOrFalling()
@@ -116,8 +56,9 @@ function LM_Mount:IsCastable()
 end
 
 function LM_Mount:SetupActionButton(button)
+    local spellName = GetSpellInfo(self.spellID)
     button:SetAttribute("type", "spell")
-    button:SetAttribute("spell", self.spellName)
+    button:SetAttribute("spell", spellName)
 end
 
 function LM_Mount:Dump(prefix)
@@ -127,12 +68,14 @@ function LM_Mount:Dump(prefix)
 
     local function yesno(t) if t then return "yes" else return "no" end end
 
-    LM_Print(prefix .. self:Name())
-    LM_Print(prefix .. " spell: " .. format("%s (id %d)", self:SpellName(), self:SpellID()))
+    local spellName = GetSpellInfo(self.spellID)
+
+    LM_Print(prefix .. self.name)
+    LM_Print(prefix .. " spell: " .. format("%s (id %d)", spellName, self.spellID))
+    LM_Print(prefix .. " flags: " .. format("%04x (default %04x)", self:CurrentFlags(), self.flags))
     LM_Print(prefix .. " mountID: " .. tostring(self.mountID))
-    LM_Print(prefix .. " flags: " .. format("%02x (default %02x)", self:CurrentFlags(), self:Flags()))
     LM_Print(prefix .. " isCollected: " .. tostring(self.isCollected))
     LM_Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))
     LM_Print(prefix .. " excluded: " .. yesno(LM_Options:IsExcludedMount(self)))
-    LM_Print(prefix .. " castable: " .. yesno(self:IsCastable()) .. " (spell " .. yesno(IsUsableSpell(self:SpellID())) .. ")")
+    LM_Print(prefix .. " castable: " .. yesno(self:IsCastable()) .. " (spell " .. yesno(IsUsableSpell(self.spellID)) .. ")")
 end

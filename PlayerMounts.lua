@@ -63,7 +63,6 @@ local RefreshEvents = {
 
 function LM_PlayerMounts:Initialize()
 
-    self.byName = { }
     self.list = LM_MountList:New()
 
     self:ScanMounts()
@@ -79,10 +78,7 @@ function LM_PlayerMounts:Initialize()
 end
 
 function LM_PlayerMounts:AddMount(m)
-    if m and not self.byName[m:Name()] then
-        self.byName[m:Name()] = m
-        tinsert(self.list, m)
-    end
+    tinsert(self.list, m)
 end
 
 function LM_PlayerMounts:AddJournalMounts()
@@ -104,7 +100,6 @@ end
 function LM_PlayerMounts:ScanMounts()
     LM_Debug("Scanning all mounts.")
 
-    wipe(self.byName)
     wipe(self.list)
 
     self:AddJournalMounts()

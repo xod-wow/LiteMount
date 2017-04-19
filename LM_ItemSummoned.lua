@@ -54,27 +54,23 @@ end
 
 function LM_ItemSummoned:IsCastable()
 
-    local spellId = self:SpellID()
-
     -- IsUsableSpell seems to test correctly whether it's indoors etc.
-    if spellId and not IsUsableSpell(spellId) then
+    if not IsUsableSpell(self.spellId) then
         return false
     end
 
-    local itemID = self:ItemID()
-
-    if IsEquippableItem(itemID) then
-        if not IsEquippedItem(itemID) then
+    if IsEquippableItem(self.itemID) then
+        if not IsEquippedItem(self.itemID) then
             return false
         end
     else
-        if not PlayerHasItem(itemID) then
+        if not PlayerHasItem(self.itemID) then
             return false
         end
     end
 
     -- Either equipped or non-equippable and in bags
-    local start, duration, enable = GetItemCooldown(itemID)
+    local start, duration, enable = GetItemCooldown(self.itemID)
     if duration > 0 and enable == 1 then
         return false
     end
