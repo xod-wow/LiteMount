@@ -115,14 +115,14 @@ function LM_Options:VersionUpgrade()
         self.db.char.combatMacro = db.combatMacro
         self.db.char.useCombatMacro = db.useCombatMacro
         self.db.char.copyTargetsMount = db.copyTargetsMount
-        self.db.char.uiMountFilterList = CopyTable(db.uiMountFilterList)
+        self.db.char.uiMountFilterList = CopyTable(db.uiMountFilterList or {})
 
         -- Lacking any better idea we make a profile named for .char
         local charKey = self.db.keys.char
         self.db:SetProfile(charKey)
 
-        self.db.profile.excludedSpells = CopyTable(db.excludedSpells)
-        self.db.profile.flagChanges = CopyTable(db.flagChanges)
+        self.db.profile.excludedSpells = CopyTable(db.excludedSpells or {})
+        self.db.profile.flagChanges = CopyTable(db.flagChanges or {})
         self.db.profile.excludeNewMounts = db.excludeNewMounts
 
         if db.useGlobal then
@@ -135,13 +135,13 @@ function LM_Options:VersionUpgrade()
         if not db.flagChanges then
             PreAceDBFinalMigrate(db)
         end
-        self.db.profiles.Default.excludedSpells = CopyTable(db.excludedSpells)
-        self.db.profiles.Default.flagChanges = CopyTable(db.flagChanges)
+        self.db.profiles.Default.excludedSpells = CopyTable(db.excludedSpells or {})
+        self.db.profiles.Default.flagChanges = CopyTable(db.flagChanges or {})
         self.db.profiles.Default.excludeNewMounts = db.excludeNewMounts
     end
 
-    -- LM_OptionsDB = nil
-    -- LM_GlobalOptionsDB = nil
+    LM_OptionsDB = nil
+    LM_GlobalOptionsDB = nil
 end
 
 function LM_Options:Initialize()
