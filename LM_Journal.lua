@@ -63,7 +63,7 @@ function LM_Journal:Get(id)
     if m.mountType == 230 then          -- ground mount
         m.flags = LM_FLAG.RUN
     elseif m.mountType == 231 then      -- riding/sea turtle
-        m.flags = 0
+        m.flags = LM_FLAG.SWIM
     elseif m.mountType == 232 then      -- Vashj'ir Seahorse
         m.flags = LM_FLAG.VASHJIR
     elseif m.mountType == 241 then      -- AQ-only bugs
