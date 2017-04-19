@@ -11,13 +11,11 @@ local TABLET_OF_GHOST_WOLF_AURA = GetSpellInfo(168799)
 LM_GhostWolf = setmetatable({ }, LM_Spell)
 LM_GhostWolf.__index = LM_GhostWolf
 
-function LM_GhostWolf:Flags(v)
-    return LM_FLAG.WALK
-end
-
 function LM_GhostWolf:Get()
-    local m = LM_Spell:Get(LM_SPELL.GHOST_WOLF)
-    if m then setmetatable(m, LM_GhostWolf) end
+    local m = LM_Spell.Get(self, LM_SPELL.GHOST_WOLF)
+    if m then
+        m.flags = LM_FLAG.WALK
+    end
     return m
 end
 

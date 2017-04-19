@@ -20,7 +20,7 @@ function LM_Spell:Get(spellID)
         return
     end
 
-    local m = setmetatable(LM_Mount:new(), LM_Spell)
+    local m = LM_Mount.new(self, spellID)
 
     m.name = name
     m.spellID = spellID

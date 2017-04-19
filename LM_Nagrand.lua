@@ -17,12 +17,11 @@ local FactionRequirements = {
 }
 
 function LM_Nagrand:Get(spellID)
-    local m = LM_Spell:Get(spellID, true)
+    local m = LM_Spell.Get(self, spellID)
 
     if m then
         m.flags = LM_FLAG.NAGRAND
         m.needsFaction = FactionRequirements[spellID]
-        setmetatable(m, LM_Nagrand)
     end
 
     return m

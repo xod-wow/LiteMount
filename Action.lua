@@ -8,35 +8,6 @@
 
 ----------------------------------------------------------------------------]]--
 
--- This wrapper class is so that LM_ActionButton can treat all of the returns
--- from action functions as if they were a Mount class.
-
-local LM_ActionAsMount = { }
-LM_ActionAsMount.__index = LM_ActionAsMount
-
-function LM_ActionAsMount:New(attr)
-    return setmetatable(attr, LM_ActionAsMount)
-end
-
-function LM_ActionAsMount:Macro(macrotext)
-    return self:New( { ["type"] = "macro", ["macrotext"] = macrotext } )
-end
-
-function LM_ActionAsMount:Spell(spellname)
-    local attr = {
-            ["type"] = "spell",
-            ["unit"] = "player",
-            ["spell"] = spellname
-    }
-    return self:New(attr)
-end
-
-function LM_ActionAsMount:SetupActionButton(button)
-    for k,v in pairs(self) do
-        button:SetAttribute(k, v)
-    end
-end
-
 --[[------------------------------------------------------------------------]]--
 
 LM_Action = { }
@@ -87,7 +58,7 @@ end
 function LM_Action:Spell(spellID)
     local name = GetSpellInfo(spellID)
     LM_Debug("Setting action to " .. name .. ".")
-    return LM_ActionAsMount:Spell(name)
+    return LM_SecureAction:Spell(name)
 end
 
 function LM_Action:Zone(zoneID)
@@ -102,7 +73,7 @@ function LM_Action:LeaveVehicle()
     if not CanExitVehicle() then return end
 
     LM_Debug("Setting action to VehicleExit.")
-    return LM_ActionAsMount:Macro(SLASH_LEAVEVEHICLE1)
+    return LM_SecureAction:Macro(SLASH_LEAVEVEHICLE1)
 end
 
 -- Mounted -> dismount
@@ -110,7 +81,7 @@ function LM_Action:Dismount()
     if not IsMounted() then return end
 
     LM_Debug("Setting action to Dismount.")
-    return LM_ActionAsMount:Macro(SLASH_DISMOUNT1)
+    return LM_SecureAction:Macro(SLASH_DISMOUNT1)
 end
 
 function LM_Action:CancelForm()
@@ -123,7 +94,7 @@ function LM_Action:CancelForm()
     if not form or LM_Options:IsExcludedMount(form) then return end
 
     LM_Debug("Setting action to CancelForm.")
-    return LM_ActionAsMount:Macro(SLASH_CANCELFORM1)
+    return LM_SecureAction:Macro(SLASH_CANCELFORM1)
 end
 
 -- Got a player target, try copying their mount
@@ -216,7 +187,7 @@ end
 function LM_Action:Macro()
     if LM_Options.db.char.useUnavailableMacro then
         LM_Debug("Using custom macro.")
-        return LM_ActionAsMount:Macro(LM_Options.db.char.unavailableMacro)
+        return LM_SecureAction:Macro(LM_Options.db.char.unavailableMacro)
     end
 end
 
@@ -227,15 +198,15 @@ function LM_Action:CantMount()
     LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
 
     LM_Debug("Setting action to can't mount now.")
-    return LM_ActionAsMount:Macro("")
+    return LM_SecureAction:Macro("")
 end
 
 function LM_Action:Combat()
     LM_Debug("Setting action to in-combat action.")
 
     if LM_Options.db.char.useCombatMacro then
-        return LM_ActionAsMount:Macro(LM_Options.db.char.combatMacro)
+        return LM_SecureAction:Macro(LM_Options.db.char.combatMacro)
     else
-        return LM_ActionAsMount:Macro(self:DefaultCombatMacro())
+        return LM_SecureAction:Macro(self:DefaultCombatMacro())
     end
 end

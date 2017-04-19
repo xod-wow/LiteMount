@@ -12,7 +12,7 @@ LM_Mount = { }
 LM_Mount.__index = LM_Mount
 
 function LM_Mount:new()
-    return setmetatable({ }, LM_Mount)
+    return setmetatable({ }, self)
 end
 
 function LM_Mount:Get(className, ...)
@@ -49,7 +49,7 @@ function LM_Mount:IsCastable()
 
     if PlayerIsMovingOrFalling() then
         local castTime = select(4, GetSpellInfo(self.spellID))
-        if castTime() > 0 then return false end
+        if castTime > 0 then return false end
     end
 
     return true

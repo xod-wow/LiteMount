@@ -9,17 +9,14 @@
 LM_FlightForm = setmetatable({ }, LM_Spell)
 LM_FlightForm.__index = LM_FlightForm
 
-function LM_FlightForm:Flags(v)
-    return LM_FLAG.FLY
-end
-
 function LM_FlightForm:Get(spellID)
-    local m = LM_Spell:Get(spellID)
+    local m = LM_Spell.Get(self, spellID)
+
     if m then
-        setmetatable(m, LM_FlightForm)
         -- if we knew the modelIDs for the various forms across the two
         -- factions we could set m.modelID here and have the preview window
         -- display them.
+        self.flags = LM_FLAG.FLY
     end
     return m
 end

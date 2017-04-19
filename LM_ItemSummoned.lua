@@ -23,21 +23,19 @@ end
 
 function LM_ItemSummoned:Get(itemID, spellID, flags)
 
-    local m = LM_Spell:Get(spellID, true)
-    if not m then return end
+    local m = LM_Spell.Get(self, spellID)
+    if m then
+        local itemName = GetItemInfo(itemID)
+        if not itemName then
+            LM_Debug("LM_Mount: Failed GetItemInfo #"..itemID)
+            return
+        end
 
-    setmetatable(m, LM_ItemSummoned)
-
-    local itemName = GetItemInfo(itemID)
-    if not itemName then
-        LM_Debug("LM_Mount: Failed GetItemInfo #"..itemID)
-        return
+        m.itemID = itemID
+        m.itemName = itemName
+        m.flags = flags
+        m.isCollected = PlayerHasItem(m.itemID)
     end
-
-    m.itemID = itemID
-    m.itemName = itemName
-    m.flags = flags
-    m.isCollected = PlayerHasItem(m.itemID)
 
     return m
 end

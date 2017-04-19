@@ -39,7 +39,7 @@ function LM_Journal:Get(id)
         return
     end
 
-    local m = setmetatable(LM_Mount:new(), LM_Journal)
+    local m = LM_Mount.new(self)
 
     m.journalIndex  = mountIndex
     m.modelID       = modelID

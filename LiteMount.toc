@@ -20,6 +20,7 @@ LM_GhostWolf.lua
 LM_Nagrand.lua
 LM_RunningWild.lua
 LM_TravelForm.lua
+LM_SecureAction.lua
 MountList.lua
 PlayerMounts.lua
 Location.lua
