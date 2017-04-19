@@ -39,6 +39,24 @@ local defaults = {
 
 LM_Options = { }
 
+local function FlagConvert(toSet, toClear)
+    local changes = { }
+
+    for flagName,flagBit in pairs(LM_FLAG) do
+        if bit.band(toSet, flagBit) == flagBit then
+            changes[flagName] = '+'
+        elseif bit.band(toClear, flagBit) == flagBit then
+            changes[flagName] = '-'
+        end
+    end
+
+    if next(changes) == nil then
+        return nil
+    end
+
+    return changes
+end
+
 local function PreAceDBFinalMigrate(db)
 
     -- Convert the old flagoverrides set/clear pairs to flag table
@@ -83,24 +101,6 @@ local function PreAceDBFinalMigrate(db)
     if db.useglobal then
         db.useGlobal = (not not db.useglobal[1])
     end
-end
-
-local function FlagConvert(toSet, toClear)
-    local changes = { }
-
-    for flagName,flagBit in pairs(LM_FLAG) do
-        if bit.band(toSet, flagBit) == flagBit then
-            changes[flagName] = '+'
-        elseif bit.band(toClear, flagBit) == flagBit then
-            changes[flagName] = '-'
-        end
-    end
-
-    if next(changes) == nil then
-        return nil
-    end
-
-    return changes
 end
 
 function LM_Options:VersionUpgrade()
