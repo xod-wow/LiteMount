@@ -261,29 +261,37 @@
             <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
         </CheckButton>
 
-        <CheckButton name="$parentCharSpecific" parentkey="charSpecific" inherits="InterfaceOptionsCheckButtonTemplate">
+        <Button name="$parentProfileButton" parentKey="ProfileButton" inherits="UIMenuButtonStretchTemplate">
+            <Size x="140" y="22" />
             <Anchors>
-                <Anchor point="TOPRIGHT" x="-210" y="-8" />
+                <Anchor point="TOPRIGHT" x="-32" y="-12" />
             </Anchors>
+            <Layers>
+                <Layer level="ARTWORK">
+                    <Texture parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
+                        <Size x="10" y="12"/>
+                        <Anchors>
+                            <Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="RIGHT" x="-5"/>
+                        </Anchors>
+                    </Texture>
+                </Layer>
+            </Layers>
+
             <Scripts>
-                <OnLoad>
-                    self.text = _G[self:GetName().."Text"]
-                    self.text:SetText("Use character specific settings.")
-                    self.text:SetTextColor(1,0,0,1)
-                </OnLoad>
                 <OnShow>
-                    self:SetChecked(not LM_Options:UseGlobal())
+                    self:SetText(LM_Options.db:GetCurrentProfile())
                 </OnShow>
                 <OnClick>
-                    if self:GetChecked() then
-                        LM_Options:UseGlobal(false)
-                    else
-                        LM_Options:UseGlobal(true)
-                    end
-                    LiteMountOptions_UpdateMountList()
+                    ToggleDropDownMenu(1, nil, LiteMountOptionsMountsProfileDropDown, self:GetName(), 74, 15)
                 </OnClick>
             </Scripts>
-        </CheckButton>
+        </Button>
+
+        <Frame name="$parentProfileDropDown" parentkey="ProfileDropDown" inherits="UIDropDownMenuTemplate">
+            <Scripts>
+                <OnShow function="LiteMountOptionsMountsProfileDropDown_OnLoad" />
+            </Scripts>
+        </Frame>
 
         <EditBox name="$parentSearch" autofocus="false" inherits="SearchBoxTemplate" parentKey="Search" letters="40">
             <Size x="145" y="20" />
@@ -378,6 +386,7 @@
     <Scripts>
         <OnLoad function="LiteMountOptionsMounts_OnLoad" />
         <OnShow function="LiteMountOptionsMounts_OnShow" />
+        <OnHide function="LiteMountOptionsMounts_OnHide" />
     </Scripts>
 
 </Frame>

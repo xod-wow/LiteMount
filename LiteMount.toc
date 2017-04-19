@@ -3,8 +3,10 @@
 ## Version: @project-version@
 ## Author: Xodiv-Nagrand
 ## Email: mib@post.com
-## SavedVariables: LM_GlobalOptionsDB
+## SavedVariables: LM_GlobalOptionsDB, LiteMountDB
 ## SavedVariablesPerCharacter: LM_OptionsDB
+
+Libs\embeds.xml
 
 Localization.lua
 

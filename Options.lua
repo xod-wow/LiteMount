@@ -21,48 +21,25 @@ flagChanges is a table of spellIDs with flags to set (+) and clear (-).
 
 ----------------------------------------------------------------------------]]--
 
--- You can't have these be nil or they will always be deleted by the cleaner
-local Default_LM_OptionsDB = {
-    excludedSpells      = { },
-    flagChanges         = { },
-    unavailableMacro    = "",
-    useUnavailableMacro = false,
-    combatMacro         = "",
-    useCombatMacro      = false,
-    useGlobal           = true,
-    excludeNewMounts    = false,
-    copyTargetsMount    = true,
-    uiMountFilterList   = { NOT_COLLECTED = true, UNUSABLE = true },
+local defaults = {
+    profile = {
+        excludedSpells      = { },
+        flagChanges         = { },
+        excludeNewMounts    = false,
+    },
+    char = {
+        unavailableMacro    = "",
+        useUnavailableMacro = false,
+        combatMacro         = "",
+        useCombatMacro      = false,
+        copyTargetsMount    = true,
+        uiMountFilterList   = { NOT_COLLECTED = true, UNUSABLE = true },
+    },
 }
 
 LM_Options = { }
 
-local function FlagConvert(toSet, toClear)
-    local changes = { }
-
-    for flagName,flagBit in pairs(LM_FLAG) do
-        if bit.band(toSet, flagBit) == flagBit then
-            changes[flagName] = '+'
-        elseif bit.band(toClear, flagBit) == flagBit then
-            changes[flagName] = '-'
-        end
-    end
-
-    if next(changes) == nil then
-        return nil
-    end
-
-    return changes
-end
-
-local function VersionUpgradeOptions(db)
-
-    -- Add any default settings from Default_LM_OptionsDB we don't have yet
-    for k,v in pairs(Default_LM_OptionsDB) do
-        if db[k] == nil then
-            db[k] = CopyTable({ v })[1]
-        end
-    end
+local function PreAceDBFinalMigrate(db)
 
     -- Convert the old flagoverrides set/clear pairs to flag table
     if db.flagoverrides then
@@ -106,52 +83,83 @@ local function VersionUpgradeOptions(db)
     if db.useglobal then
         db.useGlobal = (not not db.useglobal[1])
     end
+end
 
-    -- LoadAddOn("Blizzard_DebugTools")
-    -- DevTools_Dump(db)
+local function FlagConvert(toSet, toClear)
+    local changes = { }
 
-    -- Delete any obsolete settings we have that aren't in Default_LM_OptionsDB
-    for k,v in pairs(db) do
-        if Default_LM_OptionsDB[k] == nil then
-            db[k] = nil
+    for flagName,flagBit in pairs(LM_FLAG) do
+        if bit.band(toSet, flagBit) == flagBit then
+            changes[flagName] = '+'
+        elseif bit.band(toClear, flagBit) == flagBit then
+            changes[flagName] = '-'
         end
     end
+
+    if next(changes) == nil then
+        return nil
+    end
+
+    return changes
+end
+
+function LM_Options:VersionUpgrade()
+
+    if LM_OptionsDB then
+        local db = LM_OptionsDB
+        if not db.flagChanges then
+            PreAceDBFinalMigrate(db)
+        end
+        self.db.char.unavailableMacro = db.unavailableMacro
+        self.db.char.useUnvailableMacro = db.useUnvailableMacro
+        self.db.char.combatMacro = db.combatMacro
+        self.db.char.useCombatMacro = db.useCombatMacro
+        self.db.char.copyTargetsMount = db.copyTargetsMount
+        self.db.char.uiMountFilterList = CopyTable(db.uiMountFilterList)
+
+        -- Lacking any better idea we make a profile named for .char
+        local charKey = self.db.keys.char
+        self.db:SetProfile(charKey)
+
+        self.db.profile.excludedSpells = CopyTable(db.excludedSpells)
+        self.db.profile.flagChanges = CopyTable(db.flagChanges)
+        self.db.profile.excludeNewMounts = db.excludeNewMounts
+
+        if db.useGlobal then
+            self.db:SetProfile("Default")
+        end
+    end
+
+    if LM_GlobalOptionsDB then
+        local db = LM_GlobalOptionsDB
+        if not db.flagChanges then
+            PreAceDBFinalMigrate(db)
+        end
+        self.db.profiles.Default.excludedSpells = CopyTable(db.excludedSpells)
+        self.db.profiles.Default.flagChanges = CopyTable(db.flagChanges)
+        self.db.profiles.Default.excludeNewMounts = db.excludeNewMounts
+    end
+
+    -- LM_OptionsDB = nil
+    -- LM_GlobalOptionsDB = nil
 end
 
 function LM_Options:Initialize()
-
-    LM_OptionsDB = LM_OptionsDB or CopyTable(Default_LM_OptionsDB)
-    VersionUpgradeOptions(LM_OptionsDB)
-
-    LM_GlobalOptionsDB = LM_GlobalOptionsDB or CopyTable(Default_LM_OptionsDB)
-    VersionUpgradeOptions(LM_GlobalOptionsDB)
-
-    -- I'm going to fake this up to look like AceDB-3.0 until I can migrate.
-
-    self.db = { }
-    self.db.char = LM_OptionsDB
-
-    if self.db.char.useGlobal then
-        self.db.profile = LM_GlobalOptionsDB
-    else
-        self.db.profile = LM_OptionsDB
-    end
-
+    self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
+    self:VersionUpgrade()
 end
 
 function LM_Options:UseGlobal(trueFalse)
 
     if trueFalse ~= nil then
         if trueFalse then
-            self.db.char.useGlobal = true
-            self.db.profile = LM_GlobalOptionsDB
+            self.db:SetProfile("Default")
         else
-            self.db.char.useGlobal = false
-            self.db.profile = LM_OptionsDB
+            self.db:SetProfile(self.db.keys.char)
         end
     end
 
-    return (self.db.char.useGlobal == true)
+    return (self.db:GetCurrentProfile() == "Default")
 end
 
 
