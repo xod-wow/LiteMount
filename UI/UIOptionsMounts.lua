@@ -359,7 +359,7 @@ local function GetFilteredMountList()
             remove = true
         elseif filters.UNUSABLE and m.needsFaction and m.needsFaction ~= UnitFactionGroup("player") then           remove = true
             remove = true
-        else
+        elseif m:CurrentFlags() ~= 0 then
             local filterFlags = 0
             for flagName, flagBit in pairs(LM_FLAG) do
                 if filters[flagName] then
