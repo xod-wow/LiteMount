@@ -56,7 +56,7 @@ function LiteMount_SlashCommandFunc(argstr)
             return true
         elseif arg == "toggle" or arg == "enable" or arg == "disable" then
             UpdateActiveMount(arg)
-            LiteMount_UpdateOptionsListIfShown()
+            LiteMountOptions_UpdateMountList()
             return true
         elseif arg == "dumplocation" then
             LM_Location:Dump()
