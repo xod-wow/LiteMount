@@ -338,19 +338,19 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString name="$parentBit1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Run">
+            <FontString name="$parentBit1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="RUN">
                 <Size x="26" y="26" />
                 <Anchors>
                     <Anchor point="BOTTOMRIGHT" relativeTo="$parentScrollFrame" relativePoint="TOPRIGHT" x="-2" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit2Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Fly">
+            <FontString name="$parentBit2Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="FLY">
                 <Size x="26" y="26" />
                 <Anchors>
                     <Anchor point="RIGHT" relativeTo="$parentBit1Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit3Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Swim">
+            <FontString name="$parentBit3Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="SWIM">
                 <Size x="26" y="26" />
                 <Anchors>
                     <Anchor point="RIGHT" relativeTo="$parentBit2Text" relativePoint="LEFT" x="-4" />
@@ -362,7 +362,7 @@
                     <Anchor point="RIGHT" relativeTo="$parentBit3Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit5Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="Vash">
+            <FontString name="$parentBit5Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="VASH">
                 <Size x="26" y="26" />
                 <Anchors>
                     <Anchor point="RIGHT" relativeTo="$parentBit4Text" relativePoint="LEFT" x="-4" />

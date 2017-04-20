@@ -14,51 +14,122 @@ local L = LM_Localize
 
 local locale = GetLocale()
 
--- Default locale is English (enUS or enGB)
-L["LM_MACRO_EXP"]   = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
+-- enUS / enGB / Default -------------------------------------------------------
 
-L["LM_COMBAT_MACRO_EXP"]   = "If enabled, this macro will be run instead of the default combat actions if LiteMount is activated while you are combat."
+L.FLY                   = "Fly"
+L.RUN                   = "Run"
+L.SWIM                  = "Swim"
+L.FLOAT                 = "Float"
+L.WALK                  = "Walk"
+L.AQ                    = "AQ"
+L.VASH                  = "Vash"
+L.CUSTOM1               = CUSTOM .. "1"
+L.CUSTOM2               = CUSTOM .. "2"
+L.C1                    = "C1"
+L.C2                    = "C2"
+L.NAGRAND               = GetMapNameByID(477)
+L.VASHJIR               = GetMapNameByID(613)
+L.LM_AUTHOR             = "Author"
+L.LM_MACRO_EXP          = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
+L.LM_COMBAT_MACRO_EXP   = "If enabled, this macro will be run instead of the default combat actions if LiteMount is activated while you are combat."
+L.LM_CURRENT_SETTINGS   = "Current Settings"
+L.LM_DEFAULT_SETTINGS   = "Default Settings"
+L.LM_PROFILES           = "Profiles"
+L.LM_NEW_PROFILE        = NEW_COMPACT_UNIT_FRAME_PROFILE
+L.LM_DELETE_PROFILE     = "Delete Profile"
+L.LM_RESET_PROFILE      = "Reset Profile"
+L.LM_FLAGS              = "Flags"
+L.LM_COPY_TARGETS_MOUNT = "Try to copy target's mount."
+L.LM_DISABLE_NEW_MOUNTS = "Automatically disable newly added mounts."
+L.LM_DISABLING_MOUNT    = "Disabling active mount: %s"
+L.LM_ENABLING_MOUNT     = "Enabling active mount: %s"
+L.LM_NO_USABLE_MOUNTS   = "You don't know any mounts you can use right now."
+L.LM_SETTINGS_TAGLINE   = "Simple and reliable random mount summoning."
+L.LM_NON_FLYING_MOUNT   = "Non-flying mount"
+
+-- deDE ------------------------------------------------------------------------
 
 if locale == "deDE" then
-    L["Author"]  = "Autor"
-elseif locale == "esES" or locale == "esMX" then
-    L["Author"]  = "Autor"
-    L["Fly"]     = "Volar"
-    L["Swim"]    = "Nadar"
-    L["Run"]     = "Correr"
-elseif locale == "frFR" then
-    L["Author"]  = "Auteur"
-elseif locale == "koKR" then
-    L["Author"]  = "저자"
-    L["Vash"]    = "바쉬르"
-    L["AQ"]      = "안퀴라즈"
-elseif locale == "ptBR" then
-    L["Author"]  = "Autor"
-elseif locale == "ruRU" then
-    L["Author"]  = "Aвтор"
-    L["AQ"]      = "АК"
-elseif locale == "zhCN" then
-    L["Author"]  = "作者"
-    L["Non-flying Mount"] = "非飞行坐骑"
-    L["Run"]     = "跑"
-    L["Fly"]     = "飞"
-    L["Swim"]    = "游"
-    L["AQ"]      = "AQ"
-    L["Vash"]    = "海底"
-    L["LM_MACRO_EXP"] = "如果LiteMount不能找到可用的坐骑会用到此宏，这可能是因为你在室内，或者正在移动中，并且不会任何瞬发坐骑。"
-    L["LM_COMBAT_MACRO_EXP"] = "如启用，LiteMount被激活并且当你在战斗中，该宏会被运行替代默认战斗动作。"
-    L["C1"]      = CUSTOM.."1"
-    L["C2"]      = CUSTOM.."1"
-elseif locale == "zhTW" then
-    L["Author"]  = "作者"
-    L["Non-flying Mount"] = "非飞行坐骑"
-    L["Run"]     = "陸地"
-    L["Fly"]     = "飛行"
-    L["Swim"]    = "水中"
-    L["AQ"]      = "安其拉"
-    L["Vash"]    = "瓦許"
-    L["LM_MACRO_EXP"] = "此巨集將被運作在如果LiteMount無法找到一個可用的坐騎，這有可能是由於你在室內，或在移動中並且沒有任何可瞬間招換的坐騎。"
-    L["LM_COMBAT_MACRO_EXP"] = "如果啟用，此巨集將替代預設的戰鬥行動，如果LiteMount是啟用的而且你在戰鬥中。"
-    L["C1"]      = CUSTOM.."1"
-    L["C2"]      = CUSTOM.."1"
+L.FLY                   = "Fliegen"
+L.RUN                   = "Rennen"
+L.SWIM                  = "Schwimmen"
+L.LM_AUTHOR             = "Autor"
+L.LM_MACRO_EXP          = "Dieses Makro wird ausgeführt, wenn LiteMount kein nutzbares Reittier findet. Dies kann passieren, wenn du dich in Gebäuden aufhältst oder läufst und keine spontan wirkbaren Reittiere hast."
+L.LM_NON_FLYING_MOUNT   = "Nicht-Flugreittier"
+end
+
+
+-- esES / esMX -----------------------------------------------------------------
+
+if locale == "esES" or locale == "esMX" then
+L.LM_AUTHOR             = "Auto"
+L.FLY                   = "Volar"
+L.SWIM                  = "Nadar"
+L.RUN                   = "Correr"
+end
+
+-- frFR ------------------------------------------------------------------------
+if locale == "frFR" then
+L.LM_AUTHOR             = "Auteur"
+L.FLY                   = "Vol"
+L.SWIM                  = "Nage"
+L.RUN                   = "Sol"
+L.LM_NON_FLYING_MOUNT   = "Monture non-volante"
+L.LM_COMBAT_MACRO_EXP   = "Si coché, cette macro sera jouée à la place de l'action en combat par défaut si LiteMount est activé quand vous êtes en combat."
+L.LM_MACRO_EXP          = "Cette macro sera jouée si LiteMount ne trouve pas de monture utilisable. Cela peut être si vous êtes en intérieur, ou si vous bougez et n'avez pas de monture instantanée."
+end
+
+-- koKR ------------------------------------------------------------------------
+if locale == "koKR" then
+L.LM_AUTHOR             = "저자"
+L.VASH                  = "바쉬르"
+L.AQ                    = "안퀴"
+L.FLY                   = "비행"
+L.LM_COMBAT_MACRO_EXP   = "활성화하면 당신이 전투 중일때 LiteMount가 활성화되면 기본 전투 행동 대신 이 매크로가 실행됩니다."
+L.LM_MACRO_EXP          = "LiteMount가 사용 가능한 탈것을 찾을 수 없을 때 실행될 매크로입니다. 실내에 있거나 이동 중이면서 즉시 시전 탈것이 없을 때 사용 됩니다."
+L.LM_NON_FLYING_MOUNT   = "비행 불가 탈것"
+L.RUN                   = "지상"
+L.SWIM                  = "수중"
+L.VASH                  = "바쉬르"
+end
+
+-- ptBR ------------------------------------------------------------------------
+if locale == "ptBR" then
+L.LM_AUTHOR             = "Autor"
+end
+
+-- ruRU ------------------------------------------------------------------------
+if locale == "ruRU" then
+L.LM_AUTHOR             = "Aвтор"
+L.AQ                    = "АК"
+end
+
+-- zhCN ------------------------------------------------------------------------
+if locale == "zhCN" then
+L.LM_AUTHOR             = "作者"
+L.LM_NON_FLYING_MOUNT   = "非飞行坐骑"
+L.RUN                   = "跑"
+L.FLY                   = "飞"
+L.SWIM                  = "游"
+L.AQ                    = "AQ"
+L.VASH                  = "海底"
+L.LM_MACRO_EXP          = "如果LiteMount不能找到可用的坐骑会用到此宏，这可能是因为你在室内，或者正在移动中，并且不会任何瞬发坐骑。"
+L.LM_COMBAT_MACRO_EXP   = "如启用，LiteMount被激活并且当你在战斗中，该宏会被运行替代默认战斗动作。"
+L.C1                    = CUSTOM.."1"
+L.C2                    = CUSTOM.."1"
+end
+
+-- zhTW ------------------------------------------------------------------------
+if locale == "zhTW" then
+L.LM_AUTHOR             = "作者"
+L.LM_NON_FLYING_MOUNT   = "非飛行坐騎"
+L.RUN                   = "陸地"
+L.FLY                   = "飛行"
+L.SWIM                  = "水中"
+L.AQ                    = "安其拉"
+L.VASH                  = "瓦許"
+L.LM_MACRO_EXP          = "此巨集將被運作在如果LiteMount無法找到一個可用的坐騎，這有可能是由於你在室內，或在移動中並且沒有任何可瞬間招換的坐騎。"
+L.LM_COMBAT_MACRO_EXP   = "如果啟用，此巨集將替代預設的戰鬥行動，如果LiteMount是啟用的而且你在戰鬥中。"
+L.C1                    = CUSTOM.."1"
+L.C2                    = CUSTOM.."1"
 end

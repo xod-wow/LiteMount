@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+local L = LM_Localize
+
 function LiteMountOptionsBit_OnClick(self)
     local mount = self:GetParent().mount
 
@@ -96,7 +98,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         info.checked = not LM_Options.db.char.uiMountFilterList.UNUSABLE
         UIDropDownMenu_AddButton(info, level)
 
-        info.text = "Flags"
+        info.text = L.LM_FLAGS
         info.checked = nil
         info.func = nil
         info.isNotRadio = nil
@@ -136,7 +138,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         sort(allFlags, function(a,b) return LM_FLAG[a] < LM_FLAG[b] end)
 
         for _, flagName in ipairs(allFlags) do 
-            info.text = flagName
+            info.text = L[flagName]
             info.arg1 = flagName
             info.checked = function ()
                     return not LM_Options.db.char.uiMountFilterList[flagName]
@@ -151,7 +153,7 @@ function LiteMountOptionsMountsFilterDropDown_OnLoad(self)
 end
 
 StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
-    text = format("LiteMount : %s", NEW_COMPACT_UNIT_FRAME_PROFILE),
+    text = format("LiteMount : %s", L.LM_NEW_PROFILE),
     button1 = ACCEPT,
     button2 = CANCEL,
     hasEditBox = 1,
@@ -197,7 +199,7 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_PROFILE"] = {
 }
 
 StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
-    text = "LiteMount : " .. RESET .. " %s",
+    text = "LiteMount : " .. L.LM_RESET_PROFILE .. " %s",
     button1 = OKAY,
     button2 = CANCEL,
     timeout = 0,
@@ -244,7 +246,7 @@ function LiteMountOptionsMountsProfileDropDown_Initialize(self, level)
 
     if level == 1 then
         info = UIDropDownMenu_CreateInfo()
-        info.text = "Profiles"
+        info.text = L.LM_PROFILES
         info.isTitle = 1
         info.notCheckable = 1
         UIDropDownMenu_AddButton(info, level)
@@ -267,20 +269,20 @@ function LiteMountOptionsMountsProfileDropDown_Initialize(self, level)
         UIDropDownMenu_AddSeparator(info, level)
 
         info = UIDropDownMenu_CreateInfo()
-        info.text = RESET
+        info.text = L.LM_RESET_PROFILE0
         info.notCheckable = 1
         info.func = ClickResetProfile
         UIDropDownMenu_AddButton(info, level)
 
         info = UIDropDownMenu_CreateInfo()
-        info.text = "New Profile"
+        info.text = L.LM_NEW_PROFILE
         info.value = NEW
         info.notCheckable = 1
         info.hasArrow = 1
         UIDropDownMenu_AddButton(info, level)
 
         info = UIDropDownMenu_CreateInfo()
-        info.text = "Delete Profile"
+        info.text = L.LM_DELETE_PROFILE
         info.value = DELETE
         info.notCheckable = 1
         info.hasArrow = 1
@@ -301,14 +303,14 @@ function LiteMountOptionsMountsProfileDropDown_Initialize(self, level)
             end
         elseif UIDROPDOWNMENU_MENU_VALUE == NEW then
             info = UIDropDownMenu_CreateInfo()
-            info.text = "Current Settings"
+            info.text = L.LM_CURRENT_SETTINGS
             info.notCheckable = 1
             info.arg1 = currentProfile
             info.func = ClickNewProfile
             UIDropDownMenu_AddButton(info, level)
 
             info = UIDropDownMenu_CreateInfo()
-            info.text = "Default Settings"
+            info.text = L.LM_DEFAULT_SETTINGS
             info.notCheckable = 1
             info.func = ClickNewProfile
             UIDropDownMenu_AddButton(info, level)
@@ -352,7 +354,7 @@ local function GetFilteredMountList()
             remove = true
         elseif filters.NOT_COLLECTED and not m.isCollected then
             remove = true
-        elseif filters.UNUSABLE and m.needsFaction and m.needsFaction ~= UnitFactionGroup("player") then           remove = true
+        elseif filters.UNUSABLE and m.needsFaction and m.needsFaction ~= UnitFactionGroup("player") then
             remove = true
         elseif m:CurrentFlags() ~= 0 then
             local filterFlags = 0

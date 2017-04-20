@@ -14,7 +14,8 @@
             </Anchors>
             <Scripts>
                 <OnLoad>
-                    self.Text:SetText("Try to copy target's mount.")
+                    local L = LM_Localize
+                    self.Text:SetText(L.LM_COPY_TARGETS_MOUNT)
                     self.SetOption = function (self, setting)
                             if not setting or setting == "0" then
                                 LM_Options.db.char.copyTargetsMount = false
@@ -37,7 +38,8 @@
             </Anchors>
             <Scripts>
                 <OnLoad>
-                    self.Text:SetText("Automatically disable newly added mounts.")
+                    local L = LM_Localize
+                    self.Text:SetText(L.LM_DISABLE_NEW_MOUNTS)
                     self.SetOption = function (self, setting)
                             if not setting or setting == "0" then
                                 LM_Options.db.profile.excludeNewMounts = false
