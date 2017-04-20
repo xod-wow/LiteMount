@@ -59,6 +59,10 @@ end
 
 local function PreAceDBFinalMigrate(db)
 
+    -- "new" options
+    db.excludedSpells = db.excludedSpells or { }
+    db.flagChanges = db.flagChanges or { }
+
     -- Convert the old flagoverrides set/clear pairs to flag table
     if db.flagoverrides then
         for spellID, bitChanges in pairs(db.flagoverrides) do
