@@ -191,9 +191,12 @@ Notes To Myself
         * Location.lua
             LM_Location:CanFly()
             LM_Location:CanSwim()
+            LM_Location:IsFloating()
             LM_Location:IsAQ()
             LM_Location:IsVashjir()
             LM_Location:IsDraenorNagrand()
+            LM_Location:CantBreathe()
+            LM_Location:Dump()
 
     Options stuff:
         * Options.lua
@@ -209,13 +212,6 @@ Notes To Myself
             LM_Options:ResetMountFlags(m)
             LM_Options:ApplyMountFlags(m, default_flags)
 
-            LM_Options:GetMacro()
-            LM_Options:SetMacro(macrotext)
-
-            LM_Options:GetCombatMacro()
-            LM_Options:SetCombatMacro()
-            LM_Options:UseCombatMacro()
-
         * UI/
             Here be dragons. UI to twiddle settings in LM_Options.
 
@@ -224,18 +220,27 @@ Notes To Myself
             All the core logic for initialization and creating the action
             buttons that pick a mount and summon it.
 
+        * Action.lua
+            Various mount actions with condition tests.
+
+        * ActionButton.lua
+            SecureActionButton for mount actions
+
         * Mount.lua
             Base class representing one mount.  Inherited by all of the
             specific class types.
 
             m = LM_Mount:Get('SubclassType', ...)
+                .name
+                .spellID
+                .flags
+                .isCollected
+                .isFiltered
+            m:CurrentFlags()
             m:SetupActionButton(button)
                 Sets attributes on a SecureActionButton to summon this mount.
-            m:IsUsable()
+            m:IsCastable()
             m:FlagsSet() / m:CurrentFlagsSet()
-            Accessor functions:
-                ItemID SpellID SpellName ModelID SelfMount Name JournalIndex
-                CastTime NeedsFaction NeedsProfession Flags
 
         * LM_*.lua
             Individual mount type classes.
@@ -250,17 +255,27 @@ Notes To Myself
             LM_MountList:Sort()
             LM_MountList:Search(matchfunc)
 
-        * PlayerMounts
-            All mounts the player knows.
+        * SlashCommand.lua
+            Just what you expect.
+
+        * SpellInfo.lua
+            Should really be named Constants.lua
+
+        * PlayerMounts.lua
+            All mounts the game/addon knows about.
 
             LM_PlayerMounts:Initialize()
-            LM_PlayerMounts:ScanMounts()
+            LM_MountList:RefreshMounts()
 
             mountlist = LM_PlayerMounts:GetAllMounts()
+
+            mountlist = LM_PlayerMounts:GetAvailableMounts(flags)
+
+            mountlist = LM_PlayerMounts:Search(matchfunc)
+            m = LM_PlayerMounts:Find(matchfunc)     -- mountlist[1] shortcut
 
             m = LM_PlayerMounts:GetRandomMount(flags)
                 LM_PlayerMounts:GetMountBySpell(spellID)
                 LM_PlayerMounts:GetMountByName(name)
                 LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
-            All the above calls don't return mounts for which
-            LM_Options:IsExcludedMount(m) is true.
+                LM_PlayerMounts:GetMountFromUnitAura(unitID)

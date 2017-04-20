@@ -65,7 +65,12 @@ function LM_PlayerMounts:Initialize()
 
     self.list = LM_MountList:New()
 
-    self:ScanMounts()
+    self:AddJournalMounts()
+    self:AddSpellMounts()
+
+    for m in self.list:Iterate() do
+        LM_Options:SeenMount(m, true)
+    end
 
     -- Refresh event setup
     for _,ev in ipairs(RefreshEvents) do
@@ -95,21 +100,6 @@ function LM_PlayerMounts:AddSpellMounts()
         local m = LM_Mount:Get(unpack(typeAndArgs))
         self:AddMount(m)
     end
-end
-
-function LM_PlayerMounts:ScanMounts()
-    LM_Debug("Scanning all mounts.")
-
-    wipe(self.list)
-
-    self:AddJournalMounts()
-    self:AddSpellMounts()
-
-    for m in self:Iterate() do
-        LM_Options:SeenMount(m, true)
-    end
-
-    LM_Debug("Finished scan.")
 end
 
 function LM_PlayerMounts:RefreshMounts()
