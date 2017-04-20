@@ -51,6 +51,8 @@ L.WALK                  = "Walk"
 
 if locale == "deDE" then
 L.AQ                    = "AQ"
+L.C1                    = "B1"
+L.C2                    = "B2"
 L.FLOAT                 = "Schreiten"
 L.FLY                   = "Fliegen"
 L.LM_AUTHOR             = "Autor"
