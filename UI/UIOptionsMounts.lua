@@ -269,7 +269,7 @@ function LiteMountOptionsMountsProfileDropDown_Initialize(self, level)
         UIDropDownMenu_AddSeparator(info, level)
 
         info = UIDropDownMenu_CreateInfo()
-        info.text = L.LM_RESET_PROFILE0
+        info.text = L.LM_RESET_PROFILE
         info.notCheckable = 1
         info.func = ClickResetProfile
         UIDropDownMenu_AddButton(info, level)
