@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+local L = LM_Localize
+
 local MacroName = "LiteMount"
 local MacroText = [[
 # Auto-created by LiteMount addon, it is safe to delete or edit this macro.
@@ -32,15 +34,15 @@ local function UpdateActiveMount(arg)
     local mDisabled = LM_Options:IsExcludedMount(m)
 
     if arg == "enable" or (arg == "toggle" and mDisabled) then
-        LM_Print("Enabling current mount: " .. m.name)
+        LM_Print(format(L.LM_ENABLING_MOUNT, m.name))
         LM_Options:RemoveExcludedMount(m)
     elseif arg == "disable" or (arg == "toggle" and not mDisabled) then
-        LM_Print("Disabling current mount: " .. m.name)
+        LM_Print(format(L.LM_DISABLING_MOUNT, m.name))
         LM_Options:AddExcludedMount(m)
     end
 end
 
-local LOCALIZED_MACRO_WORD = CaseAccentInsensitiveParse(MACRO)
+local LOCALIZED_MACRO_WORD = strlower(MACRO)
 
 function LiteMount_SlashCommandFunc(argstr)
 
@@ -49,7 +51,7 @@ function LiteMount_SlashCommandFunc(argstr)
     local args = { strsplit(" ", argstr) }
 
     for _,arg in ipairs(args) do
-        arg = CaseAccentInsensitiveParse(arg)
+        arg = strlower(arg)
         if arg == "macro" or arg == LOCALIZED_MACRO_WORD then
             local i = CreateOrUpdateMacro()
             if i then PickupMacro(i) end
