@@ -16,46 +16,64 @@ local locale = GetLocale()
 
 -- enUS / enGB / Default -------------------------------------------------------
 
-L.FLY                   = "Fly"
-L.RUN                   = "Run"
-L.SWIM                  = "Swim"
-L.FLOAT                 = "Float"
-L.WALK                  = "Walk"
 L.AQ                    = "AQ"
-L.VASH                  = "Vash"
-L.CUSTOM1               = CUSTOM .. "1"
-L.CUSTOM2               = CUSTOM .. "2"
 L.C1                    = "C1"
 L.C2                    = "C2"
-L.NAGRAND               = GetMapNameByID(477)
-L.VASHJIR               = GetMapNameByID(613)
+L.CUSTOM1               = CUSTOM .. "1"
+L.CUSTOM2               = CUSTOM .. "2"
+L.FLOAT                 = "Float"
+L.FLY                   = "Fly"
 L.LM_AUTHOR             = "Author"
-L.LM_MACRO_EXP          = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
 L.LM_COMBAT_MACRO_EXP   = "If enabled, this macro will be run instead of the default combat actions if LiteMount is activated while you are combat."
+L.LM_COPY_TARGETS_MOUNT = "Try to copy target's mount."
 L.LM_CURRENT_SETTINGS   = "Current Settings"
 L.LM_DEFAULT_SETTINGS   = "Default Settings"
-L.LM_PROFILES           = "Profiles"
-L.LM_NEW_PROFILE        = NEW_COMPACT_UNIT_FRAME_PROFILE
 L.LM_DELETE_PROFILE     = "Delete Profile"
-L.LM_RESET_PROFILE      = "Reset Profile"
-L.LM_FLAGS              = "Flags"
-L.LM_COPY_TARGETS_MOUNT = "Try to copy target's mount."
 L.LM_DISABLE_NEW_MOUNTS = "Automatically disable newly added mounts."
 L.LM_DISABLING_MOUNT    = "Disabling active mount: %s"
 L.LM_ENABLING_MOUNT     = "Enabling active mount: %s"
-L.LM_NO_USABLE_MOUNTS   = "You don't know any mounts you can use right now."
-L.LM_SETTINGS_TAGLINE   = "Simple and reliable random mount summoning."
+L.LM_FLAGS              = "Flags"
+L.LM_MACRO_EXP          = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
+L.LM_NEW_PROFILE        = NEW_COMPACT_UNIT_FRAME_PROFILE
 L.LM_NON_FLYING_MOUNT   = "Non-flying mount"
+L.LM_NO_USABLE_MOUNTS   = "You don't know any mounts you can use right now."
+L.LM_PROFILES           = "Profiles"
+L.LM_RESET_PROFILE      = "Reset Profile"
+L.LM_SETTINGS_TAGLINE   = "Simple and reliable random mount summoning."
+L.NAGRAND               = GetMapNameByID(477)
+L.RUN                   = "Run"
+L.SWIM                  = "Swim"
+L.VASH                  = "Vash"
+L.VASHJIR               = GetMapNameByID(613)
+L.WALK                  = "Walk"
 
 -- deDE ------------------------------------------------------------------------
 
 if locale == "deDE" then
+L.AQ                    = "AQ"
+L.FLOAT                 = "Schreiten"
 L.FLY                   = "Fliegen"
+L.LM_AUTHOR             = "Autor"
+L.LM_COMBAT_MACRO_EXP   = "Bei Aktivierung wird dieses Makro anstelle von normalen Kampfhandlungen benutzt, wenn LiteMount im Kampf verwendet wird."
+L.LM_COPY_TARGETS_MOUNT = "Versuche, das Reittier deines Ziels zu kopieren."
+L.LM_CURRENT_SETTINGS   = "Aktuelle Einstellungen"
+L.LM_DEFAULT_SETTINGS   = "Standardeinstellungen"
+L.LM_DELETE_PROFILE     = "Lösche Profil"
+L.LM_DISABLE_NEW_MOUNTS = "Deaktiviere automatisch neu gelernte Reittiere"
+L.LM_DISABLING_MOUNT    = "Deaktiviere aktuelles Reittier: %s"
+L.LM_ENABLING_MOUNT     = "Aktiviere aktuelles Reittier: %s"
+L.LM_FLAGS              = "Markierungen"
+L.LM_MACRO_EXP          = "Dieses Makro wird ausgeführt, wenn LiteMount kein nutzbares Reittier findet. Dies kann passieren, wenn du dich in Gebäuden aufhältst oder läufst und keine spontan wirkbaren Reittiere hast."
+L.LM_NEW_PROFILE        = "Neues Profil"
+L.LM_NO_USABLE_MOUNTS   = "Du kennst keine Reittiere, die du derzeit verwenden kannst."
+L.LM_NON_FLYING_MOUNT   = "Nicht-Flugreittier"
+L.LM_PROFILES           = "Profile"
+L.LM_RESET_PROFILE      = "Profil zurücksetzen"
+L.LM_SETTINGS_TAGLINE   = "Einfaches und zuverlässiges Beschwören von zufälligen Reittieren."
 L.RUN                   = "Rennen"
 L.SWIM                  = "Schwimmen"
-L.LM_AUTHOR             = "Autor"
-L.LM_MACRO_EXP          = "Dieses Makro wird ausgeführt, wenn LiteMount kein nutzbares Reittier findet. Dies kann passieren, wenn du dich in Gebäuden aufhältst oder läufst und keine spontan wirkbaren Reittiere hast."
-L.LM_NON_FLYING_MOUNT   = "Nicht-Flugreittier"
+L.VASH                  = "Vash"
+L.WALK                  = "Laufen"
 end
 
 
