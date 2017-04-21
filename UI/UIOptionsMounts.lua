@@ -14,9 +14,9 @@ function LiteMountOptionsBit_OnClick(self)
     local mount = self:GetParent().mount
 
     if self:GetChecked() then
-        LM_Options:SetMountFlagBit(mount, self.flagbit)
+        LM_Options:SetMountFlagBit(mount, LM_FLAG[self.flag])
     else
-        LM_Options:ClearMountFlagBit(mount, self.flagbit)
+        LM_Options:ClearMountFlagBit(mount, LM_FLAG[self.flag])
     end
     LiteMountOptions_UpdateMountList()
 end
@@ -32,13 +32,13 @@ local function CreateMoreButtons(self)
     -- Note: the buttons are laid out right to left
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
-        b.bit1.flagbit = LM_FLAG.RUN
-        b.bit2.flagbit = LM_FLAG.FLY
-        b.bit3.flagbit = LM_FLAG.SWIM
-        b.bit4.flagbit = LM_FLAG.AQ
-        b.bit5.flagbit = LM_FLAG.VASHJIR
-        b.bit6.flagbit = LM_FLAG.CUSTOM2
-        b.bit7.flagbit = LM_FLAG.CUSTOM1
+        b.bit1.flag = "RUN"
+        b.bit2.flag = "FLY"
+        b.bit3.flag = "SWIM"
+        b.bit4.flag = "AQ"
+        b.bit5.flag = "VASHJIR"
+        b.bit6.flag = "CUSTOM1"
+        b.bit7.flag = "CUSTOM2"
     end
 end
 
@@ -53,11 +53,13 @@ end
 local function BitButtonUpdate(checkButton, mount)
     local flags = mount:CurrentFlags()
 
-    local checked = bit.band(flags, checkButton.flagbit) == checkButton.flagbit
+    local flagBit = LM_FLAG[checkButton.flag]
+
+    local checked = bit.band(flags, flagBit) == flagBit
     checkButton:SetChecked(checked)
 
     -- If we changed this from the default then color the background
-    if bit.band(flags, checkButton.flagbit) == bit.band(mount.flags, checkButton.flagbit) then
+    if bit.band(flags, flagBit) == bit.band(mount.flags, flagBit) then
         checkButton.modified:Hide()
     else
         checkButton.modified:Show()

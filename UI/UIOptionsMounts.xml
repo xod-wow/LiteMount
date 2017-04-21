@@ -14,6 +14,17 @@
         <OnClick>
             LiteMountOptionsBit_OnClick(self)
         </OnClick>
+        <OnEnter>
+            local L = LM_Localize
+            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            GameTooltip:SetText(L[self.flag])
+            GameTooltip:Show()
+        </OnEnter>
+        <OnLeave>
+            if GameTooltip:GetOwner() == self then
+                GameTooltip:Hide()
+            end
+        </OnLeave>
     </Scripts>
     <NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
     <PushedTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Down"/>
