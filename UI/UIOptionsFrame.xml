@@ -5,43 +5,108 @@
 <Frame name="LiteMountOptions" hidden="true" inherits="LiteMountOptionsPanelTemplate">
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontHighlight" justifyH="LEFT" text="LM_SETTINGS_TAGLINE">
+            <FontString parentKey="tagline" inherits="GameFontHighlight" justifyH="LEFT" text="LM_SETTINGS_TAGLINE">
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentTitle" y="-16" />
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentTitle" y="-16" x="16" />
                     <Anchor point="RIGHT" />
                 </Anchors>
             </FontString>
 
-            <FontString name="$parentVersionText" inherits="GameFontNormal" justifyH="RIGHT" text="GAME_VERSION_LABEL">
+            <FontString parentKey="versionText" inherits="GameFontNormal" justifyH="RIGHT" text="GAME_VERSION_LABEL">
                 <Anchors>
-                    <Anchor point="TOPLEFT" x="36" y="-96" />
+                    <Anchor point="TOPLEFT" x="72" y="-96" />
                 </Anchors>
             </FontString>
 
-            <FontString inherits="GameFontHighlight" justifyH="LEFT" parentKey="version">
+            <FontString parentKey="version" inherits="GameFontHighlight" justifyH="LEFT">
                 <Anchors>
-                    <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parentVersionText" x="4" />
+                    <Anchor point="LEFT" relativeKey="$parent.versionText" relativePoint="RIGHT" x="4" />
                 </Anchors>
             </FontString>
 
-            <FontString name="$parentAuthorText" inherits="GameFontNormal" justifyH="RIGHT" text="LM_AUTHOR">
+            <FontString parentKey="authorText" inherits="GameFontNormal" justifyH="RIGHT" text="LM_AUTHOR">
                 <Anchors>
-                    <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="$parentVersionText" y="-8" />
+                    <Anchor point="TOPRIGHT" relativeKey="$parent.versionText" relativePoint="BOTTOMRIGHT" y="-8" />
                 </Anchors>
             </FontString>
 
-            <FontString inherits="GameFontHighlight" justifyH="LEFT" parentKey="author">
+            <FontString parentKey="author" inherits="GameFontHighlight" justifyH="LEFT">
                 <Anchors>
-                    <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parentAuthorText" x="4" />
+                    <Anchor point="LEFT" relativeKey="$parent.authorText" relativePoint="RIGHT" x="4" />
+                </Anchors>
+            </FontString>
+
+            <FontString parentKey="helpTranslate" inherits="GameFontNormal" justifyH="LEFT" text="LM_HELP_TRANSLATE">
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentTitle" x="16" />
+                    <Anchor point="TOP" relativeKey="$parent.authorText" relativePoint="BOTTOM" y="-48" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Frames>
+            <EditBox parentKey="translateURL" autoFocus="false" ignoreArrows="true">
+                <Size y="16" />
+                <Fontstring inherits="GameFontHighlight" />
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.helpTranslate" relativePoint="BOTTOMLEFT" y="-8" x="16" />
+                    <Anchor point="RIGHT" x="-16" />
+                </Anchors>
+                <Scripts>
+                    <OnShow>
+                        self:SetText(self.url)
+                    </OnShow>
+                    <OnTextChanged>
+                        self:SetText(self.url)
+                        self:HighlightText()
+                    </OnTextChanged>
+                    <OnEditFocusGained>
+                        self:HighlightText()
+                    </OnEditFocusGained>
+                    <OnEscapePressed function="EditBox_ClearFocus" />
+                </Scripts>
+            </EditBox>
+    </Frames>
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="translatorsText" inherits="GameFontNormal" justifyH="RIGHT" text="LM_TRANSLATORS">
+                <Anchors>
+                    <Anchor point="RIGHT" relativeKey="$parent.authorText" />
+                    <Anchor point="TOP" relativeKey="$parent.translateURL" relativePoint="BOTTOM" y="-48" />
+                </Anchors>
+            </FontString>
+
+            <FontString parentKey="translators" inherits="GameFontHighlight" spacing="8" justifyH="LEFT">
+                <Color r="0.8" g="1" b="0.8" a="1" />
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.translatorsText" relativePoint="TOPRIGHT" x="4" />
                 </Anchors>
             </FontString>
 
         </Layer>
     </Layers>
+
     <Scripts>
         <OnLoad>
+            local translators = {
+                "deDE - pas06, Salty",
+                "esMX - ",
+                "esES - Valdesca",
+                "frFR - Joured, lastdans",
+                "itIT - ",
+                "koKR - yuk6196",
+                "ptBR - ",
+                "ruRU - ",
+                "zhCN - okaydud, wowuicn",
+                "zhTW - BNSSNB, yunrong"
+            }
+
             self.version:SetText(GetAddOnMetadata("LiteMount", "Version") or "")
             self.author:SetText(GetAddOnMetadata("LiteMount", "Author") or "")
+            self.translators:SetText(table.concat(translators, "\n"))
+
+            self.translateURL.url = "https://wow.curseforge.com/projects/litemount/localization"
+
             LiteMountOptionsPanel_OnLoad(self)
         </OnLoad>
     </Scripts>
