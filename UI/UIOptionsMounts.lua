@@ -37,8 +37,8 @@ local function CreateMoreButtons(self)
         b.bit3.flag = "SWIM"
         b.bit4.flag = "AQ"
         b.bit5.flag = "VASHJIR"
-        b.bit6.flag = "CUSTOM1"
-        b.bit7.flag = "CUSTOM2"
+        b.bit6.flag = "CUSTOM2"
+        b.bit7.flag = "CUSTOM1"
     end
 end
 
