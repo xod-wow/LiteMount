@@ -17,7 +17,7 @@ header () {
 }
 
 fetch () {
-    curl -s -H "X-Api-Token: $APIKEY" "https://wow.curseforge.com/api/projects/30359/localization/export?export-type=GlobalStrings&lang=$1&unlocalized=Ignore" | awk -F' = ' '{ printf("L.%-22s= %s\n", $1, $2) }'
+    curl -s -H "X-Api-Token: $APIKEY" "https://wow.curseforge.com/api/projects/30359/localization/export?export-type=GlobalStrings&lang=$1&unlocalized=Ignore" | awk -F' = ' '{ printf("L.%-21s = %s\n", $1, $2) }'
 }
 
 header "enUS / enGB / Default"
@@ -25,6 +25,8 @@ fetch enUS
 echo
 
 for locale in "deDE" "esES" "frFR" "itIT" "koKR" "ptBR" "ruRU" "zhCN" "zhTW"; do
+
+    # As far as I can tell everyone treats esES and esMX as identical
     case $locale in
     esES)
         header "esES / esMX"
@@ -36,6 +38,15 @@ for locale in "deDE" "esES" "frFR" "itIT" "koKR" "ptBR" "ruRU" "zhCN" "zhTW"; do
         ;;
     esac
     fetch $locale
+
+    # In logographic languages we don't need abbreviations
+    case $locale in
+    koKR|zhCN|zhTW)
+        printf "L.%-21s = %s\n" "C1" 'CUSTOM .. "1"'
+        printf "L.%-22s= %s\n" "C2" 'CUSTOM .. "2"'
+        ;;
+    esac
+
     echo "end"
     echo
 done

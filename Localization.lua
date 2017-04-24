@@ -153,6 +153,8 @@ L.LM_RESET_PROFILE      = "프로필 초기화"
 L.RUN                   = "지상"
 L.SWIM                  = "수중"
 L.VASH                  = "바쉬르"
+L.C1                    = CUSTOM .. "1"
+L.C2                    = CUSTOM .. "2"
 end
 
 -- ptBR ------------------------------------------------------------------------
@@ -198,6 +200,8 @@ L.LM_RESET_PROFILE      = "重置配置文件"
 L.RUN                   = "跑"
 L.SWIM                  = "游"
 L.VASH                  = "海底"
+L.C1                    = CUSTOM .. "1"
+L.C2                    = CUSTOM .. "2"
 end
 
 -- zhTW ------------------------------------------------------------------------
@@ -216,4 +220,6 @@ L.LM_RESET_PROFILE      = "重置設定檔"
 L.RUN                   = "陸地"
 L.SWIM                  = "水中"
 L.VASH                  = "瓦許"
+L.C1                    = CUSTOM .. "1"
+L.C2                    = CUSTOM .. "2"
 end
