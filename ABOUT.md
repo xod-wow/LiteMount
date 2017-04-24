@@ -37,7 +37,7 @@ currently using. You can turn this awesome feature off in the settings.
 # In-Combat Actions
 
 LiteMount cannot mount in combat. It has a default set of combat actions which
-can dismount you, exit vehicles, or cast Travel Form, Aquatic Form or Ghost
+can dismount you, exit vehicles, or cast Travel Form or Ghost
 Wolf.
 
 # Getting Out of Water
@@ -47,13 +47,13 @@ or run away.
 
 # For Druids
 
-Active LiteMount while moving or jumping to activate Travel Form.
+Activate LiteMount while moving or jumping to activate Travel Form.
 
 Go into the settings and set the unavailable macro to "/cast Travel Form".
 
 # For Shamans
 
-Active LiteMount while moving or jumping to activate Ghost Wolf.
+Activate LiteMount while moving or jumping to activate Ghost Wolf.
 
 Go into the settings and set the unavailable macro to "/cast Ghost Wolf".
 
