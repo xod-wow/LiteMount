@@ -17,13 +17,18 @@ local L = LM_Localize
 
 local locale = GetLocale()
 
+-- Automatic / Blizzard --------------------------------------------------------
+
+L.CUSTOM1               = CUSTOM .. " 1"
+L.CUSTOM2               = CUSTOM .. " 2"
+L.NAGRAND               = GetMapNameByID(477)
+L.VASHJIR               = GetMapNameByID(613)
+
 -- enUS / enGB / Default -------------------------------------------------------
 
 L.AQ                    = "AQ"
 L.C1                    = "C1"
 L.C2                    = "C2"
-L.CUSTOM1               = CUSTOM .. " 1"
-L.CUSTOM2               = CUSTOM .. " 2"
 L.FLOAT                 = "Float"
 L.FLY                   = "Fly"
 L.LM_AUTHOR             = "Author"
@@ -38,18 +43,16 @@ L.LM_ENABLING_MOUNT     = "Enabling active mount: %s"
 L.LM_HELP_TRANSLATE     = "Help translate LiteMount into your language. Thank you."
 L.LM_FLAGS              = "Flags"
 L.LM_MACRO_EXP          = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
-L.LM_NEW_PROFILE        = NEW_COMPACT_UNIT_FRAME_PROFILE
+L.LM_NEW_PROFILE        = "New Profile"
 L.LM_NON_FLYING_MOUNT   = "Non-flying mount"
 L.LM_NO_USABLE_MOUNTS   = "You don't know any mounts you can use right now."
 L.LM_PROFILES           = "Profiles"
 L.LM_RESET_PROFILE      = "Reset Profile"
 L.LM_SETTINGS_TAGLINE   = "Simple and reliable random mount summoning."
 L.LM_TRANSLATORS        = "Translators"
-L.NAGRAND               = GetMapNameByID(477)
 L.RUN                   = "Run"
 L.SWIM                  = "Swim"
 L.VASH                  = "Vash"
-L.VASHJIR               = GetMapNameByID(613)
 L.WALK                  = "Walk"
 
 -- deDE ------------------------------------------------------------------------
