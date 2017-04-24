@@ -40,12 +40,12 @@ L.LM_DELETE_PROFILE     = "Delete Profile"
 L.LM_DISABLE_NEW_MOUNTS = "Automatically disable newly added mounts."
 L.LM_DISABLING_MOUNT    = "Disabling active mount: %s"
 L.LM_ENABLING_MOUNT     = "Enabling active mount: %s"
-L.LM_HELP_TRANSLATE     = "Help translate LiteMount into your language. Thank you."
 L.LM_FLAGS              = "Flags"
+L.LM_HELP_TRANSLATE     = "Help translate LiteMount into your language. Thank you."
 L.LM_MACRO_EXP          = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
 L.LM_NEW_PROFILE        = "New Profile"
-L.LM_NON_FLYING_MOUNT   = "Non-flying mount"
 L.LM_NO_USABLE_MOUNTS   = "You don't know any mounts you can use right now."
+L.LM_NON_FLYING_MOUNT   = "Non-flying Mount"
 L.LM_PROFILES           = "Profiles"
 L.LM_RESET_PROFILE      = "Reset Profile"
 L.LM_SETTINGS_TAGLINE   = "Simple and reliable random mount summoning."
@@ -61,7 +61,7 @@ if locale == "deDE" then
 L.AQ                    = "AQ"
 L.C1                    = "B1"
 L.C2                    = "B2"
-L.FLOAT                 = "Schreiten"
+L.FLOAT                 = "Wasserwandeln"
 L.FLY                   = "Fliegen"
 L.LM_AUTHOR             = "Autor"
 L.LM_COMBAT_MACRO_EXP   = "Bei Aktivierung wird dieses Makro anstelle von normalen Kampfhandlungen benutzt, wenn LiteMount im Kampf verwendet wird."
@@ -72,8 +72,8 @@ L.LM_DELETE_PROFILE     = "Lösche Profil"
 L.LM_DISABLE_NEW_MOUNTS = "Deaktiviere automatisch neu gelernte Reittiere"
 L.LM_DISABLING_MOUNT    = "Deaktiviere aktuelles Reittier: %s"
 L.LM_ENABLING_MOUNT     = "Aktiviere aktuelles Reittier: %s"
-L.LM_HELP_TRANSLATE     = "Hilf dabei, LiteMount in deine Sprache zu übersetzen. Danke."
 L.LM_FLAGS              = "Markierungen"
+L.LM_HELP_TRANSLATE     = "Hilf dabei, LiteMount in deine Sprache zu übersetzen. Danke."
 L.LM_MACRO_EXP          = "Dieses Makro wird ausgeführt, wenn LiteMount kein nutzbares Reittier findet. Dies kann passieren, wenn du dich in Gebäuden aufhältst oder läufst und keine spontan wirkbaren Reittiere hast."
 L.LM_NEW_PROFILE        = "Neues Profil"
 L.LM_NO_USABLE_MOUNTS   = "Du kennst keine Reittiere, die du derzeit verwenden kannst."
@@ -87,7 +87,6 @@ L.SWIM                  = "Schwimmen"
 L.VASH                  = "Vash"
 L.WALK                  = "Laufen"
 end
-
 
 -- esES / esMX -----------------------------------------------------------------
 
@@ -103,6 +102,7 @@ L.SWIM                  = "Nadar"
 end
 
 -- frFR ------------------------------------------------------------------------
+
 if locale == "frFR" then
 L.AQ                    = "AQ"
 L.C1                    = "C1"
@@ -128,6 +128,7 @@ L.VASH                  = "Vash"
 end
 
 -- itIT ------------------------------------------------------------------------
+
 if locale == "itIT" then
 L.LM_AUTHOR             = "Autore"
 L.LM_DELETE_PROFILE     = "Cancella un Profilo"
@@ -137,6 +138,7 @@ L.LM_RESET_PROFILE      = "Reimposta Profilo"
 end
 
 -- koKR ------------------------------------------------------------------------
+
 if locale == "koKR" then
 L.AQ                    = "안퀴"
 L.FLY                   = "비행"
@@ -154,6 +156,7 @@ L.VASH                  = "바쉬르"
 end
 
 -- ptBR ------------------------------------------------------------------------
+
 if locale == "ptBR" then
 L.LM_AUTHOR             = "Autor"
 L.LM_DELETE_PROFILE     = "Remover um Perfil"
@@ -163,6 +166,7 @@ L.LM_RESET_PROFILE      = "Resetar Perfil"
 end
 
 -- ruRU ------------------------------------------------------------------------
+
 if locale == "ruRU" then
 L.AQ                    = "АК"
 L.FLOAT                 = "плавучий"
@@ -179,6 +183,7 @@ L.WALK                  = "ходячий"
 end
 
 -- zhCN ------------------------------------------------------------------------
+
 if locale == "zhCN" then
 L.AQ                    = "AQ"
 L.FLY                   = "飞"
@@ -196,6 +201,7 @@ L.VASH                  = "海底"
 end
 
 -- zhTW ------------------------------------------------------------------------
+
 if locale == "zhTW" then
 L.AQ                    = "安其拉"
 L.FLY                   = "飛行"
