@@ -17,10 +17,9 @@ local FactionRequirements = {
 }
 
 function LM_Nagrand:Get(spellID)
-    local m = LM_Spell.Get(self, spellID)
+    local m = LM_Spell.Get(self, spellID, LM_FLAG.NAGRAND)
 
     if m then
-        m.flags = LM_FLAG.NAGRAND
         m.needsFaction = FactionRequirements[spellID]
     end
 

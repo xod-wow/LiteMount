@@ -11,7 +11,7 @@
 LM_Spell = setmetatable({ }, LM_Mount)
 LM_Spell.__index = LM_Spell
 
-function LM_Spell:Get(spellID)
+function LM_Spell:Get(spellID, flags)
 
     local name, rank, icon = GetSpellInfo(spellID)
 
@@ -25,7 +25,7 @@ function LM_Spell:Get(spellID)
     m.name = name
     m.spellID = spellID
     m.icon = icon
-    m.flags = 0
+    m.flags = flags or 0
     m.isCollected = IsSpellKnown(m.spellID)
 
     return m

@@ -12,11 +12,7 @@ LM_GhostWolf = setmetatable({ }, LM_Spell)
 LM_GhostWolf.__index = LM_GhostWolf
 
 function LM_GhostWolf:Get()
-    local m = LM_Spell.Get(self, LM_SPELL.GHOST_WOLF)
-    if m then
-        m.flags = LM_FLAG.WALK
-    end
-    return m
+    return LM_Spell.Get(self, LM_SPELL.GHOST_WOLF, LM_FLAG.WALK)
 end
 
 function LM_GhostWolf:CurrentFlags()

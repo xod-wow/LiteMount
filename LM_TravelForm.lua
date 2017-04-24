@@ -34,11 +34,7 @@ local travelFormFlags = bit.bor(
                         )
 
 function LM_TravelForm:Get()
-    local m = LM_Spell.Get(self, LM_SPELL.TRAVEL_FORM)
-    if m then
-        m.flags = travelFormFlags
-    end
-    return m
+    return LM_Spell.Get(self, LM_SPELL.TRAVEL_FORM, travelFormFlags)
 end
 
 -- IsUsableSpell doesn't return false for Travel Form indoors like it should,
