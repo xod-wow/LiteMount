@@ -30,7 +30,7 @@ function LM_Nagrand:Get(spellID)
 end
 
 function LM_Nagrand:Refresh()
-    -- Leave isCollected alone
+    self.isCollected = ( UnitLevel("player") >= 100 )
 end
 
 function LM_Nagrand:SetupActionButton(button)
