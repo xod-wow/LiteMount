@@ -373,7 +373,7 @@
                     <Anchor point="RIGHT" relativeTo="$parentBit3Text" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBit5Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="VASH">
+            <FontString name="$parentBit5Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="VASHJIR">
                 <Size x="26" y="26" />
                 <Anchors>
                     <Anchor point="RIGHT" relativeTo="$parentBit4Text" relativePoint="LEFT" x="-4" />
