@@ -69,7 +69,7 @@ function LM_PlayerMounts:Initialize()
     self:AddSpellMounts()
 
     for m in self.list:Iterate() do
-        LM_Options:SeenMount(m, true)
+        LM_Options:SeenMount(m)
     end
 
     -- Refresh event setup

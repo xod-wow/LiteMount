@@ -259,11 +259,10 @@ end
     Includes automatically adding it to the excludes if requested.
 ----------------------------------------------------------------------------]]--
 
-function LM_Options:SeenMount(m, flagSeen)
+function LM_Options:SeenMount(m)
     local spellID = m.spellID
-    local seen = (self.db.profile.excludedSpells[spellID] ~= nil)
 
-    if flagSeen and not seen then
+    if self.db.profile.excludedSpells[spellID] == nil then
         self.db.profile.excludedSpells[spellID] = self.db.profile.excludeNewMounts
     end
 
