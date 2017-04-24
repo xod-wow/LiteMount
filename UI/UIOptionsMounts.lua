@@ -257,7 +257,11 @@ function LiteMountOptionsMountsProfileDropDown_Initialize(self, level)
 
         for _,v in ipairs(dbProfiles) do
             info = UIDropDownMenu_CreateInfo()
-            info.text = v
+            if v == "Default" then
+                info.text = DEFAULT -- localized by Blizzard
+            else
+                info.text = v
+            end
             info.value = v
             info.checked = function ()
                     return (v == LM_Options.db:GetCurrentProfile())
