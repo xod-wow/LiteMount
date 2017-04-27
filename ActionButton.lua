@@ -15,6 +15,12 @@ LM_ActionButton.__index = LM_ActionButton
 -- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to set it to what we really want to do.
 
+function LM_ActionButton:SetupActionButton(mount)
+    for k,v in pairs(mount:GetSecureAttributes()) do
+        self:SetAttribute(k, v)
+    end
+end
+
 function LM_ActionButton:Dispatch(action, args)
 
     if not LM_Action[action] then
@@ -29,7 +35,7 @@ function LM_ActionButton:Dispatch(action, args)
     if not m then return end
 
     LM_Debug("Setting up button as " .. (m.name or action) .. ".")
-    m:SetupActionButton(self)
+    self:SetupActionButton(m)
 
     return true
 end
@@ -60,7 +66,7 @@ function LM_ActionButton:PostClick()
     -- to just blindly do the opposite of whatever we chose because
     -- it might not have worked.
 
-    LM_Action:Combat():SetupActionButton(self)
+    self:SetupActionButton(LM_Action:Combat())
 end
 
 function LM_ActionButton:Create(n, actionList)

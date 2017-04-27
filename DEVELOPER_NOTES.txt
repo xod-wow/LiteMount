@@ -237,8 +237,8 @@ Notes To Myself
                 .isCollected
                 .isFiltered
             m:CurrentFlags()
-            m:SetupActionButton(button)
-                Sets attributes on a SecureActionButton to summon this mount.
+            m:GetSecureAttributes()
+                Gets attributes for SecureActionButton to summon this mount.
             m:IsCastable()
             m:FlagsSet() / m:CurrentFlagsSet()
 

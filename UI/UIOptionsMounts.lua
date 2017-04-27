@@ -428,7 +428,9 @@ local function UpdateMountButton(button, mount)
     button.name:SetText(mount.name)
 
     if not InCombatLockdown() then
-        mount:SetupActionButton(button.icon)
+        for k,v in pairs(mount:GetSecureAttributes()) do
+            button.icon:SetAttribute(k, v)
+        end
     end
 
     local i = 1

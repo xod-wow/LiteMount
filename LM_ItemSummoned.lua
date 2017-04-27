@@ -44,10 +44,8 @@ function LM_ItemSummoned:Refresh()
     self.isCollected = PlayerHasItem(self.itemID)
 end
 
-function LM_ItemSummoned:SetupActionButton(button)
-    LM_Debug("LM_Mount setting button to item "..self.itemName)
-    button:SetAttribute("type", "item")
-    button:SetAttribute("item", self.itemName)
+function LM_ItemSummoned:GetSecureAttributes()
+    return { ["type"] = "item", ["item"] = self.itemName }
 end
 
 function LM_ItemSummoned:IsCastable()

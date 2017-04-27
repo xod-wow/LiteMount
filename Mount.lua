@@ -55,10 +55,9 @@ function LM_Mount:IsCastable()
     return true
 end
 
-function LM_Mount:SetupActionButton(button)
+function LM_Mount:GetSecureAttributes()
     local spellName = GetSpellInfo(self.spellID)
-    button:SetAttribute("type", "spell")
-    button:SetAttribute("spell", spellName)
+    return { ["type"] = "spell", ["spell"] = spellName }
 end
 
 function LM_Mount:Dump(prefix)

@@ -33,10 +33,9 @@ function LM_Nagrand:Refresh()
     self.isCollected = ( UnitLevel("player") >= 100 )
 end
 
-function LM_Nagrand:SetupActionButton(button)
+function LM_Nagrand:GetSecureAttributes()
     local spellName = GetSpellInfo(LM_SPELL.GARRISON_ABILITY)
-    button:SetAttribute("type", "spell")
-    button:SetAttribute("spell", spellName)
+    return { ["type"] = "spell", ["spell"] = spellName }
 end
 
 -- Draenor Ability spells are weird.  The name of the Garrison Ability

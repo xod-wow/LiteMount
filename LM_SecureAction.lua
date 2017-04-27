@@ -29,8 +29,6 @@ function LM_SecureAction:Spell(spellname)
     return self:New(attr)
 end
 
-function LM_SecureAction:SetupActionButton(button)
-    for k,v in pairs(self) do
-        button:SetAttribute(k, v)
-    end
+function LM_SecureAction:GetSecureAttributes()
+    return self
 end
