@@ -42,10 +42,8 @@ local function UpdateActiveMount(arg)
     end
 end
 
-local falseValues = { nil, false, 0, "off", "no" }
-
 local function IsTrue(x)
-    if tContains(falueValues, x) then
+    if x == nil or x == false or x == "0" or x == "off" then
         return false
     else
         return true
@@ -72,8 +70,27 @@ function LiteMount_SlashCommandFunc(argstr)
     elseif cmd == "dumplocation" then
         LM_Location:Dump()
         return true
+    elseif cmd == "search" then
+        local m
+        if not args[1] then
+            m = LM_PlayerMounts:GetMountFromUnitAura("player")
+            if m then m:Dump() end
+        else
+            local n = table.concat(args, ' ')
+            local mounts = LM_PlayerMounts:Search(function (m) return string.match(strlower(m.name), n) end)
+            for _,m in ipairs(mounts) do
+                m:Dump()
+            end
+        end
+        return true
     elseif cmd == "debug" then
-        LM_Options.db.char.debugEnabled = IsTrue(args[1])
+        if IsTrue(args[1]) then
+            LM_Print("Debugging enabled.")
+            LM_Options.db.char.debugEnabled = true
+        else
+            LM_Print("Debugging disabled.")
+            LM_Options.db.char.debugEnabled = false
+        end
         return true
     end
 

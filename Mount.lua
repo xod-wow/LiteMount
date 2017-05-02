@@ -69,6 +69,7 @@ function LM_Mount:Dump(prefix)
 
     local spellName = GetSpellInfo(self.spellID)
 
+    LM_Print("--- Mount Dump ---")
     LM_Print(prefix .. self.name)
     LM_Print(prefix .. " spell: " .. format("%s (id %d)", spellName, self.spellID))
     LM_Print(prefix .. " flags: " .. format("%04x (default %04x)", self:CurrentFlags(), self.flags))
