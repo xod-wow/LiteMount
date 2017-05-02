@@ -42,28 +42,39 @@ local function UpdateActiveMount(arg)
     end
 end
 
-local LOCALIZED_MACRO_WORD = strlower(MACRO)
+local falseValues = { nil, false, 0, "off", "no" }
+
+local function IsTrue(x)
+    if tContains(falueValues, x) then
+        return false
+    else
+        return true
+    end
+end
 
 function LiteMount_SlashCommandFunc(argstr)
 
+    -- Look, please stop doing this, ok? Nothing good can come of it.
     if InCombatLockdown() then return true end
 
-    local args = { strsplit(" ", argstr) }
+    local args = { strsplit(" ", strlower(argstr)) }
+    local cmd = table.remove(args, 1)
 
-    for _,arg in ipairs(args) do
-        arg = strlower(arg)
-        if arg == "macro" or arg == LOCALIZED_MACRO_WORD then
-            local i = CreateOrUpdateMacro()
-            if i then PickupMacro(i) end
-            return true
-        elseif arg == "toggle" or arg == "enable" or arg == "disable" then
-            UpdateActiveMount(arg)
-            LiteMountOptions_UpdateMountList()
-            return true
-        elseif arg == "dumplocation" then
-            LM_Location:Dump()
-            return true
-        end
+    if cmd == "macro" or cmd == strlower(MACRO) then
+        local i = CreateOrUpdateMacro()
+        if i then PickupMacro(i) end
+        return true
+    elseif cmd == "toggle" or cmd == "enable" or cmd == "disable" then
+        UpdateActiveMount(cmd)
+        -- This really needs to be switched to a callback
+        LiteMountOptions_UpdateMountList()
+        return true
+    elseif cmd == "dumplocation" then
+        LM_Location:Dump()
+        return true
+    elseif cmd == "debug" then
+        LM_Options.db.char.debugEnabled = IsTrue(args[1])
+        return true
     end
 
     return LiteMountOptionsPanel_Open()

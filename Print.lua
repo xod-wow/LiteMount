@@ -10,8 +10,6 @@
 
 local ChatWindowCache = nil
 
-local DebugEnabled = false
-
 local function GetActiveChatFrame()
     if not ChatWindowCache then
         ChatWindowCache = { }
@@ -30,16 +28,8 @@ function LM_Print(msg)
     GetActiveChatFrame():AddMessage("|cff00ff00LiteMount:|r " .. msg)
 end
 
-function LM_SetDebug(onoff)
-    if onoff then
-        DebugEnabled = true
-    else
-        DebugEnabled = nil
-    end
-end
-
 function LM_Debug(msg)
-    if DebugEnabled then
+    if LM_Options.db.char.debugEnabled == true then
         LM_Print(msg)
     end
 end

@@ -34,6 +34,7 @@ local defaults = {
         useCombatMacro      = false,
         copyTargetsMount    = true,
         uiMountFilterList   = { NOT_COLLECTED = true, UNUSABLE = true },
+        debugEnabled        = false,
     },
 }
 

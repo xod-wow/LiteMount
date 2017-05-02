@@ -56,6 +56,30 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
+        <CheckButton name="$parentDebugging" inherits="InterfaceOptionsCheckButtonTemplate">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parentExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-8" />
+            </Anchors>
+            <Scripts>
+                <OnLoad>
+                    local L = LM_Localize
+                    self.Text:SetText(L.LM_ENABLE_DEBUGGING)
+                    self.SetOption = function (self, setting)
+                            if not setting or setting == "0" then
+                                LM_Options.db.char.debugEnabled = false
+                            else
+                                LM_Options.db.char.debugEnabled = true
+                            end
+                        end
+                    self.GetOptionDefault = function (self) return false end
+                    self.GetOption = function (self)
+                            return LM_Options.db.char.debugEnabled
+                        end
+                    LiteMountOptionsControl_OnLoad(self)
+                </OnLoad>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
+            </Scripts>
+        </CheckButton>
     </Frames>
 </Frame>
 
