@@ -94,8 +94,6 @@ function LiteMountOptionsPanel_OnHide(self)
 end
 
 function LiteMountOptionsPanel_OnLoad(self)
-    LM_Debug("Panel_OnLoad " .. self:GetName())
-
     if self ~= LiteMountOptions then
         self.parent = LiteMountOptions.name
         if not self.name then

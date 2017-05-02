@@ -118,11 +118,15 @@ end
 
 function LiteMount:Initialize()
 
-    LM_Debug("Initialize")
+    -- Do this first because LM_Debug doesn't work until it's loaded.
+    LM_Options:Initialize()
+
+    local version = GetAddOnMetadata("LiteMount", "Version") or "UNKNOWN"
+
+    LM_Debug(format("Initializing LiteMount v%s, debugging enabled.", version))
 
     self:VersionUpgrade()
 
-    LM_Options:Initialize()
     LM_PlayerMounts:Initialize()
 
     SlashCmdList["LiteMount"] = LiteMount_SlashCommandFunc
