@@ -2,7 +2,7 @@
 
   LiteMount/MountList.lua
 
-  Class for a list of LM_Mount mounts.
+  List with some kinds of extra stuff, mostly shuffle/random.
 
   Copyright 2011-2017 Mike Battersby
 
@@ -144,12 +144,6 @@ function LM_MountList:__sub(other)
         end
     end
     return r
-end
-
-function LM_MountList:Sort(func)
-    local func = func or function (a,b) return a.name < b.name end
-    sort(self, func)
-    return self
 end
 
 function LM_MountList:Map(mapfunc)

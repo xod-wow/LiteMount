@@ -251,7 +251,6 @@ Notes To Myself
             LM_MountList:Iterate()
             LM_MountList:Shuffle()
             LM_MountList:Random()
-            LM_MountList:Sort()
             LM_MountList:Search(matchfunc)
 
         * SlashCommand.lua
