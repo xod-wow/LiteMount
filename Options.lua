@@ -69,6 +69,7 @@ local function PreAceDBFinalMigrate(db)
         for spellID, bitChanges in pairs(db.flagoverrides) do
             db.flagChanges[spellID] = FlagConvert(unpack(bitChanges))
         end
+        db.flagoverrides = nil
     end
 
     -- seenspells and excludedspells folded into tristate excludedSpells
@@ -83,6 +84,7 @@ local function PreAceDBFinalMigrate(db)
                 end
             end
         end
+        db.seenspells = nil
     end
 
     if type(db.excludeNewMounts) == "table" then
@@ -95,7 +97,8 @@ local function PreAceDBFinalMigrate(db)
 
     if type(db.macro) == "table" then
         db.unavailableMacro = db.macro[1]
-        db.useUnavailableMacro = (db.macro[1] ~= "")
+        db.useUnavailableMacro = (db.macro[1] ~= "" and db.macro[1] ~= nil)
+        db.macro = nil
     end
 
     if type(db.combatMacro) == "table" then
@@ -105,6 +108,7 @@ local function PreAceDBFinalMigrate(db)
 
     if db.useglobal then
         db.useGlobal = (not not db.useglobal[1])
+        db.useglobal = nil
     end
 end
 
@@ -152,19 +156,6 @@ end
 function LM_Options:Initialize()
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
     self:VersionUpgrade()
-end
-
-function LM_Options:UseGlobal(trueFalse)
-
-    if trueFalse ~= nil then
-        if trueFalse then
-            self.db:SetProfile("Default")
-        else
-            self.db:SetProfile(self.db.keys.char)
-        end
-    end
-
-    return (self.db:GetCurrentProfile() == "Default")
 end
 
 
