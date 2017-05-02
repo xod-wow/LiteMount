@@ -65,8 +65,6 @@ function LM_Mount:Dump(prefix)
         prefix = ""
     end
 
-    local function yesno(t) if t then return "yes" else return "no" end end
-
     local spellName = GetSpellInfo(self.spellID)
 
     LM_Print("--- Mount Dump ---")
@@ -76,6 +74,6 @@ function LM_Mount:Dump(prefix)
     LM_Print(prefix .. " mountID: " .. tostring(self.mountID))
     LM_Print(prefix .. " isCollected: " .. tostring(self.isCollected))
     LM_Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))
-    LM_Print(prefix .. " excluded: " .. yesno(LM_Options:IsExcludedMount(self)))
-    LM_Print(prefix .. " castable: " .. yesno(self:IsCastable()) .. " (spell " .. yesno(IsUsableSpell(self.spellID)) .. ")")
+    LM_Print(prefix .. " excluded: " .. tostring(LM_Options:IsExcludedMount(self)))
+    LM_Print(prefix .. " castable: " .. tostring(self:IsCastable()) .. " (spell " .. tostring(IsUsableSpell(self.spellID)) .. ")")
 end
