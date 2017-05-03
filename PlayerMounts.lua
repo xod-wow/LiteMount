@@ -63,7 +63,7 @@ local RefreshEvents = {
 
 function LM_PlayerMounts:Initialize()
 
-    self.list = LM_MountList:New()
+    self.list = LM_ShuffleList:New()
 
     self:AddJournalMounts()
     self:AddSpellMounts()

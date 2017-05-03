@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/MountList.lua
+  LiteMount/ShuffleList.lua
 
   List with some kinds of extra stuff, mostly shuffle/random.
 
@@ -53,17 +53,26 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_MountList = { }
-LM_MountList.__index = LM_MountList
+LM_ShuffleList = { }
+LM_ShuffleList.__index = LM_ShuffleList
 
-function LM_MountList:New(ml)
+function LM_ShuffleList:New(ml)
     local ml = ml or { }
-    setmetatable(ml, LM_MountList)
+    setmetatable(ml, LM_ShuffleList)
     return ml
 end
 
-function LM_MountList:Search(matchfunc)
-    local result = LM_MountList:New()
+function LM_ShuffleList:Iterate()
+    local i = 0
+    local iter = function ()
+            i = i + 1
+            return self[i]
+        end
+    return iter
+end
+
+function LM_ShuffleList:Search(matchfunc)
+    local result = LM_ShuffleList:New()
 
     for m in self:Iterate() do
         if matchfunc(m) then
@@ -74,7 +83,7 @@ function LM_MountList:Search(matchfunc)
     return result
 end
 
-function LM_MountList:Shuffle()
+function LM_ShuffleList:Shuffle()
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
     for i = #self, 2, -1 do
         local r = math.random(i)
@@ -82,7 +91,7 @@ function LM_MountList:Shuffle()
     end
 end
 
-function LM_MountList:Random()
+function LM_ShuffleList:Random()
     local n = #self
     if n == 0 then
         return nil
@@ -91,7 +100,7 @@ function LM_MountList:Random()
     end
 end
 
-function LM_MountList:WeightedRandom(weightfunc)
+function LM_ShuffleList:WeightedRandom(weightfunc)
     local n = #self
     if n == 0 then return nil end
 
@@ -108,45 +117,36 @@ function LM_MountList:WeightedRandom(weightfunc)
     end
 end
 
-function LM_MountList:Iterate()
-    local i = 0
-    local iter = function ()
-            i = i + 1
-            return self[i]
-        end
-    return iter
-end
-
-function LM_MountList:__add(other)
-    local r = LM_MountList:New()
+function LM_ShuffleList:__add(other)
+    local r = LM_ShuffleList:New()
     local seen = { }
     for m in self:Iterate() do
         tinsert(r, m)
-        seen[m.name] = true
+        seen[m] = true
     end
     for m in other:Iterate() do
-        if not seen[m.name] then
+        if not seen[m] then
             tinsert(r, m)
         end
     end
     return r
 end
 
-function LM_MountList:__sub(other)
-    local r = LM_MountList:New()
+function LM_ShuffleList:__sub(other)
+    local r = LM_ShuffleList:New()
     local remove = { }
     for m in other:Iterate() do
-        remove[m.name] = true
+        remove[m] = true
     end
     for m in self:Iterate() do
-        if not remove[m.name] then
+        if not remove[m] then
             tinsert(r, m)
         end
     end
     return r
 end
 
-function LM_MountList:Map(mapfunc)
+function LM_ShuffleList:Map(mapfunc)
     for m in self:Iterate() do
         mapfunc(m)
     end
