@@ -53,7 +53,6 @@ L.LM_SETTINGS_TAGLINE   = "Simple and reliable random mount summoning."
 L.LM_TRANSLATORS        = "Translators"
 L.RUN                   = "Run"
 L.SWIM                  = "Swim"
-L.VASH                  = "Vash"
 L.WALK                  = "Walk"
 
 -- deDE ------------------------------------------------------------------------
@@ -86,7 +85,6 @@ L.LM_SETTINGS_TAGLINE   = "Einfaches und zuverlässiges Beschwören von zufälli
 L.LM_TRANSLATORS        = "Übersetzer"
 L.RUN                   = "Rennen"
 L.SWIM                  = "Schwimmen"
-L.VASH                  = "Vash"
 L.WALK                  = "Laufen"
 end
 
@@ -95,11 +93,14 @@ end
 if locale == "esES" or locale == "esMX" then
 L.FLY                   = "Volar"
 L.LM_AUTHOR             = "Auto"
+L.LM_CURRENT_SETTINGS   = "Configuraciones actuales"
+L.LM_DEFAULT_SETTINGS   = "Configuración por defecto"
 L.LM_DELETE_PROFILE     = "Borrar un Perfil"
 L.LM_ENABLE_DEBUGGING   = "Activar los mensajes de depuración."
 L.LM_NEW_PROFILE        = "Crear perfil"
 L.LM_PROFILES           = "Perfiles"
 L.LM_RESET_PROFILE      = "Reiniciar Perfil"
+L.LM_TRANSLATORS        = "Traductores"
 L.RUN                   = "Correr"
 L.SWIM                  = "Nadar"
 end
@@ -134,7 +135,6 @@ L.LM_SETTINGS_TAGLINE   = "Invocation simple et fiable de monture aléatoire."
 L.LM_TRANSLATORS        = "Traducteurs"
 L.RUN                   = "Cours"
 L.SWIM                  = "Nage"
-L.VASH                  = "Vash"
 L.WALK                  = "Marche"
 end
 
@@ -165,7 +165,6 @@ L.LM_PROFILES           = "프로필"
 L.LM_RESET_PROFILE      = "프로필 초기화"
 L.RUN                   = "지상"
 L.SWIM                  = "수중"
-L.VASH                  = "바쉬르"
 L.C1                    = CUSTOM .. "1"
 L.C2                    = CUSTOM .. "2"
 end
@@ -213,9 +212,9 @@ L.LM_NEW_PROFILE        = "新建一个配置文件"
 L.LM_NON_FLYING_MOUNT   = "非飞行坐骑"
 L.LM_PROFILES           = "配置文件"
 L.LM_RESET_PROFILE      = "重置配置文件"
+L.LM_TRANSLATORS        = "译者"
 L.RUN                   = "跑"
 L.SWIM                  = "游"
-L.VASH                  = "海底"
 L.C1                    = CUSTOM .. "1"
 L.C2                    = CUSTOM .. "2"
 end
@@ -234,9 +233,10 @@ L.LM_NEW_PROFILE        = "新建一的設定檔"
 L.LM_NON_FLYING_MOUNT   = "非飛行坐騎"
 L.LM_PROFILES           = "設定檔"
 L.LM_RESET_PROFILE      = "重置設定檔"
+L.LM_TRANSLATORS        = "譯者"
 L.RUN                   = "陸地"
 L.SWIM                  = "水中"
-L.VASH                  = "瓦許"
 L.C1                    = CUSTOM .. "1"
 L.C2                    = CUSTOM .. "2"
 end
+

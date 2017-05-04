@@ -58,7 +58,7 @@
         </CheckButton>
         <CheckButton name="$parentDebugging" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeTo="$parentExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-8" />
+                <Anchor point="TOPLEFT" relativeTo="$parentExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-24" />
             </Anchors>
             <Scripts>
                 <OnLoad>
