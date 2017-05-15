@@ -259,6 +259,18 @@ CONDITIONS["talent:args"] =
         return select(2, GetTalentTierInfo(tier, 1)) == tonumber(talent)
     end
 
+CONDITIONS["tracking"] = 
+    function (v)
+        local name, active
+        for i = 1, GetNumTrackingTypes() do
+            name, _, active = GetTrackingInfo(i)
+            if active and (not v or name == v or i == tonumber(v)) then
+                return true
+            end
+        end
+        return false
+    end
+
 CONDITIONS["true"] =
     function ()
         return true
