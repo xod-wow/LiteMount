@@ -264,7 +264,7 @@ CONDITIONS["tracking"] =
         local name, active
         for i = 1, GetNumTrackingTypes() do
             name, _, active = GetTrackingInfo(i)
-            if active and (not v or name == v or i == tonumber(v)) then
+            if active and (not v or strlower(name) == strlower(v) or i == tonumber(v)) then
                 return true
             end
         end
