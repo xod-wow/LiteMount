@@ -116,7 +116,7 @@ CONDITIONS["false"] =
 
 CONDITIONS["form"] =
     function (v)
-        if v == nil then 
+        if v == nil then
             return GetShapeshiftForm() > 0
         else
             return GetShapeshiftForm() == tonumber(v)
@@ -259,7 +259,7 @@ CONDITIONS["talent:args"] =
         return select(2, GetTalentTierInfo(tier, 1)) == tonumber(talent)
     end
 
-CONDITIONS["tracking"] = 
+CONDITIONS["tracking"] =
     function (v)
         local name, active
         for i = 1, GetNumTrackingTypes() do
