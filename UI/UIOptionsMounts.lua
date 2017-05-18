@@ -90,6 +90,11 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         info.checked = not LM_Options.db.char.uiMountFilterList.DISABLED
         UIDropDownMenu_AddButton(info, level)
 
+        info.text = COLLECTED
+        info.arg1 = "COLLECTED"
+        info.checked = not LM_Options.db.char.uiMountFilterList.COLLECTED
+        UIDropDownMenu_AddButton(info, level)
+
         info.text = NOT_COLLECTED
         info.arg1 = "NOT_COLLECTED"
         info.checked = not LM_Options.db.char.uiMountFilterList.NOT_COLLECTED
@@ -358,6 +363,8 @@ local function GetFilteredMountList()
         elseif filters.DISABLED and LM_Options:IsExcludedMount(m) then
             remove = true
         elseif filters.ENABLED and not LM_Options:IsExcludedMount(m) then
+            remove = true
+        elseif filters.COLLECTED and m.isCollected then
             remove = true
         elseif filters.NOT_COLLECTED and not m.isCollected then
             remove = true
