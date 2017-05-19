@@ -75,7 +75,7 @@ function LM_PlayerMounts:Initialize()
     -- Refresh event setup
     for _,ev in ipairs(RefreshEvents) do
         self[ev] = function (self, event, ...)
-                            LM_Debug("Got rescan event "..event)
+                            LM_Debug("Got refresh event "..event)
                             self.needRefresh = true
                         end
         self:RegisterEvent(ev)

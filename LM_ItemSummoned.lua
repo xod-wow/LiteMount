@@ -9,12 +9,6 @@
 LM_ItemSummoned = setmetatable({ }, LM_Mount)
 LM_ItemSummoned.__index = LM_ItemSummoned
 
-local function PlayerHasItem(itemID)
-    if GetItemCount(itemID) > 0 then
-        return true
-    end
-end
-
 -- In theory we might be able to just use the itemID and use
 --      spellName = GetItemSpell(itemID)
 -- the trouble is the names aren't definitely unique and that makes me
@@ -34,14 +28,14 @@ function LM_ItemSummoned:Get(itemID, spellID, flags)
         m.itemID = itemID
         m.itemName = itemName
         m.flags = flags
-        m.isCollected = PlayerHasItem(m.itemID)
+        m.isCollected = ( GetItemCount(m.itemID) > 0 )
     end
 
     return m
 end
 
 function LM_ItemSummoned:Refresh()
-    self.isCollected = PlayerHasItem(self.itemID)
+    self.isCollected = ( GetItemCount(self.itemID) > 0 )
 end
 
 function LM_ItemSummoned:GetSecureAttributes()
@@ -51,7 +45,7 @@ end
 function LM_ItemSummoned:IsCastable()
 
     -- IsUsableSpell seems to test correctly whether it's indoors etc.
-    if not IsUsableSpell(self.spellId) then
+    if not IsUsableSpell(self.spellID) then
         return false
     end
 
@@ -60,7 +54,7 @@ function LM_ItemSummoned:IsCastable()
             return false
         end
     else
-        if not PlayerHasItem(self.itemID) then
+        if GetItemCount(self.itemID) == 0 then
             return false
         end
     end

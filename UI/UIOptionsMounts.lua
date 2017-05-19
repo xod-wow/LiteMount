@@ -583,6 +583,6 @@ end
 
 function LiteMountOptionsMounts_OnHide(self)
     LM_Options.db:UnregisterAllCallbacks(self)
-    self:UnregisterUnitEvent("UNIT_AURA", "player")
+    self:UnregisterEvent("UNIT_AURA", "player")
 end
 
