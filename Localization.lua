@@ -103,6 +103,7 @@ L.LM_RESET_PROFILE      = "Reiniciar Perfil"
 L.LM_TRANSLATORS        = "Traductores"
 L.RUN                   = "Correr"
 L.SWIM                  = "Nadar"
+L.WALK                  = "Caminar"
 end
 
 -- frFR ------------------------------------------------------------------------
@@ -239,4 +240,3 @@ L.SWIM                  = "水中"
 L.C1                    = CUSTOM .. "1"
 L.C2                    = CUSTOM .. "2"
 end
-

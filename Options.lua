@@ -33,6 +33,7 @@ local defaults = {
         combatMacro         = "",
         useCombatMacro      = false,
         copyTargetsMount    = true,
+        -- If changed these are not preserved because nil becomes defaults
         uiMountFilterList   = { NOT_COLLECTED = true, UNUSABLE = true },
         debugEnabled        = false,
     },
