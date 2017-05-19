@@ -19,14 +19,11 @@ function LM_ItemSummoned:Get(itemID, spellID, flags)
 
     local m = LM_Spell.Get(self, spellID)
     if m then
-        local itemName = GetItemInfo(itemID)
-        if not itemName then
-            LM_Debug("LM_Mount: Failed GetItemInfo #"..itemID)
-            return
-        end
-
+        -- Used to do GetItemInfo here, but it doesn't work the first
+        -- time you log in until the server returns the info and
+        -- GET_ITEM_INFO_RECEIVED fires, but I can't be bothered handling
+        -- the event and it's not really needed.
         m.itemID = itemID
-        m.itemName = itemName
         m.flags = flags
         m.isCollected = ( GetItemCount(m.itemID) > 0 )
     end
@@ -39,7 +36,9 @@ function LM_ItemSummoned:Refresh()
 end
 
 function LM_ItemSummoned:GetSecureAttributes()
-    return { ["type"] = "item", ["item"] = self.itemName }
+    -- I assume that if you actually have the item, GetItemInfo() works
+    local itemName = GetItemInfo(self.itemID)
+    return { ["type"] = "item", ["item"] = itemName }
 end
 
 function LM_ItemSummoned:IsCastable()

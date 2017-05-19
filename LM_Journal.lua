@@ -94,8 +94,12 @@ end
 
 function LM_Journal:IsCastable()
     local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
-    if not usable then return end
-    if not IsUsableSpell(self.spellID) then return end
+    if not usable then
+        return false
+    end
+    if not IsUsableSpell(self.spellID) then
+        return false
+    end
     return LM_Mount.IsCastable(self)
 end
 
