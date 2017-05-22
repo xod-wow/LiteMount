@@ -18,6 +18,10 @@ end
 function LM_GhostWolf:CurrentFlags()
     local flags = LM_Mount.CurrentFlags(self)
 
+    -- Ghost Wolf is also 100% speed if the Rehgar Earthfury bodyguard
+    -- is following you around in Lost Isles (Legion). Unfortunately there's
+    -- no way to detect him as far as I can tell.
+
     if bit.band(flags, LM_FLAG.WALK) then
         if UnitAura("player", TABLET_OF_GHOST_WOLF_AURA) then
             flags = bit.band(flags, bit.bnot(LM_FLAG.WALK))
