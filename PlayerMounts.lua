@@ -123,7 +123,7 @@ function LM_PlayerMounts:Search(matchfunc)
 end
 
 function LM_PlayerMounts:Find(matchfunc)
-    return self.list:Search(matchfunc)[1]
+    return self.list:Find(matchfunc)
 end
 
 function LM_PlayerMounts:GetAllMounts()

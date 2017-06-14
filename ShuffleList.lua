@@ -83,6 +83,14 @@ function LM_ShuffleList:Search(matchfunc)
     return result
 end
 
+function LM_ShuffleList:Find(matchfunc)
+    for m in self:Iterate() do
+        if matchfunc(m) then
+            return m
+        end
+    end
+end
+
 function LM_ShuffleList:Shuffle()
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
     for i = #self, 2, -1 do
