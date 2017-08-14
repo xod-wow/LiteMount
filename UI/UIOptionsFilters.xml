@@ -9,10 +9,11 @@
     <Frames>
         <Frame name="LiteMountOptionsFiltersEditBoxContainer">
 
-            <Size x="400" y="200" />
-
             <Anchors>
-                <Anchor point="CENTER" />
+                <Anchor point="TOP" y="-96" />
+                <Anchor point="LEFT" x="48" />
+                <Anchor point="RIGHT" x="-48" />
+                <Anchor point="BOTTOM" y="64" />
             </Anchors>
 
             <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
@@ -55,7 +56,7 @@
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
                 </EditBox>
-                <Button inherits="UIPanelButtonTemplate" text="DELETE">
+                <Button inherits="UIPanelButtonTemplate" text="DEFAULT">
                     <Size x="96" y="22" />
                     <Anchors>
                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
@@ -75,9 +76,8 @@
             <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_FILTER_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
-                    <Anchor point="LEFT" relativePoint="LEFT" relativeTo="LiteMountOptionsFiltersEditBoxContainer" x="-50" />
-                    <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="LiteMountOptionsFiltersEditBoxContainer" x="50" />
-                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeTo="LiteMountOptionsFiltersEditBoxContainer" />
+                    <Anchor point="LEFT" x="48" />
+                    <Anchor point="RIGHT" x="-48" />
                 </Anchors>
             </FontString>
 
