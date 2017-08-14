@@ -38,5 +38,6 @@ UI\UIOptionsPanelTemplate.xml
 UI\UIOptionsFrame.xml
 UI\UIOptionsSettings.xml
 UI\UIOptionsMounts.xml
+UI\UIOptionsFilters.xml
 UI\UIOptionsMacro.xml
 UI\UIOptionsCombatMacro.xml
