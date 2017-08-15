@@ -32,13 +32,25 @@ function LM_Mount:Refresh()
     -- Nothing in base
 end
 
--- This is a bit of a convenience since bit.isset doesn't exist
-function LM_Mount:CurrentFlagsSet(f)
-    return bit.band(self:CurrentFlags(), f) == f
+-- This was a bit of a convenience since bit.isset doesn't exist
+function LM_Mount:CurrentFlagsSet(checkFlags)
+    local cur = self:CurrentFlags()
+
+    for _,f in ipairs(checkFlags) do
+        if tContains(cur, f) == nil then
+            return false
+        end
+    end
+    return true
 end
 
-function LM_Mount:FlagsSet(f)
-    return bit.band(self.flags, f) == f
+function LM_Mount:FlagsSet(checkFlags)
+    for _,f in ipairs(checkFlags) do
+        if tContains(self.flags, f) == nil then
+            return false
+        end
+    end
+    return true
 end
 
 local function PlayerIsMovingOrFalling()
@@ -70,7 +82,7 @@ function LM_Mount:Dump(prefix)
     LM_Print("--- Mount Dump ---")
     LM_Print(prefix .. self.name)
     LM_Print(prefix .. " spell: " .. format("%s (id %d)", spellName, self.spellID))
-    LM_Print(prefix .. " flags: " .. format("%04x (default %04x)", self:CurrentFlags(), self.flags))
+    LM_Print(prefix .. " flags: " .. format("%s (default %s)", table.concat(self:CurrentFlags(), ','), table.concat(self.flags, ',')))
     LM_Print(prefix .. " mountID: " .. tostring(self.mountID))
     LM_Print(prefix .. " isCollected: " .. tostring(self.isCollected))
     LM_Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))

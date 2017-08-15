@@ -27,11 +27,7 @@ local function PlayerKnowsRiding()
     return false
 end
 
-local travelFormFlags = bit.bor(
-                            LM_FLAG.FLY,
-                            LM_FLAG.SWIM,
-                            LM_FLAG.RUN
-                        )
+local travelFormFlags = { 'FLY', 'SWIM', 'RUN' }
 
 function LM_TravelForm:Get()
     return LM_Spell.Get(self, LM_SPELL.TRAVEL_FORM, travelFormFlags)

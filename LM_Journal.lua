@@ -61,25 +61,25 @@ function LM_Journal:Get(id)
     --   http://wowpedia.org/API_C_MountJournal.GetMountInfoExtra
 
     if m.mountType == 230 then          -- ground mount
-        m.flags = LM_FLAG.RUN
+        m.flags = { 'RUN' }
     elseif m.mountType == 231 then      -- riding/sea turtle
-        m.flags = LM_FLAG.SWIM
+        m.flags = { 'SWIM' }
     elseif m.mountType == 232 then      -- Vashj'ir Seahorse
-        m.flags = LM_FLAG.VASHJIR
+        m.flags = { 'VASHJIR' }
     elseif m.mountType == 241 then      -- AQ-only bugs
-        m.flags = LM_FLAG.AQ
+        m.flags = { 'AQ' }
     elseif m.mountType == 247 then      -- Red Flying Cloud
-        m.flags = LM_FLAG.FLY
+        m.flags = { 'FLY' }
     elseif m.mountType == 248 then      -- Flying mounts
-        m.flags = LM_FLAG.FLY
+        m.flags = { 'FLY' }
     elseif m.mountType == 254 then      -- Swimming only mounts
-        m.flags = LM_FLAG.SWIM
+        m.flags = { 'SWIM' }
     elseif m.mountType == 269 then      -- Water Striders (floating)
-        m.flags = bit.bor(LM_FLAG.RUN, LM_FLAG.FLOAT)
+        m.flags = { 'RUN', 'FLOAT' }
     elseif m.mountType == 284 then      -- Chauffeured Mekgineer's Chopper
-        m.flags = LM_FLAG.WALK
+        m.flags = { 'WALK' }
     else
-        m.flags = 0
+        m.flags = { }
     end
     -- LM_Debug("LM_Mount flags for "..m.name.." are ".. m.flags)
 

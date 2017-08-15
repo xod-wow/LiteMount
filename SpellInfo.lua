@@ -8,9 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
--- These used to match the returns from the old API function GetCompanionInfo,
--- plus more of my own. But since 6.0 that was replaced with C_MountJournal
--- and specific type numbers.
+-- The values in LM_FLAG enable us to convert old saved variables but are
+-- otherwise unused.
 
 LM_FLAG = { }
 LM_FLAG.RUN = 1

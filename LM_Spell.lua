@@ -25,7 +25,7 @@ function LM_Spell:Get(spellID, flags)
     m.name = name
     m.spellID = spellID
     m.icon = icon
-    m.flags = flags or 0
+    m.flags = flags or { }
     m.isCollected = IsSpellKnown(m.spellID)
 
     return m

@@ -17,14 +17,13 @@ LM_ItemSummoned.__index = LM_ItemSummoned
 
 function LM_ItemSummoned:Get(itemID, spellID, flags)
 
-    local m = LM_Spell.Get(self, spellID)
+    local m = LM_Spell.Get(self, spellID, flags)
     if m then
         -- Used to do GetItemInfo here, but it doesn't work the first
         -- time you log in until the server returns the info and
         -- GET_ITEM_INFO_RECEIVED fires, but I can't be bothered handling
         -- the event and it's not really needed.
         m.itemID = itemID
-        m.flags = flags
         m.isCollected = ( GetItemCount(m.itemID) > 0 )
     end
 

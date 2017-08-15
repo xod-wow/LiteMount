@@ -14,9 +14,9 @@ function LiteMountOptionsBit_OnClick(self)
     local mount = self:GetParent().mount
 
     if self:GetChecked() then
-        LM_Options:SetMountFlagBit(mount, LM_FLAG[self.flag])
+        LM_Options:SetMountFlag(mount, self.flag)
     else
-        LM_Options:ClearMountFlagBit(mount, LM_FLAG[self.flag])
+        LM_Options:ClearMountFlag(mount, self.flag)
     end
     LiteMountOptions_UpdateMountList()
 end
@@ -53,13 +53,11 @@ end
 local function BitButtonUpdate(checkButton, mount)
     local flags = mount:CurrentFlags()
 
-    local flagBit = LM_FLAG[checkButton.flag]
-
-    local checked = bit.band(flags, flagBit) == flagBit
+    local checked = tContains(flags, checkButton.flag)
     checkButton:SetChecked(checked)
 
     -- If we changed this from the default then color the background
-    if bit.band(flags, flagBit) == bit.band(mount.flags, flagBit) then
+    if tContains(flags, checkButton.flag) == tContains(mount.flags, checkButton.flag) then
         checkButton.modified:Hide()
     else
         checkButton.modified:Show()
@@ -370,15 +368,14 @@ local function GetFilteredMountList()
             remove = true
         elseif filters.UNUSABLE and m.needsFaction and m.needsFaction ~= UnitFactionGroup("player") then
             remove = true
-        elseif m:CurrentFlags() ~= 0 then
-            local filterFlags = 0
-            for flagName, flagBit in pairs(LM_FLAG) do
+        else
+            local okflags = m:CurrentFlags()
+            for flagName in pairs(LM_FLAG) do
                 if filters[flagName] then
-                    filterFlags = bit.bor(filterFlags, flagBit)
+                    tDeleteItem(okflags, flagName)
                 end
             end
-
-            if bit.band(m:CurrentFlags(), filterFlags) == m:CurrentFlags() then
+            if #okflags == 0 then
                 remove = true
             end
         end

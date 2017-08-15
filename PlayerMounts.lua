@@ -20,31 +20,31 @@ local LM_MOUNT_SPELLS = {
     { "Nagrand", LM_SPELL.TELAARI_TALBUK },
     { "ItemSummoned",
         LM_ITEM.LOANED_GRYPHON_REINS, LM_SPELL.LOANED_GRYPHON,
-        bit.bor(LM_FLAG.FLY)
+        { 'FLY' }
     },
     { "ItemSummoned",
         LM_ITEM.LOANED_WIND_RIDER_REINS, LM_SPELL.LOANED_WIND_RIDER,
-        bit.bor(LM_FLAG.FLY)
+        { 'FLY' }
     },
     { "ItemSummoned",
         LM_ITEM.FLYING_BROOM, LM_SPELL.FLYING_BROOM,
-        bit.bor(LM_FLAG.FLY),
+        { 'FLY' },
     },
     { "ItemSummoned",
         LM_ITEM.MAGIC_BROOM, LM_SPELL.MAGIC_BROOM,
-        bit.bor(LM_FLAG.RUN, LM_FLAG.FLY),
+        { 'RUN', 'FLY' },
     },
     { "ItemSummoned",
         LM_ITEM.DRAGONWRATH_TARECGOSAS_REST, LM_SPELL.TARECGOSAS_VISAGE,
-        bit.bor(LM_FLAG.FLY)
+        { 'FLY' }
     },
     { "ItemSummoned",
         LM_ITEM.SHIMMERING_MOONSTONE, LM_SPELL.MOONFANG,
-        bit.bor(LM_FLAG.RUN),
+        { 'RUN' },
     },
     { "ItemSummoned",
         LM_ITEM.RATSTALLION_HARNESS, LM_SPELL.RATSTALLION_HARNESS,
-        bit.bor(LM_FLAG.RUN),
+        { 'RUN' },
     },
 }
 
@@ -131,9 +131,9 @@ function LM_PlayerMounts:GetAllMounts()
     return self:Search(match)
 end
 
-function LM_PlayerMounts:GetAvailableMounts(flags)
+function LM_PlayerMounts:GetAvailableMounts(checkFlags)
     local function match(m)
-        if not m:CurrentFlagsSet(flags) then return end
+        if not m:CurrentFlagsSet(checkFlags) then return end
         if not m:IsCastable() then return end
         if LM_Options:IsExcludedMount(m) then return end
         return true
@@ -175,8 +175,8 @@ function LM_PlayerMounts:GetMountByShapeshiftForm(i)
     if name then return self:GetMountByName(name) end
 end
 
-function LM_PlayerMounts:GetRandomMount(flags)
-    local poss = self:GetAvailableMounts(flags)
+function LM_PlayerMounts:GetRandomMount(checkFlags)
+    local poss = self:GetAvailableMounts(checkFlags)
     return poss:Random()
 end
 

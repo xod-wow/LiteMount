@@ -41,6 +41,37 @@ local defaults = {
 
 LM_Options = { }
 
+local function tMerge(...)
+    local result = { }
+
+    for i = 1, select("#", ...) do
+        local src = select(i, ...);
+        for k, v in pairs(src) do
+            result[k] = v;
+        end
+    end
+
+    return result
+end
+
+local function FlagDiff(a, b)
+    local diff = { }
+
+    for flagName in pairs(LM_FLAG) do
+        if tContains(a, flagName) and not tContains(b, flagName) then
+            diff[flagName] = '-'
+        elseif not tContains(a, flagName) and tContains(b, flagName) then
+            diff[flagName] = '+'
+        end
+    end
+
+    if next(diff) == nil then
+        return nil
+    end
+
+    return diff
+end
+
 local function FlagConvert(toSet, toClear)
     local changes = { }
 
@@ -201,15 +232,14 @@ end
 function LM_Options:ApplyMountFlags(m)
 
     local changes = self.db.profile.flagChanges[m.spellID]
-    local flags = m.flags
+    local flags = CopyTable(m.flags)
 
     if changes then
-
-        for flagName,flagBit in pairs(LM_FLAG) do
+        for flagName in pairs(LM_FLAG) do
             if changes[flagName] == '+' then
-                flags = bit.bor(flags, LM_FLAG[flagName])
+                tinsert(flags, flagName)
             elseif changes[flagName] == '-' then
-                flags = bit.band(flags, bit.bnot(LM_FLAG[flagName]))
+                tDeleteItem(flags, flagName)
             end
         end
     end
@@ -217,16 +247,20 @@ function LM_Options:ApplyMountFlags(m)
     return flags
 end
 
-function LM_Options:SetMountFlagBit(m, setBit)
-    LM_Debug(format("Setting flag bit %d for spell %s (%d).",
-                    setBit, m.name, m.spellID))
-    LM_Options:SetMountFlags(m, bit.bor(m:CurrentFlags(), setBit))
+function LM_Options:SetMountFlag(m, setFlag)
+    LM_Debug(format("Setting flag %s for spell %s (%d).",
+                    setFlag, m.name, m.spellID))
+    local flags = m:CurrentFlags()
+    tinsert(flags, setFlag)
+    self:SetMountFlags(m, flags)
 end
 
-function LM_Options:ClearMountFlagBit(m, clearBit)
-    LM_Debug(format("Clearing flag bit %d for spell %s (%d).",
-                     clearBit, m.name, m.spellID))
-    LM_Options:SetMountFlags(m, bit.band(m:CurrentFlags(), bit.bnot(clearBit)))
+function LM_Options:ClearMountFlag(m, clearFlag)
+    LM_Debug(format("Clearing flag %s for spell %s (%d).",
+                     clearFlag, m.name, m.spellID))
+    local flags = m:CurrentFlags()
+    tDeleteItem(flags, clearFlag)
+    self:SetMountFlags(m, flags)
 end
 
 function LM_Options:ResetMountFlags(m)
@@ -235,15 +269,7 @@ function LM_Options:ResetMountFlags(m)
 end
 
 function LM_Options:SetMountFlags(m, flags)
-
-    if flags == m.flags then
-        return self:ResetMountFlags(m)
-    end
-
-    local toSet = bit.band(bit.bxor(flags, m.flags), flags)
-    local toClear = bit.band(bit.bxor(flags, m.flags), bit.bnot(flags))
-
-    self.db.profile.flagChanges[m.spellID] = FlagConvert(toSet, toClear)
+    self.db.profile.flagChanges[m.spellID] = FlagDiff(m.flags, flags)
 end
 
 
