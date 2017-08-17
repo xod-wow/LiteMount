@@ -129,6 +129,11 @@ CONDITIONS["false"] =
         return false
     end
 
+CONDITIONS["floating"] =
+    function ()
+        return LM_Location:IsFloating()
+    end
+
 CONDITIONS["form"] =
     function (v)
         if v == nil then
@@ -267,6 +272,11 @@ CONDITIONS["spec"] =
 CONDITIONS["stealthed"] =
     function ()
         return IsStealthed()
+    end
+
+CONDITIONS["submerged"] =
+    function ()
+        return (IsSubmerged() and not IsFloating())
     end
 
 CONDITIONS["talent:args"] =

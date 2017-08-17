@@ -151,15 +151,6 @@ function LM_Location:CanFly()
     return IsFlyableArea()
 end
 
--- The difference between IsSwimming and IsSubmerged is that IsSubmerged will
--- also return true when you are standing on the bottom.  Note that it sadly
--- does not return false when you are floating on the top, that is still counted
--- as being submerged.
-
-function LM_Location:CanSwim()
-    return IsSubmerged()
-end
-
 function LM_Location:CantBreathe()
     local name, _, _, rate = GetMirrorTimerInfo(2)
     return (name == "BREATH" and rate < 0)

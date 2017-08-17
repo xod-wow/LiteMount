@@ -99,7 +99,7 @@ function LM_Action:CopyTargetsMount()
 end
 
 function LM_Action:Vashjir()
-    if LM_Location:CanSwim() and LM_Location:IsVashjir() then
+    if IsSubmerged() and LM_Location:IsVashjir() then
         LM_Debug("Trying Vashjir Mount")
         return LM_PlayerMounts:GetRandomMount({ 'VASHJIR' })
     end
@@ -114,7 +114,7 @@ end
 
 function LM_Action:Underwater()
     if select(2, UnitRace("player")) == "Undead" then return end
-    if LM_Location:CanSwim() and LM_Location:CantBreathe() then
+    if IsSubmerged() and LM_Location:CantBreathe() then
         LM_Debug("Trying Swimming mount")
         return LM_PlayerMounts:GetRandomMount({ 'SWIM' })
     end
@@ -138,7 +138,7 @@ function LM_Action:Float()
 end
 
 function LM_Action:Swim()
-    if LM_Location:CanSwim() and not LM_Location:IsFloating() then
+    if IsSubmerged() and not LM_Location:IsFloating() then
         LM_Debug("Trying Swimming Mount")
         return LM_PlayerMounts:GetRandomMount({ 'SWIM' })
     end
