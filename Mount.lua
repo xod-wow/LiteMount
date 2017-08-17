@@ -37,12 +37,14 @@ function LM_Mount:CurrentFlagsSet(filters)
     local cur = self:CurrentFlags()
 
     for _,f in ipairs(filters) do
-        if string.match(f, '^~') then
-            if tContains(cur, f:sub(2)) ~= nil then
-                return false
-            end
-        elseif tContains(cur, f) == nil then
-            return false
+        if string.match(f, '^%d+$') then
+            if self.spellID ~= tonumber(f) then return false end
+        elseif string.match(f, '^~') then
+            if tContains(cur, f:sub(2)) ~= nil then return false end
+        elseif string.match(f, '^%w+$') then
+            if tContains(cur, f) == nil then return false end
+        else
+            LM_WarningAndPrint("Invalid filter in action list: " .. f)
         end
     end
     return true
