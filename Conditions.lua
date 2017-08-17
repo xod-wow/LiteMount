@@ -39,18 +39,24 @@ local CONDITIONS = { }
 
 CONDITIONS["achievement"] =
     function (v)
-        return select(4, GetAchievementInfo(v))
+        return select(4, GetAchievementInfo(tonumber(v or 0)))
     end
 
 CONDITIONS["area"] =
     function (v)
-        return tonumber(v) == LM_Location.areaID
+        if v then
+            return tonumber(v) == LM_Location.areaID
+        else
+            return LM_Location.areaID > 0
+        end
     end
 
 CONDITIONS["aura"] =
     function (v)
-        local auraName = GetSpellInfo(v)
-        return UnitAura("player", auraName)
+        if v then
+            local auraName = GetSpellInfo(v)
+            return UnitAura("player", auraName)
+        end
     end
 
 CONDITIONS["breathbar"] =
@@ -66,12 +72,14 @@ CONDITIONS["canexitvehicle"] =
 
 CONDITIONS["channeling"] =
     function ()
-        return UnitChannelInfo( "player" ) ~= nil
+        return UnitChannelInfo("player") ~= nil
     end
 
 CONDITIONS["class"] =
     function (v)
-        return tContains({ UnitClass("player") }, v)
+        if v then
+            return tContains({ UnitClass("player") }, v)
+        end
     end
 
 CONDITIONS["combat"] =
@@ -81,7 +89,9 @@ CONDITIONS["combat"] =
 
 CONDITIONS["continent"] =
     function (v)
-        return tonumber(v) == LM_Location.continent
+        if v then 
+            return tonumber(v) == LM_Location.continent
+        end
     end
 
 CONDITIONS["dead"] =
@@ -91,10 +101,12 @@ CONDITIONS["dead"] =
 
 CONDITIONS["equipped"] =
     function (v)
-        return IsEquippedItem(v) or IsEquippedItemType(v)
+        if v then
+            return IsEquippedItem(v) or IsEquippedItemType(v)
+        end
     end
 
-CONDITIONS["exists:args"] =
+CONDITIONS["exists"] =
     function (unit)
         return UnitExists(unit or "target")
     end
@@ -116,7 +128,9 @@ CONDITIONS["extra"] =
 
 CONDITIONS["faction"] =
     function (v)
-        return tContains({ UnitFactionGroup("player") }, v)
+        if v then
+            return tContains({ UnitFactionGroup("player") }, v)
+        end
     end
 
 CONDITIONS["falling"] =
@@ -136,10 +150,10 @@ CONDITIONS["floating"] =
 
 CONDITIONS["form"] =
     function (v)
-        if v == nil then
-            return GetShapeshiftForm() > 0
-        else
+        if v then
             return GetShapeshiftForm() == tonumber(v)
+        else
+            return GetShapeshiftForm() > 0
         end
     end
 
@@ -164,14 +178,14 @@ CONDITIONS["group"] =
         return false
     end
 
-CONDITIONS["harm:args"] =
+CONDITIONS["harm"] =
     function (unit)
-        return not UnitIsFriend("player", unit)
+        return not UnitIsFriend("player", unit or "target")
     end
 
-CONDITIONS["help:args"] =
+CONDITIONS["help"] =
     function (unit)
-        return UnitIsFriend("player", unit)
+        return UnitIsFriend("player", unit or "target")
     end
 
 CONDITIONS["indoors"] =
@@ -181,10 +195,10 @@ CONDITIONS["indoors"] =
 
 CONDITIONS["instance"] =
     function (v)
-        if not v then
-            return IsInInstance()
-        else
+        if v then
             return LM_Location.instanceID == tonumber(v)
+        else
+            return IsInInstance()
         end
     end
 
@@ -218,15 +232,18 @@ CONDITIONS["outdoors"] =
         return IsOutdoors()
     end
 
-CONDITIONS["party:args"] =
+CONDITIONS["party"] =
     function (unit)
         return UnitPlayerOrPetInParty(unit or "target")
     end
 
 CONDITIONS["pet"] =
     function (v)
-        if not v then return UnitExists("pet") end
-        return UnitName("pet") == v or UnitCreatureFamily("pet") == v
+        if v then
+            return UnitName("pet") == v or UnitCreatureFamily("pet") == v
+        else
+             return UnitExists("pet")
+        end
     end
 
 CONDITIONS["pvp"] =
@@ -236,10 +253,12 @@ CONDITIONS["pvp"] =
 
 CONDITIONS["race"] =
     function (v)
-        return tContains({ UnitRace("player") }, v)
+        if v then
+            return tContains({ UnitRace("player") }, v)
+        end
     end
 
-CONDITIONS["raid:args"] =
+CONDITIONS["raid"] =
     function (unit)
         return UnitPlayerOrPetInRaid(unit or "target")
     end
@@ -266,7 +285,9 @@ CONDITIONS["shapeshift"] =
 
 CONDITIONS["spec"] =
     function (v)
-        return GetSpecialization() == tonumber(v)
+        if v then
+            return GetSpecialization() == tonumber(v)
+        end
     end
 
 CONDITIONS["stealthed"] =
@@ -276,7 +297,7 @@ CONDITIONS["stealthed"] =
 
 CONDITIONS["submerged"] =
     function ()
-        return (IsSubmerged() and not IsFloating())
+        return (IsSubmerged() and not LM_Location:IsFloating())
     end
 
 CONDITIONS["talent:args"] =

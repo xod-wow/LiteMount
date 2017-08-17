@@ -107,11 +107,11 @@ end
 
 function LM_Action:Mount(filters)
     local pm = LM_PlayerMounts
-    return LM_PlayerMounts:GetRandomMount({ 'FLY', unpack(filters) }) or
-           LM_PlayerMounts:GetRandomMount({ 'FLOAT', unpack(filters) }) or
-           LM_PlayerMounts:GetRandomMount({ 'SWIM', unpack(filters) }) or
-           LM_PlayerMounts:GetRandomMount({ 'RUN', unpack(filters) }) or
-           LM_PlayerMounts:GetRandomMount({ 'WALK', unpack(filters) }) or
+    return self:Swim(filters) or
+           self:Fly(filters) or
+           self:Float(filters) or
+           self:Run(filters) or
+           self:Walk(filters) or
            LM_PlayerMounts:GetRandomMount({ unpack(filters) })
 end
 
