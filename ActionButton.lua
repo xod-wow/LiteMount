@@ -41,6 +41,22 @@ function LM_ActionButton:Dispatch(action, filters)
     return true
 end
 
+local function ParseActionLine(line)
+    local action = strmatch(line, "%S+")
+    local filters, conditions = {}, {}
+    gsub(line, '%[filter=(.-)%]',
+            function (v)
+                for f in gmatch(v, '[^, ]+') do tinsert(filters, f) end
+            end)
+    gsub(line, '%[[^=]-%]', function (v) tinsert(conditions, v) end)
+
+    if #conditions == 0 then
+        table.insert(conditions, '[]')
+    end
+
+    return action, filters, table.concat(conditions, '')
+end
+
 function LM_ActionButton:PreClick(mouseButton)
 
     if InCombatLockdown() then return end
@@ -49,22 +65,15 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_PlayerMounts:RefreshMounts()
 
+    -- Once this is stable move it to a pre-parsing, then we can also
+    -- sanity check it up front.
     for line in gmatch(self.actionList, "(.-)\r?\n") do
-        local action = strmatch(line, "%S+")
-        local filters, conditions = {}, {}
-        gsub(line, '%[filter=(.-)%]',
-                function (v)
-                    for f in gmatch(v, '[^, ]+') do tinsert(filters, f) end
-                end)
-        gsub(line, '%[[^=]-%]', function (v) tinsert(conditions, v) end)
-
-        if #conditions == 0 then
-            table.insert(conditions, '[]')
-        end
-
+        local action, filters, conditions = ParseActionLine(line)
         -- erm, why concat and then split later, derp
-        if LM_Conditions:Eval(table.concat(conditions, '')) then
-            if self:Dispatch(action, filters) then return end
+        if LM_Conditions:Eval(conditions, '') then
+            if self:Dispatch(action, filters) then
+                return
+            end
         end
     end
 
