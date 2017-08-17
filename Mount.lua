@@ -33,11 +33,15 @@ function LM_Mount:Refresh()
 end
 
 -- This was a bit of a convenience since bit.isset doesn't exist
-function LM_Mount:CurrentFlagsSet(checkFlags)
+function LM_Mount:CurrentFlagsSet(filters)
     local cur = self:CurrentFlags()
 
-    for _,f in ipairs(checkFlags) do
-        if tContains(cur, f) == nil then
+    for _,f in ipairs(filters) do
+        if string.match(f, '^~') then
+            if tContains(cur, f:sub(2)) ~= nil then
+                return false
+            end
+        elseif tContains(cur, f) == nil then
             return false
         end
     end

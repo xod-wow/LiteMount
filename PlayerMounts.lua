@@ -131,9 +131,9 @@ function LM_PlayerMounts:GetAllMounts()
     return self:Search(match)
 end
 
-function LM_PlayerMounts:GetAvailableMounts(checkFlags)
+function LM_PlayerMounts:GetAvailableMounts(filters)
     local function match(m)
-        if not m:CurrentFlagsSet(checkFlags) then return end
+        if not m:CurrentFlagsSet(filters) then return end
         if not m:IsCastable() then return end
         if LM_Options:IsExcludedMount(m) then return end
         return true
@@ -175,8 +175,8 @@ function LM_PlayerMounts:GetMountByShapeshiftForm(i)
     if name then return self:GetMountByName(name) end
 end
 
-function LM_PlayerMounts:GetRandomMount(checkFlags)
-    local poss = self:GetAvailableMounts(checkFlags)
+function LM_PlayerMounts:GetRandomMount(filters)
+    local poss = self:GetAvailableMounts(filters)
     return poss:Random()
 end
 

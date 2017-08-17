@@ -21,7 +21,7 @@ function LM_ActionButton:SetupActionButton(mount)
     end
 end
 
-function LM_ActionButton:Dispatch(action, args)
+function LM_ActionButton:Dispatch(action, filters)
 
     if not LM_Action[action] then
         LM_Print(format("Error: bad action '%s' in action list.", action))
@@ -29,9 +29,10 @@ function LM_ActionButton:Dispatch(action, args)
     end
 
     LM_Debug("Dispatching action " .. action .. ".")
+    LM_Debug("Filters: " .. table.concat(filters or {}, ' '))
 
     -- This is super ugly.
-    local m = LM_Action[action](LM_Action, self, args)
+    local m = LM_Action[action](LM_Action, filters)
     if not m then return end
 
     LM_Debug("Setting up button as " .. (m.name or action) .. ".")
@@ -48,8 +49,23 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_PlayerMounts:RefreshMounts()
 
-    for action in gmatch(self.actionList, "%S+") do
-        if self:Dispatch(action) then return end
+    for line in gmatch(self.actionList, "(.-)\r?\n") do
+        local action = strmatch(line, "%S+")
+        local filters, conditions = {}, {}
+        gsub(line, '%[filter=(.-)%]',
+                function (v)
+                    for f in gmatch(v, '[^, ]+') do tinsert(filters, f) end
+                end)
+        gsub(line, '%[[^=]-%]', function (v) tinsert(conditions, v) end)
+
+        if #conditions == 0 then
+            table.insert(conditions, '[]')
+        end
+
+        -- erm, why concat and then split later, derp
+        if LM_Conditions:Eval(table.concat(conditions, '')) then
+            if self:Dispatch(action, filters) then return end
+        end
     end
 
     self:Dispatch("CantMount")

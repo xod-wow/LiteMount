@@ -105,18 +105,20 @@ function LM_Action:Vashjir()
     end
 end
 
-function LM_Action:Fly()
-    if LM_Location:CanFly() then
-        LM_Debug("Trying Flying Mount")
-        return LM_PlayerMounts:GetRandomMount({ 'FLY' })
-    end
+function LM_Action:Mount(filters)
+    local pm = LM_PlayerMounts
+    return LM_PlayerMounts:GetRandomMount({ 'FLY', unpack(filters) }) or
+           LM_PlayerMounts:GetRandomMount({ 'FLOAT', unpack(filters) }) or
+           LM_PlayerMounts:GetRandomMount({ 'SWIM', unpack(filters) }) or
+           LM_PlayerMounts:GetRandomMount({ 'RUN', unpack(filters) }) or
+           LM_PlayerMounts:GetRandomMount({ 'WALK', unpack(filters) }) or
+           LM_PlayerMounts:GetRandomMount({ unpack(filters) })
 end
 
-function LM_Action:Underwater()
-    if select(2, UnitRace("player")) == "Undead" then return end
-    if IsSubmerged() and LM_Location:CantBreathe() then
-        LM_Debug("Trying Swimming mount")
-        return LM_PlayerMounts:GetRandomMount({ 'SWIM' })
+function LM_Action:Fly(filters)
+    if LM_Location:CanFly() then
+        LM_Debug("Trying Flying Mount")
+        return LM_PlayerMounts:GetRandomMount({ 'FLY', unpack(filters) })
     end
 end
 
@@ -130,17 +132,17 @@ function LM_Action:SuramarCity()
     end
 end
 
-function LM_Action:Float()
+function LM_Action:Float(filters)
     if LM_Location:IsFloating() then
         LM_Debug("Trying Floating mount")
-        return LM_PlayerMounts:GetRandomMount({ 'FLOAT' })
+        return LM_PlayerMounts:GetRandomMount({ 'FLOAT', unpack(filters) })
     end
 end
 
-function LM_Action:Swim()
+function LM_Action:Swim(filters)
     if IsSubmerged() and not LM_Location:IsFloating() then
         LM_Debug("Trying Swimming Mount")
-        return LM_PlayerMounts:GetRandomMount({ 'SWIM' })
+        return LM_PlayerMounts:GetRandomMount({ 'SWIM', unpack(filters) })
     end
 end
 
@@ -158,14 +160,14 @@ function LM_Action:AQ()
     end
 end
 
-function LM_Action:Run()
+function LM_Action:Run(filters)
     LM_Debug("Trying Running Mount")
-    return LM_PlayerMounts:GetRandomMount({ 'RUN' })
+    return LM_PlayerMounts:GetRandomMount({ 'RUN', unpack(filters) })
 end
 
-function LM_Action:Walk()
+function LM_Action:Walk(filters)
     LM_Debug("Trying Walking Mount")
-    return LM_PlayerMounts:GetRandomMount({ 'WALK' })
+    return LM_PlayerMounts:GetRandomMount({ 'WALK', unpack(filters) })
 end
 
 function LM_Action:Custom1()

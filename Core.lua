@@ -36,15 +36,12 @@ local ButtonActions = {
         Dismount
         CancelForm
         CopyTargetsMount
-        Vashjir
-        Swim
-        SuramarCity
-        Fly
-        Float
-        Nagrand
-        AQ
-        Run
-        Walk
+        Mount [filter=VASHJIR][area:610/614/615]
+        Mount [filter=AQ][area:766,nofly,nosubmerged]
+        Mount [filter=NAGRAND][area:950,nofly,nosubmerged]
+        Mount [filter=881][nosubmerged,extra:202477][nosubmerged,aura:202477]
+        Mount [filter=~FLY][mod:shift]
+        Mount
         Macro
     ]],
     -- Ground-only mount button (same as above but no "Fly")
@@ -53,14 +50,11 @@ local ButtonActions = {
         Dismount
         CancelForm
         CopyTargetsMount
-        Vashjir
-        Swim
-        SuramarCity
-        Float
-        Nagrand
-        AQ
-        Run
-        Walk
+        Vashjir [area:610/614/615]
+        Mount [filter=AQ][area:766,nofly,nosubmerged]
+        Mount [filter=NAGRAND][area:950,nofly,nosubmerged]
+        Mount [filter=881][nosubmerged,extra:202477][nosubmerged,aura:202477]
+        Mount [filter=~FLY]
         Macro
     ]],
     -- Custom1
@@ -68,7 +62,7 @@ local ButtonActions = {
         LeaveVehicle
         Dismount
         CancelForm
-        Custom1
+        Mount [filter=CUSTOM1]
         Macro
     ]],
     -- Custom2
@@ -76,7 +70,7 @@ local ButtonActions = {
         LeaveVehicle
         Dismount
         CancelForm
-        Custom2
+        Mount [filter=CUSTOM2]
         Macro
     ]],
 }

@@ -28,6 +28,7 @@ PlayerMounts.lua
 Location.lua
 Options.lua
 SlashCommand.lua
+Conditions.lua
 Action.lua
 ActionButton.lua
 Core.lua
