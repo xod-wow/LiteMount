@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/UIOptionsFilters.lua
+  LiteMount/UIOptionsAdvanced.lua
 
   Options frame to plug in to the Blizzard interface menu.
 
@@ -8,11 +8,11 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LiteMountOptionsFilters_OnLoad(self)
-    self.name = FILTERS
+function LiteMountOptionsAdvanced_OnLoad(self)
+    self.name = ADVANCED_OPTIONS
     LiteMountOptionsPanel_OnLoad(self)
 end
 
-function LiteMountOptionsFilters_OnTextChanged(self)
+function LiteMountOptionsAdvanced_OnTextChanged(self)
 end
 

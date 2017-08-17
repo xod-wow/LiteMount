@@ -110,6 +110,14 @@ function LiteMount:VersionUpgrade()
     end
 end
 
+local function TrimLines(str)
+    local result = ""
+    for line in gmatch(str, "(.-)\r?\n") do
+        result = result .. gsub(line, '^%s*(.-)%s*$', '%1') .. "\n"
+    end
+    return result
+end
+
 function LiteMount:Initialize()
 
     -- Do this first because LM_Debug doesn't work until it's loaded.
@@ -131,6 +139,7 @@ function LiteMount:Initialize()
     self.actions = { }
 
     for i,actions in ipairs(ButtonActions) do
+        actions = TrimLines(actions)
         self.actions[i] = LM_ActionButton:Create(i, actions)
     end
 

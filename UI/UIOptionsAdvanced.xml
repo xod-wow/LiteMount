@@ -2,12 +2,12 @@
 
 <!-- Copyright 2011-2017 Mike Battersby -->
 
-<Script file="UIOptionsFilters.lua" />
+<Script file="UIOptionsAdvanced.lua" />
 
-<Frame name="LiteMountOptionsFilters" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountOptionsAdvanced" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
-        <Frame name="LiteMountOptionsFiltersEditBoxContainer">
+        <Frame name="LiteMountOptionsAdvancedEditBoxContainer">
 
             <Anchors>
                 <Anchor point="TOP" y="-96" />
@@ -32,7 +32,7 @@
             </Scripts>
 
             <Frames>
-                <EditBox name="LiteMountOptionsFiltersEditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
+                <EditBox name="LiteMountOptionsAdvancedEditBox" multiLine="true" autoFocus="false">
 
                     <Anchors>
                         <Anchor point="TOPLEFT" x="8" y="-8" />
@@ -40,30 +40,30 @@
                     </Anchors>
 
                     <Scripts>
-                        <OnTextChanged function="LiteMountOptionsFilters_OnTextChanged" />
+                        <OnTextChanged function="LiteMountOptionsAdvanced_OnTextChanged" />
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
                             self.SetOption = function (self, v)
                                 end
                             self.GetOption = function (self)
-                                    return ""
+                                    return LiteMount.actions[1].actionList
                                 end
                             self.GetOptionDefault = function (self)
-                                    return ""
+                                    return LiteMount.actions[1].actionList
                                 end
-                            LiteMountOptionsControl_OnLoad(self, LiteMountOptionsFilters)
+                            LiteMountOptionsControl_OnLoad(self, LiteMountOptionsAdvanced)
                         </OnLoad>
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
                 </EditBox>
-                <Button inherits="UIPanelButtonTemplate" text="DEFAULT">
+                <Button inherits="UIPanelButtonTemplate" text="UNLOCK">
                     <Size x="96" y="22" />
                     <Anchors>
                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
                     </Anchors>
                     <Scripts>
                         <OnClick>
-                            LiteMountOptionsFiltersEditBox:SetText("")
+                            LiteMountOptionsAdvancedEditBox:SetText("")
                         </OnClick>
                     </Scripts>
                 </Button>
@@ -83,20 +83,15 @@
 
             <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
                 <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LiteMountOptionsFiltersEditBoxContainer" x="8" y="3" />
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LiteMountOptionsAdvancedEditBoxContainer" x="8" y="3" />
                 </Anchors>
             </FontString>
 
-            <FontString name="LiteMountOptionsFiltersCount" inherits="GameFontHighlightSmall">
-                <Anchors>
-                    <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="LiteMountOptionsFiltersEditBoxContainer" y="-3" />
-                </Anchors>
-            </FontString>
         </Layer>
     </Layers>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsFilters_OnLoad" />
+        <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />
     </Scripts>
 </Frame>
 
