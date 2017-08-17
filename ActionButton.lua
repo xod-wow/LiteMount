@@ -24,7 +24,7 @@ end
 function LM_ActionButton:Dispatch(action, filters)
 
     if not LM_Action[action] then
-        LM_Print(format("Error: bad action '%s' in action list.", action))
+        LM_WarningAndPrint(format("Error: bad action '%s' in action list.", action))
         return
     end
 
@@ -69,7 +69,6 @@ function LM_ActionButton:PreClick(mouseButton)
     -- sanity check it up front.
     for line in gmatch(self.actionList, "(.-)\r?\n") do
         local action, filters, conditions = ParseActionLine(line)
-        -- erm, why concat and then split later, derp
         if LM_Conditions:Eval(conditions, '') then
             if self:Dispatch(action, filters) then
                 return
