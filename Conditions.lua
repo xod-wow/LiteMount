@@ -99,6 +99,21 @@ CONDITIONS["exists:args"] =
         return UnitExists(unit or "target")
     end
 
+-- Check for an extraactionbutton, optionally with a specific spell
+CONDITIONS["extra"] =
+    function (v)
+        if HasExtraActionBar() and HasAction(169) then
+            if v then
+                local aType, aID = GetActionInfo(169)
+                if aType == "spell" and aID == v then
+                    return true
+                end
+            else
+                return true
+            end
+        end
+    end
+
 CONDITIONS["faction"] =
     function (v)
         return tContains({ UnitFactionGroup("player") }, v)
