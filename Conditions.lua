@@ -105,7 +105,7 @@ CONDITIONS["extra"] =
         if HasExtraActionBar() and HasAction(169) then
             if v then
                 local aType, aID = GetActionInfo(169)
-                if aType == "spell" and aID == v then
+                if aType == "spell" and aID == tonumber(v) then
                     return true
                 end
             else
@@ -345,8 +345,8 @@ function LM_Conditions:IsTrue(str)
     return false
 end
 
--- "OR" together comma-separated tests
-function LM_Conditions:EvalCommaOr(str)
+-- "AND" together comma-separated tests
+function LM_Conditions:EvalCommaAnd(str)
     for _, e in ipairs({ strsplit(",", str) }) do
         if e:match("^no") then
             if self:IsTrue(e:sub(3)) then return false end
@@ -357,10 +357,10 @@ function LM_Conditions:EvalCommaOr(str)
     return true
 end
 
--- "AND" together [] sections
+-- "OR" together [] sections
 function LM_Conditions:Eval(str)
     for e in str:gmatch('%[(.-)%]') do
-        if self:EvalCommaOr(e) then
+        if self:EvalCommaAnd(e) then
             return true
         end
     end

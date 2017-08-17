@@ -36,10 +36,10 @@ local ButtonActions = {
         Dismount
         CancelForm
         CopyTargetsMount
-        Mount [filter=VASHJIR][area:610/614/615]
-        Mount [filter=AQ][area:766,nofly,nosubmerged]
-        Mount [filter=NAGRAND][area:950,nofly,nosubmerged]
-        Mount [filter=881][nosubmerged,extra:202477][nosubmerged,aura:202477]
+        Mount [filter=VASHJIR][area:610/614/615,submerged]
+        Mount [filter=AQ][area:766,noflyable,nosubmerged]
+        Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
+        Mount [filter=230987][nosubmerged,extra:202477][nosubmerged,aura:202477]
         Mount [filter=~FLY][mod:shift]
         Mount
         Macro
@@ -51,9 +51,9 @@ local ButtonActions = {
         CancelForm
         CopyTargetsMount
         Vashjir [area:610/614/615]
-        Mount [filter=AQ][area:766,nofly,nosubmerged]
-        Mount [filter=NAGRAND][area:950,nofly,nosubmerged]
-        Mount [filter=881][nosubmerged,extra:202477][nosubmerged,aura:202477]
+        Mount [filter=AQ][area:766,noflyable,nosubmerged]
+        Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
+        Mount [filter=202477][nosubmerged,extra:202477][nosubmerged,aura:202477]
         Mount [filter=~FLY]
         Macro
     ]],
