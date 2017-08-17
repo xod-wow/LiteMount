@@ -115,13 +115,14 @@ end
 function LM_Action:Underwater()
     if select(2, UnitRace("player")) == "Undead" then return end
     if LM_Location:CanSwim() and LM_Location:CantBreathe() then
-        LM_Debug("Trying SuramarCity mount")
+        LM_Debug("Trying Swimming mount")
         return LM_PlayerMounts:GetRandomMount({ 'SWIM' })
     end
 end
 
 function LM_Action:SuramarCity()
     if LM_Location:CanSuramarMasquerade() then
+        LM_Debug("Trying SuramarCity mount")
         local m = LM_PlayerMounts:GetMountBySpell(230987)
         if m and m:IsCastable() and not LM_Options:IsExcludedMount(m) then
             return m
