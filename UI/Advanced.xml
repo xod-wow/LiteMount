@@ -7,12 +7,12 @@
 <Frame name="LiteMountOptionsAdvanced" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
-        <Frame name="LiteMountOptionsAdvancedEditBoxContainer">
+        <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer">
 
             <Anchors>
-                <Anchor point="TOP" y="-96" />
-                <Anchor point="LEFT" x="48" />
-                <Anchor point="RIGHT" x="-48" />
+                <Anchor point="TOP" y="-128" />
+                <Anchor point="LEFT" x="32" />
+                <Anchor point="RIGHT" x="-32" />
                 <Anchor point="BOTTOM" y="64" />
             </Anchors>
 
@@ -32,7 +32,7 @@
             </Scripts>
 
             <Frames>
-                <EditBox name="LiteMountOptionsAdvancedEditBox" multiLine="true" autoFocus="false">
+                <EditBox name="$parentEditBox" parentKey="EditBox" multiLine="true" autoFocus="false">
 
                     <Anchors>
                         <Anchor point="TOPLEFT" x="8" y="-8" />
@@ -40,53 +40,63 @@
                     </Anchors>
 
                     <Scripts>
-                        <OnTextChanged function="LiteMountOptionsAdvanced_OnTextChanged" />
+                        <OnTextChanged function="$parent_OnTextChanged" />
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
+                            self:Disable()
+                            self:SetAlpha(0.5)
                             self.SetOption = function (self, v)
                                 end
                             self.GetOption = function (self)
-                                    return LiteMount.actions[1].actionList
+                                    print("EDITBOX GETOPTION: " .. tostring(LiteMountOptionsAdvanced.currentButtonIndex))
+                                    local i = LiteMountOptionsAdvanced.currentButtonIndex or 1
+                                    return LiteMount.actions[i].actionList
                                 end
                             self.GetOptionDefault = function (self)
-                                    return LiteMount.actions[1].actionList
+                                    local i = LiteMountOptionsAdvanced.currentButtonIndex or 1
+                                    return LiteMount.actions[i].actionList
                                 end
                             LiteMountOptionsControl_OnLoad(self, LiteMountOptionsAdvanced)
                         </OnLoad>
                     </Scripts>
                     <FontString inherits="GameFontHighlight" />
                 </EditBox>
-                <Button inherits="UIPanelButtonTemplate" text="UNLOCK">
+
+                <Button name="$parentUnlockButton" parentKey="UnlockButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
                     <Size x="96" y="22" />
                     <Anchors>
                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
                     </Anchors>
                     <Scripts>
                         <OnClick>
-                            LiteMountOptionsAdvancedEditBox:SetText("")
+                            local eb = self:GetParent().EditBox
+                            eb:SetAlpha(1.0)
+                            eb:Enable()
+                            self:Hide()
                         </OnClick>
                     </Scripts>
                 </Button>
             </Frames>
         </Frame>
+
+        <Frame name="$parentBindingDropDown" parentkey="BindingDropDown" inherits="UIDropDownMenuTemplate">
+            <Size x="93" y="22" />
+            <Anchors>
+                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="-8" />
+            </Anchors>
+        </Frame>
+
     </Frames>
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_FILTER_EXP">
+            <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_ADVANCED_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
                     <Anchor point="LEFT" x="48" />
                     <Anchor point="RIGHT" x="-48" />
                 </Anchors>
             </FontString>
-
-            <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
-                <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LiteMountOptionsAdvancedEditBoxContainer" x="8" y="3" />
-                </Anchors>
-            </FontString>
-
         </Layer>
     </Layers>
 

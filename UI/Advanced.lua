@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/UIOptionsAdvanced.lua
+  LiteMount/Advanced.lua
 
   Options frame to plug in to the Blizzard interface menu.
 
@@ -8,11 +8,35 @@
 
 ----------------------------------------------------------------------------]]--
 
+local function BindingText(n)
+    return format('%s %s', KEY_BINDING, n)
+end
+
 function LiteMountOptionsAdvanced_OnLoad(self)
     self.name = ADVANCED_OPTIONS
+    self.currentButtonIndex = 1
+
+    UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountOptionsAdvancedBindingDropDown_Initialize)
+    UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
     LiteMountOptionsPanel_OnLoad(self)
 end
 
-function LiteMountOptionsAdvanced_OnTextChanged(self)
-end
+function LiteMountOptionsAdvancedBindingDropDown_Initialize(dropDown, level)
+    local info = UIDropDownMenu_CreateInfo()
 
+    if level == 1 then
+        for i = 1,4 do
+            info.text = BindingText(i)
+            info.arg1 = i
+            info.arg2 = BindingText(i)
+            info.func = function (button, v, t)
+                    LiteMountOptionsAdvanced.currentButtonIndex = v
+                    UIDropDownMenu_SetText(dropDown, t)
+                    LiteMountOptionsPanel_Cancel(LiteMountOptionsAdvanced)
+                    LiteMountOptionsPanel_Refresh(LiteMountOptionsAdvanced)
+                end
+            info.checked = (LiteMountOptionsAdvanced.currentButtonIndex == i)
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end
+end

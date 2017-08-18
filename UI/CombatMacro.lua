@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/UIOptionsCombatMacro.lua
+  LiteMount/CombatMacro.lua
 
   Options frame to plug in to the Blizzard interface menu.
 

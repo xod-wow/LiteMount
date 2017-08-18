@@ -1,0 +1,11 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Include file="PanelTemplate.xml" />
+    <Include file="Frame.xml" />
+
+    <!-- The order of these is the order of the settings tabs -->
+    <Include file="Settings.xml" />
+    <Include file="Mounts.xml" />
+    <Include file="Macro.xml" />
+    <Include file="CombatMacro.xml" />
+    <Include file="Advanced.xml" />
+</Ui>
