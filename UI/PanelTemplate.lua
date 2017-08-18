@@ -48,7 +48,7 @@ function LiteMountOptionsPanel_Refresh(self)
                 control.oldValues[i] = control:GetOption(i)
             end
         end
-        local cur = control.tab or 1
+        local cur = control.tab
         control:SetControl(control.oldValues[cur], cur)
     end
 end
@@ -154,11 +154,12 @@ end
 
 function LiteMountOptionsControl_OnLoad(self, parent)
     self.GetOption = self.GetOption or function (self) end
-    self.SetOption = self.SetOption or function (self, v) end
+    self.SetOption = self.SetOption or function (self, v, i) end
     self.GetControl = self.GetControl or LiteMountOptionsControl_GetControl
     self.SetControl = self.SetControl or LiteMountOptionsControl_SetControl
 
     self.oldValues = { }
+    self.tab = 1
 
     -- Note we don't set an OnShow per control, the panel handler takes care
     -- of running the refresh for all the controls in its OnShow

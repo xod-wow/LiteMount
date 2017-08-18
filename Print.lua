@@ -41,5 +41,5 @@ end
 
 function LM_WarningAndPrint(msg)
     LM_Warning(msg)
-    LM_Print(msg)
+    LM_Print("|cffff6666" .. msg .. "|r")
 end

@@ -44,7 +44,6 @@
                 <OnEscapePressed function="EditBox_ClearFocus" />
                 <OnLoad>
                     self.SetOption = function (self, v, i)
-                            if true then return end
                             if v == LiteMount.actions[i].defaultActionList then
                                 LM_Options.db.profile.buttonActions[i] = nil
                             else
@@ -52,8 +51,6 @@
                             end
                         end
                     self.GetOption = function (self, i)
-                            -- LoadAddOn('Blizzard_DebugTools')
-                            -- DevTools_Dump(LiteMount.actions)
                             return LiteMount.actions[i]:CurrentActionList()
                         end
                     self.GetOptionDefault = function (self, i)
