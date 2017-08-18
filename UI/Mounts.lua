@@ -567,8 +567,6 @@ local function UpdateProfileCallback(self)
 end
 
 function LiteMountOptionsMounts_OnShow(self)
-    LiteMountOptions.CurrentOptionsPanel = self
-    LiteMountOptions_UpdateMountList()
     LM_Options.db.RegisterCallback(self, "OnProfileCopied", UpdateProfileCallback)
     LM_Options.db.RegisterCallback(self, "OnProfileChanged", UpdateProfileCallback)
     LM_Options.db.RegisterCallback(self, "OnProfileReset", UpdateProfileCallback)
@@ -576,6 +574,9 @@ function LiteMountOptionsMounts_OnShow(self)
     -- This is specifically to catch the "Currently Active Mount" filter
     self:SetScript("OnEvent", LiteMountOptions_UpdateMountList)
     self:RegisterUnitEvent("UNIT_AURA", "player")
+
+    LiteMountOptions_UpdateMountList()
+    LiteMountOptionsPanel_OnShow(self)
 end
 
 function LiteMountOptionsMounts_OnHide(self)

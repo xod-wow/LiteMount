@@ -138,9 +138,9 @@ function LiteMount:Initialize()
     -- Create SecureActionButtons
     self.actions = { }
 
-    for i,actions in ipairs(ButtonActions) do
-        actions = TrimLines(actions)
-        self.actions[i] = LM_ActionButton:Create(i, actions)
+    for i,defaultActions in ipairs(ButtonActions) do
+        defaultActions = TrimLines(defaultActions)
+        self.actions[i] = LM_ActionButton:Create(i, defaultActions)
     end
 
     -- Backwards-compatibility SecureActionButton setup so you can do

@@ -14,7 +14,8 @@ end
 
 function LiteMountOptionsAdvanced_OnLoad(self)
     self.name = ADVANCED_OPTIONS
-    self.currentButtonIndex = 1
+
+    self.EditBox.ntabs = 4
 
     UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountOptionsAdvancedBindingDropDown_Initialize)
     UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
@@ -30,10 +31,8 @@ function LiteMountOptionsAdvancedBindingDropDown_Initialize(dropDown, level)
             info.arg1 = i
             info.arg2 = BindingText(i)
             info.func = function (button, v, t)
-                    LiteMountOptionsAdvanced.currentButtonIndex = v
+                    LiteMountOptionsControl_SetTab(LiteMountOptionsAdvanced.EditBox, v)
                     UIDropDownMenu_SetText(dropDown, t)
-                    LiteMountOptionsPanel_Cancel(LiteMountOptionsAdvanced)
-                    LiteMountOptionsPanel_Refresh(LiteMountOptionsAdvanced)
                 end
             info.checked = (LiteMountOptionsAdvanced.currentButtonIndex == i)
             UIDropDownMenu_AddButton(info, level)

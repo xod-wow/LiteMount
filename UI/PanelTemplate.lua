@@ -43,18 +43,23 @@ end
 function LiteMountOptionsPanel_Refresh(self)
     LM_Debug("Panel_Refresh " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
-        if control.oldValue == nil then
-            control.oldValue = control:GetOption()
+        for i = 1, (control.ntabs or 1) do
+            if control.oldValues[i] == nil then
+                control.oldValues[i] = control:GetOption(i)
+            end
         end
-        control:SetControl(control.oldValue)
+        local cur = control.tab or 1
+        control:SetControl(control.oldValues[cur], cur)
     end
 end
 
 function LiteMountOptionsPanel_Default(self)
     LM_Debug("Panel_Default " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
-        if control.GetOptionDefault then
-            control:SetOption(control:GetOptionDefault())
+        for i = 1, (control.ntabs or 1) do
+            if control.GetOptionDefault then
+                control:SetOption(control:GetOptionDefault(i), i)
+            end
         end
     end
 end
@@ -62,16 +67,18 @@ end
 function LiteMountOptionsPanel_Okay(self)
     LM_Debug("Panel_Okay " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
-        control.oldValue = nil
+        wipe(control.oldValues)
     end
 end
 
 function LiteMountOptionsPanel_Cancel(self)
     LM_Debug("Panel_Cancel " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
-        if control.oldValue ~= nil then
-            control:SetOption(control.oldValue)
-            control.oldValue = nil
+        for i = 1, (control.ntabs or 1) do
+            if control.oldValues[i] ~= nil then
+                control:SetOption(control.oldValues[i], i)
+            end
+            wipe(control.oldValues)
         end
     end
 end
@@ -117,7 +124,12 @@ function LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountOptionsControl_OnChanged(self)
-    self:SetOption(self:GetControl())
+    self:SetOption(self:GetControl(), self.tab)
+end
+
+function LiteMountOptionsControl_SetTab(self, n)
+    self.tab = n
+    self:SetControl(self:GetOption(n))
 end
 
 function LiteMountOptionsControl_GetControl(self)
@@ -145,6 +157,8 @@ function LiteMountOptionsControl_OnLoad(self, parent)
     self.SetOption = self.SetOption or function (self, v) end
     self.GetControl = self.GetControl or LiteMountOptionsControl_GetControl
     self.SetControl = self.SetControl or LiteMountOptionsControl_SetControl
+
+    self.oldValues = { }
 
     -- Note we don't set an OnShow per control, the panel handler takes care
     -- of running the refresh for all the controls in its OnShow

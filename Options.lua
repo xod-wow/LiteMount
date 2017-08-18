@@ -25,6 +25,7 @@ local defaults = {
     profile = {
         excludedSpells      = { },
         flagChanges         = { },
+        buttonActions       = { },
         excludeNewMounts    = false,
     },
     char = {

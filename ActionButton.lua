@@ -66,7 +66,7 @@ function LM_ActionButton:PreClick(mouseButton)
 
     -- Once this is stable move it to a pre-parsing, then we can also
     -- sanity check it up front.
-    for line in gmatch(self.actionList, "(.-)\r?\n") do
+    for line in gmatch(self:CurrentActionList(), "(.-)\r?\n") do
         local action, filters, conditions = ParseActionLine(line)
         if LM_Conditions:Eval(conditions, '') then
             if self:Dispatch(action, filters) then
@@ -76,6 +76,10 @@ function LM_ActionButton:PreClick(mouseButton)
     end
 
     self:Dispatch("CantMount")
+end
+
+function LM_ActionButton:CurrentActionList()
+    return LM_Options.db.profile.buttonActions[self.id] or self.defaultActionList
 end
 
 function LM_ActionButton:PostClick()
@@ -92,15 +96,18 @@ function LM_ActionButton:PostClick()
     self:SetupActionButton(LM_Action:Combat())
 end
 
-function LM_ActionButton:Create(n, actionList)
+function LM_ActionButton:Create(n, defaultActionList)
 
     local name = "LM_B" .. n
 
     local b = CreateFrame("Button", name, UIParent, "SecureActionButtonTemplate")
     setmetatable(b, LM_ActionButton)
 
+    -- So we can look up action lists in LM_Options
+    b.id = n
+
     -- Save for use in PreClick handler
-    b.actionList = actionList
+    b.defaultActionList = defaultActionList
 
     -- Button-fu
     b:RegisterForClicks("AnyDown")

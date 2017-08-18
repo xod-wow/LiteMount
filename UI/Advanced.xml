@@ -30,54 +30,55 @@
                     self:SetBackdropColor(0, 0, 0, 0.5)
                 </OnLoad>
             </Scripts>
-
-            <Frames>
-                <EditBox name="$parentEditBox" parentKey="EditBox" multiLine="true" autoFocus="false">
-
-                    <Anchors>
-                        <Anchor point="TOPLEFT" x="8" y="-8" />
-                        <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
-                    </Anchors>
-
-                    <Scripts>
-                        <OnTextChanged function="$parent_OnTextChanged" />
-                        <OnEscapePressed function="EditBox_ClearFocus" />
-                        <OnLoad>
-                            self:Disable()
-                            self:SetAlpha(0.5)
-                            self.SetOption = function (self, v)
-                                end
-                            self.GetOption = function (self)
-                                    print("EDITBOX GETOPTION: " .. tostring(LiteMountOptionsAdvanced.currentButtonIndex))
-                                    local i = LiteMountOptionsAdvanced.currentButtonIndex or 1
-                                    return LiteMount.actions[i].actionList
-                                end
-                            self.GetOptionDefault = function (self)
-                                    local i = LiteMountOptionsAdvanced.currentButtonIndex or 1
-                                    return LiteMount.actions[i].actionList
-                                end
-                            LiteMountOptionsControl_OnLoad(self, LiteMountOptionsAdvanced)
-                        </OnLoad>
-                    </Scripts>
-                    <FontString inherits="GameFontHighlight" />
-                </EditBox>
-
-                <Button name="$parentUnlockButton" parentKey="UnlockButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
-                    <Size x="96" y="22" />
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
-                    </Anchors>
-                    <Scripts>
-                        <OnClick>
-                            local eb = self:GetParent().EditBox
-                            eb:SetAlpha(1.0)
-                            eb:Enable()
-                            self:Hide()
-                        </OnClick>
-                    </Scripts>
-                </Button>
-            </Frames>
         </Frame>
+
+        <EditBox name="$parentEditBox" parentKey="EditBox" multiLine="true" autoFocus="false">
+
+            <Anchors>
+                <Anchor point="TOPLEFT" x="8" y="-8" relativeKey="$parent.EditBoxContainer" />
+                <Anchor point="BOTTOMRIGHT" x="-8" y="8" relativeKey="$parent.EditBoxContainer" />
+            </Anchors>
+
+            <Scripts>
+                <OnTextChanged function="LiteMountOptionsControl_OnChanged" />
+                <OnEscapePressed function="EditBox_ClearFocus" />
+                <OnLoad>
+                    self.SetOption = function (self, v, i)
+                            if true then return end
+                            if v == LiteMount.actions[i].defaultActionList then
+                                LM_Options.db.profile.buttonActions[i] = nil
+                            else
+                                LM_Options.db.profile.buttonActions[i] = v
+                            end
+                        end
+                    self.GetOption = function (self, i)
+                            -- LoadAddOn('Blizzard_DebugTools')
+                            -- DevTools_Dump(LiteMount.actions)
+                            return LiteMount.actions[i]:CurrentActionList()
+                        end
+                    self.GetOptionDefault = function (self, i)
+                            return LiteMount.actions[i].defaultActionList
+                        end
+                    LiteMountOptionsControl_OnLoad(self, LiteMountOptionsAdvanced)
+                </OnLoad>
+            </Scripts>
+            <FontString inherits="GameFontHighlight" />
+        </EditBox>
+
+        <Button name="$parentUnlockButton" parentKey="UnlockButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="-3" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    local eb = self:GetParent().EditBox
+                    eb:SetAlpha(1.0)
+                    eb:Enable()
+                    self:Hide()
+                </OnClick>
+            </Scripts>
+        </Button>
 
         <Frame name="$parentBindingDropDown" parentkey="BindingDropDown" inherits="UIDropDownMenuTemplate">
             <Size x="93" y="22" />
@@ -102,6 +103,12 @@
 
     <Scripts>
         <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />
+        <OnShow>
+            self.EditBox:Disable()
+            self.EditBox:SetAlpha(0.5)
+            self.UnlockButton:Show()
+            LiteMountOptionsPanel_OnShow(self)
+        </OnShow>
     </Scripts>
 </Frame>
 
