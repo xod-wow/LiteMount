@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2017 Mike Battersby -->
 
-<Script file="UIOptionsMacro.lua" />
+<Script file="Macro.lua" />
 
 <Frame name="LiteMountOptionsMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 

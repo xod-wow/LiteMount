@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2017 Mike Battersby -->
 
-<Script file="UIOptionsCombatMacro.lua" />
+<Script file="CombatMacro.lua" />
 
 <Frame name="LiteMountOptionsCombatMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 

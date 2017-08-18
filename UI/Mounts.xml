@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2017 Mike Battersby -->
 
-<Script file="UIOptionsMounts.lua" />
+<Script file="Mounts.lua" />
 
 <!--
     See OptionsBaseCheckButtonTemplate in FrameXML/OptionsPanelTemplates.xml
