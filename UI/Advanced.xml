@@ -6,11 +6,23 @@
 
 <Frame name="LiteMountOptionsAdvanced" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_ADVANCED_EXP">
+                <Anchors>
+                    <Anchor point="TOP" y="-48" />
+                    <Anchor point="LEFT" x="48" />
+                    <Anchor point="RIGHT" x="-48" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+
     <Frames>
         <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer">
 
             <Anchors>
-                <Anchor point="TOP" y="-128" />
+                <Anchor point="TOP" y="-150" />
                 <Anchor point="LEFT" x="32" />
                 <Anchor point="RIGHT" x="-32" />
                 <Anchor point="BOTTOM" y="64" />
@@ -84,19 +96,32 @@
             </Anchors>
         </Frame>
 
-    </Frames>
+        <EditBox parentKey="docURL" autoFocus="false" ignoreArrows="true">
+            <Size y="16" />
+            <Fontstring inherits="GameFontHighlight" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.ExplainText" relativePoint="BOTTOMLEFT" y="-12" x="16" />
+                <Anchor point="RIGHT" x="-16" />
+            </Anchors>
+            <Scripts>
+                <OnLoad>
+                    self.url = 'https://wow.curseforge.com/projects/litemount/pages/advanced-options'
+                </OnLoad>
+                <OnShow>
+                    self:SetText(self.url)
+                </OnShow>
+                <OnTextChanged>
+                    self:SetText(self.url)
+                    self:HighlightText()
+                </OnTextChanged>
+                <OnEditFocusGained>
+                    self:HighlightText()
+                </OnEditFocusGained>
+                <OnEscapePressed function="EditBox_ClearFocus" />
+            </Scripts>
+        </EditBox>
 
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_ADVANCED_EXP">
-                <Anchors>
-                    <Anchor point="TOP" y="-48" />
-                    <Anchor point="LEFT" x="48" />
-                    <Anchor point="RIGHT" x="-48" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
+    </Frames>
 
     <Scripts>
         <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />
