@@ -23,7 +23,8 @@ end
 
 function LM_ActionButton:Dispatch(action, filters)
 
-    if not LM_Action[action] then
+    local handler = LM_Action:GetHandler(action)
+    if not handler then
         LM_WarningAndPrint(format("Error: bad action '%s' in action list.", action))
         return
     end
@@ -31,7 +32,7 @@ function LM_ActionButton:Dispatch(action, filters)
     LM_Debug("Dispatching action " .. action .. " with filters " .. table.concat(filters or {}, ' '))
 
     -- This is super ugly.
-    local m = LM_Action[action](LM_Action, filters)
+    local m = handler(filters)
     if not m then return end
 
     LM_Debug("Setting up button as " .. (m.name or action) .. ".")
@@ -93,7 +94,7 @@ function LM_ActionButton:PostClick()
     -- to just blindly do the opposite of whatever we chose because
     -- it might not have worked.
 
-    self:SetupActionButton(LM_Action:Combat())
+    self:SetupActionButton(LM_Action:GetHandler('Combat')())
 end
 
 function LM_ActionButton:Create(n, defaultActionList)

@@ -10,6 +10,141 @@
 
 --[[------------------------------------------------------------------------]]--
 
+local ACTIONS = { }
+
+ACTIONS['Spell'] =
+    function (spellID)
+        local name = GetSpellInfo(spellID)
+        LM_Debug("Setting action to " .. name .. ".")
+        return LM_SecureAction:Spell(name)
+    end
+
+-- In vehicle -> exit it
+ACTIONS['LeaveVehicle'] =
+    function ()
+        if not CanExitVehicle() then return end
+
+        LM_Debug("Setting action to VehicleExit.")
+        return LM_SecureAction:Macro(SLASH_LEAVEVEHICLE1)
+    end
+
+-- Mounted -> dismount
+ACTIONS['Dismount'] =
+    function ()
+        if not IsMounted() then return end
+
+        LM_Debug("Setting action to Dismount.")
+        return LM_SecureAction:Macro(SLASH_DISMOUNT1)
+    end
+
+-- Only cancel forms that we will activate (mount-style ones).
+-- See: http://wowprogramming.com/docs/api/GetShapeshiftFormID
+ACTIONS['CancelForm'] = 
+    function ()
+        local formIndex = GetShapeshiftForm()
+        if formIndex == 0 then return end
+
+        local form = LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
+        if not form or LM_Options:IsExcludedMount(form) then return end
+
+        LM_Debug("Setting action to CancelForm.")
+        return LM_SecureAction:Macro(SLASH_CANCELFORM1)
+    end
+
+-- Got a player target, try copying their mount
+ACTIONS['CopyTargetsMount'] =
+    function ()
+        if LM_Options.db.char.copyTargetsMount and UnitIsPlayer("target") then
+            LM_Debug("Trying to clone target's mount")
+            return LM_PlayerMounts:GetMountFromUnitAura("target")
+        end
+    end
+
+ACTIONS['Vashjir'] =
+    function ()
+        if IsSubmerged() and LM_Location:IsVashjir() then
+            LM_Debug("Trying Vashjir Mount")
+            return LM_PlayerMounts:GetRandomMount({ 'VASHJIR' })
+        end
+    end
+
+ACTIONS['Mount'] =
+    function (filters)
+        local pm = LM_PlayerMounts
+        return ACTIONS.Swim(filters) or
+               ACTIONS.Fly(filters) or
+               ACTIONS.Float(filters) or
+               ACTIONS.Run(filters) or
+               ACTIONS.Walk(filters) or
+               LM_PlayerMounts:GetRandomMount({ unpack(filters) })
+    end
+
+ACTIONS['Fly'] =
+    function (filters)
+        if LM_Location:CanFly() then
+            LM_Debug("Trying Flying Mount")
+            return LM_PlayerMounts:GetRandomMount({ 'FLY', unpack(filters) })
+        end
+    end
+
+ACTIONS['Float'] = 
+    function (filters)
+        if LM_Location:IsFloating() then
+            LM_Debug("Trying Floating mount")
+            return LM_PlayerMounts:GetRandomMount({ 'FLOAT', unpack(filters) })
+        end
+    end
+
+ACTIONS['Swim'] = 
+    function (filters)
+        if IsSubmerged() and not LM_Location:IsFloating() then
+            LM_Debug("Trying Swimming Mount")
+            return LM_PlayerMounts:GetRandomMount({ 'SWIM', unpack(filters) })
+        end
+    end
+
+ACTIONS['Run'] =
+    function (filters)
+        LM_Debug("Trying Running Mount")
+        return LM_PlayerMounts:GetRandomMount({ 'RUN', unpack(filters) })
+    end
+
+ACTIONS['Walk'] =
+    function (filters)
+        LM_Debug("Trying Walking Mount")
+        return LM_PlayerMounts:GetRandomMount({ 'WALK', unpack(filters) })
+    end
+
+ACTIONS['Macro'] =
+    function ()
+        if LM_Options.db.char.useUnavailableMacro then
+            LM_Debug("Using custom macro.")
+            return LM_SecureAction:Macro(LM_Options.db.char.unavailableMacro)
+        end
+    end
+
+ACTIONS['CantMount'] =
+    function ()
+        -- This isn't a great message, but there isn't a better one that
+        -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
+        -- LM_Warning("You don't know any mounts you can use right now.")
+        LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
+
+        LM_Debug("Setting action to can't mount now.")
+        return LM_SecureAction:Macro("")
+    end
+
+ACTIONS['Combat'] =
+    function ()
+        LM_Debug("Setting action to in-combat action.")
+
+        if LM_Options.db.char.useCombatMacro then
+            return LM_SecureAction:Macro(LM_Options.db.char.combatMacro)
+        else
+            return LM_SecureAction:Macro(LM_Action:DefaultCombatMacro())
+        end
+    end
+
 LM_Action = { }
 
 local function GetDruidMountForms()
@@ -55,154 +190,6 @@ function LM_Action:DefaultCombatMacro()
     return mt
 end
 
-function LM_Action:Spell(spellID)
-    local name = GetSpellInfo(spellID)
-    LM_Debug("Setting action to " .. name .. ".")
-    return LM_SecureAction:Spell(name)
-end
-
--- In vehicle -> exit it
-function LM_Action:LeaveVehicle()
-    if not CanExitVehicle() then return end
-
-    LM_Debug("Setting action to VehicleExit.")
-    return LM_SecureAction:Macro(SLASH_LEAVEVEHICLE1)
-end
-
--- Mounted -> dismount
-function LM_Action:Dismount()
-    if not IsMounted() then return end
-
-    LM_Debug("Setting action to Dismount.")
-    return LM_SecureAction:Macro(SLASH_DISMOUNT1)
-end
-
-function LM_Action:CancelForm()
-    -- We only want to cancel forms that we will activate (mount-style ones).
-    -- See: http://wowprogramming.com/docs/api/GetShapeshiftFormID
-    local formIndex = GetShapeshiftForm()
-    if formIndex == 0 then return end
-
-    local form = LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
-    if not form or LM_Options:IsExcludedMount(form) then return end
-
-    LM_Debug("Setting action to CancelForm.")
-    return LM_SecureAction:Macro(SLASH_CANCELFORM1)
-end
-
--- Got a player target, try copying their mount
-function LM_Action:CopyTargetsMount()
-    if LM_Options.db.char.copyTargetsMount and UnitIsPlayer("target") then
-        LM_Debug("Trying to clone target's mount")
-        return LM_PlayerMounts:GetMountFromUnitAura("target")
-    end
-end
-
-function LM_Action:Vashjir()
-    if IsSubmerged() and LM_Location:IsVashjir() then
-        LM_Debug("Trying Vashjir Mount")
-        return LM_PlayerMounts:GetRandomMount({ 'VASHJIR' })
-    end
-end
-
-function LM_Action:Mount(filters)
-    local pm = LM_PlayerMounts
-    return self:Swim(filters) or
-           self:Fly(filters) or
-           self:Float(filters) or
-           self:Run(filters) or
-           self:Walk(filters) or
-           LM_PlayerMounts:GetRandomMount({ unpack(filters) })
-end
-
-function LM_Action:Fly(filters)
-    if LM_Location:CanFly() then
-        LM_Debug("Trying Flying Mount")
-        return LM_PlayerMounts:GetRandomMount({ 'FLY', unpack(filters) })
-    end
-end
-
-function LM_Action:SuramarCity()
-    if LM_Location:CanSuramarMasquerade() then
-        LM_Debug("Trying SuramarCity mount")
-        local m = LM_PlayerMounts:GetMountBySpell(230987)
-        if m and m:IsCastable() and not LM_Options:IsExcludedMount(m) then
-            return m
-        end
-    end
-end
-
-function LM_Action:Float(filters)
-    if LM_Location:IsFloating() then
-        LM_Debug("Trying Floating mount")
-        return LM_PlayerMounts:GetRandomMount({ 'FLOAT', unpack(filters) })
-    end
-end
-
-function LM_Action:Swim(filters)
-    if IsSubmerged() and not LM_Location:IsFloating() then
-        LM_Debug("Trying Swimming Mount")
-        return LM_PlayerMounts:GetRandomMount({ 'SWIM', unpack(filters) })
-    end
-end
-
-function LM_Action:Nagrand()
-    if LM_Location:IsDraenorNagrand() then
-        LM_Debug("Trying Nagrand Mount")
-        return LM_PlayerMounts:GetRandomMount({ 'NAGRAND' })
-    end
-end
-
-function LM_Action:AQ()
-    if LM_Location:IsAQ() then
-        LM_Debug("Trying AQ Mount")
-        return LM_PlayerMounts:GetRandomMount({ 'AQ' })
-    end
-end
-
-function LM_Action:Run(filters)
-    LM_Debug("Trying Running Mount")
-    return LM_PlayerMounts:GetRandomMount({ 'RUN', unpack(filters) })
-end
-
-function LM_Action:Walk(filters)
-    LM_Debug("Trying Walking Mount")
-    return LM_PlayerMounts:GetRandomMount({ 'WALK', unpack(filters) })
-end
-
-function LM_Action:Custom1()
-    LM_Debug("Trying Custom1 Mount")
-    return LM_PlayerMounts:GetRandomMount({ 'CUSTOM1' })
-end
-
-function LM_Action:Custom2()
-    LM_Debug("Trying Custom2 Mount")
-    return LM_PlayerMounts:GetRandomMount({ 'CUSTOM2' })
-end
-
-function LM_Action:Macro()
-    if LM_Options.db.char.useUnavailableMacro then
-        LM_Debug("Using custom macro.")
-        return LM_SecureAction:Macro(LM_Options.db.char.unavailableMacro)
-    end
-end
-
-function LM_Action:CantMount()
-    -- This isn't a great message, but there isn't a better one that
-    -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
-    -- LM_Warning("You don't know any mounts you can use right now.")
-    LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
-
-    LM_Debug("Setting action to can't mount now.")
-    return LM_SecureAction:Macro("")
-end
-
-function LM_Action:Combat()
-    LM_Debug("Setting action to in-combat action.")
-
-    if LM_Options.db.char.useCombatMacro then
-        return LM_SecureAction:Macro(LM_Options.db.char.combatMacro)
-    else
-        return LM_SecureAction:Macro(self:DefaultCombatMacro())
-    end
+function LM_Action:GetHandler(action)
+    return ACTIONS[action]
 end
