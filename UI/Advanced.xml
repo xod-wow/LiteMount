@@ -4,31 +4,7 @@
 
 <Script file="Advanced.lua" />
 
-<Button name="LiteMountOptionsAdvancedKeyBindingTemplate" inherits="UIMenuButtonStretchTemplate" virtual="true">
-    <Size x="128" y="22" />
-    <Layers>
-        <Layer level="OVERLAY">
-            <Texture parentKey="selectedHighlight" file="Interface\Buttons\UI-Silver-Button-Select" alphaMode="ADD" hidden="true">
-                <Size x="128" y="20" />
-                <Anchors>
-                    <Anchor point="CENTER" x="0" y="-3" />
-                </Anchors>
-            </Texture>
-        </Layer>
-    </Layers>
-    <NormalFont style="GameFontHighlightSmall"/>
-    <DisabledFont style="GameFontDisable"/>
-    <HighlightFont style="GameFontHighlightSmall"/>
-    <Scripts>
-        <OnClick function="LiteMountOptionsAdvancedBinding_OnClick" />
-        <OnLoad>
-            self:RegisterForClicks("AnyUp")
-        </OnLoad>
-    </Scripts>
-</Button>
-
-<!-- Button, so that we can bind keys pressed anywhere inside it. -->
-<Button name="LiteMountOptionsAdvanced" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountOptionsAdvanced" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Layers>
         <Layer level="ARTWORK">
@@ -115,18 +91,6 @@
             </Anchors>
         </Frame>
 
-        <Button parentKey="BindingButton2" inherits="LiteMountOptionsAdvancedKeyBindingTemplate" id="2">
-            <Anchors>
-                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" />
-            </Anchors>
-        </Button>
-
-        <Button parentKey="BindingButton1" inherits="LiteMountOptionsAdvancedKeyBindingTemplate" id="1">
-            <Anchors>
-                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.BindingButton2" y="3" />
-            </Anchors>
-        </Button>
-
         <EditBox parentKey="docURL" autoFocus="false" ignoreArrows="true">
             <Size y="16" />
             <Fontstring inherits="GameFontHighlight" />
@@ -154,27 +118,11 @@
 
     </Frames>
 
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString parentKey="BindingLabelText1" inherits="GameFontNormal" text="KEY1">
-                <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" relativeKey="$parent.BindingButton1" x="-3" y="6" />
-                </Anchors>
-            </FontString>
-            <FontString parentKey="BindingLabelText2" inherits="GameFontNormal" text="KEY2">
-                <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" relativeKey="$parent.BindingButton2" x="-3" y="6" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-
-
     <Scripts>
         <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />
         <OnKeyDown function="LiteMountOptionsAdvanced_OnKeyDown" />
         <OnShow function="LiteMountOptionsAdvanced_OnShow" />
     </Scripts>
-</Button>
+</Frame>
 
 </Ui>
