@@ -133,7 +133,7 @@ end
 
 function LM_PlayerMounts:GetAvailableMounts(filters)
     local function match(m)
-        if not m:CurrentFlagsSet(filters) then return end
+        if not m:MatchesFilter(filters) then return end
         if not m:IsCastable() then return end
         if LM_Options:IsExcludedMount(m) then return end
         return true

@@ -33,7 +33,7 @@ function LM_Mount:Refresh()
 end
 
 -- This was a bit of a convenience since bit.isset doesn't exist
-function LM_Mount:CurrentFlagsSet(filters)
+function LM_Mount:MatchesFilter(filters)
     local cur = self:CurrentFlags()
 
     for _,f in ipairs(filters) do
