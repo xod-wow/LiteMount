@@ -7,7 +7,7 @@
 <Frame name="LiteMountOptionsMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
-        <Frame name="LiteMountOptionsMacroEditBoxContainer">
+        <Frame parentKey="EditBoxContainer">
 
             <Size x="400" y="200" />
 
@@ -30,46 +30,46 @@
                 </OnLoad>
             </Scripts>
 
-            <Frames>
-                <EditBox name="LiteMountOptionsMacroEditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
-
-                    <Anchors>
-                        <Anchor point="TOPLEFT" x="8" y="-8" />
-                        <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
-                    </Anchors>
-
-                    <Scripts>
-                        <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
-                        <OnEscapePressed function="EditBox_ClearFocus" />
-                        <OnLoad>
-                            self.SetOption = function (self, v)
-                                    LM_Options.db.char.unavailableMacro = v
-                                    LM_Options.db.char.useUnavailableMacro = (v ~= "")
-                                end
-                            self.GetOption = function (self)
-                                    return LM_Options.db.char.unavailableMacro or ""
-                                end
-                            self.GetOptionDefault = function (self)
-                                    return ""
-                                end
-                            LiteMountOptionsControl_OnLoad(self, LiteMountOptionsMacro)
-                        </OnLoad>
-                    </Scripts>
-                    <FontString inherits="GameFontHighlight" />
-                </EditBox>
-                <Button inherits="UIPanelButtonTemplate" text="DELETE">
-                    <Size x="96" y="22" />
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
-                    </Anchors>
-                    <Scripts>
-                        <OnClick>
-                            LiteMountOptionsMacroEditBox:SetText("")
-                        </OnClick>
-                    </Scripts>
-                </Button>
-            </Frames>
         </Frame>
+
+        <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
+
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="8" y="-8" />
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="8" />
+            </Anchors>
+
+            <Scripts>
+                <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
+                <OnEscapePressed function="EditBox_ClearFocus" />
+                <OnLoad>
+                    self.SetOption = function (self, v)
+                            LM_Options.db.char.unavailableMacro = v
+                            LM_Options.db.char.useUnavailableMacro = (v ~= "")
+                        end
+                    self.GetOption = function (self)
+                            return LM_Options.db.char.unavailableMacro or ""
+                        end
+                    self.GetOptionDefault = function (self)
+                            return ""
+                        end
+                    LiteMountOptionsControl_OnLoad(self)
+                </OnLoad>
+            </Scripts>
+            <FontString inherits="GameFontHighlight" />
+        </EditBox>
+
+        <Button inherits="UIPanelButtonTemplate" text="DELETE">
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="-3" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    self:GetParent().EditBox:SetText("")
+                </OnClick>
+            </Scripts>
+        </Button>
     </Frames>
 
     <Layers>
@@ -77,21 +77,21 @@
             <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_MACRO_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
-                    <Anchor point="LEFT" relativePoint="LEFT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="-50" />
-                    <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="50" />
-                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeTo="LiteMountOptionsMacroEditBoxContainer" />
+                    <Anchor point="LEFT" relativePoint="LEFT" relativeKey="$parent.EditBoxContainer" x="-50" />
+                    <Anchor point="RIGHT" relativePoint="RIGHT" relativeKey="$parent.EditBoxContainer" x="50" />
+                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeKey="$parent.EditBoxContainer" />
                 </Anchors>
             </FontString>
 
             <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
                 <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeTo="LiteMountOptionsMacroEditBoxContainer" x="8" y="3" />
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="8" y="3" />
                 </Anchors>
             </FontString>
 
-            <FontString name="LiteMountOptionsMacroCount" inherits="GameFontHighlightSmall">
+            <FontString parentKey="Count" inherits="GameFontHighlightSmall">
                 <Anchors>
-                    <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="LiteMountOptionsMacroEditBoxContainer" y="-3" />
+                    <Anchor point="TOP" relativePoint="BOTTOM" relativeKey="$parent.EditBoxContainer" y="-3" />
                 </Anchors>
             </FontString>
         </Layer>

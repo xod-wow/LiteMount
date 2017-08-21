@@ -15,6 +15,6 @@ end
 
 function LiteMountOptionsCombatMacro_OnTextChanged(self)
     local c = strlen(self:GetText() or "")
-    LiteMountOptionsCombatMacroCount:SetText(format(MACROFRAME_CHAR_LIMIT, c))
+    LiteMountOptionsCombatMacro.Count:SetText(format(MACROFRAME_CHAR_LIMIT, c))
     LiteMountOptionsControl_OnChanged(self)
 end
