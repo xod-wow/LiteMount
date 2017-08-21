@@ -70,7 +70,6 @@ ACTIONS['Vashjir'] =
 
 ACTIONS['Mount'] =
     function (filters)
-        local pm = LM_PlayerMounts
         return ACTIONS.Swim(filters) or
                ACTIONS.Fly(filters) or
                ACTIONS.Float(filters) or
