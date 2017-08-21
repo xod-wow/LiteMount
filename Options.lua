@@ -73,7 +73,7 @@ local function FlagDiff(a, b)
     return diff
 end
 
-local function FlagConvert(toSet, toClear)
+local function BitFlagMigrate(toSet, toClear)
     local changes = { }
 
     for flagName,flagBit in pairs(LM_FLAG) do
@@ -100,7 +100,7 @@ local function PreAceDBFinalMigrate(db)
     -- Convert the old flagoverrides set/clear pairs to flag table
     if db.flagoverrides then
         for spellID, bitChanges in pairs(db.flagoverrides) do
-            db.flagChanges[spellID] = FlagConvert(unpack(bitChanges))
+            db.flagChanges[spellID] = BitFlagMigrate(unpack(bitChanges))
         end
         db.flagoverrides = nil
     end
