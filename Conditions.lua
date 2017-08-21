@@ -30,6 +30,7 @@
     <arg>           :=  [-a-zA-Z0-9]+
 
     <tag>           :=  See CONDITIONS array in code
+
 ]]
 
 -- If any condition starts with "no" we're screwed
@@ -55,7 +56,7 @@ CONDITIONS["aura"] =
     function (v)
         if v then
             local auraName = GetSpellInfo(v)
-            return UnitAura("player", auraName)
+            return UnitAura("player", auraName, 'HELPFUL|HARMFUL')
         end
     end
 
