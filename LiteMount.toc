@@ -29,7 +29,7 @@ Location.lua
 Options.lua
 SlashCommand.lua
 Conditions.lua
-Action.lua
+Actions.lua
 ActionButton.lua
 Core.lua
 

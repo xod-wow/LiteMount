@@ -51,7 +51,7 @@
                             LiteMount:Refresh()
                         end
                     self.GetOptionDefault = function (self)
-                            return LM_Action:DefaultCombatMacro()
+                            return LM_Actions:DefaultCombatMacro()
                         end
                     LiteMountOptionsControl_OnLoad(self, LiteMountOptionsCombatMacro)
                 </OnLoad>
@@ -77,7 +77,7 @@
             </Anchors>
             <Scripts>
                 <OnClick>
-                    self:GetParent().EditBox:SetText(LM_Action:DefaultCombatMacro())
+                    self:GetParent().EditBox:SetText(LM_Actions:DefaultCombatMacro())
                 </OnClick>
             </Scripts>
         </Button>

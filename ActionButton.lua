@@ -23,7 +23,7 @@ end
 
 function LM_ActionButton:Dispatch(action, filters)
 
-    local handler = LM_Action:GetHandler(action)
+    local handler = LM_Actions:GetHandler(action)
     if not handler then
         LM_WarningAndPrint(format("Error: bad action '%s' in action list.", action))
         return
@@ -94,7 +94,7 @@ function LM_ActionButton:PostClick()
     -- to just blindly do the opposite of whatever we chose because
     -- it might not have worked.
 
-    self:SetupActionButton(LM_Action:GetHandler('Combat')())
+    self:SetupActionButton(LM_Actions:GetHandler('Combat')())
 end
 
 function LM_ActionButton:Create(n, defaultActionList)

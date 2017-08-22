@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/Action.lua
+  LiteMount/Actions.lua
 
   Mounting actions.
 
@@ -39,7 +39,7 @@ ACTIONS['Dismount'] =
 
 -- Only cancel forms that we will activate (mount-style ones).
 -- See: http://wowprogramming.com/docs/api/GetShapeshiftFormID
-ACTIONS['CancelForm'] = 
+ACTIONS['CancelForm'] =
     function ()
         local formIndex = GetShapeshiftForm()
         if formIndex == 0 then return end
@@ -86,7 +86,7 @@ ACTIONS['Fly'] =
         end
     end
 
-ACTIONS['Float'] = 
+ACTIONS['Float'] =
     function (filters)
         if LM_Location:IsFloating() then
             LM_Debug("Trying Floating mount")
@@ -94,7 +94,7 @@ ACTIONS['Float'] =
         end
     end
 
-ACTIONS['Swim'] = 
+ACTIONS['Swim'] =
     function (filters)
         if IsSubmerged() and not LM_Location:IsFloating() then
             LM_Debug("Trying Swimming Mount")
@@ -140,11 +140,11 @@ ACTIONS['Combat'] =
         if LM_Options.db.char.useCombatMacro then
             return LM_SecureAction:Macro(LM_Options.db.char.combatMacro)
         else
-            return LM_SecureAction:Macro(LM_Action:DefaultCombatMacro())
+            return LM_SecureAction:Macro(LM_Actions:DefaultCombatMacro())
         end
     end
 
-LM_Action = { }
+LM_Actions = { }
 
 local function GetDruidMountForms()
     local forms = {}
@@ -162,7 +162,7 @@ end
 -- combat-only, because out of combat we've got proper code available.
 -- Note that macros are limited to 255 chars, even inside a SecureActionButton.
 
-function LM_Action:DefaultCombatMacro()
+function LM_Actions:DefaultCombatMacro()
 
     local mt = "/dismount [mounted]\n"
 
@@ -189,6 +189,6 @@ function LM_Action:DefaultCombatMacro()
     return mt
 end
 
-function LM_Action:GetHandler(action)
+function LM_Actions:GetHandler(action)
     return ACTIONS[action]
 end
