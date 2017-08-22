@@ -32,6 +32,7 @@ local function CreateMoreButtons(self)
     -- Note: the buttons are laid out right to left
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
+        --[[
         b.bit1.flag = "RUN"
         b.bit2.flag = "FLY"
         b.bit3.flag = "SWIM"
@@ -39,6 +40,7 @@ local function CreateMoreButtons(self)
         b.bit5.flag = "VASHJIR"
         b.bit6.flag = "CUSTOM2"
         b.bit7.flag = "CUSTOM1"
+        ]]
     end
 end
 
@@ -553,8 +555,8 @@ function LiteMountOptionsMounts_OnLoad(self)
     self.default = function ()
             for m in LM_PlayerMounts:Iterate() do
                 LM_Options:ResetMountFlags(m)
+                LM_Options:RemoveExcludedMount(m)
             end
-            LM_Options:SetExcludedMounts({})
             LiteMountOptions_UpdateMountList()
         end
 

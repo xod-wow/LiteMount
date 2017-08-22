@@ -4,6 +4,36 @@
 
 <Script file="Mounts.lua" />
 
+<CheckButton name="LiteMountOptionsFlagTemplate" virtual="true">
+    <Size x="40" y="20" />
+    <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+        <EdgeSize val="8" />
+        <TileSize val="8" />
+        <BackgroundInsets>
+            <AbsInset left="1" right="1" top="1" bottom="1" />
+        </BackgroundInsets>
+    </Backdrop>
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="Text" inherits="GameFontWhiteTiny">
+                <Anchors>
+                    <Anchor point="CENTER" />
+                </Anchors>
+            </FontString>
+        </Layer>
+        <Layer level="BACKGROUND">
+            <Texture parentKey="Bg" setAllPoints="true">
+                <Color r="0.5" g="0.5" b="0.5" />
+            </Texture>
+        </Layer>
+    </Layers>
+    <Scripts>
+        <OnClick>
+            LiteMountOptionsBit_OnClick(self)
+        </OnClick>
+    </Scripts>
+</CheckButton>
+
 <!--
     See OptionsBaseCheckButtonTemplate in FrameXML/OptionsPanelTemplates.xml
     We don't use it directly because of the hitrect crap we don't want.
@@ -151,26 +181,33 @@
             </Scripts>
         </Button>
 
-        <CheckButton name="$parentBit1" inherits="LiteMountOptionsBitTemplate" parentKey="bit1">
-            <Anchors> <Anchor point="RIGHT" x="-2" /> </Anchors>
+        <Frame parentKey="FlagBox">
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT" x="-2" y="2" />
+                <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" y="-2" x="-258" />
+            </Anchors>
+        </Frame>
+
+        <CheckButton parentKey="Flag1" inherits="LiteMountOptionsFlagTemplate" id="1">
+            <Anchors> <Anchor point="TOPLEFT" relativeKey="$parent.FlagBox" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit2" inherits="LiteMountOptionsBitTemplate" parentKey="bit2">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit1" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton parentKey="Flag2" inherits="LiteMountOptionsFlagTemplate" id="2">
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag1" relativePoint="RIGHT" x="2" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit3" inherits="LiteMountOptionsBitTemplate" parentKey="bit3">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit2" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton parentKey="Flag3" inherits="LiteMountOptionsFlagTemplate" id="3">
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag2" relativePoint="RIGHT" x="2" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit4" inherits="LiteMountOptionsBitTemplate" parentKey="bit4">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit3" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton parentKey="Flag4" inherits="LiteMountOptionsFlagTemplate" id="4">
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag3" relativePoint="RIGHT" x="2" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit5" inherits="LiteMountOptionsBitTemplate" parentKey="bit5">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit4" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton parentKey="Flag5" inherits="LiteMountOptionsFlagTemplate" id="5">
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag4" relativePoint="RIGHT" x="2" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit6" inherits="LiteMountOptionsBitTemplate" parentKey="bit6">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit5" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton parentKey="Flag6" inherits="LiteMountOptionsFlagTemplate" id="6">
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag5" relativePoint="RIGHT" x="2" /> </Anchors>
         </CheckButton>
-        <CheckButton name="$parentBit7" inherits="LiteMountOptionsBitTemplate" parentKey="bit7">
-            <Anchors> <Anchor point="RIGHT" relativeTo="$parentBit6" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton parentKey="Flag7" inherits="LiteMountOptionsFlagTemplate" id="7">
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag6" relativePoint="RIGHT" x="2" /> </Anchors>
         </CheckButton>
     </Frames>
 
@@ -346,53 +383,6 @@
         </Frame>
 
     </Frames>
-
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString name="$parentBit1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="RUN">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentScrollFrame" relativePoint="TOPRIGHT" x="-2" />
-                </Anchors>
-            </FontString>
-            <FontString name="$parentBit2Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="FLY">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit1Text" relativePoint="LEFT" x="-4" />
-                </Anchors>
-            </FontString>
-            <FontString name="$parentBit3Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="SWIM">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit2Text" relativePoint="LEFT" x="-4" />
-                </Anchors>
-            </FontString>
-            <FontString name="$parentBit4Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="AQ">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit3Text" relativePoint="LEFT" x="-4" />
-                </Anchors>
-            </FontString>
-            <FontString name="$parentBit5Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="VASHJIR">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit4Text" relativePoint="LEFT" x="-4" />
-                </Anchors>
-            </FontString>
-            <FontString name="$parentBit6Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="C2">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit5Text" relativePoint="LEFT" x="-4" />
-                </Anchors>
-            </FontString>
-            <FontString name="$parentBit7Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="C1">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBit6Text" relativePoint="LEFT" x="-4" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
 
     <Scripts>
         <OnLoad function="LiteMountOptionsMounts_OnLoad" />
