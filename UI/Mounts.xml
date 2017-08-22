@@ -15,11 +15,11 @@
             </FontString>
         </Layer>
         <Layer level="BACKGROUND">
-            <Texture alphaMode="ADD" hidden="true" parentKey="modified">
-                <Color r="0.5" g="0.0" b="0.0" />
+            <Texture>
+                <Color r="0.0" g="0.0" b="0.0" a="0.5" />
                 <Anchors>
-                    <Anchor point="TOPLEFT" x="1" y="-1" />
-                    <Anchor point="BOTTOMRIGHT" x="-1" y="1" />
+                    <Anchor point="TOPLEFT" />
+                    <Anchor point="BOTTOMRIGHT" />
                 </Anchors>
             </Texture>
         </Layer>

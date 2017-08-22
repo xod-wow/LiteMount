@@ -72,20 +72,19 @@ local function FlagButtonUpdate(checkButton, flagName, mount)
 
     local flags = mount:CurrentFlags()
 
-    local checked = tContains(flags, checkButton.flag)
+    local checked = tContains(flags, flagName)
+    local changed = ( checked ~= tContains(mount.flags, flagName) )
+
     checkButton:SetChecked(checked)
 
-    if checked then
+    if checked and not changed then
+        checkButton.Text:SetTextColor(1, 1, 0)
+    elseif checked then
         checkButton.Text:SetTextColor(0, 1, 0)
+    elseif changed then
+        checkButton.Text:SetTextColor(1, 0, 0)
     else
-        checkButton.Text:SetTextColor(0.5, 0.5, 0.5)
-    end
-
-    -- If we changed this from the default then color the background
-    if tContains(flags, checkButton.flag) == tContains(mount.flags, checkButton.flag) then
-        checkButton.modified:Hide()
-    else
-        checkButton.modified:Show()
+        checkButton.Text:SetTextColor(0.8, 0.8, 0.8)
     end
 
     checkButton:Show()
