@@ -47,7 +47,7 @@ function LiteMountOptionsBindings_Update(self)
 end
 
 function LiteMountOptionsBindingsBinding_OnClick(self, button)
-    PlaySound("igMainMenuOptionCheckBoxOn")
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
     if LiteMountOptionsBindings.currentlyBinding == self then
         if button == "LeftButton" then
             LiteMountOptionsBindings.currentlyBinding = nil
