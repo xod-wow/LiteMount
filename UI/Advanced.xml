@@ -120,7 +120,6 @@
 
     <Scripts>
         <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />
-        <OnKeyDown function="LiteMountOptionsAdvanced_OnKeyDown" />
         <OnShow function="LiteMountOptionsAdvanced_OnShow" />
     </Scripts>
 </Frame>
