@@ -6,24 +6,21 @@
 
 <CheckButton name="LiteMountOptionsFlagTemplate" virtual="true">
     <Size x="40" y="20" />
-    <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
-        <EdgeSize val="8" />
-        <TileSize val="8" />
-        <BackgroundInsets>
-            <AbsInset left="1" right="1" top="1" bottom="1" />
-        </BackgroundInsets>
-    </Backdrop>
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="Text" inherits="GameFontWhiteTiny">
+            <FontString parentKey="Text" inherits="GameFontWhiteTiny" justifyV="CENTER">
                 <Anchors>
                     <Anchor point="CENTER" />
                 </Anchors>
             </FontString>
         </Layer>
         <Layer level="BACKGROUND">
-            <Texture parentKey="Bg" setAllPoints="true">
-                <Color r="0.5" g="0.5" b="0.5" />
+            <Texture alphaMode="ADD" hidden="true" parentKey="modified">
+                <Color r="0.5" g="0.0" b="0.0" />
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="1" y="-1" />
+                    <Anchor point="BOTTOMRIGHT" x="-1" y="1" />
+                </Anchors>
             </Texture>
         </Layer>
     </Layers>
@@ -207,7 +204,22 @@
             <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag5" relativePoint="RIGHT" x="2" /> </Anchors>
         </CheckButton>
         <CheckButton parentKey="Flag7" inherits="LiteMountOptionsFlagTemplate" id="7">
-            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag6" relativePoint="RIGHT" x="2" /> </Anchors>
+            <Anchors> <Anchor point="TOPLEFT" relativeKey="$parent.Flag1" relativePoint="BOTTOMLEFT" y="-2" /> </Anchors>
+        </CheckButton>
+        <CheckButton parentKey="Flag8" inherits="LiteMountOptionsFlagTemplate" id="2">
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag7" relativePoint="RIGHT" x="2" /> </Anchors>
+        </CheckButton>
+        <CheckButton parentKey="Flag9" inherits="LiteMountOptionsFlagTemplate" id="3">
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag8" relativePoint="RIGHT" x="2" /> </Anchors>
+        </CheckButton>
+        <CheckButton parentKey="Flag10" inherits="LiteMountOptionsFlagTemplate" id="4">
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag9" relativePoint="RIGHT" x="2" /> </Anchors>
+        </CheckButton>
+        <CheckButton parentKey="Flag11" inherits="LiteMountOptionsFlagTemplate" id="5">
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag10" relativePoint="RIGHT" x="2" /> </Anchors>
+        </CheckButton>
+        <CheckButton parentKey="Flag12" inherits="LiteMountOptionsFlagTemplate" id="6">
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Flag11" relativePoint="RIGHT" x="2" /> </Anchors>
         </CheckButton>
     </Frames>
 

@@ -22,7 +22,7 @@ function LiteMountOptionsBit_OnClick(self)
 end
 
 -- Because we get attached inside the blizzard options container, we
--- are size 0x0 on create and even after 97OnShow, we have to trap
+-- are size 0x0 on create and even after OnShow, we have to trap
 -- OnSizeChanged on the scrollframe to make the buttons correctly.
 local function CreateMoreButtons(self)
     HybridScrollFrame_CreateButtons(self, "LiteMountOptionsButtonTemplate",
@@ -30,17 +30,22 @@ local function CreateMoreButtons(self)
                                     0, -1, "TOP", "BOTTOM")
 
     -- Note: the buttons are laid out right to left
+    local flags = { }
+    for k in pairs(LM_FLAG) do table.insert(flags, k) end
+    sort(flags)
+
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
-        --[[
-        b.bit1.flag = "RUN"
-        b.bit2.flag = "FLY"
-        b.bit3.flag = "SWIM"
-        b.bit4.flag = "AQ"
-        b.bit5.flag = "VASHJIR"
-        b.bit6.flag = "CUSTOM2"
-        b.bit7.flag = "CUSTOM1"
-        ]]
+        for i = 1,12 do
+            f = b["Flag"..i]
+            if flags[i] then
+                f.flag = flags[i]
+                f:Show()
+            else
+                f.flag = nil
+                f:Hide()
+            end
+        end
     end
 end
 
@@ -52,11 +57,29 @@ local function EnableDisableMount(mount, onoff)
     end
 end
 
-local function BitButtonUpdate(checkButton, mount)
+local function FlagButtonUpdate(checkButton, flagName, mount)
+
+    if not flagName then
+        checkButton:Hide()
+        return
+    end
+
+    checkButton.flag = flagName
+
+    checkButton.Text:SetText(L[flagName])
+    local w, h = checkButton.Text:GetSize()
+    checkButton:SetSize(w+4, h+4)
+
     local flags = mount:CurrentFlags()
 
     local checked = tContains(flags, checkButton.flag)
     checkButton:SetChecked(checked)
+
+    if checked then
+        checkButton.Text:SetTextColor(0, 1, 0)
+    else
+        checkButton.Text:SetTextColor(0.5, 0.5, 0.5)
+    end
 
     -- If we changed this from the default then color the background
     if tContains(flags, checkButton.flag) == tContains(mount.flags, checkButton.flag) then
@@ -64,6 +87,9 @@ local function BitButtonUpdate(checkButton, mount)
     else
         checkButton.modified:Show()
     end
+
+    checkButton:Show()
+
 end
 
 function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
@@ -371,6 +397,7 @@ local function GetFilteredMountList()
         elseif filters.UNUSABLE and m.needsFaction and m.needsFaction ~= UnitFactionGroup("player") then
             remove = true
         else
+            --- XXX FIXME this won't show mounts we removed all flags from
             local okflags = m:CurrentFlags()
             for flagName in pairs(LM_FLAG) do
                 if filters[flagName] then
@@ -447,9 +474,13 @@ local function UpdateMountButton(button, mount)
         end
     end
 
+    local allFlags = { }
+    for k in pairs(LM_FLAG) do tinsert(allFlags, k) end
+    sort(allFlags)
+
     local i = 1
-    while button["bit"..i] do
-        BitButtonUpdate(button["bit"..i], mount)
+    while button["Flag"..i] do
+        FlagButtonUpdate(button["Flag"..i], allFlags[i], mount)
         i = i + 1
     end
 
