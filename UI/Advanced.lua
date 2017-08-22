@@ -46,7 +46,6 @@ function LiteMountOptionsAdvancedBindingDropDown_Initialize(dropDown, level)
             info.arg2 = BindingText(i)
             info.func = function (button, v, t)
                     LiteMountOptionsControl_SetTab(LiteMountOptionsAdvanced.EditBox, v)
-                    LiteMountOptionsAdvanced_Update(LiteMountOptionsAdvanced)
                     UIDropDownMenu_SetText(dropDown, t)
                 end
             info.checked = (LiteMountOptionsAdvanced.currentButtonIndex == i)
