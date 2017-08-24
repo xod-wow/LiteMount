@@ -153,8 +153,14 @@
             </Scripts>
         </Button>
 
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit7" id="7">
+            <Anchors> <Anchor point="RIGHT" x="-32" /> </Anchors>
+        </CheckButton>
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit6" id="6">
+            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit7" relativePoint="LEFT" x="-4" /> </Anchors>
+        </CheckButton>
         <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit5" id="5">
-            <Anchors> <Anchor point="RIGHT" x="-42" /> </Anchors>
+            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit6" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
         <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit4" id="4">
             <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit5" relativePoint="LEFT" x="-4" /> </Anchors>
@@ -360,7 +366,7 @@
         <Button parentKey="PrevPageButton">
             <Size x="26" y="26" />
             <Anchors>
-                <Anchor point="RIGHT" relativeKey="$parent.NextPageButton" relativePoint="LEFT" x="-170" />
+                <Anchor point="RIGHT" relativeKey="$parent.NextPageButton" relativePoint="LEFT" x="-210" />
             </Anchors>
             <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
             <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
@@ -377,10 +383,22 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="BitText5" inherits="GameFontWhiteTiny" justifyH="CENTER" text="WALK">
+            <FontString parentKey="BitText7" inherits="GameFontWhiteTiny" justifyH="CENTER" text="WALK">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-42" />
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-32" />
+                </Anchors>
+            </FontString>
+            <FontString parentKey="BitText6" inherits="GameFontWhiteTiny" justifyH="CENTER" text="RUN">
+                <Size x="26" y="26" />
+                <Anchors>
+                    <Anchor point="RIGHT" relativeKey="$parent.BitText7" relativePoint="LEFT" x="-4" />
+                </Anchors>
+            </FontString>
+            <FontString parentKey="BitText5" inherits="GameFontWhiteTiny" justifyH="CENTER" text="RUN">
+                <Size x="26" y="26" />
+                <Anchors>
+                    <Anchor point="RIGHT" relativeKey="$parent.BitText6" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
             <FontString parentKey="BitText4" inherits="GameFontWhiteTiny" justifyH="CENTER" text="RUN">

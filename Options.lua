@@ -22,6 +22,12 @@ flagChanges is a table of spellIDs with flags to set (+) and clear (-).
 ----------------------------------------------------------------------------]]--
 
 local defaults = {
+    global = {
+        customFlags         = {
+            CUSTOM1 = { order = 1, filter = true },
+            CUSTOM2 = { order = 2, filter = true },
+        },
+    },
     profile = {
         excludedSpells      = { },
         flagChanges         = { },
@@ -58,7 +64,7 @@ end
 local function FlagDiff(a, b)
     local diff = { }
 
-    for flagName in pairs(LM_FLAG) do
+    for flagName in pairs(LM_Options:GetAllFlags()) do
         if tContains(a, flagName) and not tContains(b, flagName) then
             diff[flagName] = '-'
         elseif not tContains(a, flagName) and tContains(b, flagName) then
@@ -242,7 +248,7 @@ function LM_Options:ApplyMountFlags(m)
     local flags = CopyTable(m.flags)
 
     if changes then
-        for flagName in pairs(LM_FLAG) do
+        for flagName in pairs(self:GetAllFlags()) do
             if changes[flagName] == '+' then
                 tinsert(flags, flagName)
             elseif changes[flagName] == '-' then
@@ -279,6 +285,33 @@ function LM_Options:SetMountFlags(m, flags)
     self.db.profile.flagChanges[m.spellID] = FlagDiff(m.flags, flags)
 end
 
+
+--[[----------------------------------------------------------------------------
+    Custom flags
+----------------------------------------------------------------------------]]--
+
+function LM_Options:GetAllFlags()
+    local allFlags = CopyTable(LM_FLAG)
+
+    for f, info in pairs(LM_Options.db.global.customFlags) do
+        allFlags[f] = info.order + 100
+    end
+
+    return allFlags
+end
+
+function LM_Options:IsFilterFlag(f)
+    if LM_FLAG[f] then
+        return true
+    end
+    if not LM_Options.db.global.customFlags[f] then
+        return false
+    elseif LM_Options.db.global.customFlags[f].filter == true then
+        return true
+    else
+        return false
+    end
+end
 
 --[[----------------------------------------------------------------------------
     Have we seen a mount before on this toon?

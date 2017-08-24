@@ -10,7 +10,7 @@
 
 local L = LM_Localize
 
-local NUM_FLAG_BUTTONS = 5
+local NUM_FLAG_BUTTONS = 7
 
 local function tSlice(t, first, last)
     local out = { }
@@ -137,8 +137,10 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
 
         info.text = CHECK_ALL
         info.func = function () 
-                for k in pairs(LM_FLAG) do 
-                    LM_Options.db.char.uiMountFilterList[k] = nil
+                for k in pairs(LM_Options:GetAllFlags()) do 
+                    if LM_Options:IsFilterFlag(k) then
+                        LM_Options.db.char.uiMountFilterList[k] = nil
+                    end
                 end
                 UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, 1, 2)
                 LiteMountOptions_UpdateMountList()
@@ -147,8 +149,10 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
 
         info.text = UNCHECK_ALL
         info.func = function ()
-                for k in pairs(LM_FLAG) do 
-                    LM_Options.db.char.uiMountFilterList[k] = true
+                for k in pairs(LM_Options:GetAllFlags()) do 
+                    if LM_Options:IsFilterFlag(k) then
+                        LM_Options.db.char.uiMountFilterList[k] = true
+                    end
                 end
                 UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, 1, 2)
                 LiteMountOptions_UpdateMountList()
@@ -158,17 +162,16 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         info.notCheckable = false
         info.func = flagFunc
 
-        local allFlags = { }
-        for flagName in pairs(LM_FLAG) do tinsert(allFlags, flagName) end
-        sort(allFlags, function(a,b) return LM_FLAG[a] < LM_FLAG[b] end)
-
-        for _, flagName in ipairs(allFlags) do 
-            info.text = L[flagName]
-            info.arg1 = flagName
-            info.checked = function ()
-                    return not LM_Options.db.char.uiMountFilterList[flagName]
-                end
-            UIDropDownMenu_AddButton(info, level)
+        local allFlags = LM_Options:GetAllFlags()
+        for _, flagName in ipairs(tSortedKeys(allFlags)) do
+            if LM_Options:IsFilterFlag(flagName) then
+                info.text = L[flagName]
+                info.arg1 = flagName
+                info.checked = function ()
+                        return not LM_Options.db.char.uiMountFilterList[flagName]
+                    end
+                UIDropDownMenu_AddButton(info, level)
+            end
         end
     end
 end
@@ -391,7 +394,7 @@ local function GetFilteredMountList()
         else
             local okflags = m:CurrentFlags()
             local noFilters = true
-            for flagName in pairs(LM_FLAG) do
+            for flagName in pairs(LM_Options:GetAllFlags()) do
                 if filters[flagName] then
                     tDeleteItem(okflags, flagName)
                     noFilters = false
@@ -521,7 +524,8 @@ end
 
 
 function LiteMountOptions_UpdateFlagPaging(self)
-    local allFlags = tSortedKeys(LM_FLAG)
+    local allFlags = tSortedKeys(LM_Options:GetAllFlags())
+
     self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
     self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
     self.NextPageButton:SetEnabled(self.currentFlagPage ~= self.maxFlagPages)
