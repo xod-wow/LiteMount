@@ -8,20 +8,18 @@
 
 ----------------------------------------------------------------------------]]--
 
--- The values in LM_FLAG enable us to convert old saved variables but are
--- otherwise unused.
-
+-- The values are sort order
 LM_FLAG = { }
-LM_FLAG.RUN = 1
-LM_FLAG.FLY = 2
-LM_FLAG.FLOAT = 4
-LM_FLAG.SWIM = 8
-LM_FLAG.WALK = 32
-LM_FLAG.AQ = 128
-LM_FLAG.VASHJIR = 256
-LM_FLAG.NAGRAND = 512
-LM_FLAG.CUSTOM1 = 1024
-LM_FLAG.CUSTOM2 = 2048
+LM_FLAG.RUN     = 1
+LM_FLAG.FLY     = 2
+LM_FLAG.FLOAT   = 3
+LM_FLAG.SWIM    = 4
+LM_FLAG.WALK    = 5
+LM_FLAG.AQ      = 6
+LM_FLAG.VASHJIR = 7
+LM_FLAG.NAGRAND = 8
+LM_FLAG.CUSTOM1 = 9
+LM_FLAG.CUSTOM2 = 10
 
 LM_SPELL = { }
 LM_SPELL.TRAVEL_FORM = 783

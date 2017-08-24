@@ -20,6 +20,15 @@ local function tSlice(t, first, last)
     return out
 end
 
+local function tSortedKeys(t)
+    local out = { }
+    for k in pairs(t) do
+        tinsert(out, k)
+    end
+    sort(out, function (a,b) return t[a] < t[b] end)
+    return out
+end
+
 function LiteMountOptionsBit_OnClick(self)
     local mount = self:GetParent().mount
 
@@ -510,15 +519,15 @@ function LiteMountOptions_AllSelect_OnClick(self)
 
 end
 
-local ALLFLAGS = { "FLOAT", "SWIM", "FLY", "RUN", "WALK", "AQ", "VASHJIR", "CUSTOM1", "CUSTOM2" }
 
 function LiteMountOptions_UpdateFlagPaging(self)
-    self.maxFlagPages = math.ceil(#ALLFLAGS / NUM_FLAG_BUTTONS)
+    local allFlags = tSortedKeys(LM_FLAG)
+    self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
     self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
     self.NextPageButton:SetEnabled(self.currentFlagPage ~= self.maxFlagPages)
 
     local pageOffset = (self.currentFlagPage - 1 ) * NUM_FLAG_BUTTONS + 1
-    self.pageFlags = tSlice(ALLFLAGS, pageOffset, pageOffset+NUM_FLAG_BUTTONS-1)
+    self.pageFlags = tSlice(allFlags, pageOffset, pageOffset+NUM_FLAG_BUTTONS-1)
 
     local bt
     for i = 1, NUM_FLAG_BUTTONS do
