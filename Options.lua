@@ -216,6 +216,16 @@ function LM_Options:ToggleExcludedMount(m)
     self.db.profile.excludedSpells[id] = not self.db.profile.excludedSpells[id]
 end
 
+function LM_Options:SetExcludedMounts(mountlist)
+    LM_Debug("Setting complete list of disabled mounts.")
+    for k in pairs(self.db.profile.excludedSpells) do
+        self.db.profile.excludedSpells[k] = false
+    end
+    for _,m in ipairs(mountlist) do
+        self:AddExcludedMount(m)
+    end
+end
+
 --[[----------------------------------------------------------------------------
     Mount flag overrides stuff
 ----------------------------------------------------------------------------]]--

@@ -14,13 +14,9 @@ function LiteMountOptionsPanel_AutoLocalize(f)
     if not L then return end
 
     local regions = { f:GetRegions() }
-    local text
     for _,r in ipairs(regions) do
         if r and r:IsObjectType("FontString") and not r.autoLocalized then
-            text = r:GetText()
-            if text then
-                r:SetText(L[text])
-            end
+            r:SetText(L[r:GetText()])
             r.autoLocalized = true
         end
     end
