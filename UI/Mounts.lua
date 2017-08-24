@@ -369,14 +369,15 @@ local function GetFilteredMountList()
         elseif filters.UNUSABLE and m.needsFaction and m.needsFaction ~= UnitFactionGroup("player") then
             remove = true
         else
-            --- XXX FIXME this won't show mounts we removed all flags from
             local okflags = m:CurrentFlags()
+            local noFilters = true
             for flagName in pairs(LM_FLAG) do
                 if filters[flagName] then
                     tDeleteItem(okflags, flagName)
+                    noFilters = false
                 end
             end
-            if #okflags == 0 then
+            if noFilters == false and #okflags == 0 then
                 remove = true
             end
         end
