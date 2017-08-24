@@ -32,13 +32,13 @@ local function CreateMoreButtons(self)
     -- Note: the buttons are laid out right to left
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
-        b.bit1.flag = "RUN"
-        b.bit2.flag = "FLY"
-        b.bit3.flag = "SWIM"
-        b.bit4.flag = "AQ"
-        b.bit5.flag = "VASHJIR"
-        b.bit6.flag = "CUSTOM2"
-        b.bit7.flag = "CUSTOM1"
+        b.Bit1.flag = "RUN"
+        b.Bit2.flag = "FLY"
+        b.Bit3.flag = "SWIM"
+        b.Bit4.flag = "AQ"
+        b.Bit5.flag = "VASHJIR"
+        b.Bit6.flag = "CUSTOM2"
+        b.Bit7.flag = "CUSTOM1"
     end
 end
 
@@ -58,9 +58,9 @@ local function BitButtonUpdate(checkButton, mount)
 
     -- If we changed this from the default then color the background
     if checked == tContains(mount.flags, checkButton.flag) then
-        checkButton.modified:Hide()
+        checkButton.Modified:Hide()
     else
-        checkButton.modified:Show()
+        checkButton.Modified:Show()
     end
 end
 
@@ -423,11 +423,11 @@ local function UpdateAllSelected(mounts)
         end
     end
 
-    local checkedTexture = LiteMountOptionsMountsAllSelect:GetCheckedTexture()
+    local checkedTexture = LiteMountOptionsMounts.AllSelect:GetCheckedTexture()
     if allDisabled == 1 then
-        LiteMountOptionsMountsAllSelect:SetChecked(false)
+        LiteMountOptionsMounts.AllSelect:SetChecked(false)
     else
-        LiteMountOptionsMountsAllSelect:SetChecked(true)
+        LiteMountOptionsMounts.AllSelect:SetChecked(true)
         if allEnabled == 1 then
             checkedTexture:SetDesaturated(false)
         else
@@ -438,53 +438,43 @@ end
 
 local function UpdateMountButton(button, mount)
     button.mount = mount
-    button.icon:SetNormalTexture(mount.icon)
-    button.name:SetText(mount.name)
+    button.Icon:SetNormalTexture(mount.icon)
+    button.Name:SetText(mount.name)
 
     if not InCombatLockdown() then
         for k,v in pairs(mount:GetSecureAttributes()) do
-            button.icon:SetAttribute(k, v)
+            button.Icon:SetAttribute(k, v)
         end
     end
 
     local i = 1
-    while button["bit"..i] do
-        BitButtonUpdate(button["bit"..i], mount)
+    while button["Bit"..i] do
+        BitButtonUpdate(button["Bit"..i], mount)
         i = i + 1
     end
 
     if not mount.isCollected then
-        button.name:SetFontObject("GameFontDisable")
-        button.icon:GetNormalTexture():SetDesaturated(true)
+        button.Name:SetFontObject("GameFontDisable")
+        button.Icon:GetNormalTexture():SetDesaturated(true)
     else
-        button.name:SetFontObject("GameFontNormal")
-        button.icon:GetNormalTexture():SetDesaturated(false)
+        button.Name:SetFontObject("GameFontNormal")
+        button.Icon:GetNormalTexture():SetDesaturated(false)
     end
 
     if LM_Options:IsExcludedMount(mount) then
-        button.enabled:SetChecked(false)
+        button.Enabled:SetChecked(false)
     else
-        button.enabled:SetChecked(true)
+        button.Enabled:SetChecked(true)
     end
 
-    -- if mount:IsUsable() then
-    --     button.icon:Enable()
-    --     button.icon.unusable:Hide()
-    -- else
-    --     button.icon:Disable()
-    --     button.icon.unusable:SetBlendMode("ADD")
-    --     button.icon.unusable:SetAlpha(0.25)
-    --     button.icon.unusable:Show()
-    -- end
-
-    button.enabled.setFunc = function(setting)
+    button.Enabled.setFunc = function(setting)
                             EnableDisableMount(button.mount, setting)
-                            button.enabled:GetScript("OnEnter")(button.enabled)
+                            button.Enabled:GetScript("OnEnter")(button.Enabled)
                             UpdateAllSelected()
                         end
 
-    if GameTooltip:GetOwner() == button.enabled then
-        button.enabled:GetScript("OnEnter")(button.enabled)
+    if GameTooltip:GetOwner() == button.Enabled then
+        button.Enabled:GetScript("OnEnter")(button.Enabled)
     end
 
 end
@@ -511,7 +501,7 @@ end
 
 function LiteMountOptions_UpdateMountList()
 
-    local scrollFrame = LiteMountOptionsMounts.scrollFrame
+    local scrollFrame = LiteMountOptionsMounts.ScrollFrame
     local offset = HybridScrollFrame_GetOffset(scrollFrame)
     local buttons = scrollFrame.buttons
 
@@ -549,7 +539,7 @@ end
 function LiteMountOptionsMounts_OnLoad(self)
 
     -- Because we're the wrong size at the moment we'll only have 1 button
-    CreateMoreButtons(self.scrollFrame)
+    CreateMoreButtons(self.ScrollFrame)
 
     self.name = MOUNTS
     self.default = function ()
@@ -564,7 +554,7 @@ function LiteMountOptionsMounts_OnLoad(self)
 end
 
 local function UpdateProfileCallback(self)
-    LiteMountOptionsMounts.ProfileButton:SetText(LM_Options.db:GetCurrentProfile())
+    LiteMountOptionsMountsProfileButton:SetText(LM_Options.db:GetCurrentProfile())
     LiteMountOptions_UpdateMountList()
 end
 
