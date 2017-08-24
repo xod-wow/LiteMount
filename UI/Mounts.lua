@@ -10,6 +10,16 @@
 
 local L = LM_Localize
 
+local NUM_FLAG_BUTTONS = 5
+
+local function tSlice(t, first, last)
+    local out = { }
+    for i = first or 1, last or #t do
+        tinsert(out, t[i])
+    end
+    return out
+end
+
 function LiteMountOptionsBit_OnClick(self)
     local mount = self:GetParent().mount
 
@@ -22,7 +32,7 @@ function LiteMountOptionsBit_OnClick(self)
 end
 
 -- Because we get attached inside the blizzard options container, we
--- are size 0x0 on create and even after 97OnShow, we have to trap
+-- are size 0x0 on create and even after OnShow, we have to trap
 -- OnSizeChanged on the scrollframe to make the buttons correctly.
 local function CreateMoreButtons(self)
     HybridScrollFrame_CreateButtons(self, "LiteMountOptionsButtonTemplate",
@@ -32,13 +42,6 @@ local function CreateMoreButtons(self)
     -- Note: the buttons are laid out right to left
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
-        b.Bit1.flag = "RUN"
-        b.Bit2.flag = "FLY"
-        b.Bit3.flag = "SWIM"
-        b.Bit4.flag = "AQ"
-        b.Bit5.flag = "VASHJIR"
-        b.Bit6.flag = "CUSTOM2"
-        b.Bit7.flag = "CUSTOM1"
     end
 end
 
@@ -50,14 +53,23 @@ local function EnableDisableMount(mount, onoff)
     end
 end
 
-local function BitButtonUpdate(checkButton, mount)
+local function BitButtonUpdate(checkButton, flag, mount)
+    checkButton.flag = flag
+
+    if not flag then
+        checkButton:Hide()
+        return
+    else
+        checkButton:Show()
+    end
+
     local flags = mount:CurrentFlags()
 
-    local checked = tContains(flags, checkButton.flag)
+    local checked = tContains(flags, flag)
     checkButton:SetChecked(checked)
 
     -- If we changed this from the default then color the background
-    if checked == tContains(mount.flags, checkButton.flag) then
+    if checked == tContains(mount.flags, flag) then
         checkButton.Modified:Hide()
     else
         checkButton.Modified:Show()
@@ -74,7 +86,6 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
     end
 
     if level == 1 then
-
         info.func = flagFunc
         info.isNotRadio = true
 
@@ -436,7 +447,7 @@ local function UpdateAllSelected(mounts)
     end
 end
 
-local function UpdateMountButton(button, mount)
+local function UpdateMountButton(button, pageFlags, mount)
     button.mount = mount
     button.Icon:SetNormalTexture(mount.icon)
     button.Name:SetText(mount.name)
@@ -449,7 +460,7 @@ local function UpdateMountButton(button, mount)
 
     local i = 1
     while button["Bit"..i] do
-        BitButtonUpdate(button["Bit"..i], mount)
+        BitButtonUpdate(button["Bit"..i], pageFlags[i], mount)
         i = i + 1
     end
 
@@ -499,6 +510,28 @@ function LiteMountOptions_AllSelect_OnClick(self)
 
 end
 
+local ALLFLAGS = { "FLOAT", "SWIM", "FLY", "RUN", "WALK", "AQ", "VASHJIR", "CUSTOM1", "CUSTOM2" }
+
+function LiteMountOptions_UpdateFlagPaging(self)
+    self.maxFlagPages = math.ceil(#ALLFLAGS / NUM_FLAG_BUTTONS)
+    self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
+    self.NextPageButton:SetEnabled(self.currentFlagPage ~= self.maxFlagPages)
+
+    local pageOffset = (self.currentFlagPage - 1 ) * NUM_FLAG_BUTTONS + 1
+    self.pageFlags = tSlice(ALLFLAGS, pageOffset, pageOffset+NUM_FLAG_BUTTONS-1)
+
+    local bt
+    for i = 1, NUM_FLAG_BUTTONS do
+        bt = self["BitText"..i]
+        if self.pageFlags[i] then
+            bt:SetText(L[self.pageFlags[i]])
+            bt:Show()
+        else
+            bt:Hide()
+        end
+    end
+end
+
 function LiteMountOptions_UpdateMountList()
 
     local scrollFrame = LiteMountOptionsMounts.ScrollFrame
@@ -513,7 +546,7 @@ function LiteMountOptions_UpdateMountList()
         local button = buttons[i]
         local index = offset + i
         if index <= #mounts then
-            UpdateMountButton(button, mounts[index])
+            UpdateMountButton(button, LiteMountOptionsMounts.pageFlags, mounts[index])
             button:Show()
         else
             button:Hide()
@@ -550,6 +583,20 @@ function LiteMountOptionsMounts_OnLoad(self)
             LiteMountOptions_UpdateMountList()
         end
 
+    self.currentFlagPage = 1
+    self.maxFlagPages = 1
+    self.pageFlags = { }
+    self.NextFlagPage = function (self)
+        self.currentFlagPage = Clamp(self.currentFlagPage + 1, 1, self.maxFlagPages)
+        LiteMountOptions_UpdateFlagPaging(self)
+        LiteMountOptions_UpdateMountList()
+    end
+    self.PrevFlagPage = function (self)
+        self.currentFlagPage = Clamp(self.currentFlagPage - 1, 1, self.maxFlagPages)
+        LiteMountOptions_UpdateFlagPaging(self)
+        LiteMountOptions_UpdateMountList()
+    end
+
     LiteMountOptionsPanel_OnLoad(self)
 end
 
@@ -567,6 +614,7 @@ function LiteMountOptionsMounts_OnShow(self)
     self:SetScript("OnEvent", LiteMountOptions_UpdateMountList)
     self:RegisterUnitEvent("UNIT_AURA", "player")
 
+    LiteMountOptions_UpdateFlagPaging(self)
     LiteMountOptions_UpdateMountList()
     LiteMountOptionsPanel_OnShow(self)
 end

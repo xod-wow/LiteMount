@@ -16,9 +16,11 @@
         </OnClick>
         <OnEnter>
             local L = LM_Localize
-            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-            GameTooltip:SetText(L[self.flag])
-            GameTooltip:Show()
+            if self.flag then
+                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                GameTooltip:SetText(L[self.flag])
+                GameTooltip:Show()
+            end
         </OnEnter>
         <OnLeave>
             if GameTooltip:GetOwner() == self then
@@ -151,26 +153,20 @@
             </Scripts>
         </Button>
 
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit1">
-            <Anchors> <Anchor point="RIGHT" x="-2" /> </Anchors>
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit5" id="5">
+            <Anchors> <Anchor point="RIGHT" x="-42" /> </Anchors>
         </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit2">
-            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit1" relativePoint="LEFT" x="-4" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit3">
-            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit2" relativePoint="LEFT" x="-4" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit4">
-            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit3" relativePoint="LEFT" x="-4" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit5">
-            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit4" relativePoint="LEFT" x="-4" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit6">
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit4" id="4">
             <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit5" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit7">
-            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit6" relativePoint="LEFT" x="-4" /> </Anchors>
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit3" id="3">
+            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit4" relativePoint="LEFT" x="-4" /> </Anchors>
+        </CheckButton>
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit2" id="2">
+            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit3" relativePoint="LEFT" x="-4" /> </Anchors>
+        </CheckButton>
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit1" id="1">
+            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit2" relativePoint="LEFT" x="-4" /> </Anchors>
         </CheckButton>
     </Frames>
 
@@ -345,50 +341,70 @@
             </Scripts>
         </Frame>
 
+        <Button parentKey="NextPageButton">
+            <Size x="26" y="26" />
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-2" />
+            </Anchors>
+            <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
+            <DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
+            <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+            <Scripts>
+                <OnClick>
+                    self:GetParent():NextFlagPage()
+                </OnClick>
+            </Scripts>
+        </Button>
+
+        <Button parentKey="PrevPageButton">
+            <Size x="26" y="26" />
+            <Anchors>
+                <Anchor point="RIGHT" relativeKey="$parent.NextPageButton" relativePoint="LEFT" x="-170" />
+            </Anchors>
+            <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
+            <DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
+            <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+            <Scripts>
+                <OnClick>
+                    self:GetParent():PrevFlagPage()
+                </OnClick>
+            </Scripts>
+        </Button>
+
     </Frames>
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="Bit1Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="RUN">
+            <FontString parentKey="BitText5" inherits="GameFontWhiteTiny" justifyH="CENTER" text="WALK">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-2" />
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-42" />
                 </Anchors>
             </FontString>
-            <FontString parentKey="Bit2Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="FLY">
+            <FontString parentKey="BitText4" inherits="GameFontWhiteTiny" justifyH="CENTER" text="RUN">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.Bit1Text" relativePoint="LEFT" x="-4" />
+                    <Anchor point="RIGHT" relativeKey="$parent.BitText5" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString parentKey="Bit3Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="SWIM">
+            <FontString parentKey="BitText3" inherits="GameFontWhiteTiny" justifyH="CENTER" text="FLY">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.Bit2Text" relativePoint="LEFT" x="-4" />
+                    <Anchor point="RIGHT" relativeKey="$parent.BitText4" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString parentKey="Bit4Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="AQ">
+            <FontString parentKey="BitText2" inherits="GameFontWhiteTiny" justifyH="CENTER" text="SWIM">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.Bit3Text" relativePoint="LEFT" x="-4" />
+                    <Anchor point="RIGHT" relativeKey="$parent.BitText3" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
-            <FontString parentKey="Bit5Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="VASHJIR">
+            <FontString parentKey="BitText1" inherits="GameFontWhiteTiny" justifyH="CENTER" text="FLOAT">
                 <Size x="26" y="26" />
                 <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.Bit4Text" relativePoint="LEFT" x="-4" />
-                </Anchors>
-            </FontString>
-            <FontString parentKey="Bit6Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="C2">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.Bit5Text" relativePoint="LEFT" x="-4" />
-                </Anchors>
-            </FontString>
-            <FontString parentKey="Bit7Text" inherits="GameFontWhiteTiny" justifyH="CENTER" text="C1">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.Bit6Text" relativePoint="LEFT" x="-4" />
+                    <Anchor point="RIGHT" relativeKey="$parent.BitText2" relativePoint="LEFT" x="-4" />
                 </Anchors>
             </FontString>
         </Layer>
