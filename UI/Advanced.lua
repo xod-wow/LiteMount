@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+local L = LM_Localize
+
 local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)
 end

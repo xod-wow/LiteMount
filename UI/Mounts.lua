@@ -12,23 +12,6 @@ local L = LM_Localize
 
 local NUM_FLAG_BUTTONS = 7
 
-local function tSlice(t, first, last)
-    local out = { }
-    for i = first or 1, last or #t do
-        tinsert(out, t[i])
-    end
-    return out
-end
-
-local function tSortedKeys(t)
-    local out = { }
-    for k in pairs(t) do
-        tinsert(out, k)
-    end
-    sort(out, function (a,b) return t[a] < t[b] end)
-    return out
-end
-
 function LiteMountOptionsBit_OnClick(self)
     local mount = self:GetParent().mount
 
@@ -163,7 +146,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         info.func = flagFunc
 
         local allFlags = LM_Options:GetAllFlags()
-        for _, flagName in ipairs(tSortedKeys(allFlags)) do
+        for flagName in LM_tPairsByValues(allFlags) do
             if LM_Options:IsFilterFlag(flagName) then
                 info.text = L[flagName]
                 info.arg1 = flagName
@@ -524,14 +507,17 @@ end
 
 
 function LiteMountOptions_UpdateFlagPaging(self)
-    local allFlags = tSortedKeys(LM_Options:GetAllFlags())
+    local allFlags = { }
+    for k in LM_tPairsByValues(LM_Options:GetAllFlags()) do
+        tinsert(allFlags, k)
+    end
 
     self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
     self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
     self.NextPageButton:SetEnabled(self.currentFlagPage ~= self.maxFlagPages)
 
     local pageOffset = (self.currentFlagPage - 1 ) * NUM_FLAG_BUTTONS + 1
-    self.pageFlags = tSlice(allFlags, pageOffset, pageOffset+NUM_FLAG_BUTTONS-1)
+    self.pageFlags = LM_tSlice(allFlags, pageOffset, pageOffset+NUM_FLAG_BUTTONS-1)
 
     local bt
     for i = 1, NUM_FLAG_BUTTONS do
