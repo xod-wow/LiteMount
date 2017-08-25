@@ -10,7 +10,7 @@
 
 local L = LM_Localize
 
-local NUM_FLAG_BUTTONS = 7
+local NUM_FLAG_BUTTONS = 6
 
 function LiteMountOptionsBit_OnClick(self)
     local mount = self:GetParent().mount
