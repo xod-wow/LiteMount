@@ -16,15 +16,39 @@ function LM_tSlice(t, first, last)
     return out
 end
 
+function LM_tMerge(...)
+    local out = { }
+
+    for i = 1, select("#", ...) do
+        local src = select(i, ...);
+        for k, v in pairs(src) do
+            out[k] = v;
+        end
+    end
+
+    return out
+end
+
 function LM_tKeys(t)
     local out = { }
     for k in pairs(t) do tinsert(out, k) end
     return out
 end
-    
+
+function LM_tValues(t)
+    local out = { }
+    for _,k in pairs(t) do tinsert(out, k) end
+    return out
+end
+
+function LM_tSortedKeys(t, sortFunction)
+    local out = LM_tKeys(t)
+    sort(out, sortFunction)
+    return out
+end
+
 function LM_tPairsBySort(t, sortFunction)
-    local index = LM_tKeys(t)
-    sort(index, sortFunction)
+    local index = LM_tSortedKeys(t, sortFunction)
 
     local i = 0
     return function ()
@@ -41,5 +65,3 @@ end
 function LM_tPairsByValues(t)
     return LM_tPairsBySort(t, function (a, b) return t[a] < t[b] end)
 end
-
-

@@ -48,19 +48,6 @@ local defaults = {
 
 LM_Options = { }
 
-local function tMerge(...)
-    local result = { }
-
-    for i = 1, select("#", ...) do
-        local src = select(i, ...);
-        for k, v in pairs(src) do
-            result[k] = v;
-        end
-    end
-
-    return result
-end
-
 local function FlagDiff(a, b)
     local diff = { }
 

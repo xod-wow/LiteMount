@@ -507,10 +507,7 @@ end
 
 
 function LiteMountOptions_UpdateFlagPaging(self)
-    local allFlags = { }
-    for k in LM_tPairsByValues(LM_Options:GetAllFlags()) do
-        tinsert(allFlags, k)
-    end
+    local allFlags = LM_tSortedKeys(LM_Options:GetAllFlags())
 
     self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
     self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
