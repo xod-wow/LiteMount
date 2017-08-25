@@ -12,6 +12,8 @@ Localization.lua
 
 AutoEventFrame.lua
 Print.lua
+Util.lua
+
 SpellInfo.lua
 Mount.lua
 LM_Journal.lua
