@@ -39,7 +39,8 @@ local ButtonActions = {
         Mount [filter=VASHJIR][area:610/614/615,submerged]
         Mount [filter=AQ][area:766,noflyable,nosubmerged]
         Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
-        Mount [filter=230987][nosubmerged,extra:202477][nosubmerged,aura:202477]
+        Mount [filter=230987][nosubmerged,extra:202477]
+        Mount [filter=230987][nosubmerged,aura:202477]
         Mount [filter=~FLY][mod:shift]
         Mount
         Macro
