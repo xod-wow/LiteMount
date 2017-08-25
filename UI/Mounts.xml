@@ -157,19 +157,19 @@
             <Anchors> <Anchor point="RIGHT" x="-32" /> </Anchors>
         </CheckButton>
         <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit5" id="5">
-            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit6" relativePoint="LEFT" x="-4" /> </Anchors>
+            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit6" x="-34" /> </Anchors>
         </CheckButton>
         <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit4" id="4">
-            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit5" relativePoint="LEFT" x="-4" /> </Anchors>
+            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit5" x="-34" /> </Anchors>
         </CheckButton>
         <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit3" id="3">
-            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit4" relativePoint="LEFT" x="-4" /> </Anchors>
+            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit4" x="-34" /> </Anchors>
         </CheckButton>
         <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit2" id="2">
-            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit3" relativePoint="LEFT" x="-4" /> </Anchors>
+            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit3" x="-34" /> </Anchors>
         </CheckButton>
         <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit1" id="1">
-            <Anchors> <Anchor point="RIGHT" relativeKey="$parent.Bit2" relativePoint="LEFT" x="-4" /> </Anchors>
+            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit2" x="-34" /> </Anchors>
         </CheckButton>
     </Frames>
 
@@ -349,40 +349,30 @@
     <Layers>
         <Layer level="ARTWORK">
             <FontString parentKey="BitText6" inherits="GameFontWhiteTiny" justifyH="CENTER" text="WALK">
-                <Size x="26" y="26" />
+                <Size x="30" y="26" />
                 <Anchors>
                     <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-32" />
                 </Anchors>
             </FontString>
             <FontString parentKey="BitText5" inherits="GameFontWhiteTiny" justifyH="CENTER" text="RUN">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.BitText6" relativePoint="LEFT" x="-4" />
-                </Anchors>
+                <Size x="30" y="26" />
+                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText6" x="-30" /> </Anchors>
             </FontString>
             <FontString parentKey="BitText4" inherits="GameFontWhiteTiny" justifyH="CENTER" text="RUN">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.BitText5" relativePoint="LEFT" x="-4" />
-                </Anchors>
+                <Size x="30" y="26" />
+                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText5" x="-34" /> </Anchors>
             </FontString>
             <FontString parentKey="BitText3" inherits="GameFontWhiteTiny" justifyH="CENTER" text="FLY">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.BitText4" relativePoint="LEFT" x="-4" />
-                </Anchors>
+                <Size x="30" y="26" />
+                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText4" x="-34" /> </Anchors>
             </FontString>
             <FontString parentKey="BitText2" inherits="GameFontWhiteTiny" justifyH="CENTER" text="SWIM">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.BitText3" relativePoint="LEFT" x="-4" />
-                </Anchors>
+                <Size x="30" y="26" />
+                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText3" x="-34" /> </Anchors>
             </FontString>
             <FontString parentKey="BitText1" inherits="GameFontWhiteTiny" justifyH="CENTER" text="FLOAT">
-                <Size x="26" y="26" />
-                <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.BitText2" relativePoint="LEFT" x="-4" />
-                </Anchors>
+                <Size x="30" y="26" />
+                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText2" x="-34" /> </Anchors>
             </FontString>
         </Layer>
     </Layers>
