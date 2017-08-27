@@ -19,12 +19,43 @@
     </Layers>
 
     <Frames>
+        <Frame name="$parentFlagListContainer" parentKey="FlagListContainer">
+            <Size x="96" />
+            <Anchors>
+                <Anchor point="TOP" y="-160" />
+                <Anchor point="RIGHT" x="-24" />
+                <Anchor point="BOTTOM" y="48" />
+            </Anchors>
+
+            <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                <EdgeSize val="16" />
+                <TileSize val="16" />
+                <BackgroundInsets>
+                    <AbsInset left="5" right="5" top="5" bottom="5" />
+                </BackgroundInsets>
+            </Backdrop>
+
+            <Scripts>
+                <OnLoad>
+                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
+                    self:SetBackdropColor(0, 0, 0, 0.5)
+                </OnLoad>
+            </Scripts>
+        </Frame>
+
+        <ScrollFrame parentKey="FlagList" inherits="FauxScrollFrameTemplate">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="8" y="-8" relativeKey="$parent.FlagListContainer" />
+                <Anchor point="BOTTOMRIGHT" x="-28" y="8" relativeKey="$parent.FlagListContainer" />
+            </Anchors>
+        </ScrollFrame>
+
         <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer">
 
             <Anchors>
                 <Anchor point="TOP" y="-160" />
-                <Anchor point="LEFT" x="32" />
-                <Anchor point="RIGHT" x="-32" />
+                <Anchor point="LEFT" x="24" />
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.FlagListContainer" x="-24" />
                 <Anchor point="BOTTOM" y="48" />
             </Anchors>
 
@@ -77,7 +108,7 @@
         <Button name="$parentUnlockButton" parentKey="UnlockButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
             <Size x="96" y="22" />
             <Anchors>
-                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.EditBoxContainer" x="8" y="-3" />
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.EditBoxContainer" x="2" y="0" />
             </Anchors>
             <Scripts>
                 <OnClick function="LiteMountOptionsAdvancedUnlock_OnClick" />
@@ -117,6 +148,16 @@
         </EditBox>
 
     </Frames>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="FlagListLabel" inherits="GameFontNormalMed2" text="LM_FLAGS">
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.FlagList" y="8" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
 
     <Scripts>
         <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />

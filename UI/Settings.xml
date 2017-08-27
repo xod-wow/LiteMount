@@ -10,7 +10,8 @@
     <Frames>
         <CheckButton name="$parentCopyTargetsMount" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" x="0" y="-24" />
+                <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-24" />
+                <Anchor point="LEFT" x="24" />
             </Anchors>
             <Scripts>
                 <OnLoad>
