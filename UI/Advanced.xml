@@ -55,7 +55,7 @@
             <Anchors>
                 <Anchor point="TOP" y="-160" />
                 <Anchor point="LEFT" x="24" />
-                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.FlagListContainer" x="-24" />
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.FlagListContainer" x="-16" />
                 <Anchor point="BOTTOM" y="48" />
             </Anchors>
 
