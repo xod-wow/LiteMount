@@ -318,15 +318,19 @@ function LM_Options:DeleteFlag(f)
 end
 
 function LM_Options:RenameFlag(f, newF)
+    local tmp
     if self:IsPrimaryFlag(f) then return end
     if f == newF then return end
     for _,p in pairs(self.db.profiles) do
-        for _,c in pairs(profile.flagChanges) do
-            local t = c[f]
+        for _,c in pairs(p.flagChanges) do
+            tmp = c[f]
             c[f] = nil
-            c[newF] = t
+            c[newF] = tmp
         end
     end
+    tmp = self.db.global.customFlags[f]
+    self.db.global.customFlags[f] = nil
+    self.db.global.customFlags[newF] = tmp
 end
 
 function LM_Options:GetAllFlags()
