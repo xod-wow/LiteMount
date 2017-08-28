@@ -149,7 +149,8 @@ function LM_PlayerMounts:GetMountFromUnitAura(unitid)
         if aura then tinsert(buffs, aura) end
     end
     local function match(m)
-         return m.isCollected and tContains(buffs, m.name) and m:IsCastable()
+        local spellName = GetSpellInfo(m.spellID)
+        return m.isCollected and tContains(buffs, spellName) and m:IsCastable()
     end
     return self:Find(match)
 end
