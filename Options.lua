@@ -296,6 +296,11 @@ function LM_Options:IsPrimaryFlag(f)
     return LM_FLAG[f] ~= nil
 end
 
+-- Allow alphanumeric and underscore
+function LM_Options:BadCharIndex(n)
+    return n:match('[^%w_]')
+end
+
 function LM_Options:CreateFlag(f, isFilter)
     if self.db.global.customFlags[f] then return end
     if self:IsPrimaryFlag(f) then return end
