@@ -7,5 +7,6 @@
     <Include file="Mounts.xml" />
     <Include file="Macro.xml" />
     <Include file="CombatMacro.xml" />
-    <Include file="Advanced.xml" />
+    <Include file="AdvancedFlagList.xml" />
+    <Include file="AdvancedActions.xml" />
 </Ui>
