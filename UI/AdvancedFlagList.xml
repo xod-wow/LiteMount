@@ -43,6 +43,7 @@
                 </OnLoad>
             </Scripts>
         </Frame>
+    </Frames>
 
     <Scripts>
         <OnLoad function="LiteMountOptionsFlagList_OnLoad" />
