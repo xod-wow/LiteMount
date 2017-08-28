@@ -51,6 +51,44 @@ local function IsTrue(x)
 end
 
 local function PrintUsage()
+    LM_Print("Usage:")
+    LM_Print("  /litemount enable | disable | toggle")
+    LM_Print("  /litemount mounts [<substring>]")
+    LM_Print("  /litemount areas [<substring>]")
+    LM_Print("  /litemount continents [<substring>]")
+    LM_Print("  /litemount location")
+    LM_Print("  /litemount macro")
+    LM_Print("  /litemount flags add <flagname>")
+    LM_Print("  /litemount flags del <flagname>")
+    LM_Print("  /litemount flags rename <oldname> <newname>")
+end
+
+local function PrintAreas(str)
+    local areas = { GetAreaMaps() }
+
+    local searchStr = string.lower(str or "")
+
+    for _,areaID in ipairs(areas) do
+        local areaName = GetMapNameByID(areaID)
+        local searchName = string.lower(areaName)
+        if searchName:find(searchStr) then
+            LM_Print(format("% 4d : %s", areaID, areaName))
+        end
+    end
+end
+
+local function PrintContinents(str)
+    local continents = { GetMapContinents() }
+    local searchStr = string.lower(str or "")
+
+    local cID, cName, searchName
+    for i = 1, #continents, 2 do
+        cID, cName = continents[i], continents[i+1]
+        searchName = string.lower(cName)
+        if searchName:find(searchStr) then
+            LM_Print(format("% 4d : %s", cID, cName))
+        end
+    end
 end
 
 function LiteMount_SlashCommandFunc(argstr)
@@ -58,34 +96,65 @@ function LiteMount_SlashCommandFunc(argstr)
     -- Look, please stop doing this, ok? Nothing good can come of it.
     if InCombatLockdown() then return true end
 
-    local args = { strsplit(" ", strlower(argstr)) }
+    local args = { strsplit(" ", argstr) }
     local cmd = table.remove(args, 1)
 
     if cmd == "macro" or cmd == strlower(MACRO) then
         local i = CreateOrUpdateMacro()
-        if i then PickupMacro(i) end
+       if i then PickupMacro(i) end
         return true
     elseif cmd == "toggle" or cmd == "enable" or cmd == "disable" then
         UpdateActiveMount(cmd)
-        -- This really needs to be switched to a callback
         LiteMountOptions_UpdateMountList()
         return true
-    elseif cmd == "dumplocation" then
+    elseif cmd == "location" then
         LM_Location:Dump()
         return true
-    elseif cmd == "search" then
+    elseif cmd == "areas" then
+        PrintAreas(table.concat(args, ' '))
+        return true
+    elseif cmd == "continents" then
+        PrintContinents(table.concat(args, ' '))
+        return true
+    elseif cmd == "mounts" then
         local m
         if not args[1] then
             m = LM_PlayerMounts:GetMountFromUnitAura("player")
             if m then m:Dump() end
         else
-            local n = table.concat(args, ' ')
+            local n = string.lower(table.concat(args, ' '))
             local mounts = LM_PlayerMounts:Search(function (m) return string.match(strlower(m.name), n) end)
             for _,m in ipairs(mounts) do
                 m:Dump()
             end
         end
         return true
+    elseif cmd == "flags" then
+        if args[1] == "add" and #args == 2 then
+            LM_Options:CreateFlag(args[2])
+            LiteMountOptions_UpdateFlagPaging()
+            LiteMountOptions_UpdateMountList()
+            return true
+        elseif args[1] == "del" and #args == 2 then
+            LM_Options:DeleteFlag(args[2])
+            LiteMountOptions_UpdateFlagPaging()
+            LiteMountOptions_UpdateMountList()
+            return true
+        elseif args[1] == "rename" and #args == 3 then
+            LM_Options:RenameFlag(args[2], args[3])
+            LiteMountOptions_UpdateFlagPaging()
+            LiteMountOptions_UpdateMountList()
+            return true
+        elseif args[1] == "list" and #args == 1 then
+            local flags = LM_Options:GetAllFlags()
+            for i = 1, #flags do
+                if LM_Options:IsPrimaryFlag(flags[i]) then
+                    flags[i] = ORANGE_FONT_COLOR_CODE .. flags[i] .. FONT_COLOR_CODE_CLOSE
+                end
+            end
+            LM_Print(table.concat(LM_Options:GetAllFlags(), ' '))
+            return true
+        end
     elseif cmd == "debug" then
         if IsTrue(args[1]) then
             LM_Print("Debugging enabled.")
@@ -95,8 +164,11 @@ function LiteMount_SlashCommandFunc(argstr)
             LM_Options.db.char.debugEnabled = false
         end
         return true
+    elseif cmd == ""then
+        return LiteMountOptionsPanel_Open()
     end
 
-    return LiteMountOptionsPanel_Open()
+    PrintUsage()
+    return true
 end
 

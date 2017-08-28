@@ -504,7 +504,8 @@ function LiteMountOptions_AllSelect_OnClick(self)
 end
 
 
-function LiteMountOptions_UpdateFlagPaging(self)
+function LiteMountOptions_UpdateFlagPaging()
+    local self = LiteMountOptionsMounts
     local allFlags = LM_Options:GetAllFlags()
 
     self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
@@ -587,7 +588,7 @@ function LiteMountOptionsMounts_OnLoad(self)
     end
     self.PrevFlagPage = function (self)
         self.currentFlagPage = Clamp(self.currentFlagPage - 1, 1, self.maxFlagPages)
-        LiteMountOptions_UpdateFlagPaging(self)
+        LiteMountOptions_UpdateFlagPaging()
         LiteMountOptions_UpdateMountList()
     end
 
@@ -608,7 +609,7 @@ function LiteMountOptionsMounts_OnShow(self)
     self:SetScript("OnEvent", LiteMountOptions_UpdateMountList)
     self:RegisterUnitEvent("UNIT_AURA", "player")
 
-    LiteMountOptions_UpdateFlagPaging(self)
+    LiteMountOptions_UpdateFlagPaging()
     LiteMountOptions_UpdateMountList()
     LiteMountOptionsPanel_OnShow(self)
 end
