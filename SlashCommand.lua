@@ -64,14 +64,14 @@ local function PrintUsage()
 end
 
 local function PrintAreas(str)
-    local areas = { GetAreaMaps() }
+    local areas = GetAreaMaps()
 
     local searchStr = string.lower(str or "")
 
     for _,areaID in ipairs(areas) do
         local areaName = GetMapNameByID(areaID)
         local searchName = string.lower(areaName)
-        if searchName:find(searchStr) then
+        if areaID == tonumber(str) or searchName:find(searchStr) then
             LM_Print(format("% 4d : %s", areaID, areaName))
         end
     end
@@ -85,7 +85,7 @@ local function PrintContinents(str)
     for i = 1, #continents, 2 do
         cID, cName = continents[i], continents[i+1]
         searchName = string.lower(cName)
-        if searchName:find(searchStr) then
+        if cID == tonumber(str) or searchName:find(searchStr) then
             LM_Print(format("% 4d : %s", cID, cName))
         end
     end
