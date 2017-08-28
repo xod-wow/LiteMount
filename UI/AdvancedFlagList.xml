@@ -8,7 +8,7 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_TAGS_EXP">
+            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_FLAGS_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
                     <Anchor point="LEFT" x="48" />

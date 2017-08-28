@@ -14,19 +14,23 @@ excludedSpells is a table of spell ids the player has seen before, with
 the value true if excluded and false if not excluded
 
 flagChanges is a table of spellIDs with flags to set (+) and clear (-).
-    ["flagChanges"] = {
+    flagChanges = {
         ["spellid"] = { flag = '+', otherflag = '-', ... },
         ...
+    }
+
+customFlags is a table of flag names, with data about them (currently only
+whether they are used in the drop-down filter list or not)
+
+    customFlags = {
+        ["PASSENGER"] = { filter = true }
     }
 
 ----------------------------------------------------------------------------]]--
 
 local defaults = {
     global = {
-        customFlags         = {
-            CUSTOM1 = { order = 1, filter = true },
-            CUSTOM2 = { order = 2, filter = true },
-        },
+        customFlags         = { },
     },
     profile = {
         excludedSpells      = { },
@@ -51,7 +55,7 @@ LM_Options = { }
 local function FlagDiff(a, b)
     local diff = { }
 
-    for flagName in pairs(LM_Options:GetAllFlags()) do
+    for _,flagName in ipairs(LM_Options:GetAllFlags()) do
         if tContains(a, flagName) and not tContains(b, flagName) then
             diff[flagName] = '-'
         elseif not tContains(a, flagName) and tContains(b, flagName) then
@@ -183,6 +187,17 @@ function LM_Options:VersionUpgrade()
 
     LM_OptionsDB = nil
     LM_GlobalOptionsDB = nil
+
+    -- Make sure any flag in any profile is included in the flag list
+    for _,p in pairs(self.db.profiles) do
+        for _,c in pairs(p.flagChanges or {}) do
+            for f in pairs(c) do
+                if LM_FLAG[f] == nil and self.db.global.customFlags[f] == nil then
+                    self.db.global.customFlags[f] = { filter = true }
+                end
+            end
+        end
+    end
 end
 
 function LM_Options:Initialize()
@@ -235,7 +250,7 @@ function LM_Options:ApplyMountFlags(m)
     local flags = CopyTable(m.flags)
 
     if changes then
-        for flagName in pairs(self:GetAllFlags()) do
+        for _,flagName in ipairs(self:GetAllFlags()) do
             if changes[flagName] == '+' then
                 tinsert(flags, flagName)
             elseif changes[flagName] == '-' then
@@ -277,27 +292,63 @@ end
     Custom flags
 ----------------------------------------------------------------------------]]--
 
-function LM_Options:GetAllFlags()
-    local allFlags = CopyTable(LM_FLAG)
+function LM_Options:IsPrimaryFlag(f)
+    return LM_FLAG[f] ~= nil
+end
 
-    for f, info in pairs(LM_Options.db.global.customFlags) do
-        allFlags[f] = info.order + 100
+function LM_Options:CreateFlag(f, isFilter)
+    if self.db.global.customFlags[f] then return end
+    if self:IsPrimaryFlag(f) then return end
+    if isFilter == nil then isFilter = true end
+    self.db.global.customFlags[f] = { filter = (isFilter and true or false) }
+end
+
+function LM_Options:DeleteFlag(f)
+    for _,p in pairs(self.db.profiles) do
+        for _,c in pairs(profile.flagChanges) do
+            c[f] = nil
+        end
+    end
+    self.db.global.customFlags[f] = nil
+end
+
+function LM_Options:RenameFlag(f, newF)
+    if self:IsPrimaryFlag(f) then return end
+    if f == newF then return end
+    for _,p in pairs(self.db.profiles) do
+        for _,c in pairs(profile.flagChanges) do
+            local t = c[f]
+            c[f] = nil
+            c[newF] = t
+        end
+    end
+end
+
+function LM_Options:GetAllFlags()
+    local ind, out = {}, {}
+
+    for f, order in pairs(LM_FLAG) do
+        ind[f] = order
     end
 
-    return allFlags
+    local n = 100
+    for f in LM_tPairsByKeys(LM_Options.db.global.customFlags) do
+        ind[f] = n
+        n = n + 1
+    end
+
+    for k in LM_tPairsByValues(ind) do
+        tinsert(out, k)
+    end
+    return out
 end
 
 function LM_Options:IsFilterFlag(f)
-    if LM_FLAG[f] then
-        return true
-    end
-    if not LM_Options.db.global.customFlags[f] then
-        return false
-    elseif LM_Options.db.global.customFlags[f].filter == true then
-        return true
-    else
-        return false
-    end
+    if self:IsPrimaryFlag(f) then return true end
+
+    local cf = LM_Options.db.global.customFlags[f]
+    if cf and cf.filter == true then return true end
+    return false
 end
 
 --[[----------------------------------------------------------------------------

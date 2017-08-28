@@ -107,10 +107,10 @@ function LiteMountOptionsPanel_OnLoad(self)
             local n = self:GetAttribute("panel-name")
             self.name = _G[n] or n
         end
-        self.title:SetText("LiteMount : " .. self.name)
+        self.Title:SetText("LiteMount : " .. self.name)
     else
         self.name = "LiteMount"
-        self.title:SetText("LiteMount")
+        self.Title:SetText("LiteMount")
     end
 
     self.okay = self.okay or LiteMountOptionsPanel_Okay

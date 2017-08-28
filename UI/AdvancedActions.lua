@@ -15,7 +15,7 @@ local function BindingText(n)
 end
 
 function LiteMountOptionsActions_OnLoad(self)
-    self.name = format('%s : %s', ADVANCED, LM_ACTION_LISTS)
+    self.name = format('%s : %s', ADVANCED_LABEL, L.LM_ACTION_LISTS)
 
     self.EditBox.ntabs = 4
 

@@ -50,6 +50,9 @@ local function IsTrue(x)
     end
 end
 
+local function PrintUsage()
+end
+
 function LiteMount_SlashCommandFunc(argstr)
 
     -- Look, please stop doing this, ok? Nothing good can come of it.

@@ -11,7 +11,7 @@
 local L = LM_Localize
 
 function LiteMountOptionsFlagList_OnLoad(self)
-    self.name = format('%s : %s', ADVANCED, LM_FLAGS)
+    self.name = format('%s : %s', ADVANCED_LABEL, L.LM_FLAGS)
     LiteMountOptionsPanel_OnLoad(self)
 end
 

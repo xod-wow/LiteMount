@@ -2,15 +2,15 @@
 
 <!-- Copyright 2011-2017 Mike Battersby -->
 
-<Frame name="LiteMountOptionsSettings" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountOptionsGeneral" hidden="true" inherits="LiteMountOptionsPanelTemplate">
     <Attributes>
-        <Attribute name="panel-name" value="SETTINGS" />
+        <Attribute name="panel-name" value="GENERAL" />
     </Attributes>
 
     <Frames>
-        <CheckButton name="$parentCopyTargetsMount" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton parentKey="CopyTargetsMount" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
-                <Anchor point="TOP" relativeTo="$parentTitle" relativePoint="BOTTOM" y="-24" />
+                <Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" y="-24" />
                 <Anchor point="LEFT" x="24" />
             </Anchors>
             <Scripts>
@@ -33,9 +33,9 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
-        <CheckButton name="$parentExcludeNewMounts" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton parentKey="ExcludeNewMounts" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeTo="$parentCopyTargetsMount" relativePoint="BOTTOMLEFT" x="0" y="-8" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.CopyTargetsMount" relativePoint="BOTTOMLEFT" x="0" y="-8" />
             </Anchors>
             <Scripts>
                 <OnLoad>
@@ -57,9 +57,9 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
-        <CheckButton name="$parentDebugging" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton parentKey="Debugging" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeTo="$parentExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-48" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-48" />
             </Anchors>
             <Scripts>
                 <OnLoad>

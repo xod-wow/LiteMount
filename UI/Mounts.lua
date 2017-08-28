@@ -120,10 +120,8 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
 
         info.text = CHECK_ALL
         info.func = function () 
-                for k in pairs(LM_Options:GetAllFlags()) do 
-                    if LM_Options:IsFilterFlag(k) then
-                        LM_Options.db.char.uiMountFilterList[k] = nil
-                    end
+                for _,k in ipairs(LM_Options:GetAllFlags()) do 
+                    LM_Options.db.char.uiMountFilterList[k] = nil
                 end
                 UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, 1, 2)
                 LiteMountOptions_UpdateMountList()
@@ -132,7 +130,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
 
         info.text = UNCHECK_ALL
         info.func = function ()
-                for k in pairs(LM_Options:GetAllFlags()) do 
+                for _,k in ipairs(LM_Options:GetAllFlags()) do 
                     if LM_Options:IsFilterFlag(k) then
                         LM_Options.db.char.uiMountFilterList[k] = true
                     end
@@ -146,7 +144,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         info.func = flagFunc
 
         local allFlags = LM_Options:GetAllFlags()
-        for flagName in LM_tPairsByValues(allFlags) do
+        for _,flagName in ipairs(allFlags) do
             if LM_Options:IsFilterFlag(flagName) then
                 info.text = L[flagName]
                 info.arg1 = flagName
@@ -377,7 +375,7 @@ local function GetFilteredMountList()
         else
             local okflags = m:CurrentFlags()
             local noFilters = true
-            for flagName in pairs(LM_Options:GetAllFlags()) do
+            for _,flagName in ipairs(LM_Options:GetAllFlags()) do
                 if filters[flagName] then
                     tDeleteItem(okflags, flagName)
                     noFilters = false
@@ -507,7 +505,7 @@ end
 
 
 function LiteMountOptions_UpdateFlagPaging(self)
-    local allFlags = LM_tSortedKeys(LM_Options:GetAllFlags())
+    local allFlags = LM_Options:GetAllFlags()
 
     self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
     self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
