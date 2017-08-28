@@ -310,7 +310,7 @@ end
 
 function LM_Options:DeleteFlag(f)
     for _,p in pairs(self.db.profiles) do
-        for _,c in pairs(profile.flagChanges) do
+        for _,c in pairs(p.flagChanges) do
             c[f] = nil
         end
     end
