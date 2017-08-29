@@ -271,38 +271,6 @@
             <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
         </CheckButton>
 
-        <Button name="$parentProfileButton" inherits="UIMenuButtonStretchTemplate">
-            <Size x="140" y="22" />
-            <Anchors>
-                <Anchor point="TOPRIGHT" x="-32" y="-12" />
-            </Anchors>
-            <Layers>
-                <Layer level="ARTWORK">
-                    <Texture parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
-                        <Size x="10" y="12"/>
-                        <Anchors>
-                            <Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="RIGHT" x="-5"/>
-                        </Anchors>
-                    </Texture>
-                </Layer>
-            </Layers>
-
-            <Scripts>
-                <OnShow>
-                    self:SetText(LM_Options.db:GetCurrentProfile())
-                </OnShow>
-                <OnClick>
-                    ToggleDropDownMenu(1, nil, LiteMountOptionsMountsProfileDropDown, self:GetName(), 74, 15)
-                </OnClick>
-            </Scripts>
-        </Button>
-
-        <Frame name="$parentProfileDropDown" inherits="UIDropDownMenuTemplate">
-            <Scripts>
-                <OnShow function="LiteMountOptionsMountsProfileDropDown_OnLoad" />
-            </Scripts>
-        </Frame>
-
         <EditBox autofocus="false" inherits="SearchBoxTemplate" parentKey="Search" letters="40">
             <Size x="145" y="20" />
             <Anchors>

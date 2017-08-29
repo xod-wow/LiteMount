@@ -48,16 +48,14 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_FLAG"] = {
     text = format("LiteMount : %s", L.LM_DELETE_FLAG),
     button1 = ACCEPT,
     button2 = CANCEL,
-    hasEditBox = 1,
-    maxLetters = 24,
     timeout = 0,
     exclusive = 1,
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
             LM_Options:DeleteFlag(text)
+            LiteMountOptionsAdvanced_Update()
         end,
-    OnHide = function (self) LiteMountOptionsAdvanced_Update() end,
 }
 
 StaticPopupDialogs["LM_OPTIONS_RENAME_FLAG"] = {
@@ -73,7 +71,7 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_FLAG"] = {
     OnAccept = function (self)
             local text = self.editBox:GetText()
             if text and LM_Options:BadCharIndex(text) == nil then
-                LM_Options:CreateFlag(text)
+                LM_Options:RenameFlag(self.data, text)
             end
         end,
     EditBoxOnEnterPressed = function (self)
