@@ -19,12 +19,28 @@
         <Layer level="ARTWORK">
             <FontString parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
                 <Anchors>
-                    <Anchor point="LEFT" x="6" />
+                    <Anchor point="LEFT" x="24" />
                     <Anchor point="RIGHT" x="-12" />
                 </Anchors>
             </FontString>
         </Layer>
     </Layers>
+
+    <Frames>
+        <Button parentKey="DeleteButton" hidden="true">
+            <Size x="14" y="14" />
+            <Anchors> <Anchor point="LEFT" x="6" /> </Anchors>
+            <NormalTexture name="$parentNormalTexture" file="Interface\Buttons\UI-MinusButton-UP"/>
+            <PushedTexture name="$parentPushedTexture" file="Interface\Buttons\UI-MinusButton-DOWN"/>
+            <HighlightTexture name="$parentHighlightTexture" file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+            <Scripts>
+                <OnClick>
+                    local f = self:GetParent().flag
+                    StaticPopup_Show("LM_OPTIONS_DELETE_FLAG", f, nil, f)
+                </OnClick>
+            </Scripts>
+        </Button>
+    </Frames>
 
     <Scripts>
         <OnLoad>
@@ -199,7 +215,7 @@
         <Layer level="ARTWORK">
             <FontString parentKey="FlagsLabel" inherits="GameFontNormalLarge" text="LM_FLAGS">
                 <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.ScrollContainer" x="14" y="4" />
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.ScrollContainer" x="8" y="8" />
                 </Anchors>
             </FontString>
         </Layer>

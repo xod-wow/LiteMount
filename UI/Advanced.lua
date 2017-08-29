@@ -128,6 +128,9 @@ function LiteMountOptionsAdvanced_Update(self)
             local flagText = allFlags[index]
             if LM_Options:IsPrimaryFlag(allFlags[index]) then
                 flagText = ITEM_QUALITY_COLORS[2].hex .. flagText .. FONT_COLOR_CODE_CLOSE
+                button.DeleteButton:Hide()
+            else
+                button.DeleteButton:Show()
             end
             button.Text:SetFormattedText(flagText)
             button:Show()
@@ -139,9 +142,11 @@ function LiteMountOptionsAdvanced_Update(self)
             self.AddFlagButton:ClearAllPoints()
             self.AddFlagButton:SetPoint("CENTER")
             self.AddFlagButton:SetWidth(scrollFrame:GetWidth())
+            button.DeleteButton:Hide()
             showAddButton = true
         else
             button:Hide()
+            button.DeleteButton:Hide()
             button.flag = nil
         end
     end
