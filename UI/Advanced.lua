@@ -14,7 +14,22 @@ local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)
 end
 
-function LiteMountOptionsFlagList_Update(self)
+function LiteMountOptionsFlagButton_OnEnter(self)
+    if self.flag then
+        local mounts = LM_PlayerMounts:Filter(self.flag)
+        GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
+        GameTooltip:AddLine(format('%s (%d)', L[self.flag], #mounts))
+        GameTooltip:Show()
+    end
+end
+
+function LiteMountOptionsFlagButton_OnLeave(self)
+    if GameTooltip:GetOwner() == self then
+        GameTooltip:Hide()
+    end
+end
+
+function LiteMountOptionsAdvanced_Update(self)
     local scrollFrame = self.ScrollFrame
     local offset = HybridScrollFrame_GetOffset(scrollFrame)
     local buttons = scrollFrame.buttons
@@ -28,9 +43,9 @@ function LiteMountOptionsFlagList_Update(self)
         button = buttons[i]
         index = offset + i
         if index <= #allFlags then
-            local flagText = allFlags[index]
+            local flagText = L[allFlags[index]]
             if LM_Options:IsPrimaryFlag(allFlags[index]) then
-                flagText = ITEM_QUALITY_COLORS[5].hex .. flagText .. FONT_COLOR_CODE_CLOSE
+                flagText = ITEM_QUALITY_COLORS[2].hex .. flagText .. FONT_COLOR_CODE_CLOSE
             end
             button.Text:SetFormattedText(flagText)
             button:Show()
@@ -44,43 +59,43 @@ function LiteMountOptionsFlagList_Update(self)
     HybridScrollFrame_Update(scrollFrame, totalHeight, displayedHeight)
 end
 
-function LiteMountOptionsActions_OnSizeChanged(self)
+function LiteMountOptionsAdvanced_OnSizeChanged(self)
     HybridScrollFrame_CreateButtons(self.ScrollFrame, "LiteMountOptionsFlagButtonTemplate", 0, 0, "TOPLEFT", "TOPLEFT", 0, 0, "TOP", "BOTTOM")
     for _,b in ipairs(self.ScrollFrame.buttons) do
-        b:SetWidth(self:GetWidth())
+        b:SetWidth(self.ScrollFrame:GetWidth())
     end
 end
 
-function LiteMountOptionsActions_OnLoad(self)
-    self.name = format('%s : %s', ADVANCED_LABEL, L.LM_ACTION_LISTS)
+function LiteMountOptionsAdvanced_OnLoad(self)
+    self.name = ADVANCED_OPTIONS
 
     self.EditBox.ntabs = 4
 
-    UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountOptionsActionsBindingDropDown_Initialize)
+    UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountOptionsAdvancedBindingDropDown_Initialize)
     UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
 
-    self.ScrollFrame.update = function () LiteMountOptionsFlagList_Update(self) end
-    LiteMountOptionsActions_OnSizeChanged(self)
+    self.ScrollFrame.update = function () LiteMountOptionsAdvanced_Update(self) end
+    LiteMountOptionsAdvanced_OnSizeChanged(self)
 
     LiteMountOptionsPanel_OnLoad(self)
 end
 
-function LiteMountOptionsActions_OnShow(self)
+function LiteMountOptionsAdvanced_OnShow(self)
     self.EditBox:Disable()
     self.EditBox:SetAlpha(0.5)
     self.UnlockButton:Show()
-    LiteMountOptionsFlagList_Update(self)
+    LiteMountOptionsAdvanced_Update(self)
     LiteMountOptionsPanel_OnShow(self)
 end
 
-function LiteMountOptionsActionsUnlock_OnClick(self)
+function LiteMountOptionsAdvancedUnlock_OnClick(self)
     local parent = self:GetParent()
     parent.EditBox:SetAlpha(1.0)
     parent.EditBox:Enable()
     self:Hide()
 end
 
-function LiteMountOptionsActionsBindingDropDown_Initialize(dropDown, level)
+function LiteMountOptionsAdvancedBindingDropDown_Initialize(dropDown, level)
     local info = UIDropDownMenu_CreateInfo()
 
     if level == 1 then
@@ -89,10 +104,10 @@ function LiteMountOptionsActionsBindingDropDown_Initialize(dropDown, level)
             info.arg1 = i
             info.arg2 = BindingText(i)
             info.func = function (button, v, t)
-                    LiteMountOptionsControl_SetTab(LiteMountOptionsActions.EditBox, v)
+                    LiteMountOptionsControl_SetTab(LiteMountOptionsAdvanced.EditBox, v)
                     UIDropDownMenu_SetText(dropDown, t)
                 end
-            info.checked = (LiteMountOptionsActions.currentButtonIndex == i)
+            info.checked = (LiteMountOptionsAdvanced.currentButtonIndex == i)
             UIDropDownMenu_AddButton(info, level)
         end
     end

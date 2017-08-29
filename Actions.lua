@@ -60,14 +60,6 @@ ACTIONS['CopyTargetsMount'] =
         end
     end
 
-ACTIONS['Vashjir'] =
-    function ()
-        if IsSubmerged() and LM_Location:IsVashjir() then
-            LM_Debug("Trying Vashjir Mount")
-            return LM_PlayerMounts:GetRandomMount({ 'VASHJIR' })
-        end
-    end
-
 ACTIONS['Mount'] =
     function (filters)
         return ACTIONS.Swim(filters) or
@@ -75,14 +67,14 @@ ACTIONS['Mount'] =
                ACTIONS.Float(filters) or
                ACTIONS.Run(filters) or
                ACTIONS.Walk(filters) or
-               LM_PlayerMounts:GetRandomMount({ unpack(filters) })
+               LM_PlayerMounts:GetRandomMount(unpack(filters))
     end
 
 ACTIONS['Fly'] =
     function (filters)
         if LM_Location:CanFly() then
             LM_Debug("Trying Flying Mount")
-            return LM_PlayerMounts:GetRandomMount({ 'FLY', unpack(filters) })
+            return LM_PlayerMounts:GetRandomMount('FLY', unpack(filters))
         end
     end
 
@@ -90,7 +82,7 @@ ACTIONS['Float'] =
     function (filters)
         if LM_Location:IsFloating() then
             LM_Debug("Trying Floating mount")
-            return LM_PlayerMounts:GetRandomMount({ 'FLOAT', unpack(filters) })
+            return LM_PlayerMounts:GetRandomMount('FLOAT', unpack(filters))
         end
     end
 
@@ -98,20 +90,20 @@ ACTIONS['Swim'] =
     function (filters)
         if IsSubmerged() and not LM_Location:IsFloating() then
             LM_Debug("Trying Swimming Mount")
-            return LM_PlayerMounts:GetRandomMount({ 'SWIM', unpack(filters) })
+            return LM_PlayerMounts:GetRandomMount('SWIM', unpack(filters))
         end
     end
 
 ACTIONS['Run'] =
     function (filters)
         LM_Debug("Trying Running Mount")
-        return LM_PlayerMounts:GetRandomMount({ 'RUN', unpack(filters) })
+        return LM_PlayerMounts:GetRandomMount('RUN', unpack(filters))
     end
 
 ACTIONS['Walk'] =
     function (filters)
         LM_Debug("Trying Walking Mount")
-        return LM_PlayerMounts:GetRandomMount({ 'WALK', unpack(filters) })
+        return LM_PlayerMounts:GetRandomMount('WALK', unpack(filters))
     end
 
 ACTIONS['Macro'] =

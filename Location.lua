@@ -156,33 +156,6 @@ function LM_Location:CantBreathe()
     return (name == "BREATH" and rate < 0)
 end
 
-
-function LM_Location:IsAQ()
-    if self.areaID == 766 then return true end
-end
-
-function LM_Location:IsVashjir()
-    if self.areaID == 610 then return true end
-    if self.areaID == 614 then return true end
-    if self.areaID == 615 then return true end
-end
-
-function LM_Location:IsDraenorNagrand()
-    if self.areaID == 950 then return true end
-end
-
--- 169 = ExtraActionButton1, check for Masquerade action or aura (202477)
-function LM_Location:CanSuramarMasquerade()
-    if HasExtraActionBar() and HasAction(169) then
-        local aType, aID = GetActionInfo(169)
-        if aType == "spell" and aID == 202477 then
-            return true
-        end
-    elseif UnitAura("player", GetSpellInfo(202477)) then
-        return true
-    end
-end
-
 function LM_Location:Dump()
     LM_Print("--- Location Dump ---")
     LM_Print("continent: " .. self.continent)

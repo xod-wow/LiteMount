@@ -32,16 +32,21 @@ function LM_Mount:Refresh()
     -- Nothing in base
 end
 
--- This was a bit of a convenience since bit.isset doesn't exist
-function LM_Mount:MatchesFilter(filters)
+function LM_Mount:MatchesFilters(...)
     local cur = self:CurrentFlags()
+    local f
 
-    for _,f in ipairs(filters) do
-        if string.match(f, '^%d+$') then
+    for i = 1, select('#', ...) do
+        f = select(i, ...)
+        if f == "CASTABLE" then
+            if not self:IsCastable() then return false end
+        elseif f == "ENABLED" then
+            if LM_Options:IsExcludedMount(self) then return false end
+        elseif string.match(f, '^%d+$') then
             if self.spellID ~= tonumber(f) then return false end
         elseif string.match(f, '^~') then
             if tContains(cur, f:sub(2)) ~= nil then return false end
-        elseif string.match(f, '^%w+$') then
+        elseif string.match(f, '^[%w_]+$') then
             if tContains(cur, f) == nil then return false end
         else
             LM_WarningAndPrint("Invalid filter in action list: " .. f)

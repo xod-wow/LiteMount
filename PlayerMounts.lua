@@ -117,12 +117,13 @@ function LM_PlayerMounts:Iterate()
     return self.list:Iterate()
 end
 
-function LM_PlayerMounts:Search(matchfunc)
+function LM_PlayerMounts:Search(matchfunc, ...)
     self:RefreshMounts()
-    return self.list:Search(matchfunc)
+    return self.list:Search(matchfunc, ...)
 end
 
 function LM_PlayerMounts:Find(matchfunc)
+    self:RefreshMounts()
     return self.list:Find(matchfunc)
 end
 
@@ -131,15 +132,15 @@ function LM_PlayerMounts:GetAllMounts()
     return self:Search(match)
 end
 
-function LM_PlayerMounts:GetAvailableMounts(filters)
-    local function match(m)
-        if not m:MatchesFilter(filters) then return end
-        if not m:IsCastable() then return end
-        if LM_Options:IsExcludedMount(m) then return end
-        return true
+function LM_PlayerMounts:Filter(...)
+    local function match(m, ...)
+        return m:MatchesFilters(...)
     end
+    return self:Search(match, ...)
+end
 
-    return self:Search(match)
+function LM_PlayerMounts:GetAvailableMounts(...)
+    return self:Filter("CASTABLE", "ENABLED", ...)
 end
 
 function LM_PlayerMounts:GetMountFromUnitAura(unitid)
@@ -176,8 +177,8 @@ function LM_PlayerMounts:GetMountByShapeshiftForm(i)
     if name then return self:GetMountByName(name) end
 end
 
-function LM_PlayerMounts:GetRandomMount(filters)
-    local poss = self:GetAvailableMounts(filters)
+function LM_PlayerMounts:GetRandomMount(...)
+    local poss = self:GetAvailableMounts(...)
     return poss:Random()
 end
 

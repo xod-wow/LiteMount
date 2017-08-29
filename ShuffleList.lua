@@ -71,11 +71,11 @@ function LM_ShuffleList:Iterate()
     return iter
 end
 
-function LM_ShuffleList:Search(matchfunc)
+function LM_ShuffleList:Search(matchfunc, ...)
     local result = LM_ShuffleList:New()
 
     for m in self:Iterate() do
-        if matchfunc(m) then
+        if matchfunc(m, ...) then
             tinsert(result, m)
         end
     end
@@ -83,9 +83,9 @@ function LM_ShuffleList:Search(matchfunc)
     return result
 end
 
-function LM_ShuffleList:Find(matchfunc)
+function LM_ShuffleList:Find(matchfunc, ...)
     for m in self:Iterate() do
-        if matchfunc(m) then
+        if matchfunc(m, ...) then
             return m
         end
     end

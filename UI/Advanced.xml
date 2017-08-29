@@ -2,10 +2,10 @@
 
 <!-- Copyright 2011-2017 Mike Battersby -->
 
-<Script file="AdvancedActions.lua" />
+<Script file="Advanced.lua" />
 
 <Button name="LiteMountOptionsFlagButtonTemplate" virtual="true">
-    <Size y="33" />
+    <Size y="22" />
 
     <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
         <EdgeSize val="8" />
@@ -31,11 +31,13 @@
             self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
             self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
         </OnLoad>
+        <OnEnter function="LiteMountOptionsFlagButton_OnEnter" />
+        <OnLeave function="LiteMountOptionsFlagButton_OnLeave" />
     </Scripts>
 
 </Button>
 
-<Frame name="LiteMountOptionsActions" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountOptionsAdvanced" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Layers>
         <Layer level="ARTWORK">
@@ -110,7 +112,7 @@
                 <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.EditBoxContainer" x="2" y="0" />
             </Anchors>
             <Scripts>
-                <OnClick function="LiteMountOptionsActionsUnlock_OnClick" />
+                <OnClick function="LiteMountOptionsAdvancedUnlock_OnClick" />
             </Scripts>
         </Button>
 
@@ -186,9 +188,9 @@
     </Frames>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsActions_OnLoad" />
-        <OnShow function="LiteMountOptionsActions_OnShow" />
-        <OnSizeChanged function="LiteMountOptionsActions_OnSizeChanged" />
+        <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />
+        <OnShow function="LiteMountOptionsAdvanced_OnShow" />
+        <OnSizeChanged function="LiteMountOptionsAdvanced_OnSizeChanged" />
     </Scripts>
 </Frame>
 
