@@ -187,6 +187,16 @@
 
     </Frames>
 
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="FlagsLabel" inherits="GameFontNormalLarge" text="LM_FLAGS">
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.ScrollContainer" x="14" y="4" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+
     <Scripts>
         <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />
         <OnShow function="LiteMountOptionsAdvanced_OnShow" />
