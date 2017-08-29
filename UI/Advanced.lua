@@ -114,7 +114,7 @@ function LiteMountOptionsAdvanced_Update(self)
     local buttons = scrollFrame.buttons
 
     local allFlags = LM_Options:GetAllFlags()
-    local totalHeight = #allFlags * buttons[1]:GetHeight()
+    local totalHeight = (#allFlags + 1) * buttons[1]:GetHeight()
     local displayedHeight = #buttons * buttons[1]:GetHeight()
 
     local showAddButton
@@ -131,9 +131,12 @@ function LiteMountOptionsAdvanced_Update(self)
                 button.DeleteButton:Show()
             end
             button.Text:SetFormattedText(flagText)
+            button.Text:Show()
             button:Show()
             button.flag = allFlags[index]
         elseif index == #allFlags + 1 then
+            button.Text:Hide()
+            button.DeleteButton:Hide()
             button:Show()
             button.flag = nil
             self.AddFlagButton:SetParent(button)
