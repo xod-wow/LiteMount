@@ -92,6 +92,7 @@ end
 function LiteMountOptionsPanel_OnShow(self)
     LM_Debug("Panel_OnShow " .. self:GetName())
     LiteMountOptions.CurrentOptionsPanel = self
+    LiteMountOptionsProfileDropDown_Attach(self)
     LiteMountOptionsPanel_Refresh(self)
 end
 
@@ -160,8 +161,6 @@ function LiteMountOptionsControl_OnLoad(self, parent)
 
     self.oldValues = { }
     self.tab = 1
-
-    LiteMountOptionsProfileDropDown_Attach(self)
 
     -- Note we don't set an OnShow per control, the panel handler takes care
     -- of running the refresh for all the controls in its OnShow

@@ -74,7 +74,7 @@ StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
 
 local function ClickSetProfile(self, arg1, arg2, checked)
     LM_Options.db:SetProfile(self.value)
-    UIDropDownMenu_RefreshAll(LiteMountOptionsFilterDropDown, true)
+    UIDropDownMenu_RefreshAll(LiteMountOptionsProfileDropDown, true)
 end
 
 local function ClickNewProfile(self, arg1, arg2, check)
@@ -95,6 +95,8 @@ end
 
 function LiteMountOptionsProfileDropDown_Initialize(self, level)
     local info
+
+    if level == nil then return end
 
     local currentProfile = LM_Options.db:GetCurrentProfile()
     local dbProfiles = LM_Options.db:GetProfiles() or {}
@@ -189,12 +191,21 @@ function LiteMountOptionsProfileDropDown_Attach(parent)
     self:SetParent(parent)
     self:ClearAllPoints()
     self:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -32, -12)
+    self:Show()
+end
+
+function LiteMountOptionsProfileDropDown_OnShow(self)
+    self:SetText(LM_Options.db:GetCurrentProfile())
+    LM_Options.db.RegisterCallback(self, "OnProfileCopied", UpdateProfileCallback)
+    LM_Options.db.RegisterCallback(self, "OnProfileChanged", UpdateProfileCallback)
+    LM_Options.db.RegisterCallback(self, "OnProfileReset", UpdateProfileCallback)
+end
+
+function LiteMountOptionsProfileDropDown_OnHide(self)
+    LM_Options.db.UnregisterAllCallbacks(self)
 end
 
 function LiteMountOptionsProfileDropDown_OnLoad(self)
     UIDropDownMenu_Initialize(self, LiteMountOptionsProfileDropDown_Initialize, "MENU")
-    LM_Options.db.RegisterCallback(self, "OnProfileCopied", UpdateProfileCallback)
-    LM_Options.db.RegisterCallback(self, "OnProfileChanged", UpdateProfileCallback)
-    LM_Options.db.RegisterCallback(self, "OnProfileReset", UpdateProfileCallback)
 end
 

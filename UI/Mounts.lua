@@ -418,10 +418,6 @@ function LiteMountOptionsMounts_OnLoad(self)
         LiteMountOptions_UpdateMountList()
     end
 
-    LM_Options.db.RegisterCallback(self, "OnProfileCopied", LiteMountOptions_UpdateMountList)
-    LM_Options.db.RegisterCallback(self, "OnProfileChanged", LiteMountOptions_UpdateMountList)
-    LM_Options.db.RegisterCallback(self, "OnProfileReset", LiteMountOptions_UpdateMountList)
-
     LiteMountOptionsPanel_OnLoad(self)
 end
 
@@ -430,6 +426,10 @@ function LiteMountOptionsMounts_OnShow(self)
     self:SetScript("OnEvent", LiteMountOptions_UpdateMountList)
     self:RegisterUnitEvent("UNIT_AURA", "player")
 
+    LM_Options.db.RegisterCallback(self, "OnProfileCopied", LiteMountOptions_UpdateMountList)
+    LM_Options.db.RegisterCallback(self, "OnProfileChanged", LiteMountOptions_UpdateMountList)
+    LM_Options.db.RegisterCallback(self, "OnProfileReset", LiteMountOptions_UpdateMountList)
+
     LiteMountOptions_UpdateFlagPaging()
     LiteMountOptions_UpdateMountList()
     LiteMountOptionsPanel_OnShow(self)
@@ -437,5 +437,6 @@ end
 
 function LiteMountOptionsMounts_OnHide(self)
     self:UnregisterEvent("UNIT_AURA", "player")
+    LM_Options.db.UnregisterAllCallbacks(self)
 end
 
