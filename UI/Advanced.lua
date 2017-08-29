@@ -53,7 +53,7 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_FLAG"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LM_Options:DeleteFlag(text)
+            LM_Options:DeleteFlag(self.data)
             LiteMountOptionsAdvanced_Update()
         end,
 }
