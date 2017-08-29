@@ -160,6 +160,14 @@
             </Scripts>
         </ScrollFrame>
 
+        <Button parentKey="AddFlagButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
+            <Size x="96" y="22" />
+            <Scripts>
+                <OnClick>
+                </OnClick>
+            </Scripts>
+        </Button>
+
         <EditBox parentKey="docURL" autoFocus="false" ignoreArrows="true">
             <Size y="16" />
             <Fontstring inherits="GameFontHighlight" />

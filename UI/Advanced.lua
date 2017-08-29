@@ -14,11 +14,90 @@ local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)
 end
 
+StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
+    text = format("LiteMount : %s", L.LM_NEW_FLAG),
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    hasEditBox = 1,
+    maxLetters = 24,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            local text = self.editBox:GetText()
+            if text and LM_Options:BadCharIndex(text) == nil then
+                LM_Options:CreateFlag(text)
+            end
+        end,
+    EditBoxOnEnterPressed = function (self)
+            StaticPopup_OnClick(self:GetParent(), 1)
+        end,
+    EditBoxOnEscapePressed = function (self)
+            self:GetParent():Hide()
+        end,
+    OnShow = function (self)
+            self.editBox:SetFocus()
+        end,
+    OnHide = function (self)
+            LiteMountOptionsAdvanced_Update()
+        end,
+}
+
+StaticPopupDialogs["LM_OPTIONS_DELETE_FLAG"] = {
+    text = format("LiteMount : %s", L.LM_DELETE_FLAG),
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    hasEditBox = 1,
+    maxLetters = 24,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            LM_Options:DeleteFlag(text)
+        end,
+    OnHide = function (self) LiteMountOptionsAdvanced_Update() end,
+}
+
+StaticPopupDialogs["LM_OPTIONS_RENAME_FLAG"] = {
+    text = format("LiteMount : %s", L.LM_RENAME_FLAG),
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    hasEditBox = 1,
+    maxLetters = 24,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            local text = self.editBox:GetText()
+            if text and LM_Options:BadCharIndex(text) == nil then
+                LM_Options:CreateFlag(text)
+            end
+        end,
+    EditBoxOnEnterPressed = function (self)
+            StaticPopup_OnClick(self:GetParent(), 1)
+        end,
+    EditBoxOnEscapePressed = function (self)
+            self:GetParent():Hide()
+        end,
+    OnShow = function (self)
+            self.editBox:SetFocus()
+        end,
+    OnHide = function (self)
+            LiteMountOptionsAdvanced_Update()
+        end,
+}
+
 function LiteMountOptionsFlagButton_OnEnter(self)
     if self.flag then
-        local mounts = LM_PlayerMounts:Filter(self.flag)
         GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
-        GameTooltip:AddLine(format('%s (%d)', L[self.flag], #mounts))
+        if rawget(L, self.flag) == nil then
+            GameTooltip:AddLine(self.flag)
+        else
+            GameTooltip:AddLine(format('%s (%s)', self.flag, L[self.flag]))
+        end
         GameTooltip:Show()
     end
 end
@@ -30,31 +109,44 @@ function LiteMountOptionsFlagButton_OnLeave(self)
 end
 
 function LiteMountOptionsAdvanced_Update(self)
+    self = self or LiteMountOptionsAdvanced
+
     local scrollFrame = self.ScrollFrame
     local offset = HybridScrollFrame_GetOffset(scrollFrame)
     local buttons = scrollFrame.buttons
 
     local allFlags = LM_Options:GetAllFlags()
-
     local totalHeight = #allFlags * buttons[1]:GetHeight()
     local displayedHeight = #buttons * buttons[1]:GetHeight()
+
+    local showAddButton
 
     for i = 1, #buttons do
         button = buttons[i]
         index = offset + i
         if index <= #allFlags then
-            local flagText = L[allFlags[index]]
+            local flagText = allFlags[index]
             if LM_Options:IsPrimaryFlag(allFlags[index]) then
                 flagText = ITEM_QUALITY_COLORS[2].hex .. flagText .. FONT_COLOR_CODE_CLOSE
             end
             button.Text:SetFormattedText(flagText)
             button:Show()
             button.flag = allFlags[index]
+        elseif index == #allFlags + 1 then
+            button:Show()
+            button.flag = nil
+            self.AddFlagButton:SetParent(button)
+            self.AddFlagButton:ClearAllPoints()
+            self.AddFlagButton:SetPoint("CENTER")
+            self.AddFlagButton:SetWidth(scrollFrame:GetWidth())
+            showAddButton = true
         else
             button:Hide()
             button.flag = nil
         end
     end
+
+    self.AddFlagButton:SetShown(showAddButton)
 
     HybridScrollFrame_Update(scrollFrame, totalHeight, displayedHeight)
 end
