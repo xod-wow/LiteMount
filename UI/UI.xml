@@ -8,5 +8,4 @@
     <Include file="Macro.xml" />
     <Include file="CombatMacro.xml" />
     <Include file="AdvancedActions.xml" />
-    <Include file="AdvancedFlagList.xml" />
 </Ui>

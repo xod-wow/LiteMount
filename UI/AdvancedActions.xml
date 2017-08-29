@@ -4,6 +4,37 @@
 
 <Script file="AdvancedActions.lua" />
 
+<Button name="LiteMountOptionsFlagButtonTemplate" virtual="true">
+    <Size y="33" />
+
+    <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+        <EdgeSize val="8" />
+        <TileSize val="8" />
+        <BackgroundInsets>
+            <AbsInset left="1" right="1" top="1" bottom="1" />
+        </BackgroundInsets>
+    </Backdrop>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
+                <Anchors>
+                    <Anchor point="LEFT" x="6" />
+                    <Anchor point="RIGHT" x="-12" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+
+    <Scripts>
+        <OnLoad>
+            self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
+            self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
+        </OnLoad>
+    </Scripts>
+
+</Button>
+
 <Frame name="LiteMountOptionsActions" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Layers>
@@ -20,11 +51,10 @@
 
     <Frames>
         <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer">
-
+            <Size x="400" />
             <Anchors>
                 <Anchor point="TOP" y="-160" />
                 <Anchor point="LEFT" x="24" />
-                <Anchor point="RIGHT" x="-24" />
                 <Anchor point="BOTTOM" y="48" />
             </Anchors>
 
@@ -91,6 +121,43 @@
             </Anchors>
         </Frame>
 
+        <Frame parentKey="ScrollContainer">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" relativePoint="TOPRIGHT" x="16" />
+                <Anchor point="BOTTOM" relativeKey="$parent.EditBoxContainer" />
+                <Anchor point="RIGHT" x="-24" />
+            </Anchors>
+
+            <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
+                <EdgeSize val="16" />
+                <TileSize val="16" />
+                <BackgroundInsets>
+                    <AbsInset left="5" right="5" top="5" bottom="5" />
+                </BackgroundInsets>
+            </Backdrop>
+
+            <Scripts>
+                <OnLoad>
+                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
+                    self:SetBackdropColor(0, 0, 0, 0.5)
+                </OnLoad>
+            </Scripts>
+        </Frame>
+
+        <ScrollFrame parentKey="ScrollFrame" inherits="MinimalHybridScrollFrameTemplate">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.ScrollContainer" x="8" y="-8" />
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollContainer" x="-28" y="8" />
+            </Anchors>
+            <Scripts>
+                <OnLoad>
+                    local track = _G[self.ScrollBar:GetName().."Track"]
+                    track:Hide()
+                    self.scrollBar.doNotHide = true
+                </OnLoad>
+            </Scripts>
+        </ScrollFrame>
+
         <EditBox parentKey="docURL" autoFocus="false" ignoreArrows="true">
             <Size y="16" />
             <Fontstring inherits="GameFontHighlight" />
@@ -121,6 +188,7 @@
     <Scripts>
         <OnLoad function="LiteMountOptionsActions_OnLoad" />
         <OnShow function="LiteMountOptionsActions_OnShow" />
+        <OnSizeChanged function="LiteMountOptionsActions_OnSizeChanged" />
     </Scripts>
 </Frame>
 
