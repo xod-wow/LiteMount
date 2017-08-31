@@ -15,9 +15,9 @@ LM_ItemSummoned.__index = LM_ItemSummoned
 -- worried.  Since there are such a small number of these, keeping track of
 -- the spell as well isn't a burden.
 
-function LM_ItemSummoned:Get(itemID, spellID, flags)
+function LM_ItemSummoned:Get(itemID, spellID, ...)
 
-    local m = LM_Spell.Get(self, spellID, flags)
+    local m = LM_Spell.Get(self, spellID, ...)
     if m then
         -- Used to do GetItemInfo here, but it doesn't work the first
         -- time you log in until the server returns the info and

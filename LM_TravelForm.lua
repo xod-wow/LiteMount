@@ -30,7 +30,7 @@ end
 local travelFormFlags = { 'FLY', 'SWIM', 'RUN' }
 
 function LM_TravelForm:Get()
-    return LM_Spell.Get(self, LM_SPELL.TRAVEL_FORM, travelFormFlags)
+    return LM_Spell.Get(self, LM_SPELL.TRAVEL_FORM, unpack(travelFormFlags))
 end
 
 -- IsUsableSpell doesn't return false for Travel Form indoors like it should,

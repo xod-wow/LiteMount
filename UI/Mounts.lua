@@ -57,15 +57,10 @@ local function BitButtonUpdate(checkButton, flag, mount)
 
     local flags = mount:CurrentFlags()
 
-    local checked = tContains(flags, flag)
-    checkButton:SetChecked(checked)
+    checkButton:SetChecked(flags[flag] or false)
 
     -- If we changed this from the default then color the background
-    if checked == tContains(mount.flags, flag) then
-        checkButton.Modified:Hide()
-    else
-        checkButton.Modified:Show()
-    end
+    checkButton.Modified:SetShown(mount.flags[flag] ~= flags[flag])
 end
 
 function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)

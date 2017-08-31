@@ -45,9 +45,9 @@ function LM_Mount:MatchesFilters(...)
         elseif string.match(f, '^%d+$') then
             if self.spellID ~= tonumber(f) then return false end
         elseif string.match(f, '^~') then
-            if tContains(cur, f:sub(2)) ~= nil then return false end
+            if cur[f:sub(2)] == nil then return false end
         elseif string.match(f, '^[%w_]+$') then
-            if tContains(cur, f) == nil then return false end
+            if cur[f] == nil then return false end
         else
             LM_WarningAndPrint("Invalid filter in action list: " .. f)
         end
@@ -57,9 +57,7 @@ end
 
 function LM_Mount:FlagsSet(checkFlags)
     for _,f in ipairs(checkFlags) do
-        if tContains(self.flags, f) == nil then
-            return false
-        end
+        if self.flags[f] == nil then return false end
     end
     return true
 end
@@ -93,7 +91,12 @@ function LM_Mount:Dump(prefix)
     LM_Print("--- Mount Dump ---")
     LM_Print(prefix .. self.name)
     LM_Print(prefix .. " spell: " .. format("%s (id %d)", spellName, self.spellID))
-    LM_Print(prefix .. " flags: " .. format("%s (default %s)", table.concat(self:CurrentFlags(), ','), table.concat(self.flags, ',')))
+    LM_Print(prefix .. " flags: " ..
+             format("%s (default %s)",
+                    table.concat(LM_tSortedKeys(self:CurrentFlags()), ','),
+                    table.concat(LM_tSortedKeys(self.flags), ',')
+                   )
+            )
     LM_Print(prefix .. " mountID: " .. tostring(self.mountID))
     LM_Print(prefix .. " isCollected: " .. tostring(self.isCollected))
     LM_Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))

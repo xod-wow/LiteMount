@@ -12,7 +12,7 @@ LM_GhostWolf = setmetatable({ }, LM_Spell)
 LM_GhostWolf.__index = LM_GhostWolf
 
 function LM_GhostWolf:Get()
-    return LM_Spell.Get(self, LM_SPELL.GHOST_WOLF, { 'WALK' })
+    return LM_Spell.Get(self, LM_SPELL.GHOST_WOLF, 'WALK')
 end
 
 function LM_GhostWolf:CurrentFlags()
@@ -23,10 +23,10 @@ function LM_GhostWolf:CurrentFlags()
     -- is following you around in Lost Isles (Legion). Unfortunately there's
     -- no way to detect him as far as I can tell.
 
-    if tContains(flags, 'WALK') then
+    if flags.WALK then
         if UnitAura("player", TABLET_OF_GHOST_WOLF_AURA) then
-            tDeleteItem(flags, 'WALK')
-            tInsert(flags, 'RUN')
+            flags.WALK = nil
+            flags.RUN = true
         end
     end
 

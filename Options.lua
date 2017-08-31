@@ -56,9 +56,9 @@ local function FlagDiff(a, b)
     local diff = { }
 
     for _,flagName in ipairs(LM_Options:GetAllFlags()) do
-        if tContains(a, flagName) and not tContains(b, flagName) then
+        if a[flagName] and not b[flagName] then
             diff[flagName] = '-'
-        elseif not tContains(a, flagName) and tContains(b, flagName) then
+        elseif not a[flagName] and b[flagName] then
             diff[flagName] = '+'
         end
     end
@@ -203,6 +203,7 @@ end
 function LM_Options:Initialize()
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
     self:VersionUpgrade()
+    self:UpdateAllFlags()
 end
 
 
@@ -252,9 +253,9 @@ function LM_Options:ApplyMountFlags(m)
     if changes then
         for _,flagName in ipairs(self:GetAllFlags()) do
             if changes[flagName] == '+' then
-                tinsert(flags, flagName)
+                flags[flagName] = true
             elseif changes[flagName] == '-' then
-                tDeleteItem(flags, flagName)
+                flags[flagName] = nil
             end
         end
     end
@@ -266,7 +267,7 @@ function LM_Options:SetMountFlag(m, setFlag)
     LM_Debug(format("Setting flag %s for spell %s (%d).",
                     setFlag, m.name, m.spellID))
     local flags = m:CurrentFlags()
-    tinsert(flags, setFlag)
+    flags[setFlag] = true
     self:SetMountFlags(m, flags)
 end
 
@@ -274,7 +275,7 @@ function LM_Options:ClearMountFlag(m, clearFlag)
     LM_Debug(format("Clearing flag %s for spell %s (%d).",
                      clearFlag, m.name, m.spellID))
     local flags = m:CurrentFlags()
-    tDeleteItem(flags, clearFlag)
+    flags[clearFlag] = nil
     self:SetMountFlags(m, flags)
 end
 
@@ -306,6 +307,7 @@ function LM_Options:CreateFlag(f, isFilter)
     if self:IsPrimaryFlag(f) then return end
     if isFilter == nil then isFilter = true end
     self.db.global.customFlags[f] = { filter = (isFilter and true or false) }
+    self:UpdateAllFlags()
 end
 
 function LM_Options:DeleteFlag(f)
@@ -315,6 +317,7 @@ function LM_Options:DeleteFlag(f)
         end
     end
     self.db.global.customFlags[f] = nil
+    self:UpdateAllFlags()
 end
 
 function LM_Options:RenameFlag(f, newF)
@@ -331,10 +334,11 @@ function LM_Options:RenameFlag(f, newF)
     tmp = self.db.global.customFlags[f]
     self.db.global.customFlags[f] = nil
     self.db.global.customFlags[newF] = tmp
+    self:UpdateAllFlags()
 end
 
-function LM_Options:GetAllFlags()
-    local ind, out = {}, {}
+function LM_Options:UpdateAllFlags()
+    local ind = {}
 
     for f, order in pairs(LM_FLAG) do
         ind[f] = order
@@ -346,10 +350,20 @@ function LM_Options:GetAllFlags()
         n = n + 1
     end
 
+    if self.allFlags then
+        wipe(self.allFlags)
+    else
+        self.allFlags = {}
+    end
+
     for k in LM_tPairsByValues(ind) do
-        tinsert(out, k)
+        tinsert(self.allFlags, k)
     end
     return out
+end
+
+function LM_Options:GetAllFlags()
+    return self.allFlags
 end
 
 function LM_Options:IsFilterFlag(f)
