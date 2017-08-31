@@ -348,7 +348,7 @@ function LM_Options:UpdateAllFlags()
     end
 
     local n = 100
-    for f in LM_tPairsByKeys(LM_Options.db.global.customFlags) do
+    for f in LM_tPairsByKeys(self.db.global.customFlags) do
         ind[f] = n
         n = n + 1
     end
@@ -372,7 +372,7 @@ end
 function LM_Options:IsFilterFlag(f)
     if self:IsPrimaryFlag(f) then return true end
 
-    local cf = LM_Options.db.global.customFlags[f]
+    local cf = self.db.global.customFlags[f]
     if cf and cf.filter == true then return true end
     return false
 end
