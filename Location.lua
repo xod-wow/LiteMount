@@ -118,7 +118,7 @@ end
 ]]--
 
 local FlyableNoContinent = {
-    1177    -- Deaths of Chromie scenario
+    [1177] = true,      -- Deaths of Chromie scenario
 }
 
 -- Draenor and Lost Isles need achievement unlocks to be able to fly.
@@ -127,7 +127,7 @@ function LM_Location:CanFly()
     -- I'm going to assume, across the board, that you can't fly in
     -- "no continent" / -1 and fix it up later if it turns out you can.
     if self.continent == -1 then
-        if tContains(FlyableNoContinent, self.areaID) == nil then
+        if FlyableNoContinent[self.areaID] == nil then
             return false
         end
     end
