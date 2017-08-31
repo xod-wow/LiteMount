@@ -152,7 +152,7 @@ function LiteMount_SlashCommandFunc(argstr)
                     flags[i] = ORANGE_FONT_COLOR_CODE .. flags[i] .. FONT_COLOR_CODE_CLOSE
                 end
             end
-            LM_Print(table.concat(LM_Options:GetAllFlags(), ' '))
+            LM_Print(table.concat(flags, ' '))
             return true
         end
     elseif cmd == "debug" then

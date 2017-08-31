@@ -180,6 +180,7 @@
             <Size x="96" y="22" />
             <Scripts>
                 <OnClick>
+                    StaticPopup_Show("LM_OPTIONS_NEW_FLAG")
                 </OnClick>
             </Scripts>
         </Button>

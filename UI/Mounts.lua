@@ -55,12 +55,12 @@ local function BitButtonUpdate(checkButton, flag, mount)
         checkButton:Show()
     end
 
-    local flags = mount:CurrentFlags()
+    local cur = mount:CurrentFlags()
 
-    checkButton:SetChecked(flags[flag] or false)
+    checkButton:SetChecked(cur[flag] or false)
 
     -- If we changed this from the default then color the background
-    checkButton.Modified:SetShown(mount.flags[flag] ~= flags[flag])
+    checkButton.Modified:SetShown(mount.flags[flag] ~= cur[flag])
 end
 
 function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
@@ -141,7 +141,11 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         local allFlags = LM_Options:GetAllFlags()
         for _,flagName in ipairs(allFlags) do
             if LM_Options:IsFilterFlag(flagName) then
-                info.text = L[flagName]
+                if LM_Options:IsPrimaryFlag(flagName) then
+                    info.text = ITEM_QUALITY_COLORS[2].hex .. L[flagName] .. FONT_COLOR_CODE_CLOSE
+                else
+                    info.text = L[flagName]
+                end
                 info.arg1 = flagName
                 info.checked = function ()
                         return not LM_Options.db.char.uiMountFilterList[flagName]
@@ -198,11 +202,11 @@ local function GetFilteredMountList()
             local noFilters = true
             for _,flagName in ipairs(LM_Options:GetAllFlags()) do
                 if filters[flagName] then
-                    tDeleteItem(okflags, flagName)
+                    okflags[flagName] = nil
                     noFilters = false
                 end
             end
-            if noFilters == false and #okflags == 0 then
+            if noFilters == false and next(okflags) == nil then
                 remove = true
             end
         end

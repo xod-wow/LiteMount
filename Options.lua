@@ -52,10 +52,10 @@ local defaults = {
 
 LM_Options = { }
 
-local function FlagDiff(a, b)
+local function FlagDiff(allFlags, a, b)
     local diff = { }
 
-    for _,flagName in ipairs(LM_Options:GetAllFlags()) do
+    for _,flagName in ipairs(allFlags) do
         if a[flagName] and not b[flagName] then
             diff[flagName] = '-'
         elseif not a[flagName] and b[flagName] then
@@ -251,7 +251,7 @@ function LM_Options:ApplyMountFlags(m)
     local flags = CopyTable(m.flags)
 
     if changes then
-        for _,flagName in ipairs(self:GetAllFlags()) do
+        for _,flagName in ipairs(self.allFlags) do
             if changes[flagName] == '+' then
                 flags[flagName] = true
             elseif changes[flagName] == '-' then
@@ -285,7 +285,7 @@ function LM_Options:ResetMountFlags(m)
 end
 
 function LM_Options:SetMountFlags(m, flags)
-    self.db.profile.flagChanges[m.spellID] = FlagDiff(m.flags, flags)
+    self.db.profile.flagChanges[m.spellID] = FlagDiff(self.allFlags, m.flags, flags)
 end
 
 
@@ -297,9 +297,12 @@ function LM_Options:IsPrimaryFlag(f)
     return LM_FLAG[f] ~= nil
 end
 
--- Allow alphanumeric and underscore
-function LM_Options:BadCharIndex(n)
-    return n:match('[^%w_]')
+-- Empty strings and primary flag names are not valid
+function LM_Options:IsValidFlagName(n)
+    if n == "" or self:IsPrimaryFlag(n) then
+        return false
+    end
+    return true
 end
 
 function LM_Options:CreateFlag(f, isFilter)
@@ -363,7 +366,7 @@ function LM_Options:UpdateAllFlags()
 end
 
 function LM_Options:GetAllFlags()
-    return self.allFlags
+    return CopyTable(self.allFlags)
 end
 
 function LM_Options:IsFilterFlag(f)

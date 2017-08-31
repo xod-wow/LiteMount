@@ -26,19 +26,29 @@ StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             local text = self.editBox:GetText()
-            if text and LM_Options:BadCharIndex(text) == nil then
+            if LM_Options:IsValidFlagName(text) then
                 LM_Options:CreateFlag(text)
             end
         end,
     EditBoxOnEnterPressed = function (self)
-            StaticPopup_OnClick(self:GetParent(), 1)
+            if self:GetParent().button1:IsEnabled() then
+                StaticPopup_OnClick(self:GetParent(), 1)
+            end
         end,
     EditBoxOnEscapePressed = function (self)
             self:GetParent():Hide()
         end,
-    OnShow = function (self)
-            self.editBox:SetFocus()
+    EditBoxOnTextChanged = function (self)
+            local text = self:GetText()
+            if LM_Options:IsValidFlagName(text) then
+                self:GetParent().button1:Enable()
+            else
+                self:GetParent().button1:Disable()
+            end
         end,
+    OnShow = function (self)
+        self.editBox:SetFocus()
+    end,
     OnHide = function (self)
             LiteMountOptionsAdvanced_Update()
         end,
@@ -56,6 +66,9 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_FLAG"] = {
             LM_Options:DeleteFlag(self.data)
             LiteMountOptionsAdvanced_Update()
         end,
+    OnShow = function (self)
+            self.text:SetText(format("LiteMount : %s : %s", L.LM_DELETE_FLAG, self.data))
+    end
 }
 
 StaticPopupDialogs["LM_OPTIONS_RENAME_FLAG"] = {
@@ -70,17 +83,28 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_FLAG"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             local text = self.editBox:GetText()
-            if text and LM_Options:BadCharIndex(text) == nil then
+            if LM_Options:IsValidFlagName(text) then
                 LM_Options:RenameFlag(self.data, text)
             end
         end,
     EditBoxOnEnterPressed = function (self)
-            StaticPopup_OnClick(self:GetParent(), 1)
+            if self:GetParent().button1:IsEnabled() then
+                StaticPopup_OnClick(self:GetParent(), 1)
+            end
         end,
     EditBoxOnEscapePressed = function (self)
             self:GetParent():Hide()
         end,
+    EditBoxOnTextChanged = function (self)
+            local text = self:GetText()
+            if LM_Options:IsValidFlagName(text) then
+                self:GetParent().button1:Enable()
+            else
+                self:GetParent().button1:Disable()
+            end
+        end,
     OnShow = function (self)
+            self.text:SetText(format("LiteMount : %s : %s", L.LM_RENAME_FLAG, self.data))
             self.editBox:SetFocus()
         end,
     OnHide = function (self)
