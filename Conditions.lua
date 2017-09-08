@@ -228,6 +228,13 @@ CONDITIONS["moving"] =
         return IsFalling() or GetUnitSpeed("player") > 0
     end
 
+CONDITIONS["name"] =
+    function (v)
+        if v then
+            return UnitName("player") == v
+        end
+    end
+
 CONDITIONS["outdoors"] =
     function ()
         return IsOutdoors()
@@ -262,6 +269,13 @@ CONDITIONS["race"] =
 CONDITIONS["raid"] =
     function (unit)
         return UnitPlayerOrPetInRaid(unit or "target")
+    end
+
+CONDITIONS["realm"] =
+    function (v)
+        if v then
+            return GetRealmName() == v
+        end
     end
 
 CONDITIONS["resting"] =
