@@ -283,6 +283,13 @@ CONDITIONS["resting"] =
         return IsResting()
     end
 
+CONDITIONS["sex"] =
+    function (v)
+        if v then
+            return UnitSex("player") == tonumber(v)
+        end
+    end
+
 -- The difference between IsSwimming and IsSubmerged is that IsSubmerged
 -- will also return true when you are standing on the bottom.  Note that
 -- it sadly does not return false when you are floating on the top, that
