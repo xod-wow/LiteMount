@@ -148,6 +148,12 @@ function LM_Location:CanFly()
         end
     end
 
+    -- As far as I know Argus is completely non-flyable, but some parts of
+    -- it are flagged wrongly for IsFlyableArea()
+    if self.continent == 9 then
+        return false
+    end
+
     return IsFlyableArea()
 end
 
