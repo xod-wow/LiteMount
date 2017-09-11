@@ -54,7 +54,8 @@ local ButtonActions = {
         Vashjir [area:610/614/615]
         Mount [filter=AQ][area:766,noflyable,nosubmerged]
         Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
-        Mount [filter=202477][nosubmerged,extra:202477][nosubmerged,aura:202477]
+        Mount [filter=202477][nosubmerged,extra:202477]
+        Mount [filter=202477][nosubmerged,aura:202477]
         Mount [filter=~FLY]
         Macro
     ]],
