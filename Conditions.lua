@@ -90,7 +90,7 @@ CONDITIONS["combat"] =
 
 CONDITIONS["continent"] =
     function (v)
-        if v then 
+        if v then
             return tonumber(v) == LM_Location.continent
         end
     end
@@ -283,6 +283,13 @@ CONDITIONS["resting"] =
         return IsResting()
     end
 
+CONDITIONS["role"] =
+    function (v)
+        if v then
+            return UnitGroupRolesAssigned("player") == v
+        end
+    end
+
 CONDITIONS["sex"] =
     function (v)
         if v then
@@ -308,7 +315,22 @@ CONDITIONS["shapeshift"] =
 CONDITIONS["spec"] =
     function (v)
         if v then
-            return GetSpecialization() == tonumber(v)
+            local index = GetSpecialization()
+            if tonumber(v) ~= nil then
+                v = tonumber(v)
+                return index == v or GetSpecializationInfo(index) == v
+            else
+                local name = select(2, GetSpecializationInfo(index))
+                return name == v
+            end
+        end
+    end
+
+CONDTIIONS["specrole"] =
+    function (v)
+        if v then
+            local index = GetSpecialization("player")
+            return GetSpecializationRole(index) == v
         end
     end
 
