@@ -326,7 +326,7 @@ CONDITIONS["spec"] =
         end
     end
 
-CONDTIIONS["specrole"] =
+CONDITIONS["specrole"] =
     function (v)
         if v then
             local index = GetSpecialization("player")

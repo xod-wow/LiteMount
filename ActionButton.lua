@@ -41,7 +41,23 @@ function LM_ActionButton:Dispatch(action, filters)
     return true
 end
 
+local function ReplaceDollarVars(line)
+    local vars = {
+        ['$s'] = GetSpecialization(),
+        ['$S'] = select(2, GetSpecializationInfo(GetSpecialization())),
+        ['$c'] = select(3, UnitClass("PLAYER")),
+        ['$C'] = select(2, UnitClass("PLAYER")),
+    }
+
+    for k,v in pairs(vars) do
+        line = gsub(line, k, v)
+    end
+
+    return line
+end
+
 local function ParseActionLine(line)
+    line = ReplaceDollarVars(line)
     local action = strmatch(line, "%S+")
     local filters, conditions = {}, {}
     gsub(line, '%[filter=(.-)%]',
@@ -69,7 +85,7 @@ function LM_ActionButton:PreClick(mouseButton)
     -- sanity check it up front.
     for line in gmatch(self:CurrentActionList(), "(.-)\r?\n") do
         local action, filters, conditions = ParseActionLine(line)
-        if LM_Conditions:Eval(conditions, '') then
+        if LM_Conditions:Eval(conditions) then
             if self:Dispatch(action, filters) then
                 return
             end
