@@ -45,7 +45,7 @@ function LM_Mount:MatchesFilters(...)
         elseif string.match(f, '^%d+$') then
             if self.spellID ~= tonumber(f) then return false end
         elseif string.match(f, '^~') then
-            if cur[f:sub(2)] == nil then return false end
+            if cur[f:sub(2)] ~= nil then return false end
         elseif string.match(f, '^[%w_]+$') then
             if cur[f] == nil then return false end
         else
