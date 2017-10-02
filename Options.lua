@@ -28,6 +28,23 @@ whether they are used in the drop-down filter list or not)
 
 ----------------------------------------------------------------------------]]--
 
+local DefaultButtonAction = [[
+LeaveVehicle
+Dismount
+CancelForm
+CopyTargetsMount
+Mount [filter=VASHJIR][area:610/614/615,submerged]
+Mount [filter=AQ][area:766,noflyable,nosubmerged]
+Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
+Mount [filter=230987][nosubmerged,extra:202477]
+Mount [filter=230987][nosubmerged,aura:202477]
+Mount [filter=$S][spec:$S]
+Mount [filter=$C][class:$C]
+Mount [filter=~FLY][mod:shift]
+Mount
+Macro
+]]
+
 local defaults = {
     global = {
         customFlags         = { },
@@ -35,7 +52,12 @@ local defaults = {
     profile = {
         excludedSpells      = { },
         flagChanges         = { },
-        buttonActions       = { },
+        buttonActions       = {
+                [1] = DefaultButtonAction,
+                [2] = DefaultButtonAction,
+                [3] = DefaultButtonAction,
+                [4] = DefaultButtonAction,
+             },
         excludeNewMounts    = false,
     },
     char = {

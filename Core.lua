@@ -27,56 +27,6 @@
 LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 
--- Need to keep this in sync with KeyBindingStrings.lua and KeyBindings.xml
--- Buttons are autocreated below based on this table.
-local ButtonActions = {
-    -- Normal mount button.
-    [1] = [[
-        LeaveVehicle
-        Dismount
-        CancelForm
-        CopyTargetsMount
-        Mount [filter=VASHJIR][area:610/614/615,submerged]
-        Mount [filter=AQ][area:766,noflyable,nosubmerged]
-        Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
-        Mount [filter=230987][nosubmerged,extra:202477]
-        Mount [filter=230987][nosubmerged,aura:202477]
-        Mount [filter=~FLY][mod:shift]
-        Mount
-        Macro
-    ]],
-    -- Ground-only mount button (same as above but no "Fly")
-    [2] = [[
-        LeaveVehicle
-        Dismount
-        CancelForm
-        CopyTargetsMount
-        Vashjir [area:610/614/615]
-        Mount [filter=AQ][area:766,noflyable,nosubmerged]
-        Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
-        Mount [filter=202477][nosubmerged,extra:202477]
-        Mount [filter=202477][nosubmerged,aura:202477]
-        Mount [filter=~FLY]
-        Macro
-    ]],
-    -- Custom1
-    [3] = [[
-        LeaveVehicle
-        Dismount
-        CancelForm
-        Mount [filter=CUSTOM1]
-        Macro
-    ]],
-    -- Custom2
-    [4] = [[
-        LeaveVehicle
-        Dismount
-        CancelForm
-        Mount [filter=CUSTOM2]
-        Macro
-    ]],
-}
-
 function LiteMount:VersionUpgrade()
     local keys
 
@@ -140,9 +90,8 @@ function LiteMount:Initialize()
     -- Create SecureActionButtons
     self.actions = { }
 
-    for i,defaultActions in ipairs(ButtonActions) do
-        defaultActions = TrimLines(defaultActions)
-        self.actions[i] = LM_ActionButton:Create(i, defaultActions)
+    for i = 1,4 do
+        self.actions[i] = LM_ActionButton:Create(i)
     end
 
     -- Backwards-compatibility SecureActionButton setup so you can do
