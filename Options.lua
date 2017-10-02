@@ -38,8 +38,8 @@ Mount [filter=AQ][area:766,noflyable,nosubmerged]
 Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
 Mount [filter=230987][nosubmerged,extra:202477]
 Mount [filter=230987][nosubmerged,aura:202477]
-Mount [filter=$S][spec:$S]
-Mount [filter=$C][class:$C]
+Mount [filter=$S_$C]
+Mount [filter=$C]
 Mount [filter=~FLY][mod:shift]
 Mount
 Macro
