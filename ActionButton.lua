@@ -84,7 +84,7 @@ function LM_ActionButton:PreClick(mouseButton)
     -- Once this is stable move it to a pre-parsing, then we can also
     -- sanity check it up front.
     local buttonActions = LM_Options.db.profile.buttonActions[self.id]
-    for line in gmatch(buttonActions, "(.-)\r?\n") do
+    for line in gmatch(buttonActions, "([^\r\n]+)") do
         local action, filters, conditions = ParseActionLine(line)
         if LM_Conditions:Eval(conditions) then
             if self:Dispatch(action, filters) then
