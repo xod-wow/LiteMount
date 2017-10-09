@@ -105,12 +105,14 @@
                 <OnLoad>
                     self.SetOption = function (self, v, i)
                             LM_Options.db.profile.buttonActions[i] = v
+                            LiteMount.actions[i]:CompileActions()
                         end
                     self.GetOption = function (self, i)
                             return LM_Options.db.profile.buttonActions[i]
                         end
                     self.GetOptionDefault = function (self, i)
                             return LM_Options.db.defaults.profile.buttonActions[i]
+                            LiteMount.actions[i]:CompileActions()
                         end
                     LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>

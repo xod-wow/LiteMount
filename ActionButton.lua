@@ -41,36 +41,9 @@ function LM_ActionButton:Dispatch(action, filters)
     return true
 end
 
-local function ReplaceDollarVars(line)
-    local vars = {
-        ['$s'] = GetSpecialization(),
-        ['$S'] = select(2, GetSpecializationInfo(GetSpecialization())),
-        ['$c'] = select(3, UnitClass("PLAYER")),
-        ['$C'] = select(2, UnitClass("PLAYER")),
-    }
-
-    for k,v in pairs(vars) do
-        line = gsub(line, k, v)
-    end
-
-    return line
-end
-
-local function ParseActionLine(line)
-    line = ReplaceDollarVars(line)
-    local action = strmatch(line, "%S+")
-    local filters, conditions = {}, {}
-    gsub(line, '%[filter=(.-)%]',
-            function (v)
-                for f in gmatch(v, '[^, ]+') do tinsert(filters, f) end
-            end)
-    gsub(line, '%[[^=]-%]', function (v) tinsert(conditions, v) end)
-
-    if #conditions == 0 then
-        table.insert(conditions, '[]')
-    end
-
-    return action, filters, table.concat(conditions, '')
+function LM_ActionButton:CompileActions()
+    local actionList = LM_Options.db.profile.buttonActions[self.id]
+    self.actions = LM_ActionList:Compile(actionList)
 end
 
 function LM_ActionButton:PreClick(mouseButton)
@@ -81,13 +54,9 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_PlayerMounts:RefreshMounts()
 
-    -- Once this is stable move it to a pre-parsing, then we can also
-    -- sanity check it up front.
-    local buttonActions = LM_Options.db.profile.buttonActions[self.id]
-    for line in gmatch(buttonActions, "([^\r\n]+)") do
-        local action, filters, conditions = ParseActionLine(line)
-        if LM_Conditions:Eval(conditions) then
-            if self:Dispatch(action, filters) then
+    for a in self.actions:Iterate() do
+        if LM_Conditions:Eval(a.conditions) then
+            if self:Dispatch(a.action, a.filters) then
                 return
             end
         end
@@ -119,6 +88,8 @@ function LM_ActionButton:Create(n)
 
     -- So we can look up action lists in LM_Options
     b.id = n
+
+    b:CompileActions()
 
     -- Button-fu
     b:RegisterForClicks("AnyDown")

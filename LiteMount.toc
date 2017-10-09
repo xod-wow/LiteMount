@@ -32,6 +32,7 @@ Options.lua
 SlashCommand.lua
 Conditions.lua
 Actions.lua
+ActionList.lua
 ActionButton.lua
 Core.lua
 

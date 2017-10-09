@@ -1,0 +1,60 @@
+--[[----------------------------------------------------------------------------
+
+  LiteMount/ActionList.lua
+
+  A list of actions.
+
+  Copyright 2011-2017 Mike Battersby
+
+----------------------------------------------------------------------------]]--
+
+LM_ActionList = { }
+
+local function ReplaceDollarVars(line)
+    local vars = {
+        ['$s'] = GetSpecialization(),
+        ['$S'] = select(2, GetSpecializationInfo(GetSpecialization())),
+        ['$c'] = select(3, UnitClass("PLAYER")),
+        ['$C'] = select(2, UnitClass("PLAYER")),
+    }
+
+    for k,v in pairs(vars) do
+        line = gsub(line, k, v)
+    end
+
+    return line
+end
+
+function LM_ActionList:ParseActionLine(line)
+    line = ReplaceDollarVars(line)
+    local action = strmatch(line, "%S+")
+    local filters, conditions = {}, {}
+    gsub(line, '%[filter=(.-)%]',
+            function (v)
+                for f in gmatch(v, '[^, ]+') do tinsert(filters, f) end
+            end)
+    gsub(line, '%[[^=]-%]', function (v) tinsert(conditions, v) end)
+
+    if #conditions == 0 then
+        table.insert(conditions, '[]')
+    end
+
+    return action, filters, table.concat(conditions, '')
+end
+
+function LM_ActionList:Compile(text)
+    local out = setmetatable({}, self)
+    for line in text:gmatch("([^\r\n]+)") do
+        out.action, out.filters, out.conditions = self:ParseActionLine(line)
+    end
+    return out
+end
+
+function LM_ActionList:Iterate()
+    local i = 0
+    return function ()
+            i = i + 1
+            return self[i]
+        end
+end
+
