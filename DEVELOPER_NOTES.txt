@@ -180,15 +180,6 @@ Notes To Myself
                 * takes the same args as CreateFrame
                 * Adds an OnEvent handler that calls a function named
                   for the event. E.g., MyFrame:PLAYER_LOGIN().
-        * ShuffleList.lua
-            Utility class of list with shuffle/search/random, used by LM_PlayerMounts.
-
-            LM_ShuffleList:New()
-            LM_ShuffleList:Iterate()
-            LM_ShuffleList:Shuffle()
-            LM_ShuffleList:Random()
-            LM_ShuffleList:Search(matchfunc)
-            LM_ShuffleList:Find(matchfunc)
 
 
     Keybinding stuff:
@@ -260,8 +251,22 @@ Notes To Myself
         * SpellInfo.lua
             Should really be named Constants.lua
 
+        * MountList.lua
+            List of mounts with shuffle/search/random/filter
+
+            LM_MountList:New()
+            LM_MountList:Iterate()
+            LM_MountList:Shuffle()
+            LM_MountList:Random()
+            LM_MountList:Search(matchfunc)
+
+            m = LM_MountList:GetMountBySpell(spellID)
+                LM_MountList:GetMountByName(name)
+                LM_MountList:GetMountByShapeshiftForm(formIndex)
+                LM_MountList:GetMountFromUnitAura(unitID)
+
         * PlayerMounts.lua
-            All mounts the game/addon knows about.
+            All mounts the game/addon knows about. Inherits from LM_MountList
 
             LM_PlayerMounts:Initialize()
             LM_MountList:RefreshMounts()
@@ -273,8 +278,3 @@ Notes To Myself
             mountlist = LM_PlayerMounts:Search(matchfunc)
             m = LM_PlayerMounts:Find(matchfunc)     -- mountlist[1] shortcut
 
-            m = LM_PlayerMounts:GetRandomMount(flags)
-                LM_PlayerMounts:GetMountBySpell(spellID)
-                LM_PlayerMounts:GetMountByName(name)
-                LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
-                LM_PlayerMounts:GetMountFromUnitAura(unitID)
