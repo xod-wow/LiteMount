@@ -15,7 +15,7 @@ local function ReplaceDollarVars(line)
         ['$s'] = GetSpecialization(),
         ['$S'] = select(2, GetSpecializationInfo(GetSpecialization())),
         ['$c'] = select(3, UnitClass("PLAYER")),
-        ['$C'] = select(2, UnitClass("PLAYER")),
+        ['$C'] = select(1, UnitClass("PLAYER")),
     }
 
     for k,v in pairs(vars) do
