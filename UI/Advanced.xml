@@ -119,13 +119,27 @@
             <FontString inherits="GameFontHighlight" />
         </EditBox>
 
-        <Button name="$parentUnlockButton" parentKey="UnlockButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
+        <Button parentKey="UnlockButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
             <Size x="96" y="22" />
             <Anchors>
                 <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.EditBoxContainer" x="2" y="0" />
             </Anchors>
             <Scripts>
                 <OnClick function="LiteMountOptionsAdvancedUnlock_OnClick" />
+            </Scripts>
+        </Button>
+
+        <Button parentKey="DefaultButton" inherits="UIPanelButtonTemplate" text="DEFAULT">
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="3" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    local editbox = self:GetParent().EditBox
+                    local text = LM_Options.db.defaults.profile.buttonActions[editbox.tab]
+                    self:GetParent().EditBox:SetText(text)
+                </OnClick>
             </Scripts>
         </Button>
 
