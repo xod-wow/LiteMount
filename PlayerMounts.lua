@@ -9,6 +9,7 @@
 ----------------------------------------------------------------------------]]--
 
 LM_PlayerMounts = LM_CreateAutoEventFrame("Frame", "LM_PlayerMounts", UIParent)
+Mixin(LM_PlayerMounts, LM_MountList)
 
 -- Type, type class create args
 local LM_MOUNT_SPELLS = {
@@ -63,12 +64,10 @@ local RefreshEvents = {
 
 function LM_PlayerMounts:Initialize()
 
-    self.list = LM_ShuffleList:New()
-
     self:AddJournalMounts()
     self:AddSpellMounts()
 
-    for m in self.list:Iterate() do
+    for _,m in ipairs(self) do
         LM_Options:SeenMount(m)
     end
 
@@ -83,7 +82,7 @@ function LM_PlayerMounts:Initialize()
 end
 
 function LM_PlayerMounts:AddMount(m)
-    tinsert(self.list, m)
+    tinsert(self, m)
 end
 
 function LM_PlayerMounts:AddJournalMounts()
@@ -106,84 +105,18 @@ function LM_PlayerMounts:RefreshMounts()
     if self.needRefresh then
         LM_Debug("Refreshing status of all mounts.")
 
-        for m in self:Iterate() do
+        for _,m in ipairs(self) do
             m:Refresh()
         end
         self.needRefresh = nil
     end
 end
 
-function LM_PlayerMounts:Iterate()
-    return self.list:Iterate()
-end
-
-function LM_PlayerMounts:Search(matchfunc, ...)
-    self:RefreshMounts()
-    return self.list:Search(matchfunc, ...)
-end
-
-function LM_PlayerMounts:Find(matchfunc)
-    self:RefreshMounts()
-    return self.list:Find(matchfunc)
-end
-
-function LM_PlayerMounts:GetAllMounts()
-    local function match() return true end
-    return self:Search(match)
-end
-
-function LM_PlayerMounts:Filter(...)
-    local function match(m, ...)
-        return m:MatchesFilters(...)
-    end
-    return self:Search(match, ...)
-end
-
 function LM_PlayerMounts:GetAvailableMounts(...)
-    return self:Filter("CASTABLE", "ENABLED", ...)
-end
-
-function LM_PlayerMounts:GetMountFromUnitAura(unitid)
-    local buffs = { }
-    for i = 1,BUFF_MAX_DISPLAY do
-        local aura = UnitAura(unitid, i)
-        if aura then buffs[aura] = true end
-    end
     local function match(m)
-        local spellName = GetSpellInfo(m.spellID)
-        return m.isCollected and buffs[spellName] and m:IsCastable()
+        return m:IsCastable() and not LM_Options:IsExcludedMount(m)
     end
-    return self:Find(match)
+    local good, bad = self:Search(match)
+    return good:Filter(...)
 end
 
-function LM_PlayerMounts:GetMountByName(name)
-    local function match(m) return m.name == name end
-    return self:Find(match)
-end
-
-function LM_PlayerMounts:GetMountBySpell(id)
-    local function match(m) return m.spellID == id end
-    return self:Find(match)
-end
-
--- For some reason GetShapeshiftFormInfo doesn't work on Ghost Wolf.
-function LM_PlayerMounts:GetMountByShapeshiftForm(i)
-    if not i then return end
-    local class = select(2, UnitClass("player"))
-    if class == "SHAMAN" and i == 1 then
-         return self:GetMountBySpell(LM_SPELL.GHOST_WOLF)
-    end
-    local name = select(2, GetShapeshiftFormInfo(i))
-    if name then return self:GetMountByName(name) end
-end
-
-function LM_PlayerMounts:GetRandomMount(...)
-    local poss = self:GetAvailableMounts(...)
-    return poss:Random()
-end
-
-function LM_PlayerMounts:Dump()
-    for m in self.list:Iterate() do
-        m:Dump()
-    end
-end

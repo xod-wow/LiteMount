@@ -38,11 +38,7 @@ function LM_Mount:MatchesFilters(...)
 
     for i = 1, select('#', ...) do
         f = select(i, ...)
-        if f == "CASTABLE" then
-            if not self:IsCastable() then return false end
-        elseif f == "ENABLED" then
-            if LM_Options:IsExcludedMount(self) then return false end
-        elseif string.match(f, '^%d+$') then
+        if string.match(f, '^%d+$') then
             if self.spellID ~= tonumber(f) then return false end
         elseif string.match(f, '^~') then
             if cur[f:sub(2)] ~= nil then return false end

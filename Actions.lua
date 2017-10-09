@@ -62,48 +62,42 @@ ACTIONS['CopyTargetsMount'] =
 
 ACTIONS['Mount'] =
     function (filters)
-        return ACTIONS.Swim(filters) or
-               ACTIONS.Fly(filters) or
-               ACTIONS.Float(filters) or
-               ACTIONS.Run(filters) or
-               ACTIONS.Walk(filters) or
-               LM_PlayerMounts:GetRandomMount(unpack(filters))
-    end
+        local m
 
-ACTIONS['Fly'] =
-    function (filters)
-        if LM_Location:CanFly() then
-            LM_Debug("Trying Flying Mount")
-            return LM_PlayerMounts:GetRandomMount('FLY', unpack(filters))
-        end
-    end
+        local filteredList = LM_PlayerMounts:GetAvailableMounts(unpack(filters))
 
-ACTIONS['Float'] =
-    function (filters)
-        if LM_Location:IsFloating() then
-            LM_Debug("Trying Floating mount")
-            return LM_PlayerMounts:GetRandomMount('FLOAT', unpack(filters))
-        end
-    end
+        LM_Debug("Filtered list contains " .. #filteredList .. " mounts.")
 
-ACTIONS['Swim'] =
-    function (filters)
+        if next(filteredList) == nil then return end
+
         if IsSubmerged() and not LM_Location:IsFloating() then
-            LM_Debug("Trying Swimming Mount")
-            return LM_PlayerMounts:GetRandomMount('SWIM', unpack(filters))
+            LM_Debug("  Trying Swimming Mount")
+            m, filteredList = filteredList:Filter('SWIM')
+            if #m > 0 then return m:Random() end
         end
-    end
 
-ACTIONS['Run'] =
-    function (filters)
-        LM_Debug("Trying Running Mount")
-        return LM_PlayerMounts:GetRandomMount('RUN', unpack(filters))
-    end
+        if LM_Location:CanFly() then
+            LM_Debug("  Trying Flying Mount")
+            m, filteredList = filteredList:Filter('FLY')
+            if #m > 0 then return m:Random() end
+        end
 
-ACTIONS['Walk'] =
-    function (filters)
-        LM_Debug("Trying Walking Mount")
-        return LM_PlayerMounts:GetRandomMount('WALK', unpack(filters))
+        if LM_Location:IsFloating() then
+            LM_Debug("  Trying Floating mount")
+            m, filteredList = filteredList:Filter('FLOAT')
+            if #m > 0 then return m:Random() end
+        end
+
+        LM_Debug("  Trying Running Mount")
+        m, filteredList = filteredList:Filter('RUN')
+        if #m > 0 then return m:Random() end
+
+        LM_Debug("  Trying Walking Mount")
+        m, filteredList = filteredList:Filter('WALK')
+        if #m > 0 then return m:Random() end
+
+        LM_Debug("  Trying any remaining mounts.")
+       return filteredList:Random()
     end
 
 ACTIONS['Macro'] =

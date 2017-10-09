@@ -43,18 +43,11 @@ function LM_ActionList:ParseActionLine(line)
 end
 
 function LM_ActionList:Compile(text)
-    local out = setmetatable({}, self)
+    local out = { }
+    local action, filters, conditions
     for line in text:gmatch("([^\r\n]+)") do
-        out.action, out.filters, out.conditions = self:ParseActionLine(line)
+        action, filters, conditions = self:ParseActionLine(line)
+        tinsert(out, { action = action, filters = filters, conditions = conditions })
     end
     return out
 end
-
-function LM_ActionList:Iterate()
-    local i = 0
-    return function ()
-            i = i + 1
-            return self[i]
-        end
-end
-

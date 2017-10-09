@@ -54,7 +54,7 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_PlayerMounts:RefreshMounts()
 
-    for a in self.actions:Iterate() do
+    for _,a in ipairs(self.actions) do
         if LM_Conditions:Eval(a.conditions) then
             if self:Dispatch(a.action, a.filters) then
                 return

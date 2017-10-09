@@ -25,7 +25,7 @@ LM_Nagrand.lua
 LM_RunningWild.lua
 LM_TravelForm.lua
 LM_SecureAction.lua
-ShuffleList.lua
+MountList.lua
 PlayerMounts.lua
 Location.lua
 Options.lua

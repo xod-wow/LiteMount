@@ -1,8 +1,8 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/ShuffleList.lua
+  LiteMount/MountList.lua
 
-  List with some kinds of extra stuff, mostly shuffle/random.
+  List of mounts with some kinds of extra stuff, mostly shuffle/random.
 
   Copyright 2011-2017 Mike Battersby
 
@@ -53,45 +53,36 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_ShuffleList = { }
-LM_ShuffleList.__index = LM_ShuffleList
+LM_MountList = { }
+LM_MountList.__index = LM_MountList
 
-function LM_ShuffleList:New(ml)
-    local ml = ml or { }
-    setmetatable(ml, LM_ShuffleList)
-    return ml
+function LM_MountList:New(ml)
+    return setmetatable(ml or {}, LM_MountList)
 end
 
-function LM_ShuffleList:Iterate()
-    local i = 0
-    local iter = function ()
-            i = i + 1
-            return self[i]
-        end
-    return iter
-end
+function LM_MountList:Search(matchfunc, ...)
+    local result, remainder = LM_MountList:New(), LM_MountList:New()
 
-function LM_ShuffleList:Search(matchfunc, ...)
-    local result = LM_ShuffleList:New()
-
-    for m in self:Iterate() do
-        if matchfunc(m, ...) then
+    for _,m in ipairs(self) do
+        if not matchfunc or matchfunc(m, ...) then
             tinsert(result, m)
+        else
+            tinsert(remainder, m)
         end
     end
 
-    return result
+    return result, remainder
 end
 
-function LM_ShuffleList:Find(matchfunc, ...)
-    for m in self:Iterate() do
+function LM_MountList:Find(matchfunc, ...)
+    for _,m in ipairs(self) do
         if matchfunc(m, ...) then
             return m
         end
     end
 end
 
-function LM_ShuffleList:Shuffle()
+function LM_MountList:Shuffle()
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
     for i = #self, 2, -1 do
         local r = math.random(i)
@@ -99,7 +90,7 @@ function LM_ShuffleList:Shuffle()
     end
 end
 
-function LM_ShuffleList:Random()
+function LM_MountList:Random()
     local n = #self
     if n == 0 then
         return nil
@@ -108,31 +99,31 @@ function LM_ShuffleList:Random()
     end
 end
 
-function LM_ShuffleList:WeightedRandom(weightfunc)
+function LM_MountList:WeightedRandom(weightfunc)
     local n = #self
     if n == 0 then return nil end
 
     local weightsum = 0
-    for m in self:Iterate() do
+    for _,m in ipairs(self) do
         weightsum = weightsum + (weightfunc(m) or 10)
     end
 
     local r = math.random(weightsum)
     local t = 0
-    for m in self:Iterate() do
+    for _,m in ipairs(self) do
         t = t + (weightfunc(m) or 10)
         if t >= r then return m end
     end
 end
 
-function LM_ShuffleList:__add(other)
-    local r = LM_ShuffleList:New()
+function LM_MountList:__add(other)
+    local r = LM_MountList:New()
     local seen = { }
-    for m in self:Iterate() do
+    for _,m in ipairs(self) do
         tinsert(r, m)
         seen[m] = true
     end
-    for m in other:Iterate() do
+    for _,m in ipairs(other) do
         if not seen[m] then
             tinsert(r, m)
         end
@@ -140,13 +131,13 @@ function LM_ShuffleList:__add(other)
     return r
 end
 
-function LM_ShuffleList:__sub(other)
-    local r = LM_ShuffleList:New()
+function LM_MountList:__sub(other)
+    local r = LM_MountList:New()
     local remove = { }
-    for m in other:Iterate() do
+    for _,m in ipairs(other) do
         remove[m] = true
     end
-    for m in self:Iterate() do
+    for _,m in ipairs(self) do
         if not remove[m] then
             tinsert(r, m)
         end
@@ -154,9 +145,55 @@ function LM_ShuffleList:__sub(other)
     return r
 end
 
-function LM_ShuffleList:Map(mapfunc)
-    for m in self:Iterate() do
+function LM_MountList:Map(mapfunc)
+    for _,m in ipairs(self) do
         mapfunc(m)
     end
 end
 
+function LM_MountList:Filter(...)
+    local function match(m, ...)
+        return m:MatchesFilters(...)
+    end
+    return self:Search(match, ...)
+end
+
+function LM_MountList:GetMountFromUnitAura(unitid)
+    local buffs = { }
+    for i = 1,BUFF_MAX_DISPLAY do
+        local aura = UnitAura(unitid, i)
+        if aura then buffs[aura] = true end
+    end
+    local function match(m)
+        local spellName = GetSpellInfo(m.spellID)
+        return m.isCollected and buffs[spellName] and m:IsCastable()
+    end
+    return self:Find(match)
+end
+
+function LM_MountList:GetMountByName(name)
+    local function match(m) return m.name == name end
+    return self:Find(match)
+end
+
+function LM_MountList:GetMountBySpell(id)
+    local function match(m) return m.spellID == id end
+    return self:Find(match)
+end
+
+-- For some reason GetShapeshiftFormInfo doesn't work on Ghost Wolf.
+function LM_MountList:GetMountByShapeshiftForm(i)
+    if not i then return end
+    local class = select(2, UnitClass("player"))
+    if class == "SHAMAN" and i == 1 then
+         return self:GetMountBySpell(LM_SPELL.GHOST_WOLF)
+    end
+    local name = select(2, GetShapeshiftFormInfo(i))
+    if name then return self:GetMountByName(name) end
+end
+
+function LM_MountList:Dump()
+    for _,m in ipairs(self) do
+        m:Dump()
+    end
+end

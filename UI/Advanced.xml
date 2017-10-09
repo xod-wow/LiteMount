@@ -112,7 +112,6 @@
                         end
                     self.GetOptionDefault = function (self, i)
                             return LM_Options.db.defaults.profile.buttonActions[i]
-                            LiteMount.actions[i]:CompileActions()
                         end
                     LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>
