@@ -28,6 +28,19 @@ function LM_Print(msg)
     GetActiveChatFrame():AddMessage("|cff00ff00LiteMount:|r " .. msg)
 end
 
+-- I use this to check a few performance things sometimes
+local count = 0
+
+function LM_Profile(n)
+    if n == nil then
+        LM_Print("Profile count = " .. count)
+    elseif n == 0 then
+        count = 0
+    else
+        count = count + n
+    end
+end
+
 function LM_Debug(msg)
     if LM_Options.db.char.debugEnabled == true then
         LM_Print(msg)

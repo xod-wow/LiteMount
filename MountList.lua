@@ -64,6 +64,7 @@ function LM_MountList:Search(matchfunc, ...)
     local result, remainder = LM_MountList:New(), LM_MountList:New()
 
     for _,m in ipairs(self) do
+        -- LM_Profile(1)
         if not matchfunc or matchfunc(m, ...) then
             tinsert(result, m)
         else
@@ -76,6 +77,7 @@ end
 
 function LM_MountList:Find(matchfunc, ...)
     for _,m in ipairs(self) do
+        -- LM_Profile(1)
         if matchfunc(m, ...) then
             return m
         end

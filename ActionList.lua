@@ -10,12 +10,12 @@
 
 LM_ActionList = { }
 
-local function ReplaceDollarVars(line)
+local function ReplaceVars(line)
     local vars = {
-        ['$s'] = GetSpecialization(),
-        ['$S'] = select(2, GetSpecializationInfo(GetSpecialization())),
-        ['$c'] = select(3, UnitClass("PLAYER")),
-        ['$C'] = select(1, UnitClass("PLAYER")),
+        ['{SPECID}']    = GetSpecialization(),
+        ['{SPEC}']      = select(2, GetSpecializationInfo(GetSpecialization())),
+        ['{CLASSID}']   = select(3, UnitClass("PLAYER")),
+        ['{CLASS}']     = select(1, UnitClass("PLAYER")),
     }
 
     for k,v in pairs(vars) do
@@ -26,7 +26,7 @@ local function ReplaceDollarVars(line)
 end
 
 function LM_ActionList:ParseActionLine(line)
-    line = ReplaceDollarVars(line)
+    line = ReplaceVars(line)
     local action = strmatch(line, "%S+")
     local filters, conditions = {}, {}
     gsub(line, '%[filter=(.-)%]',
@@ -46,8 +46,10 @@ function LM_ActionList:Compile(text)
     local out = { }
     local action, filters, conditions
     for line in text:gmatch("([^\r\n]+)") do
-        action, filters, conditions = self:ParseActionLine(line)
-        tinsert(out, { action = action, filters = filters, conditions = conditions })
+        if line:match('^#') == nil then
+            action, filters, conditions = self:ParseActionLine(line)
+            tinsert(out, { action = action, filters = filters, conditions = conditions })
+        end
     end
     return out
 end

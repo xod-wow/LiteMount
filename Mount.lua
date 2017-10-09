@@ -32,20 +32,35 @@ function LM_Mount:Refresh()
     -- Nothing in base
 end
 
+function LM_Mount:MatchesFilter(flags, f)
+
+    if f == "CASTABLE" then
+        return self:IsCastable()
+    end
+
+    if f == "ENABLED" then
+        return LM_Options:IsExcludedMount(self) ~= true
+    end
+
+    if tonumber(f) then
+        return self.spellID == tonumber(f)
+    end
+
+    if f:sub(1, 1) == '~' then
+        return flags[f:sub(2)] == nil
+    end
+
+    return flags[f] ~= nil
+end
+
 function LM_Mount:MatchesFilters(...)
     local cur = self:CurrentFlags()
     local f
 
     for i = 1, select('#', ...) do
         f = select(i, ...)
-        if string.match(f, '^%d+$') then
-            if self.spellID ~= tonumber(f) then return false end
-        elseif string.match(f, '^~') then
-            if cur[f:sub(2)] ~= nil then return false end
-        elseif string.match(f, '^[%w_]+$') then
-            if cur[f] == nil then return false end
-        else
-            LM_WarningAndPrint("Invalid filter in action list: " .. f)
+        if not self:MatchesFilter(cur, f) then
+            return false
         end
     end
     return true

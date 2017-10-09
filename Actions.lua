@@ -60,13 +60,13 @@ ACTIONS['CopyTargetsMount'] =
         end
     end
 
-ACTIONS['Mount'] =
+ACTIONS['SmartMount'] =
     function (filters)
         local m
 
         local filteredList = LM_PlayerMounts:GetAvailableMounts(unpack(filters))
 
-        LM_Debug("Filtered list contains " .. #filteredList .. " mounts.")
+        LM_Debug("Mount filtered list contains " .. #filteredList .. " mounts.")
 
         if next(filteredList) == nil then return end
 
@@ -95,9 +95,13 @@ ACTIONS['Mount'] =
         LM_Debug("  Trying Walking Mount")
         m, filteredList = filteredList:Filter('WALK')
         if #m > 0 then return m:Random() end
+    end
 
-        LM_Debug("  Trying any remaining mounts.")
-       return filteredList:Random()
+ACTIONS['Mount'] =
+    function (filters)
+        local filteredList = LM_PlayerMounts:GetAvailableMounts(unpack(filters))
+        LM_Debug("Mount filtered list contains " .. #filteredList .. " mounts.")
+        return filteredList:Random()
     end
 
 ACTIONS['Macro'] =

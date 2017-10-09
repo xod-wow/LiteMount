@@ -113,10 +113,6 @@ function LM_PlayerMounts:RefreshMounts()
 end
 
 function LM_PlayerMounts:GetAvailableMounts(...)
-    local function match(m)
-        return m:IsCastable() and not LM_Options:IsExcludedMount(m)
-    end
-    local good, bad = self:Search(match)
-    return good:Filter(...)
+    return self:Filter("CASTABLE", "ENABLED", ...)
 end
 
