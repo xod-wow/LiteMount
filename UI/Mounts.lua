@@ -421,6 +421,9 @@ function LiteMountOptionsMounts_OnLoad(self)
 end
 
 function LiteMountOptionsMounts_OnShow(self)
+
+    LM_PlayerMounts:RefreshMounts()
+
     -- This is specifically to catch the "Currently Active Mount" filter
     self:SetScript("OnEvent", LiteMountOptions_UpdateMountList)
     self:RegisterUnitEvent("UNIT_AURA", "player")
