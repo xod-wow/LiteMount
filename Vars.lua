@@ -30,7 +30,7 @@ VARS["{CLASSID}"] =
 
 VARS["{CLASS}"] =
     function ()
-        local v = UnitClass("PLAYER")
+        local _, v = UnitClass("PLAYER")
         return v
     end
 
