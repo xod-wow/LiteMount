@@ -379,7 +379,15 @@ end
 
 LM_Conditions = { }
 
-function LM_Conditions:IsTrue(str)
+function LM_Conditions:IsTrue(condition)
+    local str = condition[1]
+
+    if condition.vars then
+        for _,v in ipairs(condition.vars) do
+            str = str:gsub(v, LM_Vars:Get(v))
+        end
+    end
+
     local cond, valuestr = strsplit(':', str)
 
     -- Empty condition [] is true
@@ -410,28 +418,35 @@ function LM_Conditions:IsTrue(str)
     return false
 end
 
--- "AND" together comma-separated tests
-function LM_Conditions:EvalCommaAnd(str)
-    for _, e in ipairs({ strsplit(",", str) }) do
-        if e:match("^no") then
-            if self:IsTrue(e:sub(3)) then return false end
-        else
-            if not self:IsTrue(e) then return false end
-        end
+function LM_Conditions:EvalNot(conditions, vars)
+    return not self:Eval(conditions[1], vars)
+end
+
+function LM_Conditions:EvalAnd(conditions, vars)
+    for _,e in ipairs(conditions) do
+        if not self:Eval(e, vars) then return false end
     end
     return true
 end
 
--- "OR" together [] sections
-function LM_Conditions:Eval(str)
-    for e in str:gmatch('%[(.-)%]') do
-        if self:EvalCommaAnd(e) then
-            return true
-        end
+function LM_Conditions:EvalOr(conditions, vars)
+    for _,e in ipairs(conditions) do
+        if self:Eval(e, vars) then return true end
     end
     return false
 end
 
-function LM_Conditions:CheckSyntax(str)
-    return true
+-- outer grouping is ORed together
+function LM_Conditions:Eval(conditions, vars)
+    if not conditions or conditions[1] == nil then return true end
+
+    if conditions.op == "OR" then
+        return self:EvalOr(conditions, vars)
+    elseif conditions.op == "AND" then
+        return self:EvalAnd(conditions, vars)
+    elseif conditions.op == "NOT" then
+        return self:EvalNot(conditions, vars)
+    else
+        return self:IsTrue(conditions, vars)
+    end
 end

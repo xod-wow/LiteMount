@@ -10,36 +10,33 @@
 
 LM_ActionList = { }
 
-local function ReplaceVars(line)
-    local vars = {
-        ['{SPECID}']    = GetSpecialization(),
-        ['{SPEC}']      = select(2, GetSpecializationInfo(GetSpecialization())),
-        ['{CLASSID}']   = select(3, UnitClass("PLAYER")),
-        ['{CLASS}']     = select(1, UnitClass("PLAYER")),
-    }
-
-    for k,v in pairs(vars) do
-        line = gsub(line, k, v)
-    end
-
-    return line
-end
-
 function LM_ActionList:ParseActionLine(line)
-    line = ReplaceVars(line)
     local action = strmatch(line, "%S+")
-    local filters, conditions = {}, {}
-    gsub(line, '%[filter=(.-)%]',
-            function (v)
-                for f in gmatch(v, '[^, ]+') do tinsert(filters, f) end
-            end)
-    gsub(line, '%[[^=]-%]', function (v) tinsert(conditions, v) end)
-
-    if #conditions == 0 then
-        table.insert(conditions, '[]')
+    local filters, conditions = { }, { op = "OR" }
+    for filterStr in line:gmatch('%[filter=(.-)%]') do
+        for f in filterStr:gmatch('[^,]+') do
+             tinsert(filters, f)
+        end
     end
 
-    return action, filters, table.concat(conditions, '')
+    for conditionStr in line:gmatch('%[([^=]-)%]') do
+        local clause = { }
+        for c in conditionStr:gmatch('[^,]+') do
+            local vars = {}
+            c:gsub('{.-}', function (v) tinsert(vars, v) end)
+            if c:sub(1,2) == "no" then
+                tinsert(clause, { op = "NOT", [1] = { c:sub(3), vars=vars } })
+            else
+                tinsert(clause, { c, vars=vars })
+            end
+        end
+        if #clause > 0 then
+            clause.op = "AND"
+            tinsert(conditions, clause)
+        end
+    end
+
+    return action, filters, conditions
 end
 
 function LM_ActionList:Compile(text)
@@ -51,5 +48,8 @@ function LM_ActionList:Compile(text)
             tinsert(out, { action = action, filters = filters, conditions = conditions })
         end
     end
+
+    LoadAddOn("Blizzard_DebugTools")
+    DevTools_Dump(out)
     return out
 end

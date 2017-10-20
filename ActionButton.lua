@@ -29,7 +29,7 @@ function LM_ActionButton:Dispatch(action, filters)
         return
     end
 
-    LM_Debug("Dispatching action " .. action .. " with filters " .. table.concat(filters or {}, ' '))
+    LM_Debug("Dispatching action " .. action)
 
     -- This is super ugly.
     local m = handler(filters)
