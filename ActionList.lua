@@ -49,7 +49,5 @@ function LM_ActionList:Compile(text)
         end
     end
 
-    LoadAddOn("Blizzard_DebugTools")
-    DevTools_Dump(out)
     return out
 end
