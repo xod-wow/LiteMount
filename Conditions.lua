@@ -382,7 +382,7 @@ LM_Conditions = { }
 function LM_Conditions:IsTrue(condition)
     local str = condition[1]
 
-    if condition.vars then
+    if next(condition.vars) ~= nil then
         for _,v in ipairs(condition.vars) do
             str = str:gsub(v, LM_Vars:Get(v))
         end

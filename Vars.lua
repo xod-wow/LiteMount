@@ -8,7 +8,20 @@
 
 ----------------------------------------------------------------------------]]--
 
-local VARS = {}
+local CONSTS = {}
+local VARS = setmetatable({}, CONSTS)
+
+CONSTS["{CLASSID}"] =
+    function ()
+        local _, _, v = UnitClass("PLAYER")
+        return v
+    end
+
+CONSTS["{CLASS}"] =
+    function ()
+        local _, v = UnitClass("PLAYER")
+        return v
+    end
 
 VARS["{SPECID}"] =
     function ()
@@ -19,18 +32,6 @@ VARS["{SPECID}"] =
 VARS["{SPEC}"] =
     function ()
         local _, v = GetSpecializationInfo(GetSpecialization())
-        return v
-    end
-
-VARS["{CLASSID}"] =
-    function ()
-        local _, _, v = UnitClass("PLAYER")
-        return v
-    end
-
-VARS["{CLASS}"] =
-    function ()
-        local _, v = UnitClass("PLAYER")
         return v
     end
 
@@ -48,8 +49,14 @@ VARS["{CONTINENTID}"] =
 
 LM_Vars = {}
 
-function LM_Vars:Get(v)
+function LM_Vars:GetVar(v)
     if VARS[v] then
         return VARS[v]()
+    end
+end
+
+function LM_Vars:GetConst(v)
+    if CONSTS[v] then
+        return CONSTS[v]()
     end
 end

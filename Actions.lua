@@ -13,7 +13,7 @@
 local function ReplaceVars(list)
     local out = {}
     for _,l in ipairs(list) do
-        l = l:gsub('{.-}', function (v) return LM_Vars:Get(v) end)
+        l = l:gsub('{.-}', function (v) return LM_Vars:GetVar(v) end)
         tinsert(out, l)
     end
     return out
