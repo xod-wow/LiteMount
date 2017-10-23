@@ -60,3 +60,11 @@ function LM_Vars:GetConst(v)
         return CONSTS[v]()
     end
 end
+
+function LM_Vars:StrSubConsts(str)
+    return str:gsub('{.-}', function (k) return self:GetConst(k) end)
+end
+
+function LM_Vars:StrSubVars(str)
+    return str:gsub('{.-}', function (k) return self:GetVar(k) end)
+end

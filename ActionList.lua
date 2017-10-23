@@ -23,13 +23,13 @@ function LM_ActionList:ParseActionLine(line)
     for conditionStr in line:gmatch('%[([^=]-)%]') do
         local clause = { }
         for c in conditionStr:gmatch('[^,]+') do
-            local vars = {}
+            local vars = false
             c = c:gsub('{.-}', function (k)
                     local v = LM_Vars:GetConst(k)
                     if v then
                         return v
                     else
-                        tinsert(vars, k)
+                        vars = true
                     end
                  end)
             if c:sub(1,2) == 'no' then

@@ -382,10 +382,8 @@ LM_Conditions = { }
 function LM_Conditions:IsTrue(condition)
     local str = condition[1]
 
-    if next(condition.vars) ~= nil then
-        for _,v in ipairs(condition.vars) do
-            str = str:gsub(v, LM_Vars:Get(v))
-        end
+    if condition.vars then
+        str = LM_Vars:StrSubVars(str)
     end
 
     local cond, valuestr = strsplit(':', str)
@@ -418,35 +416,35 @@ function LM_Conditions:IsTrue(condition)
     return false
 end
 
-function LM_Conditions:EvalNot(conditions, vars)
-    return not self:Eval(conditions[1], vars)
+function LM_Conditions:EvalNot(conditions)
+    return not self:Eval(conditions[1])
 end
 
-function LM_Conditions:EvalAnd(conditions, vars)
+function LM_Conditions:EvalAnd(conditions)
     for _,e in ipairs(conditions) do
-        if not self:Eval(e, vars) then return false end
+        if not self:Eval(e) then return false end
     end
     return true
 end
 
-function LM_Conditions:EvalOr(conditions, vars)
+function LM_Conditions:EvalOr(conditions)
     for _,e in ipairs(conditions) do
-        if self:Eval(e, vars) then return true end
+        if self:Eval(e) then return true end
     end
     return false
 end
 
 -- outer grouping is ORed together
-function LM_Conditions:Eval(conditions, vars)
+function LM_Conditions:Eval(conditions)
     if not conditions or conditions[1] == nil then return true end
 
     if conditions.op == "OR" then
-        return self:EvalOr(conditions, vars)
+        return self:EvalOr(conditions)
     elseif conditions.op == "AND" then
-        return self:EvalAnd(conditions, vars)
+        return self:EvalAnd(conditions)
     elseif conditions.op == "NOT" then
-        return self:EvalNot(conditions, vars)
+        return self:EvalNot(conditions)
     else
-        return self:IsTrue(conditions, vars)
+        return self:IsTrue(conditions)
     end
 end
