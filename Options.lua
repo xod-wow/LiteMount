@@ -91,30 +91,6 @@ local function FlagDiff(allFlags, a, b)
     return diff
 end
 
-local OldFlagBits = {
-    RUN = 1, FLY = 2, FLOAT = 4, SWIM = 8,
-    WALK = 32, AQ = 128, VASHJIR = 256,
-    NAGRAND = 512, CUSTOM1 = 1024, CUSTOM2 = 2048,
-}
-
-local function BitFlagMigrate(toSet, toClear)
-    local changes = { }
-
-    for flagName,flagBit in pairs(OldFlagBits) do
-        if bit.band(toSet, flagBit) == flagBit then
-            changes[flagName] = '+'
-        elseif bit.band(toClear, flagBit) == flagBit then
-            changes[flagName] = '-'
-        end
-    end
-
-    if next(changes) == nil then
-        return nil
-    end
-
-    return changes
-end
-
 function LM_Options:VersionUpgrade()
 end
 
