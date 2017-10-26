@@ -38,7 +38,6 @@ Mount [filter=AQ][area:766,noflyable,nosubmerged]
 Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
 Mount [filter=230987][nosubmerged,extra:202477]
 Mount [filter=230987][nosubmerged,aura:202477]
-SmartMount [filter={SPEC}_{CLASS}]
 SmartMount [filter={CLASS}]
 SmartMount [filter=~FLY][mod:shift]
 SmartMount
@@ -269,26 +268,28 @@ end
 
 function LM_Options:ApplyMountFlags(m)
 
-    local changes = self.db.profile.flagChanges[m.spellID]
-    local flags = CopyTable(m.flags)
+    if not m.currentFlags then
+        local changes = self.db.profile.flagChanges[m.spellID]
+        m.currentFlags = Mixin(m.currentFlags or {}, m.flags)
 
-    if changes then
-        for _,flagName in ipairs(self.allFlags) do
-            if changes[flagName] == '+' then
-                flags[flagName] = true
-            elseif changes[flagName] == '-' then
-                flags[flagName] = nil
+        if changes then
+            for _,flagName in ipairs(self.allFlags) do
+                if changes[flagName] == '+' then
+                    m.currentFlags[flagName] = true
+                elseif changes[flagName] == '-' then
+                    m.currentFlags[flagName] = nil
+                end
             end
         end
     end
 
-    return flags
+    return m.currentFlags
 end
 
 function LM_Options:SetMountFlag(m, setFlag)
     LM_Debug(format("Setting flag %s for spell %s (%d).",
                     setFlag, m.name, m.spellID))
-    local flags = m:CurrentFlags()
+    local flags = self:ApplyMountFlags(m)
     flags[setFlag] = true
     self:SetMountFlags(m, flags)
 end
@@ -296,18 +297,19 @@ end
 function LM_Options:ClearMountFlag(m, clearFlag)
     LM_Debug(format("Clearing flag %s for spell %s (%d).",
                      clearFlag, m.name, m.spellID))
-    local flags = m:CurrentFlags()
+    local flags = self:ApplyMountFlags(m)
     flags[clearFlag] = nil
     self:SetMountFlags(m, flags)
 end
 
 function LM_Options:ResetMountFlags(m)
     LM_Debug(format("Defaulting flags for spell %s (%d).", m.name, m.spellID))
-    self.db.profile.flagChanges[m.spellID] = nil
+    self:SetMountFlags(m, {})
 end
 
 function LM_Options:SetMountFlags(m, flags)
     self.db.profile.flagChanges[m.spellID] = FlagDiff(self.allFlags, m.flags, flags)
+    m.currentFlags = nil
 end
 
 
