@@ -71,46 +71,48 @@ ACTIONS['CopyTargetsMount'] =
 
 ACTIONS['SmartMount'] =
     function (filters)
-        local m
 
         filters = ReplaceVars(filters)
-        local filteredList = LM_PlayerMounts:GetAvailableMounts(unpack(filters))
+        local filteredList = LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED", unpack(filters))
 
         LM_Debug("Mount filtered list contains " .. #filteredList .. " mounts.")
 
         if next(filteredList) == nil then return end
 
+        filteredList:Shuffle()
+
+        local m
+
         if IsSubmerged() and not LM_Location:IsFloating() then
             LM_Debug("  Trying Swimming Mount")
-            m, filteredList = filteredList:Filter('SWIM')
-            if #m > 0 then return m:Random() end
+            m = filteredList:FilterFind('SWIM')
+            if m then return m end
         end
 
         if LM_Location:CanFly() then
             LM_Debug("  Trying Flying Mount")
-            m, filteredList = filteredList:Filter('FLY')
-            if #m > 0 then return m:Random() end
+            m = filteredList:FilterFind('FLY')
+            if m then return m end
         end
 
         if LM_Location:IsFloating() then
             LM_Debug("  Trying Floating mount")
-            m, filteredList = filteredList:Filter('FLOAT')
-            if #m > 0 then return m:Random() end
+            m = filteredList:FilterFind('FLOAT')
         end
 
         LM_Debug("  Trying Running Mount")
-        m, filteredList = filteredList:Filter('RUN')
-        if #m > 0 then return m:Random() end
+        m = filteredList:FilterFind('RUN')
+        if m then return m end
 
         LM_Debug("  Trying Walking Mount")
-        m, filteredList = filteredList:Filter('WALK')
-        if #m > 0 then return m:Random() end
+        m = filteredList:FilterFind('WALK')
+        if m then return m end
     end
 
 ACTIONS['Mount'] =
     function (filters)
         filters = ReplaceVars(filters)
-        local filteredList = LM_PlayerMounts:GetAvailableMounts(unpack(filters))
+        local filteredList = LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED", unpack(filters))
         LM_Debug("Mount filtered list contains " .. #filteredList .. " mounts.")
         return filteredList:Random()
     end

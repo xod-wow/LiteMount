@@ -60,21 +60,28 @@ function LM_MountList:New(ml)
     return setmetatable(ml or {}, LM_MountList)
 end
 
+function LM_MountList:Copy()
+    local out = { }
+    for i,v in ipairs(self) do
+        out[i] = v
+    end
+    return self:New(out)
+end
+
 function LM_MountList:Search(matchfunc, ...)
-    local result, remainder = LM_MountList:New(), LM_MountList:New()
+    local result = self:New()
 
     for _,m in ipairs(self) do
         -- LM_Profile(1)
-        if not matchfunc or matchfunc(m, ...) then
+        if matchfunc(m, ...) then
             tinsert(result, m)
-        else
-            tinsert(remainder, m)
         end
     end
 
-    return result, remainder
+    return result
 end
 
+-- Note that Find doesn't make another table
 function LM_MountList:Find(matchfunc, ...)
     for _,m in ipairs(self) do
         -- LM_Profile(1)
@@ -87,6 +94,7 @@ end
 function LM_MountList:Shuffle()
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
     for i = #self, 2, -1 do
+        -- LM_Profile(1)
         local r = math.random(i)
         self[i], self[r] = self[r], self[i]
     end
@@ -153,11 +161,16 @@ function LM_MountList:Map(mapfunc)
     end
 end
 
-function LM_MountList:Filter(...)
-    local function match(m, ...)
-        return m:MatchesFilters(...)
-    end
-    return self:Search(match, ...)
+local function filterMatch(m, ...)
+    return m:MatchesFilters(...)
+end
+
+function LM_MountList:FilterSearch(...)
+    return self:Search(filterMatch, ...)
+end
+
+function LM_MountList:FilterFind(...)
+    return self:Find(filterMatch, ...)
 end
 
 function LM_MountList:GetMountFromUnitAura(unitid)

@@ -111,8 +111,3 @@ function LM_PlayerMounts:RefreshMounts()
         self.needRefresh = nil
     end
 end
-
-function LM_PlayerMounts:GetAvailableMounts(...)
-    return self:Filter("CASTABLE", "ENABLED", ...)
-end
-
