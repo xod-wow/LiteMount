@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+if LibDebug then LibDebug() end
+
 --[[----------------------------------------------------------------------------
 
 excludedSpells is a table of spell ids the player has seen before, with
@@ -71,7 +73,7 @@ local defaults = {
     },
 }
 
-LM_Options = { }
+_G.LM_Options = { }
 
 local function FlagDiff(allFlags, a, b)
     local diff = { }
@@ -273,7 +275,6 @@ function LM_Options:UpdateAllFlags()
     for k in LM_tPairsByValues(ind) do
         tinsert(self.allFlags, k)
     end
-    return out
 end
 
 function LM_Options:GetAllFlags()
@@ -299,6 +300,4 @@ function LM_Options:SeenMount(m)
     if self.db.profile.excludedSpells[spellID] == nil then
         self.db.profile.excludedSpells[spellID] = self.db.profile.excludeNewMounts
     end
-
-    return seen
 end

@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_Journal = setmetatable({ }, LM_Mount)
+if LibDebug then LibDebug() end
+
+_G.LM_Journal = setmetatable({ }, LM_Mount)
 LM_Journal.__index = LM_Journal
 
 --  [1] creatureName,
@@ -41,7 +43,6 @@ function LM_Journal:Get(id)
 
     local m = LM_Mount.new(self)
 
-    m.journalIndex  = mountIndex
     m.modelID       = modelID
     m.name          = name
     m.spellID       = spellID

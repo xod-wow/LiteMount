@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_Spell = setmetatable({ }, LM_Mount)
+if LibDebug then LibDebug() end
+
+_G.LM_Spell = setmetatable({ }, LM_Mount)
 LM_Spell.__index = LM_Spell
 
 function LM_Spell:Get(spellID, ...)
@@ -29,7 +31,7 @@ function LM_Spell:Get(spellID, ...)
     m.flags = { }
 
     for i = 1, select('#', ...) do
-        f = select(i, ...)
+        local f = select(i, ...)
         m.flags[f] = true
     end
 

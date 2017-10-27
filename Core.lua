@@ -21,10 +21,12 @@
 
 ----------------------------------------------------------------------------]]--
 
+if LibDebug then LibDebug() end
+
 -- This is still a SecureActionButton for backwards compatibility with
 -- people's macros with /click LiteMount in them.
 
-LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
+_G.LiteMount = LM_CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureActionButtonTemplate")
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 
 function LiteMount:VersionUpgrade()
@@ -76,8 +78,8 @@ function LiteMount:Initialize()
     LM_PlayerMounts:Initialize()
 
     SlashCmdList["LiteMount"] = LiteMount_SlashCommandFunc
-    SLASH_LiteMount1 = "/litemount"
-    SLASH_LiteMount2 = "/lmt"
+    _G.SLASH_LiteMount1 = "/litemount"
+    _G.SLASH_LiteMount2 = "/lmt"
 
     -- Create SecureActionButtons
     self.actions = { }

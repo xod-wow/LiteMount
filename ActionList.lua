@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_ActionList = { }
+if LibDebug then LibDebug() end
+
+_G.LM_ActionList = { }
 
 function LM_ActionList:ParseActionLine(line)
     local action = strmatch(line, '%S+')

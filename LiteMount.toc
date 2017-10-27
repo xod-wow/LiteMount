@@ -3,6 +3,7 @@
 ## Version: @project-version@
 ## Author: Xodiv-Nagrand
 ## Email: mib@post.com
+## OptionalDependencies: LibDebug
 ## SavedVariables: LiteMountDB
 
 Libs\embeds.xml

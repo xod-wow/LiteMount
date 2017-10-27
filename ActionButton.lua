@@ -8,8 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_ActionButton = CreateFrame("Button", nil, nil, "SecureActionButtonTemplate")
-LM_ActionButton.__index = LM_ActionButton
+if LibDebug then LibDebug() end
+
+_G.LM_ActionButton = { }
 
 -- Fancy SecureActionButton stuff. The default button mechanism is
 -- type="macro" macrotext="...". If we're not in combat we
@@ -21,7 +22,7 @@ function LM_ActionButton:SetupActionButton(mount)
     end
 end
 
-function LM_ActionButton:Dispatch(action, filters)
+function LM_ActionButton:Dispatch(action, usableMounts, filters)
 
     local handler = LM_Actions:GetHandler(action)
     if not handler then
@@ -32,7 +33,7 @@ function LM_ActionButton:Dispatch(action, filters)
     LM_Debug("Dispatching action " .. action)
 
     -- This is super ugly.
-    local m = handler(filters)
+    local m = handler(usableMounts, filters)
     if not m then return end
 
     LM_Debug("Setting up button as " .. (m.name or action) .. ".")
@@ -56,9 +57,11 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_PlayerMounts:RefreshMounts()
 
+    local usableMounts = LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED")
+
     for _,a in ipairs(self.actions) do
         if LM_Conditions:Eval(a.conditions) then
-            if self:Dispatch(a.action, a.filters) then
+            if self:Dispatch(a.action, usableMounts, a.filters) then
                 return
             end
         end
@@ -88,7 +91,7 @@ function LM_ActionButton:Create(n)
     local name = "LM_B" .. n
 
     local b = CreateFrame("Button", name, UIParent, "SecureActionButtonTemplate")
-    setmetatable(b, LM_ActionButton)
+    Mixin(b, LM_ActionButton)
 
     -- So we can look up action lists in LM_Options
     b.id = n

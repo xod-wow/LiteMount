@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_Mount = { }
+if LibDebug then LibDebug() end
+
+_G.LM_Mount = { }
 LM_Mount.__index = LM_Mount
 
 function LM_Mount:new()

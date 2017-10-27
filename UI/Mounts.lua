@@ -170,7 +170,7 @@ local function GetFilteredMountList()
 
     local filters = LM_Options.db.char.uiMountFilterList
 
-    local mounts = LM_PlayerMounts:Copy()
+    local mounts = LM_PlayerMounts.mounts:Copy()
     sort(mounts, FilterSort)
 
     local filtertext = LiteMountOptionsMounts.Search:GetText()

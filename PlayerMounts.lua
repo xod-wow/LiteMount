@@ -8,8 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_PlayerMounts = LM_CreateAutoEventFrame("Frame", "LM_PlayerMounts", UIParent)
-Mixin(LM_PlayerMounts, LM_MountList)
+if LibDebug then LibDebug() end
+
+_G.LM_PlayerMounts = CreateFrame("Frame", "LM_PlayerMounts", UIParent)
 
 -- Type, type class create args
 local LM_MOUNT_SPELLS = {
@@ -64,25 +65,30 @@ local RefreshEvents = {
 
 function LM_PlayerMounts:Initialize()
 
-    self:AddJournalMounts()
-    self:AddSpellMounts()
+    self.mounts = LM_MountList:New()
 
-    for _,m in ipairs(self) do
+    self:AddSpellMounts()
+    self:AddJournalMounts()
+
+    for _,m in ipairs(self.mounts) do
         LM_Options:SeenMount(m)
     end
 
     -- Refresh event setup
+    self:SetScript("OnEvent",
+            function (self, event, ...)
+                LM_Debug("Got refresh event "..event)
+                self.needRefresh = true
+            end)
+
     for _,ev in ipairs(RefreshEvents) do
-        self[ev] = function (self, event, ...)
-                            LM_Debug("Got refresh event "..event)
-                            self.needRefresh = true
-                        end
         self:RegisterEvent(ev)
     end
+
 end
 
 function LM_PlayerMounts:AddMount(m)
-    tinsert(self, m)
+    tinsert(self.mounts, m)
 end
 
 function LM_PlayerMounts:AddJournalMounts()
@@ -105,9 +111,51 @@ function LM_PlayerMounts:RefreshMounts()
     if self.needRefresh then
         LM_Debug("Refreshing status of all mounts.")
 
-        for _,m in ipairs(self) do
+        for _,m in ipairs(self.mounts) do
             m:Refresh()
         end
         self.needRefresh = nil
     end
+end
+
+function LM_PlayerMounts:FilterSearch(...)
+    return self.mounts:FilterSearch(...)
+end
+
+function LM_PlayerMounts:FilterFind(...)
+    return self.mounts:FilterFind(...)
+end
+
+function LM_PlayerMounts:GetMountFromUnitAura(unitid)
+    local buffs = { }
+    for i = 1,BUFF_MAX_DISPLAY do
+        local aura = UnitAura(unitid, i)
+        if aura then buffs[aura] = true end
+    end
+    local function match(m)
+        local spellName = GetSpellInfo(m.spellID)
+        return m.isCollected and buffs[spellName] and m:IsCastable()
+    end
+    return self.mounts:Find(match)
+end
+
+function LM_PlayerMounts:GetMountByName(name)
+    local function match(m) return m.name == name end
+    return self.mounts:Find(match)
+end
+
+function LM_PlayerMounts:GetMountBySpell(id)
+    local function match(m) return m.spellID == id end
+    return self.mounts:Find(match)
+end
+
+-- For some reason GetShapeshiftFormInfo doesn't work on Ghost Wolf.
+function LM_PlayerMounts:GetMountByShapeshiftForm(i)
+    if not i then return end
+    local class = select(2, UnitClass("player"))
+    if class == "SHAMAN" and i == 1 then
+         return self:GetMountBySpell(LM_SPELL.GHOST_WOLF)
+    end
+    local name = select(2, GetShapeshiftFormInfo(i))
+    if name then return self:GetMountByName(name) end
 end

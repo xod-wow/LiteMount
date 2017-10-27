@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+if LibDebug then LibDebug() end
+
 --[[
 
     <conditions>    :=  <condition> |
@@ -377,7 +379,7 @@ local function any(f, ...)
 end
 
 
-LM_Conditions = { }
+_G.LM_Conditions = { }
 
 function LM_Conditions:IsTrue(condition)
     local str = condition[1]

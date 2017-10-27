@@ -6,9 +6,11 @@
 
 ----------------------------------------------------------------------------]]--
 
+if LibDebug then LibDebug() end
+
 local TABLET_OF_GHOST_WOLF_AURA = GetSpellInfo(168799)
 
-LM_GhostWolf = setmetatable({ }, LM_Spell)
+_G.LM_GhostWolf = setmetatable({ }, LM_Spell)
 LM_GhostWolf.__index = LM_GhostWolf
 
 function LM_GhostWolf:Get()

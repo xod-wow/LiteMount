@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+if LibDebug then LibDebug() end
+
 --[[----------------------------------------------------------------------------
 
   A primer reminder for me on LUA metatables and doing OO stuff in
@@ -53,7 +55,7 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_MountList = { }
+_G.LM_MountList = { }
 LM_MountList.__index = LM_MountList
 
 function LM_MountList:New(ml)
@@ -126,41 +128,6 @@ function LM_MountList:WeightedRandom(weightfunc)
     end
 end
 
-function LM_MountList:__add(other)
-    local r = LM_MountList:New()
-    local seen = { }
-    for _,m in ipairs(self) do
-        tinsert(r, m)
-        seen[m] = true
-    end
-    for _,m in ipairs(other) do
-        if not seen[m] then
-            tinsert(r, m)
-        end
-    end
-    return r
-end
-
-function LM_MountList:__sub(other)
-    local r = LM_MountList:New()
-    local remove = { }
-    for _,m in ipairs(other) do
-        remove[m] = true
-    end
-    for _,m in ipairs(self) do
-        if not remove[m] then
-            tinsert(r, m)
-        end
-    end
-    return r
-end
-
-function LM_MountList:Map(mapfunc)
-    for _,m in ipairs(self) do
-        mapfunc(m)
-    end
-end
-
 local function filterMatch(m, ...)
     return m:MatchesFilters(...)
 end
@@ -171,40 +138,6 @@ end
 
 function LM_MountList:FilterFind(...)
     return self:Find(filterMatch, ...)
-end
-
-function LM_MountList:GetMountFromUnitAura(unitid)
-    local buffs = { }
-    for i = 1,BUFF_MAX_DISPLAY do
-        local aura = UnitAura(unitid, i)
-        if aura then buffs[aura] = true end
-    end
-    local function match(m)
-        local spellName = GetSpellInfo(m.spellID)
-        return m.isCollected and buffs[spellName] and m:IsCastable()
-    end
-    return self:Find(match)
-end
-
-function LM_MountList:GetMountByName(name)
-    local function match(m) return m.name == name end
-    return self:Find(match)
-end
-
-function LM_MountList:GetMountBySpell(id)
-    local function match(m) return m.spellID == id end
-    return self:Find(match)
-end
-
--- For some reason GetShapeshiftFormInfo doesn't work on Ghost Wolf.
-function LM_MountList:GetMountByShapeshiftForm(i)
-    if not i then return end
-    local class = select(2, UnitClass("player"))
-    if class == "SHAMAN" and i == 1 then
-         return self:GetMountBySpell(LM_SPELL.GHOST_WOLF)
-    end
-    local name = select(2, GetShapeshiftFormInfo(i))
-    if name then return self:GetMountByName(name) end
 end
 
 function LM_MountList:Dump()

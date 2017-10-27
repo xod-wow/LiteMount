@@ -6,7 +6,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_FlightForm = setmetatable({ }, LM_Spell)
+if LibDebug then LibDebug() end
+
+_G.LM_FlightForm = setmetatable({ }, LM_Spell)
 LM_FlightForm.__index = LM_FlightForm
 
 function LM_FlightForm:Get(spellID)

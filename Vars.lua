@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+if LibDebug then LibDebug() end
+
 local CONSTS = {}
 local VARS = setmetatable({}, CONSTS)
 
@@ -47,7 +49,7 @@ VARS["{CONTINENTID}"] =
 
 -- this should totally be some kind of metatable but who cares
 
-LM_Vars = {}
+_G.LM_Vars = {}
 
 function LM_Vars:GetVar(v)
     if VARS[v] then

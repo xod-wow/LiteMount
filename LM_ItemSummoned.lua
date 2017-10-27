@@ -6,7 +6,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_ItemSummoned = setmetatable({ }, LM_Mount)
+if LibDebug then LibDebug() end
+
+_G.LM_ItemSummoned = setmetatable({ }, LM_Mount)
 LM_ItemSummoned.__index = LM_ItemSummoned
 
 -- In theory we might be able to just use the itemID and use

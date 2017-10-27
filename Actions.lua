@@ -8,7 +8,7 @@
 
 ----------------------------------------------------------------------------]]--
 
---[[------------------------------------------------------------------------]]--
+if LibDebug then LibDebug() end
 
 local function ReplaceVars(list)
     local out = {}
@@ -70,10 +70,10 @@ ACTIONS['CopyTargetsMount'] =
     end
 
 ACTIONS['SmartMount'] =
-    function (filters)
+    function (usableMounts, filters)
 
         filters = ReplaceVars(filters)
-        local filteredList = LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED", unpack(filters))
+        local filteredList = usableMounts:FilterSearch(unpack(filters))
 
         LM_Debug("Mount filtered list contains " .. #filteredList .. " mounts.")
 
@@ -110,9 +110,9 @@ ACTIONS['SmartMount'] =
     end
 
 ACTIONS['Mount'] =
-    function (filters)
+    function (usableMounts, filters)
         filters = ReplaceVars(filters)
-        local filteredList = LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED", unpack(filters))
+        local filteredList = usableMounts:FilterSearch(unpack(filters))
         LM_Debug("Mount filtered list contains " .. #filteredList .. " mounts.")
         return filteredList:Random()
     end
@@ -147,7 +147,7 @@ ACTIONS['Combat'] =
         end
     end
 
-LM_Actions = { }
+_G.LM_Actions = { }
 
 local function GetDruidMountForms()
     local forms = {}

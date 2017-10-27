@@ -10,7 +10,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
+if LibDebug then LibDebug() end
+
+_G.LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
 LM_Location:RegisterEvent("PLAYER_LOGIN")
 
 function LM_Location:Initialize()

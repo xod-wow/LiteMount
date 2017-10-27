@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_Nagrand = setmetatable({ }, LM_Spell)
+if LibDebug then LibDebug() end
+
+_G.LM_Nagrand = setmetatable({ }, LM_Spell)
 LM_Nagrand.__index = LM_Nagrand
 
 local FactionRequirements = {

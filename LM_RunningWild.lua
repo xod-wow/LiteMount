@@ -6,7 +6,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-LM_RunningWild = setmetatable({ }, LM_Spell)
+if LibDebug then LibDebug() end
+
+_G.LM_RunningWild = setmetatable({ }, LM_Spell)
 LM_RunningWild.__index = LM_RunningWild
 
 function LM_RunningWild:Get()
