@@ -28,6 +28,10 @@ function LM_Print(msg)
     GetActiveChatFrame():AddMessage("|cff00ff00LiteMount:|r " .. msg)
 end
 
+function LM_PrintError(msg)
+    LM_Print("|cffff6666" .. msg .. "|r")
+end
+
 -- I use this to check a few performance things sometimes
 local count = 0
 
@@ -54,5 +58,5 @@ end
 
 function LM_WarningAndPrint(msg)
     LM_Warning(msg)
-    LM_Print("|cffff6666" .. msg .. "|r")
+    LM_PrintError(msg)
 end
