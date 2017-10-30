@@ -14,7 +14,9 @@
 
 ----------------------------------------------------------------------------]]--
 
+--@debug@
 if LibDebug then LibDebug() end
+--@end-debug@
 
 _G.LM_TravelForm = setmetatable({ }, LM_Spell)
 LM_TravelForm.__index = LM_TravelForm

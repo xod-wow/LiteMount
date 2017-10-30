@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
+--@debug@
 if LibDebug then LibDebug() end
+--@end-debug@
 
 _G.LM_Nagrand = setmetatable({ }, LM_Spell)
 LM_Nagrand.__index = LM_Nagrand

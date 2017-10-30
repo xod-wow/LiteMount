@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
+--@debug@
 if LibDebug then LibDebug() end
+--@end-debug@
 
 -- Vim reformatter from curseforge "Global Strings" export.
 -- %s/^\(L\..*\) = \(.*\)/\=printf('%-24s= %s', submatch(1), submatch(2))/

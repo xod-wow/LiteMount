@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
+--@debug@
 if LibDebug then LibDebug() end
+--@end-debug@
 
 local function ReplaceVars(list)
     local out = {}

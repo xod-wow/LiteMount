@@ -6,7 +6,9 @@
 
 ----------------------------------------------------------------------------]]--
 
+--@debug@
 if LibDebug then LibDebug() end
+--@end-debug@
 
 _G.LM_ItemSummoned = setmetatable({ }, LM_Mount)
 LM_ItemSummoned.__index = LM_ItemSummoned

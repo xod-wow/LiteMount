@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
+--@debug@
 if LibDebug then LibDebug() end
+--@end-debug@
 
 _G.LM_Journal = setmetatable({ }, LM_Mount)
 LM_Journal.__index = LM_Journal

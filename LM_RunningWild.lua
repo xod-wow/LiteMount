@@ -6,7 +6,9 @@
 
 ----------------------------------------------------------------------------]]--
 
+--@debug@
 if LibDebug then LibDebug() end
+--@end-debug@
 
 _G.LM_RunningWild = setmetatable({ }, LM_Spell)
 LM_RunningWild.__index = LM_RunningWild

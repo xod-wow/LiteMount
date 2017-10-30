@@ -6,7 +6,9 @@
 
 ----------------------------------------------------------------------------]]--
 
+--@debug@
 if LibDebug then LibDebug() end
+--@end-debug@
 
 _G.LM_FlightForm = setmetatable({ }, LM_Spell)
 LM_FlightForm.__index = LM_FlightForm

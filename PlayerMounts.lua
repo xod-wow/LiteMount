@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
+--@debug@
 if LibDebug then LibDebug() end
+--@end-debug@
 
 _G.LM_PlayerMounts = CreateFrame("Frame", "LM_PlayerMounts", UIParent)
 

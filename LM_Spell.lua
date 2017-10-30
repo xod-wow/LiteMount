@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
+--@debug@
 if LibDebug then LibDebug() end
+--@end-debug@
 
 _G.LM_Spell = setmetatable({ }, LM_Mount)
 LM_Spell.__index = LM_Spell

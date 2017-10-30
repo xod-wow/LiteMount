@@ -6,7 +6,9 @@
 
 ----------------------------------------------------------------------------]]--
 
+--@debug@
 if LibDebug then LibDebug() end
+--@end-debug@
 
 -- This wrapper class is so that LM_ActionButton can treat all of the returns
 -- from action functions as if they were a Mount class.
