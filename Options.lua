@@ -161,7 +161,7 @@ function LM_Options:ApplyMountFlags(m)
 
     if not m.currentFlags then
         local changes = self.db.profile.flagChanges[m.spellID]
-        m.currentFlags = Mixin(m.currentFlags or {}, m.flags)
+        m.currentFlags = CopyTable(m.flags)
 
         if changes then
             for _,flagName in ipairs(self.allFlags) do
@@ -180,6 +180,10 @@ end
 function LM_Options:SetMountFlag(m, setFlag)
     LM_Debug(format("Setting flag %s for spell %s (%d).",
                     setFlag, m.name, m.spellID))
+
+    -- Note this is the actual cached copy, we can only change it here
+    -- (and below in ClearMountFlag) because we are invalidating the cache
+    -- straight after.
     local flags = self:ApplyMountFlags(m)
     flags[setFlag] = true
     self:SetMountFlags(m, flags)
@@ -188,6 +192,7 @@ end
 function LM_Options:ClearMountFlag(m, clearFlag)
     LM_Debug(format("Clearing flag %s for spell %s (%d).",
                      clearFlag, m.name, m.spellID))
+    -- See note above
     local flags = self:ApplyMountFlags(m)
     flags[clearFlag] = nil
     self:SetMountFlags(m, flags)
@@ -195,7 +200,8 @@ end
 
 function LM_Options:ResetMountFlags(m)
     LM_Debug(format("Defaulting flags for spell %s (%d).", m.name, m.spellID))
-    self:SetMountFlags(m, {})
+    self.db.profile.flagChanges[m.spellID] = nil
+    m.currentFlags = nil
 end
 
 function LM_Options:SetMountFlags(m, flags)

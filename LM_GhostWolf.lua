@@ -20,7 +20,6 @@ function LM_GhostWolf:Get()
 end
 
 function LM_GhostWolf:CurrentFlags()
-    -- This had better return a copy of tha table.
     local flags = LM_Mount.CurrentFlags(self)
 
     -- Ghost Wolf is also 100% speed if the Rehgar Earthfury bodyguard
@@ -29,6 +28,7 @@ function LM_GhostWolf:CurrentFlags()
 
     if flags.WALK then
         if UnitAura("player", TABLET_OF_GHOST_WOLF_AURA) then
+            flags = CopyTable(flags)
             flags.WALK = nil
             flags.RUN = true
         end
