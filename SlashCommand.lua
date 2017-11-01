@@ -123,7 +123,7 @@ function LiteMount_SlashCommandFunc(argstr)
             if m then m:Dump() end
         else
             local n = string.lower(table.concat(args, ' '))
-            local mounts = LM_PlayerMounts:Search(function (m) return string.match(strlower(m.name), n) end)
+            local mounts = LM_PlayerMounts.mounts:Search(function (m) return string.match(strlower(m.name), n) end)
             for _,m in ipairs(mounts) do
                 m:Dump()
             end
