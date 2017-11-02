@@ -48,6 +48,39 @@ SmartMount
 Macro
 ]]
 
+local OldNoFlyAction = [[
+LeaveVehicle
+Dismount
+CancelForm
+CopyTargetsMount
+Mount [filter=VASHJIR][area:610/614/615,submerged]
+Mount [filter=AQ][area:766,noflyable,nosubmerged]
+Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
+Mount [filter=230987][nosubmerged,extra:202477]
+Mount [filter=230987][nosubmerged,aura:202477]
+SmartMount [filter={CLASS}]
+SmartMount [filter=~FLY]
+Macro
+]]
+
+local OldCustom1Action = [[
+LeaveVehicle
+Dismount
+CancelForm
+CopyTargetsMount
+Mount [filter=CUSTOM1]
+Macro
+]]
+
+local OldCustom2Action = [[
+LeaveVehicle
+Dismount
+CancelForm
+CopyTargetsMount
+Mount [filter=CUSTOM2]
+Macro
+]]
+
 local defaults = {
     global = {
         customFlags         = { },
@@ -55,12 +88,7 @@ local defaults = {
     profile = {
         excludedSpells      = { },
         flagChanges         = { },
-        buttonActions       = {
-                [1] = DefaultButtonAction,
-                [2] = DefaultButtonAction,
-                [3] = DefaultButtonAction,
-                [4] = DefaultButtonAction,
-             },
+        buttonActions       = { ['*'] = DefaultButtonAction },
         excludeNewMounts    = false,
     },
     char = {
@@ -95,7 +123,37 @@ local function FlagDiff(allFlags, a, b)
     return diff
 end
 
+function LM_Options:FlagIsUsed(f)
+    for _,p in pairs(self.db.profiles) do
+        for _,changes in pairs(p.flagChanges or {}) do
+            if changes[f] then return true end
+        end
+    end
+    return false
+end
+
 function LM_Options:VersionUpgrade()
+
+    if not self.db.profile.configVersion then
+        if GetBindingKey("CLICK LM_B2:LeftButton") then
+            self.db.profile.buttonActions[2] = OldNoFlyAction
+        end
+
+        if GetBindingKey("CLICK LM_B3:LeftButton") then
+            if self:FlagIsUsed('CUSTOM1') then
+                self.db.profile.buttonActions[3] = OldCustom1Action
+            end
+        end
+
+        if GetBindingKey("CLICK LM_B4:LeftButton") then
+            if self:FlagIsUsed('CUSTOM2') then
+                self.db.profile.buttonActions[4] = OldCustom2Action
+            end
+        end
+    end
+
+    self.db.global.configVersion = 1
+    self.db.profile.configVersion = 1
 end
 
 function LM_Options:ConsistencyCheck()
