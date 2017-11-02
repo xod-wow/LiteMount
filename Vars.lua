@@ -27,15 +27,27 @@ CONSTS["{CLASS}"] =
         return v
     end
 
+CONSTS["{FACTION}"] =
+    function ()
+        local v = UnitFactionGroup("player")
+        return v
+    end
+
 VARS["{SPECID}"] =
     function ()
-        local v = GetSpecialization()
+        local v = GetSpecializationInfo(GetSpecialization())
         return v
     end
 
 VARS["{SPEC}"] =
     function ()
-        local _, v = GetSpecializationInfo(GetSpecialization())
+        local v = GetSpecialization()
+        return v
+    end
+
+VARS["{ROLE}"] =
+    function ()
+        local v = select(5, GetSpecializationInfo(GetSpecialization()))
         return v
     end
 
