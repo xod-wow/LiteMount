@@ -111,7 +111,7 @@
                             return LM_Options.db.profile.buttonActions[i]
                         end
                     self.GetOptionDefault = function (self, i)
-                            return LM_Options.db.defaults.profile.buttonActions[i]
+                            return LM_Options.db.defaults.profile.buttonActions['*']
                         end
                     LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>
@@ -137,7 +137,7 @@
             <Scripts>
                 <OnClick>
                     local editbox = self:GetParent().EditBox
-                    local text = LM_Options.db.defaults.profile.buttonActions[editbox.tab]
+                    local text = LM_Options.db.defaults.profile.buttonActions['*']
                     self:GetParent().EditBox:SetText(text)
                 </OnClick>
             </Scripts>

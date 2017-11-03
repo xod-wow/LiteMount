@@ -102,8 +102,10 @@ function LM_Mount:Dump(prefix)
     end
 
     local spellName = GetSpellInfo(self.spellID)
-    local currentFlags = CopyTable(self:CurrentFlags())
-    local defaultFlags = CopyTable(self.flags)
+
+    local currentFlags, defaultFlags = {}, {}
+    for f in pairs(self:CurrentFlags()) do tinsert(currentFlags, f) end
+    for f in pairs(self.flags) do tinsert(defaultFlags, f) end
     sort(currentFlags)
     sort(defaultFlags)
 
