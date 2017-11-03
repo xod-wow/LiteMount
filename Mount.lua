@@ -58,12 +58,12 @@ function LM_Mount:MatchesFilter(flags, f)
 end
 
 function LM_Mount:MatchesFilters(...)
-    local cur = self:CurrentFlags()
+    local currentFlags = self:CurrentFlags()
     local f
 
     for i = 1, select('#', ...) do
         f = select(i, ...)
-        if not self:MatchesFilter(cur, f) then
+        if not self:MatchesFilter(currentFlags, f) then
             return false
         end
     end
@@ -102,14 +102,18 @@ function LM_Mount:Dump(prefix)
     end
 
     local spellName = GetSpellInfo(self.spellID)
+    local currentFlags = CopyTable(self:CurrentFlags())
+    local defaultFlags = CopyTable(self.flags)
+    sort(currentFlags)
+    sort(defaultFlags)
 
     LM_Print("--- Mount Dump ---")
     LM_Print(prefix .. self.name)
     LM_Print(prefix .. " spell: " .. format("%s (id %d)", spellName, self.spellID))
     LM_Print(prefix .. " flags: " ..
              format("%s (default %s)",
-                    table.concat(LM_tSortedKeys(self:CurrentFlags()), ','),
-                    table.concat(LM_tSortedKeys(self.flags), ',')
+                    table.concat(currentFlags, ','),
+                    table.concat(defaultFlags, ',')
                    )
             )
     LM_Print(prefix .. " mountID: " .. tostring(self.mountID))

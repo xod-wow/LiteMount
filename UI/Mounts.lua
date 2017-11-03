@@ -12,6 +12,14 @@ local L = LM_Localize
 
 local NUM_FLAG_BUTTONS = 6
 
+local function tslice(t, first, last)
+    local out = { }
+    for i = first or 1, last or #t do
+        tinsert(out, t[i])
+    end
+    return out
+end
+
 function LiteMountOptionsBit_OnClick(self)
     local mount = self:GetParent().mount
 
@@ -338,7 +346,7 @@ function LiteMountOptions_UpdateFlagPaging()
     self.NextPageButton:SetEnabled(self.currentFlagPage ~= self.maxFlagPages)
 
     local pageOffset = (self.currentFlagPage - 1 ) * NUM_FLAG_BUTTONS + 1
-    self.pageFlags = LM_tSlice(allFlags, pageOffset, pageOffset+NUM_FLAG_BUTTONS-1)
+    self.pageFlags = tslice(allFlags, pageOffset, pageOffset+NUM_FLAG_BUTTONS-1)
 
     local bt
     for i = 1, NUM_FLAG_BUTTONS do

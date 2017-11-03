@@ -91,7 +91,7 @@ local function PrintContinents(str)
     end
 end
 
-function LiteMount_SlashCommandFunc(argstr)
+_G.LiteMount_SlashCommandFunc = function (argstr)
 
     -- Look, please stop doing this, ok? Nothing good can come of it.
     if InCombatLockdown() then return true end

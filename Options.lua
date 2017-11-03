@@ -319,28 +319,29 @@ function LM_Options:RenameFlag(f, newF)
     self:UpdateAllFlags()
 end
 
+-- This keeps a cached list of all flags in sort order, with the LM_FLAG
+-- set of flags first, then the user-added flags in alphabetical order
+
 function LM_Options:UpdateAllFlags()
-    local ind = {}
+    local index = {}
 
-    for f, order in pairs(LM_FLAG) do
-        ind[f] = order
-    end
+    self.allFlags = wipe(self.allFlags or {})
 
-    local n = 100
-    for f in LM_tPairsByKeys(self.db.global.customFlags) do
-        ind[f] = n
-        n = n + 1
-    end
+    for f in pairs(LM_FLAG) do tinsert(self.allFlags, f) end
+    for f in pairs(self.db.global.customFlags) do tinsert(self.allFlags, f) end
 
-    if self.allFlags then
-        wipe(self.allFlags)
-    else
-        self.allFlags = {}
-    end
-
-    for k in LM_tPairsByValues(ind) do
-        tinsert(self.allFlags, k)
-    end
+    sort(self.allFlags,
+        function (a, b)
+            if LM_FLAG[a] and LM_FLAG[b] then
+                return LM_FLAG[a] <= LM_FLAG[b]
+            elseif LM_FLAG[a] then
+                return true
+            elseif LM_FLAG[b] then
+                return false
+            else
+                return a <= b
+            end
+        end)
 end
 
 function LM_Options:GetAllFlags()
