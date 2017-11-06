@@ -275,6 +275,11 @@ CONDITIONS["raid"] =
         return UnitPlayerOrPetInRaid(unit or "target")
     end
 
+CONDITIONS["random"] =
+    function (n)
+        return math.random(100) <= tonumber(n)
+    end
+
 CONDITIONS["realm"] =
     function (v)
         if v then
