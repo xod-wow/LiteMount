@@ -51,8 +51,6 @@ CONDITIONS["area"] =
     function (v)
         if v then
             return tonumber(v) == LM_Location.areaID
-        else
-            return LM_Location.areaID > 0
         end
     end
 
@@ -87,6 +85,7 @@ CONDITIONS["class"] =
         end
     end
 
+-- This can never work, but included for completeness
 CONDITIONS["combat"] =
     function ()
         return UnitAffectingCombat("player") or UnitAffectingCombat("pet")
@@ -99,6 +98,7 @@ CONDITIONS["continent"] =
         end
     end
 
+-- For completeness, as far as I know.
 CONDITIONS["dead"] =
     function ()
         return UnitIsDead("player")
@@ -324,17 +324,9 @@ CONDITIONS["spec"] =
                 v = tonumber(v)
                 return index == v or GetSpecializationInfo(index) == v
             else
-                local name = select(2, GetSpecializationInfo(index))
-                return name == v
+                local _, name, _, _, _, role = GetSpecializationInfo(index)
+                return (name == v or role == v)
             end
-        end
-    end
-
-CONDITIONS["specrole"] =
-    function (v)
-        if v then
-            local index = GetSpecialization("player")
-            return GetSpecializationRole(index) == v
         end
     end
 
