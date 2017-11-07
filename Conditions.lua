@@ -379,7 +379,7 @@ CONDITIONS["talent:args"] =
 
 CONDITIONS["tracking"] =
     function (cond, v)
-        local name, active
+        local name, active, _
         for i = 1, GetNumTrackingTypes() do
             name, _, active = GetTrackingInfo(i)
             if active and (not v or strlower(name) == strlower(v) or i == tonumber(v)) then
