@@ -33,10 +33,16 @@ ACTIONS['Spell'] =
 -- In vehicle -> exit it
 ACTIONS['LeaveVehicle'] =
     function ()
-        if not CanExitVehicle() then return end
-
-        LM_Debug("Setting action to VehicleExit.")
-        return LM_SecureAction:Macro(SLASH_LEAVEVEHICLE1)
+        --[[
+        if UnitOnTaxi("player") then
+            LM_Debug("Setting action to TaxiRequestEarlyLanding.")
+            return LM_SecureAction:Click(MainMenuBarVehicleLeaveButton)
+        elseif CanExitVehicle() then
+        ]]
+        if CanExitVehicle() then
+            LM_Debug("Setting action to VehicleExit.")
+            return LM_SecureAction:Macro(SLASH_LEAVEVEHICLE1)
+        end
     end
 
 -- Mounted -> dismount
