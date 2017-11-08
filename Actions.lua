@@ -155,6 +155,12 @@ ACTIONS['Combat'] =
         end
     end
 
+ACTIONS['Stop'] =
+    function ()
+        -- return true and set up to do nothing
+        return LM_SecureAction:Macro("")
+    end
+
 _G.LM_Actions = { }
 
 local function GetDruidMountForms()
