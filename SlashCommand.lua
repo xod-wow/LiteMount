@@ -61,6 +61,7 @@ local function PrintUsage()
     LM_Print("  /litemount flags add <flagname>")
     LM_Print("  /litemount flags del <flagname>")
     LM_Print("  /litemount flags rename <oldname> <newname>")
+    LM_Print("  /litemount xmog <slotnumber>")
 end
 
 local function PrintAreas(str)
@@ -153,6 +154,17 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
                 end
             end
             LM_Print(table.concat(flags, ' '))
+            return true
+        end
+    elseif cmd == "xmog" then
+        local slotID = tonumber(args[1])
+        if slotID then
+            local ok, _, _, _, id = pcall(C_Transmog.GetSlotVisualInfo, slotID, LE_TRANSMOG_TYPE_APPEARANCE)
+            if ok == true then
+                LM_Print(format("Transmog appearance ID for slot %d = %s", slotID, tostring(id)))
+            else
+                LM_Print("Bad transmog slot number: " .. slotID)
+            end
             return true
         end
     elseif cmd == "debug" then
