@@ -35,7 +35,7 @@ LM_Journal.__index = LM_Journal
 --  [5] mountType = C_MountJournal.GetMountInfoExtraByID(mountID)
 
 function LM_Journal:Get(id)
-    local name, spellID, icon, _, _, _, _, _, faction, isFiltered, isCollected, mountID = C_MountJournal.GetMountInfoByID(id)
+    local name, spellID, icon, _, _, sourceType, _, _, faction, isFiltered, isCollected, mountID = C_MountJournal.GetMountInfoByID(id)
     local modelID, _, _, isSelfMount, mountType = C_MountJournal.GetMountInfoExtraByID(mountID)
 
     if not name then
@@ -52,6 +52,7 @@ function LM_Journal:Get(id)
     m.icon          = icon
     m.isSelfMount   = isSelfMount
     m.mountType     = mountType
+    m.sourceType    = sourceType
     m.isFiltered    = isFiltered
     m.isCollected   = isCollected
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
@@ -105,6 +106,9 @@ function LM_Journal:IsCastable()
     return LM_Mount.IsCastable(self)
 end
 
--- Note, at some point we needed to use type=macro and
--- /run C_MountJournal.SummonByID(%d)
--- in a custom SetupActionButton, but now don't again, phew.
+function LM_Journal:Dump(prefix)
+    prefix = prefix or ""
+    LM_Mount.Dump(self, prefix)
+    LM_Print(prefix .. " mountType: " .. tostring(self.mountType))
+    LM_Print(prefix .. " sourceType: " .. tostring(self.sourceType))
+end

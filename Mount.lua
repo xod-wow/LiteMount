@@ -97,9 +97,7 @@ function LM_Mount:GetSecureAttributes()
 end
 
 function LM_Mount:Dump(prefix)
-    if prefix == nil then
-        prefix = ""
-    end
+    prefix = prefix or ""
 
     local spellName = GetSpellInfo(self.spellID)
 
