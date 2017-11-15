@@ -2,6 +2,7 @@
 
 <!-- Copyright 2011-2017 Mike Battersby -->
 
+<Script file="MountsFilter.lua" />
 <Script file="Mounts.lua" />
 
 <!--
@@ -279,6 +280,7 @@
             <Scripts>
                 <OnTextChanged>
                     SearchBoxTemplate_OnTextChanged(self)
+                    LM_UIFilter.SetSearchText(self:GetText())
                     LiteMountOptions_UpdateMountList()
                 </OnTextChanged>
             </Scripts>

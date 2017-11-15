@@ -23,11 +23,10 @@ flagChanges is a table of spellIDs with flags to set (+) and clear (-).
         ...
     }
 
-customFlags is a table of flag names, with data about them (currently only
-whether they are used in the drop-down filter list or not)
+customFlags is a table of flag names, with data about them (currently none)
 
     customFlags = {
-        ["PASSENGER"] = { filter = true }
+        ["PASSENGER"] = { }
     }
 
 ----------------------------------------------------------------------------]]--
@@ -156,7 +155,7 @@ function LM_Options:ConsistencyCheck()
         for _,c in pairs(p.flagChanges or {}) do
             for f in pairs(c) do
                 if LM_FLAG[f] == nil and self.db.global.customFlags[f] == nil then
-                    self.db.global.customFlags[f] = { filter = true }
+                    self.db.global.customFlags[f] = { }
                 end
             end
         end
@@ -278,11 +277,11 @@ function LM_Options:IsValidFlagName(n)
     return true
 end
 
-function LM_Options:CreateFlag(f, isFilter)
+function LM_Options:CreateFlag(f)
     if self.db.global.customFlags[f] then return end
     if self:IsPrimaryFlag(f) then return end
     if isFilter == nil then isFilter = true end
-    self.db.global.customFlags[f] = { filter = (isFilter and true or false) }
+    self.db.global.customFlags[f] = { }
     self:UpdateAllFlags()
 end
 
@@ -340,14 +339,6 @@ end
 
 function LM_Options:GetAllFlags()
     return CopyTable(self.allFlags)
-end
-
-function LM_Options:IsFilterFlag(f)
-    if self:IsPrimaryFlag(f) then return true end
-
-    local cf = self.db.global.customFlags[f]
-    if cf and cf.filter == true then return true end
-    return false
 end
 
 --[[----------------------------------------------------------------------------
