@@ -123,11 +123,11 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         info.hasArrow = true
         info.notCheckable = true
 
-        info.text = SOURCES
+        info.text = L.LM_FLAGS
         info.value = 1
         UIDropDownMenu_AddButton(info, level)
 
-        info.text = L.LM_FLAGS
+        info.text = SOURCES
         info.value = 2
         UIDropDownMenu_AddButton(info, level)
     elseif level == 2 then
@@ -135,7 +135,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
         info.isNotRadio = true
         info.notCheckable = true
 
-        if UIDROPDOWNMENU_MENU_VALUE == 1 then -- Sources
+        if UIDROPDOWNMENU_MENU_VALUE == 2 then -- Sources
             local numSources = C_PetJournal.GetNumPetSources()
 
             info.text = CHECK_ALL
@@ -156,22 +156,24 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
 
             info.notCheckable = false
 
-            for i = 0,numSources do
-                if i == 0 or C_MountJournal.IsValidSourceFilter(i) then
-                    if i == 0 then
-                        info.text = OTHER
-                    else
-                        info.text = _G["BATTLE_PET_SOURCE_"..i]
-                    end
+            for i = 1,numSources do
+                if C_MountJournal.IsValidSourceFilter(i) then
+                    info.text = _G["BATTLE_PET_SOURCE_"..i]
+                    info.arg1 = i
+                    info.func = sourceFunc
                     info.checked = function ()
                             return sourceFilterList[i] ~= true
                         end
-                    info.arg1 = i
-                    info.func = sourceFunc
                     UIDropDownMenu_AddButton(info, level)
                 end
             end
-        elseif UIDROPDOWNMENU_MENU_VALUE == 2 then -- Flags
+            info.text = OTHER
+            info.arg1 = 0
+            info.func = sourceFunc
+            info.checked = function () return sourceFilterList[0] ~= true end
+            UIDropDownMenu_AddButton(info, level)
+
+        elseif UIDROPDOWNMENU_MENU_VALUE == 1 then -- Flags
             info.text = CHECK_ALL
             info.func = function ()
                     for _,k in ipairs(LM_Options:GetAllFlags()) do
