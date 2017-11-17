@@ -26,6 +26,14 @@ end
 
 function LM_ActionButton:Dispatch(action, usableMounts, filters)
 
+    local nextAction = self:GetAttribute('lm-nextaction')
+    if nextAction then
+        LM_Debug("Setting up button as with override from previous action.")
+        self:SetAttribute('lm-nextaction', nil)
+        self:SetupActionButton(nextAction)
+        return true
+    end
+
     local handler = LM_Actions:GetHandler(action)
     if not handler then
         LM_WarningAndPrint(format("Error: bad action '%s' in action list.", action))
