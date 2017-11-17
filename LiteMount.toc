@@ -22,6 +22,7 @@ LM_FlightForm.lua
 LM_GhostWolf.lua
 LM_Nagrand.lua
 LM_RunningWild.lua
+LM_Tarecgosa.lua
 LM_TravelForm.lua
 LM_SecureAction.lua
 MountList.lua

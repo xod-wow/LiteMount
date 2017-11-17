@@ -22,6 +22,7 @@ local LM_MOUNT_SPELLS = {
     { "TravelForm", LM_SPELL.TRAVEL_FORM },
     { "Nagrand", LM_SPELL.FROSTWOLF_WAR_WOLF },
     { "Nagrand", LM_SPELL.TELAARI_TALBUK },
+    { "Tarecgosa" },
     { "ItemSummoned",
         LM_ITEM.LOANED_GRYPHON_REINS, LM_SPELL.LOANED_GRYPHON,
         { 'FLY' }
@@ -37,10 +38,6 @@ local LM_MOUNT_SPELLS = {
     { "ItemSummoned",
         LM_ITEM.MAGIC_BROOM, LM_SPELL.MAGIC_BROOM,
         { 'RUN', 'FLY' },
-    },
-    { "ItemSummoned",
-        LM_ITEM.DRAGONWRATH_TARECGOSAS_REST, LM_SPELL.TARECGOSAS_VISAGE,
-        { 'FLY' }
     },
     { "ItemSummoned",
         LM_ITEM.SHIMMERING_MOONSTONE, LM_SPELL.MOONFANG,

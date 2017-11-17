@@ -83,6 +83,7 @@ Macro
 local defaults = {
     global = {
         customFlags         = { },
+        enableTwoPress      = false,
     },
     profile = {
         excludedSpells      = { },
