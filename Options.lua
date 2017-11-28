@@ -288,7 +288,7 @@ end
 
 function LM_Options:DeleteFlag(f)
     for _,p in pairs(self.db.profiles) do
-        for _,c in pairs(p.flagChanges) do
+        for _,c in pairs(p.flagChanges or {}) do
             c[f] = nil
         end
     end
@@ -301,7 +301,7 @@ function LM_Options:RenameFlag(f, newF)
     if self:IsPrimaryFlag(f) then return end
     if f == newF then return end
     for _,p in pairs(self.db.profiles) do
-        for _,c in pairs(p.flagChanges) do
+        for _,c in pairs(p.flagChanges or {}) do
             tmp = c[f]
             c[f] = nil
             c[newF] = tmp
