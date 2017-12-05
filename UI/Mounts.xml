@@ -118,10 +118,17 @@
                     else
                         GameTooltip:SetSpellByID(m.spellID)
                     end
+
+                    if m.sourceText then
+                        GameTooltip:AddLine(" ")
+                        GameTooltip:AddLine("|cffffffff" .. SOURCE .. "|r")
+                        GameTooltip:AddLine(m.sourceText)
+                    end
+
                     if m:IsCastable() then
+                        GameTooltip:AddLine(" ")
                         GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
                     end
-                    GameTooltip:Show()
 
                     if m.modelID then
                         LiteMountOptionsPreview.Model:SetDisplayInfo(m.modelID)
@@ -133,6 +140,7 @@
                     else
                         LiteMountOptionsPreview:Hide()
                     end
+                    GameTooltip:Show()
                 </OnEnter>
                 <OnLeave>
                     LiteMountOptionsPreview:Hide()
