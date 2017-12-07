@@ -119,6 +119,8 @@
                         GameTooltip:SetSpellByID(m.spellID)
                     end
 
+                    GameTooltip:AppendText(" (" .. m.spellID .. ")")
+
                     if m.sourceText then
                         GameTooltip:AddLine(" ")
                         GameTooltip:AddLine("|cffffffff" .. SOURCE .. "|r")
