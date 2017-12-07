@@ -210,11 +210,23 @@ function LiteMountOptionsAdvanced_OnShow(self)
     LiteMountOptionsPanel_OnShow(self)
 end
 
+function LiteMountOptionsAdvancedUnlock_OnShow(self)
+    self:SetText(UNLOCK)
+end
+
 function LiteMountOptionsAdvancedUnlock_OnClick(self)
     local parent = self:GetParent()
-    parent.EditBox:SetAlpha(1.0)
-    parent.EditBox:Enable()
-    self:Hide()
+    if self:GetText() == UNLOCK then
+        parent.EditBox:SetAlpha(1.0)
+        parent.EditBox:Enable()
+        parent.DefaultButton:Enable()
+        self:SetText(REVERT)
+    else
+        local old = parent.EditBox.oldValues[parent.EditBox.tab]
+        if old then
+            parent.EditBox:SetText(old)
+        end
+    end
 end
 
 function LiteMountOptionsAdvancedBindingDropDown_Initialize(dropDown, level)

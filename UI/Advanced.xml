@@ -140,6 +140,9 @@
                     local text = LM_Options.db.defaults.profile.buttonActions['*']
                     self:GetParent().EditBox:SetText(text)
                 </OnClick>
+                <OnShow>
+                    self:Disable()
+                </OnShow>
             </Scripts>
         </Button>
 
