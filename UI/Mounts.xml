@@ -119,7 +119,8 @@
                         GameTooltip:SetSpellByID(m.spellID)
                     end
 
-                    GameTooltip:AppendText(" (" .. m.spellID .. ")")
+                    GameTooltipTextRight2:SetText(ID.." "..m.spellID)
+                    GameTooltipTextRight2:Show()
 
                     if m.sourceText then
                         GameTooltip:AddLine(" ")
