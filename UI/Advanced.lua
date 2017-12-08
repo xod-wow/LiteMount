@@ -222,10 +222,7 @@ function LiteMountOptionsAdvancedUnlock_OnClick(self)
         parent.DefaultButton:Enable()
         self:SetText(REVERT)
     else
-        local old = parent.EditBox.oldValues[parent.EditBox.tab]
-        if old then
-            parent.EditBox:SetText(old)
-        end
+        LiteMountOptionsControl_Cancel(parent.EditBox)
     end
 end
 
