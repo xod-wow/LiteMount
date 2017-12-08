@@ -125,6 +125,7 @@
                 <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.EditBoxContainer" x="2" y="0" />
             </Anchors>
             <Scripts>
+                <OnShow function="LiteMountOptionsAdvancedUnlock_OnShow" />
                 <OnClick function="LiteMountOptionsAdvancedUnlock_OnClick" />
             </Scripts>
         </Button>

@@ -281,7 +281,6 @@ end
 function LM_Options:CreateFlag(f)
     if self.db.global.customFlags[f] then return end
     if self:IsPrimaryFlag(f) then return end
-    if isFilter == nil then isFilter = true end
     self.db.global.customFlags[f] = { }
     self:UpdateAllFlags()
 end
