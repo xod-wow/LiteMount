@@ -127,8 +127,8 @@ function LiteMountOptionsControl_Cancel(self)
         if self.oldValues[i] ~= nil then
             self:SetOption(self.oldValues[i], i)
         end
-        wipe(self.oldValues)
     end
+    wipe(self.oldValues)
 end
 
 function LiteMountOptionsControl_Default(self)
