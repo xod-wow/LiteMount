@@ -81,6 +81,18 @@
                 </OnClick>
             </Scripts>
         </Button>
+        <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="REVERT">
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.EditBoxContainer" x="2" y="0" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    local parent = self:GetParent()
+                    LiteMountOptionsControl_Refresh(parent.EditBox)
+                </OnClick>
+            </Scripts>
+        </Button>
 
         <CheckButton parentKey="EnableButton" inherits="OptionsBaseCheckButtonTemplate">
             <Anchors>

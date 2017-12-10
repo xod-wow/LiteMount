@@ -222,7 +222,7 @@ function LiteMountOptionsAdvancedUnlock_OnClick(self)
         parent.DefaultButton:Enable()
         self:SetText(REVERT)
     else
-        LiteMountOptionsControl_Cancel(parent.EditBox)
+        LiteMountOptionsControl_Refresh(parent.EditBox)
     end
 end
 
