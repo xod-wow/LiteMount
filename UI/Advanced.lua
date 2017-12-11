@@ -223,6 +223,7 @@ function LiteMountOptionsAdvancedRevert_OnClick(self)
         parent.DefaultButton:Enable()
         self:SetText(REVERT)
     else
+        LiteMountOptionsControl_Revert(parent.EditBox)
         LiteMountOptionsControl_Refresh(parent.EditBox)
     end
 end

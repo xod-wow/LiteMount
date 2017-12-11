@@ -61,6 +61,13 @@ function LiteMountOptionsPanel_Okay(self)
     end
 end
 
+function LiteMountOptionsPanel_Revert(self)
+    LM_Debug("Panel_Revert " .. self:GetName())
+    for _,control in ipairs(self.controls or {}) do
+        LiteMountOptionsControl_Revert(control)
+    end
+end
+
 function LiteMountOptionsPanel_Cancel(self)
     LM_Debug("Panel_Cancel " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
@@ -115,19 +122,23 @@ function LiteMountOptionsControl_Refresh(self)
             self.oldValues[i] = self:GetOption(i)
         end
     end
-    self:SetControl(self.oldValues[self.tab], self.tab)
+    self:SetControl(self:GetOption(self.tab), self.tab)
 end
 
 function LiteMountOptionsControl_Okay(self)
     wipe(self.oldValues)
 end
 
-function LiteMountOptionsControl_Cancel(self)
+function LiteMountOptionsControl_Revert(self)
     for i = 1, (self.ntabs or 1) do
         if self.oldValues[i] ~= nil then
             self:SetOption(self.oldValues[i], i)
         end
     end
+end
+
+function LiteMountOptionsControl_Cancel(self)
+    LiteMountOptionsControl_Revert(self)
     wipe(self.oldValues)
 end
 

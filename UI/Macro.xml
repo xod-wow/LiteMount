@@ -78,7 +78,8 @@
             <Scripts>
                 <OnClick>
                     local parent = self:GetParent()
-                    LiteMountOptionsControl_Refresh(parent.EditBox)
+                    LiteMountOptionsPanel_Revert(parent)
+                    LiteMountOptionsPanel_Refresh(parent)
                 </OnClick>
             </Scripts>
         </Button>
