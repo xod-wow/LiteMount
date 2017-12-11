@@ -119,14 +119,14 @@
             <FontString inherits="GameFontHighlight" />
         </EditBox>
 
-        <Button parentKey="UnlockButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
+        <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
             <Size x="96" y="22" />
             <Anchors>
-                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.EditBoxContainer" x="2" y="0" />
+                <Anchor point="BOTTOMLEFT" x="24" y="16" />
             </Anchors>
             <Scripts>
-                <OnShow function="LiteMountOptionsAdvancedUnlock_OnShow" />
-                <OnClick function="LiteMountOptionsAdvancedUnlock_OnClick" />
+                <OnShow function="LiteMountOptionsAdvancedRevert_OnShow" />
+                <OnClick function="LiteMountOptionsAdvancedRevert_OnClick" />
             </Scripts>
         </Button>
 
@@ -137,13 +137,10 @@
             </Anchors>
             <Scripts>
                 <OnClick>
-                    local editbox = self:GetParent().EditBox
-                    local text = LM_Options.db.defaults.profile.buttonActions['*']
-                    self:GetParent().EditBox:SetText(text)
+                    local parent = self:GetParent()
+                    LiteMountOptionsPanel_Default(parent)
+                    LiteMountOptionsPanel_Refresh(parent)
                 </OnClick>
-                <OnShow>
-                    self:Disable()
-                </OnShow>
             </Scripts>
         </Button>
 
