@@ -52,9 +52,9 @@ Notes To Myself
     Mount weighting system.
       - How does it work with the enable/disable all button.
 
-    Revisit and adjust/rewrite all the documentation.
+    Deck of cards roll system for mounts.
 
-    Revisit the Unavailable macro suggestion buttons.
+    Export flag lists with serialize/compress.
 
 ------------------------------------------------------------------------------
 * Code to check every spell usability
@@ -166,115 +166,4 @@ Notes To Myself
 
     No it doesn't.
 
-
-------------------------------------------------------------------------------
-* Code documentation.
-
-    Utility stuff:
-        * Print.lua
-            LM_Print(msg) -- prints into current active chat frame
-            LM_Debug(msg) -- prints a debug message if debugging is on
-            LM_Warning(msg) -- print a msg into the UIErrorsFrame
-        * AutoEventFrame.lua
-            LM_CreateAutoEventFrame(frameType, ...)
-                * takes the same args as CreateFrame
-                * Adds an OnEvent handler that calls a function named
-                  for the event. E.g., MyFrame:PLAYER_LOGIN().
-
-
-    Keybinding stuff:
-        * Bindings.xml
-        * KeyBindingStrings.lua
-            Globals for the menu entries in the blizz key menu.
-
-    Querying stuff:
-        * Location.lua
-            LM_Location:CanFly()
-            LM_Location:CanSwim()
-            LM_Location:IsFloating()
-            LM_Location:IsAQ()
-            LM_Location:IsVashjir()
-            LM_Location:IsDraenorNagrand()
-            LM_Location:CantBreathe()
-            LM_Location:Dump()
-
-    Options stuff:
-        * Options.lua
-            LM_Options:Initialize()
-
-            LM_Options:AddExcludedMount(m)
-            LM_Options:RemoveExcludedMount(m)
-            LM_Options:SetExcludedMounts(mountList)
-            LM_Options:IsExcludedMount(m)
-
-            LM_Options:SetMountFlagBit(m, flagbit)
-            LM_Options:ClearMountFlagBit(m, flagbit)
-            LM_Options:ResetMountFlags(m)
-            LM_Options:ApplyMountFlags(m, default_flags)
-
-        * UI/
-            Here be dragons. UI to twiddle settings in LM_Options.
-
-    Main stuff:
-        * Core.lua
-            All the core logic for initialization and creating the action
-            buttons that pick a mount and summon it.
-
-        * Action.lua
-            Various mount actions with condition tests.
-
-        * ActionButton.lua
-            SecureActionButton for mount actions
-
-        * Mount.lua
-            Base class representing one mount.  Inherited by all of the
-            specific class types.
-
-            m = LM_Mount:Get('SubclassType', ...)
-                .name
-                .spellID
-                .flags
-                .isCollected
-                .isFiltered
-            m:CurrentFlags()
-            m:GetSecureAttributes()
-                Gets attributes for SecureActionButton to summon this mount.
-            m:IsCastable()
-            m:FlagsSet() / m:CurrentFlagsSet()
-
-        * LM_*.lua
-            Individual mount type classes.
-
-        * SlashCommand.lua
-            Just what you expect.
-
-        * SpellInfo.lua
-            Should really be named Constants.lua
-
-        * MountList.lua
-            List of mounts with shuffle/search/random/filter
-
-            LM_MountList:New()
-            LM_MountList:Iterate()
-            LM_MountList:Shuffle()
-            LM_MountList:Random()
-            LM_MountList:Search(matchfunc)
-
-            m = LM_MountList:GetMountBySpell(spellID)
-                LM_MountList:GetMountByName(name)
-                LM_MountList:GetMountByShapeshiftForm(formIndex)
-                LM_MountList:GetMountFromUnitAura(unitID)
-
-        * PlayerMounts.lua
-            All mounts the game/addon knows about. Inherits from LM_MountList
-
-            LM_PlayerMounts:Initialize()
-            LM_MountList:RefreshMounts()
-
-            mountlist = LM_PlayerMounts:GetAllMounts()
-
-            mountlist = LM_PlayerMounts:GetAvailableMounts(flags)
-
-            mountlist = LM_PlayerMounts:Search(matchfunc)
-            m = LM_PlayerMounts:Find(matchfunc)     -- mountlist[1] shortcut
 
