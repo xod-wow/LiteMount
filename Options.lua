@@ -125,7 +125,7 @@ end
 
 function LM_Options:FlagIsUsed(f)
     for _,p in pairs(self.db.profiles) do
-        for _,changes in pairs(p.flagChanges or {}) do
+        for spellID,changes in pairs(p.flagChanges or {}) do
             if changes[f] then return true end
         end
     end
@@ -153,8 +153,8 @@ end
 function LM_Options:ConsistencyCheck()
     -- Make sure any flag in any profile is included in the flag list
     for _,p in pairs(self.db.profiles) do
-        for _,c in pairs(p.flagChanges or {}) do
-            for f in pairs(c) do
+        for spellID,changes in pairs(p.flagChanges or {}) do
+            for f in pairs(changes) do
                 if LM_FLAG[f] == nil and self.db.global.customFlags[f] == nil then
                     self.db.global.customFlags[f] = { }
                 end
