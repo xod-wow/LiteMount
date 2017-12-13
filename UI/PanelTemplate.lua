@@ -90,7 +90,9 @@ end
 
 function LiteMountOptionsPanel_OnHide(self)
     LM_Debug("Panel_OnHide " .. self:GetName())
-    LiteMountOptionsPanel_Okay(self)
+    -- Seems like the InterfacePanel calls all the Okay or Cancel for
+    -- anything that's been opened when the appropriate button is clicked
+    -- LiteMountOptionsPanel_Okay(self)
 end
 
 function LiteMountOptionsPanel_OnLoad(self)
