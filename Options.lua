@@ -193,9 +193,11 @@ function LM_Options:InitializeExcludedMount(m)
     if self.db.profile.excludedSpells[m.spellID] ~= nil then return end
 
     if self.db.profile.excludeNewMounts then
+        LM_Debug(format("Disabled newly added mount %s (%d).", m.name. m.spellID))
         self.db.profile.excludedSpells[m.spellID] = true
     else
         self.db.profile.excludedSpells[m.spellID] = false
+        LM_Debug(format("Enabled newly added mount %s (%d).", m.name. m.spellID))
     end
 end
 
