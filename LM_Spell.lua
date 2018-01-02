@@ -4,7 +4,7 @@
 
   A mount summoned directly from a spell with no Mount Journal entry.
 
-  Copyright 2011-2017 Mike Battersby
+  Copyright 2011-2018 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

@@ -4,7 +4,7 @@
 
   Addon core.
 
-  Copyright 2011-2017 Mike Battersby
+  Copyright 2011-2018 Mike Battersby
 
   LiteMount is free software: you can redistribute it and/or modify it under
   the terms of the GNU General Public License, version 2, as published by

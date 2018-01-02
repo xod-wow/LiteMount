@@ -2,7 +2,7 @@
 
   LiteMount/LM_GhostWolf.lua
 
-  Copyright 2011-2017 Mike Battersby
+  Copyright 2011-2018 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

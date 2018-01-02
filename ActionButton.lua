@@ -4,7 +4,7 @@
 
   A SecureActionButton to call mount actions based on an action list.
 
-  Copyright 2011-2017 Mike Battersby
+  Copyright 2011-2018 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

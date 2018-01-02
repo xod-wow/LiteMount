@@ -4,7 +4,7 @@
 
   Chat slash command (/litemount or /lmt) and macro maintenance.
 
-  Copyright 2011-2017 Mike Battersby
+  Copyright 2011-2018 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
