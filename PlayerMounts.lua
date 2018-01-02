@@ -58,7 +58,7 @@ function LM_PlayerMounts:Initialize()
     self:AddJournalMounts()
 
     for _,m in ipairs(self.mounts) do
-        LM_Options:SeenMount(m)
+        LM_Options:InitializeExcludedMount(m)
     end
 
     -- Refresh event setup

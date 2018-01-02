@@ -189,6 +189,16 @@ function LM_Options:RemoveExcludedMount(m)
     self.db.profile.excludedSpells[m.spellID] = false
 end
 
+function LM_Options:InitializeExcludedMount(m)
+    if self.db.profile.excludedSpells[m.spellID] ~= nil then return end
+
+    if self.db.profile.excludeNewMounts then
+        self.db.profile.excludedSpells[m.spellID] = true
+    else
+        self.db.profile.excludedSpells[m.spellID] = false
+    end
+end
+
 function LM_Options:ToggleExcludedMount(m)
     local id = m.spellID
     LM_Debug(format("Toggling mount %s (%d).", m.name, id))
@@ -340,15 +350,3 @@ function LM_Options:GetAllFlags()
     return CopyTable(self.allFlags)
 end
 
---[[----------------------------------------------------------------------------
-    Have we seen a mount before on this toon?
-    Includes automatically adding it to the excludes if requested.
-----------------------------------------------------------------------------]]--
-
-function LM_Options:SeenMount(m)
-    local spellID = m.spellID
-
-    if self.db.profile.excludedSpells[spellID] == nil then
-        self.db.profile.excludedSpells[spellID] = self.db.profile.excludeNewMounts
-    end
-end
