@@ -181,7 +181,7 @@
             </Anchors>
             <Scripts>
                 <OnLoad>
-                    local track = _G[self.ScrollBar:GetName().."Track"]
+                    local track = _G[self.scrollBar:GetName().."Track"]
                     track:Hide()
                     self.scrollBar.doNotHide = true
                 </OnLoad>
