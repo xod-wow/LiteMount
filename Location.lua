@@ -125,6 +125,34 @@ local FlyableNoContinent = {
     [1177] = true,      -- Deaths of Chromie scenario
 }
 
+-- 7.3.5 has totally busted IsFlyableArea() in places that used to need
+-- extra flight unlocks but now don't, but only if you didn't have them
+-- unlocked before they were removed.
+
+function LM_Location:IsFlyableAreaBroken()
+    -- local apprenticeRiding = IsUsableSpell(33388)
+    -- local expertRiding = IsUsableSpell(34090)
+    -- local artisanRiding = IsUsableSpell(34091)
+    -- local masterRiding = IsUsableSpell(90265)
+    local coldWeatherFlying = IsUsableSpell(54197)
+    -- local flightMastersLicense = IsUsableSpell(902670)
+    local wisdomOfTheFourWinds = IsUsableSpell(115913)
+    -- local draenorPathfinder = IsUsableSpell(191645)
+    -- local brokenIslesPathfinder = IsUsableSpell(233368)
+
+    -- Northrend
+    if self.continent == 4 and not coldWeatherFlying then
+        return true
+    end
+
+    -- Pandaria
+    if self.continent == 6 and not wisdomOfTheFourWinds then
+        return true
+    end
+
+    return false
+end
+
 -- Draenor and Lost Isles need achievement unlocks to be able to fly.
 function LM_Location:CanFly()
 
@@ -156,6 +184,11 @@ function LM_Location:CanFly()
     -- it are flagged wrongly for IsFlyableArea()
     if self.continent == 9 then
         return false
+    end
+
+    -- Remove when Blizzard fixes the unlock flying issue with IsFlyableArea
+    if self:IsFlyableAreaBroken() then
+        return true
     end
 
     return IsFlyableArea()
