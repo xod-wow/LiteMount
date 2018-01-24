@@ -98,7 +98,8 @@ CONDITIONS["continent"] =
         end
     end
 
--- For completeness, as far as I know.
+-- For completeness, as far as I know. Note that this diverges from the
+-- macro [dead] which is applied to "target".
 CONDITIONS["dead"] =
     function (cond)
         return UnitIsDead("player")
@@ -201,13 +202,13 @@ CONDITIONS["flying"] =
 
 CONDITIONS["group"] =
     function (cond, groupType)
-        if groupType == "raid" then
+        if not groupType then
+            return IsInGroup() or IsInRaid()
+        elseif groupType == "raid" then
             return IsInRaid()
-        end
-        if not groupType or groupType == "party" then
+        elseif groupType == "party" then
             return IsInGroup()
         end
-        return false
     end
 
 CONDITIONS["harm"] =
