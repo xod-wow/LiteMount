@@ -158,26 +158,18 @@ function LM_Location:CanFly()
 
     -- I'm going to assume, across the board, that you can't fly in
     -- "no continent" / -1 and fix it up later if it turns out you can.
-    if self.continent == -1 then
-        if FlyableNoContinent[self.areaID] == nil then
-            return false
-        end
+    if self.continent == -1 and not FlyableNoContinent[self.areaID] then
+        return false
     end
 
     -- Draenor Pathfinder
-    if self.continent == 7 then
-        local completed = select(4, GetAchievementInfo(10018))
-        if not completed then
-            return false
-        end
+    if self.continent == 7 and not IsUsableSpell(191645) then
+        return false
     end
 
     -- Broken Isles Pathfinder, Part 2
-    if self.continent == 8 then
-        local completed = select(4, GetAchievementInfo(11446))
-        if not completed then
-            return false
-        end
+    if self.continent == 8 and not IsUsableSpell(233368) then
+        return false
     end
 
     -- As far as I know Argus is completely non-flyable, but some parts of
