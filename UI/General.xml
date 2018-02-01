@@ -3,9 +3,11 @@
 <!-- Copyright 2011-2018 Mike Battersby -->
 
 <Frame name="LiteMountOptionsGeneral" hidden="true" inherits="LiteMountOptionsPanelTemplate">
-    <Attributes>
-        <Attribute name="panel-name" value="GENERAL" />
-    </Attributes>
+
+    <KeyValues>
+        <KeyValue key="name" value="GENERAL" type="string" />
+        <KeyValue key="dontAttachProfile" value="true" type="boolean" />
+    </KeyValues>
 
     <Frames>
         <CheckButton parentKey="CopyTargetsMount" inherits="InterfaceOptionsCheckButtonTemplate">

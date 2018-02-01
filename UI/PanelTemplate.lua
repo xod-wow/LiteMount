@@ -84,7 +84,9 @@ end
 function LiteMountOptionsPanel_OnShow(self)
     LM_Debug("Panel_OnShow " .. self:GetName())
     LiteMountOptions.CurrentOptionsPanel = self
-    LiteMountOptionsProfileDropDown_Attach(self)
+    if not self.dontShowProfile then
+        LiteMountOptionsProfileDropDown_Attach(self)
+    end
     LiteMountOptionsPanel_Refresh(self)
 end
 
@@ -98,11 +100,7 @@ end
 function LiteMountOptionsPanel_OnLoad(self)
     if self ~= LiteMountOptions then
         self.parent = LiteMountOptions.name
-        if not self.name then
-            local n = self:GetAttribute("panel-name")
-            self.name = _G[n] or n
-        end
-        self.Title:SetText("LiteMount : " .. self.name)
+        self.Title:SetText("LiteMount : " .. (_G[self.name] or self.name))
     else
         self.name = "LiteMount"
         self.Title:SetText("LiteMount")

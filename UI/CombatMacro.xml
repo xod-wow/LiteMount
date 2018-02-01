@@ -145,6 +145,10 @@
         </Layer>
     </Layers>
 
+    <KeyValues>
+        <KeyValue key="dontAttachProfile" value="true" type="boolean" />
+    </KeyValues>
+
     <Scripts>
         <OnLoad function="LiteMountOptionsCombatMacro_OnLoad" />
     </Scripts>
