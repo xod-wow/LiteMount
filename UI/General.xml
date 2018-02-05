@@ -60,7 +60,7 @@
         </CheckButton>
         <CheckButton parentKey="Debugging" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-48" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-72" />
             </Anchors>
             <Scripts>
                 <OnLoad>
