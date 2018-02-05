@@ -91,10 +91,32 @@ function LM_Journal:Get(id)
     return m
 end
 
+
 function LM_Journal:Refresh()
-    local isFiltered, isCollected = select(10, C_MountJournal.GetMountInfoByID(self.mountID))
+    local isFavorite, isFiltered, isCollected = select(9, C_MountJournal.GetMountInfoByID(self.mountID))
+    self.isFavorite = isFavorite
     self.isFiltered = isFiltered
     self.isCollected = isCollected
+end
+
+function LM_Journal:SetFavorite(setting)
+    -- Evil
+    C_MountJournal.SetSearch("")
+    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_COLLECTED, true)
+    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_NOT_COLLECTED, true)
+    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_UNUSABLE, true)
+    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_UNUSABLE, true)
+    C_MountJournal.SetAllSourceFilters(true)
+
+    local id
+    for i = 1, C_MountJournal.GetNumDisplayedMounts() do
+        id = select(12, C_MountJournal.GetDisplayedMountInfo(i))
+        if id == self.mountID then
+            C_MountJournal.SetIsFavorite(i, setting)
+            break
+        end
+    end
+    self:Refresh()
 end
 
 function LM_Journal:IsCastable()
