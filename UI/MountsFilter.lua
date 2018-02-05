@@ -72,7 +72,7 @@ function LM_UIFilter.IsFlagChecked(f)
 end
 
 function LM_UIFilter.SetFlagFilter(f, v)
-    LM_Options.db.char.uiMountFilterList[f] = (not v or nil)
+    LM_Options.db.char.uiMountFilterList[f] = (not v)
 end
 
 function LM_UIFilter:SetAllFlagFilters(v)

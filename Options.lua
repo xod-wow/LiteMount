@@ -97,8 +97,8 @@ local defaults = {
         combatMacro         = "",
         useCombatMacro      = false,
         copyTargetsMount    = true,
-        -- If changed these are not preserved because nil becomes defaults
-        uiMountFilterList   = { NOT_COLLECTED = true, UNUSABLE = true },
+        -- These need to be cleaned up when flags are deleted
+        uiMountFilterList   = { UNUSABLE = true },
         debugEnabled        = false,
     },
 }
@@ -161,6 +161,14 @@ function LM_Options:ConsistencyCheck()
             end
         end
     end
+
+    -- Make sure the filters only contain flags from the flag list
+    for f in pairs(self.db.char.uiMountFilterList) do
+        if LM_FLAG[f] == nil and self.db.global.customFlags[f] == nil then
+            self.db.char.uiMountFilterList[f] = nil
+        end
+    end
+
 end
 
 function LM_Options:Initialize()
@@ -295,6 +303,7 @@ function LM_Options:CreateFlag(f)
     if self.db.global.customFlags[f] then return end
     if self:IsPrimaryFlag(f) then return end
     self.db.global.customFlags[f] = { }
+    self.db.char.uiMountFilterList[f] = false
     self:UpdateAllFlags()
 end
 
@@ -304,6 +313,7 @@ function LM_Options:DeleteFlag(f)
             c[f] = nil
         end
     end
+    self.db.char.uiMountFilterList[f] = nil
     self.db.global.customFlags[f] = nil
     self:UpdateAllFlags()
 end
@@ -311,6 +321,8 @@ end
 function LM_Options:RenameFlag(f, newF)
     if self:IsPrimaryFlag(f) then return end
     if f == newF then return end
+
+    -- all this "tmp" stuff is to deal with f == newF, just in case
 
     local tmp
     for _,p in pairs(self.db.profiles) do
@@ -320,9 +332,15 @@ function LM_Options:RenameFlag(f, newF)
             c[newF] = tmp
         end
     end
+
     tmp = self.db.global.customFlags[f]
     self.db.global.customFlags[f] = nil
     self.db.global.customFlags[newF] = tmp
+
+    tmp = self.db.char.uiMountFilterList[f]
+    self.db.char.uiMountFilterList[f] = nil
+    self.db.char.uiMountFilterList[newF] = tmp
+
     self:UpdateAllFlags()
 end
 
