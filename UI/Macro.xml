@@ -112,7 +112,7 @@
     </Layers>
 
     <KeyValues>
-        <KeyValue key="dontAttachProfile" value="true" type="boolean" />
+        <KeyValue key="dontShowProfile" value="true" type="boolean" />
     </KeyValues>
 
     <Scripts>

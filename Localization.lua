@@ -25,6 +25,7 @@ local locale = GetLocale()
 
 L.CUSTOM1               = CUSTOM .. " 1"
 L.CUSTOM2               = CUSTOM .. " 2"
+L.FAVORITES             = FAVORITES
 L.NAGRAND               = GetMapNameByID(477)
 L.VASHJIR               = GetMapNameByID(613)
 

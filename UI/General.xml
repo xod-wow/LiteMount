@@ -6,7 +6,6 @@
 
     <KeyValues>
         <KeyValue key="name" value="GENERAL" type="string" />
-        <KeyValue key="dontAttachProfile" value="true" type="boolean" />
     </KeyValues>
 
     <Frames>
@@ -21,13 +20,13 @@
                     self.Text:SetText(L.LM_COPY_TARGETS_MOUNT)
                     self.SetOption = function (self, setting)
                             if not setting or setting == "0" then
-                                LM_Options.db.char.copyTargetsMount = false
+                                LM_Options.db.profile.copyTargetsMount = false
                             else
-                                LM_Options.db.char.copyTargetsMount = true
+                                LM_Options.db.profile.copyTargetsMount = true
                             end
                         end
                     self.GetOption = function (self)
-                            return LM_Options.db.char.copyTargetsMount
+                            return LM_Options.db.profile.copyTargetsMount
                         end
                     self.GetOptionDefault = function (self) return true end
                     LiteMountOptionsControl_OnLoad(self)

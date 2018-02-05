@@ -80,25 +80,26 @@ Mount [filter=CUSTOM2]
 Macro
 ]]
 
+-- A lot of things need to be cleaned up when flags are deleted/renamed
+
 local defaults = {
     global = {
         customFlags         = { },
-        enableTwoPress      = false,
     },
     profile = {
         excludedSpells      = { },
         flagChanges         = { },
         buttonActions       = { ['*'] = DefaultButtonAction },
+        copyTargetsMount    = true,
+        enableTwoPress      = false,
         excludeNewMounts    = false,
+        uiMountFilterList   = { UNUSABLE = true },
     },
     char = {
         unavailableMacro    = "",
         useUnavailableMacro = false,
         combatMacro         = "",
         useCombatMacro      = false,
-        copyTargetsMount    = true,
-        -- These need to be cleaned up when flags are deleted
-        uiMountFilterList   = { UNUSABLE = true },
         debugEnabled        = false,
     },
 }
@@ -134,7 +135,8 @@ end
 
 function LM_Options:VersionUpgrade()
 
-    if not self.db.profile.configVersion then
+    -- From 0 -> 1
+    if (self.db.profile.configVersion or 0) < 1 then
         self.db.profile.buttonActions[2] = OldNoFlyAction
 
         if self:FlagIsUsed('CUSTOM1') then
@@ -146,12 +148,26 @@ function LM_Options:VersionUpgrade()
         end
     end
 
-    self.db.global.configVersion = 1
-    self.db.profile.configVersion = 1
+    -- From 1 -> 2 moved a bunch of stuff from char to profile, can't migrate
+    if (self.db.global.configVersion or 0) < 2 then
+        self.db.global.enableTwoPress = nil
+    end
+
+    if (self.db.char.configVersion or 0) < 2 then
+        self.db.char.copyTargetsMount = nil
+        self.db.char.uiMountFilterList = nil
+    end
+
+    -- Set current version
+    self.db.global.configVersion = 2
+    self.db.profile.configVersion = 2
+    self.db.char.configVersion = 2
 end
 
 function LM_Options:ConsistencyCheck()
+
     -- Make sure any flag in any profile is included in the flag list
+
     for _,p in pairs(self.db.profiles) do
         for spellID,changes in pairs(p.flagChanges or {}) do
             for f in pairs(changes) do
@@ -159,13 +175,6 @@ function LM_Options:ConsistencyCheck()
                     self.db.global.customFlags[f] = { }
                 end
             end
-        end
-    end
-
-    -- Make sure the filters only contain flags from the flag list
-    for f in pairs(self.db.char.uiMountFilterList) do
-        if LM_FLAG[f] == nil and self.db.global.customFlags[f] == nil then
-            self.db.char.uiMountFilterList[f] = nil
         end
     end
 
@@ -303,7 +312,7 @@ function LM_Options:CreateFlag(f)
     if self.db.global.customFlags[f] then return end
     if self:IsPrimaryFlag(f) then return end
     self.db.global.customFlags[f] = { }
-    self.db.char.uiMountFilterList[f] = false
+    self.db.profile.uiMountFilterList[f] = false
     self:UpdateAllFlags()
 end
 
@@ -313,7 +322,7 @@ function LM_Options:DeleteFlag(f)
             c[f] = nil
         end
     end
-    self.db.char.uiMountFilterList[f] = nil
+    self.db.profile.uiMountFilterList[f] = nil
     self.db.global.customFlags[f] = nil
     self:UpdateAllFlags()
 end
@@ -331,15 +340,14 @@ function LM_Options:RenameFlag(f, newF)
             c[f] = nil
             c[newF] = tmp
         end
+        tmp = p.uiMountFilterList[f]
+        p.uiMountFilterList[f] = nil
+        p.uiMountFilterList[newF] = tmp
     end
 
     tmp = self.db.global.customFlags[f]
     self.db.global.customFlags[f] = nil
     self.db.global.customFlags[newF] = tmp
-
-    tmp = self.db.char.uiMountFilterList[f]
-    self.db.char.uiMountFilterList[f] = nil
-    self.db.char.uiMountFilterList[newF] = tmp
 
     self:UpdateAllFlags()
 end

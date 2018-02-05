@@ -68,11 +68,11 @@ end
 -- Sources ---------------------------------------------------------------------
 
 function LM_UIFilter.IsFlagChecked(f)
-    return not LM_Options.db.char.uiMountFilterList[f]
+    return not LM_Options.db.profile.uiMountFilterList[f]
 end
 
 function LM_UIFilter.SetFlagFilter(f, v)
-    LM_Options.db.char.uiMountFilterList[f] = (not v)
+    LM_Options.db.profile.uiMountFilterList[f] = (not v)
 end
 
 function LM_UIFilter:SetAllFlagFilters(v)
@@ -113,7 +113,7 @@ end
 
 function LM_UIFilter.IsFilteredMount(m)
 
-    local filters = LM_Options.db.char.uiMountFilterList
+    local filters = LM_Options.db.profile.uiMountFilterList
 
     if m.isFiltered then
         return true

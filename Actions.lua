@@ -71,7 +71,7 @@ ACTIONS['CancelForm'] =
 -- Got a player target, try copying their mount
 ACTIONS['CopyTargetsMount'] =
     function ()
-        if LM_Options.db.char.copyTargetsMount and UnitIsPlayer("target") then
+        if LM_Options.db.profile.copyTargetsMount and UnitIsPlayer("target") then
             LM_Debug("Trying to clone target's mount")
             return LM_PlayerMounts:GetMountFromUnitAura("target")
         end
