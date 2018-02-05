@@ -35,7 +35,7 @@ LM_Journal.__index = LM_Journal
 --  [5] mountType = C_MountJournal.GetMountInfoExtraByID(mountID)
 
 function LM_Journal:Get(id)
-    local name, spellID, icon, _, _, sourceType, _, _, faction, isFiltered, isCollected, mountID = C_MountJournal.GetMountInfoByID(id)
+    local name, spellID, icon, _, _, sourceType, isFavorite, _, faction, isFiltered, isCollected, mountID = C_MountJournal.GetMountInfoByID(id)
     local modelID, _, sourceText, isSelfMount, mountType = C_MountJournal.GetMountInfoExtraByID(mountID)
 
     if not name then
@@ -54,6 +54,7 @@ function LM_Journal:Get(id)
     m.mountType     = mountType
     m.sourceType    = sourceType
     m.sourceText    = sourceText
+    m.isFavorite    = isFavorite
     m.isFiltered    = isFiltered
     m.isCollected   = isCollected
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
