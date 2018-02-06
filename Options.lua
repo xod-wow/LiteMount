@@ -241,22 +241,27 @@ end
 
 function LM_Options:ApplyMountFlags(m)
 
-    if not m.currentFlags then
+    if not m.cachedFlags then
         local changes = self.db.profile.flagChanges[m.spellID]
-        m.currentFlags = CopyTable(m.flags)
+        m.cachedFlags = CopyTable(m.flags)
 
         if changes then
             for _,flagName in ipairs(self.allFlags) do
                 if changes[flagName] == '+' then
-                    m.currentFlags[flagName] = true
+                    m.cachedFlags[flagName] = true
                 elseif changes[flagName] == '-' then
-                    m.currentFlags[flagName] = nil
+                    m.cachedFlags[flagName] = nil
                 end
             end
         end
     end
 
-    return m.currentFlags
+    return m.cachedFlags
+end
+
+function LM_Options:GetMountFlag(m, flag)
+    self:ApplyMountFlags(m)
+
 end
 
 function LM_Options:SetMountFlag(m, setFlag)
@@ -283,12 +288,12 @@ end
 function LM_Options:ResetMountFlags(m)
     LM_Debug(format("Defaulting flags for spell %s (%d).", m.name, m.spellID))
     self.db.profile.flagChanges[m.spellID] = nil
-    m.currentFlags = nil
+    m.cachedFlags = nil
 end
 
 function LM_Options:SetMountFlags(m, flags)
     self.db.profile.flagChanges[m.spellID] = FlagDiff(self.allFlags, m.flags, flags)
-    m.currentFlags = nil
+    m.cachedFlags = nil
 end
 
 
