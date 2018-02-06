@@ -93,7 +93,7 @@ end
 
 
 function LM_Journal:Refresh()
-    local isFavorite, isFiltered, isCollected = select(9, C_MountJournal.GetMountInfoByID(self.mountID))
+    local isFavorite, _, _, isFiltered, isCollected = select(7, C_MountJournal.GetMountInfoByID(self.mountID))
     self.isFavorite = isFavorite
     self.isFiltered = isFiltered
     self.isCollected = isCollected
