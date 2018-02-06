@@ -256,17 +256,25 @@ function LM_Options:ApplyMountFlags(m)
         end
     end
 
+    if m.isFavorite then
+        m.cachedFlags.FAVORITES = true
+    else
+        m.cachedFlags.FAVORITES = nil
+    end
     return m.cachedFlags
-end
-
-function LM_Options:GetMountFlag(m, flag)
-    self:ApplyMountFlags(m)
-
 end
 
 function LM_Options:SetMountFlag(m, setFlag)
     LM_Debug(format("Setting flag %s for spell %s (%d).",
                     setFlag, m.name, m.spellID))
+
+    if setFlag == "FAVORITES" then
+        if m.SetFavorite ~= nil then
+            LM_Debug("Actually setting FAVORITES")
+            m:SetFavorite(true)
+        end
+        return
+    end
 
     -- Note this is the actual cached copy, we can only change it here
     -- (and below in ClearMountFlag) because we are invalidating the cache
@@ -279,6 +287,15 @@ end
 function LM_Options:ClearMountFlag(m, clearFlag)
     LM_Debug(format("Clearing flag %s for spell %s (%d).",
                      clearFlag, m.name, m.spellID))
+
+    if clearFlag == "FAVORITES" then
+        if m.SetFavorite ~= nil then
+            LM_Debug("Actually clearing FAVORITES")
+            m:SetFavorite(false)
+        end
+        return
+    end
+
     -- See note above
     local flags = self:ApplyMountFlags(m)
     flags[clearFlag] = nil
