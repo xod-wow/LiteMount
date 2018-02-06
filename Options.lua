@@ -270,7 +270,6 @@ function LM_Options:SetMountFlag(m, setFlag)
 
     if setFlag == "FAVORITES" then
         if m.SetFavorite ~= nil then
-            LM_Debug("Actually setting FAVORITES")
             m:SetFavorite(true)
         end
         return
@@ -290,7 +289,6 @@ function LM_Options:ClearMountFlag(m, clearFlag)
 
     if clearFlag == "FAVORITES" then
         if m.SetFavorite ~= nil then
-            LM_Debug("Actually clearing FAVORITES")
             m:SetFavorite(false)
         end
         return
