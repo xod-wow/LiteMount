@@ -386,13 +386,13 @@ function LM_Options:UpdateAllFlags()
     sort(self.allFlags,
         function (a, b)
             if LM_FLAG[a] and LM_FLAG[b] then
-                return LM_FLAG[a] <= LM_FLAG[b]
+                return LM_FLAG[a] < LM_FLAG[b]
             elseif LM_FLAG[a] then
                 return true
             elseif LM_FLAG[b] then
                 return false
             else
-                return a <= b
+                return a < b
             end
         end)
 end
