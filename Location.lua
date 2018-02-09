@@ -131,7 +131,7 @@ local FlyableNoContinent = {
 
 function LM_Location:IsFlyableAreaBroken()
     -- local apprenticeRiding = IsUsableSpell(33388)
-    -- local expertRiding = IsUsableSpell(34090)
+    local expertRiding = IsUsableSpell(34090)
     -- local artisanRiding = IsUsableSpell(34091)
     -- local masterRiding = IsUsableSpell(90265)
     local coldWeatherFlying = IsUsableSpell(54197)
@@ -141,27 +141,27 @@ function LM_Location:IsFlyableAreaBroken()
     -- local brokenIslesPathfinder = IsUsableSpell(233368)
 
     -- Northrend
-    if self.continent == 4 and not coldWeatherFlying then
+    if self.continent == 4 and expertRiding and not coldWeatherFlying then
         return true
     end
 
     -- Cataclysm Kalimdor
-    if self.continent == 1 and not flightMastersLicense then
+    if self.continent == 1 and expertRiding and not flightMastersLicense then
         return true
     end
 
     -- Cataclysm Eastern Kingdoms
-    if self.continent == 2 and not flightMastersLicense then
+    if self.continent == 2 and expertRiding and not flightMastersLicense then
         return true
     end
 
     -- Cataclysm Deepholm
-    if self.continent == 5 and not flightMastersLicense then
+    if self.continent == 5 and expertRiding and not flightMastersLicense then
         return true
     end
 
     -- Pandaria
-    if self.continent == 6 and not wisdomOfTheFourWinds then
+    if self.continent == 6 and expertRiding and not wisdomOfTheFourWinds then
         return true
     end
 
