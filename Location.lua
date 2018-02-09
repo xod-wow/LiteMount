@@ -135,13 +135,28 @@ function LM_Location:IsFlyableAreaBroken()
     -- local artisanRiding = IsUsableSpell(34091)
     -- local masterRiding = IsUsableSpell(90265)
     local coldWeatherFlying = IsUsableSpell(54197)
-    -- local flightMastersLicense = IsUsableSpell(902670)
+    local flightMastersLicense = IsUsableSpell(90267)
     local wisdomOfTheFourWinds = IsUsableSpell(115913)
     -- local draenorPathfinder = IsUsableSpell(191645)
     -- local brokenIslesPathfinder = IsUsableSpell(233368)
 
     -- Northrend
     if self.continent == 4 and not coldWeatherFlying then
+        return true
+    end
+
+    -- Cataclysm Kalimdor
+    if self.continent == 1 and not flightMastersLicense then
+        return true
+    end
+
+    -- Cataclysm Eastern Kingdoms
+    if self.continent == 2 and not flightMastersLicense then
+        return true
+    end
+
+    -- Cataclysm Deepholm
+    if self.continent == 5 and not flightMastersLicense then
         return true
     end
 
