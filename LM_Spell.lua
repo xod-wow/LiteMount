@@ -42,6 +42,7 @@ end
 
 function LM_Spell:Refresh()
     self.isCollected = IsSpellKnown(self.spellID)
+    LM_Mount.Refresh(self)
 end
 
 function LM_Spell:IsCastable()

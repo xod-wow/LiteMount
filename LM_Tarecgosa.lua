@@ -26,6 +26,7 @@ end
 
 function LM_Tarecgosa:Refresh()
     self.isCollected = ( GetItemCount(self.itemID) > 0 )
+    LM_Mount.Refresh(self)
 end
 
 function LM_Tarecgosa:InProgress()

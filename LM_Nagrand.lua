@@ -35,6 +35,7 @@ end
 
 function LM_Nagrand:Refresh()
     self.isCollected = ( UnitLevel("player") >= 100 )
+    LM_Mount.Refresh(self)
 end
 
 function LM_Nagrand:GetSecureAttributes()

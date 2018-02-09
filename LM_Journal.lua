@@ -97,6 +97,7 @@ function LM_Journal:Refresh()
     self.isFavorite = isFavorite
     self.isFiltered = isFiltered
     self.isCollected = isCollected
+    LM_Mount.Refresh(self)
 end
 
 local BlizzardFilterSettings = {
