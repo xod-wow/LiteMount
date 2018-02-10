@@ -130,15 +130,15 @@ local FlyableNoContinent = {
 -- unlocked before they were removed.
 
 function LM_Location:IsFlyableAreaBroken()
-    -- local apprenticeRiding = IsUsableSpell(33388)
-    local expertRiding = IsUsableSpell(34090)
-    -- local artisanRiding = IsUsableSpell(34091)
-    -- local masterRiding = IsUsableSpell(90265)
-    local coldWeatherFlying = IsUsableSpell(54197)
-    local flightMastersLicense = IsUsableSpell(90267)
-    local wisdomOfTheFourWinds = IsUsableSpell(115913)
-    -- local draenorPathfinder = IsUsableSpell(191645)
-    -- local brokenIslesPathfinder = IsUsableSpell(233368)
+    -- local apprenticeRiding = IsSpellKnown(33388)
+    local expertRiding = IsSpellKnown(34090)
+    -- local artisanRiding = IsSpellKnown(34091)
+    -- local masterRiding = IsSpellKnown(90265)
+    local coldWeatherFlying = IsSpellKnown(54197)
+    local flightMastersLicense = IsSpellKnown(90267)
+    local wisdomOfTheFourWinds = IsSpellKnown(115913)
+    -- local draenorPathfinder = IsSpellKnown(191645)
+    -- local brokenIslesPathfinder = IsSpellKnown(233368)
 
     -- Northrend
     if self.continent == 4 and expertRiding and not coldWeatherFlying then
@@ -178,12 +178,12 @@ function LM_Location:CanFly()
     end
 
     -- Draenor Pathfinder
-    if self.continent == 7 and not IsUsableSpell(191645) then
+    if self.continent == 7 and not IsSpellKnown(191645) then
         return false
     end
 
     -- Broken Isles Pathfinder, Part 2
-    if self.continent == 8 and not IsUsableSpell(233368) then
+    if self.continent == 8 and not IsSpellKnown(233368) then
         return false
     end
 
