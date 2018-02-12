@@ -32,8 +32,6 @@ L.VASHJIR               = GetMapNameByID(613)
 -- enUS / enGB / Default -------------------------------------------------------
 
 L.AQ                    = "AQ"
-L.C1                    = "C1"
-L.C2                    = "C2"
 L.FLOAT                 = "Float"
 L.FLY                   = "Fly"
 L.LM_ADVANCED_EXP       = "These settings allow you to customize the actions run by each of the LiteMount key bindings. Please read the documentation at the URL below before changing anything."
@@ -68,8 +66,6 @@ L.WALK                  = "Walk"
 
 if locale == "deDE" then
 L.AQ                    = "AQ"
-L.C1                    = "B1"
-L.C2                    = "B2"
 L.FLOAT                 = "Wasserwandeln"
 L.FLY                   = "Fliegen"
 L.LM_ADVANCED_EXP       = "Mit diesen Einstellungen können Sie die Aktionen anpassen, die von den einzelnen LiteMount-Tastenbindungen ausgeführt werden. Bitte lesen Sie die Dokumentation unter der folgenden URL, bevor Sie etwas ändern."
@@ -123,8 +119,6 @@ end
 
 if locale == "frFR" then
 L.AQ                    = "AQ"
-L.C1                    = "C1"
-L.C2                    = "C2"
 L.FLOAT                 = "Flotte"
 L.FLY                   = "Vol"
 L.LM_ADVANCED_EXP       = "Ces paramètres vous permettent de customiser les actions une par une des raccourcis du LiteMount. S'il vous plait lisez la documentation a l'URL en dessous avant de changer n'importe quoi."
@@ -168,8 +162,6 @@ end
 
 if locale == "koKR" then
 L.AQ                    = "안퀴"
-L.C1                    = "사1"
-L.C2                    = "사2"
 L.FLOAT                 = "수면 보행"
 L.FLY                   = "비행"
 L.LM_AUTHOR             = "저자"
@@ -200,6 +192,7 @@ end
 -- ptBR ------------------------------------------------------------------------
 
 if locale == "ptBR" then
+L.AQ                    = "AQ"
 L.FLOAT                 = "Flutuar"
 L.FLY                   = "Voar"
 L.LM_AUTHOR             = "Autor"
