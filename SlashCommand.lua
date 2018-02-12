@@ -176,7 +176,13 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
             LM_Options.db.char.debugEnabled = false
         end
         return true
-    elseif cmd == ""then
+--@debug@
+    elseif cmd == "usable" then
+        LM_Developer:Initialize()
+        LM_Developer:UpdateUsability()
+        return true
+--@end-debug@
+    elseif cmd == "" then
         return LiteMountOptionsPanel_Open()
     end
 

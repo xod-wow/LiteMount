@@ -2,3 +2,4 @@ ignore:
     - ABOUT.md
     - README.md
     - fetchlocale.sh
+    - Developer.lua

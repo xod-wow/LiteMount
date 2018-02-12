@@ -13,6 +13,10 @@ Localization.lua
 AutoEventFrame.lua
 Print.lua
 
+--@debug@
+Developer.lua
+--@end-debug@
+
 SpellInfo.lua
 Mount.lua
 LM_Journal.lua
