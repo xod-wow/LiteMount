@@ -9,6 +9,7 @@ Notes To Myself
     git config user.email mib@post.com
     git config tag.sort version:refname
     git config fetch.prune true
+    git config core.filemode false
     git config --global push.default simple
 
 
@@ -41,7 +42,7 @@ Notes To Myself
 ------------------------------------------------------------------------------
 * XML syntax check
 
-    xmllint --noout UIOptionsFrame.xml
+    xmllint --noout UI/*.xml
 
 
 ------------------------------------------------------------------------------
@@ -49,10 +50,10 @@ Notes To Myself
 
     Try to get more translations done.
 
+    Deck of cards roll system for mounts.
+
     Mount weighting system.
       - How does it work with the enable/disable all button.
-
-    Deck of cards roll system for mounts.
 
     Export flag lists with serialize/compress.
 
