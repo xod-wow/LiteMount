@@ -134,37 +134,26 @@ function LM_Location:IsFlyableAreaBroken()
     local expertRiding = IsSpellKnown(34090)
     local artisanRiding = IsSpellKnown(34091)
     local masterRiding = IsSpellKnown(90265)
-    local coldWeatherFlying = IsSpellKnown(54197)
-    local flightMastersLicense = IsSpellKnown(90267)
-    local wisdomOfTheFourWinds = IsSpellKnown(115913)
     -- local draenorPathfinder = IsSpellKnown(191645)
     -- local brokenIslesPathfinder = IsSpellKnown(233368)
 
     local knowsFlying = expertRiding or artisanRiding or masterRiding
 
-    -- Northrend
-    if self.continent == 4 and knowsFlying and not coldWeatherFlying then
-        return true
-    end
+    if knowsFlying then
+        -- Cataclysm Kalimdor
+        if self.continent == 1 then return true end
 
-    -- Cataclysm Kalimdor
-    if self.continent == 1 and knowsFlying and not flightMastersLicense then
-        return true
-    end
+        -- Cataclysm Eastern Kingdoms
+        if self.continent == 2 then return true end
 
-    -- Cataclysm Eastern Kingdoms
-    if self.continent == 2 and knowsFlying and not flightMastersLicense then
-        return true
-    end
+        -- Northrend
+        if self.continent == 4 then return true end
 
-    -- Cataclysm Deepholm
-    if self.continent == 5 and knowsFlying and not flightMastersLicense then
-        return true
-    end
+        -- Cataclysm Deepholm
+        if self.continent == 5 then return true end
 
-    -- Pandaria
-    if self.continent == 6 and knowsFlying and not wisdomOfTheFourWinds then
-        return true
+        -- Pandaria
+        if self.continent == 6 then return true end
     end
 
     return false
