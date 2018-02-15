@@ -13,9 +13,9 @@ Localization.lua
 AutoEventFrame.lua
 Print.lua
 
---@debug@
+#@debug@
 Developer.lua
---@end-debug@
+#@end-debug@
 
 SpellInfo.lua
 Mount.lua
