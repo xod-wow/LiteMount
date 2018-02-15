@@ -123,8 +123,10 @@ function LM_Journal:SetFavorite(setting)
     -- Evil, but try not to be too evil saving what we can and restoring it
     -- This is almost certainly going to break in future patches.
 
-    local SavedSearchText = MountJournal.searchBox:GetText()
-    C_MountJournal.SetSearch("")
+    if MountJournal then
+        local SavedSearchText = MountJournal.searchBox:GetText()
+        C_MountJournal.SetSearch("")
+    end
 
     for _,f in ipairs(BlizzardFilterSettings) do
         SavedCollectedFilters[f] = C_MountJournal.GetCollectedFilterSetting(f)
@@ -148,7 +150,9 @@ function LM_Journal:SetFavorite(setting)
     self:Refresh()
 
     -- Restore saved settings
-    C_MountJournal.SetSearch(SavedSearchText or "")
+    if MountJournal then
+        C_MountJournal.SetSearch(SavedSearchText or "")
+    end
     for f,v in pairs(SavedCollectedFilters) do
         C_MountJournal.SetCollectedFilterSetting(f, v)
     end
