@@ -56,16 +56,36 @@ ACTIONS['Dismount'] =
 
 -- Only cancel forms that we will activate (mount-style ones).
 -- See: http://wowprogramming.com/docs/api/GetShapeshiftFormID
+
+local prevFormName
+
 ACTIONS['CancelForm'] =
     function ()
-        local formIndex = GetShapeshiftForm()
-        if formIndex == 0 then return end
+        LM_Debug("Trying CancelForm")
 
-        local form = LM_PlayerMounts:GetMountByShapeshiftForm(formIndex)
-        if not form or LM_Options:IsExcludedMount(form) then return end
+        local curFormIndex = GetShapeshiftForm()
+        local inMountForm = curFormIndex > 0 and LM_PlayerMounts:GetMountByShapeshiftForm(curFormIndex)
 
-        LM_Debug("Setting action to CancelForm.")
-        return LM_SecureAction:Macro(SLASH_CANCELFORM1)
+        LM_Debug("Previous form is " .. tostring(prevFormName))
+
+        if inMountForm or (IsMounted() and curFormIndex == 0) then
+            if prevFormName then
+                LM_Debug("Setting action to " .. prevFormName)
+                return LM_SecureAction:Spell(prevFormName)
+            end
+        elseif curFormIndex and curFormIndex > 0 then
+            local _, name = GetShapeshiftFormInfo(curFormIndex)
+            LM_Debug("Saving current form " .. name .. ".")
+            prevFormName = name
+        else
+            LM_Debug("Clearing saved form.")
+            prevFormName = nil
+        end
+
+        if inMountForm and not LM_Options:IsExcludedMount(inMountForm) then
+            LM_Debug("Setting action to CancelForm.")
+            return LM_SecureAction:Macro(SLASH_CANCELFORM1)
+        end
     end
 
 -- Got a player target, try copying their mount

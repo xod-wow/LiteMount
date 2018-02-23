@@ -33,8 +33,8 @@ customFlags is a table of flag names, with data about them (currently none)
 
 local DefaultButtonAction = [[
 LeaveVehicle
-Dismount
 CancelForm
+Dismount
 CopyTargetsMount
 Mount [filter=VASHJIR][area:610/614/615,submerged]
 Mount [filter=AQ][area:766,noflyable,nosubmerged]
@@ -49,8 +49,8 @@ Macro
 
 local OldNoFlyAction = [[
 LeaveVehicle
-Dismount
 CancelForm
+Dismount
 CopyTargetsMount
 Mount [filter=VASHJIR][area:610/614/615,submerged]
 Mount [filter=AQ][area:766,noflyable,nosubmerged]
@@ -64,8 +64,8 @@ Macro
 
 local OldCustom1Action = [[
 LeaveVehicle
-Dismount
 CancelForm
+Dismount
 CopyTargetsMount
 Mount [filter=CUSTOM1]
 Macro
@@ -73,8 +73,8 @@ Macro
 
 local OldCustom2Action = [[
 LeaveVehicle
-Dismount
 CancelForm
+Dismount
 CopyTargetsMount
 Mount [filter=CUSTOM2]
 Macro
