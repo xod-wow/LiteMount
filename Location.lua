@@ -130,6 +130,25 @@ local FlyableNoContinent = {
 -- unlocked before they were removed.
 
 function LM_Location:IsFlyableAreaBroken()
+    -- Cataclysm Kalimdor
+    if self.continent == 1 then return true end
+
+    -- Cataclysm Eastern Kingdoms
+    if self.continent == 2 then return true end
+
+    -- Northrend
+    if self.continent == 4 then return true end
+
+    -- Cataclysm Deepholm
+    if self.continent == 5 then return true end
+
+    -- Pandaria
+    if self.continent == 6 then return true end
+
+    return false
+end
+
+function LM_Location:KnowsFlyingSkill()
     -- local apprenticeRiding = IsSpellKnown(33388)
     local expertRiding = IsSpellKnown(34090)
     local artisanRiding = IsSpellKnown(34091)
@@ -138,29 +157,16 @@ function LM_Location:IsFlyableAreaBroken()
     -- local brokenIslesPathfinder = IsSpellKnown(233368)
 
     local knowsFlying = expertRiding or artisanRiding or masterRiding
-
-    if knowsFlying then
-        -- Cataclysm Kalimdor
-        if self.continent == 1 then return true end
-
-        -- Cataclysm Eastern Kingdoms
-        if self.continent == 2 then return true end
-
-        -- Northrend
-        if self.continent == 4 then return true end
-
-        -- Cataclysm Deepholm
-        if self.continent == 5 then return true end
-
-        -- Pandaria
-        if self.continent == 6 then return true end
-    end
-
-    return false
+    return knowsFlying
 end
 
 -- Draenor and Lost Isles need achievement unlocks to be able to fly.
 function LM_Location:CanFly()
+
+    -- If you can't fly, you can't fly
+    if not self:KnowsFlyingSkill() then
+        return false
+    end
 
     -- I'm going to assume, across the board, that you can't fly in
     -- "no continent" / -1 and fix it up later if it turns out you can.
@@ -185,9 +191,9 @@ function LM_Location:CanFly()
     end
 
     -- Remove when Blizzard fixes the unlock flying issue with IsFlyableArea
-    if self:IsFlyableAreaBroken() then
-        return true
-    end
+    -- if self:IsFlyableAreaBroken() then
+    --     return true
+    -- end
 
     return IsFlyableArea()
 end
