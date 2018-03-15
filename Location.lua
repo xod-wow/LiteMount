@@ -35,7 +35,7 @@ function LM_Location:Initialize()
 end
 
 local function FrameApply(frames, func, ...)
-    for i,f in ipairs(frames) do f[func](f, ...) end
+    for _,f in ipairs(frames) do f[func](f, ...) end
 end
 
 function LM_Location:UpdateSwimTimes()
@@ -106,64 +106,26 @@ function LM_Location:ZONE_CHANGED_NEW_AREA()
     self:Update()
 end
 
--- In 6.0 Blizzard made all mounts able to to run, so this very accurate
--- and good test for flyability no longer works.  For now we will fall back
--- to the rubbish IsFlyableArea() until a better idea comes along.
-
---[[
-function LM_Location:CanFly()
-    for _,s in ipairs(CAN_FLY_IF_USABLE_SPELLS) do
-        if not IsUsableSpell(s) then
-            return nil
-        end
-    end
-    return true
-end
-]]--
-
 local FlyableNoContinent = {
     [1177] = true,      -- Deaths of Chromie scenario
 }
 
--- 7.3.5 has totally busted IsFlyableArea() in places that used to need
--- extra flight unlocks but now don't, but only if you didn't have them
--- unlocked before they were removed.
-
-function LM_Location:IsFlyableAreaBroken()
-    -- Cataclysm Kalimdor
-    if self.continent == 1 then return true end
-
-    -- Cataclysm Eastern Kingdoms
-    if self.continent == 2 then return true end
-
-    -- Northrend
-    if self.continent == 4 then return true end
-
-    -- Cataclysm Deepholm
-    if self.continent == 5 then return true end
-
-    -- Pandaria
-    if self.continent == 6 then return true end
-
-    return false
-end
+-- apprenticeRiding = IsSpellKnown(33388)
+-- expertRiding = IsSpellKnown(34090)
+-- artisanRiding = IsSpellKnown(34091)
+-- masterRiding = IsSpellKnown(90265)
 
 function LM_Location:KnowsFlyingSkill()
-    -- local apprenticeRiding = IsSpellKnown(33388)
-    local expertRiding = IsSpellKnown(34090)
-    local artisanRiding = IsSpellKnown(34091)
-    local masterRiding = IsSpellKnown(90265)
-    -- local draenorPathfinder = IsSpellKnown(191645)
-    -- local brokenIslesPathfinder = IsSpellKnown(233368)
-
-    local knowsFlying = expertRiding or artisanRiding or masterRiding
-    return knowsFlying
+    -- These are in this order because it's more likely you are high level and
+    -- know the most advanced one.
+    return IsSpellKnown(90265) or IsSpellKnown(34091) or IsSpellKnown(34090)
 end
 
+-- Can't fly if you haven't learned a flying skill
 -- Draenor and Lost Isles need achievement unlocks to be able to fly.
 function LM_Location:CanFly()
 
-    -- If you can't fly, you can't fly
+    -- If you don't know how to fly, you can't fly
     if not self:KnowsFlyingSkill() then
         return false
     end
@@ -184,16 +146,10 @@ function LM_Location:CanFly()
         return false
     end
 
-    -- As far as I know Argus is completely non-flyable, but some parts of
-    -- it are flagged wrongly for IsFlyableArea()
+    -- Argus is non-flyable, but some parts of it are flagged wrongly
     if self.continent == 9 then
         return false
     end
-
-    -- Remove when Blizzard fixes the unlock flying issue with IsFlyableArea
-    -- if self:IsFlyableAreaBroken() then
-    --     return true
-    -- end
 
     return IsFlyableArea()
 end
