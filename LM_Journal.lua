@@ -99,12 +99,6 @@ function LM_Journal:Refresh()
     LM_Mount.Refresh(self)
 end
 
-local BlizzardFilterSettings = {
-    LE_MOUNT_JOURNAL_FILTER_COLLECTED,
-    LE_MOUNT_JOURNAL_FILTER_NOT_COLLECTED,
-    LE_MOUNT_JOURNAL_FILTER_UNUSABLE,
-}
-
 --
 -- In an ideal world this would be a one-liner:
 --
@@ -114,6 +108,12 @@ local BlizzardFilterSettings = {
 -- means we have to clear all the filters, find the index, favorite, and try
 -- to set the filters back the way they were. Yuck.
 --
+
+local BlizzardFilterSettings = {
+    LE_MOUNT_JOURNAL_FILTER_COLLECTED,
+    LE_MOUNT_JOURNAL_FILTER_NOT_COLLECTED,
+    LE_MOUNT_JOURNAL_FILTER_UNUSABLE,
+}
 
 function LM_Journal:SetFavorite(setting)
     local SavedCollectedFilters = { }
