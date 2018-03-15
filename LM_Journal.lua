@@ -15,24 +15,25 @@ if LibDebug then LibDebug() end
 _G.LM_Journal = setmetatable({ }, LM_Mount)
 LM_Journal.__index = LM_Journal
 
---  [1] creatureName,
+--  [1] name,
 --  [2] spellID,
 --  [3] icon,
---  [4] active,
+--  [4] isActive,
 --  [5] isUsable,
 --  [6] sourceType,
 --  [7] isFavorite,
 --  [8] isFactionSpecific,
 --  [9] faction,
--- [10] isFiltered,
+-- [10] shouldHideOnChar,
 -- [11] isCollected,
 -- [12] mountID = C_MountJournal.GetMountInfoByID(mountID)
 
---  [1] creatureDisplayID,
---  [2] descriptionText,
---  [3] sourceText,
+--  [1] creatureDisplayInfoID,
+--  [2] description,
+--  [3] source,
 --  [4] isSelfMount,
---  [5] mountType = C_MountJournal.GetMountInfoExtraByID(mountID)
+--  [5] mounTypeID,
+--  [6] uiModelSceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
 function LM_Journal:Get(id)
     local name, spellID, icon, _, _, sourceType, isFavorite, _, faction, isFiltered, isCollected, mountID = C_MountJournal.GetMountInfoByID(id)
@@ -62,10 +63,8 @@ function LM_Journal:Get(id)
 
     -- LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
 
-    -- This attempts to set the old-style flags on mounts based on their
-    -- new-style "mount type". This list is almost certainly not complete,
-    -- and may be mistaken in places. List source:
-    --   http://wowpedia.org/API_C_MountJournal.GetMountInfoExtra
+    -- This list is could be added to in the future by Blizzard. See:
+    --   http://wowpedia.org/API_C_MountJournal.GetMountInfoExtraByID
 
     if m.mountType == 230 then          -- ground mount
         m.flags['RUN'] = true
