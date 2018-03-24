@@ -75,7 +75,7 @@ ACTIONS['CancelForm'] =
             end
         elseif curFormIndex and curFormIndex > 0 then
             local _, name = GetShapeshiftFormInfo(curFormIndex)
-            LM_Debug("Saving current form " .. name .. ".")
+            LM_Debug("Saving current form " .. tostring(name) .. ".")
             prevFormName = name
         else
             LM_Debug("Clearing saved form.")
