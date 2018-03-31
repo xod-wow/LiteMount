@@ -96,6 +96,7 @@ function LM_MountList:Find(matchfunc, ...)
 end
 
 function LM_MountList:Shuffle()
+    -- Fisher-Yates algorithm.
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
     for i = #self, 2, -1 do
         -- LM_Profile(1)
