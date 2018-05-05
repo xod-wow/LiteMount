@@ -167,8 +167,12 @@ function LM_UIFilter.IsFilteredMount(m)
     end
 
     if filtertext == "=" then
-        local spellName = GetSpellInfo(m.spellID)
-        return UnitAura("player", spellName) == nil
+        for i = 1, BUFF_MAX_DISPLAY do
+            local auraID = select(10, UnitAura("player", i))
+            if not auraID then break end
+            if auraID == m.spellID then return false end
+        end
+        return true
     end
 
     return strfind(m.name:lower(), filtertext:lower(), 1, true) == nil

@@ -50,15 +50,23 @@ CONDITIONS["achievement"] =
 CONDITIONS["area"] =
     function (cond, v)
         if v then
-            return tonumber(v) == LM_Location.areaID
+            v = tonumber(v)
+            for _, uiMapID in ipairs(LM_Location.uiMapPath) do
+                if uiMapId == v Then return true end
+            end
+            return false
         end
     end
 
 CONDITIONS["aura"] =
     function (cond, v)
         if v then
-            local auraName = GetSpellInfo(v)
-            return UnitAura("player", auraName, 'HELPFUL|HARMFUL')
+            local spellID, auraID = tonumber(v)
+            for i = 1, BUFF_MAX_DISPLAY + DEBUFF_MAX_DISPLAY do
+                auraID = select(10, UnitAura("player", i, 'HELPFUL|HARMFUL'))
+                if not auraID then return end
+                if auraID == spellID then return true end
+            end
         end
     end
 

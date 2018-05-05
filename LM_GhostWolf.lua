@@ -10,13 +10,21 @@
 if LibDebug then LibDebug() end
 --@end-debug@
 
-local TABLET_OF_GHOST_WOLF_AURA = GetSpellInfo(168799)
+local TABLET_OF_GHOST_WOLF_AURA = 168799
 
 _G.LM_GhostWolf = setmetatable({ }, LM_Spell)
 LM_GhostWolf.__index = LM_GhostWolf
 
 function LM_GhostWolf:Get()
     return LM_Spell.Get(self, LM_SPELL.GHOST_WOLF, 'WALK')
+end
+
+local function UnitHasAura(spellID)
+    for i = 1, BUFF_MAX_DISPLAY + DEBUFF_MAX_DISPLAY do
+        local auraID = select(10, UnitAura("player", i))
+        if not auraID then return end
+        if auraID == spellID then return true end
+    end
 end
 
 function LM_GhostWolf:CurrentFlags()
@@ -27,7 +35,7 @@ function LM_GhostWolf:CurrentFlags()
     -- no way to detect him as far as I can tell.
 
     if flags.WALK then
-        if UnitAura("player", TABLET_OF_GHOST_WOLF_AURA) then
+        if UnitHasAura("player", TABLET_OF_GHOST_WOLF_AURA) then
             flags = CopyTable(flags)
             flags.WALK = nil
             flags.RUN = true

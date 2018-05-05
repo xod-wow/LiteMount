@@ -36,9 +36,9 @@ LeaveVehicle
 CancelForm
 Dismount
 CopyTargetsMount
-Mount [filter=VASHJIR][area:610/614/615,submerged]
-Mount [filter=AQ][area:766,noflyable,nosubmerged]
-Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
+Mount [filter=VASHJIR][area:203,submerged]
+Mount [filter=AQ][area:319/320/321,noflyable,nosubmerged]
+Mount [filter=NAGRAND][area:550,noflyable,nosubmerged]
 Mount [filter=230987][nosubmerged,extra:202477]
 Mount [filter=230987][nosubmerged,aura:202477]
 SmartMount [filter={CLASS}]

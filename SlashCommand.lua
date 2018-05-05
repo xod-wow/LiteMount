@@ -10,6 +10,8 @@
 
 local L = LM_Localize
 
+local TOP_LEVEL_MAP_ID = 946
+
 local MacroName = "LiteMount"
 local MacroText = [[
 # Auto-created by LiteMount addon, it is safe to delete or edit this macro.
@@ -67,7 +69,7 @@ end
 local function PrintAreas(str)
     local searchStr = string.lower(str or "")
 
-    local allMaps = C_Map.GetMapChildrenInfo(946, nil, true)
+    local allMaps = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, nil, true)
 
     sort(allMaps, function (a,b) return a.mapID < b.mapID end)
 
@@ -82,7 +84,7 @@ end
 local function PrintContinents(str)
     local searchStr = string.lower(str or "")
 
-    local allContinents = C_Map.GetMapChildrenInfo(946, Enum.UIMapType.Continent, true)
+    local allContinents = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, Enum.UIMapType.Continent, true)
     sort(allContinents, function (a,b) return a.mapID < b.mapID end)
 
     for _, info in ipairs(allContinents) do

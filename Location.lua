@@ -19,11 +19,9 @@ LM_Location:RegisterEvent("PLAYER_LOGIN")
 
 function LM_Location:Initialize()
     self.continent = -1
-    self.areaID = -1
+    self.uiMapID = -1
+    self.uiMapPath = { }
     self.instanceID = -1
-    self.zoneText = -1
-    self.minimapZoneText = ""
-    self.subZoneText = ""
 
     self:UpdateSwimTimes()
 
@@ -60,6 +58,12 @@ function LM_Location:Update()
 
     local info = C_Map.GetMapInfo(self.uiMapID)
     self.uiMapName = info.name
+
+    wipe(self.uiMapPath)
+    while info do
+        tinsert(self.uiMapPath, info.mapID)
+        info = C_Map.GetMapInfo(info.parentMapID)
+    end
 
     local continentInfo = MapUtil.GetMapParentInfo(self.uiMapID, Enum.UIMapType.Continent, true)
     if continentInfo then
@@ -157,12 +161,18 @@ function LM_Location:CantBreathe()
 end
 
 function LM_Location:Dump()
+    local path = { }
+    for _, mapID in ipairs(self.uiMapPath) do
+        tinsert(path, format("%s (%d)", C_Map.GetMapInfo(mapID).name, mapID))
+    end
+
     LM_Print("--- Location Dump ---")
     LM_Print("continent: " .. self.continent)
     LM_Print("uiMapID: " .. self.uiMapID)
+    LM_Print("uiMapPath: " .. table.concat(path, " -> "))
     LM_Print("instanceID: " .. self.instanceID)
-    LM_Print("zoneText: " .. self.zoneText)
-    LM_Print("subZoneText: " .. self.subZoneText)
-    LM_Print("minimapZoneText: " .. self.minimapZoneText)
+    LM_Print("zoneText: " .. GetZoneText())
+    LM_Print("subZoneText: " .. GetSubZoneText())
+    LM_Print("minimapZoneText: " .. GetMinimapZoneText())
     LM_Print("IsFlyableArea(): " .. (IsFlyableArea() and "true" or "false"))
 end
