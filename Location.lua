@@ -56,25 +56,22 @@ end
 
 function LM_Location:Update()
 
-    local origID = GetCurrentMapAreaID()
+    self.uiMapID = C_Map.GetBestMapForUnit("player")
 
-    -- I lied: I'm still nice.
+    local info = C_Map.GetMapInfo(self.uiMapID)
+    self.uiMapName = info.name
 
-    local WMUListeners = { GetFramesRegisteredForEvent("WORLD_MAP_UPDATE") }
-    FrameApply(WMUListeners, "UnregisterEvent", "WORLD_MAP_UPDATE")
-
-    SetMapToCurrentZone()
-
-    self.continent = GetCurrentMapContinent()
-    self.areaID = GetCurrentMapAreaID()
+    local continentInfo = MapUtil.GetMapParentInfo(self.uiMapID, Enum.UIMapType.Continent, true)
+    if continentInfo then
+        self.continent = continentInfo.mapID
+    else
+        self.continent = -1
+    end
     self.realZoneText = GetRealZoneText()
     self.zoneText = GetZoneText()
     self.subZoneText = GetSubZoneText()
     self.minimapZoneText = GetMinimapZoneText()
     self.instanceID = select(8, GetInstanceInfo())
-
-    SetMapByID(origID)
-    FrameApply(WMUListeners, "RegisterEvent", "WORLD_MAP_UPDATE")
 end
 
 function LM_Location:PLAYER_LOGIN()
@@ -162,7 +159,7 @@ end
 function LM_Location:Dump()
     LM_Print("--- Location Dump ---")
     LM_Print("continent: " .. self.continent)
-    LM_Print("areaID: " .. self.areaID)
+    LM_Print("uiMapID: " .. self.uiMapID)
     LM_Print("instanceID: " .. self.instanceID)
     LM_Print("zoneText: " .. self.zoneText)
     LM_Print("subZoneText: " .. self.subZoneText)

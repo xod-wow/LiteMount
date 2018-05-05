@@ -65,29 +65,30 @@ local function PrintUsage()
 end
 
 local function PrintAreas(str)
-    local areas = GetAreaMaps()
-
     local searchStr = string.lower(str or "")
 
-    for _,areaID in ipairs(areas) do
-        local areaName = GetMapNameByID(areaID)
-        local searchName = string.lower(areaName)
-        if areaID == tonumber(str) or searchName:find(searchStr) then
-            LM_Print(format("% 4d : %s", areaID, areaName))
+    local allMaps = C_Map.GetMapChildrenInfo(946, nil, true)
+
+    sort(allMaps, function (a,b) return a.mapID < b.mapID end)
+
+    for _, info in ipairs(allMaps) do
+        local searchName = string.lower(info.name)
+        if info.mapID == tonumber(str) or searchName:find(searchStr) then
+            LM_Print(format("% 4d : %s (parent %d)", info.mapID, info.name, info.parentMapID))
         end
     end
 end
 
 local function PrintContinents(str)
-    local continents = { GetMapContinents() }
     local searchStr = string.lower(str or "")
 
-    local cID, cName, searchName
-    for i = 1, #continents, 2 do
-        cID, cName = continents[i], continents[i+1]
-        searchName = string.lower(cName)
-        if cID == tonumber(str) or searchName:find(searchStr) then
-            LM_Print(format("% 4d : %s", cID, cName))
+    local allContinents = C_Map.GetMapChildrenInfo(946, Enum.UIMapType.Continent, true)
+    sort(allContinents, function (a,b) return a.mapID < b.mapID end)
+
+    for _, info in ipairs(allContinents) do
+        local searchName = string.lower(info.name)
+        if info.mapID == tonumber(str) or searchName:find(searchStr) then
+            LM_Print(format("% 4d : %s", info.mapID, info.name))
         end
     end
 end
