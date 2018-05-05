@@ -138,7 +138,7 @@
             <Scripts>
                 <OnClick>
                     local parent = self:GetParent()
-                    LiteMountOptionsControl_Default(parent.EditBox)
+                    LiteMountOptionsControl_Default(parent.EditBox, true)
                     LiteMountOptionsControl_Refresh(parent.EditBox)
                 </OnClick>
             </Scripts>

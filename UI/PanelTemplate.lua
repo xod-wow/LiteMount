@@ -151,9 +151,13 @@ function LiteMountOptionsControl_Cancel(self)
     wipe(self.oldValues)
 end
 
-function LiteMountOptionsControl_Default(self)
-    for i = 1, (self.ntabs or 1) do
-        if self.GetOptionDefault then
+function LiteMountOptionsControl_Default(self, onlyCurrentTab)
+    if not self.GetOptionDefault then return end
+
+    if onlyCurrentTab then
+        self:SetOption(self:GetOptionDefault(self.tab), self.tab)
+    else
+        for i = 1, (self.ntabs or 1) do
             self:SetOption(self:GetOptionDefault(i), i)
         end
     end
