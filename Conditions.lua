@@ -52,7 +52,7 @@ CONDITIONS["area"] =
         if v then
             v = tonumber(v)
             for _, uiMapID in ipairs(LM_Location.uiMapPath) do
-                if uiMapId == v Then return true end
+                if uiMapId == v then return true end
             end
             return false
         end
