@@ -68,6 +68,14 @@ local restoreFormIDs = {
     [31] = true,    -- Moonkin Form
 }
 
+-- This is really two actions in one but I didn't want people to have to
+-- modify their custom action lists. It should really be CancelForm and
+-- SaveForm separately, although then they need to be in that exact order so
+-- maybe having them together is better after all.
+--
+-- Half of the reason this is so complicated is that you can mount up in
+-- Moonkin form (but casting Moonkin form dismounts you).
+
 ACTIONS['CancelForm'] =
     function ()
         LM_Debug("Trying CancelForm")
@@ -78,10 +86,15 @@ ACTIONS['CancelForm'] =
 
         LM_Debug("Previous form is " .. tostring(prevFormName))
 
-        if inMountForm or (IsMounted() and curFormIndex == 0) then
+        if inMountForm then
             if prevFormName then
-                LM_Debug("Setting action to " .. prevFormName)
-                return LM_SecureAction:Spell(prevFormName)
+                LM_Debug("Setting action to cancelform + " .. prevFormName)
+                return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_CANCELFORM1, prevFormName))
+            end
+        elseif IsMounted() and curFormIndex == 0 then
+            if prevFormName then
+                LM_Debug("Setting action to dismount + " .. prevFormName)
+                return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_DISMOUNT1, prevFormName))
             end
         elseif curFormID and restoreFormIDs[curFormID] then
             local _, name = GetShapeshiftFormInfo(curFormIndex)
