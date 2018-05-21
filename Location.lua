@@ -108,7 +108,7 @@ function LM_Location:ZONE_CHANGED_NEW_AREA()
 end
 
 local FlyableNoContinent = {
-    [1177] = true,      -- Deaths of Chromie scenario
+    [897] = true,           -- Deaths of Chromie scenario
 }
 
 -- apprenticeRiding = IsSpellKnown(33388)
@@ -133,7 +133,7 @@ function LM_Location:CanFly()
 
     -- I'm going to assume, across the board, that you can't fly in
     -- "no continent" / -1 and fix it up later if it turns out you can.
-    if self.continent == -1 and not FlyableNoContinent[self.areaID] then
+    if self.continent == -1 and not FlyableNoContinent[self.mapID] then
         return false
     end
 

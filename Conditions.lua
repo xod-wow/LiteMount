@@ -48,14 +48,8 @@ CONDITIONS["achievement"] =
     end
 
 CONDITIONS["area"] =
-    function (cond, v)
-        if v then
-            v = tonumber(v)
-            for _, uiMapID in ipairs(LM_Location.uiMapPath) do
-                if uiMapId == v then return true end
-            end
-            return false
-        end
+    function ()
+        LM_WarningAndPrint("[area] action list condition no longer supported")
     end
 
 CONDITIONS["aura"] =
@@ -240,6 +234,17 @@ CONDITIONS["instance"] =
             return LM_Location.instanceID == tonumber(v)
         else
             return IsInInstance()
+        end
+    end
+
+CONDITIONS["map"] =
+    function (cond, v)
+        if v then
+            v = tonumber(v)
+            for _, uiMapID in ipairs(LM_Location.uiMapPath) do
+                if uiMapId == v then return true end
+            end
+            return false
         end
     end
 
