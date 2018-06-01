@@ -23,6 +23,7 @@ local LM_MOUNT_SPELLS = {
     { "Nagrand", LM_SPELL.FROSTWOLF_WAR_WOLF },
     { "Nagrand", LM_SPELL.TELAARI_TALBUK },
     { "Tarecgosa" },
+    { "Spell", LM_SPELL.STAG_FORM, 'RUN' },
     { "ItemSummoned",
         LM_ITEM.LOANED_GRYPHON_REINS, LM_SPELL.LOANED_GRYPHON, 'FLY' },
     { "ItemSummoned",
