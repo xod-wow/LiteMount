@@ -21,16 +21,6 @@ if LibDebug then LibDebug() end
 _G.LM_TravelForm = setmetatable({ }, LM_Spell)
 LM_TravelForm.__index = LM_TravelForm
 
--- This is absolutely rubbish
-local RIDING_SKILL_SPELLS = { 33388, 33391, 34090, 34091, 90265 }
-
-local function PlayerKnowsRiding()
-    for _,id in ipairs(RIDING_SKILL_SPELLS) do
-        if IsSpellKnown(id) then return true end
-    end
-    return false
-end
-
 local travelFormFlags = { 'FLY', 'SWIM', 'RUN' }
 
 function LM_TravelForm:Get()
