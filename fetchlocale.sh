@@ -42,8 +42,6 @@ for locale in "deDE" "esES" "frFR" "itIT" "koKR" "ptBR" "ruRU" "zhCN" "zhTW"; do
     # In logographic languages we don't need abbreviations
     case $locale in
     koKR|zhCN|zhTW)
-        # printf "L.%-21s = %s\n" "C1" 'CUSTOM .. "1"'
-        # printf "L.%-22s= %s\n" "C2" 'CUSTOM .. "2"'
         ;;
     esac
 

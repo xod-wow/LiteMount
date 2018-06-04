@@ -12,6 +12,8 @@
 if LibDebug then LibDebug() end
 --@end-debug@
 
+local L = LM_Localize
+
 --[[
 
     <conditions>    :=  <condition> |
@@ -49,7 +51,7 @@ CONDITIONS["achievement"] =
 
 CONDITIONS["area"] =
     function ()
-        LM_WarningAndPrint("[area] action list condition no longer supported")
+        LM_WarningAndPrint(L.LM_WARN_AREA_COND)
     end
 
 CONDITIONS["aura"] =

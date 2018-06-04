@@ -53,10 +53,10 @@ local function IsTrue(x)
 end
 
 local function PrintUsage()
-    LM_Print("Usage:")
+    LM_Print(GAMEMENU_HELP .. ":")
     LM_Print("  /litemount enable | disable | toggle")
     LM_Print("  /litemount mounts [<substring>]")
-    LM_Print("  /litemount areas [<substring>]")
+    LM_Print("  /litemount maps [<substring>]")
     LM_Print("  /litemount continents [<substring>]")
     LM_Print("  /litemount location")
     LM_Print("  /litemount macro")
@@ -66,7 +66,9 @@ local function PrintUsage()
     LM_Print("  /litemount xmog <slotnumber>")
 end
 
-local function PrintAreas(str)
+local function PrintMaps(str)
+    if not C_Map then return end -- Pre-BfA test
+
     local searchStr = string.lower(str or "")
 
     local allMaps = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, nil, true)
@@ -82,6 +84,8 @@ local function PrintAreas(str)
 end
 
 local function PrintContinents(str)
+    if not C_Map then return end -- Pre-BfA test
+
     local searchStr = string.lower(str or "")
 
     local allContinents = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, Enum.UIMapType.Continent, true)
@@ -98,7 +102,10 @@ end
 _G.LiteMount_SlashCommandFunc = function (argstr)
 
     -- Look, please stop doing this, ok? Nothing good can come of it.
-    if InCombatLockdown() then return true end
+    if InCombatLockdown() then
+        LM_PrintError(ERR_NOT_IN_COMBAT)
+        return true
+    end
 
     local args = { strsplit(" ", argstr) }
     local cmd = table.remove(args, 1)
@@ -113,8 +120,8 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
     elseif cmd == "location" then
         LM_Location:Dump()
         return true
-    elseif cmd == "areas" then
-        PrintAreas(table.concat(args, ' '))
+    elseif cmd == "maps" then
+        PrintMaps(table.concat(args, ' '))
         return true
     elseif cmd == "continents" then
         PrintContinents(table.concat(args, ' '))
@@ -165,10 +172,10 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
         end
     elseif cmd == "debug" then
         if IsTrue(args[1]) then
-            LM_Print("Debugging enabled.")
+            LM_Print(L.LM_DEBUGGING_ENABLED)
             LM_Options.db.char.debugEnabled = true
         else
-            LM_Print("Debugging disabled.")
+            LM_Print(L.LM_DEBUGGING_DISABLED)
             LM_Options.db.char.debugEnabled = false
         end
         return true
