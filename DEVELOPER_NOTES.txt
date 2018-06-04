@@ -52,64 +52,7 @@ Notes To Myself
 
     Deck of cards roll system for mounts.
 
-    Mount weighting system.
-      - How does it work with the enable/disable all button.
-
     Export flag lists with serialize/compress.
-
-------------------------------------------------------------------------------
-* Code to check every spell usability
-
-    I hope that someday the ability to tell if we are on top of the water
-    or under it will return. WTB IsFloating()
-
-    MAX_SPELL_ID=250000 -- from wowhead
-
-    if not surfaceUsable then surfaceUsable = {} end
-    if not underUsable then underUsable = {} end
-
-    local function checkUsable(t)
-       local i = #t + 1
-       while true do
-          if i > MAX_SPELL_ID then return end
-          t[i] = IsUsableSpell(i)
-          if i % 1000 == 0 then
-             print(i)
-             coroutine.yield()
-          end
-          i = i + 1
-       end
-    end
-
-    local function compareUsable()
-       for i=1,#surfaceUsable do
-          if surfaceUsable[i] ~= underUsable[i] then
-             print(i .. ": " .. GetSpellInfo(i))
-          end
-       end
-    end
-
-
-    local thread
-
-    if GetMirrorTimerInfo(2) == "BREATH" then
-       wipe(underUsable)
-       thread = coroutine.create(function () checkUsable(underUsable) end)
-    elseif IsSwimming() then
-       wipe(surfaceUsable)
-       thread = coroutine.create(function () checkUsable(surfaceUsable) end)
-    else
-       thread = coroutine.create(compareUsable)
-    end
-
-    UsableChecker = CreateFrame("Frame")
-    UsableChecker:SetScript("OnUpdate", function(self, elapsed)
-          if coroutine.status(thread) == "dead" then
-             self:SetScript("OnUpdate", nil)
-          else
-             coroutine.resume(thread)
-          end
-    end)
 
 ------------------------------------------------------------------------------
 * Running Wild under ShapeShift
@@ -120,14 +63,25 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
-* Passenger-capable mounts
+* [CLOSED] Code to check every spell usability
+
+    Moved into LM_Developer.
+
+    I hope that someday the ability to tell if we are on top of the water
+    or under it will return. WTB IsFloating()
+
+
+------------------------------------------------------------------------------
+* [CLOSED] Passenger-capable mounts
+
+    Conclusion: handled by the action list mechanism now.
 
     Possibility of preferring a passenger-capable mount if you are in
     a group.
 
 
 ------------------------------------------------------------------------------
-* Better "undo".
+* [CLOSED] Better "undo".
 
     Conclusion: seems unncessary.
 
@@ -138,18 +92,13 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
-* Suggestions
+* [CLOSED] Suggestions
 
-    The suggestions stuff in the "last resort" macro is a bit clunky and
-    is probably going to be a pain to maintain.  Consider ripping it out
-    completely.
-
-    Also since we are now testing IsSpellKnown we don't need to separate
-    out the spells by class they way they are set up now.
+    Conclusion: I ripped it out completely.
 
 
 ------------------------------------------------------------------------------
-* "Dragonwrath, Tarecgosa's Rest" (71086)
+* [CLOSED] "Dragonwrath, Tarecgosa's Rest" (71086)
 
     Item ID 71086.  Spell ID is 101641 (Tarecgosa's Visage)
 
@@ -157,13 +106,13 @@ Notes To Myself
 
 
 ------------------------------------------------------------------------------
-* Might be better to look for Sea Legs aura for Vashj'ir.
+* [CLOSED] Might be better to look for Sea Legs aura for Vashj'ir.
 
     Sea legs is present even on the surface and flying so don't do it.
 
 
 ------------------------------------------------------------------------------
-* Does GetUnitSpeed return negative if you go backwards?
+* [CLOSED] Does GetUnitSpeed return negative if you go backwards?
 
     No it doesn't.
 
