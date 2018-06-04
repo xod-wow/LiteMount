@@ -14,6 +14,8 @@
 if LibDebug then LibDebug() end
 --@end-debug@
 
+local TOP_LEVEL_MAP_ID = 946
+
 _G.LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
 LM_Location:RegisterEvent("PLAYER_LOGIN")
 

@@ -10,8 +10,6 @@
 
 local L = LM_Localize
 
-local TOP_LEVEL_MAP_ID = 946
-
 local MacroName = "LiteMount"
 local MacroText = [[
 # Auto-created by LiteMount addon, it is safe to delete or edit this macro.
