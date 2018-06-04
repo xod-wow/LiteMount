@@ -59,12 +59,10 @@ ACTIONS['Dismount'] =
 -- Form IDs that you put here must be cancelled automatically on
 -- mounting.
 
-local prevFormName
+local savedFormName
 local restoreFormIDs = {
     [1] = true,     -- Cat Form
     [5] = true,     -- Bear Form
-    -- [16] = true,    -- Ghost Wolf
-    -- [30] = true,    -- Rogue Stealth
     [31] = true,    -- Moonkin Form
 }
 
@@ -84,25 +82,27 @@ ACTIONS['CancelForm'] =
         local curFormID = GetShapeshiftFormID()
         local inMountForm = curFormIndex > 0 and LM_PlayerMounts:GetMountByShapeshiftForm(curFormIndex)
 
-        LM_Debug("Previous form is " .. tostring(prevFormName))
+        LM_Debug("Previous form is " .. tostring(savedFormName))
+
+        -- The logic here is really ugly.
 
         if inMountForm then
-            if prevFormName then
-                LM_Debug("Setting action to cancelform + " .. prevFormName)
-                return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_CANCELFORM1, prevFormName))
+            if savedFormName then
+                LM_Debug("Setting action to cancelform + " .. savedFormName)
+                return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_CANCELFORM1, savedFormName))
             end
         elseif IsMounted() and curFormIndex == 0 then
-            if prevFormName then
-                LM_Debug("Setting action to dismount + " .. prevFormName)
-                return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_DISMOUNT1, prevFormName))
+            if savedFormName then
+                LM_Debug("Setting action to dismount + " .. savedFormName)
+                return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_DISMOUNT1, savedFormName))
             end
         elseif curFormID and restoreFormIDs[curFormID] then
             local _, name = GetShapeshiftFormInfo(curFormIndex)
             LM_Debug("Saving current form " .. tostring(name) .. ".")
-            prevFormName = name
+            savedFormName = name
         else
             LM_Debug("Clearing saved form.")
-            prevFormName = nil
+            savedFormName = nil
         end
 
         if inMountForm and not LM_Options:IsExcludedMount(inMountForm) then
