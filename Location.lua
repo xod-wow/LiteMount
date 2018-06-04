@@ -53,6 +53,7 @@ end
 -- the death. :(
 
 function LM_Location:Update()
+    if not C_Map then return end -- Pre-BfA test
 
     self.uiMapID = C_Map.GetBestMapForUnit("player")
 
@@ -161,6 +162,11 @@ function LM_Location:CantBreathe()
 end
 
 function LM_Location:Dump()
+    if not C_Map then -- Pre-BfA test
+        LM_PrintError("Map functions not found - is this Battle for Azeroth?")
+        return
+    end
+
     local path = { }
     for _, mapID in ipairs(self.uiMapPath) do
         tinsert(path, format("%s (%d)", C_Map.GetMapInfo(mapID).name, mapID))
@@ -175,4 +181,38 @@ function LM_Location:Dump()
     LM_Print("subZoneText: " .. GetSubZoneText())
     LM_Print("minimapZoneText: " .. GetMinimapZoneText())
     LM_Print("IsFlyableArea(): " .. (IsFlyableArea() and "true" or "false"))
+end
+
+
+function LM_Location:PrintMaps(str)
+    if not C_Map then return end -- Pre-BfA test
+
+    local searchStr = string.lower(str or "")
+
+    local allMaps = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, nil, true)
+
+    sort(allMaps, function (a,b) return a.mapID < b.mapID end)
+
+    for _, info in ipairs(allMaps) do
+        local searchName = string.lower(info.name)
+        if info.mapID == tonumber(str) or searchName:find(searchStr) then
+            LM_Print(format("% 4d : %s (parent %d)", info.mapID, info.name, info.parentMapID))
+        end
+    end
+end
+
+function LM_Location:PrintContinents(str)
+    if not C_Map then return end -- Pre-BfA test
+
+    local searchStr = string.lower(str or "")
+
+    local allContinents = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, Enum.UIMapType.Continent, true)
+    sort(allContinents, function (a,b) return a.mapID < b.mapID end)
+
+    for _, info in ipairs(allContinents) do
+        local searchName = string.lower(info.name)
+        if info.mapID == tonumber(str) or searchName:find(searchStr) then
+            LM_Print(format("% 4d : %s", info.mapID, info.name))
+        end
+    end
 end

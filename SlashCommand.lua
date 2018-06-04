@@ -66,39 +66,6 @@ local function PrintUsage()
     LM_Print("  /litemount xmog <slotnumber>")
 end
 
-local function PrintMaps(str)
-    if not C_Map then return end -- Pre-BfA test
-
-    local searchStr = string.lower(str or "")
-
-    local allMaps = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, nil, true)
-
-    sort(allMaps, function (a,b) return a.mapID < b.mapID end)
-
-    for _, info in ipairs(allMaps) do
-        local searchName = string.lower(info.name)
-        if info.mapID == tonumber(str) or searchName:find(searchStr) then
-            LM_Print(format("% 4d : %s (parent %d)", info.mapID, info.name, info.parentMapID))
-        end
-    end
-end
-
-local function PrintContinents(str)
-    if not C_Map then return end -- Pre-BfA test
-
-    local searchStr = string.lower(str or "")
-
-    local allContinents = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, Enum.UIMapType.Continent, true)
-    sort(allContinents, function (a,b) return a.mapID < b.mapID end)
-
-    for _, info in ipairs(allContinents) do
-        local searchName = string.lower(info.name)
-        if info.mapID == tonumber(str) or searchName:find(searchStr) then
-            LM_Print(format("% 4d : %s", info.mapID, info.name))
-        end
-    end
-end
-
 _G.LiteMount_SlashCommandFunc = function (argstr)
 
     -- Look, please stop doing this, ok? Nothing good can come of it.
@@ -121,10 +88,10 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
         LM_Location:Dump()
         return true
     elseif cmd == "maps" then
-        PrintMaps(table.concat(args, ' '))
+        LM_Location:PrintMaps(table.concat(args, ' '))
         return true
     elseif cmd == "continents" then
-        PrintContinents(table.concat(args, ' '))
+        LM_Location:PrintContinents(table.concat(args, ' '))
         return true
     elseif cmd == "mounts" then
         local m
