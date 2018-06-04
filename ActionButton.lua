@@ -36,7 +36,7 @@ function LM_ActionButton:Dispatch(action, usableMounts, filters)
 
     local handler = LM_Actions:GetHandler(action)
     if not handler then
-        LM_WarningAndPrint(format("Error: bad action '%s' in action list.", action))
+        LM_WarningAndPrint(format(L.LM_ERR_BAD_ACTION, action))
         return
     end
 

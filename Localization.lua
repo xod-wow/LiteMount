@@ -26,8 +26,13 @@ local locale = GetLocale()
 L.CUSTOM1               = CUSTOM .. " 1"
 L.CUSTOM2               = CUSTOM .. " 2"
 L.FAVORITES             = FAVORITES
-L.NAGRAND               = C_Map.GetMapInfo(572).name
-L.VASHJIR               = C_Map.GetMapInfo(203).name
+if _G.C_Map then
+    L.NAGRAND               = C_Map.GetMapInfo(572).name
+    L.VASHJIR               = C_Map.GetMapInfo(203).name
+else
+    L.NAGRAND               = GetMapNameByID(477)
+    L.VASHJIR               = GetMapNameByID(613)
+end
 
 -- enUS / enGB / Default -------------------------------------------------------
 
@@ -48,6 +53,8 @@ L.LM_DEBUGGING_DISABLED = "Debugging disabled."
 L.LM_DEBUGGING_ENABLED  = "Debugging enabled."
 L.LM_ENABLE_DEBUGGING   = "Enable debugging messages."
 L.LM_ENABLING_MOUNT     = "Enabling active mount: %s"
+L.LM_ERR_BAD_ACTION     = "Bad action '%s' in action list."
+L.LM_ERR_BAD_CONDITION  = "Bad condition '%s' in action list."
 L.LM_FLAGS              = "Flags"
 L.LM_HELP_TRANSLATE     = "Help translate LiteMount into your language. Thank you."
 L.LM_MACRO_EXP          = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."

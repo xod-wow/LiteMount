@@ -98,7 +98,7 @@ CONDITIONS["combat"] =
 CONDITIONS["continent"] =
     function (cond, v)
         if v then
-            return tonumber(v) == LM_Location.continent
+            return tonumber(v) == LM_Location.uiContinentMapID
         end
     end
 
@@ -462,7 +462,7 @@ function LM_Conditions:IsTrue(condition)
         return any(handler, condition, unpack(values))
     end
 
-    LM_WarningAndPrint("Unknown LiteMount action conditional: " .. cond)
+    LM_WarningAndPrint(format(L.LM_ERR_BAD_CONDITION, cond))
     return false
 end
 
