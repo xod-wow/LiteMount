@@ -27,7 +27,7 @@ L.CUSTOM1               = CUSTOM .. " 1"
 L.CUSTOM2               = CUSTOM .. " 2"
 L.FAVORITES             = FAVORITES
 if _G.C_Map then
-    L.NAGRAND               = C_Map.GetMapInfo(572).name
+    L.NAGRAND               = C_Map.GetMapInfo(550).name
     L.VASHJIR               = C_Map.GetMapInfo(203).name
 else
     L.NAGRAND               = GetMapNameByID(477)
