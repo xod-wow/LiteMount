@@ -51,14 +51,14 @@ VARS["{ROLE}"] =
         return v
     end
 
-VARS["{AREAID}"] =
+VARS["{MAPID}"] =
     function ()
         return LM_Location.areaID
     end
 
 VARS["{CONTINENTID}"] =
     function ()
-        return LM_Location.continent
+        return LM_Location.uiContinentMapID
     end
 
 -- this should totally be some kind of metatable but who cares

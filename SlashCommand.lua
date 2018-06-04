@@ -85,13 +85,22 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
         UpdateActiveMount(cmd)
         return true
     elseif cmd == "location" then
-        LM_Location:Dump()
+        LM_Print(LOCATION_COLON)
+        for _,line in ipairs(LM_Location:GetLocation()) do
+            LM_Print("  " .. line)
+        end
         return true
     elseif cmd == "maps" then
-        LM_Location:PrintMaps(table.concat(args, ' '))
+        local str = table.concat(args, ' ')
+        for _,line in ipairs(LM_Location:GetMaps(str)) do
+            LM_Print(line)
+        end
         return true
     elseif cmd == "continents" then
-        LM_Location:PrintContinents(table.concat(args, ' '))
+        local str = table.concat(args, ' ')
+        for _,line in ipairs(LM_Location:GetContinents(str)) do
+            LM_Print(line)
+        end
         return true
     elseif cmd == "mounts" then
         local m

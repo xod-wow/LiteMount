@@ -18,7 +18,7 @@ _G.LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
 LM_Location:RegisterEvent("PLAYER_LOGIN")
 
 function LM_Location:Initialize()
-    self.continent = -1
+    self.uiContinentMapID = -1
     self.uiMapID = -1
     self.uiMapPath = { }
     self.instanceID = -1
@@ -47,13 +47,8 @@ function LM_Location:IsFloating()
            ( GetTime() - (self.lastDryTime or 0 ) < 1.0)
 end
 
--- I used to be nice. I swear I tried to be nice and only passively listen to
--- the map events, but then craptastic addons like Archy decided to constantly
--- futz with the map on a timer and screw it for everyone. Now it's battle to
--- the death. :(
-
 function LM_Location:Update()
-    if not C_Map then return end -- Pre-BfA test
+    if not _G.C_Map then return end -- Pre-BfA test
 
     self.uiMapID = C_Map.GetBestMapForUnit("player")
 
@@ -68,14 +63,12 @@ function LM_Location:Update()
 
     local continentInfo = MapUtil.GetMapParentInfo(self.uiMapID, Enum.UIMapType.Continent, true)
     if continentInfo then
-        self.continent = continentInfo.mapID
+        self.uiContinentMapID = continentInfo.mapID
     else
-        self.continent = -1
+        self.uiContinentMapID = -1
     end
-    self.realZoneText = GetRealZoneText()
     self.zoneText = GetZoneText()
     self.subZoneText = GetSubZoneText()
-    self.minimapZoneText = GetMinimapZoneText()
     self.instanceID = select(8, GetInstanceInfo())
 end
 
@@ -134,22 +127,22 @@ function LM_Location:CanFly()
 
     -- I'm going to assume, across the board, that you can't fly in
     -- "no continent" / -1 and fix it up later if it turns out you can.
-    if self.continent == -1 and not FlyableNoContinent[self.mapID] then
+    if self.uiContinentMapID == -1 and not FlyableNoContinent[self.mapID] then
         return false
     end
 
     -- Draenor Pathfinder
-    if self.continent == 7 and not IsSpellKnown(191645) then
+    if self.uiContinentMapID == 7 and not IsSpellKnown(191645) then
         return false
     end
 
     -- Broken Isles Pathfinder, Part 2
-    if self.continent == 8 and not IsSpellKnown(233368) then
+    if self.uiContinentMapID == 8 and not IsSpellKnown(233368) then
         return false
     end
 
     -- Argus is non-flyable, but some parts of it are flagged wrongly
-    if self.continent == 9 then
+    if self.uiContinentMapID == 9 then
         return false
     end
 
@@ -161,10 +154,10 @@ function LM_Location:CantBreathe()
     return (name == "BREATH" and rate < 0)
 end
 
-function LM_Location:Dump()
-    if not C_Map then -- Pre-BfA test
-        LM_PrintError("Map functions not found - is this Battle for Azeroth?")
-        return
+function LM_Location:GetLocation()
+    if not _G.C_Map then -- Pre-BfA test
+        LM_PrintError("C_Map interface not found - this isn't Battle for Azeroth!")
+        return {}
     end
 
     local path = { }
@@ -172,20 +165,20 @@ function LM_Location:Dump()
         tinsert(path, format("%s (%d)", C_Map.GetMapInfo(mapID).name, mapID))
     end
 
-    LM_Print("--- Location Dump ---")
-    LM_Print("continent: " .. self.continent)
-    LM_Print("uiMapID: " .. self.uiMapID)
-    LM_Print("uiMapPath: " .. table.concat(path, " -> "))
-    LM_Print("instanceID: " .. self.instanceID)
-    LM_Print("zoneText: " .. GetZoneText())
-    LM_Print("subZoneText: " .. GetSubZoneText())
-    LM_Print("minimapZoneText: " .. GetMinimapZoneText())
-    LM_Print("IsFlyableArea(): " .. (IsFlyableArea() and "true" or "false"))
+    return {
+        "continent: " .. self.uiContinentMapID,
+        format("map: %s (%d)",  C_Map.GetMapInfo(self.uiMapID).name, self.uiMapID),
+        "mapPath: " .. table.concat(path, " -> "),
+        "instance: " .. self.instanceID,
+        "zoneText: " .. GetZoneText(),
+        "subZoneText: " .. GetSubZoneText(),
+        "IsFlyableArea(): " .. (IsFlyableArea() and "true" or "false"),
+    }
 end
 
 
-function LM_Location:PrintMaps(str)
-    if not C_Map then return end -- Pre-BfA test
+function LM_Location:GetMaps(str)
+    if not _G.C_Map then return {} end -- Pre-BfA test
 
     local searchStr = string.lower(str or "")
 
@@ -193,26 +186,32 @@ function LM_Location:PrintMaps(str)
 
     sort(allMaps, function (a,b) return a.mapID < b.mapID end)
 
+    local lines = {}
+
     for _, info in ipairs(allMaps) do
         local searchName = string.lower(info.name)
         if info.mapID == tonumber(str) or searchName:find(searchStr) then
-            LM_Print(format("% 4d : %s (parent %d)", info.mapID, info.name, info.parentMapID))
+            tinsert(lines, format("% 4d : %s (parent %d)", info.mapID, info.name, info.parentMapID))
         end
     end
+    return lines
 end
 
-function LM_Location:PrintContinents(str)
-    if not C_Map then return end -- Pre-BfA test
+function LM_Location:GetContinents(str)
+    if not _G.C_Map then return {} end -- Pre-BfA test
 
     local searchStr = string.lower(str or "")
 
     local allContinents = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, Enum.UIMapType.Continent, true)
     sort(allContinents, function (a,b) return a.mapID < b.mapID end)
 
+    local lines = {}
+
     for _, info in ipairs(allContinents) do
         local searchName = string.lower(info.name)
         if info.mapID == tonumber(str) or searchName:find(searchStr) then
-            LM_Print(format("% 4d : %s", info.mapID, info.name))
+            tinsert(lines, format("% 4d : %s", info.mapID, info.name))
         end
     end
+    return lines
 end
