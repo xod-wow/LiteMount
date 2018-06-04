@@ -148,6 +148,10 @@ function LM_UIFilter.IsFilteredMount(m)
         return true
     end
 
+    -- XXX FIXME XXX
+    -- This is unacceptably slow and causes scrolling to lock up the game
+    -- I have NO IDEA WHY.
+
     local okflags = CopyTable(m:CurrentFlags())
     local noFilters = true
     for _,flagName in ipairs(LM_Options:GetAllFlags()) do
