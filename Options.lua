@@ -47,39 +47,6 @@ SmartMount
 Macro
 ]]
 
-local OldNoFlyAction = [[
-LeaveVehicle
-CancelForm
-Dismount
-CopyTargetsMount
-Mount [filter=VASHJIR][area:610/614/615,submerged]
-Mount [filter=AQ][area:766,noflyable,nosubmerged]
-Mount [filter=NAGRAND][area:950,noflyable,nosubmerged]
-Mount [filter=230987][nosubmerged,extra:202477]
-Mount [filter=230987][nosubmerged,aura:202477]
-SmartMount [filter={CLASS}]
-SmartMount [filter=~FLY]
-Macro
-]]
-
-local OldCustom1Action = [[
-LeaveVehicle
-CancelForm
-Dismount
-CopyTargetsMount
-Mount [filter=CUSTOM1]
-Macro
-]]
-
-local OldCustom2Action = [[
-LeaveVehicle
-CancelForm
-Dismount
-CopyTargetsMount
-Mount [filter=CUSTOM2]
-Macro
-]]
-
 -- A lot of things need to be cleaned up when flags are deleted/renamed
 
 local defaults = {
@@ -135,25 +102,13 @@ end
 
 function LM_Options:VersionUpgrade()
 
-    -- From 0 -> 1
-    if (self.db.profile.configVersion or 0) < 1 then
-        self.db.profile.buttonActions[2] = OldNoFlyAction
-
-        if self:FlagIsUsed('CUSTOM1') then
-            self.db.profile.buttonActions[3] = OldCustom1Action
-        end
-
-        if self:FlagIsUsed('CUSTOM2') then
-            self.db.profile.buttonActions[4] = OldCustom2Action
-        end
-    end
-
-    -- From 1 -> 2 moved a bunch of stuff from char to profile, can't migrate
-    if (self.db.global.configVersion or 0) < 2 then
+    -- From 1 -> 2 moved a bunch of stuff from char to profile,
+    -- can't migrate
+    if (self.db.global.configVersion or 2) < 2 then
         self.db.global.enableTwoPress = nil
     end
 
-    if (self.db.char.configVersion or 0) < 2 then
+    if (self.db.char.configVersion or 2) < 2 then
         self.db.char.copyTargetsMount = nil
         self.db.char.uiMountFilterList = nil
     end
