@@ -100,8 +100,9 @@ end
 
 function LM_Options:VersionUpgrade()
 
-    -- From 1 -> 2 moved a bunch of stuff from char to profile,
-    -- can't migrate
+    -- From 1 -> 2 moved a bunch of stuff from char to profile that
+    -- can't be migrated.
+
     if (self.db.global.configVersion or 2) < 2 then
         self.db.global.enableTwoPress = nil
     end
@@ -131,7 +132,7 @@ end
 
 function LM_Options:ConsistencyCheck()
 
-    -- Make sure any flag in any profile is included in the flag list
+    -- Make sure any flag is included in the flag list
 
     for spellID,changes in pairs(self.db.global.flagChanges) do
         for f in pairs(changes) do
@@ -315,15 +316,19 @@ function LM_Options:RenameFlag(f, newF)
     if f == newF then return end
 
     -- all this "tmp" stuff is to deal with f == newF, just in case
+    local tmp
 
     for _,c in pairs(self.db.global.flagChanges) do
-        local tmp = c[f]
+        tmp = c[f]
         c[f] = nil
         c[newF] = tmp
     end
-    tmp = p.uiMountFilterList[f]
-    p.uiMountFilterList[f] = nil
-    p.uiMountFilterList[newF] = tmp
+
+    for _,p in pairs(self.db.profiles) do
+        tmp = p.uiMountFilterList[f]
+        p.uiMountFilterList[f] = nil
+        p.uiMountFilterList[newF] = tmp
+    end
 
     tmp = self.db.global.customFlags[f]
     self.db.global.customFlags[f] = nil
