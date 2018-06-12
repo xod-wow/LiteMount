@@ -428,7 +428,10 @@ function LiteMountOptionsMounts_OnLoad(self)
         LiteMountOptions_UpdateMountList()
     end
 
-    self.refresh = LiteMountOptions_UpdateMountList
+    self.refresh = function (self)
+        LiteMountOptions_UpdateFlagPaging(self)
+        LiteMountOptions_UpdateMountList(self)
+    end
 
     LiteMountOptionsPanel_OnLoad(self)
 end

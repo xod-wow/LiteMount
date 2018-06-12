@@ -133,18 +133,12 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
     elseif cmd == "flags" then
         if args[1] == "add" and #args == 2 then
             LM_Options:CreateFlag(args[2])
-            LiteMountOptions_UpdateFlagPaging()
-            LiteMountOptions_UpdateMountList()
             return true
         elseif args[1] == "del" and #args == 2 then
             LM_Options:DeleteFlag(args[2])
-            LiteMountOptions_UpdateFlagPaging()
-            LiteMountOptions_UpdateMountList()
             return true
         elseif args[1] == "rename" and #args == 3 then
             LM_Options:RenameFlag(args[2], args[3])
-            LiteMountOptions_UpdateFlagPaging()
-            LiteMountOptions_UpdateMountList()
             return true
         elseif args[1] == "list" and #args == 1 then
             local flags = LM_Options:GetAllFlags()

@@ -207,27 +207,27 @@ end
 
 function LM_Options:ApplyMountFlags(m)
 
-    if not m.cachedFlags then
+    if not self.cachedMountFlags[m.spellID] then
         local changes = self.db.global.flagChanges[m.spellID]
-        m.cachedFlags = CopyTable(m.flags)
+        self.cachedMountFlags[m.spellID] = CopyTable(m.flags)
 
         if changes then
             for _,flagName in ipairs(self.allFlags) do
                 if changes[flagName] == '+' then
-                    m.cachedFlags[flagName] = true
+                    self.cachedMountFlags[m.spellID][flagName] = true
                 elseif changes[flagName] == '-' then
-                    m.cachedFlags[flagName] = nil
+                    self.cachedMountFlags[m.spellID][flagName] = nil
                 end
             end
         end
     end
 
     if m.isFavorite then
-        m.cachedFlags.FAVORITES = true
+        self.cachedMountFlags[m.spellID].FAVORITES = true
     else
-        m.cachedFlags.FAVORITES = nil
+        self.cachedMountFlags[m.spellID].FAVORITES = nil
     end
-    return m.cachedFlags
+    return self.cachedMountFlags[m.spellID]
 end
 
 function LM_Options:SetMountFlag(m, setFlag)
@@ -269,12 +269,12 @@ end
 function LM_Options:ResetMountFlags(m)
     LM_Debug(format("Defaulting flags for spell %s (%d).", m.name, m.spellID))
     self.db.global.flagChanges[m.spellID] = nil
-    m.cachedFlags = nil
+    self.cachedMountFlags[m.spellID] = nil
 end
 
 function LM_Options:SetMountFlags(m, flags)
     self.db.global.flagChanges[m.spellID] = FlagDiff(self.allFlags, m.flags, flags)
-    m.cachedFlags = nil
+    self.cachedMountFlags[m.spellID] = nil
 end
 
 
@@ -300,6 +300,7 @@ function LM_Options:CreateFlag(f)
     self.db.global.customFlags[f] = { }
     self.db.profile.uiMountFilterList[f] = false
     self:UpdateAllFlags()
+    self.db.callbacks:Fire("OnFlagsModified")
 end
 
 function LM_Options:DeleteFlag(f)
@@ -309,6 +310,7 @@ function LM_Options:DeleteFlag(f)
     self.db.profile.uiMountFilterList[f] = nil
     self.db.global.customFlags[f] = nil
     self:UpdateAllFlags()
+    self.db.callbacks:Fire("OnFlagsModified")
 end
 
 function LM_Options:RenameFlag(f, newF)
@@ -335,12 +337,14 @@ function LM_Options:RenameFlag(f, newF)
     self.db.global.customFlags[newF] = tmp
 
     self:UpdateAllFlags()
+    self.db.callbacks:Fire("OnFlagsModified")
 end
 
 -- This keeps a cached list of all flags in sort order, with the LM_FLAG
 -- set of flags first, then the user-added flags in alphabetical order
 
 function LM_Options:UpdateAllFlags()
+    self.cachedMountFlags = wipe(self.cachedMountFlags or {})
     self.allFlags = wipe(self.allFlags or {})
 
     for f in pairs(LM_FLAG) do tinsert(self.allFlags, f) end
