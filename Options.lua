@@ -178,17 +178,20 @@ end
 function LM_Options:AddExcludedMount(m)
     LM_Debug(format("Disabling mount %s (%d).", m.name, m.spellID))
     self.db.profile.excludedSpells[m.spellID] = true
+    self.db.callbacks:Fire("OnMountSetExclude", m)
 end
 
 function LM_Options:RemoveExcludedMount(m)
     LM_Debug(format("Enabling mount %s (%d).", m.name, m.spellID))
     self.db.profile.excludedSpells[m.spellID] = false
+    self.db.callbacks:Fire("OnMountSetExclude", m)
 end
 
 function LM_Options:ToggleExcludedMount(m)
     local id = m.spellID
     LM_Debug(format("Toggling mount %s (%d).", m.name, id))
     self.db.profile.excludedSpells[id] = not self.db.profile.excludedSpells[id]
+    self.db.callbacks:Fire("OnMountSetExclude", m)
 end
 
 function LM_Options:SetExcludedMounts(mountlist)

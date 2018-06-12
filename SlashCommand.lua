@@ -106,7 +106,6 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
         return true
     elseif cmd == "toggle" or cmd == "enable" or cmd == "disable" then
         UpdateActiveMount(cmd)
-        LiteMountOptions_UpdateMountList()
         return true
     elseif cmd == "location" then
         LM_Location:Dump()
