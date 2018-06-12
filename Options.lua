@@ -52,6 +52,7 @@ Macro
 local defaults = {
     global = {
         customFlags         = { },
+        flagChanges         = { },
     },
     profile = {
         excludedSpells      = { },
@@ -113,10 +114,22 @@ function LM_Options:VersionUpgrade()
         self.db.char.uiMountFilterList = nil
     end
 
+    if (self.db.global.configVersion or 3) < 3 then
+        local gfc = self.db.global.flagChanges
+
+        -- Merge all of the profile flagChanges into one global one
+        for _,p in pairs(self.db.profiles) do
+            for spellID,changes in pairs(p.flagChanges or {}) do
+                gfc[spellID] = Mixin(gfc[spellID] or {}, changes)
+            end
+            -- p.flagChanges = nil
+        end
+    end
+
     -- Set current version
-    self.db.global.configVersion = 2
-    self.db.profile.configVersion = 2
-    self.db.char.configVersion = 2
+    self.db.global.configVersion = 3
+    self.db.profile.configVersion = 3
+    self.db.char.configVersion = 3
 end
 
 function LM_Options:ConsistencyCheck()
