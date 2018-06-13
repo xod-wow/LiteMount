@@ -103,6 +103,13 @@ function LM_Location:ZONE_CHANGED_NEW_AREA()
     self:Update()
 end
 
+function LM_Location:MapInPath(n)
+    for _, uiMapID in ipairs(LM_Location.uiMapPath) do
+        if uiMapId == n then return true end
+    end
+    return false
+end
+
 local FlyableNoContinent = {
     [897] = true,           -- Deaths of Chromie scenario
 }

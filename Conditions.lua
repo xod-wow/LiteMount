@@ -242,11 +242,7 @@ CONDITIONS["instance"] =
 CONDITIONS["map"] =
     function (cond, v)
         if v then
-            v = tonumber(v)
-            for _, uiMapID in ipairs(LM_Location.uiMapPath) do
-                if uiMapId == v then return true end
-            end
-            return false
+            return LM_Location:MapInPath(tonumber(v))
         end
     end
 
