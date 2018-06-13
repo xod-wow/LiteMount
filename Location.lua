@@ -136,22 +136,23 @@ function LM_Location:CanFly()
 
     -- I'm going to assume, across the board, that you can't fly in
     -- "no continent" / -1 and fix it up later if it turns out you can.
+    -- XXX FIXME XXX there is no "no continent" any more.
     if self.uiContinentMapID == -1 and not FlyableNoContinent[self.mapID] then
         return false
     end
 
     -- Draenor Pathfinder
-    if self.uiContinentMapID == 7 and not IsSpellKnown(191645) then
+    if self:MapInPath(572) and not IsSpellKnown(191645) then
         return false
     end
 
     -- Broken Isles Pathfinder, Part 2
-    if self.uiContinentMapID == 8 and not IsSpellKnown(233368) then
+    if self:MapInPath(619) and not IsSpellKnown(233368) then
         return false
     end
 
     -- Argus is non-flyable, but some parts of it are flagged wrongly
-    if self.uiContinentMapID == 9 then
+    if self:MapInPath(950) then
         return false
     end
 
