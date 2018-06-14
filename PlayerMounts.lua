@@ -122,9 +122,11 @@ end
 
 function LM_PlayerMounts:GetMountFromUnitAura(unitid)
     local buffs = { }
-    for i = 1,BUFF_MAX_DISPLAY do
+    local i = 1
+    while true do
         local aura = UnitAura(unitid, i)
-        if aura then buffs[aura] = true end
+        if aura then buffs[aura] = true else break end
+        i = i + 1
     end
     local function match(m)
         local spellName = GetSpellInfo(m.spellID)

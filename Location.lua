@@ -20,10 +20,16 @@ _G.LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
 LM_Location:RegisterEvent("PLAYER_LOGIN")
 
 function LM_Location:Initialize()
-    self.uiContinentMapID = -1
-    self.uiMapID = -1
-    self.uiMapPath = { }
+    if _G.C_Map then
+        self.uiMapID = -1
+        self.uiMapPath = { }
+    else
+        self.continent = -1
+        self.areaID = -1
+    end
+
     self.instanceID = -1
+    self.zoneText = nil
 
     self:UpdateSwimTimes()
 
@@ -50,25 +56,28 @@ function LM_Location:IsFloating()
 end
 
 function LM_Location:Update()
-    if not _G.C_Map then return end -- Pre-BfA test
+    if _G.C_Map then
+        self.uiMapID = C_Map.GetBestMapForUnit("player")
 
-    self.uiMapID = C_Map.GetBestMapForUnit("player")
+        local info = C_Map.GetMapInfo(self.uiMapID)
+        self.uiMapName = info.name
 
-    local info = C_Map.GetMapInfo(self.uiMapID)
-    self.uiMapName = info.name
-
-    wipe(self.uiMapPath)
-    while info do
-        tinsert(self.uiMapPath, info.mapID)
-        info = C_Map.GetMapInfo(info.parentMapID)
-    end
-
-    local continentInfo = MapUtil.GetMapParentInfo(self.uiMapID, Enum.UIMapType.Continent, true)
-    if continentInfo then
-        self.uiContinentMapID = continentInfo.mapID
+        wipe(self.uiMapPath)
+        while info do
+            tinsert(self.uiMapPath, info.mapID)
+            info = C_Map.GetMapInfo(info.parentMapID)
+        end
     else
-        self.uiContinentMapID = -1
+        local origID = GetCurrentMapAreaID()
+        local WMUListeners = { GetFramesRegisteredForEvent("WORLD_MAP_UPDATE") }
+        FrameApply(WMUListeners, "UnregisterEvent", "WORLD_MAP_UPDATE")
+        SetMapToCurrentZone()
+        self.continent = GetCurrentMapContinent()
+        self.areaID = GetCurrentMapAreaID()
+        SetMapByID(origID)
+        FrameApply(WMUListeners, "RegisterEvent", "WORLD_MAP_UPDATE")
     end
+
     self.zoneText = GetZoneText()
     self.subZoneText = GetSubZoneText()
     self.instanceID = select(8, GetInstanceInfo())
@@ -137,22 +146,25 @@ function LM_Location:CanFly()
     -- I'm going to assume, across the board, that you can't fly in
     -- "no continent" / -1 and fix it up later if it turns out you can.
     -- XXX FIXME XXX there is no "no continent" any more.
-    if self.uiContinentMapID == -1 and not FlyableNoContinent[self.mapID] then
-        return false
+    if _G.C_Map then
+    else
+        if self.continent == -1 and not FlyableNoContinent[self.mapID] then
+            return false
+        end
     end
 
     -- Draenor Pathfinder
-    if self:MapInPath(572) and not IsSpellKnown(191645) then
-        return false
+    if _G.C_Map and self:MapInPath(572) or self.continent == 7 then
+        if not IsSpellKnown(191645) then return false end
     end
 
     -- Broken Isles Pathfinder, Part 2
-    if self:MapInPath(619) and not IsSpellKnown(233368) then
-        return false
+    if _G.C_Map and self:MapInPath(619) or self.continent == 8 then
+        if not IsSpellKnown(233368) then return false end
     end
 
     -- Argus is non-flyable, but some parts of it are flagged wrongly
-    if self:MapInPath(950) then
+    if _G.C_Map and self:MapInPath(950) or self.continent == 9 then
         return false
     end
 

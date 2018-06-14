@@ -111,7 +111,11 @@ function LiteMountOptionsProfileDropDown_Initialize(self, level)
         info.notCheckable = 1
         UIDropDownMenu_AddButton(info, level)
 
-        UIDropDownMenu_AddSeparator(level)
+        if _G.C_Map then
+            UIDropDownMenu_AddSeparator(level)
+        else
+            UIDropDownMenu_AddSeparator(info, level)
+        end
 
         for _,v in ipairs(dbProfiles) do
             info = UIDropDownMenu_CreateInfo()
@@ -130,7 +134,11 @@ function LiteMountOptionsProfileDropDown_Initialize(self, level)
             UIDropDownMenu_AddButton(info, level)
         end
 
-        UIDropDownMenu_AddSeparator(level)
+        if _G.C_Map then
+            UIDropDownMenu_AddSeparator(level)
+        else
+            UIDropDownMenu_AddSeparator(info, level)
+        end
 
         info = UIDropDownMenu_CreateInfo()
         info.text = L.LM_RESET_PROFILE

@@ -20,10 +20,12 @@ function LM_GhostWolf:Get()
 end
 
 local function UnitHasAura(spellID)
-    for i = 1, BUFF_MAX_DISPLAY + DEBUFF_MAX_DISPLAY do
+    local i = 1
+    while true do
         local auraID = select(10, UnitAura("player", i))
         if not auraID then return end
         if auraID == spellID then return true end
+        i = i + 1
     end
 end
 

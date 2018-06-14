@@ -50,18 +50,24 @@ CONDITIONS["achievement"] =
     end
 
 CONDITIONS["area"] =
-    function ()
-        LM_WarningAndPrint(L.LM_WARN_AREA_COND)
+    function (cond, v)
+        if _G.C_Map then
+            LM_WarningAndPrint(L.LM_WARN_REPLACE_COND, "area", "map")
+        elseif v then
+            return tonumber(v) == LM_Location.areaID
+        end
     end
 
 CONDITIONS["aura"] =
     function (cond, v)
         if v then
             local spellID, auraID = tonumber(v)
-            for i = 1, BUFF_MAX_DISPLAY + DEBUFF_MAX_DISPLAY do
+            local i = 1
+            while true do
                 auraID = select(10, UnitAura("player", i, 'HELPFUL|HARMFUL'))
                 if not auraID then return end
                 if auraID == spellID then return true end
+                i = i + 1
             end
         end
     end
@@ -97,7 +103,9 @@ CONDITIONS["combat"] =
 
 CONDITIONS["continent"] =
     function (cond, v)
-        if v then
+        if _G.C_Map then
+            LM_WarningAndPrint(L.LM_WARN_REPLACE_COND, "continent", "map")
+        elseif v then
             return tonumber(v) == LM_Location.uiContinentMapID
         end
     end
@@ -241,7 +249,7 @@ CONDITIONS["instance"] =
 
 CONDITIONS["map"] =
     function (cond, v)
-        if v then
+        if _G.C_Map and v then
             return LM_Location:MapInPath(tonumber(v))
         end
     end
