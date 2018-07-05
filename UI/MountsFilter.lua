@@ -171,12 +171,7 @@ function LM_UIFilter.IsFilteredMount(m)
     end
 
     if filtertext == "=" then
-        for i = 1, BUFF_MAX_DISPLAY do
-            local auraID = select(10, UnitAura("player", i))
-            if not auraID then break end
-            if auraID == m.spellID then return false end
-        end
-        return true
+        return LM_UnitAura("player", m.name) == nil
     end
 
     return strfind(m.name:lower(), filtertext:lower(), 1, true) == nil

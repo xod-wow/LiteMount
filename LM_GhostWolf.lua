@@ -19,16 +19,6 @@ function LM_GhostWolf:Get()
     return LM_Spell.Get(self, LM_SPELL.GHOST_WOLF, 'WALK')
 end
 
-local function UnitHasAura(spellID)
-    local i = 1
-    while true do
-        local auraID = select(10, UnitAura("player", i))
-        if not auraID then return end
-        if auraID == spellID then return true end
-        i = i + 1
-    end
-end
-
 function LM_GhostWolf:CurrentFlags()
     local flags = LM_Mount.CurrentFlags(self)
 
@@ -37,7 +27,7 @@ function LM_GhostWolf:CurrentFlags()
     -- no way to detect him as far as I can tell.
 
     if flags.WALK then
-        if UnitHasAura("player", TABLET_OF_GHOST_WOLF_AURA) then
+        if LM_UnitAura("player", TABLET_OF_GHOST_WOLF_AURA) then
             flags = CopyTable(flags)
             flags.WALK = nil
             flags.RUN = true
