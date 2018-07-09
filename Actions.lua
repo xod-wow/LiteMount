@@ -149,6 +149,7 @@ ACTIONS['SmartMount'] =
         if LM_Location:IsFloating() then
             LM_Debug("  Trying Floating mount")
             m = filteredList:FilterFind('FLOAT')
+            if m then return m end
         end
 
         LM_Debug("  Trying Running Mount")
