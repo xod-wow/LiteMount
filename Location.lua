@@ -189,6 +189,11 @@ function LM_Location:CanFly()
         return false
     end
 
+    -- Zan'dalar (875) and Kul'tiras (876)
+    if _G.C_Map and (self:MapInPath(875) or self:MapInPath(876)) then
+        return false
+    end
+
     return IsFlyableArea()
 end
 
