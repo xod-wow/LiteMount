@@ -57,9 +57,14 @@ end
 
 function LM_Location:Update()
     if _G.C_Map then
-        self.uiMapID = C_Map.GetBestMapForUnit("player")
+        local map = C_Map.GetBestMapForUnit("player")
 
-        local info = C_Map.GetMapInfo(self.uiMapID)
+        -- Right after zoning this can be unknown.
+        if not map then return end
+
+        local info = C_Map.GetMapInfo(map)
+
+        self.uiMapID  = map
         self.uiMapName = info.name
 
         wipe(self.uiMapPath)
@@ -119,10 +124,6 @@ function LM_Location:MapInPath(n)
     return false
 end
 
-local FlyableNoContinent = {
-    [897] = true,           -- Deaths of Chromie scenario
-}
-
 -- apprenticeRiding = IsSpellKnown(33388)
 -- expertRiding = IsSpellKnown(34090)
 -- artisanRiding = IsSpellKnown(34091)
@@ -133,6 +134,22 @@ function LM_Location:KnowsFlyingSkill()
     -- know the most advanced one.
     return IsSpellKnown(90265) or IsSpellKnown(34091) or IsSpellKnown(34090)
 end
+
+local FlyableNoContinent = {
+    [897] = true,           -- Deaths of Chromie scenario
+}
+
+local InstanceNotFlyable = {
+    [1107] = true,          -- Dreadscar Rift (Warlock)
+    [1191] = true,          -- Ashran PVP Area
+    [1265] = true,          -- Tanaan Jungle Intro
+    [1463] = true,          -- Helheim Exterior Area
+    [1469] = true,          -- Heart of Azeroth (Shaman)
+    [1479] = true,          -- Skyhold (Warrior)
+    [1500] = true,          -- Broken Shore DH Scenario
+    [1514] = true,          -- Wandering Isle (Monk)
+    [1519] = true,          -- Fel Hammer (DH)
+}
 
 -- Can't fly if you haven't learned a flying skill
 -- Draenor and Lost Isles need achievement unlocks to be able to fly.
@@ -147,6 +164,9 @@ function LM_Location:CanFly()
     -- "no continent" / -1 and fix it up later if it turns out you can.
     -- XXX FIXME XXX there is no "no continent" any more.
     if _G.C_Map then
+        if InstanceNotFlyable[self.instanceID] then
+            return false
+        end
     else
         if self.continent == -1 and not FlyableNoContinent[self.mapID] then
             return false
@@ -164,7 +184,7 @@ function LM_Location:CanFly()
     end
 
     -- Argus is non-flyable, but some parts of it are flagged wrongly
-    if _G.C_Map and self:MapInPath(950) or self.continent == 9 then
+    if _G.C_Map and self:MapInPath(905) or self.continent == 9 then
         return false
     end
 
@@ -188,7 +208,6 @@ function LM_Location:GetLocation()
     end
 
     return {
-        "continent: " .. self.uiContinentMapID,
         format("map: %s (%d)",  C_Map.GetMapInfo(self.uiMapID).name, self.uiMapID),
         "mapPath: " .. table.concat(path, " -> "),
         "instance: " .. self.instanceID,
