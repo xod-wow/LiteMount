@@ -149,6 +149,7 @@ local InstanceNotFlyable = {
     [1500] = true,          -- Broken Shore DH Scenario
     [1514] = true,          -- Wandering Isle (Monk)
     [1519] = true,          -- Fel Hammer (DH)
+    [1760] = true,          -- Ruins of Lordaeron BfA opening
 }
 
 -- Can't fly if you haven't learned a flying skill
