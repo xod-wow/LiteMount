@@ -36,25 +36,27 @@ function LM_Mount:Refresh()
     -- Nothing in base
 end
 
-function LM_Mount:MatchesFilter(flags, f)
+function LM_Mount:MatchesFilter(flags, filterStr)
 
-    if f == "CASTABLE" then
-        return self:IsCastable()
+    local filters = { strsplit('/', filterStr) }
+
+    -- These are all ORed so return true as soon as one is true
+
+    for _, f in ipairs(filters) do
+        if f == "CASTABLE" then
+            if self:IsCastable() then return true end
+        elseif f == "ENABLED" then
+            if LM_Options:IsExcludedMount(self) ~= true then return true end
+        elseif tonumber(f) then
+            if self.spellID == tonumber(f) then return true end
+        elseif f:sub(1, 1) == '~' then
+            if flags[f:sub(2)] == nil then return true end
+        else
+            if flags[f] ~= nil then return true end
+        end
     end
 
-    if f == "ENABLED" then
-        return LM_Options:IsExcludedMount(self) ~= true
-    end
-
-    if tonumber(f) then
-        return self.spellID == tonumber(f)
-    end
-
-    if f:sub(1, 1) == '~' then
-        return flags[f:sub(2)] == nil
-    end
-
-    return flags[f] ~= nil
+    return false
 end
 
 function LM_Mount:MatchesFilters(...)
