@@ -10,7 +10,7 @@
 if LibDebug then LibDebug() end
 --@end-debug@
 
-local TABLET_OF_GHOST_WOLF_AURA = 168799
+local TABLET_OF_GHOST_WOLF_AURA = GetSpellInfo(168799)
 
 _G.LM_GhostWolf = setmetatable({ }, LM_Spell)
 LM_GhostWolf.__index = LM_GhostWolf
@@ -27,7 +27,7 @@ function LM_GhostWolf:CurrentFlags()
     -- no way to detect him as far as I can tell.
 
     if flags.WALK then
-        if LM_UnitAura("player", TABLET_OF_GHOST_WOLF_AURA) then
+        if AuraUtil.FindAuraByName(TABLET_OF_GHOST_WOLF_AURA, "player") then
             flags = CopyTable(flags)
             flags.WALK = nil
             flags.RUN = true
