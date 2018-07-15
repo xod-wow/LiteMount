@@ -176,3 +176,26 @@ function LM_UIFilter.IsFilteredMount(m)
 
     return strfind(m.name:lower(), filtertext:lower(), 1, true) == nil
 end
+
+
+-- Fetch -----------------------------------------------------------------------
+
+local function FilterSort(a, b)
+    if a.isCollected and not b.isCollected then return true end
+    if not a.isCollected and b.isCollected then return false end
+    return a.name < b.name
+end
+
+function LM_UIFilter.GetFilteredMountList()
+
+    local out = { }
+
+    for _,m in ipairs(LM_PlayerMounts.mounts) do
+        if not LM_UIFilter.IsFilteredMount(m) then
+            tinsert(out, m)
+        end
+    end
+
+    sort(out, FilterSort)
+    return out
+end

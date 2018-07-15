@@ -226,30 +226,10 @@ function LiteMountOptionsMountsFilterDropDown_OnLoad(self)
     UIDropDownMenu_Initialize(self, LiteMountOptionsMountsFilterDropDown_Initialize, "MENU")
 end
 
-local function FilterSort(a, b)
-    if a.isCollected and not b.isCollected then return true end
-    if not a.isCollected and b.isCollected then return false end
-    return a.name < b.name
-end
-
-local function GetFilteredMountList()
-
-    local out = { }
-
-    for _,m in ipairs(LM_PlayerMounts.mounts) do
-        if not LM_UIFilter.IsFilteredMount(m) then
-            out[#out+1] = m
-        end
-    end
-
-    sort(out, FilterSort)
-    return out
-end
-
 local function UpdateAllSelected(mounts)
 
     if not mounts then
-        mounts = GetFilteredMountList()
+        mounts = LM_UIFilter.GetFilteredMountList()
     end
 
     local allEnabled = 1
@@ -320,7 +300,7 @@ local function UpdateMountButton(button, pageFlags, mount)
 end
 
 function LiteMountOptions_AllSelect_OnClick(self)
-    local mounts = GetFilteredMountList()
+    local mounts = LM_UIFilter.GetFilteredMountList()
 
     local on
 
@@ -340,9 +320,14 @@ function LiteMountOptions_AllSelect_OnClick(self)
 end
 
 
+local FPCount = 0
+
 function LiteMountOptions_UpdateFlagPaging()
     local self = LiteMountOptionsMounts
     local allFlags = LM_Options:GetAllFlags()
+
+    FPCount = FPCount + 1
+    LM_Debug(format("FPCount %d", FPCount))
 
     self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
     self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
@@ -363,15 +348,20 @@ function LiteMountOptions_UpdateFlagPaging()
     end
 end
 
+local UpdateCount = 0
+
 function LiteMountOptions_UpdateMountList()
 
     local scrollFrame = LiteMountOptionsMounts.ScrollFrame
     local offset = HybridScrollFrame_GetOffset(scrollFrame)
     local buttons = scrollFrame.buttons
 
+    UpdateCount = UpdateCount + 1
+    LM_Debug(format("UpdateCount %d", UpdateCount))
+
     if not buttons then return end
 
-    local mounts = GetFilteredMountList()
+    local mounts = LM_UIFilter.GetFilteredMountList()
 
     for i = 1, #buttons do
         local button = buttons[i]
@@ -438,11 +428,8 @@ end
 
 function LiteMountOptionsMounts_OnShow(self)
 
+    UpdateCount, FPCount = 0, 0
     LM_PlayerMounts:RefreshMounts()
-
-    -- This is specifically to catch the "Currently Active Mount" filter
-    self:SetScript("OnEvent", LiteMountOptions_UpdateMountList)
-    self:RegisterUnitEvent("UNIT_AURA", "player")
 
     LiteMountOptions_UpdateFlagPaging()
     LiteMountOptions_UpdateMountList()
@@ -450,6 +437,5 @@ function LiteMountOptionsMounts_OnShow(self)
 end
 
 function LiteMountOptionsMounts_OnHide(self)
-    self:UnregisterEvent("UNIT_AURA", "player")
 end
 
