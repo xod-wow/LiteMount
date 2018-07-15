@@ -10,18 +10,23 @@
 
 local L = LM_Localize
 
-_G.LM_UIFilter = { }
+_G.LM_UIFilter = { filteredMountList = { } }
 
 
 -- Sources ---------------------------------------------------------------------
 
 local sourceFilterList = { }
 
+function LM_UIFilter.ClearCache()
+    wipe(LM_UIFilter.filteredMountList)
+end
+
 function LM_UIFilter.GetNumSources()
     return C_PetJournal.GetNumPetSources() + 1
 end
 
 function LM_UIFilter.SetAllSourceFilters(v)
+    LM_UIFilter.ClearCache()
     if v then
         wipe(sourceFilterList)
     else
@@ -34,6 +39,7 @@ function LM_UIFilter.SetAllSourceFilters(v)
 end
 
 function LM_UIFilter.SetSourceFilter(i, v)
+    LM_UIFilter.ClearCache()
     if v then
         sourceFilterList[i] = nil
     else
@@ -72,6 +78,7 @@ function LM_UIFilter.IsFlagChecked(f)
 end
 
 function LM_UIFilter.SetFlagFilter(f, v)
+    LM_UIFilter.ClearCache()
     LM_Options.db.profile.uiMountFilterList[f] = (not v)
 end
 
@@ -101,6 +108,7 @@ end
 local searchText
 
 function LM_UIFilter.SetSearchText(t)
+    LM_UIFilter.ClearCache()
     searchText = t
 end
 
@@ -171,7 +179,14 @@ function LM_UIFilter.IsFilteredMount(m)
     end
 
     if filtertext == "=" then
-        return LM_UnitAura("player", m.name) == nil
+        local hasAura
+        if AuraUtil then
+            hasAura = AuraUtil.FindAuraByName(m.name, "player")
+        else
+            hasAura = UnitAura("player", m.name)
+        end
+
+        return hasAura == nil
     end
 
     return strfind(m.name:lower(), filtertext:lower(), 1, true) == nil
@@ -188,14 +203,14 @@ end
 
 function LM_UIFilter.GetFilteredMountList()
 
-    local out = { }
-
-    for _,m in ipairs(LM_PlayerMounts.mounts) do
-        if not LM_UIFilter.IsFilteredMount(m) then
-            tinsert(out, m)
+    if next(LM_UIFilter.filteredMountList) == nil then
+        for _,m in ipairs(LM_PlayerMounts.mounts) do
+            if not LM_UIFilter.IsFilteredMount(m) then
+                tinsert(LM_UIFilter.filteredMountList, m)
+            end
         end
-    end
 
-    sort(out, FilterSort)
-    return out
+        sort(LM_UIFilter.filteredMountList, FilterSort)
+    end
+    return LM_UIFilter.filteredMountList
 end
