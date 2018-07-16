@@ -4,8 +4,6 @@
 
   Constants for mount spell information.
 
-  And UnitAura(name) replacement wrapper for BfA.
-
   Copyright 2011-2018 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
@@ -53,22 +51,3 @@ LM_ITEM.SHIMMERING_MOONSTONE = 101675
 LM_ITEM.RATSTALLION_HARNESS = 139421
 LM_ITEM.RUBY_QIRAJI_RESONATING_CRYSTAL = 151625
 LM_ITEM.SAPPHIRE_QIRAJI_RESONATING_CRYSTAL = 151626
-
-function LM_UnitAura(unit, aura, ...)
-    if type(aura) == string then
-        local i = 1
-        while true do
-            -- Is it faster to create and destroy a dict or call UnitAura twice?
-            local name = UnitAura(unit, i, ...)
-            if name == nil then
-                return
-            elseif name == aura then
-                return UnitAura(unit, i, ...)
-            else
-                i = i + 1
-            end
-        end
-    else
-        return UnitAura(unit, aura, ...)
-    end
-end
