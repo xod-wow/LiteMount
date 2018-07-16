@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/MountsFilter.lua
+  LiteMount/UI/MountsFilter.lua
 
   UI Filter state abstracted out similar to how C_MountJournal does it
 

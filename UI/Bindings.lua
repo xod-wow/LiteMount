@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/Bindings.lua
+  LiteMount/UI/Bindings.lua
 
   Options frame to plug in to the Blizzard interface menu.
 

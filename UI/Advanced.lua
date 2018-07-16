@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/AdvancedActions.lua
+  LiteMount/UI/Advanced.lua
 
   Options frame to plug in to the Blizzard interface menu.
 
