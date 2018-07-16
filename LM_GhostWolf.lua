@@ -28,7 +28,7 @@ function LM_GhostWolf:CurrentFlags()
 
     if flags.WALK then
         local hasAura
-        if AuraUtil then
+        if _G.AuraUtil then
             hasAura = AuraUtil.FindAuraByName(TABLET_OF_GHOST_WOLF_AURA, "player")
         else
             hasAura = UnitAura("player", TABLET_OF_GHOST_WOLF_AURA)
