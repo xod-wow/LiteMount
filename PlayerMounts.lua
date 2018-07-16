@@ -120,6 +120,10 @@ function LM_PlayerMounts:FilterFind(...)
     return self.mounts:FilterFind(...)
 end
 
+-- This is deliberately by spell name instead of using the
+-- spell ID because there are some horde/alliance mounts with
+-- the same name but different spells.
+
 function LM_PlayerMounts:GetMountFromUnitAura(unitid)
     local buffs = { }
     local i = 1
@@ -147,11 +151,17 @@ end
 
 -- For some reason GetShapeshiftFormInfo doesn't work on Ghost Wolf.
 function LM_PlayerMounts:GetMountByShapeshiftForm(i)
-    if not i then return end
-    local class = select(2, UnitClass("player"))
-    if class == "SHAMAN" and i == 1 then
+    if not i then
+        return
+    elseif i == 1 and select(2, UnitClass("player")) == "SHAMAN" then
          return self:GetMountBySpell(LM_SPELL.GHOST_WOLF)
+    else
+        local spellID
+        if _G.C_Map then
+            spellID = select(4, GetShapeshiftFormInfo(i))
+        else
+            spellID = select(5, GetShapeshiftFormInfo(i))
+        end
+        if spellID then return self:GetMountBySpell(spellID) end
     end
-    local name = select(2, GetShapeshiftFormInfo(i))
-    if name then return self:GetMountByName(name) end
 end

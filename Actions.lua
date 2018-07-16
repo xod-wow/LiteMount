@@ -97,7 +97,13 @@ ACTIONS['CancelForm'] =
                 return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_DISMOUNT1, savedFormName))
             end
         elseif curFormID and restoreFormIDs[curFormID] then
-            local _, name = GetShapeshiftFormInfo(curFormIndex)
+            local spellID
+            if _G.C_Map then
+                spellID = select(4, GetShapeshiftFormInfo(curFormIndex))
+            else
+                spellID = select(5, GetShapeshiftFormInfo(curFormIndex))
+            end
+            local name = GetSpellInfo(spellID)
             LM_Debug("Saving current form " .. tostring(name) .. ".")
             savedFormName = name
         else
