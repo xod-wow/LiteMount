@@ -23,6 +23,7 @@ function LM_Location:Initialize()
     if _G.C_Map then
         self.uiMapID = -1
         self.uiMapPath = { }
+        self.uiMapPathIDs = { }
     else
         self.continent = -1
         self.areaID = -1
@@ -68,8 +69,10 @@ function LM_Location:Update()
         self.uiMapName = info.name
 
         wipe(self.uiMapPath)
+        wipe(self.uiMapPathIDs)
         while info do
             tinsert(self.uiMapPath, info.mapID)
+            self.uiMapPathIDs[info.mapID] = true
             info = C_Map.GetMapInfo(info.parentMapID)
         end
     else
@@ -117,9 +120,9 @@ function LM_Location:ZONE_CHANGED_NEW_AREA()
     self:Update()
 end
 
-function LM_Location:MapInPath(n)
-    for _, uiMapID in ipairs(LM_Location.uiMapPath) do
-        if uiMapId == n then return true end
+function LM_Location:MapInPath(...)
+    for id = 1, select('#', ...) do
+        if self.uiMapPathIDs[id] then return true end
     end
     return false
 end
@@ -190,7 +193,7 @@ function LM_Location:CanFly()
     end
 
     -- Zan'dalar (875) and Kul'tiras (876)
-    if _G.C_Map and (self:MapInPath(875) or self:MapInPath(876)) then
+    if _G.C_Map and self:MapInPath(875, 876) then
         return false
     end
 
