@@ -20,14 +20,9 @@ _G.LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
 LM_Location:RegisterEvent("PLAYER_LOGIN")
 
 function LM_Location:Initialize()
-    if _G.C_Map then
-        self.uiMapID = -1
-        self.uiMapPath = { }
-        self.uiMapPathIDs = { }
-    else
-        self.continent = -1
-        self.areaID = -1
-    end
+    self.uiMapID = -1
+    self.uiMapPath = { }
+    self.uiMapPathIDs = { }
 
     self.instanceID = -1
     self.zoneText = nil
@@ -57,33 +52,22 @@ function LM_Location:IsFloating()
 end
 
 function LM_Location:Update()
-    if _G.C_Map then
-        local map = C_Map.GetBestMapForUnit("player")
+    local map = C_Map.GetBestMapForUnit("player")
 
-        -- Right after zoning this can be unknown.
-        if not map then return end
+    -- Right after zoning this can be unknown.
+    if not map then return end
 
-        local info = C_Map.GetMapInfo(map)
+    local info = C_Map.GetMapInfo(map)
 
-        self.uiMapID  = map
-        self.uiMapName = info.name
+    self.uiMapID  = map
+    self.uiMapName = info.name
 
-        wipe(self.uiMapPath)
-        wipe(self.uiMapPathIDs)
-        while info do
-            tinsert(self.uiMapPath, info.mapID)
-            self.uiMapPathIDs[info.mapID] = true
-            info = C_Map.GetMapInfo(info.parentMapID)
-        end
-    else
-        local origID = GetCurrentMapAreaID()
-        local WMUListeners = { GetFramesRegisteredForEvent("WORLD_MAP_UPDATE") }
-        FrameApply(WMUListeners, "UnregisterEvent", "WORLD_MAP_UPDATE")
-        SetMapToCurrentZone()
-        self.continent = GetCurrentMapContinent()
-        self.areaID = GetCurrentMapAreaID()
-        SetMapByID(origID)
-        FrameApply(WMUListeners, "RegisterEvent", "WORLD_MAP_UPDATE")
+    wipe(self.uiMapPath)
+    wipe(self.uiMapPathIDs)
+    while info do
+        tinsert(self.uiMapPath, info.mapID)
+        self.uiMapPathIDs[info.mapID] = true
+        info = C_Map.GetMapInfo(info.parentMapID)
     end
 
     self.zoneText = GetZoneText()
@@ -121,7 +105,8 @@ function LM_Location:ZONE_CHANGED_NEW_AREA()
 end
 
 function LM_Location:MapInPath(...)
-    for id = 1, select('#', ...) do
+    for i = 1, select('#', ...) do
+        local id = select(i, ...)
         if self.uiMapPathIDs[id] then return true end
     end
     return false
@@ -137,10 +122,6 @@ function LM_Location:KnowsFlyingSkill()
     -- know the most advanced one.
     return IsSpellKnown(90265) or IsSpellKnown(34091) or IsSpellKnown(34090)
 end
-
-local FlyableNoContinent = {
-    [897] = true,           -- Deaths of Chromie scenario
-}
 
 local InstanceNotFlyable = {
     [1107] = true,          -- Dreadscar Rift (Warlock)
@@ -164,36 +145,28 @@ function LM_Location:CanFly()
         return false
     end
 
-    -- I'm going to assume, across the board, that you can't fly in
-    -- "no continent" / -1 and fix it up later if it turns out you can.
-    -- XXX FIXME XXX there is no "no continent" any more.
-    if _G.C_Map then
-        if InstanceNotFlyable[self.instanceID] then
-            return false
-        end
-    else
-        if self.continent == -1 and not FlyableNoContinent[self.mapID] then
-            return false
-        end
+    -- XXX FIXME XXX 
+    if InstanceNotFlyable[self.instanceID] then
+        return false
     end
 
     -- Draenor Pathfinder
-    if _G.C_Map and self:MapInPath(572) or self.continent == 7 then
+    if self:MapInPath(572) then
         if not IsSpellKnown(191645) then return false end
     end
 
     -- Broken Isles Pathfinder, Part 2
-    if _G.C_Map and self:MapInPath(619) or self.continent == 8 then
+    if self:MapInPath(619) then
         if not IsSpellKnown(233368) then return false end
     end
 
     -- Argus is non-flyable, but some parts of it are flagged wrongly
-    if _G.C_Map and self:MapInPath(905) or self.continent == 9 then
+    if self:MapInPath(905) then
         return false
     end
 
     -- Zan'dalar (875) and Kul'tiras (876)
-    if _G.C_Map and self:MapInPath(875, 876) then
+    if self:MapInPath(875, 876) then
         return false
     end
 
@@ -206,11 +179,6 @@ function LM_Location:CantBreathe()
 end
 
 function LM_Location:GetLocation()
-    if not _G.C_Map then -- Pre-BfA test
-        LM_PrintError("C_Map interface not found - this isn't Battle for Azeroth!")
-        return {}
-    end
-
     local path = { }
     for _, mapID in ipairs(self.uiMapPath) do
         tinsert(path, format("%s (%d)", C_Map.GetMapInfo(mapID).name, mapID))
@@ -228,8 +196,6 @@ end
 
 
 function LM_Location:GetMaps(str)
-    if not _G.C_Map then return {} end -- Pre-BfA test
-
     local searchStr = string.lower(str or "")
 
     local allMaps = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, nil, true)
@@ -248,8 +214,6 @@ function LM_Location:GetMaps(str)
 end
 
 function LM_Location:GetContinents(str)
-    if not _G.C_Map then return {} end -- Pre-BfA test
-
     local searchStr = string.lower(str or "")
 
     local allContinents = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, Enum.UIMapType.Continent, true)

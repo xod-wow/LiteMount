@@ -51,11 +51,7 @@ CONDITIONS["achievement"] =
 
 CONDITIONS["area"] =
     function (cond, v)
-        if _G.C_Map then
-            LM_WarningAndPrint(L.LM_WARN_REPLACE_COND, "area", "map")
-        elseif v then
-            return tonumber(v) == LM_Location.areaID
-        end
+        LM_WarningAndPrint(format(L.LM_WARN_REPLACE_COND, "area", "map"))
     end
 
 CONDITIONS["aura"] =
@@ -103,11 +99,7 @@ CONDITIONS["combat"] =
 
 CONDITIONS["continent"] =
     function (cond, v)
-        if _G.C_Map then
-            LM_WarningAndPrint(L.LM_WARN_REPLACE_COND, "continent", "map")
-        elseif v then
-            return tonumber(v) == LM_Location.uiContinentMapID
-        end
+        LM_WarningAndPrint(format(L.LM_WARN_REPLACE_COND, "continent", "map"))
     end
 
 -- For completeness, as far as I know. Note that this diverges from the
@@ -249,9 +241,7 @@ CONDITIONS["instance"] =
 
 CONDITIONS["map"] =
     function (cond, v)
-        if _G.C_Map and v then
-            return LM_Location:MapInPath(tonumber(v))
-        end
+        return LM_Location:MapInPath(tonumber(v))
     end
 
 CONDITIONS["mod"] =

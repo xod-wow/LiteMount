@@ -157,11 +157,7 @@ function LM_PlayerMounts:GetMountByShapeshiftForm(i)
          return self:GetMountBySpell(LM_SPELL.GHOST_WOLF)
     else
         local spellID
-        if _G.C_Map then
-            spellID = select(4, GetShapeshiftFormInfo(i))
-        else
-            spellID = select(5, GetShapeshiftFormInfo(i))
-        end
+        spellID = select(4, GetShapeshiftFormInfo(i))
         if spellID then return self:GetMountBySpell(spellID) end
     end
 end

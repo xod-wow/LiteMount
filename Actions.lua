@@ -98,11 +98,7 @@ ACTIONS['CancelForm'] =
             end
         elseif curFormID and restoreFormIDs[curFormID] then
             local spellID
-            if _G.C_Map then
-                spellID = select(4, GetShapeshiftFormInfo(curFormIndex))
-            else
-                spellID = select(5, GetShapeshiftFormInfo(curFormIndex))
-            end
+            spellID = select(4, GetShapeshiftFormInfo(curFormIndex))
             local name = GetSpellInfo(spellID)
             LM_Debug("Saving current form " .. tostring(name) .. ".")
             savedFormName = name
