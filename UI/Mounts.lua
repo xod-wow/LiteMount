@@ -287,9 +287,9 @@ local function UpdateMountButton(button, pageFlags, mount)
         button.Enabled:SetChecked(true)
     end
 
-    button.Enabled.setFunc = function(setting)
+    button.Enabled.SetValue = function (self, setting)
                             EnableDisableMount(button.mount, setting)
-                            button.Enabled:GetScript("OnEnter")(button.Enabled)
+                            self:GetScript("OnEnter")(self)
                             UpdateAllSelected()
                         end
 
