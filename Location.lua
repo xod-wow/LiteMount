@@ -124,6 +124,7 @@ function LM_Location:KnowsFlyingSkill()
 end
 
 local InstanceNotFlyable = {
+    [754] = true,           -- Throne of the Four Winds
     [1107] = true,          -- Dreadscar Rift (Warlock)
     [1191] = true,          -- Ashran PVP Area
     [1265] = true,          -- Tanaan Jungle Intro
