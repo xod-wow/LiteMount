@@ -69,6 +69,7 @@ function LM_ActionButton:PreClick(mouseButton)
 
     local usableMounts = LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED")
 
+    LM_Debug("Found " .. #usableMounts .. " CASTABLE and ENABLED mounts.")
     for _,a in ipairs(self.actions) do
         if LM_Conditions:Eval(a.conditions) then
             if self:Dispatch(a.action, usableMounts, a.filters) then
