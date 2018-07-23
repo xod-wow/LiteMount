@@ -24,10 +24,15 @@ end
 local ACTIONS = { }
 
 ACTIONS['Spell'] =
-    function (spellID)
-        local name = GetSpellInfo(spellID)
-        LM_Debug("Setting action to " .. name .. ".")
-        return LM_SecureAction:Spell(name)
+    function (_, filters)
+        for _, spellID in ipairs(filters) do
+            spellID = tonumber(spellID)
+            if spellID and IsSpellKnown(spellID) and IsUsableSpell(spellID) then
+                local name = GetSpellInfo(spellID)
+                LM_Debug("Setting action to " .. name .. ".")
+                return LM_SecureAction:Spell(name)
+            end
+        end
     end
 
 -- In vehicle -> exit it
