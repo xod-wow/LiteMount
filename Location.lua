@@ -134,6 +134,7 @@ local InstanceNotFlyable = {
     [1500] = true,          -- Broken Shore DH Scenario
     [1514] = true,          -- Wandering Isle (Monk)
     [1519] = true,          -- Fel Hammer (DH)
+    [1604] = true,          -- Niskara, priest legion campaign
     [1760] = true,          -- Ruins of Lordaeron BfA opening
 }
 
