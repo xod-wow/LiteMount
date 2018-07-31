@@ -135,6 +135,7 @@ local InstanceNotFlyable = {
     [1514] = true,          -- Wandering Isle (Monk)
     [1519] = true,          -- Fel Hammer (DH)
     [1604] = true,          -- Niskara, priest legion campaign
+    [1688] = true,          -- The Deadmines (Pet Battle)
     [1760] = true,          -- Ruins of Lordaeron BfA opening
 }
 
