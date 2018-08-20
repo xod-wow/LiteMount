@@ -56,11 +56,6 @@ VARS["{MAPID}"] =
         return LM_Location.areaID
     end
 
-VARS["{CONTINENTID}"] =
-    function ()
-        return LM_Location.uiContinentMapID
-    end
-
 -- this should totally be some kind of metatable but who cares
 
 _G.LM_Vars = {}
