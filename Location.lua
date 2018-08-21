@@ -137,6 +137,9 @@ local InstanceNotFlyable = {
     [1604] = true,          -- Niskara, priest legion campaign
     [1688] = true,          -- The Deadmines (Pet Battle)
     [1760] = true,          -- Ruins of Lordaeron BfA opening
+    [1813] = true,          -- Island Expedition Un'gol Ruins
+    [1893] = true,          -- Island Expedition The Dread Chain
+    [1898] = true,          -- Island Expedition Skittering Hollow
 }
 
 -- Can't fly if you haven't learned a flying skill
