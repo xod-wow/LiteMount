@@ -124,7 +124,7 @@ function LM_Location:KnowsFlyingSkill()
 end
 
 local InstanceNotFlyable = {
-    [754] = true,           -- Throne of the Four Winds
+    [ 754] = true,           -- Throne of the Four Winds
     [1107] = true,          -- Dreadscar Rift (Warlock)
     [1191] = true,          -- Ashran PVP Area
     [1265] = true,          -- Tanaan Jungle Intro
@@ -138,12 +138,12 @@ local InstanceNotFlyable = {
     [1688] = true,          -- The Deadmines (Pet Battle)
     [1760] = true,          -- Ruins of Lordaeron BfA opening
     [1813] = true,          -- Island Expedition Un'gol Ruins
+    [1882] = true,          -- Island Expedition Verdant Wilds
+    [1883] = true,          -- Island Expedition Whispering Reef
+    [1892] = true,          -- Island Expedition Rotting Mire
     [1893] = true,          -- Island Expedition The Dread Chain
     [1898] = true,          -- Island Expedition Skittering Hollow
     [  -1] = true,          -- Island Expedition Molten Cay
-    [  -1] = true,          -- Island Expedition Rotting Mire
-    [  -1] = true,          -- Island Expedition Verdant Wilds
-    [  -1] = true,          -- Island Expedition Whispering Reef
 }
 
 -- Can't fly if you haven't learned a flying skill
