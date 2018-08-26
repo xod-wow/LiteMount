@@ -27,6 +27,13 @@ function LM_TravelForm:Get()
     return LM_Spell.Get(self, LM_SPELL.TRAVEL_FORM, unpack(travelFormFlags))
 end
 
+-- You can cast Travel Form using the SpellID (unlike the journal mounts
+-- where you can't), which bypasses a bug.
+
+function LM_TravelForm:GetSecureAttributes()
+    return { ["type"] = "spell", ["spell"] = self.spellID }
+end
+
 -- IsUsableSpell doesn't return false for Travel Form indoors like it should,
 -- because you can swim indoors with it (apparently).
 function LM_TravelForm:IsCastable()
