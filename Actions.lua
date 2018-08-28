@@ -79,6 +79,15 @@ local restoreFormIDs = {
 -- Half of the reason this is so complicated is that you can mount up in
 -- Moonkin form (but casting Moonkin form dismounts you).
 
+-- Work around a Blizzard bug with calling shapeshift forms in macros in 8.0
+-- Breaks after you respec unless you include (Shapeshift) after it.
+
+local function GetSpellNameWithSubtext(id)
+    local n = GetSpellInfo(id)
+    local s = GetSpellSubtext(id) or ''
+    return format('%s(%s)', n, s)
+end
+
 ACTIONS['CancelForm'] =
     function ()
         LM_Debug("Trying CancelForm")
@@ -102,9 +111,8 @@ ACTIONS['CancelForm'] =
                 return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_DISMOUNT1, savedFormName))
             end
         elseif curFormID and restoreFormIDs[curFormID] then
-            local spellID
-            spellID = select(4, GetShapeshiftFormInfo(curFormIndex))
-            local name = GetSpellInfo(spellID)
+            local spellID = select(4, GetShapeshiftFormInfo(curFormIndex))
+            local name = GetSpellNameWithSubtext(spellID)
             LM_Debug("Saving current form " .. tostring(name) .. ".")
             savedFormName = name
         else
