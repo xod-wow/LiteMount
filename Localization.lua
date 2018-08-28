@@ -29,6 +29,8 @@ L.FAVORITES             = FAVORITES
 L.NAGRAND               = C_Map.GetMapInfo(550).name
 L.VASHJIR               = C_Map.GetMapInfo(203).name
 
+-- :r! sh fetchlocale.sh -------------------------------------------------------
+
 -- enUS / enGB / Default -------------------------------------------------------
 
 L.FLOAT                 = "Float"
@@ -114,18 +116,22 @@ L.LM_CURRENT_SETTINGS   = "Configuraciones actuales"
 L.LM_DEBUGGING_DISABLED = "Depuración desactivada."
 L.LM_DEBUGGING_ENABLED  = "Depuración activada."
 L.LM_DEFAULT_SETTINGS   = "Configuración por defecto"
-L.LM_DELETE_PROFILE     = "Borrar un Perfil"
+L.LM_DELETE_FLAG        = "Borrar un marbete"
+L.LM_DELETE_PROFILE     = "Borrar un perfil"
 L.LM_DISABLE_NEW_MOUNTS = "Deshabilitar automáticamente las monturas recién agregados."
 L.LM_DISABLING_MOUNT    = "Desactivar la montura activa: %s"
 L.LM_ENABLE_DEBUGGING   = "Activar los mensajes de depuración."
 L.LM_ENABLING_MOUNT     = "Activando el montaje activo: %s"
 L.LM_ERR_BAD_ACTION     = "Mala acción '%s' en la lista de acciones."
 L.LM_ERR_BAD_CONDITION  = "Mala estado '%s' en la lista de acciones."
+L.LM_FLAGS              = "Marbetes"
 L.LM_HELP_TRANSLATE     = "Ayuda a traducir LiteMount a tu idioma. Gracias."
 L.LM_MACRO_EXP          = "Esta macro se ejecutará si LiteMount no puede encontrar una montura utilizable. Esto podría deberse a que está en el interior, o se está moviendo, y no conoce ningún montaje instantáneo."
-L.LM_NEW_PROFILE        = "Crear perfil"
+L.LM_NEW_FLAG           = "Crear un marbete"
+L.LM_NEW_PROFILE        = "Crear un perfil"
 L.LM_PROFILES           = "Perfiles"
-L.LM_RESET_PROFILE      = "Reiniciar Perfil"
+L.LM_RENAME_FLAG        = "Cambiar un marbete"
+L.LM_RESET_PROFILE      = "Reiniciar perfil"
 L.LM_SETTINGS_TAGLINE   = "Invocación de monturas aleatorio simple y confiable."
 L.LM_TRANSLATORS        = "Traductores"
 L.LM_WARN_REPLACE_COND  = "La condición de la lista de acciones [%s] ha sido reemplazada por [%s] debido a los cambios de Blizzard."
@@ -224,9 +230,13 @@ end
 if locale == "ptBR" then
 L.FLOAT                 = "Flutuar"
 L.FLY                   = "Voar"
+L.LM_ADVANCED_EXP       = "Essas configurações permitem personalizar as ações executadas por cada uma das teclas de atalho do LiteMount. Por favor, leia a documentação no URL abaixo antes de alterar qualquer coisa."
 L.LM_AUTHOR             = "Autor"
+L.LM_COMBAT_MACRO_EXP   = "Se habilitada, esta macro será executada em vez das ações de combate padrão se o LiteMount for ativado enquanto você estiver em combate."
 L.LM_COPY_TARGETS_MOUNT = "Tentra copiar a montaria do alvo."
 L.LM_CURRENT_SETTINGS   = "Configuração Atual"
+L.LM_DEBUGGING_DISABLED = "Depuração desativada."
+L.LM_DEBUGGING_ENABLED  = "Depuração ativada."
 L.LM_DEFAULT_SETTINGS   = "Configuração Padrão"
 L.LM_DELETE_PROFILE     = "Remover um Perfil"
 L.LM_ENABLE_DEBUGGING   = "Permite mensagens de depuração."
