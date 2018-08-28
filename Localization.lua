@@ -180,12 +180,38 @@ end
 -- itIT ------------------------------------------------------------------------
 
 if locale == "itIT" then
+L.FLOAT                 = "Float"
+L.FLY                   = "Vola"
+L.LM_ADVANCED_EXP       = "Queste impostazioni consentono di personalizzare le azioni di ciascun binding di chiavi LiteMount.\" Leggere la documentazione all'URL sottostante prima di modificare qualsiasi cosa."
 L.LM_AUTHOR             = "Autore"
+L.LM_COMBAT_MACRO_EXP   = "Se abilitato, questa macro verrà eseguita al posto delle azioni di combattimento predefinite se LiteMount viene attivato mentre sei in combattimento."
+L.LM_COPY_TARGETS_MOUNT = "Prova a copiare la montatura del bersaglio."
+L.LM_CURRENT_SETTINGS   = "Impostazioni attuali"
+L.LM_DEBUGGING_DISABLED = "Debug disabilitato."
+L.LM_DEBUGGING_ENABLED  = "Debug abilitato."
+L.LM_DEFAULT_SETTINGS   = "Impostazioni predefinite"
+L.LM_DELETE_FLAG        = "Cancella un'etichetta"
 L.LM_DELETE_PROFILE     = "Cancella un Profilo"
+L.LM_DISABLE_NEW_MOUNTS = "Disattiva automaticamente i mount appena aggiunti."
+L.LM_DISABLING_MOUNT    = "Disabilitazione del montaggio attivo: %s"
 L.LM_ENABLE_DEBUGGING   = "Attiva messaggi di debug."
+L.LM_ENABLING_MOUNT     = "Abilitazione del montaggio attivo: %s"
+L.LM_ERR_BAD_ACTION     = "Azione non valida '%s' nella lista di azioni."
+L.LM_ERR_BAD_CONDITION  = "Cattiva condizione '%s' nella lista di azioni."
+L.LM_FLAGS              = "Etichette"
+L.LM_HELP_TRANSLATE     = "Aiuta a tradurre LiteMount nella tua lingua. Grazie."
+L.LM_MACRO_EXP          = "Questa macro verrà eseguito se LiteMount non è in grado di trovare un supporto utilizzabile. Questo potrebbe essere perché siete al chiuso, o si muove e non si conosce alcun supporti istantanea del cast."
+L.LM_NEW_FLAG           = "Crea un'etichetta"
 L.LM_NEW_PROFILE        = "Crea un profilo"
 L.LM_PROFILES           = "Profili"
+L.LM_RENAME_FLAG        = "Rinominare un'etichetta"
 L.LM_RESET_PROFILE      = "Reimposta Profilo"
+L.LM_SETTINGS_TAGLINE   = "Convocazione a montaggio casuale semplice e affidabile."
+L.LM_TRANSLATORS        = "Traduttore"
+L.LM_WARN_REPLACE_COND  = "Il [s%] condizione lista di azioni è stata sostituita da [%s] a causa di cambiamenti Blizzard."
+L.RUN                   = "Esegui"
+L.SWIM                  = "Swim"
+L.WALK                  = "Cammina"
 end
 
 -- koKR ------------------------------------------------------------------------
