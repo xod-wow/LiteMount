@@ -142,8 +142,8 @@ local InstanceNotFlyable = {
     [1883] = true,          -- Island Expedition Whispering Reef
     [1892] = true,          -- Island Expedition Rotting Mire
     [1893] = true,          -- Island Expedition The Dread Chain
+    [1897] = true,          -- Island Expedition Molten Cay
     [1898] = true,          -- Island Expedition Skittering Hollow
-    [  -1] = true,          -- Island Expedition Molten Cay
 }
 
 -- Can't fly if you haven't learned a flying skill
