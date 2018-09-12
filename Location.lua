@@ -124,7 +124,7 @@ function LM_Location:KnowsFlyingSkill()
 end
 
 local InstanceNotFlyable = {
-    [ 754] = true,           -- Throne of the Four Winds
+    [ 754] = true,          -- Throne of the Four Winds
     [1107] = true,          -- Dreadscar Rift (Warlock)
     [1191] = true,          -- Ashran PVP Area
     [1265] = true,          -- Tanaan Jungle Intro
@@ -178,6 +178,14 @@ function LM_Location:CanFly()
     -- Zan'dalar (875) and Kul'tiras (876)
     if self:MapInPath(875, 876) then
         return false
+    end
+
+    -- Can't fly in Warfronts
+    if C_Scenario.IsInScenario() then
+        local scenarioType = select(10, C_Scenario.GetInfo())
+        if scenarioType == LE_SCENARIO_TYPE_WARFRONT then
+            return false
+        end
     end
 
     return IsFlyableArea()
