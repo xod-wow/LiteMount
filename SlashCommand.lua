@@ -61,6 +61,7 @@ local function PrintUsage()
     LM_Print("  /litemount flags add <flagname>")
     LM_Print("  /litemount flags del <flagname>")
     LM_Print("  /litemount flags rename <oldname> <newname>")
+    LM_Print("  /litemount profile <profilename>")
     LM_Print("  /litemount xmog <slotnumber>")
 end
 
@@ -133,6 +134,16 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
             LM_Print(table.concat(flags, ' '))
             return true
         end
+    elseif cmd == "profile" then
+        -- can't use the split args because we need the raw rest of the line
+        local profileName = argstr:gsub('^profile%s+', '')
+        if profileName and LM_Options.db.profiles[profileName] then
+            LM_Options.db:SetProfile(profileName)
+            LM_Print("Switching to profile: " .. profileName)
+        else
+            LM_Print("No profile found with name: " .. profileName)
+        end
+        return true
     elseif cmd == "xmog" then
         local slotID = tonumber(args[1])
         if slotID then
