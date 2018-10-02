@@ -232,10 +232,14 @@ CONDITIONS["indoors"] =
 
 CONDITIONS["instance"] =
     function (cond, v)
-        if v then
+        if not v then
+            return IsInInstance()
+        elseif tonumber(v) then
             return LM_Location.instanceID == tonumber(v)
         else
-            return IsInInstance()
+            -- "none", "scenario", "party", "raid", "arena", "pvp"
+            local _. instanceType = GetInstanceInfo()
+            return instanceType == v
         end
     end
 
