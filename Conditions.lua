@@ -238,7 +238,7 @@ CONDITIONS["instance"] =
             return LM_Location.instanceID == tonumber(v)
         else
             -- "none", "scenario", "party", "raid", "arena", "pvp"
-            local _. instanceType = GetInstanceInfo()
+            local _, instanceType = GetInstanceInfo()
             return instanceType == v
         end
     end
