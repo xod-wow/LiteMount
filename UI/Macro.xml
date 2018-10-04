@@ -7,7 +7,7 @@
 <Frame name="LiteMountOptionsMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
-        <Frame parentKey="EditBoxContainer">
+        <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer">
 
             <Size x="400" y="200" />
 
@@ -32,7 +32,7 @@
 
         </Frame>
 
-        <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
+        <EditBox name="$parentEditBox" parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
 
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="8" y="-8" />
@@ -70,7 +70,7 @@
                 </OnClick>
             </Scripts>
         </Button>
-        <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="REVERT">
+        <Button name="$parentRevertButton" parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="REVERT">
             <Size x="96" y="22" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" x="24" y="16" />
@@ -103,7 +103,7 @@
                 </Anchors>
             </FontString>
 
-            <FontString parentKey="Count" inherits="GameFontHighlightSmall">
+            <FontString name="$parentCount" parentKey="Count" inherits="GameFontHighlightSmall">
                 <Anchors>
                     <Anchor point="TOP" relativePoint="BOTTOM" relativeKey="$parent.EditBoxContainer" y="-3" />
                 </Anchors>

@@ -9,7 +9,7 @@
     </KeyValues>
 
     <Frames>
-        <CheckButton parentKey="CopyTargetsMount" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton name="$parentCopyTargetsMount" parentKey="CopyTargetsMount" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
                 <Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" y="-24" />
                 <Anchor point="LEFT" x="24" />
@@ -34,7 +34,7 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
-        <CheckButton parentKey="ExcludeNewMounts" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton name="$parentExcludeNewMounts" parentKey="ExcludeNewMounts" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.CopyTargetsMount" relativePoint="BOTTOMLEFT" x="0" y="-8" />
             </Anchors>
@@ -58,7 +58,7 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
-        <CheckButton parentKey="Debugging" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton name="$parentDebugging" parentKey="Debugging" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-72" />
             </Anchors>
