@@ -352,6 +352,12 @@ local UpdateCount = 0
 
 function LiteMountOptions_UpdateMountList()
 
+    -- Because the Icon is a SecureActionButton and a child of the scroll
+    -- buttons, we can't show or hide them in combat. Rather than throw a
+    -- LUA error, it's better just not to do anything at all.
+
+    if InCombatLockdown() then return end
+
     local scrollFrame = LiteMountOptionsMounts.ScrollFrame
     local offset = HybridScrollFrame_GetOffset(scrollFrame)
     local buttons = scrollFrame.buttons
