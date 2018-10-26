@@ -7,7 +7,7 @@ Notes To Myself
 
     git config user.name 'Mike "Xodiv" Battersby'
     git config user.email mib@post.com
-    git config tag.sort version:refname
+    git config tag.sort -version:refname
     git config fetch.prune true
     git config core.filemode false
     git config --global push.default simple
