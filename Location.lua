@@ -138,6 +138,7 @@ local InstanceNotFlyable = {
     [1688] = true,          -- The Deadmines (Pet Battle)
     [1760] = true,          -- Ruins of Lordaeron BfA opening
     [1813] = true,          -- Island Expedition Un'gol Ruins
+    [1879] = true,          -- Island Expedition Jorundall
     [1882] = true,          -- Island Expedition Verdant Wilds
     [1883] = true,          -- Island Expedition Whispering Reef
     [1892] = true,          -- Island Expedition Rotting Mire
@@ -212,20 +213,32 @@ function LM_Location:GetLocation()
     }
 end
 
+local maxMapID
+function LM_Location:MaxMapID()
+    if not maxMapID then
+        -- 10000 is a guess at something way over the current maximum
+
+        for i = 1, 10000 do
+            if C_Map.GetMapInfo(i) then
+                maxMapID = i
+            end
+        end
+    end
+    return maxMapID
+end
 
 function LM_Location:GetMaps(str)
     local searchStr = string.lower(str or "")
 
-    local allMaps = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, nil, true)
-
-    sort(allMaps, function (a,b) return a.mapID < b.mapID end)
-
     local lines = {}
 
-    for _, info in ipairs(allMaps) do
-        local searchName = string.lower(info.name)
-        if info.mapID == tonumber(str) or searchName:find(searchStr) then
-            tinsert(lines, format("% 4d : %s (parent %d)", info.mapID, info.name, info.parentMapID))
+    for i = 1, self:MaxMapID() do
+        local info = C_Map.GetMapInfo(i)
+        if info then
+            local searchName = string.lower(info.name)
+            if info.mapID == tonumber(str) or searchName:find(searchStr) then
+                tinsert(lines, format("% 4d : %s (parent %d)", info.mapID, info.name, info.parentMapID or 0))
+            end
         end
     end
     return lines
@@ -234,15 +247,15 @@ end
 function LM_Location:GetContinents(str)
     local searchStr = string.lower(str or "")
 
-    local allContinents = C_Map.GetMapChildrenInfo(TOP_LEVEL_MAP_ID, Enum.UIMapType.Continent, true)
-    sort(allContinents, function (a,b) return a.mapID < b.mapID end)
-
     local lines = {}
 
-    for _, info in ipairs(allContinents) do
-        local searchName = string.lower(info.name)
-        if info.mapID == tonumber(str) or searchName:find(searchStr) then
-            tinsert(lines, format("% 4d : %s", info.mapID, info.name))
+    for i = 1, self:MaxMapID() do
+        local info = C_Map.GetMapInfo(i)
+        if info and info.mapType == Enum.UIMapType.Continent then
+            local searchName = string.lower(info.name)
+            if info.mapID == tonumber(str) or searchName:find(searchStr) then
+                tinsert(lines, format("% 4d : %s", info.mapID, info.name))
+            end
         end
     end
     return lines
