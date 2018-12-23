@@ -32,8 +32,15 @@ function LM_PrintError(msg)
     LM_Print("|cffff6666" .. msg .. "|r")
 end
 
+-- This should be replaced with debug types
 function LM_Debug(msg)
     if LM_Options.db.char.debugEnabled == true then
+        LM_Print(msg)
+    end
+end
+
+function LM_UIDebug(msg)
+    if LM_Options.db.char.uiDebugEnabled == true then
         LM_Print(msg)
     end
 end

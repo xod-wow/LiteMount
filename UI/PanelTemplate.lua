@@ -40,35 +40,35 @@ function LiteMountOptionsPanel_Open()
 end
 
 function LiteMountOptionsPanel_Refresh(self)
-    LM_Debug("Panel_Refresh " .. self:GetName())
+    LM_UIDebug("Panel_Refresh " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Refresh(control)
     end
 end
 
 function LiteMountOptionsPanel_Default(self)
-    LM_Debug("Panel_Default " .. self:GetName())
+    LM_UIDebug("Panel_Default " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Default(control)
     end
 end
 
 function LiteMountOptionsPanel_Okay(self)
-    LM_Debug("Panel_Okay " .. self:GetName())
+    LM_UIDebug("Panel_Okay " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Okay(control)
     end
 end
 
 function LiteMountOptionsPanel_Revert(self)
-    LM_Debug("Panel_Revert " .. self:GetName())
+    LM_UIDebug("Panel_Revert " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Revert(control)
     end
 end
 
 function LiteMountOptionsPanel_Cancel(self)
-    LM_Debug("Panel_Cancel " .. self:GetName())
+    LM_UIDebug("Panel_Cancel " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Cancel(control)
     end
@@ -81,7 +81,7 @@ function LiteMountOptionsPanel_RegisterControl(control, parent)
 end
 
 function LiteMountOptionsPanel_OnShow(self)
-    LM_Debug("Panel_OnShow " .. self:GetName())
+    LM_UIDebug("Panel_OnShow " .. self:GetName())
     LiteMountOptions.CurrentOptionsPanel = self
     if not self.dontShowProfile then
         LiteMountOptionsProfileDropDown_Attach(self)
@@ -97,7 +97,7 @@ function LiteMountOptionsPanel_OnShow(self)
 end
 
 function LiteMountOptionsPanel_OnHide(self)
-    LM_Debug("Panel_OnHide " .. self:GetName())
+    LM_UIDebug("Panel_OnHide " .. self:GetName())
 
     LM_Options.db.UnregisterAllCallbacks(self)
 
