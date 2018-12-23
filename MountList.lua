@@ -76,7 +76,6 @@ function LM_MountList:Search(matchfunc, ...)
     local result = self:New()
 
     for _,m in ipairs(self) do
-        -- LM_Profile(1)
         if matchfunc(m, ...) then
             tinsert(result, m)
         end
@@ -88,7 +87,6 @@ end
 -- Note that Find doesn't make another table
 function LM_MountList:Find(matchfunc, ...)
     for _,m in ipairs(self) do
-        -- LM_Profile(1)
         if matchfunc(m, ...) then
             return m
         end
@@ -99,7 +97,6 @@ function LM_MountList:Shuffle()
     -- Fisher-Yates algorithm.
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
     for i = #self, 2, -1 do
-        -- LM_Profile(1)
         local r = math.random(i)
         self[i], self[r] = self[r], self[i]
     end

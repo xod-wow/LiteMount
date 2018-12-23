@@ -320,14 +320,14 @@ function LiteMountOptions_AllSelect_OnClick(self)
 end
 
 
-local FPCount = 0
+-- local FPCount = 0
 
 function LiteMountOptions_UpdateFlagPaging()
     local self = LiteMountOptionsMounts
     local allFlags = LM_Options:GetAllFlags()
 
-    FPCount = FPCount + 1
-    LM_Debug(format("FPCount %d", FPCount))
+    -- FPCount = FPCount + 1
+    -- LM_Debug(format("FPCount %d", FPCount))
 
     self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
     self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
@@ -348,7 +348,7 @@ function LiteMountOptions_UpdateFlagPaging()
     end
 end
 
-local UpdateCount = 0
+-- local UpdateCount = 0
 
 function LiteMountOptions_UpdateMountList()
 
@@ -362,8 +362,8 @@ function LiteMountOptions_UpdateMountList()
     local offset = HybridScrollFrame_GetOffset(scrollFrame)
     local buttons = scrollFrame.buttons
 
-    UpdateCount = UpdateCount + 1
-    LM_Debug(format("UpdateCount %d", UpdateCount))
+    -- UpdateCount = UpdateCount + 1
+    -- LM_Debug(format("UpdateCount %d", UpdateCount))
 
     if not buttons then return end
 
@@ -434,7 +434,7 @@ end
 
 function LiteMountOptionsMounts_OnShow(self)
 
-    UpdateCount, FPCount = 0, 0
+    -- UpdateCount, FPCount = 0, 0
     LM_PlayerMounts:RefreshMounts()
 
     LiteMountOptions_UpdateFlagPaging()

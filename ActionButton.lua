@@ -63,8 +63,6 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_Debug("PreClick handler called on " .. self:GetName())
 
-    -- LM_Profile(0)
-
     LM_PlayerMounts:RefreshMounts()
 
     local usableMounts = LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED")
@@ -85,8 +83,6 @@ function LM_ActionButton:PostClick()
     if InCombatLockdown() then return end
 
     LM_Debug("PostClick handler called.")
-
-    -- LM_Profile()
 
     -- We'd like to set the macro to undo whatever we did, but
     -- tests like IsMounted() and CanExitVehicle() will still
