@@ -14,8 +14,6 @@
 if LibDebug then LibDebug() end
 --@end-debug@
 
-local TOP_LEVEL_MAP_ID = 946
-
 _G.LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
 LM_Location:RegisterEvent("PLAYER_LOGIN")
 
@@ -177,9 +175,10 @@ function LM_Location:CanFly()
         return false
     end
 
+    -- Battle for Azeroth Pathfinder, Part 2
     -- Zan'dalar (875) and Kul'tiras (876)
     if self:MapInPath(875, 876) then
-        return false
+        if not IsSpellKnown(278833) then return false end
     end
 
     -- Can't fly in Warfronts
