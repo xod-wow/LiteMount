@@ -245,8 +245,8 @@ CONDITIONS["instance"] =
 
 CONDITIONS["map"] =
     function (cond, v)
-        if v:substr(1,1) == '*' then
-            return LM_Location.uiMapID == tonumber(v:substr(2))
+        if v:sub(1,1) == '*' then
+            return LM_Location.uiMapID == tonumber(v:sub(2))
         else
             return LM_Location:MapInPath(tonumber(v))
         end
