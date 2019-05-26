@@ -6,7 +6,7 @@
   the mojo is done by IsUsableSpell to know if a mount can be cast, this
   just helps with the prioritization.
 
-  Copyright 2011-2018 Mike Battersby
+  Copyright 2011-2019 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

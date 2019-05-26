@@ -4,7 +4,7 @@
 
   Parser/evaluator for action conditions.
 
-  Copyright 2011-2018 Mike Battersby
+  Copyright 2011-2019 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

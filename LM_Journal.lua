@@ -4,7 +4,7 @@
 
   Information about a mount from the mount journal.
 
-  Copyright 2011-2018 Mike Battersby
+  Copyright 2011-2019 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

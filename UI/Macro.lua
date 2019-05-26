@@ -4,7 +4,7 @@
 
   Options frame to plug in to the Blizzard interface menu.
 
-  Copyright 2011-2018 Mike Battersby
+  Copyright 2011-2019 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
