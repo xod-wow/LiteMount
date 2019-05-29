@@ -23,6 +23,19 @@ end
 
 local ACTIONS = { }
 
+-- Modifies the list of usableMounts so action list lines after this one
+-- get the restricted list. Always returns no action.
+
+ACTIONS['Limit'] =
+    function (usableMounts, filters)
+        filters = ReplaceVars(filters)
+        local filteredList = usableMounts:FilterSearch(unpack(filters))
+        table.wipe(usableMounts)
+        for k,v in pairs(filteredList) do
+            usableMounts[k] = v
+        end
+    end
+
 ACTIONS['Spell'] =
     function (_, filters)
         for _, spellID in ipairs(filters) do
