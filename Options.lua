@@ -36,15 +36,14 @@ LeaveVehicle
 CancelForm
 Dismount
 CopyTargetsMount
+Limit [filter=RUN/WALK][mod:shift,flyable]
+Limit [filter=FLOAT][mod:shift,noflyable]
 Mount [filter=VASHJIR][map:203,submerged]
 Mount [filter=AQ][map:319/320/321,noflyable,nosubmerged]
 Mount [filter=NAGRAND][map:550,noflyable,nosubmerged]
 Mount [filter=230987][nosubmerged,extra:202477]
 Mount [filter=230987][nosubmerged,aura:202477]
 SmartMount [filter={CLASS}]
-Mount [filter=RUN][mod:shift,flyable]
-Mount [filter=WALK][mod:shift,flyable]
-Mount [filter=FLOAT][mod:shift,noflyable]
 SmartMount
 Macro
 ]]
