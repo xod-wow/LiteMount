@@ -49,11 +49,6 @@ CONDITIONS["achievement"] =
         return select(4, GetAchievementInfo(tonumber(v or 0)))
     end
 
-CONDITIONS["area"] =
-    function (cond, v)
-        LM_WarningAndPrint(format(L.LM_WARN_REPLACE_COND, "area", "map"))
-    end
-
 CONDITIONS["aura"] =
     function (cond, v)
         if v then
@@ -95,11 +90,6 @@ CONDITIONS["class"] =
 CONDITIONS["combat"] =
     function (cond)
         return UnitAffectingCombat("player") or UnitAffectingCombat("pet")
-    end
-
-CONDITIONS["continent"] =
-    function (cond, v)
-        LM_WarningAndPrint(format(L.LM_WARN_REPLACE_COND, "continent", "map"))
     end
 
 -- For completeness, as far as I know. Note that this diverges from the
@@ -185,15 +175,6 @@ CONDITIONS["floating"] =
         return LM_Location:IsFloating()
     end
 
-CONDITIONS["form"] =
-    function (cond, v)
-        if v then
-            return GetShapeshiftForm() == tonumber(v)
-        else
-            return GetShapeshiftForm() > 0
-        end
-    end
-
 CONDITIONS["flyable"] =
     function (cond)
         return LM_Location:CanFly()
@@ -202,6 +183,15 @@ CONDITIONS["flyable"] =
 CONDITIONS["flying"] =
     function (cond)
         return IsFlying()
+    end
+
+CONDITIONS["form"] =
+    function (cond, v)
+        if v then
+            return GetShapeshiftForm() == tonumber(v)
+        else
+            return GetShapeshiftForm() > 0
+        end
     end
 
 CONDITIONS["group"] =
@@ -249,6 +239,21 @@ CONDITIONS["map"] =
             return LM_Location.uiMapID == tonumber(v:sub(2))
         else
             return LM_Location:MapInPath(tonumber(v))
+        end
+    end
+
+CONDITIONS["meq"] =
+    function (cond, v)
+        if C_MountJournal.AreMountEquipmentEffectsSuppressed() then
+            return false
+        end
+        local id = C_MountJournal.GetAppliedMountEquipmentID()
+        if not id then
+            return false
+        elseif not v then
+            return true
+        else
+            return id == tonumber(v)
         end
     end
 
