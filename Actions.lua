@@ -36,6 +36,16 @@ ACTIONS['Limit'] =
         end
     end
 
+-- This is probably not a good idea
+ACTIONS['ResetLimits'] =
+    function (usableMounts)
+        local fullList = LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED")
+        table.wipe(usableMounts)
+        for k,v in pairs(fullList) do
+            usableMounts[k] = v
+        end
+    end
+
 ACTIONS['Spell'] =
     function (_, filters)
         for _, spellID in ipairs(filters) do
