@@ -128,8 +128,18 @@ CONDITIONS["draw:args"] =
 
 CONDITIONS["equipped"] =
     function (cond, v)
+        print('checking equipped')
         if v then
-            return IsEquippedItem(v) or IsEquippedItemType(v)
+            if IsEquippedItem(v) or IsEquippedItemType(v) then
+                return true
+            end
+            -- Pre 8.2 check
+            if not C_MountJournal.GetAppliedMountEquipmentID then return end
+            local id = C_MountJournal.GetAppliedMountEquipmentID()
+        print('checking equipped id ' .. tostring(id))
+            if id and id == tonumber(v) then
+                return true
+            end
         end
     end
 
@@ -239,25 +249,6 @@ CONDITIONS["map"] =
             return LM_Location.uiMapID == tonumber(v:sub(2))
         else
             return LM_Location:MapInPath(tonumber(v))
-        end
-    end
-
-CONDITIONS["meq"] =
-    function (cond, v)
-        -- Pre 8.2 check
-        if not C_MountJournal.GetAppliedMountEquipmentID then
-            return false
-        end
-        if C_MountJournal.AreMountEquipmentEffectsSuppressed() then
-            return false
-        end
-        local id = C_MountJournal.GetAppliedMountEquipmentID()
-        if not id then
-            return false
-        elseif not v then
-            return true
-        else
-            return id == tonumber(v)
         end
     end
 
