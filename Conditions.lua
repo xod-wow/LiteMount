@@ -244,6 +244,10 @@ CONDITIONS["map"] =
 
 CONDITIONS["meq"] =
     function (cond, v)
+        -- Pre 8.2 check
+        if not C_MountJournal.GetAppliedMountEquipmentID then
+            return false
+        end
         if C_MountJournal.AreMountEquipmentEffectsSuppressed() then
             return false
         end
