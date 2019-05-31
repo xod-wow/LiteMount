@@ -128,7 +128,6 @@ CONDITIONS["draw:args"] =
 
 CONDITIONS["equipped"] =
     function (cond, v)
-        print('checking equipped')
         if v then
             if IsEquippedItem(v) or IsEquippedItemType(v) then
                 return true
@@ -136,7 +135,6 @@ CONDITIONS["equipped"] =
             -- Pre 8.2 check
             if not C_MountJournal.GetAppliedMountEquipmentID then return end
             local id = C_MountJournal.GetAppliedMountEquipmentID()
-        print('checking equipped id ' .. tostring(id))
             if id and id == tonumber(v) then
                 return true
             end
