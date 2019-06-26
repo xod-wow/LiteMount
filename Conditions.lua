@@ -528,9 +528,9 @@ function LM_Conditions:Eval(conditions)
     end
 end
 
-function LM_Conditions:Check(cond, ...)
-    local handler = CONDITIONS[cond]
-    if handler then
-        return handler({}, ...)
+function LM_Conditions:Check(line)
+    local _, _, cond = LM_ActionList:ParseActionLine(line)
+    if cond then
+        return self:Eval(cond)
     end
 end
