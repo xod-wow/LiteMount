@@ -176,8 +176,8 @@ function LM_Location:CanFly()
     end
 
     -- Battle for Azeroth Pathfinder, Part 2
-    -- Zan'dalar (875) and Kul'tiras (876)
-    if self:MapInPath(875, 876) then
+    -- Zan'dalar (875), Kul'tiras (876) and Nazjatar (1355)
+    if self:MapInPath(875, 876, 1355) then
         if not IsSpellKnown(278833) then return false end
     end
 
