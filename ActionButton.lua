@@ -12,6 +12,8 @@
 if LibDebug then LibDebug() end
 --@end-debug@
 
+local L = LM_Localize
+
 _G.LM_ActionButton = { }
 
 -- Fancy SecureActionButton stuff. The default button mechanism is
