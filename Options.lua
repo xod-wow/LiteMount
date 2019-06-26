@@ -41,7 +41,7 @@ Mount [filter=AQ][map:319/320/321,noflyable,nosubmerged]
 Mount [filter=NAGRAND][map:550,noflyable,nosubmerged]
 Mount [filter=230987][nosubmerged,extra:202477]
 Mount [filter=230987][nosubmerged,aura:202477]
-Limit [filter=RUN/WALK][mod:shift,flyable]
+Limit [filter=RUN/WALK][mod:shift,flyable][mod:shift,waterwalking]
 SmartMount [filter={CLASS}]
 SmartMount
 Macro
