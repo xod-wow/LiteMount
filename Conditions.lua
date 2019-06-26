@@ -527,3 +527,10 @@ function LM_Conditions:Eval(conditions)
         return self:IsTrue(conditions)
     end
 end
+
+function LM_Conditions:Check(cond, ...)
+    local handler = CONDITIONS[cond]
+    if handler then
+        return handler({}, ...)
+    end
+end
