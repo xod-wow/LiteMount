@@ -172,15 +172,21 @@ ACTIONS['SmartMount'] =
 
         local m
 
-        if IsSubmerged() and not LM_Location:IsFloating() then
+        if LM_Conditions:Check("submerged") then
             LM_Debug("  Trying Swimming Mount")
             m = filteredList:FilterFind('SWIM')
             if m then return m end
         end
 
-        if LM_Location:CanFly() then
+        if LM_Conditions:Check("flyable") then
             LM_Debug("  Trying Flying Mount")
             m = filteredList:FilterFind('FLY')
+            if m then return m end
+        end
+
+        if not LM_Conditions:Check("waterwalking") then
+            LM_Debug("  Trying Swimming Mount")
+            m = filteredList:FilterFind('SWIM')
             if m then return m end
         end
 
