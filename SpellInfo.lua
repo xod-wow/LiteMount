@@ -11,7 +11,6 @@
 -- The values are sort order
 LM_FLAG = { }
 LM_FLAG.SWIM        = 1
-LM_FLAG.FLOAT       = 2
 LM_FLAG.FLY         = 3
 LM_FLAG.RUN         = 4
 LM_FLAG.WALK        = 5

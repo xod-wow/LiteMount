@@ -329,29 +329,29 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString name="$parentBitText6" parentKey="BitText6" inherits="GameFontWhiteTiny" justifyH="CENTER" text="WALK">
+            <FontString name="$parentBitText6" parentKey="BitText6" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
                 <Anchors>
                     <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-32" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBitText5" parentKey="BitText5" inherits="GameFontWhiteTiny" justifyH="CENTER" text="RUN">
+            <FontString name="$parentBitText5" parentKey="BitText5" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
                 <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText6" x="-30" /> </Anchors>
             </FontString>
-            <FontString name="$parentBitText4" parentKey="BitText4" inherits="GameFontWhiteTiny" justifyH="CENTER" text="RUN">
+            <FontString name="$parentBitText4" parentKey="BitText4" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
                 <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText5" x="-34" /> </Anchors>
             </FontString>
-            <FontString name="$parentBitText3" parentKey="BitText3" inherits="GameFontWhiteTiny" justifyH="CENTER" text="FLY">
+            <FontString name="$parentBitText3" parentKey="BitText3" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
                 <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText4" x="-34" /> </Anchors>
             </FontString>
-            <FontString name="$parentBitText2" parentKey="BitText2" inherits="GameFontWhiteTiny" justifyH="CENTER" text="SWIM">
+            <FontString name="$parentBitText2" parentKey="BitText2" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
                 <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText3" x="-34" /> </Anchors>
             </FontString>
-            <FontString name="$parentBitText1" parentKey="BitText1" inherits="GameFontWhiteTiny" justifyH="CENTER" text="FLOAT">
+            <FontString name="$parentBitText1" parentKey="BitText1" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
                 <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText2" x="-34" /> </Anchors>
             </FontString>

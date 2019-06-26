@@ -80,9 +80,6 @@ function LM_Journal:Get(id)
         m.flags['FLY'] = true
     elseif m.mountType == 254 then      -- Swimming only mounts
         m.flags['SWIM'] = true
-    elseif m.mountType == 269 then      -- Water Striders (floating)
-        m.flags['RUN'] = true
-        m.flags['FLOAT'] = true
     elseif m.mountType == 284 then      -- Chauffeured Mekgineer's Chopper
         m.flags['WALK'] = true
     end
