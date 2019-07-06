@@ -144,6 +144,7 @@ local InstanceNotFlyable = {
     [1893] = true,          -- Island Expedition The Dread Chain
     [1897] = true,          -- Island Expedition Molten Cay
     [1898] = true,          -- Island Expedition Skittering Hollow
+    [1907] = true,          -- Island Expedition Snowblossom Village
 }
 
 -- Can't fly if you haven't learned a flying skill
