@@ -312,6 +312,14 @@ CONDITIONS["pvp"] =
         return UnitIsPVP("player")
     end
 
+CONDITIONS["qfc"] =
+    function (cond, v)
+        if v then
+            v = tonumber(v)
+            return v and IsQuestFlaggedCompleted(v)
+        end
+    end
+
 CONDITIONS["race"] =
     function (cond, v)
         if v then
