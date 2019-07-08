@@ -46,7 +46,6 @@ function LM_Mount:MatchesOneFilter(flags, f)
     elseif f:sub(1, 3) == 'id:' then
         if self.mountID == tonumber(f:sub(4)) then return true end
     elseif f:sub(1, 3) == 'mt:' then
-        print('mt check ' .. f)
         if self.mountType == tonumber(f:sub(4)) then return true end
     elseif f:sub(1, 1) == '~' then
         if self:MatchesOneFilter(flags, f:sub(2)) then return true end
