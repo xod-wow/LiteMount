@@ -36,6 +36,25 @@ function LM_Mount:Refresh()
     -- Nothing in base
 end
 
+function LM_Mount:MatchesOneFilter(flags, f)
+    if f == "CASTABLE" then
+        if self:IsCastable() then return true end
+    elseif f == "ENABLED" then
+        if LM_Options:IsExcludedMount(self) ~= true then return true end
+    elseif tonumber(f) then
+        if self.spellID == tonumber(f) then return true end
+    elseif f:sub(1, 3) == 'id:' then
+        if self.mountID == tonumber(f:sub(4)) then return true end
+    elseif f:sub(1, 3) == 'mt:' then
+        print('mt check ' .. f)
+        if self.mountType == tonumber(f:sub(4)) then return true end
+    elseif f:sub(1, 1) == '~' then
+        if self:MatchesOneFilter(flags, f:sub(2)) then return true end
+    else
+        if flags[f] ~= nil then return true end
+    end
+end
+
 function LM_Mount:MatchesFilter(flags, filterStr)
 
     local filters = { strsplit('/', filterStr) }
@@ -43,16 +62,8 @@ function LM_Mount:MatchesFilter(flags, filterStr)
     -- These are all ORed so return true as soon as one is true
 
     for _, f in ipairs(filters) do
-        if f == "CASTABLE" then
-            if self:IsCastable() then return true end
-        elseif f == "ENABLED" then
-            if LM_Options:IsExcludedMount(self) ~= true then return true end
-        elseif tonumber(f) then
-            if self.spellID == tonumber(f) then return true end
-        elseif f:sub(1, 1) == '~' then
-            if flags[f:sub(2)] == nil then return true end
-        else
-            if flags[f] ~= nil then return true end
+        if self:MatchesOneFilter(flags, f) then
+            return true
         end
     end
 
