@@ -36,8 +36,9 @@ LeaveVehicle
 CancelForm
 Dismount
 CopyTargetsMount
+Mount [filter=mt:254][map:1355,flyable,qfc:56766]
 Mount [filter=VASHJIR][map:203,submerged]
-Mount [filter=AQ][map:319/320/321,noflyable,nosubmerged]
+Mount [filter=AQ][map:319/320/321]
 Mount [filter=NAGRAND][map:550,noflyable,nosubmerged]
 Mount [filter=230987][nosubmerged,extra:202477]
 Mount [filter=230987][nosubmerged,aura:202477]
