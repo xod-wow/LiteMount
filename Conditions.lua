@@ -39,6 +39,21 @@ local L = LM_Localize
 
 ]]
 
+local function PlayerHasAura(spellID, filter)
+    local i = 1
+    local auraID
+    while true do
+        auraID = select(10, UnitAura("player", i, filter))
+        if not auraID then
+            break
+        end
+        if auraID == spellID then
+            return true
+        end
+        i = i + 1
+    end
+end
+
 -- If any condition starts with "no" we're screwed
 -- ":args" functions take a fixed set of arguments rather than 0 or one with / separators
 
@@ -51,15 +66,13 @@ CONDITIONS["achievement"] =
 
 CONDITIONS["aura"] =
     function (cond, v)
-        if v then
-            local spellID, auraID = tonumber(v)
-            local i = 1
-            while true do
-                auraID = select(10, UnitAura("player", i, 'HELPFUL|HARMFUL'))
-                if not auraID then return end
-                if auraID == spellID then return true end
-                i = i + 1
-            end
+        v = tonumber(v)
+        if not v then
+            return
+        end
+
+        if PlayerHasAura(v) or PlayerHasAura(v, "HARMFUL") then
+            return true
         end
     end
 
