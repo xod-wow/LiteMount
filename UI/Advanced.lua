@@ -130,12 +130,9 @@ function LiteMountOptionsFlagButton_OnLeave(self)
     end
 end
 
-function LiteMountOptionsAdvanced_Update(self)
-    self = self or LiteMountOptionsAdvanced
-
-    local scrollFrame = self.ScrollFrame
-    local offset = HybridScrollFrame_GetOffset(scrollFrame)
-    local buttons = scrollFrame.buttons
+local function UpdateFlagScroll(self)
+    local offset = HybridScrollFrame_GetOffset(self)
+    local buttons = self.buttons
 
     local allFlags = LM_Options:GetAllFlags()
     local totalHeight = (#allFlags + 1) * buttons[1]:GetHeight()
@@ -166,7 +163,7 @@ function LiteMountOptionsAdvanced_Update(self)
             self.AddFlagButton:SetParent(button)
             self.AddFlagButton:ClearAllPoints()
             self.AddFlagButton:SetPoint("CENTER")
-            self.AddFlagButton:SetWidth(scrollFrame:GetWidth())
+            self.AddFlagButton:SetWidth(self:GetWidth())
             button.DeleteButton:Hide()
             showAddButton = true
         else
@@ -178,13 +175,18 @@ function LiteMountOptionsAdvanced_Update(self)
 
     self.AddFlagButton:SetShown(showAddButton)
 
-    HybridScrollFrame_Update(scrollFrame, totalHeight, displayedHeight)
+    HybridScrollFrame_Update(self, totalHeight, displayedHeight)
+end
+
+function LiteMountOptionsAdvanced_Update(self)
+    self = self or LiteMountOptionsAdvanced
+    UpdateFlagScroll(self.FlagScroll)
 end
 
 function LiteMountOptionsAdvanced_OnSizeChanged(self)
-    HybridScrollFrame_CreateButtons(self.ScrollFrame, "LiteMountOptionsFlagButtonTemplate", 0, 0, "TOPLEFT", "TOPLEFT", 0, 0, "TOP", "BOTTOM")
-    for _,b in ipairs(self.ScrollFrame.buttons) do
-        b:SetWidth(self.ScrollFrame:GetWidth())
+    HybridScrollFrame_CreateButtons(self.FlagScroll, "LiteMountOptionsFlagButtonTemplate", 0, 0, "TOPLEFT", "TOPLEFT", 0, 0, "TOP", "BOTTOM")
+    for _,b in ipairs(self.FlagScroll.buttons) do
+        b:SetWidth(self.FlagScroll:GetWidth())
     end
 end
 
@@ -196,7 +198,7 @@ function LiteMountOptionsAdvanced_OnLoad(self)
     UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountOptionsAdvancedBindingDropDown_Initialize)
     UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
 
-    self.ScrollFrame.update = function () LiteMountOptionsAdvanced_Update(self) end
+    self.FlagScroll.update = UpdateFlagScroll
     LiteMountOptionsAdvanced_OnSizeChanged(self)
 
     LiteMountOptionsPanel_OnLoad(self)

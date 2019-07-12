@@ -105,7 +105,7 @@
             self.Author:SetText(GetAddOnMetadata("LiteMount", "Author") or "")
             self.Translators:SetText(table.concat(translators, "\n"))
 
-            self.TranslateURL.url = "https://wow.curseforge.com/projects/litemount/localization"
+            self.TranslateURL.url = 'https://www.curseforge.com/wow/addons/litemount/localization'
 
             LiteMountOptionsPanel_OnLoad(self)
         </OnLoad>

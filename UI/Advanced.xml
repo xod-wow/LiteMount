@@ -7,14 +7,6 @@
 <Button name="LiteMountOptionsFlagButtonTemplate" virtual="true">
     <Size y="22" />
 
-    <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
-        <EdgeSize val="8" />
-        <TileSize val="8" />
-        <BackgroundInsets>
-            <AbsInset left="1" right="1" top="1" bottom="1" />
-        </BackgroundInsets>
-    </Backdrop>
-
     <Layers>
         <Layer level="ARTWORK">
             <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
@@ -151,7 +143,7 @@
             </Anchors>
         </Frame>
 
-        <Frame name="$parentScrollContainer" parentKey="ScrollContainer">
+        <Frame name="$parentFlagContainer" parentKey="FlagContainer">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" relativePoint="TOPRIGHT" x="16" />
                 <Anchor point="BOTTOM" relativeKey="$parent.EditBoxContainer" />
@@ -174,10 +166,10 @@
             </Scripts>
         </Frame>
 
-        <ScrollFrame name="$parentScrollFrame" parentKey="ScrollFrame" inherits="MinimalHybridScrollFrameTemplate">
+        <ScrollFrame name="$parentFlagScroll" parentKey="FlagScroll" inherits="MinimalHybridScrollFrameTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.ScrollContainer" x="8" y="-8" />
-                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollContainer" x="-28" y="8" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.FlagContainer" x="8" y="-8" />
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.FlagContainer" x="-28" y="8" />
             </Anchors>
             <Scripts>
                 <OnLoad>
@@ -186,16 +178,17 @@
                     self.scrollBar.doNotHide = true
                 </OnLoad>
             </Scripts>
+            <Frames>
+                <Button name="$parentAddFlagButton" parentKey="AddFlagButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
+                    <Size x="96" y="22" />
+                    <Scripts>
+                        <OnClick>
+                            StaticPopup_Show("LM_OPTIONS_NEW_FLAG")
+                        </OnClick>
+                    </Scripts>
+                </Button>
+            </Frames>
         </ScrollFrame>
-
-        <Button name="$parentAddFlagButton" parentKey="AddFlagButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
-            <Size x="96" y="22" />
-            <Scripts>
-                <OnClick>
-                    StaticPopup_Show("LM_OPTIONS_NEW_FLAG")
-                </OnClick>
-            </Scripts>
-        </Button>
 
         <EditBox name="$parentDocURL" parentKey="DocURL" autoFocus="false" ignoreArrows="true">
             <Size y="16" />
@@ -206,7 +199,7 @@
             </Anchors>
             <Scripts>
                 <OnLoad>
-                    self.url = 'https://wow.curseforge.com/projects/litemount/pages/advanced-options'
+                    self.url = 'https://www.curseforge.com/wow/addons/litemount/pages/advanced-options'
                 </OnLoad>
                 <OnShow>
                     self:SetText(self.url)
@@ -228,7 +221,7 @@
         <Layer level="ARTWORK">
             <FontString name="$parentFlagsLabel" parentKey="FlagsLabel" inherits="GameFontNormalLarge" text="LM_FLAGS">
                 <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.ScrollContainer" x="8" y="8" />
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.FlagContainer" x="8" y="8" />
                 </Anchors>
             </FontString>
         </Layer>
