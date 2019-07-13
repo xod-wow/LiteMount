@@ -82,11 +82,26 @@ function LM_Journal:Get(id)
         m.flags['SWIM'] = true
     elseif m.mountType == 284 then      -- Chauffeured Mekgineer's Chopper
         m.flags['WALK'] = true
+    elseif m.mountType == 398 then      -- Kua'fon
+        -- Kua'fon can fly if achievement 13573 is completed, otherwise run
     end
 
     return m
 end
 
+-- Dynamic Kua'fon flags
+
+function LM_Journal:CurrentFlags()
+    local flags = LM_Mount.CurrentFlags(self)
+    if self.mountType == 398 then
+        if select(4, GetAchievementInfo(13573)) == true then
+            flags.FLY = true
+        else
+            flags.RUN = true
+        end
+    end
+    return flags
+end
 
 function LM_Journal:Refresh()
     local isFavorite, _, _, isFiltered, isCollected = select(7, C_MountJournal.GetMountInfoByID(self.mountID))
