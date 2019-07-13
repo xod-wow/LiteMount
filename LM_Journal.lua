@@ -89,17 +89,21 @@ function LM_Journal:Get(id)
     return m
 end
 
--- Dynamic Kua'fon flags
 
 function LM_Journal:CurrentFlags()
     local flags = LM_Mount.CurrentFlags(self)
+
+    -- Dynamic Kua'fon flags
     if self.mountType == 398 then
-        if select(4, GetAchievementInfo(13573)) == true then
+        -- It seems like Alliance don't show the achievement as done but
+        -- do flag the quest as completed.
+        if IsQuestFlaggedCompleted(56205) then
             flags.FLY = true
         else
             flags.RUN = true
         end
     end
+
     return flags
 end
 
