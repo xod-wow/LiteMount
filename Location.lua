@@ -146,10 +146,12 @@ local InstanceNotFlyable = {
     [1897] = true,          -- Island Expedition Molten Cay
     [1898] = true,          -- Island Expedition Skittering Hollow
     [1907] = true,          -- Island Expedition Snowblossom Village
+    [2124] = true,          -- Island Expedition Crestfall
 }
 
--- Can't fly if you haven't learned a flying skill
--- Draenor and Lost Isles need achievement unlocks to be able to fly.
+-- Can't fly if you haven't learned a flying skill. Various expansion
+-- continents from Draenor onwards need achievement unlocks to be able to fly.
+
 function LM_Location:CanFly()
 
     -- If you don't know how to fly, you can't fly
