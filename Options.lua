@@ -69,6 +69,7 @@ local defaults = {
         combatMacro         = "",
         useCombatMacro      = false,
         debugEnabled        = false,
+        uiDebugEnabled      = false,
     },
 }
 

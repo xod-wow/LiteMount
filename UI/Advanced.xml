@@ -84,32 +84,52 @@
             </Scripts>
         </Frame>
 
-        <EditBox name="$parentEditBox" parentKey="EditBox" multiLine="true" autoFocus="false">
+        <ScrollFrame name="$parentEditScroll" parentKey="EditScroll" inherits="UIPanelScrollFrameTemplate">
 
             <Anchors>
                 <Anchor point="TOPLEFT" x="8" y="-8" relativeKey="$parent.EditBoxContainer" />
-                <Anchor point="BOTTOMRIGHT" x="-8" y="8" relativeKey="$parent.EditBoxContainer" />
+                <Anchor point="BOTTOMRIGHT" x="-28" y="8" relativeKey="$parent.EditBoxContainer" />
             </Anchors>
 
             <Scripts>
-                <OnTextChanged function="LiteMountOptionsControl_OnChanged" />
-                <OnEscapePressed function="EditBox_ClearFocus" />
                 <OnLoad>
-                    self.SetOption = function (self, v, i)
-                            LM_Options.db.profile.buttonActions[i] = v
-                            LiteMount.actions[i]:CompileActions()
-                        end
-                    self.GetOption = function (self, i)
-                            return LM_Options.db.profile.buttonActions[i]
-                        end
-                    self.GetOptionDefault = function (self, i)
-                            return LM_Options.db.defaults.profile.buttonActions['*']
-                        end
-                    LiteMountOptionsControl_OnLoad(self)
+                    self.scrollBarHideable = 1
+                    self.ScrollBar:Hide()
                 </OnLoad>
+                <OnShow>
+                    self.EditBox:SetWidth(self:GetWidth() - 18)
+                </OnShow>
             </Scripts>
-            <FontString inherits="GameFontHighlight" />
-        </EditBox>
+
+            <ScrollChild>
+                <EditBox name="$parentEditBox" parentKey="EditBox" multiLine="true" autoFocus="false">
+                    <Size x="1" y="1" />
+                    <Anchors>
+                        <Anchor point="TOPLEFT" />
+                    </Anchors>
+                    <Scripts>
+                        <OnTextChanged function="LiteMountOptionsControl_OnChanged" />
+                        <OnEscapePressed function="EditBox_ClearFocus" />
+                        <OnLoad>
+                             self.SetOption = function (self, v, i)
+                                    LM_Options.db.profile.buttonActions[i] = v
+                                    LiteMount.actions[i]:CompileActions()
+                                end
+                            self.GetOption = function (self, i)
+                                    return LM_Options.db.profile.buttonActions[i]
+                                end
+                            self.GetOptionDefault = function (self, i)
+                                    return LM_Options.db.defaults.profile.buttonActions['*']
+                                end
+                            LiteMountOptionsControl_OnLoad(self, self:GetParent():GetParent())
+                        </OnLoad>
+                        <OnUpdate function="InputScrollFrame_OnUpdate" />
+                        <OnCursorChanged function="ScrollingEdit_OnCursorChanged" />
+                    </Scripts>
+                    <FontString inherits="GameFontHighlight" />
+                </EditBox>
+            </ScrollChild>
+        </ScrollFrame>
 
         <Button name="$parentRevertButton" parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
             <Size x="96" y="22" />
@@ -130,8 +150,8 @@
             <Scripts>
                 <OnClick>
                     local parent = self:GetParent()
-                    LiteMountOptionsControl_Default(parent.EditBox, true)
-                    LiteMountOptionsControl_Refresh(parent.EditBox)
+                    LiteMountOptionsControl_Default(parent.EditScroll.EditBox, true)
+                    LiteMountOptionsControl_Refresh(parent.EditScroll.EditBox)
                 </OnClick>
             </Scripts>
         </Button>

@@ -128,6 +128,7 @@ function LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountOptionsControl_Refresh(self)
+    LM_UIDebug("Control_Refresh " .. self:GetName())
     for i = 1, (self.ntabs or 1) do
         if self.oldValues[i] == nil then
             self.oldValues[i] = self:GetOption(i)

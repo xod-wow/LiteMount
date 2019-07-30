@@ -164,6 +164,15 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
             LM_Options.db.char.debugEnabled = false
         end
         return true
+    elseif cmd == "uidebug" then
+        if IsTrue(args[1]) then
+            LM_Print(BUG_CATEGORY5 + ' ' + L.LM_DEBUGGING_ENABLED)
+            LM_Options.db.char.uiDebugEnabled = true
+        else
+            LM_Print(BUG_CATEGORY5 + ' ' + L.LM_DEBUGGING_DISABLED)
+            LM_Options.db.char.uiDebugEnabled = false
+        end
+        return true
 --@debug@
     elseif cmd == "usable" then
         LM_Developer:Initialize()
