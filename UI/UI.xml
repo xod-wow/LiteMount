@@ -3,6 +3,8 @@
     <Include file="PanelTemplate.xml" />
     <Include file="Base.xml" />
 
+    <Script file="StaticPopups.lua" />
+
     <!-- The order of these is the order of the settings tabs -->
     <Include file="General.xml" />
     <Include file="Mounts.xml" />

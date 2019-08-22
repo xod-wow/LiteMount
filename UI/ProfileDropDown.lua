@@ -39,7 +39,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
             self.editBox:SetFocus()
         end,
     OnHide = function (self)
-            LiteMountOptions_UpdateMountList()
+            LiteMountOptionsMounts.refresh()
         end,
 }
 
@@ -68,7 +68,7 @@ StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
             LM_Options.db:ResetProfile(self.data)
         end,
     OnHide = function (self)
-            LiteMountOptions_UpdateMountList()
+            LiteMountOptionsMounts.refresh()
         end,
 }
 

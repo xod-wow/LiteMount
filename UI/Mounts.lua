@@ -20,26 +20,14 @@ local function tslice(t, first, last)
     return out
 end
 
-function LiteMountOptionsBit_OnClick(self)
-    local mount = self:GetParent().mount
-
-    if self:GetChecked() then
-        LM_Options:SetMountFlag(mount, self.flag)
-    else
-        LM_Options:ClearMountFlag(mount, self.flag)
-    end
-    LiteMountOptions_UpdateMountList()
-end
-
 -- Because we get attached inside the blizzard options container, we
 -- are size 0x0 on create and even after OnShow, we have to trap
 -- OnSizeChanged on the scrollframe to make the buttons correctly.
 local function CreateMoreButtons(self)
-    HybridScrollFrame_CreateButtons(self, "LiteMountOptionsButtonTemplate",
+    HybridScrollFrame_CreateButtons(self, self.buttonTemplate,
                                     0, -1, "TOPLEFT", "TOPLEFT",
                                     0, -1, "TOP", "BOTTOM")
 
-    -- Note: the buttons are laid out right to left
     for _,b in ipairs(self.buttons) do
         b:SetWidth(b:GetParent():GetWidth())
     end
@@ -51,24 +39,6 @@ local function EnableDisableMount(mount, onoff)
     else
         LM_Options:RemoveExcludedMount(mount)
     end
-end
-
-local function BitButtonUpdate(checkButton, flag, mount)
-    checkButton.flag = flag
-
-    if not flag then
-        checkButton:Hide()
-        return
-    else
-        checkButton:Show()
-    end
-
-    local cur = mount:CurrentFlags()
-
-    checkButton:SetChecked(cur[flag] or false)
-
-    -- If we changed this from the default then color the background
-    checkButton.Modified:SetShown(mount.flags[flag] ~= cur[flag])
 end
 
 function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
@@ -85,7 +55,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             end
         info.func = function (_, _, _, v)
                 LM_UIFilter.SetFlagFilter("ENABLED", v)
-                LiteMountOptions_UpdateMountList()
+                LiteMountOptionsMounts.refresh()
             end
         UIDropDownMenu_AddButton(info, level)
 
@@ -96,7 +66,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             end
         info.func = function (_, _, _, v)
                 LM_UIFilter.SetFlagFilter("DISABLED", v)
-                LiteMountOptions_UpdateMountList()
+                LiteMountOptionsMounts.refresh()
             end
         UIDropDownMenu_AddButton(info, level)
 
@@ -107,7 +77,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             end
         info.func = function (_, _, _, v)
                 LM_UIFilter.SetFlagFilter("COLLECTED", v)
-                LiteMountOptions_UpdateMountList()
+                LiteMountOptionsMounts.refresh()
             end
         UIDropDownMenu_AddButton(info, level)
 
@@ -118,7 +88,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             end
         info.func = function (_, _, _, v)
                 LM_UIFilter.SetFlagFilter("NOT_COLLECTED", v)
-                LiteMountOptions_UpdateMountList()
+                LiteMountOptionsMounts.refresh()
             end
         UIDropDownMenu_AddButton(info, level)
 
@@ -129,7 +99,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             end
         info.func = function (_, _, _, v)
                 LM_UIFilter.SetFlagFilter("UNUSABLE", v)
-                LiteMountOptions_UpdateMountList()
+                LiteMountOptionsMounts.refresh()
             end
         UIDropDownMenu_AddButton(info, level)
 
@@ -155,16 +125,16 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = CHECK_ALL
             info.func = function ()
                     LM_UIFilter.SetAllSourceFilters(true)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, false, 2)
-                    LiteMountOptions_UpdateMountList()
+                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
+                    LiteMountOptionsMounts.refresh()
                 end
             UIDropDownMenu_AddButton(info, level)
 
             info.text = UNCHECK_ALL
             info.func = function ()
                     LM_UIFilter.SetAllSourceFilters(false)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, false, 2)
-                    LiteMountOptions_UpdateMountList()
+                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
+                    LiteMountOptionsMounts.refresh()
                 end
             UIDropDownMenu_AddButton(info, level)
 
@@ -176,7 +146,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
                     info.arg1 = i
                     info.func = function (_, _, _, v)
                             LM_UIFilter.SetSourceFilter(i, v)
-                            LiteMountOptions_UpdateMountList()
+                            LiteMountOptionsMounts.refresh()
                         end
                     info.checked = function ()
                             return LM_UIFilter.IsSourceChecked(i)
@@ -191,16 +161,16 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = CHECK_ALL
             info.func = function ()
                     LM_UIFilter:SetAllFlagFilters(true)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, false, 2)
-                    LiteMountOptions_UpdateMountList()
+                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
+                    LiteMountOptionsMounts.refresh()
                 end
             UIDropDownMenu_AddButton(info, level)
 
             info.text = UNCHECK_ALL
             info.func = function ()
                     LM_UIFilter:SetAllFlagFilters(false)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, false, 2)
-                    LiteMountOptions_UpdateMountList()
+                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
+                    LiteMountOptionsMounts.refresh()
                 end
             UIDropDownMenu_AddButton(info, level)
 
@@ -211,7 +181,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
                 info.arg1 = f
                 info.func = function (_, _, _, v)
                         LM_UIFilter.SetFlagFilter(f, v)
-                        LiteMountOptions_UpdateMountList()
+                        LiteMountOptionsMounts.refresh()
                     end
                 info.checked = function ()
                         return LM_UIFilter.IsFlagChecked(f)
@@ -256,29 +226,23 @@ local function UpdateAllSelected(mounts)
     end
 end
 
-local function UpdateMountButton(button, pageFlags, mount)
+local function UpdateMountButton(button, mount)
     button.mount = mount
-    button.Icon:SetNormalTexture(mount.icon)
+    button.Icon:SetTexture(mount.icon)
     button.Name:SetText(mount.name)
 
     if not InCombatLockdown() then
         for k,v in pairs(mount:GetSecureAttributes()) do
-            button.Icon:SetAttribute(k, v)
+            button.DragButton:SetAttribute(k, v)
         end
-    end
-
-    local i = 1
-    while button["Bit"..i] do
-        BitButtonUpdate(button["Bit"..i], pageFlags[i], mount)
-        i = i + 1
     end
 
     if not mount.isCollected then
         button.Name:SetFontObject("GameFontDisable")
-        button.Icon:GetNormalTexture():SetDesaturated(true)
+        button.Icon:SetDesaturated(true)
     else
         button.Name:SetFontObject("GameFontNormal")
-        button.Icon:GetNormalTexture():SetDesaturated(false)
+        button.Icon:SetDesaturated(false)
     end
 
     if LM_Options:IsExcludedMount(mount) then
@@ -287,11 +251,12 @@ local function UpdateMountButton(button, pageFlags, mount)
         button.Enabled:SetChecked(true)
     end
 
-    button.Enabled.SetValue = function (self, setting)
-                            EnableDisableMount(button.mount, setting)
-                            self:GetScript("OnEnter")(self)
-                            UpdateAllSelected()
-                        end
+    button.Enabled.SetValue =
+        function (self, setting)
+            EnableDisableMount(button.mount, setting)
+            self:GetScript("OnEnter")(self)
+            UpdateAllSelected()
+        end
 
     if GameTooltip:GetOwner() == button.Enabled then
         button.Enabled:GetScript("OnEnter")(button.Enabled)
@@ -315,42 +280,11 @@ function LiteMountOptions_AllSelect_OnClick(self)
     end
 
     self:GetScript("OnEnter")(self)
-    LiteMountOptions_UpdateMountList()
+    LiteMountOptionsMounts.refresh()
 
 end
 
-
--- local FPCount = 0
-
-function LiteMountOptions_UpdateFlagPaging()
-    local self = LiteMountOptionsMounts
-    local allFlags = LM_Options:GetAllFlags()
-
-    -- FPCount = FPCount + 1
-    -- LM_Debug(format("FPCount %d", FPCount))
-
-    self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
-    self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
-    self.NextPageButton:SetEnabled(self.currentFlagPage ~= self.maxFlagPages)
-
-    local pageOffset = (self.currentFlagPage - 1 ) * NUM_FLAG_BUTTONS + 1
-    self.pageFlags = tslice(allFlags, pageOffset, pageOffset+NUM_FLAG_BUTTONS-1)
-
-    local bt
-    for i = 1, NUM_FLAG_BUTTONS do
-        bt = self["BitText"..i]
-        if self.pageFlags[i] then
-            bt:SetText(L[self.pageFlags[i]])
-            bt:Show()
-        else
-            bt:Hide()
-        end
-    end
-end
-
--- local UpdateCount = 0
-
-function LiteMountOptions_UpdateMountList()
+local function UpdateMountScroll(self)
 
     -- Because the Icon is a SecureActionButton and a child of the scroll
     -- buttons, we can't show or hide them in combat. Rather than throw a
@@ -358,22 +292,19 @@ function LiteMountOptions_UpdateMountList()
 
     if InCombatLockdown() then return end
 
-    local scrollFrame = LiteMountOptionsMounts.ScrollFrame
-    local offset = HybridScrollFrame_GetOffset(scrollFrame)
-    local buttons = scrollFrame.buttons
+    local offset = HybridScrollFrame_GetOffset(self)
 
     -- UpdateCount = UpdateCount + 1
     -- LM_Debug(format("UpdateCount %d", UpdateCount))
 
-    if not buttons then return end
+    if not self.buttons then return end
 
     local mounts = LM_UIFilter.GetFilteredMountList()
 
-    for i = 1, #buttons do
-        local button = buttons[i]
+    for i, button in ipairs(self.buttons) do
         local index = offset + i
         if index <= #mounts then
-            UpdateMountButton(button, LiteMountOptionsMounts.pageFlags, mounts[index])
+            UpdateMountButton(button, mounts[index])
             button:Show()
         else
             button:Hide()
@@ -382,24 +313,100 @@ function LiteMountOptions_UpdateMountList()
 
     UpdateAllSelected(mounts)
 
-    local totalHeight = scrollFrame.buttonHeight * #mounts
-    local shownHeight = scrollFrame.buttonHeight * #buttons
+    local totalHeight = self.buttonHeight * #mounts
+    local shownHeight = self.buttonHeight * #self.buttons
 
-    HybridScrollFrame_Update(scrollFrame, totalHeight, shownHeight)
+    HybridScrollFrame_Update(self, totalHeight, shownHeight)
 end
 
 function LiteMountOptionsScrollFrame_OnSizeChanged(self, w, h)
     CreateMoreButtons(self)
-    LiteMountOptions_UpdateMountList()
-
     self.stepSize = self.buttonHeight
-    self.update = LiteMountOptions_UpdateMountList
+end
+
+function LiteMountOptionsFlagButton_OnEnter(self)
+    if self.flag and rawget(L, self.flag) ~= nil then
+        GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
+        GameTooltip:AddLine(L[self.flag])
+        GameTooltip:Show()
+    end
+end
+
+function LiteMountOptionsFlagButton_OnLeave(self)
+    if GameTooltip:GetOwner() == self then
+        GameTooltip:Hide()
+    end
+end
+
+local function UpdateFlagScroll(self)
+    local offset = HybridScrollFrame_GetOffset(self)
+    local buttons = self.buttons
+
+    local allFlags = LM_Options:GetAllFlags()
+    local totalHeight = (#allFlags + 1) * buttons[1]:GetHeight()
+    local displayedHeight = #buttons * buttons[1]:GetHeight()
+
+    local showAddButton
+
+    for i = 1, #buttons do
+        button = buttons[i]
+        index = offset + i
+        if index <= #allFlags then
+            local flagText = allFlags[index]
+            if LM_Options:IsPrimaryFlag(allFlags[index]) then
+                flagText = ITEM_QUALITY_COLORS[2].hex .. flagText .. FONT_COLOR_CODE_CLOSE
+                button.DeleteButton:Hide()
+            else
+                button.DeleteButton:Show()
+            end
+            button.Text:SetFormattedText(flagText)
+            button.Text:Show()
+            button:Show()
+            button.flag = allFlags[index]
+        elseif index == #allFlags + 1 then
+            button.Text:Hide()
+            button.DeleteButton:Hide()
+            button:Show()
+            button.flag = nil
+            self.AddFlagButton:SetParent(button)
+            self.AddFlagButton:ClearAllPoints()
+            self.AddFlagButton:SetPoint("CENTER")
+            self.AddFlagButton:SetWidth(self:GetWidth())
+            button.DeleteButton:Hide()
+            showAddButton = true
+        else
+            button:Hide()
+            button.DeleteButton:Hide()
+            button.flag = nil
+        end
+    end
+
+    self.AddFlagButton:SetShown(showAddButton)
+
+    HybridScrollFrame_Update(self, totalHeight, displayedHeight)
+end
+
+function LiteMountOptionsMountScroll_OnLoad(self)
+    self.buttonTemplate = "LiteMountOptionsMountButtonTemplate"
+    self.update = function () UpdateMountScroll(self) end
+    local track = _G[self.scrollBar:GetName().."Track"]
+    track:Hide()
+end
+
+function LiteMountOptionsFlagScroll_OnLoad(self)
+    self.buttonTemplate = "LiteMountOptionsFlagButtonTemplate"
+    self.update = function () UpdateFlagScroll(self) end
+    local track = _G[self.scrollBar:GetName().."Track"]
+    track:Hide()
 end
 
 function LiteMountOptionsMounts_OnLoad(self)
 
     -- Because we're the wrong size at the moment we'll only have 1 button
-    CreateMoreButtons(self.ScrollFrame)
+    CreateMoreButtons(self.FlagScroll)
+    CreateMoreButtons(self.MountScroll)
+
+    self.FlagScroll.update = UpdateFlagScroll
 
     self.name = MOUNTS
     self.default = function ()
@@ -407,26 +414,12 @@ function LiteMountOptionsMounts_OnLoad(self)
                 LM_Options:ResetMountFlags(m)
             end
             LM_Options:SetExcludedMounts({})
-            LiteMountOptions_UpdateMountList()
+            self.refresh()
         end
 
-    self.currentFlagPage = 1
-    self.maxFlagPages = 1
-    self.pageFlags = { }
-    self.NextFlagPage = function (self)
-        self.currentFlagPage = Clamp(self.currentFlagPage + 1, 1, self.maxFlagPages)
-        LiteMountOptions_UpdateFlagPaging(self)
-        LiteMountOptions_UpdateMountList()
-    end
-    self.PrevFlagPage = function (self)
-        self.currentFlagPage = Clamp(self.currentFlagPage - 1, 1, self.maxFlagPages)
-        LiteMountOptions_UpdateFlagPaging()
-        LiteMountOptions_UpdateMountList()
-    end
-
-    self.refresh = function (self)
-        LiteMountOptions_UpdateFlagPaging(self)
-        LiteMountOptions_UpdateMountList(self)
+    self.refresh = function ()
+        UpdateMountScroll(self.MountScroll)
+        UpdateFlagScroll(self.FlagScroll)
     end
 
     LiteMountOptionsPanel_OnLoad(self)
@@ -437,8 +430,8 @@ function LiteMountOptionsMounts_OnShow(self)
     -- UpdateCount, FPCount = 0, 0
     LM_PlayerMounts:RefreshMounts()
 
-    LiteMountOptions_UpdateFlagPaging()
-    LiteMountOptions_UpdateMountList()
+    self.refresh()
+
     LiteMountOptionsPanel_OnShow(self)
 end
 

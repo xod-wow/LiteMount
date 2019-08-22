@@ -5,72 +5,150 @@
 <Script file="MountsFilter.lua" />
 <Script file="Mounts.lua" />
 
-<!--
-    See OptionsBaseCheckButtonTemplate in FrameXML/OptionsPanelTemplates.xml
-    We don't use it directly because of the hitrect crap we don't want.
- -->
-<CheckButton name="LiteMountOptionsBitTemplate" virtual="true">
-    <Size x="26" y="26" />
-    <Scripts>
-        <OnClick>
-            LiteMountOptionsBit_OnClick(self)
-        </OnClick>
-        <OnEnter>
-            local L = LM_Localize
-            if self.flag then
-                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                GameTooltip:SetText(L[self.flag])
-                GameTooltip:Show()
-            end
-        </OnEnter>
-        <OnLeave>
-            if GameTooltip:GetOwner() == self then
-                GameTooltip:Hide()
-            end
-        </OnLeave>
-    </Scripts>
-    <NormalTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Up"/>
-    <PushedTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Down"/>
-    <HighlightTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
-    <CheckedTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Check"/>
-    <DisabledCheckedTexture urgency="5" file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+<Button name="LiteMountOptionsFlagButtonTemplate" virtual="true">
+    <Size y="22" />
+
     <Layers>
-        <Layer level="BACKGROUND">
-            <Texture alphaMode="ADD" hidden="true" name="$parentModified" parentKey="Modified">
-                <Color r="0.5" g="0.0" b="0.0" />
+        <Layer level="ARTWORK">
+            <FontString parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
                 <Anchors>
-                    <Anchor point="TOPLEFT" x="5" y="-5" />
-                    <Anchor point="BOTTOMRIGHT" x="-6" y="6" />
+                    <Anchor point="LEFT" x="24" />
+                    <Anchor point="RIGHT" x="-12" />
                 </Anchors>
-            </Texture>
+            </FontString>
         </Layer>
     </Layers>
-</CheckButton>
 
-<Button name="LiteMountOptionsButtonTemplate" virtual="true">
-
-    <Size x="180" y="45" />
-
-    <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
-        <EdgeSize val="8" />
-        <TileSize val="8" />
-        <BackgroundInsets>
-            <AbsInset left="1" right="1" top="1" bottom="1" />
-        </BackgroundInsets>
-    </Backdrop>
+    <Frames>
+        <Button parentKey="DeleteButton" hidden="true">
+            <Size x="14" y="14" />
+            <Anchors> <Anchor point="LEFT" x="6" /> </Anchors>
+            <NormalTexture file="Interface\Buttons\UI-MinusButton-UP"/>
+            <PushedTexture file="Interface\Buttons\UI-MinusButton-DOWN"/>
+            <HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+            <Scripts>
+                <OnClick>
+                    local f = self:GetParent().flag
+                    StaticPopup_Show("LM_OPTIONS_DELETE_FLAG", f, nil, f)
+                </OnClick>
+            </Scripts>
+        </Button>
+    </Frames>
 
     <Scripts>
         <OnLoad>
             self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
             self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
         </OnLoad>
+        <OnEnter function="LiteMountOptionsFlagButton_OnEnter" />
+        <OnLeave function="LiteMountOptionsFlagButton_OnLeave" />
+    </Scripts>
+
+</Button>
+
+<Button name="LiteMountOptionsMountButtonTemplate" virtual="true">
+
+    <Size x="208" y="46" />
+
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture atlas="PetList-ButtonBackground" parentKey="background" />
+        </Layer>
+
+        <Layer level="BORDER">
+            <Texture parentKey="Icon">
+                <Size x="38" y="38" />
+                <Anchors>
+                    <Anchor point="LEFT" x="2" />
+                </Anchors>
+            </Texture>
+        </Layer>
+        <Layer level="OVERLAY">
+            <FontString inherits="GameFontNormal" justifyH="LEFT" parentKey="Name">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT" x="4" />
+                    <Anchor point="TOP" y="-2" />
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2" />
+                </Anchors>
+            </FontString>
+            <Texture parentKey="Unusable" setAllPoints="true" hidden="true">
+                <Color r="1" g="0" b="0" />
+            </Texture>
+        </Layer>
+    </Layers>
+
+    <Frames>
+        <Button parentKey="DragButton" inherits="SecureActionButtonTemplate">
+            <Size x="40" y="40" />
+            <Anchors>
+                <Anchor point="CENTER" relativeKey="$parent.Icon" />
+            </Anchors>
+            <Scripts>
+                <OnLoad>
+                    self:SetAttribute("unit", "player")
+                    self:RegisterForClicks("RightButtonUp")
+                    self:RegisterForDrag("LeftButton")
+                </OnLoad>
+                <OnDragStart>
+                    local mount = self.mount
+                    if mount.spellID then
+                        PickupSpell(mount.spellID)
+                    elseif mount.itemID then
+                        PickupItem(mount.itemID)
+                    end
+                </OnDragStart>
+            </Scripts>
+        </Button>
+    </Frames>
+    
+    <Scripts>
+        <OnEnter>
+            local m = self.mount
+
+            GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
+            if m.mountID then
+                GameTooltip:SetMountBySpellID(m.spellID)
+            else
+                GameTooltip:SetSpellByID(m.spellID)
+            end
+
+            GameTooltipTextRight2:SetText(ID.." "..m.spellID)
+            GameTooltipTextRight2:Show()
+
+            if m.sourceText then
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine("|cffffffff" .. SOURCE .. "|r")
+                GameTooltip:AddLine(m.sourceText)
+            end
+
+            if m:IsCastable() then
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
+            end
+
+            if m.modelID then
+                LiteMountOptionsPreview.Model:SetDisplayInfo(m.modelID)
+                if m.isSelfMount then
+                    LiteMountOptionsPreview.Model:SetDoBlend(false)
+                    LiteMountOptionsPreview.Model:SetAnimation(618, -1)
+                end
+                LiteMountOptionsPreview:Show()
+            else
+                LiteMountOptionsPreview:Hide()
+            end
+            GameTooltip:Show()
+        </OnEnter>
+        <OnLeave>
+            LiteMountOptionsPreview:Hide()
+            GameTooltip:Hide()
+        </OnLeave>
     </Scripts>
 
     <Frames>
-        <CheckButton name="$parentEnabled" parentKey="Enabled">
+        <CheckButton parentKey="Enabled">
             <Size x="32" y="32" />
             <Anchors>
-                <Anchor point="LEFT" x="2" />
+                <Anchor point="RIGHT" x="-8" />
             </Anchors>
             <Scripts>
                 <OnClick function="BlizzardOptionsPanel_CheckButton_OnClick" />
@@ -93,111 +171,6 @@
             <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
         </CheckButton>
 
-        <Button name="$parentIcon" parentKey="Icon" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true">
-            <Size x="36" y="36" />
-            <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.Enabled" relativePoint="RIGHT" x="2" />
-            </Anchors>
-            <HighlightTexture name="$parentHighlight" parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
-
-            <Layers>
-                <Layer level="OVERLAY">
-                    <Texture name="$parentUnusable" parentKey="Unusable" setAllPoints="true" hidden="true">
-                        <Color r="1" g="0" b="0" />
-                    </Texture>
-                </Layer>
-            </Layers>
-
-            <Scripts>
-                <OnEnter>
-                    local m = self:GetParent().mount
-
-                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
-                    if m.mountID then
-                        GameTooltip:SetMountBySpellID(m.spellID)
-                    else
-                        GameTooltip:SetSpellByID(m.spellID)
-                    end
-
-                    GameTooltipTextRight2:SetText(ID.." "..m.spellID)
-                    GameTooltipTextRight2:Show()
-
-                    if m.sourceText then
-                        GameTooltip:AddLine(" ")
-                        GameTooltip:AddLine("|cffffffff" .. SOURCE .. "|r")
-                        GameTooltip:AddLine(m.sourceText)
-                    end
-
-                    if m:IsCastable() then
-                        GameTooltip:AddLine(" ")
-                        GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
-                    end
-
-                    if m.modelID then
-                        LiteMountOptionsPreview.Model:SetDisplayInfo(m.modelID)
-                        if m.isSelfMount then
-                            LiteMountOptionsPreview.Model:SetDoBlend(false)
-                            LiteMountOptionsPreview.Model:SetAnimation(618, -1)
-                        end
-                        LiteMountOptionsPreview:Show()
-                    else
-                        LiteMountOptionsPreview:Hide()
-                    end
-                    GameTooltip:Show()
-                </OnEnter>
-                <OnLeave>
-                    LiteMountOptionsPreview:Hide()
-                    GameTooltip:Hide()
-                </OnLeave>
-                <OnLoad>
-                    self:SetAttribute("unit", "player")
-                    self:RegisterForClicks("RightButtonUp")
-                    self:RegisterForDrag("LeftButton")
-                </OnLoad>
-                <OnDragStart>
-                    local mount = self:GetParent().mount
-                    if mount.spellID then
-                        PickupSpell(mount.spellID)
-                    elseif mount.itemID then
-                        PickupItem(mount.itemID)
-                    end
-                </OnDragStart>
-            </Scripts>
-        </Button>
-
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit6" parentKey="Bit6" id="6">
-            <Anchors> <Anchor point="RIGHT" x="-32" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit5" parentKey="Bit5" id="5">
-            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit6" x="-34" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit4" parentKey="Bit4" id="4">
-            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit5" x="-34" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit3" parentKey="Bit3" id="3">
-            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit4" x="-34" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit2" parentKey="Bit2" id="2">
-            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit3" x="-34" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit1" parentKey="Bit1" id="1">
-            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit2" x="-34" /> </Anchors>
-        </CheckButton>
-    </Frames>
-
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormal" justifyH="LEFT" name="$parentName" parentKey="Name">
-                <Anchors>
-                    <Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT" x="4" />
-                    <Anchor point="TOP" y="-2" />
-                    <Anchor point="BOTTOMRIGHT" x="-2" y="2" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-
-    <Frames>
     </Frames>
 
 </Button>
@@ -216,7 +189,7 @@
         </BackgroundInsets>
     </Backdrop>
     <Frames>
-       <PlayerModel name="$parentModel" parentKey="Model">
+       <PlayerModel parentKey="Model">
             <Anchors>
                 <Anchor point="TOPLEFT" x="8" y="-8" />
                 <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
@@ -243,24 +216,45 @@
 <Frame name="LiteMountOptionsMounts" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
-        <ScrollFrame inherits="MinimalHybridScrollFrameTemplate" name="$parentScrollFrame" parentKey="ScrollFrame">
+        <ScrollFrame inherits="MinimalHybridScrollFrameTemplate" parentKey="FlagScroll">
+            <Size x="200" />
             <Anchors>
-                <Anchor point="TOPLEFT" x="16" y="-72" />
+                <Anchor point="TOPLEFT" x="8" y="-84" />
+                <Anchor point="BOTTOM" y="36" />
+            </Anchors>
+            <Scripts>
+                <OnLoad function="LiteMountOptionsFlagScroll_OnLoad" />
+                <OnSizeChanged function="LiteMountOptionsScrollFrame_OnSizeChanged" />
+            </Scripts>
+            <Frames>
+                <Button parentKey="AddFlagButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
+                    <Size x="96" y="22" />
+                    <Scripts>
+                        <OnClick>
+                            StaticPopup_Show("LM_OPTIONS_NEW_FLAG")
+                        </OnClick>
+                    </Scripts>
+                </Button>
+            </Frames>
+
+        </ScrollFrame>
+
+        <ScrollFrame inherits="MinimalHybridScrollFrameTemplate" parentKey="MountScroll">
+            <Size x="360" />
+            <Anchors>
+                <Anchor point="TOPRIGHT" x="-32" y="-84" />
                 <Anchor point="BOTTOMRIGHT" x="-32" y="36" />
             </Anchors>
             <Scripts>
-                <OnLoad>
-                    local track = _G[self.scrollBar:GetName().."Track"]
-                    track:Hide()
-                </OnLoad>
+                <OnLoad function="LiteMountOptionsMountScroll_OnLoad" />>
                 <OnSizeChanged function="LiteMountOptionsScrollFrame_OnSizeChanged" />
             </Scripts>
         </ScrollFrame>
 
-        <CheckButton name="$parentAllSelect" parentKey="AllSelect">
+        <CheckButton parentKey="AllSelect">
             <Size x="32" y="32" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollFrame" relativePoint="TOPLEFT" x="2" y="-2" />
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountScroll" relativePoint="TOPRIGHT" x="-8" y="-2" />
             </Anchors>
             <Scripts>
                 <OnClick function="LiteMountOptions_AllSelect_OnClick" />
@@ -283,28 +277,28 @@
             <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
         </CheckButton>
 
-        <EditBox autofocus="false" inherits="SearchBoxTemplate" name="$parentSearch" parentKey="Search" letters="40">
+        <EditBox autofocus="false" inherits="SearchBoxTemplate" parentKey="Search" letters="40">
             <Size x="145" y="20" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollFrame" relativePoint="TOPLEFT" x="46" y="5" />
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.MountScroll" relativePoint="TOPLEFT" x="8" y="5" />
             </Anchors>
             <Scripts>
                 <OnTextChanged>
                     SearchBoxTemplate_OnTextChanged(self)
                     LM_UIFilter.SetSearchText(self:GetText())
-                    LiteMountOptions_UpdateMountList()
+                    LiteMountOptionsMounts.refresh()
                 </OnTextChanged>
             </Scripts>
         </EditBox>
 
-        <Button name="$parentFilterButton" inherits="UIMenuButtonStretchTemplate" text="FILTER">
+        <Button name="$parentFilterButton" parentKey="FilterButton" inherits="UIMenuButtonStretchTemplate" text="FILTER">
             <Size x="93" y="22" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.Search" relativePoint="RIGHT" x="12" y="-0.5" />
             </Anchors>
             <Layers>
                 <Layer level="ARTWORK">
-                    <Texture name="$parentIcon" parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
+                    <Texture parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
                         <Size x="10" y="12"/>
                         <Anchors>
                             <Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="RIGHT" x="-5"/>
@@ -314,82 +308,18 @@
             </Layers>
             <Scripts>
                 <OnClick>
-                    ToggleDropDownMenu(1, nil, LiteMountOptionsMountsFilterDropDown, self:GetName(), 74, 15)
+                    local dd = self:GetParent().FilterDropDown
+                    ToggleDropDownMenu(1, nil, dd, self:GetName(), 74, 15)
                 </OnClick>
             </Scripts>
         </Button>
 
-        <Frame name="$parentFilterDropDown" inherits="UIDropDownMenuTemplate">
+        <Frame parentKey="FilterDropDown" inherits="UIDropDownMenuTemplate">
             <Scripts>
                 <OnLoad function="LiteMountOptionsMountsFilterDropDown_OnLoad" />
             </Scripts>
         </Frame>
 
-    </Frames>
-
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString name="$parentBitText6" parentKey="BitText6" inherits="GameFontWhiteTiny" justifyH="CENTER">
-                <Size x="30" y="26" />
-                <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-32" />
-                </Anchors>
-            </FontString>
-            <FontString name="$parentBitText5" parentKey="BitText5" inherits="GameFontWhiteTiny" justifyH="CENTER">
-                <Size x="30" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText6" x="-30" /> </Anchors>
-            </FontString>
-            <FontString name="$parentBitText4" parentKey="BitText4" inherits="GameFontWhiteTiny" justifyH="CENTER">
-                <Size x="30" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText5" x="-34" /> </Anchors>
-            </FontString>
-            <FontString name="$parentBitText3" parentKey="BitText3" inherits="GameFontWhiteTiny" justifyH="CENTER">
-                <Size x="30" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText4" x="-34" /> </Anchors>
-            </FontString>
-            <FontString name="$parentBitText2" parentKey="BitText2" inherits="GameFontWhiteTiny" justifyH="CENTER">
-                <Size x="30" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText3" x="-34" /> </Anchors>
-            </FontString>
-            <FontString name="$parentBitText1" parentKey="BitText1" inherits="GameFontWhiteTiny" justifyH="CENTER">
-                <Size x="30" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText2" x="-34" /> </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-
-    <Frames>
-        <Button name="$parentNextPageButton" parentKey="NextPageButton">
-            <Size x="26" y="26" />
-            <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.BitText6" relativePoint="RIGHT" x="4" />
-            </Anchors>
-            <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
-            <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
-            <DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
-            <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
-            <Scripts>
-                <OnClick>
-                    self:GetParent():NextFlagPage()
-                </OnClick>
-            </Scripts>
-        </Button>
-
-        <Button name="$parentPrevPageButton" parentKey="PrevPageButton">
-            <Size x="26" y="26" />
-            <Anchors>
-                <Anchor point="RIGHT" relativeKey="$parent.BitText1" relativePoint="LEFT" x="-4" />
-            </Anchors>
-            <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
-            <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
-            <DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
-            <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
-            <Scripts>
-                <OnClick>
-                    self:GetParent():PrevFlagPage()
-                </OnClick>
-            </Scripts>
-        </Button>
     </Frames>
 
     <Scripts>

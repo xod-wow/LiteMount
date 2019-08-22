@@ -10,14 +10,12 @@
 
 -- The values are sort order
 LM_FLAG = { }
-LM_FLAG.SWIM        = 1
-LM_FLAG.FLY         = 3
-LM_FLAG.RUN         = 4
-LM_FLAG.WALK        = 5
+LM_FLAG.ENABLED     = 1
+LM_FLAG.WALK        = 2
+LM_FLAG.RUN         = 3
+LM_FLAG.FLY         = 4
+LM_FLAG.SWIM        = 5
 LM_FLAG.FAVORITES   = 6
-LM_FLAG.AQ          = 100
-LM_FLAG.VASHJIR     = 101
-LM_FLAG.NAGRAND     = 102
 
 LM_SPELL = { }
 LM_SPELL.TRAVEL_FORM = 783

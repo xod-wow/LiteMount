@@ -4,47 +4,6 @@
 
 <Script file="Advanced.lua" />
 
-<Button name="LiteMountOptionsFlagButtonTemplate" virtual="true">
-    <Size y="22" />
-
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
-                <Anchors>
-                    <Anchor point="LEFT" x="24" />
-                    <Anchor point="RIGHT" x="-12" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-
-    <Frames>
-        <Button name="$parentDeleteButton" parentKey="DeleteButton" hidden="true">
-            <Size x="14" y="14" />
-            <Anchors> <Anchor point="LEFT" x="6" /> </Anchors>
-            <NormalTexture name="$parentNormalTexture" file="Interface\Buttons\UI-MinusButton-UP"/>
-            <PushedTexture name="$parentPushedTexture" file="Interface\Buttons\UI-MinusButton-DOWN"/>
-            <HighlightTexture name="$parentHighlightTexture" file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
-            <Scripts>
-                <OnClick>
-                    local f = self:GetParent().flag
-                    StaticPopup_Show("LM_OPTIONS_DELETE_FLAG", f, nil, f)
-                </OnClick>
-            </Scripts>
-        </Button>
-    </Frames>
-
-    <Scripts>
-        <OnLoad>
-            self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
-            self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
-        </OnLoad>
-        <OnEnter function="LiteMountOptionsFlagButton_OnEnter" />
-        <OnLeave function="LiteMountOptionsFlagButton_OnLeave" />
-    </Scripts>
-
-</Button>
-
 <Frame name="LiteMountOptionsAdvanced" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Layers>
@@ -63,9 +22,8 @@
         <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer">
             <Size x="400" />
             <Anchors>
-                <Anchor point="TOP" y="-160" />
-                <Anchor point="LEFT" x="24" />
-                <Anchor point="BOTTOM" y="48" />
+                <Anchor point="TOPLEFT" x="24" y="-160" />
+                <Anchor point="BOTTOMRIGHT" x="-24" y="48" />
             </Anchors>
 
             <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
@@ -163,53 +121,6 @@
             </Anchors>
         </Frame>
 
-        <Frame name="$parentFlagContainer" parentKey="FlagContainer">
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" relativePoint="TOPRIGHT" x="16" />
-                <Anchor point="BOTTOM" relativeKey="$parent.EditBoxContainer" />
-                <Anchor point="RIGHT" x="-24" />
-            </Anchors>
-
-            <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
-                <EdgeSize val="16" />
-                <TileSize val="16" />
-                <BackgroundInsets>
-                    <AbsInset left="5" right="5" top="5" bottom="5" />
-                </BackgroundInsets>
-            </Backdrop>
-
-            <Scripts>
-                <OnLoad>
-                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
-                    self:SetBackdropColor(0, 0, 0, 0.5)
-                </OnLoad>
-            </Scripts>
-        </Frame>
-
-        <ScrollFrame name="$parentFlagScroll" parentKey="FlagScroll" inherits="MinimalHybridScrollFrameTemplate">
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.FlagContainer" x="8" y="-8" />
-                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.FlagContainer" x="-28" y="8" />
-            </Anchors>
-            <Scripts>
-                <OnLoad>
-                    local track = _G[self.scrollBar:GetName().."Track"]
-                    track:Hide()
-                    self.scrollBar.doNotHide = true
-                </OnLoad>
-            </Scripts>
-            <Frames>
-                <Button name="$parentAddFlagButton" parentKey="AddFlagButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
-                    <Size x="96" y="22" />
-                    <Scripts>
-                        <OnClick>
-                            StaticPopup_Show("LM_OPTIONS_NEW_FLAG")
-                        </OnClick>
-                    </Scripts>
-                </Button>
-            </Frames>
-        </ScrollFrame>
-
         <EditBox name="$parentDocURL" parentKey="DocURL" autoFocus="false" ignoreArrows="true">
             <Size y="16" />
             <Fontstring inherits="GameFontHighlight" />
@@ -237,20 +148,8 @@
 
     </Frames>
 
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString name="$parentFlagsLabel" parentKey="FlagsLabel" inherits="GameFontNormalLarge" text="LM_FLAGS">
-                <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.FlagContainer" x="8" y="8" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-
     <Scripts>
         <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />
-        <OnShow function="LiteMountOptionsAdvanced_OnShow" />
-        <OnSizeChanged function="LiteMountOptionsAdvanced_OnSizeChanged" />
     </Scripts>
 </Frame>
 

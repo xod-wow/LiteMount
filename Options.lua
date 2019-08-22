@@ -37,9 +37,9 @@ CancelForm
 Dismount
 CopyTargetsMount
 Mount [filter=mt:254][map:1355,flyable,qfc:56766]
-Mount [filter=VASHJIR][map:203,submerged]
-Mount [filter=AQ][map:319/320/321]
-Mount [filter=NAGRAND][map:550,noflyable,nosubmerged]
+Mount [filter=mt:232][map:203,submerged]
+Mount [filter=mt:241][map:319/320/321]
+Mount [filter=164222,165803][map:550,noflyable,nosubmerged]
 Mount [filter=230987][nosubmerged,extra:202477]
 Mount [filter=230987][nosubmerged,aura:202477]
 Limit [filter=RUN/WALK][mod:shift,flyable][mod:shift,waterwalking]
