@@ -34,10 +34,6 @@ function LM_Location:Initialize()
     self:RegisterEvent("MOUNT_JOURNAL_USABILITY_CHANGED")
 end
 
-local function FrameApply(frames, func, ...)
-    for _,f in ipairs(frames) do f[func](f, ...) end
-end
-
 function LM_Location:UpdateSwimTimes()
     if not IsSubmerged() then
         self.lastDryTime = GetTime()
