@@ -18,19 +18,8 @@ _G.LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
 LM_Location:RegisterEvent("PLAYER_LOGIN")
 
 function LM_Location:Initialize()
-    self.uiMapID = -1
-    self.uiMapPath = { }
-    self.uiMapPathIDs = { }
-
-    self.instanceID = -1
-    self.zoneText = nil
-
     self:UpdateSwimTimes()
-
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
-    self:RegisterEvent("ZONE_CHANGED")
-    self:RegisterEvent("ZONE_CHANGED_INDOORS")
-    self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     self:RegisterEvent("MOUNT_JOURNAL_USABILITY_CHANGED")
 end
 
@@ -45,30 +34,6 @@ function LM_Location:IsFloating()
            ( GetTime() - (self.lastDryTime or 0 ) < 1.0)
 end
 
-function LM_Location:Update()
-    local map = C_Map.GetBestMapForUnit("player")
-
-    -- Right after zoning this can be unknown.
-    if not map then return end
-
-    local info = C_Map.GetMapInfo(map)
-
-    self.uiMapID  = map
-    self.uiMapName = info.name
-
-    wipe(self.uiMapPath)
-    wipe(self.uiMapPathIDs)
-    while info do
-        tinsert(self.uiMapPath, info.mapID)
-        self.uiMapPathIDs[info.mapID] = true
-        info = C_Map.GetMapInfo(info.parentMapID)
-    end
-
-    self.zoneText = GetZoneText()
-    self.subZoneText = GetSubZoneText()
-    self.instanceID = select(8, GetInstanceInfo())
-end
-
 function LM_Location:PLAYER_LOGIN()
     self:Initialize()
 end
@@ -80,29 +45,24 @@ end
 
 function LM_Location:PLAYER_ENTERING_WORLD()
     LM_Debug("Updating location due to PLAYER_ENTERING_WORLD.")
-    self:Update()
-end
-
-function LM_Location:ZONE_CHANGED()
-    LM_Debug("Updating location due to ZONE_CHANGED.")
-    self:Update()
-end
-
-function LM_Location:ZONE_CHANGED_INDOORS()
-    LM_Debug("Updating location due to ZONE_CHANGED_INDOORS.")
-    self:Update()
-end
-
-function LM_Location:ZONE_CHANGED_NEW_AREA()
-    LM_Debug("Updating location due to ZONE_CHANGED_NEW_AREA.")
-    self:Update()
+    self:UpdateSwimTimes()
 end
 
 function LM_Location:MapInPath(...)
+    local map = C_Map.GetBestMapForUnit("player")
+    if not map then return false end
+
+    local wantIDs = { }
     for i = 1, select('#', ...) do
-        local id = select(i, ...)
-        if self.uiMapPathIDs[id] then return true end
+        wantIDs[i] = true
     end
+
+    local info = C_Map.GetMapInfo(map)
+    while info do
+        if wantIDs[info.map] then return true end
+        info = C_Map.GetMapInfo(info.parentMapID)
+    end
+
     return false
 end
 
@@ -155,8 +115,9 @@ function LM_Location:CanFly()
         return false
     end
 
-    -- XXX FIXME XXX 
-    if InstanceNotFlyable[self.instanceID] then
+    local instanceID = select(8, GetInstanceInfo())
+
+    if InstanceNotFlyable[instanceID] then
         return false
     end
 
@@ -198,15 +159,20 @@ function LM_Location:CantBreathe()
 end
 
 function LM_Location:GetLocation()
+    local instanceID = select(8, GetInstanceInfo())
+    local map = C_Map.GetBestMapForUnit('player')
+    local info = C_Map.GetMapInfo(map)
+
     local path = { }
-    for _, mapID in ipairs(self.uiMapPath) do
-        tinsert(path, format("%s (%d)", C_Map.GetMapInfo(mapID).name, mapID))
+    while info do
+        tinsert(path, format("%s (%d)", info.name, info.mapID))
+        info = C_Map.GetMapInfo(info.parentMapID)
     end
 
     return {
-        format("map: %s (%d)",  C_Map.GetMapInfo(self.uiMapID).name, self.uiMapID),
+        "map: " .. path[1],
         "mapPath: " .. table.concat(path, " -> "),
-        "instance: " .. self.instanceID,
+        "instance: " .. instanceID,
         "zoneText: " .. GetZoneText(),
         "subZoneText: " .. GetSubZoneText(),
         "IsFlyableArea(): " .. (IsFlyableArea() and "true" or "false"),
