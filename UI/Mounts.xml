@@ -9,6 +9,10 @@
     <Size y="22" />
 
     <Layers>
+        <Layer level="BACKGROUND">
+            <Texture atlas="PetList-ButtonBackground" parentKey="background" />
+        </Layer>
+
         <Layer level="ARTWORK">
             <FontString parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
                 <Anchors>
@@ -34,6 +38,8 @@
             </Scripts>
         </Button>
     </Frames>
+
+    <HighlightTexture atlas="PetList-ButtonHighlight"/>
 
     <Scripts>
         <OnLoad>
