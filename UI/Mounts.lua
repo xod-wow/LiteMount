@@ -24,12 +24,14 @@ end
 -- are size 0x0 on create and even after OnShow, we have to trap
 -- OnSizeChanged on the scrollframe to make the buttons correctly.
 local function CreateMoreButtons(self)
-    HybridScrollFrame_CreateButtons(self, self.buttonTemplate,
-                                    0, -1, "TOPLEFT", "TOPLEFT",
-                                    0, -1, "TOP", "BOTTOM")
+    local xoff = self.buttonXOff or 0
+    HybridScrollFrame_CreateButtons(
+                    self, self.buttonTemplate,
+                    xoff, 0, "TOPLEFT", "TOPLEFT",
+                    0, 0, "TOP", "BOTTOM")
 
     for _,b in ipairs(self.buttons) do
-        b:SetWidth(b:GetParent():GetWidth())
+        b:SetWidth(b:GetParent():GetWidth() - xoff)
     end
 end
 
@@ -226,42 +228,32 @@ local function UpdateAllSelected(mounts)
     end
 end
 
-local function UpdateMountButton(button, mount)
-    button.mount = mount
-    button.Icon:SetTexture(mount.icon)
-    button.Name:SetText(mount.name)
+local function UpdateMountButton(self, mount, curFlag)
+    self.mount = mount
+    self.Icon:SetTexture(mount.icon)
+    self.Name:SetText(mount.name)
 
     if not InCombatLockdown() then
         for k,v in pairs(mount:GetSecureAttributes()) do
-            button.DragButton:SetAttribute(k, v)
+            self.DragButton:SetAttribute(k, v)
         end
+    end
+
+    local flags = mount:CurrentFlags()
+
+    if flags[curFlag] then
+        self.SelectedTexture:Show()
+    else
+        self.SelectedTexture:Hide()
     end
 
     if not mount.isCollected then
-        button.Name:SetFontObject("GameFontDisable")
-        button.Icon:SetDesaturated(true)
+        self.Name:SetFontObject("GameFontDisable")
+        self.Icon:SetDesaturated(true)
     else
-        button.Name:SetFontObject("GameFontNormal")
-        button.Icon:SetDesaturated(false)
+        self.Name:SetFontObject("GameFontNormal")
+        self.Icon:SetDesaturated(false)
     end
-
-    if LM_Options:IsExcludedMount(mount) then
-        button.Enabled:SetChecked(false)
-    else
-        button.Enabled:SetChecked(true)
-    end
-
-    button.Enabled.SetValue =
-        function (self, setting)
-            EnableDisableMount(button.mount, setting)
-            self:GetScript("OnEnter")(self)
-            UpdateAllSelected()
-        end
-
-    if GameTooltip:GetOwner() == button.Enabled then
-        button.Enabled:GetScript("OnEnter")(button.Enabled)
-    end
-
 end
 
 function LiteMountOptions_AllSelect_OnClick(self)
@@ -301,10 +293,12 @@ local function UpdateMountScroll(self)
 
     local mounts = LM_UIFilter.GetFilteredMountList()
 
+    local curFlag = LiteMountOptionsMounts.selectedFlag
+
     for i, button in ipairs(self.buttons) do
         local index = offset + i
         if index <= #mounts then
-            UpdateMountButton(button, mounts[index])
+            UpdateMountButton(button, mounts[index], curFlag)
             button:Show()
         else
             button:Hide()
@@ -338,55 +332,61 @@ function LiteMountOptionsFlagButton_OnLeave(self)
     end
 end
 
+function LiteMountOptionsFlagButton_OnClick(self, mouseButton)
+    LiteMountOptionsMounts.selectedFlag = self.flag
+    LiteMountOptionsMounts.refresh()
+end
+
 local function UpdateFlagScroll(self)
     local offset = HybridScrollFrame_GetOffset(self)
-    local buttons = self.buttons
 
     local allFlags = LM_Options:GetAllFlags()
-    local totalHeight = (#allFlags + 1) * buttons[1]:GetHeight()
-    local displayedHeight = #buttons * buttons[1]:GetHeight()
+    local totalHeight = (#allFlags + 1) * self.buttonHeight
+    local displayedHeight = #self.buttons * self.buttonHeight
 
-    local showAddButton
+    self.AddFlagButton:Hide()
 
-    for i = 1, #buttons do
-        button = buttons[i]
-        index = offset + i
+    for i, button in ipairs(self.buttons) do
+        local index = offset + i
         if index <= #allFlags then
-            local flagText = allFlags[index]
-            if LM_Options:IsPrimaryFlag(allFlags[index]) then
-                flagText = ITEM_QUALITY_COLORS[2].hex .. flagText .. FONT_COLOR_CODE_CLOSE
+            button.flag = allFlags[index]
+            if LM_Options:IsPrimaryFlag(button.flag) then
+                button.Text:SetFormattedText(ITEM_QUALITY_COLORS[2].hex .. button.flag .. FONT_COLOR_CODE_CLOSE)
                 button.DeleteButton:Hide()
             else
+                button.Text:SetFormattedText(button.flag)
                 button.DeleteButton:Show()
             end
-            button.Text:SetFormattedText(flagText)
             button.Text:Show()
+            if LiteMountOptionsMounts.selectedFlag == button.flag then
+                button.SelectedTexture:Show()
+            else
+                button.SelectedTexture:Hide()
+            end
             button:Show()
-            button.flag = allFlags[index]
         elseif index == #allFlags + 1 then
+            button.flag = nil
             button.Text:Hide()
             button.DeleteButton:Hide()
+            button.SelectedTexture:Hide()
             button:Show()
-            button.flag = nil
             self.AddFlagButton:SetParent(button)
             self.AddFlagButton:ClearAllPoints()
             self.AddFlagButton:SetPoint("CENTER")
             self.AddFlagButton:SetWidth(self:GetWidth())
             button.DeleteButton:Hide()
-            showAddButton = true
+            self.AddFlagButton:Show()
         else
             button:Hide()
             button.DeleteButton:Hide()
-            button.flag = nil
         end
     end
-
-    self.AddFlagButton:SetShown(showAddButton)
 
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
 function LiteMountOptionsMountScroll_OnLoad(self)
+    self.buttonXOff = 44
     self.buttonTemplate = "LiteMountOptionsMountButtonTemplate"
     self.update = function () UpdateMountScroll(self) end
     local track = _G[self.scrollBar:GetName().."Track"]

@@ -21,6 +21,10 @@
                 </Anchors>
             </FontString>
         </Layer>
+
+        <Layer level="OVERLAY" textureSubLevel="1">
+            <Texture parentKey="SelectedTexture" atlas="PetList-ButtonSelect" hidden="true"/>
+        </Layer>
     </Layers>
 
     <Frames>
@@ -42,12 +46,9 @@
     <HighlightTexture atlas="PetList-ButtonHighlight"/>
 
     <Scripts>
-        <OnLoad>
-            self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
-            self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
-        </OnLoad>
         <OnEnter function="LiteMountOptionsFlagButton_OnEnter" />
         <OnLeave function="LiteMountOptionsFlagButton_OnLeave" />
+        <OnClick function="LiteMountOptionsFlagButton_OnClick" />
     </Scripts>
 
 </Button>
@@ -56,30 +57,40 @@
 
     <Size x="208" y="46" />
 
-    <Layers>
-        <Layer level="BACKGROUND">
-            <Texture atlas="PetList-ButtonBackground" parentKey="background" />
-        </Layer>
+    <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+        <Color r="0" b="0" g="0"/>
+        <EdgeSize>
+            <AbsValue val="16"/>
+        </EdgeSize>
+        <TileSize>
+            <AbsValue val="16"/>
+        </TileSize>
+        <BackgroundInsets>
+            <AbsInset left="4" right="4" top="4" bottom="4"/>
+        </BackgroundInsets>
+    </Backdrop>
 
+    <Layers>
         <Layer level="BORDER">
             <Texture parentKey="Icon">
                 <Size x="38" y="38" />
                 <Anchors>
-                    <Anchor point="LEFT" x="2" />
+                    <Anchor point="LEFT" x="-42" />
                 </Anchors>
             </Texture>
         </Layer>
         <Layer level="OVERLAY">
             <FontString inherits="GameFontNormal" justifyH="LEFT" parentKey="Name">
                 <Anchors>
-                    <Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT" x="4" />
-                    <Anchor point="TOP" y="-2" />
-                    <Anchor point="BOTTOMRIGHT" x="-2" y="2" />
+                    <Anchor point="LEFT" relativePoint="LEFT" x="16" />
                 </Anchors>
             </FontString>
             <Texture parentKey="Unusable" setAllPoints="true" hidden="true">
                 <Color r="1" g="0" b="0" />
             </Texture>
+        </Layer>
+        <Layer level="OVERLAY" textureSubLevel="1">
+            <Texture parentKey="SelectedTexture" atlas="PetList-ButtonSelect" hidden="true"/>
         </Layer>
     </Layers>
 
@@ -106,7 +117,9 @@
             </Scripts>
         </Button>
     </Frames>
-    
+
+    <HighlightTexture atlas="PetList-ButtonHighlight"/>
+
     <Scripts>
         <OnEnter>
             local m = self.mount
@@ -149,35 +162,6 @@
             GameTooltip:Hide()
         </OnLeave>
     </Scripts>
-
-    <Frames>
-        <CheckButton parentKey="Enabled">
-            <Size x="32" y="32" />
-            <Anchors>
-                <Anchor point="RIGHT" x="-8" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="BlizzardOptionsPanel_CheckButton_OnClick" />
-                <OnEnter>
-                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                    if self:GetChecked() then
-                        GameTooltip:SetText(DISABLE, 1, 0, 0)
-                    else
-                        GameTooltip:SetText(ENABLE, 0, 1, 0)
-                    end
-                </OnEnter>
-                <OnLeave>
-                    GameTooltip:Hide()
-                </OnLeave>
-            </Scripts>
-            <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
-            <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
-            <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
-            <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
-            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
-        </CheckButton>
-
-    </Frames>
 
 </Button>
 
