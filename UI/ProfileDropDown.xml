@@ -4,7 +4,7 @@
 
 <Script file="ProfileDropDown.lua" />
 
-<Button name="LiteMountOptionsProfileButton" inherits="UIMenuButtonStretchTemplate" hidden="true">
+<Button name="LiteMountProfileButton" inherits="UIMenuButtonStretchTemplate" hidden="true">
     <Size x="140" y="22" />
     <Layers>
         <Layer level="ARTWORK">
@@ -18,17 +18,17 @@
     </Layers>
 
     <Scripts>
-        <OnShow function="LiteMountOptionsProfileDropDown_OnShow" />
-        <OnHide function="LiteMountOptionsProfileDropDown_OnHide" />
+        <OnShow function="LiteMountProfileDropDown_OnShow" />
+        <OnHide function="LiteMountProfileDropDown_OnHide" />
         <OnClick>
-            ToggleDropDownMenu(1, nil, LiteMountOptionsProfileDropDown, self:GetName(), 74, 15)
+            ToggleDropDownMenu(1, nil, LiteMountProfileDropDown, self:GetName(), 74, 15)
         </OnClick>
     </Scripts>
 </Button>
 
-<Frame name="LiteMountOptionsProfileDropDown" inherits="UIDropDownMenuTemplate">
+<Frame name="LiteMountProfileDropDown" inherits="UIDropDownMenuTemplate">
     <Scripts>
-        <OnShow function="LiteMountOptionsProfileDropDown_OnLoad" />
+        <OnShow function="LiteMountProfileDropDown_OnLoad" />
     </Scripts>
 </Frame>
 

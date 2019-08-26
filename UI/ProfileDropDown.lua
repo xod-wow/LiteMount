@@ -39,7 +39,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
             self.editBox:SetFocus()
         end,
     OnHide = function (self)
-            LiteMountOptionsMounts.refresh()
+            LiteMountMounts.refresh()
         end,
 }
 
@@ -68,13 +68,13 @@ StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
             LM_Options.db:ResetProfile(self.data)
         end,
     OnHide = function (self)
-            LiteMountOptionsMounts.refresh()
+            LiteMountMounts.refresh()
         end,
 }
 
 local function ClickSetProfile(self, arg1, arg2, checked)
     LM_Options.db:SetProfile(self.value)
-    UIDropDownMenu_RefreshAll(LiteMountOptionsProfileDropDown, true)
+    UIDropDownMenu_RefreshAll(LiteMountProfileDropDown, true)
 end
 
 local function ClickNewProfile(self, arg1, arg2, check)
@@ -93,7 +93,7 @@ local function ClickResetProfile(self)
     StaticPopup_Show("LM_OPTIONS_RESET_PROFILE", arg1, nil, arg1)
 end
 
-function LiteMountOptionsProfileDropDown_Initialize(self, level)
+function LiteMountProfileDropDown_Initialize(self, level)
     local info
 
     if level == nil then return end
@@ -191,29 +191,29 @@ function LiteMountOptionsProfileDropDown_Initialize(self, level)
 end
 
 local function UpdateProfileCallback(self)
-    LiteMountOptionsProfileButton:SetText(LM_Options.db:GetCurrentProfile())
+    LiteMountProfileButton:SetText(LM_Options.db:GetCurrentProfile())
 end
 
-function LiteMountOptionsProfileDropDown_Attach(parent)
-    local self = LiteMountOptionsProfileButton
+function LiteMountProfileDropDown_Attach(parent)
+    local self = LiteMountProfileButton
     self:SetParent(parent)
     self:ClearAllPoints()
     self:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -32, -12)
     self:Show()
 end
 
-function LiteMountOptionsProfileDropDown_OnShow(self)
+function LiteMountProfileDropDown_OnShow(self)
     self:SetText(LM_Options.db:GetCurrentProfile())
     LM_Options.db.RegisterCallback(self, "OnProfileCopied", UpdateProfileCallback)
     LM_Options.db.RegisterCallback(self, "OnProfileChanged", UpdateProfileCallback)
     LM_Options.db.RegisterCallback(self, "OnProfileReset", UpdateProfileCallback)
 end
 
-function LiteMountOptionsProfileDropDown_OnHide(self)
+function LiteMountProfileDropDown_OnHide(self)
     LM_Options.db.UnregisterAllCallbacks(self)
 end
 
-function LiteMountOptionsProfileDropDown_OnLoad(self)
-    UIDropDownMenu_Initialize(self, LiteMountOptionsProfileDropDown_Initialize, "MENU")
+function LiteMountProfileDropDown_OnLoad(self)
+    UIDropDownMenu_Initialize(self, LiteMountProfileDropDown_Initialize, "MENU")
 end
 

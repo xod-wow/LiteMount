@@ -8,7 +8,7 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LiteMountOptionsBinding_OnLoad(self)
+function LiteMountBinding_OnLoad(self)
     self.name = "XXX FIXME XXX"
 
     self.BindingButton1.ntabs = 4
@@ -17,21 +17,21 @@ function LiteMountOptionsBinding_OnLoad(self)
     LiteMountOptionsPanel_OnLoad(self)
 end
 
-function LiteMountOptionsBindings_OnShow(self)
-    LiteMountOptionsBinding_Update(self)
+function LiteMountBindings_OnShow(self)
+    LiteMountBinding_Update(self)
     LiteMountOptionsPanel_OnShow(self)
 end
 
-function LiteMountOptionsBindings_OnHide(self)
+function LiteMountBindings_OnHide(self)
     self.currentlyBinding = nil
 end
 
 local function CurrentBindingName()
-    local bindingID = LiteMountOptionsBindings.EditBox.tab or 1
+    local bindingID = LiteMountBindings.EditBox.tab or 1
     return format("CLICK LM_B%d:LeftButton", bindingID)
 end
 
-function LiteMountOptionsBindings_Update(self)
+function LiteMountBindings_Update(self)
     local bindingName = CurrentBindingName()
     local keys = { GetBindingKey(bindingName, 1) }
 
@@ -46,26 +46,26 @@ function LiteMountOptionsBindings_Update(self)
     end
 end
 
-function LiteMountOptionsBindingsBinding_OnClick(self, button)
+function LiteMountBindingsBinding_OnClick(self, button)
     PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
-    if LiteMountOptionsBindings.currentlyBinding == self then
+    if LiteMountBindings.currentlyBinding == self then
         if button == "LeftButton" then
-            LiteMountOptionsBindings.currentlyBinding = nil
+            LiteMountBindings.currentlyBinding = nil
         else
-            LiteMountOptionsBindings_OnKeyDown(LiteMountOptionsBindings, button)
+            LiteMountBindings_OnKeyDown(LiteMountBindings, button)
         end
     else
-        LiteMountOptionsBindings.currentlyBinding = self
+        LiteMountBindings.currentlyBinding = self
         if button == "RightButton" then
-            LiteMountOptionsBindings_OnKeyDown(LiteMountOptionsBindings, button)
+            LiteMountBindings_OnKeyDown(LiteMountBindings, button)
         end
     end
-    LiteMountOptionsBindings_Update(LiteMountOptionsBindings)
+    LiteMountBindings_Update(LiteMountBindings)
 end
 
 local NOBINDKEYS = { "LeftButton", "RightButton", "LSHIFT", "RSHIFT", "LCTRL", "RCTRL", "LALT", "RALT" }
 
-function LiteMountOptionsBindings_OnKeyDown(self, keyOrButton)
+function LiteMountBindings_OnKeyDown(self, keyOrButton)
 
     if not self.currentlyBinding then
         self:SetPropagateKeyboardInput(true)
@@ -75,8 +75,8 @@ function LiteMountOptionsBindings_OnKeyDown(self, keyOrButton)
     self:SetPropagateKeyboardInput(false)
 
     if keyOrButton == "ESCAPE" then
-        LiteMountOptionsBindings.currentlyBinding = nil
-        LiteMountOptionsBindings_Update(self)
+        LiteMountBindings.currentlyBinding = nil
+        LiteMountBindings_Update(self)
         return
     end
 
@@ -132,5 +132,5 @@ function LiteMountOptionsBindings_OnKeyDown(self, keyOrButton)
     end
 
     self.currentlyBinding = nil
-    LiteMountOptionsBindings_Update(self)
+    LiteMountBindings_Update(self)
 end

@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2019 Mike Battersby -->
 
-<Frame name="LiteMountOptionsGeneral" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountGeneral" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <KeyValues>
         <KeyValue key="name" value="GENERAL" type="string" />

@@ -14,18 +14,18 @@ local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)
 end
 
-function LiteMountOptionsAdvanced_OnLoad(self)
+function LiteMountAdvanced_OnLoad(self)
     self.name = ADVANCED_OPTIONS
 
     self.EditScroll.EditBox.ntabs = 4
 
-    UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountOptionsAdvancedBindingDropDown_Initialize)
+    UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountAdvancedBindingDropDown_Initialize)
     UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
 
     LiteMountOptionsPanel_OnLoad(self)
 end
 
-function LiteMountOptionsAdvancedRevert_OnShow(self)
+function LiteMountAdvancedRevert_OnShow(self)
     local parent = self:GetParent()
     local editBox = parent.EditScroll.EditBox
     editBox:SetAlpha(0.5)
@@ -34,7 +34,7 @@ function LiteMountOptionsAdvancedRevert_OnShow(self)
     self:SetText(UNLOCK)
 end
 
-function LiteMountOptionsAdvancedRevert_OnClick(self)
+function LiteMountAdvancedRevert_OnClick(self)
     local parent = self:GetParent()
     local editBox = parent.EditScroll.EditBox
     if self:GetText() == UNLOCK then
@@ -48,9 +48,9 @@ function LiteMountOptionsAdvancedRevert_OnClick(self)
     end
 end
 
-function LiteMountOptionsAdvancedBindingDropDown_Initialize(dropDown, level)
+function LiteMountAdvancedBindingDropDown_Initialize(dropDown, level)
     local info = UIDropDownMenu_CreateInfo()
-    local editBox = LiteMountOptionsAdvanced.EditScroll.EditBox
+    local editBox = LiteMountAdvanced.EditScroll.EditBox
     if level == 1 then
         for i = 1,4 do
             info.text = BindingText(i)

@@ -8,14 +8,14 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LiteMountOptionsMacro_OnLoad(self)
+function LiteMountMacro_OnLoad(self)
     self.name = MACRO .. " : " .. UNAVAILABLE
     LiteMountOptionsPanel_OnLoad(self)
 end
 
-function LiteMountOptionsMacro_OnTextChanged(self)
+function LiteMountMacro_OnTextChanged(self)
     local c = strlen(self:GetText() or "")
-    LiteMountOptionsMacro.Count:SetText(format(MACROFRAME_CHAR_LIMIT, c))
+    LiteMountMacro.Count:SetText(format(MACROFRAME_CHAR_LIMIT, c))
     LiteMountOptionsControl_OnChanged(self)
 end
 

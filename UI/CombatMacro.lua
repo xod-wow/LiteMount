@@ -8,13 +8,13 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LiteMountOptionsCombatMacro_OnLoad(self)
+function LiteMountCombatMacro_OnLoad(self)
     self.name = MACRO .. " : " .. COMBAT
     LiteMountOptionsPanel_OnLoad(self)
 end
 
-function LiteMountOptionsCombatMacro_OnTextChanged(self)
+function LiteMountCombatMacro_OnTextChanged(self)
     local c = strlen(self:GetText() or "")
-    LiteMountOptionsCombatMacro.Count:SetText(format(MACROFRAME_CHAR_LIMIT, c))
+    LiteMountCombatMacro.Count:SetText(format(MACROFRAME_CHAR_LIMIT, c))
     LiteMountOptionsControl_OnChanged(self)
 end

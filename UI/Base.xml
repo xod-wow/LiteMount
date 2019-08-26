@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2019 Mike Battersby -->
 
-<Frame name="LiteMountOptions" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountBase" hidden="true" inherits="LiteMountOptionsPanelTemplate">
     <Layers>
         <Layer level="ARTWORK">
             <FontString name="$parentTagline" parentKey="Tagline" inherits="GameFontHighlight" justifyH="LEFT" text="LM_SETTINGS_TAGLINE">

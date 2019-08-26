@@ -5,7 +5,7 @@
 <Script file="MountsFilter.lua" />
 <Script file="Mounts.lua" />
 
-<Button name="LiteMountOptionsFlagButtonTemplate" virtual="true">
+<Button name="LiteMountFlagButtonTemplate" virtual="true">
     <Size y="22" />
 
     <Layers>
@@ -46,12 +46,12 @@
     <HighlightTexture atlas="PetList-ButtonHighlight"/>
 
     <Scripts>
-        <OnClick function="LiteMountOptionsFlagButton_OnClick" />
+        <OnClick function="LiteMountFlagButton_OnClick" />
     </Scripts>
 
 </Button>
 
-<Button name="LiteMountOptionsMountButtonTemplate" inherits="SecureActionButtonTemplate" virtual="true">
+<Button name="LiteMountMountButtonTemplate" inherits="SecureActionButtonTemplate" virtual="true">
 
     <Size x="208" y="46" />
 
@@ -117,8 +117,8 @@
     <HighlightTexture atlas="PetList-ButtonHighlight"/>
 
     <Scripts>
-        <OnEnter function="LiteMountOptionsMountButton_OnEnter" />
-        <OnLeave function="LiteMountOptionsMountButton_OnLeave" />
+        <OnEnter function="LiteMountMountButton_OnEnter" />
+        <OnLeave function="LiteMountMountButton_OnLeave" />
         <OnLoad>
             self:SetAttribute("unit", "player")
             self:RegisterForClicks("RightButtonUp")
@@ -127,7 +127,7 @@
 
 </Button>
 
-<Frame name="LiteMountOptionsMounts" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountMounts" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
         <ScrollFrame inherits="MinimalHybridScrollFrameTemplate" parentKey="FlagScroll">
@@ -137,8 +137,8 @@
                 <Anchor point="BOTTOM" y="36" />
             </Anchors>
             <Scripts>
-                <OnLoad function="LiteMountOptionsFlagScroll_OnLoad" />
-                <OnSizeChanged function="LiteMountOptionsScrollFrame_OnSizeChanged" />
+                <OnLoad function="LiteMountFlagScroll_OnLoad" />
+                <OnSizeChanged function="LiteMountScrollFrame_OnSizeChanged" />
             </Scripts>
             <Frames>
                 <Button parentKey="AddFlagButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
@@ -160,8 +160,8 @@
                 <Anchor point="BOTTOMRIGHT" x="-32" y="36" />
             </Anchors>
             <Scripts>
-                <OnLoad function="LiteMountOptionsMountScroll_OnLoad" />>
-                <OnSizeChanged function="LiteMountOptionsScrollFrame_OnSizeChanged" />
+                <OnLoad function="LiteMountMountScroll_OnLoad" />>
+                <OnSizeChanged function="LiteMountScrollFrame_OnSizeChanged" />
             </Scripts>
         </ScrollFrame>
 
@@ -171,7 +171,7 @@
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountScroll" relativePoint="TOPRIGHT" x="-8" y="-2" />
             </Anchors>
             <Scripts>
-                <OnClick function="LiteMountOptions_AllSelect_OnClick" />
+                <OnClick function="LiteMount_AllSelect_OnClick" />
             </Scripts>
             <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
             <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
@@ -189,7 +189,7 @@
                 <OnTextChanged>
                     SearchBoxTemplate_OnTextChanged(self)
                     LM_UIFilter.SetSearchText(self:GetText())
-                    LiteMountOptionsMounts.refresh()
+                    LiteMountMounts.refresh()
                 </OnTextChanged>
             </Scripts>
         </EditBox>
@@ -219,16 +219,16 @@
 
         <Frame parentKey="FilterDropDown" inherits="UIDropDownMenuTemplate">
             <Scripts>
-                <OnLoad function="LiteMountOptionsMountsFilterDropDown_OnLoad" />
+                <OnLoad function="LiteMountMountsFilterDropDown_OnLoad" />
             </Scripts>
         </Frame>
 
     </Frames>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsMounts_OnLoad" />
-        <OnShow function="LiteMountOptionsMounts_OnShow" />
-        <OnHide function="LiteMountOptionsMounts_OnHide" />
+        <OnLoad function="LiteMountMounts_OnLoad" />
+        <OnShow function="LiteMountMounts_OnShow" />
+        <OnHide function="LiteMountMounts_OnHide" />
     </Scripts>
 
 </Frame>

@@ -4,7 +4,7 @@
 
 <Script file="Advanced.lua" />
 
-<Frame name="LiteMountOptionsAdvanced" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountAdvanced" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Layers>
         <Layer level="ARTWORK">
@@ -95,8 +95,8 @@
                 <Anchor point="BOTTOMLEFT" x="24" y="16" />
             </Anchors>
             <Scripts>
-                <OnShow function="LiteMountOptionsAdvancedRevert_OnShow" />
-                <OnClick function="LiteMountOptionsAdvancedRevert_OnClick" />
+                <OnShow function="LiteMountAdvancedRevert_OnShow" />
+                <OnClick function="LiteMountAdvancedRevert_OnClick" />
             </Scripts>
         </Button>
 
@@ -149,7 +149,7 @@
     </Frames>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />
+        <OnLoad function="LiteMountAdvanced_OnLoad" />
     </Scripts>
 </Frame>
 

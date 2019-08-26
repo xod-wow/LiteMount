@@ -4,7 +4,7 @@
 
 <Script file="CombatMacro.lua" />
 
-<Frame name="LiteMountOptionsCombatMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountCombatMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
         <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer">
@@ -40,7 +40,7 @@
             </Anchors>
 
             <Scripts>
-                <OnTextChanged function="LiteMountOptionsCombatMacro_OnTextChanged" />
+                <OnTextChanged function="LiteMountCombatMacro_OnTextChanged" />
                 <OnEscapePressed function="EditBox_ClearFocus" />
                 <OnLoad>
                     self.GetOption = function (self)
@@ -53,7 +53,7 @@
                     self.GetOptionDefault = function (self)
                             return LM_Actions:DefaultCombatMacro()
                         end
-                    LiteMountOptionsControl_OnLoad(self, LiteMountOptionsCombatMacro)
+                    LiteMountOptionsControl_OnLoad(self, LiteMountCombatMacro)
                 </OnLoad>
             </Scripts>
             <FontString inherits="GameFontHighlight" />
@@ -150,7 +150,7 @@
     </KeyValues>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsCombatMacro_OnLoad" />
+        <OnLoad function="LiteMountCombatMacro_OnLoad" />
     </Scripts>
 </Frame>
 

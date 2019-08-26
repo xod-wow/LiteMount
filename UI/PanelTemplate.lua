@@ -31,9 +31,9 @@ function LiteMountOptionsPanel_AutoLocalize(f)
 end
 
 function LiteMountOptionsPanel_Open()
-    local f = LiteMountOptions
+    local f = LiteMount
     if not f.CurrentOptionsPanel then
-        f.CurrentOptionsPanel = LiteMountOptionsMounts
+        f.CurrentOptionsPanel = LiteMountMounts
     end
     InterfaceOptionsFrame:Show()
     InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)
@@ -82,9 +82,9 @@ end
 
 function LiteMountOptionsPanel_OnShow(self)
     LM_UIDebug("Panel_OnShow " .. self:GetName())
-    LiteMountOptions.CurrentOptionsPanel = self
+    LiteMountBase.CurrentOptionsPanel = self
     if not self.dontShowProfile then
-        LiteMountOptionsProfileDropDown_Attach(self)
+        LiteMountProfileDropDown_Attach(self)
 
         LM_Options.db.RegisterCallback(self, "OnProfileCopied", self.refresh, self)
         LM_Options.db.RegisterCallback(self, "OnProfileChanged", self.refresh, self)
@@ -108,8 +108,8 @@ end
 
 function LiteMountOptionsPanel_OnLoad(self)
 
-    if self ~= LiteMountOptions then
-        self.parent = LiteMountOptions.name
+    if self ~= LiteMountBase then
+        self.parent = LiteMountBase.name
         self.name = _G[self.name] or self.name
         self.Title:SetText("LiteMount : " .. self.name)
     else

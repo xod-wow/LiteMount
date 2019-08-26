@@ -45,7 +45,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
         self.editBox:SetFocus()
     end,
     OnHide = function (self)
-            LiteMountOptionsMounts.refresh()
+            LiteMountMounts.refresh()
         end,
 }
 
@@ -64,7 +64,7 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_FLAG"] = {
             self.text:SetText(format("LiteMount : %s : %s", L.LM_DELETE_FLAG, self.data))
         end,
     OnHide = function (self)
-            LiteMountOptionsMounts.refresh()
+            LiteMountMounts.refresh()
         end,
 }
 
@@ -105,6 +105,6 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_FLAG"] = {
             self.editBox:SetFocus()
         end,
     OnHide = function (self)
-            LiteMountOptionsMounts.refresh()
+            LiteMountMounts.refresh()
         end,
 }

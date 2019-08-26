@@ -4,7 +4,7 @@
 
 <Script file="Macro.lua" />
 
-<Frame name="LiteMountOptionsMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
         <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer">
@@ -40,7 +40,7 @@
             </Anchors>
 
             <Scripts>
-                <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
+                <OnTextChanged function="LiteMountMacro_OnTextChanged" />
                 <OnEscapePressed function="EditBox_ClearFocus" />
                 <OnLoad>
                     self.SetOption = function (self, v)
@@ -116,7 +116,7 @@
     </KeyValues>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsMacro_OnLoad" />
+        <OnLoad function="LiteMountMacro_OnLoad" />
     </Scripts>
 </Frame>
 
