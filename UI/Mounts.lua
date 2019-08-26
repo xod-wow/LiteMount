@@ -331,6 +331,17 @@ function LiteMountMountButton_OnLeave(self)
     end
 end
 
+function LiteMountMountButton_OnClick(self, mouseButton)
+    local selectedFlag = LiteMountMounts.selectedFlag
+    local mountFlags = self.mount:CurrentFlags()
+    if mountFlags[selectedFlag] then
+        LM_Options:ClearMountFlag(self.mount, selectedFlag)
+    else
+        LM_Options:SetMountFlag(self.mount, selectedFlag)
+    end
+    LiteMountMounts.refresh()
+end
+
 function LiteMountFlagButton_OnClick(self, mouseButton)
     LiteMountMounts.selectedFlag = self.flag
     LiteMountMounts.refresh()

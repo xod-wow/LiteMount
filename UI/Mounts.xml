@@ -119,9 +119,10 @@
     <Scripts>
         <OnEnter function="LiteMountMountButton_OnEnter" />
         <OnLeave function="LiteMountMountButton_OnLeave" />
+        <OnClick function="LiteMountMountButton_OnClick" />
         <OnLoad>
             self:SetAttribute("unit", "player")
-            self:RegisterForClicks("RightButtonUp")
+            self:RegisterForClicks("AnyUp")
         </OnLoad>
     </Scripts>
 

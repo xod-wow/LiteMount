@@ -23,8 +23,7 @@ local function SetMount(self, m)
 
     if m.sourceText then
         LiteMountTooltip:AddLine(" ")
-        LiteMountTooltip:AddLine("|cffffffff" .. SOURCE .. "|r")
-        LiteMountTooltip:AddLine(m.sourceText)
+        LiteMountTooltip:AddLine(m.sourceText, 1.0, 1.0, 1.0, true)
     end
 
     if m.modelScene and m.creatureDisplay then
