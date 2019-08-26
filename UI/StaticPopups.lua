@@ -108,3 +108,65 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_FLAG"] = {
             LiteMountMounts.refresh()
         end,
 }
+
+StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
+    text = format("LiteMount : %s", L.LM_NEW_PROFILE),
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    hasEditBox = 1,
+    maxLetters = 24,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            local text = self.editBox:GetText()
+            if text and text ~= "" then
+                LM_Options.db:SetProfile(text)
+                if self.data then
+                    LM_Options.db:CopyProfile(self.data)
+                end
+            end
+        end,
+    EditBoxOnEnterPressed = function (self)
+            StaticPopup_OnClick(self:GetParent(), 1)
+        end,
+    EditBoxOnEscapePressed = function (self)
+            self:GetParent():Hide()
+        end,
+    OnShow = function (self)
+            self.editBox:SetFocus()
+        end,
+    OnHide = function (self)
+            LiteMountMounts.refresh()
+        end,
+}
+
+StaticPopupDialogs["LM_OPTIONS_DELETE_PROFILE"] = {
+    text = "LiteMount : " .. CONFIRM_COMPACT_UNIT_FRAME_PROFILE_DELETION,
+    button1 = DELETE,
+    button2 = CANCEL,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            LM_Options.db:DeleteProfile(self.data)
+        end,
+}
+
+StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
+    text = "LiteMount : " .. L.LM_RESET_PROFILE .. " %s",
+    button1 = OKAY,
+    button2 = CANCEL,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            LM_Options.db:ResetProfile(self.data)
+        end,
+    OnHide = function (self)
+            LiteMountMounts.refresh()
+        end,
+}
