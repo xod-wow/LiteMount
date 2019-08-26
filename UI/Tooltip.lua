@@ -73,6 +73,5 @@ end
 function LiteMountTooltip_OnLoad(self)
     AddParentKeys(self)
     self.SetMount = SetMount
-    
     GameTooltip_OnLoad(self)
 end

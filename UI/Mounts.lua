@@ -415,6 +415,8 @@ function LiteMountOptionsMounts_OnLoad(self)
         UpdateFlagScroll(self.FlagScroll)
     end
 
+    LiteMountOptionsMounts.selectedFlag = "ENABLED"
+
     LiteMountOptionsPanel_OnLoad(self)
 end
 

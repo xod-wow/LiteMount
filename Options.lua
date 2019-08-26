@@ -227,6 +227,12 @@ function LM_Options:ApplyMountFlags(m)
         end
     end
 
+    if LM_Options:IsExcludedMount(m) then
+        self.cachedMountFlags[m.spellID].ENABLED = nil
+    else
+        self.cachedMountFlags[m.spellID].ENABLED = true
+    end
+
     if m.isFavorite then
         self.cachedMountFlags[m.spellID].FAVORITES = true
     else
@@ -246,6 +252,11 @@ function LM_Options:SetMountFlag(m, setFlag)
         return
     end
 
+    if setFlag == "ENABLED" then
+        self:RemoveExcludedMount(m)
+        return
+    end
+
     -- Note this is the actual cached copy, we can only change it here
     -- (and below in ClearMountFlag) because we are invalidating the cache
     -- straight after.
@@ -262,6 +273,11 @@ function LM_Options:ClearMountFlag(m, clearFlag)
         if m.SetFavorite ~= nil then
             m:SetFavorite(false)
         end
+        return
+    end
+
+    if setFlag == "ENABLED" then
+        self:AddExcludedMount(m)
         return
     end
 
