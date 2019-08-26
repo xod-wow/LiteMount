@@ -1,0 +1,25 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011-2019 Mike Battersby -->
+
+<Script file="Tooltip.lua" />
+
+<GameTooltip name="LiteMountTooltip" frameStrata="TOOLTIP" hidden="true" inherits="GameTooltipTemplate">
+    <Frames>
+        <ModelScene parentKey="ModelScene" useParentLevel="true" inherits="ModelSceneMixinTemplate">
+            <KeyValues>
+                <KeyValue key="normalIntensity" value="0.75" type="number"/>
+                <KeyValue key="highlightIntensity" value="1.2" type="number"/>
+            </KeyValues>
+            <Anchors>
+                <Anchor point="TOPLEFT" x="8" y="-8" />
+                <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
+            </Anchors>
+        </ModelScene>
+    </Frames>
+    <Scripts>
+        <OnLoad function="LiteMountTooltip_OnLoad" />
+    </Scripts>
+</GameTooltip>
+
+</Ui>

@@ -82,13 +82,6 @@ function LM_Mount:MatchesFilters(...)
     return true
 end
 
-function LM_Mount:FlagsSet(checkFlags)
-    for _,f in ipairs(checkFlags) do
-        if self.flags[f] == nil then return false end
-    end
-    return true
-end
-
 local function PlayerIsMovingOrFalling()
     return (GetUnitSpeed("player") > 0 or IsFalling())
 end

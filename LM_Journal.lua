@@ -37,7 +37,7 @@ LM_Journal.__index = LM_Journal
 
 function LM_Journal:Get(id)
     local name, spellID, icon, _, _, sourceType, isFavorite, _, faction, isFiltered, isCollected, mountID = C_MountJournal.GetMountInfoByID(id)
-    local modelID, _, sourceText, isSelfMount, mountType = C_MountJournal.GetMountInfoExtraByID(mountID)
+    local creatureDisplay, _, sourceText, isSelfMount, mountType, uiModelScene = C_MountJournal.GetMountInfoExtraByID(mountID)
 
     if not name then
         LM_Debug(format("LM_Mount: Failed GetMountInfo for ID = #%d", id))
@@ -46,20 +46,21 @@ function LM_Journal:Get(id)
 
     local m = LM_Mount.new(self)
 
-    m.modelID       = modelID
-    m.name          = name
-    m.spellID       = spellID
-    m.mountID       = mountID
-    m.icon          = icon
-    m.isSelfMount   = isSelfMount
-    m.mountType     = mountType
-    m.sourceType    = sourceType
-    m.sourceText    = sourceText
-    m.isFavorite    = isFavorite
-    m.isFiltered    = isFiltered
-    m.isCollected   = isCollected
-    m.needsFaction  = PLAYER_FACTION_GROUP[faction]
-    m.flags         = { }
+    m.creatureDisplay   = creatureDisplay
+    m.name              = name
+    m.spellID           = spellID
+    m.mountID           = mountID
+    m.icon              = icon
+    m.isSelfMount       = isSelfMount
+    m.mountType         = mountType
+    m.sourceType        = sourceType
+    m.sourceText        = sourceText
+    m.isFavorite        = isFavorite
+    m.isFiltered        = isFiltered
+    m.isCollected       = isCollected
+    m.modelScene        = uiModelScene
+    m.needsFaction      = PLAYER_FACTION_GROUP[faction]
+    m.flags             = { }
 
     -- LM_Debug("LM_Mount: mount type of "..m.name.." is "..m.mountType)
 

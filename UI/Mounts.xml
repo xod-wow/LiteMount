@@ -46,14 +46,12 @@
     <HighlightTexture atlas="PetList-ButtonHighlight"/>
 
     <Scripts>
-        <OnEnter function="LiteMountOptionsFlagButton_OnEnter" />
-        <OnLeave function="LiteMountOptionsFlagButton_OnLeave" />
         <OnClick function="LiteMountOptionsFlagButton_OnClick" />
     </Scripts>
 
 </Button>
 
-<Button name="LiteMountOptionsMountButtonTemplate" virtual="true">
+<Button name="LiteMountOptionsMountButtonTemplate" inherits="SecureActionButtonTemplate" virtual="true">
 
     <Size x="208" y="46" />
 
@@ -95,19 +93,17 @@
     </Layers>
 
     <Frames>
-        <Button parentKey="DragButton" inherits="SecureActionButtonTemplate">
+        <Button parentKey="DragButton" motionScriptsWhileDisabled="true">
             <Size x="40" y="40" />
             <Anchors>
                 <Anchor point="CENTER" relativeKey="$parent.Icon" />
             </Anchors>
             <Scripts>
                 <OnLoad>
-                    self:SetAttribute("unit", "player")
-                    self:RegisterForClicks("RightButtonUp")
                     self:RegisterForDrag("LeftButton")
                 </OnLoad>
                 <OnDragStart>
-                    local mount = self.mount
+                    local mount = self:GetParent().mount
                     if mount.spellID then
                         PickupSpell(mount.spellID)
                     elseif mount.itemID then
@@ -121,87 +117,15 @@
     <HighlightTexture atlas="PetList-ButtonHighlight"/>
 
     <Scripts>
-        <OnEnter>
-            local m = self.mount
-
-            GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
-            if m.mountID then
-                GameTooltip:SetMountBySpellID(m.spellID)
-            else
-                GameTooltip:SetSpellByID(m.spellID)
-            end
-
-            GameTooltipTextRight2:SetText(ID.." "..m.spellID)
-            GameTooltipTextRight2:Show()
-
-            if m.sourceText then
-                GameTooltip:AddLine(" ")
-                GameTooltip:AddLine("|cffffffff" .. SOURCE .. "|r")
-                GameTooltip:AddLine(m.sourceText)
-            end
-
-            if m:IsCastable() then
-                GameTooltip:AddLine(" ")
-                GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
-            end
-
-            if m.modelID then
-                LiteMountOptionsPreview.Model:SetDisplayInfo(m.modelID)
-                if m.isSelfMount then
-                    LiteMountOptionsPreview.Model:SetDoBlend(false)
-                    LiteMountOptionsPreview.Model:SetAnimation(618, -1)
-                end
-                LiteMountOptionsPreview:Show()
-            else
-                LiteMountOptionsPreview:Hide()
-            end
-            GameTooltip:Show()
-        </OnEnter>
-        <OnLeave>
-            LiteMountOptionsPreview:Hide()
-            GameTooltip:Hide()
-        </OnLeave>
+        <OnEnter function="LiteMountOptionsMountButton_OnEnter" />
+        <OnLeave function="LiteMountOptionsMountButton_OnLeave" />
+        <OnLoad>
+            self:SetAttribute("unit", "player")
+            self:RegisterForClicks("RightButtonUp")
+        </OnLoad>
     </Scripts>
 
 </Button>
-
-
-<Frame name="LiteMountOptionsPreview" parent="UIParent" hidden="true" frameStrata="TOOLTIP">
-    <Size x="250" y="250" />
-    <Anchors>
-        <Anchor point="TOPLEFT" relativeTo="GameTooltip" relativePoint="BOTTOMLEFT" y="-4" />
-    </Anchors>
-    <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-        <EdgeSize val="16" />
-        <TileSize val="16" />
-        <BackgroundInsets>
-            <AbsInset left="5" right="5" top="5" bottom="5"/>
-        </BackgroundInsets>
-    </Backdrop>
-    <Frames>
-       <PlayerModel parentKey="Model">
-            <Anchors>
-                <Anchor point="TOPLEFT" x="8" y="-8" />
-                <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
-            </Anchors>
-            <Scripts>
-                <OnLoad>
-                    self:SetRotation(-MODELFRAME_DEFAULT_ROTATION)
-                </OnLoad>
-            </Scripts>
-        </PlayerModel>
-    </Frames>
-    <Scripts>
-        <OnLoad>
-            self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b);
-            self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b);
-        </OnLoad>
-        <OnShow>
-            local d = GameTooltip:GetWidth()
-            self:SetSize(d, d)
-        </OnShow>
-    </Scripts>
-</Frame>
 
 <Frame name="LiteMountOptionsMounts" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
@@ -248,17 +172,6 @@
             </Anchors>
             <Scripts>
                 <OnClick function="LiteMountOptions_AllSelect_OnClick" />
-                <OnEnter>
-                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                    if not self:GetChecked() then
-                        GameTooltip:SetText(CHECK_ALL, 0, 1, 0)
-                    else
-                        GameTooltip:SetText(CLEAR_ALL, 1, 0, 0)
-                    end
-                </OnEnter>
-                <OnLeave>
-                    GameTooltip:Hide()
-                </OnLeave>
             </Scripts>
             <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
             <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>

@@ -22,7 +22,8 @@ end
 
 -- Because we get attached inside the blizzard options container, we
 -- are size 0x0 on create and even after OnShow, we have to trap
--- OnSizeChanged on the scrollframe to make the buttons correctly.
+-- OnSizeChanged on the scrollframes to make the buttons correctly.
+
 local function CreateMoreButtons(self)
     local xoff = self.buttonXOff or 0
     HybridScrollFrame_CreateButtons(
@@ -235,7 +236,7 @@ local function UpdateMountButton(self, mount, curFlag)
 
     if not InCombatLockdown() then
         for k,v in pairs(mount:GetSecureAttributes()) do
-            self.DragButton:SetAttribute(k, v)
+            self:SetAttribute(k, v)
         end
     end
 
@@ -271,7 +272,6 @@ function LiteMountOptions_AllSelect_OnClick(self)
         EnableDisableMount(m, on)
     end
 
-    self:GetScript("OnEnter")(self)
     LiteMountOptionsMounts.refresh()
 
 end
@@ -318,17 +318,16 @@ function LiteMountOptionsScrollFrame_OnSizeChanged(self, w, h)
     self.stepSize = self.buttonHeight
 end
 
-function LiteMountOptionsFlagButton_OnEnter(self)
-    if self.flag and rawget(L, self.flag) ~= nil then
-        GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
-        GameTooltip:AddLine(L[self.flag])
-        GameTooltip:Show()
-    end
+function LiteMountOptionsMountButton_OnEnter(self)
+    LiteMountTooltip:SetOwner(self, "ANCHOR_NONE")
+    LiteMountTooltip:SetPoint("LEFT", self:GetParent(), "RIGHT")
+    LiteMountTooltip:SetMount(self.mount)
+    LiteMountTooltip:Show()
 end
 
-function LiteMountOptionsFlagButton_OnLeave(self)
-    if GameTooltip:GetOwner() == self then
-        GameTooltip:Hide()
+function LiteMountOptionsMountButton_OnLeave(self)
+    if LiteMountTooltip:GetOwner() == self then
+        LiteMountTooltip:Hide()
     end
 end
 
@@ -402,12 +401,6 @@ end
 
 function LiteMountOptionsMounts_OnLoad(self)
 
-    -- Because we're the wrong size at the moment we'll only have 1 button
-    CreateMoreButtons(self.FlagScroll)
-    CreateMoreButtons(self.MountScroll)
-
-    self.FlagScroll.update = UpdateFlagScroll
-
     self.name = MOUNTS
     self.default = function ()
             for m in LM_PlayerMounts:Iterate() do
@@ -426,12 +419,8 @@ function LiteMountOptionsMounts_OnLoad(self)
 end
 
 function LiteMountOptionsMounts_OnShow(self)
-
-    -- UpdateCount, FPCount = 0, 0
     LM_PlayerMounts:RefreshMounts()
-
     self.refresh()
-
     LiteMountOptionsPanel_OnShow(self)
 end
 

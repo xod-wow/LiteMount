@@ -5,6 +5,8 @@
 
     <Script file="StaticPopups.lua" />
 
+    <Include file="Tooltip.xml" />
+
     <!-- The order of these is the order of the settings tabs -->
     <Include file="General.xml" />
     <Include file="Mounts.xml" />
