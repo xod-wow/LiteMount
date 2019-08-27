@@ -212,6 +212,8 @@ function LiteMountOptionsControl_GetControl(self)
         return self:GetChecked()
     elseif self.GetText then
         return self:GetText()
+    elseif self.GetScrollChild then
+        return LiteMountOptionsControl_GetControl(self:GetScrollChild())
     end
 end
 
@@ -222,6 +224,8 @@ function LiteMountOptionsControl_SetControl(self, v)
         if v then self:SetChecked(true) else self:SetChecked(false) end
     elseif self.SetText then
         self:SetText(v or "")
+    elseif self.GetScrollChild then
+        LiteMountOptionsControl_SetControl(self:GetScrollChild(), v)
     end
 end
 

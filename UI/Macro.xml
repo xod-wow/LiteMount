@@ -23,20 +23,20 @@
 
                     self.EditBox:SetScript('OnTextChanged', function (self)
                             InputScrollFrame_OnTextChanged(self)
-                            LiteMountOptionsControl_OnChanged(self)
+                            LiteMountOptionsControl_OnChanged(self:GetParent())
                         end)
 
-                    self.EditBox.SetOption = function (self, v)
+                    self.SetOption = function (self, v)
                             LM_Options.db.char.unavailableMacro = v
                             LM_Options.db.char.useUnavailableMacro = (v ~= "")
                         end
-                    self.EditBox.GetOption = function (self)
+                    self.GetOption = function (self)
                             return LM_Options.db.char.unavailableMacro or ""
                         end
-                    self.EditBox.GetOptionDefault = function (self)
+                    self.GetOptionDefault = function (self)
                             return ""
                         end
-                    LiteMountOptionsControl_OnLoad(self.EditBox, self:GetParent())
+                    LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>
             </Scripts>
         </ScrollFrame>
