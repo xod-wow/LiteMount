@@ -276,7 +276,7 @@ function LM_Options:ClearMountFlag(m, clearFlag)
         return
     end
 
-    if setFlag == "ENABLED" then
+    if clearFlag == "ENABLED" then
         self:AddExcludedMount(m)
         return
     end
