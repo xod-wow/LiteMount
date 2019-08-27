@@ -2,6 +2,37 @@
 
   LiteMount/UI/PanelTemplate.lua
 
+  Definitions for an options frame and controls with apply/undo. Basic
+  principle is that options take effect immediately, but if you cancel or
+  revert they are set back to the old settings.
+
+  Basic usage is:
+
+  <Frame inherits="LiteMountOptionsPanelTemplate">
+    <Frames>
+      <Button>
+        <Scripts>
+          <OnLoad>
+            self.GetOption = function () ... end
+            self.SetOption = function () ... end
+            LiteMountOptionsControl_OnLoad(self)
+          </OnLoad>
+        </Scripts>
+      </Button>
+    </Frames>
+    <Scripts>
+      <OnLoad>
+        self.name = 'Some Text'
+        self.default = function () ... end
+        self.refresh = function () ... end
+        LiteMountOptionsPanel_OnLoad(self)
+      </OnLoad>
+    </Scripts>
+  </Frame>
+
+  For nested controls, pass the top level panel as the second argument to
+  LiteMountOptionsControl_OnLoad.
+
   Copyright 2016-2019 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
