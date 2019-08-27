@@ -19,80 +19,50 @@
     </Layers>
 
     <Frames>
-        <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer">
-            <Size x="400" />
+        <ScrollFrame name="$parentEditScroll" parentKey="EditScroll" inherits="InputScrollFrameTemplate">
+            <KeyValues>
+                <KeyValue key="hideCharCount" value="false" type="boolean" />
+            </KeyValues>
+
             <Anchors>
                 <Anchor point="TOPLEFT" x="24" y="-160" />
                 <Anchor point="BOTTOMRIGHT" x="-24" y="48" />
             </Anchors>
 
-            <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
-                <EdgeSize val="16" />
-                <TileSize val="16" />
-                <BackgroundInsets>
-                    <AbsInset left="5" right="5" top="5" bottom="5" />
-                </BackgroundInsets>
-            </Backdrop>
-
             <Scripts>
                 <OnLoad>
-                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
-                    self:SetBackdropColor(0, 0, 0, 0.5)
-                </OnLoad>
-            </Scripts>
-        </Frame>
+                    InputScrollFrame_OnLoad(self)
+                    self.EditBox:SetMaxLetters(0)
 
-        <ScrollFrame name="$parentEditScroll" parentKey="EditScroll" inherits="UIPanelScrollFrameTemplate">
+                    self.EditBox.SetOption = function (self, v, i)
+                            LM_Options.db.profile.buttonActions[i] = v
+                            LiteMount.actions[i]:CompileActions()
+                        end
+                    self.EditBox.GetOption = function (self, i)
+                            return LM_Options.db.profile.buttonActions[i]
+                        end
+                    self.EditBox.GetOptionDefault = function (self, i)
+                            return LM_Options.db.defaults.profile.buttonActions['*']
+                        end
 
-            <Anchors>
-                <Anchor point="TOPLEFT" x="8" y="-8" relativeKey="$parent.EditBoxContainer" />
-                <Anchor point="BOTTOMRIGHT" x="-28" y="8" relativeKey="$parent.EditBoxContainer" />
-            </Anchors>
+                    self.EditBox:SetScript('OnTextChanged',
+                        function (self)
+                            LiteMountOptionsControl_OnChanged(self)
+                            ScrollingEdit_OnTextChanged(self, self:GetParent())
+                        end)
 
-            <Scripts>
-                <OnLoad>
-                    self.scrollBarHideable = 1
-                    self.ScrollBar:Hide()
+                    LiteMountOptionsControl_OnLoad(self.EditBox, self:GetParent())
                 </OnLoad>
                 <OnShow>
                     self.EditBox:SetWidth(self:GetWidth() - 18)
                 </OnShow>
             </Scripts>
-
-            <ScrollChild>
-                <EditBox name="$parentEditBox" parentKey="EditBox" multiLine="true" autoFocus="false">
-                    <Size x="1" y="1" />
-                    <Anchors>
-                        <Anchor point="TOPLEFT" />
-                    </Anchors>
-                    <Scripts>
-                        <OnTextChanged function="LiteMountOptionsControl_OnChanged" />
-                        <OnEscapePressed function="EditBox_ClearFocus" />
-                        <OnLoad>
-                             self.SetOption = function (self, v, i)
-                                    LM_Options.db.profile.buttonActions[i] = v
-                                    LiteMount.actions[i]:CompileActions()
-                                end
-                            self.GetOption = function (self, i)
-                                    return LM_Options.db.profile.buttonActions[i]
-                                end
-                            self.GetOptionDefault = function (self, i)
-                                    return LM_Options.db.defaults.profile.buttonActions['*']
-                                end
-                            LiteMountOptionsControl_OnLoad(self, self:GetParent():GetParent())
-                        </OnLoad>
-                        <OnUpdate function="InputScrollFrame_OnUpdate" />
-                        <OnCursorChanged function="ScrollingEdit_OnCursorChanged" />
-                    </Scripts>
-                    <FontString inherits="GameFontHighlight" />
-                </EditBox>
-            </ScrollChild>
         </ScrollFrame>
 
         <Button name="$parentRevertButton" parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
             <Size x="96" y="22" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" x="24" y="16" />
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.EditScroll" x="0" y="-12" />
             </Anchors>
             <Scripts>
                 <OnShow function="LiteMountAdvancedRevert_OnShow" />
@@ -103,7 +73,7 @@
         <Button name="$parentDefaultButton" parentKey="DefaultButton" inherits="UIPanelButtonTemplate" text="DEFAULT">
             <Size x="96" y="22" />
             <Anchors>
-                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="3" />
+                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.EditScroll" x="0" y="12" />
             </Anchors>
             <Scripts>
                 <OnClick>
@@ -117,7 +87,7 @@
         <Frame name="$parentBindingDropDown" parentkey="BindingDropDown" inherits="UIDropDownMenuTemplate">
             <Size x="93" y="22" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="-8" />
+                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditScroll" x="0" y="12" />
             </Anchors>
         </Frame>
 
