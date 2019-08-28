@@ -4,7 +4,7 @@
 
 <Script file="Tooltip.lua" />
 
-<GameTooltip name="LiteMountTooltip" frameStrata="TOOLTIP" hidden="true" inherits="GameTooltipTemplate">
+<GameTooltip name="LiteMountTooltip" frameStrata="TOOLTIP" hidden="true" parent="UIParent" inherits="GameTooltipTemplate">
     <Frames>
         <ModelScene parentKey="ModelScene" useParentLevel="true" inherits="ModelSceneMixinTemplate">
             <KeyValues>
