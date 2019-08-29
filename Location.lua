@@ -54,12 +54,13 @@ function LM_Location:MapInPath(...)
 
     local wantIDs = { }
     for i = 1, select('#', ...) do
-        wantIDs[i] = true
+        local id = select(i, ...)
+        wantIDs[id] = true
     end
 
     local info = C_Map.GetMapInfo(map)
     while info do
-        if wantIDs[info.map] then return true end
+        if wantIDs[info.mapID] then return true end
         info = C_Map.GetMapInfo(info.parentMapID)
     end
 
