@@ -251,13 +251,16 @@ CONDITIONS["instance"] =
     function (cond, v)
         if not v then
             return IsInInstance()
-        elseif tonumber(v) then
-            return LM_Location.instanceID == tonumber(v)
-        else
-            -- "none", "scenario", "party", "raid", "arena", "pvp"
-            local _, instanceType = GetInstanceInfo()
-            return instanceType == v
         end
+
+        local _, instanceType, _, _, _, _, _, instanceID = GetInstanceInfo()
+
+        if instanceID == tonumber(v) then
+            return true
+        end
+
+        -- "none", "scenario", "party", "raid", "arena", "pvp"
+        return instanceType == v
     end
 
 CONDITIONS["map"] =
