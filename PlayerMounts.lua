@@ -4,7 +4,7 @@
 
   Information on all your mounts.
 
-  Copyright 2011-2019 Mike Battersby
+  Copyright 2011-2020 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

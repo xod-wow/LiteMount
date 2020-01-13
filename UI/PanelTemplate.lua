@@ -2,7 +2,7 @@
 
   LiteMount/UI/PanelTemplate.lua
 
-  Copyright 2016-2019 Mike Battersby
+  Copyright 2016-2020 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

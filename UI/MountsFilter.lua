@@ -4,7 +4,7 @@
 
   UI Filter state abstracted out similar to how C_MountJournal does it
 
-  Copyright 2011-2019 Mike Battersby
+  Copyright 2011-2020 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
