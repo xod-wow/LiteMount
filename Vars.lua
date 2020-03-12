@@ -33,6 +33,12 @@ CONSTS["{FACTION}"] =
         return v
     end
 
+CONSTS["{RACE}"] =
+    function ()
+        local v = UnitRace("player")
+        return v
+    end
+
 VARS["{SPECID}"] =
     function ()
         local v = GetSpecializationInfo(GetSpecialization())
