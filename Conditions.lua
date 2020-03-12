@@ -338,9 +338,8 @@ CONDITIONS["qfc"] =
 
 CONDITIONS["race"] =
     function (cond, v)
-        if v then
-            return tContains({ UnitRace("player") }, v)
-        end
+        local race, raceEN, raceID = UnitRace('player')
+        return ( race == v or raceEN == v or raceID == tonumber(v) )
     end
 
 CONDITIONS["raid"] =
