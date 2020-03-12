@@ -58,6 +58,34 @@ ACTIONS['Spell'] =
         end
     end
 
+ACTIONS['Item'] =
+    function (_, filters)
+        for _, itemID in ipairs(filters) do
+            itemID = tonumber(itemID)
+            local spellID = GetItemSpell(itemID)
+            if itemID and spellID then
+                local m = LM_ItemSummoned:Get(itemID, spellID)
+                if m:IsCastable() then
+                    return m:GetSecureAttributes()
+                end
+            end
+        end
+    end
+
+ACTIONS['Slot'] =
+    function (_, filters)
+        for _, slot in ipairs(filters) do
+            local itemID = GetInventoryItemID('player', slot)
+            local spellID = GetItemSpell(itemID)
+            if itemID and spellID then
+                local start, duration, enable = GetItemCooldown(itemID)
+                if IsUsableSpell(spellID) and start == 0 then
+                    return LM_SecureAction:Item(slot)
+                end
+            end
+        end
+    end
+
 -- In vehicle -> exit it
 ACTIONS['LeaveVehicle'] =
     function ()
