@@ -33,6 +33,15 @@ function LM_SecureAction:Spell(spellName)
     return self:New(attr)
 end
 
+function LM_SecureAction:Item(itemArg)
+    local attr = {
+            ["type"] = "item",
+            ["unit"] = "player",
+            ["item"] = itemArg
+    }
+    return self:New(attr)
+end
+
 function LM_SecureAction:Click(clickButton)
     local attr = {
             ["type"] = "click",
