@@ -36,14 +36,14 @@ LeaveVehicle
 CancelForm
 Dismount
 CopyTargetsMount
-Mount [filter=mt:254][map:1355,flyable,qfc:56766]
-Mount [filter=VASHJIR][map:203,submerged]
-Mount [filter=AQ][map:319/320/321]
-Mount [filter=NAGRAND][map:550,noflyable,nosubmerged]
-Mount [filter=230987][nosubmerged,extra:202477]
-Mount [filter=230987][nosubmerged,aura:202477]
-Limit [filter=RUN/WALK][mod:shift,flyable][mod:shift,waterwalking]
-SmartMount [filter={CLASS}]
+Mount [map:1355,flyable,qfc:56766] mt:254
+Mount [map:203,submerged] VASHJIR
+Mount [map:319/320/321] AQ
+Mount [map:550,noflyable,nosubmerged] NAGRAND
+Mount [nosubmerged,extra:202477] 230987
+Mount [nosubmerged,aura:202477] 230987
+Limit [mod:shift,flyable][mod:shift,waterwalking] RUN/WALK
+SmartMount {CLASS}
 SmartMount
 Macro
 ]]

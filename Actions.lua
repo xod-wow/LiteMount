@@ -23,58 +23,25 @@ end
 
 local ACTIONS = { }
 
--- Modifies the list of usableMounts so action list lines after this one
+-- Modifies the list of usable mounts so action list lines after this one
 -- get the restricted list. Always returns no action.
 
 ACTIONS['Limit'] =
-    function (usableMounts, filters)
-        filters = ReplaceVars(filters)
-        local filteredList = usableMounts:FilterSearch(unpack(filters))
-        table.wipe(usableMounts)
-        for k,v in pairs(filteredList) do
-            usableMounts[k] = v
-        end
+    function (args, env)
+        args = ReplaceVars(args)
+        table.insert(env.mounts, 1, env.mounts[1]:FilterSearch(unpack(args)))
+        LM_Debug(format("Limit from %d to %d.", #env.mounts[2], #env.mounts[1]))
     end
 
--- This is probably not a good idea
-ACTIONS['ResetLimits'] =
-    function (usableMounts)
-        local fullList = LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED")
-        table.wipe(usableMounts)
-        for k,v in pairs(fullList) do
-            usableMounts[k] = v
-        end
-    end
-
-ACTIONS['Spell'] =
-    function (_, filters)
-        for _, spellID in ipairs(filters) do
-            spellID = tonumber(spellID)
-            if spellID and IsSpellKnown(spellID) and IsUsableSpell(spellID) then
-                local name = GetSpellInfo(spellID)
-                LM_Debug("Setting action to " .. name .. ".")
-                return LM_SecureAction:Spell(name)
-            end
-        end
-    end
-
-ACTIONS['Item'] =
-    function (_, filters)
-        for _, itemID in ipairs(filters) do
-            itemID = tonumber(itemID)
-            local spellID = GetItemSpell(itemID)
-            if itemID and spellID then
-                local m = LM_ItemSummoned:Get(itemID, spellID)
-                if m:IsCastable() then
-                    return m:GetSecureAttributes()
-                end
-            end
-        end
+ACTIONS['Endlimit'] =
+    function (args, env)
+        if #env.mounts == 1 then return end
+        table.remove(env.mounts, 1)
     end
 
 ACTIONS['Slot'] =
-    function (_, filters)
-        for _, slot in ipairs(filters) do
+    function (args, env)
+        for _, slot in ipairs(args) do
             local itemID = GetInventoryItemID('player', slot)
             local spellID = GetItemSpell(itemID)
             if itemID and spellID then
@@ -88,7 +55,7 @@ ACTIONS['Slot'] =
 
 -- In vehicle -> exit it
 ACTIONS['LeaveVehicle'] =
-    function ()
+    function (args, env)
         --[[
         if UnitOnTaxi("player") then
             LM_Debug("Setting action to TaxiRequestEarlyLanding.")
@@ -103,7 +70,7 @@ ACTIONS['LeaveVehicle'] =
 
 -- Mounted -> dismount
 ACTIONS['Dismount'] =
-    function ()
+    function (args, env)
         if not IsMounted() then return end
 
         LM_Debug("Setting action to Dismount.")
@@ -140,7 +107,7 @@ local function GetSpellNameWithSubtext(id)
 end
 
 ACTIONS['CancelForm'] =
-    function ()
+    function (args, env)
         LM_Debug("Trying CancelForm")
 
         local curFormIndex = GetShapeshiftForm()
@@ -179,7 +146,7 @@ ACTIONS['CancelForm'] =
 
 -- Got a player target, try copying their mount
 ACTIONS['CopyTargetsMount'] =
-    function ()
+    function (args, env)
         if LM_Options.db.profile.copyTargetsMount and UnitIsPlayer("target") then
             LM_Debug("Trying to clone target's mount")
             return LM_PlayerMounts:GetMountFromUnitAura("target")
@@ -187,10 +154,10 @@ ACTIONS['CopyTargetsMount'] =
     end
 
 ACTIONS['SmartMount'] =
-    function (usableMounts, filters)
+    function (args, env)
 
-        filters = ReplaceVars(filters)
-        local filteredList = usableMounts:FilterSearch(unpack(filters))
+        args = ReplaceVars(args)
+        local filteredList = env.mounts[1]:FilterSearch(unpack(args))
 
         LM_Debug("Mount filtered list contains " .. #filteredList .. " mounts.")
 
@@ -228,23 +195,32 @@ ACTIONS['SmartMount'] =
     end
 
 ACTIONS['Mount'] =
-    function (usableMounts, filters)
-        filters = ReplaceVars(filters)
-        local filteredList = usableMounts:FilterSearch(unpack(filters))
+    function (args, env)
+        args = ReplaceVars(args)
+        local filteredList = env.mounts[1]:FilterSearch(unpack(args))
         LM_Debug("Mount filtered list contains " .. #filteredList .. " mounts.")
         return filteredList:Random()
     end
 
 ACTIONS['Macro'] =
-    function ()
+    function (args, env)
         if LM_Options.db.char.useUnavailableMacro then
             LM_Debug("Using custom macro.")
             return LM_SecureAction:Macro(LM_Options.db.char.unavailableMacro)
         end
     end
 
+ACTIONS['Script'] =
+    function (args, env)
+        local macroText = table.concat(args, ' ')
+        if SecureCmdOptionParse(macroText) then
+            LM_Debug("Running script line: " .. macroText)
+            return LM_SecureAction:Macro(macroText)
+        end
+    end
+
 ACTIONS['CantMount'] =
-    function ()
+    function (args, env)
         -- This isn't a great message, but there isn't a better one that
         -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
         -- LM_Warning("You don't know any mounts you can use right now.")
@@ -255,7 +231,7 @@ ACTIONS['CantMount'] =
     end
 
 ACTIONS['Combat'] =
-    function ()
+    function (args, env)
         LM_Debug("Setting action to in-combat action.")
 
         if LM_Options.db.char.useCombatMacro then
@@ -266,7 +242,7 @@ ACTIONS['Combat'] =
     end
 
 ACTIONS['Stop'] =
-    function ()
+    function (args, env)
         -- return true and set up to do nothing
         return LM_SecureAction:Macro("")
     end

@@ -26,7 +26,7 @@ function LM_ActionButton:SetupActionButton(mount)
     end
 end
 
-function LM_ActionButton:Dispatch(action, usableMounts, filters)
+function LM_ActionButton:Dispatch(action, args, env)
 
     local nextAction = self:GetAttribute('lm-nextaction')
     if nextAction then
@@ -45,7 +45,7 @@ function LM_ActionButton:Dispatch(action, usableMounts, filters)
     LM_Debug("Dispatching action " .. action)
 
     -- This is super ugly.
-    local m = handler(usableMounts, filters)
+    local m = handler(args, env)
     if not m then return end
 
     LM_Debug("Setting up button as " .. (m.name or action) .. ".")
@@ -67,12 +67,14 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_PlayerMounts:RefreshMounts()
 
-    local usableMounts = LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED")
+    local env = {
+        ['mounts'] = { LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED") }
+    }
 
-    LM_Debug("Found " .. #usableMounts .. " CASTABLE and ENABLED mounts.")
+    LM_Debug("Found " .. #env.mounts[1] .. " CASTABLE and ENABLED mounts.")
     for _,a in ipairs(self.actions) do
         if LM_Conditions:Eval(a.conditions) then
-            if self:Dispatch(a.action, usableMounts, a.filters) then
+            if self:Dispatch(a.action, a.args or {}, env) then
                 return
             end
         end
