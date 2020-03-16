@@ -126,7 +126,7 @@
                         <OnUpdate function="InputScrollFrame_OnUpdate" />
                         <OnCursorChanged function="ScrollingEdit_OnCursorChanged" />
                     </Scripts>
-                    <FontString inherits="GameFontHighlight" />
+                    <FontString inherits="ChatFontNormal" />
                 </EditBox>
             </ScrollChild>
         </ScrollFrame>
