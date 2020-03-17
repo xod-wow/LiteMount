@@ -27,13 +27,31 @@ CONSTS["{CLASS}"] =
         return v
     end
 
+CONSTS["{CLASS_L}"] =
+    function ()
+        local v = UnitClass("PLAYER")
+        return v
+    end
+
 CONSTS["{FACTION}"] =
     function ()
         local v = UnitFactionGroup("player")
         return v
     end
 
+CONSTS["{FACTION_L}"] =
+    function ()
+        local _, v = UnitFactionGroup("player")
+        return v
+    end
+
 CONSTS["{RACE}"] =
+    function ()
+        local _, v = UnitRace("player")
+        return v
+    end
+
+CONSTS["{RACE_L}"] =
     function ()
         local v = UnitRace("player")
         return v
@@ -47,7 +65,7 @@ VARS["{SPECID}"] =
 
 VARS["{SPEC}"] =
     function ()
-        local v = GetSpecialization()
+        local _, v = GetSpecializationInfo(GetSpecialization())
         return v
     end
 
@@ -59,7 +77,7 @@ VARS["{ROLE}"] =
 
 VARS["{MAPID}"] =
     function ()
-        return LM_Location.areaID
+        return LM_Location.uiMapID
     end
 
 -- this should totally be some kind of metatable but who cares
