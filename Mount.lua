@@ -48,7 +48,7 @@ function LM_Mount:MatchesOneFilter(flags, f)
     elseif f:sub(1, 3) == 'mt:' then
         if self.mountType == tonumber(f:sub(4)) then return true end
     elseif f:sub(1, 1) == '~' then
-        if self:MatchesOneFilter(flags, f:sub(2)) then return true end
+        if not self:MatchesOneFilter(flags, f:sub(2)) then return true end
     else
         if flags[f] ~= nil then return true end
     end
