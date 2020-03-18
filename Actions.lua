@@ -39,6 +39,18 @@ ACTIONS['Endlimit'] =
         table.remove(env.mounts, 1)
     end
 
+ACTIONS['Spell'] =
+    function (args, env)
+        for _, spellID in ipairs(args) do
+            spellID = tonumber(spellID)
+            if spellID and IsSpellKnown(spellID) and IsUsableSpell(spellID) then
+                local name = GetSpellInfo(spellID)
+                LM_Debug("Setting action to " .. name .. ".")
+                return LM_SecureAction:Spell(name)
+            end
+        end
+    end
+
 ACTIONS['Slot'] =
     function (args, env)
         for _, slot in ipairs(args) do
