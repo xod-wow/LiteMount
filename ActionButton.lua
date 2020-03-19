@@ -26,8 +26,19 @@ function LM_ActionButton:SetupActionButton(mount)
     end
 end
 
-function LM_ActionButton:Dispatch(action, args, env)
+function LM_ActionButton:Dispatch(action, env)
 
+    local isTrue = LM_Conditions:Eval(action.conditions)
+
+    local handler = LM_Actions:GetFlowControlHandler(action.action)
+    if handler then
+        LM_Debug("Dispatching flow control action " .. action.action)
+        handler(action.args or {}, env, isTrue)
+        return
+    end
+
+    -- This is not right, because it relies on there being another action
+    -- it really needs to be handled at a higher level
     local nextAction = self:GetAttribute('lm-nextaction')
     if nextAction then
         LM_Debug("Setting up button as with override from previous action.")
@@ -36,19 +47,21 @@ function LM_ActionButton:Dispatch(action, args, env)
         return true
     end
 
-    local handler = LM_Actions:GetHandler(action)
+    if not isTrue or LM_Actions:IsFlowSkipped(env) then return end
+
+    handler = LM_Actions:GetHandler(action.action)
     if not handler then
-        LM_WarningAndPrint(format(L.LM_ERR_BAD_ACTION, action))
+        LM_WarningAndPrint(format(L.LM_ERR_BAD_ACTION, action.action))
         return
     end
 
-    LM_Debug("Dispatching action " .. action)
+    LM_Debug("Dispatching action " .. action.action)
 
     -- This is super ugly.
-    local m = handler(args, env)
+    local m = handler(action.args or {}, env)
     if not m then return end
 
-    LM_Debug("Setting up button as " .. (m.name or action) .. ".")
+    LM_Debug("Setting up button as " .. (m.name or action.action) .. ".")
     self:SetupActionButton(m)
 
     return true
@@ -68,19 +81,18 @@ function LM_ActionButton:PreClick(mouseButton)
     LM_PlayerMounts:RefreshMounts()
 
     local env = {
-        ['mounts'] = { LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED") }
+        ['mounts'] = { LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED") },
+	['flowControl'] = { },
     }
 
     LM_Debug("Found " .. #env.mounts[1] .. " CASTABLE and ENABLED mounts.")
     for _,a in ipairs(self.actions) do
-        if LM_Conditions:Eval(a.conditions) then
-            if self:Dispatch(a.action, a.args or {}, env) then
-                return
-            end
+        if self:Dispatch(a, env) then
+            return
         end
     end
 
-    self:Dispatch("CantMount")
+    self:Dispatch({ ['action'] = "CantMount" }, env)
 end
 
 function LM_ActionButton:PostClick()
