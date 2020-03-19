@@ -25,11 +25,11 @@ local function ReadToken(line)
 
     -- Match ""
     token, rest = line:match('^"([^"]*)"(.*)$')
-    if token then return nil, rest end
+    if token then return token, rest end
 
     -- Match ''
     token, rest = line:match("^'([^']*)'(.*)$")
-    if token then return nil, rest end
+    if token then return token, rest end
 
     -- Match [] empty condition, which is just skipped
     token, rest = line:match('^(%[%])(.*)$')
