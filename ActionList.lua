@@ -19,12 +19,27 @@ local function replaceConstant(k) return LM_Vars:GetConst(k) end
 local function ReadToken(line)
     local token, rest
 
+    -- Skip whitespace
     token, rest = line:match('^(%s+)(.*)$')
     if token then return nil, rest end
 
+    -- Match ""
+    token, rest = line:match('^"([^"]*)"(.*)$')
+    if token then return nil, rest end
+
+    -- Match ''
+    token, rest = line:match("^'([^']*)'(.*)$")
+    if token then return nil, rest end
+
+    -- Match [] empty condition, which is just skipped
+    token, rest = line:match('^(%[%])(.*)$')
+    if token then return nil, rest end
+
+    -- Match regular conditions
     token, rest = line:match('^(%[.-%])(.*)$')
     if token then return token, rest end
 
+    -- Match words
     token, rest = line:match('^(%S+)(.*)$')
     if token then return token, rest end
 end
