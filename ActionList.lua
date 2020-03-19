@@ -16,18 +16,35 @@ _G.LM_ActionList = { }
 
 local function replaceConstant(k) return LM_Vars:GetConst(k) end
 
+local function ReadToken(line)
+    local token, rest
+
+    token, rest = line:match('^(%s+)(.*)$')
+    if token then return nil, rest end
+
+    token, rest = line:match('^(%[.-%])(.*)$')
+    if token then return token, rest end
+
+    token, rest = line:match('^(%S+)(.*)$')
+    if token then return token, rest end
+end
+
 function LM_ActionList:ParseActionLine(line)
     local argTokens, condTokens = { }, { }
+    local token
 
-    for token in line:gmatch('%S+') do
-        if token:match('^%[filter=.+%]$') then
-            tinsert(argTokens, token:sub(9, -2))
-        elseif token:match('^%[.-%]$') then
-            for c in token:gmatch('%[(.-)%]') do
-                tinsert(condTokens, c)
+    while line ~= nil do
+        token, line = ReadToken(line)
+        if token then
+            if token:match('^%[filter=.+%]$') then
+                tinsert(argTokens, token:sub(9, -2))
+            elseif token:match('^%[.-%]$') then
+                for c in token:gmatch('%[(.-)%]') do
+                    tinsert(condTokens, c)
+                end
+            else
+                tinsert(argTokens, token)
             end
-        else
-            tinsert(argTokens, token)
         end
     end
 
