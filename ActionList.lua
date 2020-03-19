@@ -16,7 +16,7 @@ _G.LM_ActionList = { }
 
 local function replaceConstant(k) return LM_Vars:GetConst(k) end
 
-local function ReadToken(line)
+local function ReadWord(line)
     local token, rest
 
     -- Skip whitespace
@@ -28,12 +28,12 @@ local function ReadToken(line)
     if token then return nil, nil end
 
     -- Match ""
-    token, rest = line:match('^"([^"]*)"(.*)$')
+    token, rest = line:match('^("[^"]*")(.*)$')
     if token then return token, rest end
 
-    -- Match ''
+    -- Match '', turn into ""
     token, rest = line:match("^'([^']*)'(.*)$")
-    if token then return token, rest end
+    if token then return '"' .. token .. '"', rest end
 
     -- Match [] empty condition, which is just skipped
     token, rest = line:match('^(%[%])(.*)$')
@@ -49,29 +49,27 @@ local function ReadToken(line)
 end
 
 function LM_ActionList:ParseActionLine(line)
-    local argTokens, condTokens = { }, { }
-    local token
+    local argWords, condWords = { }, { }
+    local word
 
     while line ~= nil do
-        token, line = ReadToken(line)
-        if token then
-            if token:match('^%[filter=.+%]$') then
-                tinsert(argTokens, token:sub(9, -2))
-            elseif token:match('^%[.-%]$') then
-                for c in token:gmatch('%[(.-)%]') do
-                    tinsert(condTokens, c)
-                end
+        word, line = ReadWord(line)
+        if word then
+            if word:match('^%[filter=.-%]$') then
+                tinsert(argWords, word:sub(9, -2))
+            elseif word:match('^%[.-%]$') then
+                tinsert(condWords, word:sub(2, -2))
             else
-                tinsert(argTokens, token)
+                tinsert(argWords, word)
             end
         end
     end
 
     local conditions
 
-    for _, token in ipairs(condTokens) do
+    for _, word in ipairs(condWords) do
         local clause, vars = {}, false
-        for c in token:gmatch('[^,]+') do
+        for c in word:gmatch('[^,]+') do
             c = c:gsub('{.-}', function (k)
                     local v = LM_Vars:GetConst(k)
                     if v then
@@ -95,12 +93,16 @@ function LM_ActionList:ParseActionLine(line)
 
     local action, args = nil, { }
 
-    for _, token in ipairs(argTokens) do
+    for _, word in ipairs(argWords) do
+        word = word:gsub('{.-}', replaceConstant)
         if not action then
-            action = token
+            action = word
+        elseif word:match('^".+"$') then
+            tinsert(args, word:sub(2, -2))
         else
-            token = token:gsub('{.-}', replaceConstant)
-            tinsert(args, token)
+            for w in word:gmatch('[^,]+') do
+                tinsert(args, w)
+            end
         end
     end
 
