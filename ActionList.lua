@@ -23,6 +23,10 @@ local function ReadToken(line)
     token, rest = line:match('^(%s+)(.*)$')
     if token then return nil, rest end
 
+    -- Skip from # to end of line
+    token, rest = line:match('^#')
+    if token then return nil, nil end
+
     -- Match ""
     token, rest = line:match('^"([^"]*)"(.*)$')
     if token then return token, rest end
