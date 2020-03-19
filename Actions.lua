@@ -21,6 +21,30 @@ local function ReplaceVars(list)
     return out
 end
 
+local FLOWCONTROLS = { }
+
+FLOWCONTROLS['IF'] =
+    function (args, env, isTrue)
+        table.insert(env.flowControl, isTrue)
+    end
+
+FLOWCONTROLS['ELSIF'] =
+    function (args, env, isTrue)
+        table.remove(env.flowControl)
+        table.insert(env.flowControl, isTrue)
+    end
+
+FLOWCONTROLS['ELSE'] =
+    function (args, env, isTrue)
+        local n = #env.flowConrol
+        env.flowControl[n] = not env.flowControl[n]
+    end
+
+FLOWCONTROLS['END'] =
+    function (args, env, isTrue)
+        table.remove(env.flowControl)
+    end
+
 local ACTIONS = { }
 
 -- Modifies the list of usable mounts so action list lines after this one
@@ -304,6 +328,14 @@ function LM_Actions:DefaultCombatMacro()
     return mt
 end
 
+function LM_Actions:GetFlowControlHandler(action)
+    return FLOWCONTROLS[action]
+end
+
 function LM_Actions:GetHandler(action)
     return ACTIONS[action]
+end
+
+function LM_Actions:IsFlowSkipped(env)
+    return tContains(env.flowControl, false)
 end
