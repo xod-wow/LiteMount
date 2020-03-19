@@ -448,16 +448,20 @@ CONDITIONS["waterwalking"] =
                 return true
             end
         end
+
+        -- This is pretty sketchy, but it's OK because aura doens't use
+        -- the cond state. It might be better to pass in nil.
+
         -- Water Walking (546)
-        if CONDITIONS.aura(546) then
+        if CONDITIONS.aura(cond, 546) then
             return true
         end
         -- Elixir of Water Walking (11319)
-        if CONDITIONS.aura(11319) then
+        if CONDITIONS.aura(cond, 11319) then
             return true
         end
         --  Path of Frost (3714)
-        if CONDITIONS.aura(3714) then
+        if CONDITIONS.aura(cond, 3714) then
             return true
         end
     end
