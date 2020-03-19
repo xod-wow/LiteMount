@@ -20,23 +20,27 @@ function LM_SecureAction:New(attr)
     return setmetatable(attr, LM_SecureAction)
 end
 
-function LM_SecureAction:Macro(macroText)
-    return self:New( { ["type"] = "macro", ["macrotext"] = macroText } )
+function LM_SecureAction:Macro(macroText, unit)
+    return self:New( {
+                ["type"] = "macro",
+                ["macrotext"] = macroText,
+                ["unit"] = unit or "player",
+            } )
 end
 
-function LM_SecureAction:Spell(spellName)
+function LM_SecureAction:Spell(spellName, unit)
     local attr = {
             ["type"] = "spell",
-            ["unit"] = "player",
+            ["unit"] = unit or "player",
             ["spell"] = spellName
     }
     return self:New(attr)
 end
 
-function LM_SecureAction:Item(itemArg)
+function LM_SecureAction:Item(itemArg, unit)
     local attr = {
             ["type"] = "item",
-            ["unit"] = "player",
+            ["unit"] = unit or "player",
             ["item"] = itemArg
     }
     return self:New(attr)
