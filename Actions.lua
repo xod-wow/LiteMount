@@ -75,20 +75,6 @@ ACTIONS['Spell'] =
         end
     end
 
-ACTIONS['Slot'] =
-    function (args, env)
-        for _, slot in ipairs(args) do
-            local itemID = GetInventoryItemID('player', slot)
-            local spellID = GetItemSpell(itemID)
-            if itemID and spellID then
-                local start, duration, enable = GetItemCooldown(itemID)
-                if IsUsableSpell(spellID) and start == 0 then
-                    return LM_SecureAction:Item(slot)
-                end
-            end
-        end
-    end
-
 -- In vehicle -> exit it
 ACTIONS['LeaveVehicle'] =
     function (args, env)

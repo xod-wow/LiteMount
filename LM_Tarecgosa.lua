@@ -89,7 +89,7 @@ LM_Tarecgosa2.__index = LM_Tarecgosa2
 function LM_Tarecgosa2:Get(itemID)
     local m = setmetatable({ }, self)
     m.itemID = itemID
-    m.spellID = select(3, GetItemSpell(itemID))
+    m.spellID = select(2, GetItemSpell(itemID))
     m.mainHand = GetInventoryItemID("player", 16)
     m.offHand = GetInventoryItemID("player", 17)
 
