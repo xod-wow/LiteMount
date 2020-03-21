@@ -28,7 +28,8 @@ end
 
 function LM_ActionButton:Dispatch(action, env)
 
-    local isTrue = LM_Conditions:Eval(action.conditions)
+    local isTrue
+    isTrue, env.unit = LM_Conditions:Eval(action.conditions)
 
     local handler = LM_Actions:GetFlowControlHandler(action.action)
     if handler then

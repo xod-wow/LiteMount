@@ -70,7 +70,7 @@ ACTIONS['Spell'] =
             if spellID and IsSpellKnown(spellID) and IsUsableSpell(spellID) then
                 local name = GetSpellInfo(spellID)
                 LM_Debug("Setting action to " .. name .. ".")
-                return LM_SecureAction:Spell(name)
+                return LM_SecureAction:Spell(name, env.unit)
             end
         end
     end
@@ -169,9 +169,10 @@ ACTIONS['CancelForm'] =
 -- Got a player target, try copying their mount
 ACTIONS['CopyTargetsMount'] =
     function (args, env)
-        if LM_Options.db.profile.copyTargetsMount and UnitIsPlayer("target") then
-            LM_Debug("Trying to clone target's mount")
-            return LM_PlayerMounts:GetMountFromUnitAura("target")
+        local unit = env.unit or "target"
+        if LM_Options.db.profile.copyTargetsMount and UnitIsPlayer(unit) then
+            LM_Debug(format("Trying to clone %s's mount", unit))
+            return LM_PlayerMounts:GetMountFromUnitAura(unit)
         end
     end
 
@@ -228,7 +229,7 @@ ACTIONS['Macro'] =
     function (args, env)
         if LM_Options.db.char.useUnavailableMacro then
             LM_Debug("Using custom macro.")
-            return LM_SecureAction:Macro(LM_Options.db.char.unavailableMacro)
+            return LM_SecureAction:Macro(LM_Options.db.char.unavailableMacro, env.unit)
         end
     end
 
@@ -237,7 +238,7 @@ ACTIONS['Script'] =
         local macroText = table.concat(args, ' ')
         if SecureCmdOptionParse(macroText) then
             LM_Debug("Running script line: " .. macroText)
-            return LM_SecureAction:Macro(macroText)
+            return LM_SecureAction:Macro(macroText, env.unit)
         end
     end
 

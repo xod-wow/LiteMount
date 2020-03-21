@@ -162,7 +162,7 @@ CONDITIONS["equipped"] =
 
 CONDITIONS["exists"] =
     function (cond, unit)
-        return UnitExists(unit or "target")
+        return UnitExists(unit or env.unit or "target")
     end
 
 -- Check for an extraactionbutton, optionally with a specific spell
@@ -234,12 +234,12 @@ CONDITIONS["group"] =
 
 CONDITIONS["harm"] =
     function (cond, unit)
-        return not UnitIsFriend("player", unit or "target")
+        return not UnitIsFriend("player", unit or env.unit or "target")
     end
 
 CONDITIONS["help"] =
     function (cond, unit)
-        return UnitIsFriend("player", unit or "target")
+        return UnitIsFriend("player", unit or env.unit or "target")
     end
 
 CONDITIONS["indoors"] =
@@ -311,7 +311,7 @@ CONDITIONS["outdoors"] =
 
 CONDITIONS["party"] =
     function (cond, unit)
-        return UnitPlayerOrPetInParty(unit or "target")
+        return UnitPlayerOrPetInParty(unit or env.unit or "target")
     end
 
 CONDITIONS["pet"] =
@@ -344,7 +344,7 @@ CONDITIONS["race"] =
 
 CONDITIONS["raid"] =
     function (cond, unit)
-        return UnitPlayerOrPetInRaid(unit or "target")
+        return UnitPlayerOrPetInRaid(unit or env.unit or "target")
     end
 
 CONDITIONS["random"] =
@@ -533,6 +533,9 @@ function LM_Conditions:IsTrue(condition)
         str = LM_Vars:StrSubVars(str)
     end
 
+    local unit = str:match('^@(.+)')
+    if unit then return true, unit end
+
     local cond, valuestr = strsplit(':', str)
 
     -- Empty condition [] is true
@@ -564,19 +567,24 @@ function LM_Conditions:IsTrue(condition)
 end
 
 function LM_Conditions:EvalNot(conditions)
-    return not self:Eval(conditions[1])
+    local v, unit = self:Eval(conditions[1])
+    return not v, unit
 end
 
 function LM_Conditions:EvalAnd(conditions)
+    local unit
     for _,e in ipairs(conditions) do
-        if not self:Eval(e) then return false end
+        local v, u = self:Eval(e)
+        if not v then return false end
+        unit = u or unit
     end
-    return true
+    return true, unit
 end
 
 function LM_Conditions:EvalOr(conditions)
     for _,e in ipairs(conditions) do
-        if self:Eval(e) then return true end
+        local v, u = self:Eval(e)
+        if v then return v, u end
     end
     return false
 end
