@@ -439,6 +439,47 @@ CONDITIONS["true"] =
         return true
     end
 
+CONDITIONS["usableitem"] =
+    function (cond, v)
+        if not v then return end
+
+        local itemID = GetItemInfoInstant(v)
+
+        if not itemID then return end
+
+        local spellName, spellID = GetItemSpell(itemID)
+
+        if not spellID then return end
+
+        if not IsUsableSpell(spellID) then return end
+
+        if IsEquippableItem(itemID) then
+            if not IsEquippedItem(itemID) then return end
+        else
+            if GetItemCount(itemID) == 0 then return end
+        end
+
+        -- Either equipped or non-equippable and in bags
+        local start, duration, enable = GetItemCooldown(itemID)
+        if duration > 0 and enable == 1 then return end
+
+        return true
+    end
+
+CONDITIONS["usablespell"] =
+    function (cond, v)
+        if not v then return end
+        local id = select(7, GetSpellInfo(v))
+        if not id or not IsSpellKnown(id) or not IsUsableSpell(id) then
+            return
+        end
+        if PlayerIsMovingOrFalling() then
+            local castTime = select(4, GetSpellInfo(id))
+            if castTime > 0 then return end
+        end
+        return true
+    end
+
 CONDITIONS["waterwalking"] =
     function (cond)
         -- Anglers Waters Striders (168416) or Inflatable Mount Shoes (168417)
