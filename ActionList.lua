@@ -52,6 +52,7 @@ function LM_ActionList:ParseActionLine(line)
     local argWords, condWords = { }, { }
     local word, action
 
+    -- Note this is intentionally unanchored to skip leading whitespace
     action, line = line:match('(%S+)%s*(.*)')
 
     while line ~= nil do
