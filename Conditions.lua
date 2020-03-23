@@ -162,7 +162,7 @@ CONDITIONS["equipped"] =
 
 CONDITIONS["exists"] =
     function (cond, unit)
-        return UnitExists(unit or env.unit or "target")
+        return UnitExists(unit or "target")
     end
 
 -- Check for an extraactionbutton, optionally with a specific spell
@@ -234,12 +234,12 @@ CONDITIONS["group"] =
 
 CONDITIONS["harm"] =
     function (cond, unit)
-        return not UnitIsFriend("player", unit or env.unit or "target")
+        return not UnitIsFriend("player", unit or "target")
     end
 
 CONDITIONS["help"] =
     function (cond, unit)
-        return UnitIsFriend("player", unit or env.unit or "target")
+        return UnitIsFriend("player", unit or "target")
     end
 
 CONDITIONS["indoors"] =
@@ -311,7 +311,7 @@ CONDITIONS["outdoors"] =
 
 CONDITIONS["party"] =
     function (cond, unit)
-        return UnitPlayerOrPetInParty(unit or env.unit or "target")
+        return UnitPlayerOrPetInParty(unit or "target")
     end
 
 CONDITIONS["pet"] =
@@ -344,7 +344,7 @@ CONDITIONS["race"] =
 
 CONDITIONS["raid"] =
     function (cond, unit)
-        return UnitPlayerOrPetInRaid(unit or env.unit or "target")
+        return UnitPlayerOrPetInRaid(unit or "target")
     end
 
 CONDITIONS["random"] =

@@ -82,7 +82,7 @@ end
 ACTIONS['Spell'] =
     function (args, env)
         for _, arg in ipairs(args) do
-            LM_Debug('Spell: ' .. tostring(arg))
+            LM_Debug(' - trying spell: ' .. tostring(arg))
             local name, id = GetKnownSpell(arg)
             if name and IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
                 LM_Debug("Setting action to " .. name .. ".")
@@ -244,7 +244,7 @@ ACTIONS['Mount'] =
 ACTIONS['Macro'] =
     function (args, env)
         if LM_Options.db.char.useUnavailableMacro then
-            LM_Debug("Using custom macro.")
+            LM_Debug("Using unavailable macro.")
             return LM_SecureAction:Macro(LM_Options.db.char.unavailableMacro, env.unit)
         end
     end
@@ -293,10 +293,12 @@ ACTIONS['Use'] =
             if slot then
                 local s, d, e = GetInventoryItemCooldown('player', slot)
                 if s == 0 and e == 1 then
+                    LM_Debug('Setting action to Use ' .. slot)
                     return LM_SecureAction:Use(slot, env.unit)
                 end
             elseif name then
                 if IsUsableItem(name) then
+                    LM_Debug('Setting action to Use ' .. name)
                     return LM_SecureAction:Use(name, env.unit)
                 end
             end
