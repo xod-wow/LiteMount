@@ -37,11 +37,11 @@ function LM_SecureAction:Spell(spellName, unit)
     return self:New(attr)
 end
 
-function LM_SecureAction:Item(itemArg, unit)
+function LM_SecureAction:Use(useArg, unit)
     local attr = {
             ["type"] = "item",
             ["unit"] = unit or "player",
-            ["item"] = itemArg
+            ["item"] = useArg
     }
     return self:New(attr)
 end

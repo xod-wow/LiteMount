@@ -65,10 +65,9 @@ ACTIONS['Endlimit'] =
 
 ACTIONS['Spell'] =
     function (args, env)
-        for _, spellID in ipairs(args) do
-            spellID = tonumber(spellID)
+        for _, arg in ipairs(args) do
+            local name, _, _, _, _, _, spellID = select(7, GetSpellInfo(arg))
             if spellID and IsSpellKnown(spellID) and IsUsableSpell(spellID) then
-                local name = GetSpellInfo(spellID)
                 LM_Debug("Setting action to " .. name .. ".")
                 return LM_SecureAction:Spell(name, env.unit)
             end
@@ -268,6 +267,23 @@ ACTIONS['Stop'] =
     function (args, env)
         -- return true and set up to do nothing
         return LM_SecureAction:Macro("")
+    end
+
+ACTIONS['Use'] =
+    function (args, env)
+        for _, arg in ipairs(args) do
+            local name, bag, slot = SecureCmdItemParse(arg)
+            if slot then
+                local s, d, e = GetInventoryItemCooldown('player', slot)
+                if s == 0 and e == 1 then
+                    return LM_SecureAction:Use(slot, env.unit)
+                end
+            elseif name then
+                if IsUsableItem(name) then
+                    return LM_SecureAction:Use(name, env.unit)
+                end
+            end
+        end
     end
 
 _G.LM_Actions = { }
