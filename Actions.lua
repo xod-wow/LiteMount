@@ -294,12 +294,15 @@ ACTIONS['Use'] =
                 local s, d, e = GetInventoryItemCooldown('player', slot)
                 if s == 0 and e == 1 then
                     LM_Debug('Setting action to Use ' .. slot)
-                    return LM_SecureAction:Use(slot, env.unit)
                 end
             elseif name then
-                if IsUsableItem(name) then
-                    LM_Debug('Setting action to Use ' .. name)
-                    return LM_SecureAction:Use(name, env.unit)
+                local itemID = GetItemInfoInstant(name)
+                if itemID and IsUsableItem(name) then
+                    local s, d, e = GetItemCooldown(itemID)
+                    if s == 0 and e == 1 then
+                        LM_Debug('Setting action to Use ' .. name)
+                        return LM_SecureAction:Use(name, env.unit)
+                    end
                 end
             end
         end
