@@ -563,9 +563,16 @@ function LM_Conditions:Eval(conditions)
     end
 end
 
+-- Parsing is slow so we don't want to do it a million times
+local cachedConditions = {}
+
 function LM_Conditions:Check(line)
-    local _, _, cond = LM_ActionList:ParseActionLine(line)
-    if cond then
-        return self:Eval(cond)
+    if not line then return end
+
+    if not cachedConditions[line] then
+        _, _, cond = LM_ActionList:ParseActionLine('DUMMY ' .. line)
+        cachedConditions[line] = { cond }
     end
+
+    return self:Eval(cachedConditions[line][1])
 end
