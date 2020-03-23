@@ -63,11 +63,28 @@ ACTIONS['Endlimit'] =
         table.remove(env.mounts, 1)
     end
 
+local function GetKnownSpell(arg)
+    -- You can look up any spell from any class by number so we have to
+    -- test numbers to see if we know them
+    local spellID = tonumber(arg)
+    if spellID and not IsSpellKnown(spellID) then
+        return
+    end
+
+    -- For names, GetSpellInfo returns nil if it's not in your spellbook
+    -- so we don't need to call IsSpellKnown
+    local name, _, _, _, _, _, spellID = GetSpellInfo(arg)
+    if name and IsUsableSpell(name) then
+        return name, id
+    end
+end
+
 ACTIONS['Spell'] =
     function (args, env)
         for _, arg in ipairs(args) do
-            local name, _, _, _, _, _, spellID = GetSpellInfo(arg)
-            if spellID and IsSpellKnown(spellID) and IsUsableSpell(spellID) then
+            LM_Debug('Spell: ' .. tostring(arg))
+            local name, id = GetKnownSpell(arg)
+            if name and IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
                 LM_Debug("Setting action to " .. name .. ".")
                 return LM_SecureAction:Spell(name, env.unit)
             end
