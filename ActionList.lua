@@ -43,14 +43,16 @@ local function ReadWord(line)
     token, rest = line:match('^(%[.-%])(.*)$')
     if token then return token, rest end
 
-    -- Match words
-    token, rest = line:match('^(%S+)(.*)$')
+    -- Match comma separated arguments
+    token, rest = line:match('^([^,]+),?(.*)$')
     if token then return token, rest end
 end
 
 function LM_ActionList:ParseActionLine(line)
     local argWords, condWords = { }, { }
-    local word
+    local word, action
+
+    action, line = line:match('(%S+)%s*(.*)')
 
     while line ~= nil do
         word, line = ReadWord(line)
@@ -91,13 +93,11 @@ function LM_ActionList:ParseActionLine(line)
         end
     end
 
-    local action, args = nil, { }
+    local args = { }
 
     for _, word in ipairs(argWords) do
         word = word:gsub('{.-}', replaceConstant)
-        if not action then
-            action = word
-        elseif word:match('^".+"$') then
+        if word:match('^".+"$') then
             tinsert(args, word:sub(2, -2))
         else
             for w in word:gmatch('[^,]+') do
