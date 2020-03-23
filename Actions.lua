@@ -66,7 +66,7 @@ ACTIONS['Endlimit'] =
 ACTIONS['Spell'] =
     function (args, env)
         for _, arg in ipairs(args) do
-            local name, _, _, _, _, _, spellID = select(7, GetSpellInfo(arg))
+            local name, _, _, _, _, _, spellID = GetSpellInfo(arg)
             if spellID and IsSpellKnown(spellID) and IsUsableSpell(spellID) then
                 LM_Debug("Setting action to " .. name .. ".")
                 return LM_SecureAction:Spell(name, env.unit)
