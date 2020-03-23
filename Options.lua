@@ -42,7 +42,7 @@ Mount [map:319/320/321] AQ
 Mount [map:550,noflyable,nosubmerged] NAGRAND
 Mount [nosubmerged,extra:202477] 230987
 Mount [nosubmerged,aura:202477] 230987
-Limit [mod:shift,flyable][mod:shift,waterwalking] RUN/WALK ~FLY
+Limit [mod:shift,flyable][mod:shift,waterwalking] RUN/WALK,~FLY
 SmartMount {CLASS}
 SmartMount
 Macro
