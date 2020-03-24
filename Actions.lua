@@ -54,7 +54,7 @@ ACTIONS['Limit'] =
     function (args, env)
         args = ReplaceVars(args)
         table.insert(env.mounts, 1, env.mounts[1]:FilterSearch(unpack(args)))
-        LM_Debug(format("Limit from %d to %d.", #env.mounts[2], #env.mounts[1]))
+        LM_Debug(format(" - limit from %d to %d", #env.mounts[2], #env.mounts[1]))
     end
 
 ACTIONS['Endlimit'] =
@@ -85,7 +85,7 @@ ACTIONS['Spell'] =
             LM_Debug(' - trying spell: ' .. tostring(arg))
             local name, id = GetKnownSpell(arg)
             if name and IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
-                LM_Debug("Setting action to " .. name .. ".")
+                LM_Debug(" - setting action to spell " .. name)
                 return LM_SecureAction:Spell(name, env.unit)
             end
         end
@@ -96,12 +96,12 @@ ACTIONS['LeaveVehicle'] =
     function (args, env)
         --[[
         if UnitOnTaxi("player") then
-            LM_Debug("Setting action to TaxiRequestEarlyLanding.")
+            LM_Debug(" - setting action to TaxiRequestEarlyLanding")
             return LM_SecureAction:Click(MainMenuBarVehicleLeaveButton)
         elseif CanExitVehicle() then
         ]]
         if CanExitVehicle() then
-            LM_Debug("Setting action to VehicleExit.")
+            LM_Debug(" - setting action to leavevehicle")
             return LM_SecureAction:Macro(SLASH_LEAVEVEHICLE1)
         end
     end
@@ -111,7 +111,7 @@ ACTIONS['Dismount'] =
     function (args, env)
         if not IsMounted() then return end
 
-        LM_Debug("Setting action to Dismount.")
+        LM_Debug(" - setting action to dismount")
         return LM_SecureAction:Macro(SLASH_DISMOUNT1)
     end
 
@@ -146,38 +146,38 @@ end
 
 ACTIONS['CancelForm'] =
     function (args, env)
-        LM_Debug("Trying CancelForm")
+        LM_Debug(" - trying CancelForm")
 
         local curFormIndex = GetShapeshiftForm()
         local curFormID = GetShapeshiftFormID()
         local inMountForm = curFormIndex > 0 and LM_PlayerMounts:GetMountByShapeshiftForm(curFormIndex)
 
-        LM_Debug("Previous form is " .. tostring(savedFormName))
+        LM_Debug("- previous form is " .. tostring(savedFormName))
 
         -- The logic here is really ugly.
 
         if inMountForm then
             if savedFormName then
-                LM_Debug("Setting action to cancelform + " .. savedFormName)
+                LM_Debug(" - setting action to cancelform + " .. savedFormName)
                 return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_CANCELFORM1, savedFormName))
             end
         elseif IsMounted() and curFormIndex == 0 then
             if savedFormName then
-                LM_Debug("Setting action to dismount + " .. savedFormName)
+                LM_Debug(" - setting action to dismount + " .. savedFormName)
                 return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_DISMOUNT1, savedFormName))
             end
         elseif curFormID and restoreFormIDs[curFormID] then
             local spellID = select(4, GetShapeshiftFormInfo(curFormIndex))
             local name = GetSpellNameWithSubtext(spellID)
-            LM_Debug("Saving current form " .. tostring(name) .. ".")
+            LM_Debug(" - saving current form " .. tostring(name))
             savedFormName = name
         else
-            LM_Debug("Clearing saved form.")
+            LM_Debug(" - clearing saved form")
             savedFormName = nil
         end
 
         if inMountForm and not LM_Options:IsExcludedMount(inMountForm) then
-            LM_Debug("Setting action to CancelForm.")
+            LM_Debug(" - setting action to cancelform")
             return LM_SecureAction:Macro(SLASH_CANCELFORM1)
         end
     end
@@ -187,7 +187,7 @@ ACTIONS['CopyTargetsMount'] =
     function (args, env)
         local unit = env.unit or "target"
         if LM_Options.db.profile.copyTargetsMount and UnitIsPlayer(unit) then
-            LM_Debug(format("Trying to clone %s's mount", unit))
+            LM_Debug(format(" - trying to clone %s's mount", unit))
             return LM_PlayerMounts:GetMountFromUnitAura(unit)
         end
     end
@@ -198,7 +198,7 @@ ACTIONS['SmartMount'] =
         args = ReplaceVars(args)
         local filteredList = env.mounts[1]:FilterSearch(unpack(args))
 
-        LM_Debug("Mount filtered list contains " .. #filteredList .. " mounts.")
+        LM_Debug(" - filtered list contains " .. #filteredList .. " mounts")
 
         if next(filteredList) == nil then return end
 
@@ -207,28 +207,28 @@ ACTIONS['SmartMount'] =
         local m
 
         if LM_Conditions:Check("[submerged]") then
-            LM_Debug("  Trying Swimming Mount (underwater)")
+            LM_Debug(" - trying Swimming Mount (underwater)")
             m = filteredList:FilterFind('SWIM')
             if m then return m end
         end
 
         if LM_Conditions:Check("[flyable]") then
-            LM_Debug("  Trying Flying Mount")
+            LM_Debug(" - trying Flying Mount")
             m = filteredList:FilterFind('FLY')
             if m then return m end
         end
 
         if LM_Conditions:Check("[floating,nowaterwalking]") then
-            LM_Debug("  Trying Swimming Mount (on the surface)")
+            LM_Debug(" - trying Swimming Mount (on the surface)")
             m = filteredList:FilterFind('SWIM')
             if m then return m end
         end
 
-        LM_Debug("  Trying Running Mount")
+        LM_Debug(" - trying Running Mount")
         m = filteredList:FilterFind('RUN')
         if m then return m end
 
-        LM_Debug("  Trying Walking Mount")
+        LM_Debug(" - trying Walking Mount")
         m = filteredList:FilterFind('WALK')
         if m then return m end
     end
@@ -237,14 +237,14 @@ ACTIONS['Mount'] =
     function (args, env)
         args = ReplaceVars(args)
         local filteredList = env.mounts[1]:FilterSearch(unpack(args))
-        LM_Debug("Mount filtered list contains " .. #filteredList .. " mounts.")
+        LM_Debug(" - filtered list contains " .. #filteredList .. " mounts")
         return filteredList:Random()
     end
 
 ACTIONS['Macro'] =
     function (args, env)
         if LM_Options.db.char.useUnavailableMacro then
-            LM_Debug("Using unavailable macro.")
+            LM_Debug(" - using unavailable macro")
             return LM_SecureAction:Macro(LM_Options.db.char.unavailableMacro, env.unit)
         end
     end
@@ -253,7 +253,7 @@ ACTIONS['Script'] =
     function (args, env)
         local macroText = table.concat(args, ' ')
         if SecureCmdOptionParse(macroText) then
-            LM_Debug("Running script line: " .. macroText)
+            LM_Debug(" - running script line: " .. macroText)
             return LM_SecureAction:Macro(macroText, env.unit)
         end
     end
@@ -265,13 +265,13 @@ ACTIONS['CantMount'] =
         -- LM_Warning("You don't know any mounts you can use right now.")
         LM_Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
 
-        LM_Debug("Setting action to can't mount now.")
+        LM_Debug(" - setting action to can't mount now")
         return LM_SecureAction:Macro("")
     end
 
 ACTIONS['Combat'] =
     function (args, env)
-        LM_Debug("Setting action to in-combat action.")
+        LM_Debug(" - setting action to in-combat action")
 
         if LM_Options.db.char.useCombatMacro then
             return LM_SecureAction:Macro(LM_Options.db.char.combatMacro)
@@ -293,7 +293,7 @@ ACTIONS['Use'] =
             if slot then
                 local s, d, e = GetInventoryItemCooldown('player', slot)
                 if s == 0 and e == 1 then
-                    LM_Debug('Setting action to Use ' .. slot)
+                    LM_Debug(' - Setting action to use slot ' .. slot)
                     return LM_SecureAction:Use(slot, env.unit)
                 end
             elseif name then
@@ -301,7 +301,7 @@ ACTIONS['Use'] =
                 if itemID and IsUsableItem(name) then
                     local s, d, e = GetItemCooldown(itemID)
                     if s == 0 and e == 1 then
-                        LM_Debug('Setting action to Use ' .. name)
+                        LM_Debug(' - setting action to use item ' .. name)
                         return LM_SecureAction:Use(name, env.unit)
                     end
                 end
