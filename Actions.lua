@@ -294,6 +294,7 @@ ACTIONS['Use'] =
                 local s, d, e = GetInventoryItemCooldown('player', slot)
                 if s == 0 and e == 1 then
                     LM_Debug('Setting action to Use ' .. slot)
+                    return LM_SecureAction:Use(slot, env.unit)
                 end
             elseif name then
                 local itemID = GetItemInfoInstant(name)

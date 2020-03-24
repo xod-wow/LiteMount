@@ -323,6 +323,22 @@ CONDITIONS["pet"] =
         end
     end
 
+CONDITIONS["profession"] =
+    function (cond, v)
+        if not v then return end
+        local professions = { GetProfessions() }
+        local n = tonumber(v)
+        if n then
+            return tContains(professions, n)
+        else
+            for _,id in ipairs(professions) do
+                if GetProfessionInfo(id) == v then
+                    return true
+                end
+            end
+        end
+    end
+
 CONDITIONS["pvp"] =
     function (cond)
         return UnitIsPVP("player")
