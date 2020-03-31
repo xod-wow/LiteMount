@@ -39,13 +39,13 @@ LeaveVehicle
 CancelForm
 Dismount
 CopyTargetsMount
-# Swimming mount to fly in Nazjatar with Budding Deepcoral.
+# Swimming mount to fly in Nazjatar with Budding Deepcoral
 Mount [map:1355,flyable,qfc:56766] mt:254
 # Vashj'ir seahorse is faster underwater there
 Mount [map:203,submerged] mt:232
 # AQ-only bugs in the raid zone
-Mount [map:319/320/321] mt:241
-# The Nagrand mounts can interact while mounted
+Mount [instance:531] mt:241
+# The Nagrand (WoD) mounts can interact while mounted
 Mount [map:550,noflyable,nosubmerged] 164222/165803
 # Use Arcanist's Manasaber if it will disguise you
 Mount [nosubmerged,extra:202477] id:881
