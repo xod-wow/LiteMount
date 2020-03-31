@@ -56,6 +56,10 @@ end
 
 function LM_Mount:MatchesFilter(flags, filterStr)
 
+    if self.name == filterStr then
+        return true
+    end
+
     local filters = { strsplit('/', filterStr) }
 
     -- These are all ORed so return true as soon as one is true
