@@ -75,7 +75,7 @@ local function GetKnownSpell(arg)
     -- so we don't need to call IsSpellKnown
     local name, _, _, _, _, _, spellID = GetSpellInfo(arg)
     if name and IsUsableSpell(name) then
-        return name, id
+        return name, spellID
     end
 end
 

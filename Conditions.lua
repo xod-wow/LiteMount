@@ -585,6 +585,7 @@ local cachedConditions = {}
 function LM_Conditions:Check(line)
     if not line then return end
 
+    local _, cond
     if not cachedConditions[line] then
         _, _, cond = LM_ActionList:ParseActionLine('DUMMY ' .. line)
         cachedConditions[line] = { cond }
