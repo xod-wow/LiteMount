@@ -31,19 +31,29 @@ customFlags is a table of flag names, with data about them (currently none)
 
 ----------------------------------------------------------------------------]]--
 
+-- Don't use names here, it will break in other locales
+
 local DefaultButtonAction = [[
+Spell [falling] 130, 1706, 131347, 125883
 LeaveVehicle
 CancelForm
 Dismount
 CopyTargetsMount
+# Swimming mount to fly in Nazjatar with Budding Deepcoral.
 Mount [map:1355,flyable,qfc:56766] mt:254
-Mount [map:203,submerged] VASHJIR
-Mount [map:319/320/321] AQ
-Mount [map:550,noflyable,nosubmerged] NAGRAND
-Mount [nosubmerged,extra:202477] 230987
-Mount [nosubmerged,aura:202477] 230987
-Limit [mod:shift,flyable][mod:shift,waterwalking] RUN/WALK,~FLY
-SmartMount {CLASS}
+# Vashj'ir seahorse is faster underwater there
+Mount [map:203,submerged] mt:232
+# AQ-only bugs in the raid zone
+Mount [map:319/320/321] mt:241
+# The Nagrand mounts can interact while mounted
+Mount [map:550,noflyable,nosubmerged] 164222/165803
+# Use Arcanist's Manasaber if it will disguise you
+Mount [nosubmerged,extra:202477] id:881
+Mount [nosubmerged,aura:202477] id:881
+IF [mod:shift,flyable][mod:shift,waterwalking]
+  Limit RUN/WALK,~FLY
+END
+SmartMount {CLASS}/{RACE}/{FACTION}
 SmartMount
 Macro
 ]]

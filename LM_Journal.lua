@@ -71,9 +71,9 @@ function LM_Journal:Get(id)
     elseif m.mountType == 231 then      -- riding/sea turtle
         m.flags['SWIM'] = true
     elseif m.mountType == 232 then      -- Vashj'ir Seahorse
-        m.flags['VASHJIR'] = true
+        -- no flags
     elseif m.mountType == 241 then      -- AQ-only bugs
-        m.flags['AQ'] = true
+        -- no flags
     elseif m.mountType == 247 then      -- Red Flying Cloud
         m.flags['FLY'] = true
     elseif m.mountType == 248 then      -- Flying mounts

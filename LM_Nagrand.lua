@@ -21,7 +21,7 @@ local FactionRequirements = {
 }
 
 function LM_Nagrand:Get(spellID)
-    local m = LM_Spell.Get(self, spellID, 'NAGRAND')
+    local m = LM_Spell.Get(self, spellID)
 
     if m then
         local playerFaction = UnitFactionGroup("player")

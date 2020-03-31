@@ -26,8 +26,6 @@ local locale = GetLocale()
 L.CUSTOM1               = CUSTOM .. " 1"
 L.CUSTOM2               = CUSTOM .. " 2"
 L.FAVORITES             = FAVORITES
-L.NAGRAND               = C_Map.GetMapInfo(550).name
-L.VASHJIR               = C_Map.GetMapInfo(203).name
 
 -- :r! sh fetchlocale.sh -------------------------------------------------------
 
