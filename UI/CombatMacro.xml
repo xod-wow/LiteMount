@@ -122,7 +122,7 @@
                     <Anchor point="TOP" y="-48" />
                     <Anchor point="LEFT" relativePoint="LEFT" relativeKey="$parent.EditBoxContainer" x="-50" />
                     <Anchor point="RIGHT" relativePoint="RIGHT" relativeKey="$parent.EditBoxContainer" x="50" />
-                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeKe="$parent.EditBoxContainer" />
+                    <Anchor point="BOTTOM" relativePoint="RIGHT" relativeKey="$parent.EditBoxContainer" />
                 </Anchors>
             </FontString>
 
