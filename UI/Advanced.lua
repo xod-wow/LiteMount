@@ -138,7 +138,7 @@ local function UpdateFlagScroll(self)
     local totalHeight = (#allFlags + 1) * buttons[1]:GetHeight()
     local displayedHeight = #buttons * buttons[1]:GetHeight()
 
-    local showAddButton
+    local showAddButton, index, button
 
     for i = 1, #buttons do
         button = buttons[i]
