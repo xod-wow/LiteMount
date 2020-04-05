@@ -387,6 +387,13 @@ CONDITIONS["role"] =
         end
     end
 
+CONDITIONS["sameunit:args"] =
+    function (cond, unit1, unit2)
+        if unit1 and unit2 then
+            return UnitIsUnit(unit1, unit2)
+        end
+    end
+
 CONDITIONS["sex"] =
     function (cond, v)
         if v then
