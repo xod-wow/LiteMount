@@ -16,20 +16,20 @@ Press key while moving to force travel form, ghost wolf or other instant-cast mo
 
 Jump out of water and press key within 1s to fly/float instead of swimming.
 
- 
+
 # Supporting LiteMount
 
 If you are a rich person and would like to support me, I would love you to buy me a mount from the Blizzard store.
 
 Otherwise, please continue to enjoy LiteMount for free and just have fun playing WoW.
 
- 
+
 # Localization
 
 LiteMount supports all languages. Please help with translations using this easy web interface:
 
 * [LiteMount Localization on CurseForge](https://www.curseforge.com/wow/addons/litemount/localization)
- 
+
 
 # Profiles
 
@@ -53,7 +53,7 @@ And these settings are per-character and not shared:
 * Combat macro.
 * Debugging enabled.
 
- 
+
 # Action Bar Macro
 
 To create a LiteMount macro you can drop onto your action bar, type into the chat box:
@@ -62,22 +62,22 @@ To create a LiteMount macro you can drop onto your action bar, type into the cha
 
 Once you have created the macro you can edit it if you wish, LiteMount will not change it unless you delete it and recreate it.
 
- 
+
 # Copying Target's Mount
 
 If you have a player targeted, LiteMount will try to copy the mount they are currently using. You can turn this awesome feature off in the settings.
 
- 
+
 # In-Combat Actions
 
 LiteMount cannot mount in combat. It has a default set of combat actions which can dismount you, exit vehicles, or cast Travel Form or Ghost Wolf.
 
- 
+
 # Getting Out of Water
 
 Jump out of the water and activate LiteMount within one second to fly, float or run away.
 
- 
+
 # For Druids
 
 Activate LiteMount while moving or jumping to activate Travel Form.
@@ -90,7 +90,7 @@ and the combat macro to
 
 ```/cast [indoors,swimming][outdoors] Travel Form(Shapeshift); [indoors] Cat Form(Shapeshift)```
 
- 
+
 # For Shamans
 
 Activate LiteMount while moving or jumping to activate Ghost Wolf.
@@ -99,19 +99,19 @@ Go into the settings and set the unavailable macro to
 
 ```/cast Ghost Wolf```
 
- 
+
 # Reporting Issues
 
 * [Reporting Issues with LiteMount](https://www.curseforge.com/wow/addons/litemount/issues)
 
- 
+
 # Mount Selection
 
 For information on how LiteMount chooses mounts, see:
 
 * [Mount Selection Priority](https://www.curseforge.com/wow/addons/litemount/pages/mount-selection-priority)
 
- 
+
 # Settings
 
 For information about customizing LiteMount using the settings interface, see:
@@ -129,21 +129,21 @@ For information about doing really clever things using the Advanced Options sett
 * [FAQ: Spec-specific Mounts](https://www.curseforge.com/wow/addons/litemount/pages/faq-spec-specific-mounts)
 * [FAQ: Single-type Action List](https://www.curseforge.com/wow/addons/litemount/pages/faq-single-type-action-list)
 
- 
+
 # Slash Commands
 
 For information about the LiteMount slash commands, see:
 
 * [Slash Commands](https://www.curseforge.com/wow/addons/litemount/pages/slash-commands)
 
- 
+
 # Using LiteMount in Your Macros
 
 For information on writing your own macros that incorporate LiteMount as well as other actions, see:
 
 * [LiteMount in Your Macros](https://www.curseforge.com/wow/addons/litemount/pages/litemount-in-your-macros)
 
- 
+
 # If This AddOn Seems Abandoned
 
 If more than two weeks go by after a major patch and LiteMount hasn't been updated, I've probably been hit by a bus. In that case I encourage anyone with the necessary ability to take over maintenance of the addon.
