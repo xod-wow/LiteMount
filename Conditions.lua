@@ -263,6 +263,13 @@ CONDITIONS["instance"] =
         return instanceType == v
     end
 
+CONDITIONS["jump"] =
+    function (cond)
+        if GetTime() - LM_Location.lastJumpTime < 2 then
+            return true
+        end
+    end
+
 CONDITIONS["map"] =
     function (cond, v)
         if v:sub(1,1) == '*' then
