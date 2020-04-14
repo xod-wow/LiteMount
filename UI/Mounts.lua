@@ -382,6 +382,12 @@ function LiteMountOptions_UpdateMountList()
 
     UpdateAllSelected(mounts)
 
+    if LM_UIFilter.IsFiltered() then
+        LiteMountOptionsMounts.FilterButton.ClearButton:Show()
+    else
+        LiteMountOptionsMounts.FilterButton.ClearButton:Hide()
+    end
+
     local totalHeight = scrollFrame.buttonHeight * #mounts
     local shownHeight = scrollFrame.buttonHeight * #buttons
 

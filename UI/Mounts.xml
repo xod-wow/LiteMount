@@ -297,14 +297,14 @@
             </Scripts>
         </EditBox>
 
-        <Button name="$parentFilterButton" inherits="UIMenuButtonStretchTemplate" text="FILTER">
+        <Button name="$parentFilterButton" parentKey="FilterButton" inherits="UIMenuButtonStretchTemplate" text="FILTER">
             <Size x="93" y="22" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.Search" relativePoint="RIGHT" x="12" y="-0.5" />
             </Anchors>
             <Layers>
                 <Layer level="ARTWORK">
-                    <Texture name="$parentIcon" parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
+                    <Texture parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
                         <Size x="10" y="12"/>
                         <Anchors>
                             <Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="RIGHT" x="-5"/>
@@ -317,6 +317,22 @@
                     ToggleDropDownMenu(1, nil, LiteMountOptionsMountsFilterDropDown, self:GetName(), 74, 15)
                 </OnClick>
             </Scripts>
+
+            <Frames>
+                <Button parentKey="ClearButton">
+                    <Size x="23" y="23" />
+                    <NormalTexture atlas="auctionhouse-ui-filter-redx" setallpoints="true" />
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="TOPRIGHT" x="-3" y="0" />
+                    </Anchors>
+                    <Scripts>
+                        <OnClick>
+                            LM_UIFilter.Clear()
+                            LiteMountOptions_UpdateMountList()
+                        </OnClick>
+                    </Scripts>
+                </Button>
+            </Frames>
         </Button>
 
         <Frame name="$parentFilterDropDown" inherits="UIDropDownMenuTemplate">
@@ -324,7 +340,6 @@
                 <OnLoad function="LiteMountOptionsMountsFilterDropDown_OnLoad" />
             </Scripts>
         </Frame>
-
     </Frames>
 
     <Layers>

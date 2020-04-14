@@ -17,6 +17,27 @@ _G.LM_UIFilter = {
     }
 
 
+-- Clear -----------------------------------------------------------------------
+
+function LM_UIFilter.Clear()
+    table.wipe(LM_Options.db.profile.uiMountFilterList)
+    table.wipe(LM_UIFilter.sourceFilterList)
+end
+
+function LM_UIFilter.IsFiltered()
+    if next(LM_UIFilter.sourceFilterList) ~= nil then
+        return true
+    end
+
+    for k,v in pairs(LM_Options.db.profile.uiMountFilterList) do
+        if v == true then
+            return true
+        end
+    end
+
+    return false
+end
+
 -- Fetch -----------------------------------------------------------------------
 
 -- Show all the collected mounts before the uncollected mounts, then by name
@@ -100,7 +121,7 @@ function LM_UIFilter.GetSourceText(i)
 end
 
 
--- Sources ---------------------------------------------------------------------
+-- Flags -----------------------------------------------------------------------
 
 function LM_UIFilter.IsFlagChecked(f)
     return not LM_Options.db.profile.uiMountFilterList[f]
