@@ -189,7 +189,7 @@ CONDITIONS["faction"] =
 
 CONDITIONS["falling"] =
     function (cond)
-        return IsFalling()
+        return IsFalling() and ( GetTime() - LM_Location.lastJumpTime > 1 )
     end
 
 CONDITIONS["false"] =
