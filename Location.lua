@@ -74,6 +74,8 @@ function LM_Location:Update()
     self.zoneText = GetZoneText()
     self.subZoneText = GetSubZoneText()
     self.instanceID = select(8, GetInstanceInfo())
+
+    LM_Options:RecordInstance()
 end
 
 function LM_Location:PLAYER_LOGIN()
