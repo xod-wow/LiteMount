@@ -159,7 +159,7 @@ end
 
 function LM_Options:Initialize()
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
-    self.db.instances = self.db.instances or {}
+    self.db.global.instances = self.db.global.instances or {}
     self:VersionUpgrade()
     self:ConsistencyCheck()
     self:UpdateAllFlags()
@@ -387,7 +387,7 @@ end
 
 function LM_Options:RecordInstance()
     local name, _, _, _, _, _, _, id = GetInstanceInfo()
-    if not self.db.instances[id] then
-        self.db.instances[id] = name
+    if not self.db.global.instances[id] then
+        self.db.global.instances[id] = name
     end
 end
