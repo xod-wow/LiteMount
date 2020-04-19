@@ -141,6 +141,7 @@ local InstanceNotFlyable = {
     [1688] = true,          -- The Deadmines (Pet Battle)
     [1760] = true,          -- Ruins of Lordaeron BfA opening
     [1763] = true,          -- Atal'Dazar instance
+    [1803] = true,          -- Battleground: Seething Shore
     [1813] = true,          -- Island Expedition Un'gol Ruins
     [1814] = true,          -- Island Expedition Havenswood
     [1879] = true,          -- Island Expedition Jorundall
