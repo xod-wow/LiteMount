@@ -286,6 +286,29 @@ ACTIONS['Stop'] =
         return LM_SecureAction:Macro("")
     end
 
+local function IsCastableItem(item)
+    if not item then
+        return false
+    end
+
+    local itemID = GetItemInfoInstant(item)
+
+    if not itemID or not IsUsableItem(itemID) then
+        return false
+    end
+
+    if IsEquippableItem(itemID) and not IsEquippedItem(itemID) then
+        return false
+    end
+
+    local s, d, e = GetItemCooldown(itemID)
+    if s == 0 and e == 1 then
+        return true
+    end
+
+    return false
+end
+
 ACTIONS['Use'] =
     function (args, env)
         for _, arg in ipairs(args) do
@@ -297,13 +320,9 @@ ACTIONS['Use'] =
                     return LM_SecureAction:Use(slot, env.unit)
                 end
             elseif name then
-                local itemID = GetItemInfoInstant(name)
-                if itemID and IsUsableItem(name) then
-                    local s, d, e = GetItemCooldown(itemID)
-                    if s == 0 and e == 1 then
-                        LM_Debug(' - setting action to use item ' .. name)
-                        return LM_SecureAction:Use(name, env.unit)
-                    end
+                if IsCastableItem(name) then
+                    LM_Debug(' - setting action to use item ' .. name)
+                    return LM_SecureAction:Use(name, env.unit)
                 end
             end
         end
