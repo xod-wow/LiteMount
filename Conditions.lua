@@ -410,9 +410,9 @@ CONDITIONS["role"] =
     end
 
 CONDITIONS["sameunit:args"] =
-    function (cond, unit, unit1, unit2)
+    function (cond, unit, unit1)
         if unit1 then
-            return UnitIsUnit(unit1, unit2 or unit or "player")
+            return UnitIsUnit(unit1, unit or "player")
         end
     end
 
