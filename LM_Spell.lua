@@ -17,7 +17,7 @@ LM_Spell.__index = LM_Spell
 
 function LM_Spell:Get(spellID, ...)
 
-    local name, rank, icon = GetSpellInfo(spellID)
+    local name, _, icon = GetSpellInfo(spellID)
 
     if not name then
         LM_Debug("LM_Mount: Failed GetSpellInfo #"..spellID)

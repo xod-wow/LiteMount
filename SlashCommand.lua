@@ -78,7 +78,7 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
 
     if cmd == "macro" or cmd == strlower(MACRO) then
         local i = CreateOrUpdateMacro()
-       if i then PickupMacro(i) end
+        if i then PickupMacro(i) end
         return true
     elseif cmd == "toggle" or cmd == "enable" or cmd == "disable" then
         UpdateActiveMount(cmd)
@@ -102,9 +102,8 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
         end
         return true
     elseif cmd == "mounts" then
-        local m
         if not args[1] then
-            m = LM_PlayerMounts:GetMountFromUnitAura("player")
+            local m = LM_PlayerMounts:GetMountFromUnitAura("player")
             if m then m:Dump() end
         else
             local n = string.lower(table.concat(args, ' '))

@@ -167,7 +167,6 @@ function LM_Location:CanFly()
         return false
     end
 
-    -- XXX FIXME XXX 
     if InstanceNotFlyable[self.instanceID] then
         return false
     end

@@ -135,7 +135,7 @@ CONDITIONS["draw:args"] =
             for i = 1,x do cond.deck[i] = true end
             for i = x+1,y do cond.deck[i] = false end
         end
-        if cond.deckIndex > #cond.deck then 
+        if cond.deckIndex > #cond.deck then
             -- shuffle
             for i = #cond.deck, 2, -1 do
                 local j = math.random(i)
@@ -158,7 +158,7 @@ CONDITIONS["equipped"] =
             return true
         end
 
-        local v = tonumber(v) or v
+        v = tonumber(v) or v
         if IsEquippedItem(v) then
             return true
         end

@@ -64,16 +64,18 @@ ACTIONS['Endlimit'] =
     end
 
 local function GetKnownSpell(arg)
+    local spellID, name, _
+
     -- You can look up any spell from any class by number so we have to
     -- test numbers to see if we know them
-    local spellID = tonumber(arg)
+    spellID = tonumber(arg)
     if spellID and not IsSpellKnown(spellID) then
         return
     end
 
     -- For names, GetSpellInfo returns nil if it's not in your spellbook
     -- so we don't need to call IsSpellKnown
-    local name, _, _, _, _, _, spellID = GetSpellInfo(arg)
+    name, _, _, _, _, _, spellID = GetSpellInfo(arg)
     if name and IsUsableSpell(name) then
         return name, spellID
     end

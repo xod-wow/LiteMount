@@ -17,7 +17,7 @@ if LibDebug then LibDebug() end
   A primer reminder for me on LUA metatables and doing OO stuff in
   them.  If you rewrite this from scratch don't make it OO, OK.
   See also: http://www.lua.org/pil/13.html
- 
+
   You can set a "metatable" on a table with
     setmetatable(theTable, theMetaTable)
 
