@@ -176,7 +176,7 @@ CONDITIONS["exists"] =
 
 -- Check for an extraactionbutton, optionally with a specific spell
 CONDITIONS["extra"] =
-    function (cond, v)
+    function (cond, unit, v)
         if HasExtraActionBar() and HasAction(169) then
             if v then
                 local aType, aID = GetActionInfo(169)
