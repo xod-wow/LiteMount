@@ -42,7 +42,6 @@ local L = LM_Localize
 local function UnitHasAura(unit, spellID, filter)
     local i = 1
     local auraID
-    unit = unit or "player"
     while true do
         auraID = select(10, UnitAura(unit, i, filter))
         if not auraID then
@@ -56,7 +55,7 @@ local function UnitHasAura(unit, spellID, filter)
 end
 
 -- If any condition starts with "no" we're screwed
--- ":args" functions take a fixed set of arguments rather than 0 or one with / separators
+-- ":args" functions take a fixed set of arguments rather using / for OR
 
 local CONDITIONS = { }
 
@@ -71,6 +70,8 @@ CONDITIONS["aura"] =
         if not v then
             return
         end
+
+        unit = unit or "player"
 
         if UnitHasAura(unit, v) or UnitHasAura(unit, v, "HARMFUL") then
             return true
