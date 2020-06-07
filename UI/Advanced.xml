@@ -219,7 +219,7 @@
             </Anchors>
             <Scripts>
                 <OnLoad>
-                    self.url = 'https://www.curseforge.com/wow/addons/litemount/pages/advanced-options'
+                    self.url = 'https://github.com/xod-wow/LiteMount/wiki/Advanced-Options'
                 </OnLoad>
                 <OnShow>
                     self:SetText(self.url)
