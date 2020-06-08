@@ -122,7 +122,6 @@ ACTIONS['Dismount'] =
 -- Form IDs that you put here must be cancelled automatically on
 -- mounting.
 
-local savedFormName
 local restoreFormIDs = {
     [1] = true,     -- Cat Form
     [5] = true,     -- Bear Form
@@ -146,13 +145,25 @@ local function GetSpellNameWithSubtext(id)
     return format('%s(%s)', n, s)
 end
 
+local savedFormName
+
 ACTIONS['CancelForm'] =
     function (args, env)
         LM_Debug(" - trying CancelForm")
 
-        local curFormIndex = GetShapeshiftForm()
-        local curFormID = GetShapeshiftFormID()
-        local inMountForm = curFormIndex > 0 and LM_PlayerMounts:GetMountByShapeshiftForm(curFormIndex)
+        local currentFormIndex = GetShapeshiftForm()
+        local currentFormID = GetShapeshiftFormID()
+        local inMountForm = currentFormIndex > 0 and LM_PlayerMounts:GetMountByShapeshiftForm(currentFormIndex)
+
+        -- Check for the bad Travel Form from casting it in combat and
+        -- don't consider that to be mounted
+
+        if currentFormID == 27 then
+            local _, run, fly, swim = GetUnitSpeed('player')
+            if fly < run then
+                inMountForm = false
+            end
+        end
 
         LM_Debug("- previous form is " .. tostring(savedFormName))
 
@@ -161,15 +172,19 @@ ACTIONS['CancelForm'] =
         if inMountForm then
             if savedFormName then
                 LM_Debug(" - setting action to cancelform + " .. savedFormName)
-                return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_CANCELFORM1, savedFormName))
+                local macro = format("%s\n/cast %s", SLASH_CANCELFORM1, savedFormName)
+                savedFormName = nil
+                return LM_SecureAction:Macro(macro)
             end
-        elseif IsMounted() and curFormIndex == 0 then
+        elseif IsMounted() and currentFormIndex == 0 then
             if savedFormName then
                 LM_Debug(" - setting action to dismount + " .. savedFormName)
-                return LM_SecureAction:Macro(format("%s\n/cast %s", SLASH_DISMOUNT1, savedFormName))
+                local macro = format("%s\n/cast %s", SLASH_DISMOUNT1, savedFormName)
+                savedFormName = nil
+                return LM_SecureAction:Macro(macro)
             end
-        elseif curFormID and restoreFormIDs[curFormID] then
-            local spellID = select(4, GetShapeshiftFormInfo(curFormIndex))
+        elseif curFormID and restoreFormIDs[currentFormID] then
+            local spellID = select(4, GetShapeshiftFormInfo(currentFormIndex))
             local name = GetSpellNameWithSubtext(spellID)
             LM_Debug(" - saving current form " .. tostring(name))
             savedFormName = name
