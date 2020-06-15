@@ -183,7 +183,7 @@ ACTIONS['CancelForm'] =
                 savedFormName = nil
                 return LM_SecureAction:Macro(macro)
             end
-        elseif curFormID and restoreFormIDs[currentFormID] then
+        elseif currentFormID and restoreFormIDs[currentFormID] then
             local spellID = select(4, GetShapeshiftFormInfo(currentFormIndex))
             local name = GetSpellNameWithSubtext(spellID)
             LM_Debug(" - saving current form " .. tostring(name))
