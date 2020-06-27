@@ -115,11 +115,21 @@ CONDITIONS["combat"] =
         return UnitAffectingCombat(unit) or UnitAffectingCombat(petunit)
     end
 
--- For completeness, as far as I know. Note that this diverges from the
--- macro [dead] which is applied to "target".
+-- For completeness, as far as I know.
 CONDITIONS["dead"] =
     function (cond, unit)
-        return UnitIsDead(unit or "player")
+        return UnitIsDead(unit or "target")
+    end
+
+-- https://wow.gamepedia.com/DifficultyID
+CONDITIONS["difficulty"] =
+    function (cond, unit, v)
+        if v then
+            local id, name = select(3, GetInstanceInfo())
+            if id == tonumber(v) or name == v then
+                return true
+            end
+        end
     end
 
 -- Persistent "deck of cards" draw randomness
