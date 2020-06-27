@@ -115,10 +115,10 @@ CONDITIONS["combat"] =
         return UnitAffectingCombat(unit) or UnitAffectingCombat(petunit)
     end
 
--- For completeness, as far as I know.
+--- Note that this diverges from the macro [dead] defaults to "target".
 CONDITIONS["dead"] =
     function (cond, unit)
-        return UnitIsDead(unit or "target")
+        return UnitIsDead(unit or "player")
     end
 
 -- https://wow.gamepedia.com/DifficultyID
