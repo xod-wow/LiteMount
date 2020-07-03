@@ -28,7 +28,7 @@ FLOWCONTROLS['IF'] =
         table.insert(env.flowControl, isTrue)
     end
 
-FLOWCONTROLS['ELSIF'] =
+FLOWCONTROLS['ELSEIF'] =
     function (args, env, isTrue)
         table.remove(env.flowControl)
         table.insert(env.flowControl, isTrue)
@@ -36,8 +36,10 @@ FLOWCONTROLS['ELSIF'] =
 
 FLOWCONTROLS['ELSE'] =
     function (args, env, isTrue)
-        local n = #env.flowConrol
-        env.flowControl[n] = not env.flowControl[n]
+        local n = #env.flowControl
+        if n > 0 then
+            env.flowControl[n] = not env.flowControl[n]
+        end
     end
 
 FLOWCONTROLS['END'] =
