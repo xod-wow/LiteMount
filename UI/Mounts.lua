@@ -28,7 +28,6 @@ function LiteMountOptionsBit_OnClick(self)
     else
         LM_Options:ClearMountFlag(mount, self.flag)
     end
-    LiteMountOptions_UpdateMountList()
 end
 
 -- Because we get attached inside the blizzard options container, we
@@ -315,7 +314,6 @@ function LiteMountOptions_AllSelect_OnClick(self)
     end
 
     self:GetScript("OnEnter")(self)
-    LiteMountOptions_UpdateMountList()
 
 end
 

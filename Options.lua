@@ -63,16 +63,16 @@ Macro
 
 local defaults = {
     global = {
-        customFlags         = { },
-        flagChanges         = { },
     },
     profile = {
+        customFlags         = { },
+        flagChanges         = { },
         excludedSpells      = { },
         buttonActions       = { ['*'] = DefaultButtonAction },
         copyTargetsMount    = true,
         enableTwoPress      = false,
         excludeNewMounts    = false,
-        uiMountFilterList   = { UNUSABLE = true },
+        uiMountFilterList   = { },
     },
     char = {
         unavailableMacro    = "",
@@ -105,7 +105,7 @@ local function FlagDiff(allFlags, a, b)
 end
 
 function LM_Options:FlagIsUsed(f)
-    for spellID,changes in pairs(self.db.global.flagChanges) do
+    for spellID,changes in pairs(self.db.profile.flagChanges) do
         if changes[f] then return true end
     end
     return false
@@ -125,36 +125,44 @@ function LM_Options:VersionUpgrade()
         self.db.char.uiMountFilterList = nil
     end
 
-    if (self.db.global.configVersion or 3) < 3 then
-        local gfc = self.db.global.flagChanges
-
-        -- Merge all of the profile flagChanges into one global one
-        for _,p in pairs(self.db.profiles) do
-            for spellID,changes in pairs(p.flagChanges or {}) do
-                gfc[spellID] = Mixin(gfc[spellID] or {}, changes)
+    if (self.db.global.configVersion or 4) < 4 then
+        -- And move them all back again...
+        if self.db.global.flagChanges then
+            for _,p in pairs(self.db.profiles) do
+                p.flagChanges = CopyTable(self.db.global.flagChanges)
             end
-            p.flagChanges = nil
+            self.db.global.flagChanges = nil
+        end
+        if self.db.global.customFlags then
+            for _,p in pairs(self.db.profiles) do
+                p.customFlags = CopyTable(self.db.global.customFlags)
+            end
+            self.db.global.customFlags = nil
         end
     end
 
     -- Set current version
-    self.db.global.configVersion = 3
-    self.db.profile.configVersion = 3
-    self.db.char.configVersion = 3
+    self.db.global.configVersion = 4
+    self.db.profile.configVersion = 4
+    self.db.char.configVersion = 4
 end
 
 function LM_Options:ConsistencyCheck()
-
     -- Make sure any flag is included in the flag list
-
-    for spellID,changes in pairs(self.db.global.flagChanges) do
-        for f in pairs(changes) do
-            if LM_FLAG[f] == nil and self.db.global.customFlags[f] == nil then
-                self.db.global.customFlags[f] = { }
+    for _,p in pairs(self.db.profiles) do
+        for spellID,changes in pairs(p.flagChanges) do
+            for f in pairs(changes) do
+                if LM_FLAG[f] == nil and p.customFlags[f] == nil then
+                    p.customFlags[f] = { }
+                end
             end
         end
     end
+end
 
+function LM_Options:OnProfile()
+    self:UpdateFlagCache()
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM_Options:Initialize()
@@ -162,7 +170,10 @@ function LM_Options:Initialize()
     self.db.global.instances = self.db.global.instances or {}
     self:VersionUpgrade()
     self:ConsistencyCheck()
-    self:UpdateAllFlags()
+    self:UpdateFlagCache()
+    self.db.RegisterCallback(self, "OnProfileChanged", self.OnProfile, self)
+    self.db.RegisterCallback(self, "OnProfilecopied", self.OnProfile, self)
+    self.db.RegisterCallback(self, "OnProfileReset", self.OnProfile, self)
 end
 
 
@@ -192,20 +203,20 @@ end
 function LM_Options:AddExcludedMount(m)
     LM_Debug(format("Disabling mount %s (%d).", m.name, m.spellID))
     self.db.profile.excludedSpells[m.spellID] = true
-    self.db.callbacks:Fire("OnMountSetExclude", m)
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM_Options:RemoveExcludedMount(m)
     LM_Debug(format("Enabling mount %s (%d).", m.name, m.spellID))
     self.db.profile.excludedSpells[m.spellID] = false
-    self.db.callbacks:Fire("OnMountSetExclude", m)
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM_Options:ToggleExcludedMount(m)
     local id = m.spellID
     LM_Debug(format("Toggling mount %s (%d).", m.name, id))
     self.db.profile.excludedSpells[id] = not self.db.profile.excludedSpells[id]
-    self.db.callbacks:Fire("OnMountSetExclude", m)
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM_Options:SetExcludedMounts(mountlist)
@@ -225,7 +236,7 @@ end
 function LM_Options:ApplyMountFlags(m)
 
     if not self.cachedMountFlags[m.spellID] then
-        local changes = self.db.global.flagChanges[m.spellID]
+        local changes = self.db.profile.flagChanges[m.spellID]
         self.cachedMountFlags[m.spellID] = CopyTable(m.flags)
 
         if changes then
@@ -255,6 +266,7 @@ function LM_Options:SetMountFlag(m, setFlag)
         if m.SetFavorite ~= nil then
             m:SetFavorite(true)
         end
+        self.db.callbacks:Fire("OnOptionsModified")
         return
     end
 
@@ -285,13 +297,14 @@ end
 
 function LM_Options:ResetMountFlags(m)
     LM_Debug(format("Defaulting flags for spell %s (%d).", m.name, m.spellID))
-    self.db.global.flagChanges[m.spellID] = nil
+    self.db.profile.flagChanges[m.spellID] = nil
     self.cachedMountFlags[m.spellID] = nil
 end
 
 function LM_Options:SetMountFlags(m, flags)
-    self.db.global.flagChanges[m.spellID] = FlagDiff(self.allFlags, m.flags, flags)
+    self.db.profile.flagChanges[m.spellID] = FlagDiff(self.allFlags, m.flags, flags)
     self.cachedMountFlags[m.spellID] = nil
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 
@@ -312,22 +325,22 @@ function LM_Options:IsValidFlagName(n)
 end
 
 function LM_Options:CreateFlag(f)
-    if self.db.global.customFlags[f] then return end
+    if self.db.profile.customFlags[f] then return end
     if self:IsPrimaryFlag(f) then return end
-    self.db.global.customFlags[f] = { }
+    self.db.profile.customFlags[f] = { }
     self.db.profile.uiMountFilterList[f] = false
-    self:UpdateAllFlags()
-    self.db.callbacks:Fire("OnFlagsModified")
+    self:UpdateFlagCache()
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM_Options:DeleteFlag(f)
-    for _,c in pairs(self.db.global.flagChanges) do
+    for _,c in pairs(self.db.profile.flagChanges) do
         c[f] = nil
     end
     self.db.profile.uiMountFilterList[f] = nil
-    self.db.global.customFlags[f] = nil
-    self:UpdateAllFlags()
-    self.db.callbacks:Fire("OnFlagsModified")
+    self.db.profile.customFlags[f] = nil
+    self:UpdateFlagCache()
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM_Options:RenameFlag(f, newF)
@@ -337,7 +350,7 @@ function LM_Options:RenameFlag(f, newF)
     -- all this "tmp" stuff is to deal with f == newF, just in case
     local tmp
 
-    for _,c in pairs(self.db.global.flagChanges) do
+    for _,c in pairs(self.db.profile.flagChanges) do
         tmp = c[f]
         c[f] = nil
         c[newF] = tmp
@@ -349,23 +362,23 @@ function LM_Options:RenameFlag(f, newF)
         p.uiMountFilterList[newF] = tmp
     end
 
-    tmp = self.db.global.customFlags[f]
-    self.db.global.customFlags[f] = nil
-    self.db.global.customFlags[newF] = tmp
+    tmp = self.db.profile.customFlags[f]
+    self.db.profile.customFlags[f] = nil
+    self.db.profile.customFlags[newF] = tmp
 
-    self:UpdateAllFlags()
-    self.db.callbacks:Fire("OnFlagsModified")
+    self:UpdateFlagCache()
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 -- This keeps a cached list of all flags in sort order, with the LM_FLAG
 -- set of flags first, then the user-added flags in alphabetical order
 
-function LM_Options:UpdateAllFlags()
+function LM_Options:UpdateFlagCache()
     self.cachedMountFlags = wipe(self.cachedMountFlags or {})
     self.allFlags = wipe(self.allFlags or {})
 
     for f in pairs(LM_FLAG) do tinsert(self.allFlags, f) end
-    for f in pairs(self.db.global.customFlags) do tinsert(self.allFlags, f) end
+    for f in pairs(self.db.profile.customFlags) do tinsert(self.allFlags, f) end
 
     sort(self.allFlags,
         function (a, b)
@@ -382,6 +395,9 @@ function LM_Options:UpdateAllFlags()
 end
 
 function LM_Options:GetAllFlags()
+    if not self.allFlags then
+        self:UpdateFlagCache()
+    end
     return CopyTable(self.allFlags)
 end
 
