@@ -172,7 +172,7 @@ function LM_Options:Initialize()
     self:ConsistencyCheck()
     self:UpdateFlagCache()
     self.db.RegisterCallback(self, "OnProfileChanged", self.OnProfile, self)
-    self.db.RegisterCallback(self, "OnProfilecopied", self.OnProfile, self)
+    self.db.RegisterCallback(self, "OnProfileCopied", self.OnProfile, self)
     self.db.RegisterCallback(self, "OnProfileReset", self.OnProfile, self)
 end
 
