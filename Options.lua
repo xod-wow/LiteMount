@@ -125,17 +125,20 @@ function LM_Options:VersionUpgrade()
         self.db.char.uiMountFilterList = nil
     end
 
+    -- Version 3 moved flag stuff global, and now version 4 is putting them
+    -- back into profile. I hope I'm not making the same mistakes all over
+    -- again. "Those who cannot remember the past are condemned to repeat it."
+
     if (self.db.global.configVersion or 4) < 4 then
-        -- And move them all back again...
         if self.db.global.flagChanges then
             for _,p in pairs(self.db.profiles) do
-                p.flagChanges = CopyTable(self.db.global.flagChanges)
+                Mixin(p.flagChanges, self.db.global.flagChanges)
             end
             self.db.global.flagChanges = nil
         end
         if self.db.global.customFlags then
             for _,p in pairs(self.db.profiles) do
-                p.customFlags = CopyTable(self.db.global.customFlags)
+                Mixin(p.customFlags, self.db.global.customFlags)
             end
             self.db.global.customFlags = nil
         end
