@@ -27,21 +27,6 @@ local function CreateOrUpdateMacro()
     return index
 end
 
-local function UpdateActiveMount(arg)
-    local m = LM_PlayerMounts:GetMountFromUnitAura("player")
-    if not m then return end
-
-    local mDisabled = LM_Options:IsExcludedMount(m)
-
-    if arg == "enable" or (arg == "toggle" and mDisabled) then
-        LM_Print(format(L.LM_ENABLING_MOUNT, m.name))
-        LM_Options:RemoveExcludedMount(m)
-    elseif arg == "disable" or (arg == "toggle" and not mDisabled) then
-        LM_Print(format(L.LM_DISABLING_MOUNT, m.name))
-        LM_Options:AddExcludedMount(m)
-    end
-end
-
 local function IsTrue(x)
     if x == nil or x == false or x == "0" or x == "off" then
         return false
@@ -80,8 +65,9 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
         local i = CreateOrUpdateMacro()
         if i then PickupMacro(i) end
         return true
-    elseif cmd == "toggle" or cmd == "enable" or cmd == "disable" then
-        UpdateActiveMount(cmd)
+    elseif cmd == "priority" then
+        local mount = LM_PlayerMounts:GetActiveMount()
+        LM_Options:SetPriority(mount, tonumber(args[1]))
         return true
     elseif cmd == "location" then
         LM_Print(LOCATION_COLON)

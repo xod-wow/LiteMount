@@ -210,7 +210,7 @@ ACTIONS['CancelForm'] =
             savedFormName = nil
         end
 
-        if inMountForm and not LM_Options:IsExcludedMount(inMountForm) then
+        if inMountForm and LM_Options:GetPriority(inMountForm) > 0 then
             LM_Debug(" - setting action to cancelform")
             return LM_SecureAction:Macro(SLASH_CANCELFORM1)
         end
@@ -241,28 +241,28 @@ ACTIONS['SmartMount'] =
 
         if LM_Conditions:Check("[submerged]") then
             LM_Debug(" - trying Swimming Mount (underwater)")
-            m = filteredList:FilterSearch('SWIM'):Random()
+            m = filteredList:FilterSearch('SWIM'):PriorityRandom()
             if m then return m end
         end
 
         if LM_Conditions:Check("[flyable]") then
             LM_Debug(" - trying Flying Mount")
-            m = filteredList:FilterSearch('FLY'):Random()
+            m = filteredList:FilterSearch('FLY'):PriorityRandom()
             if m then return m end
         end
 
         if LM_Conditions:Check("[floating,nowaterwalking]") then
             LM_Debug(" - trying Swimming Mount (on the surface)")
-            m = filteredList:FilterSearch('SWIM'):Random()
+            m = filteredList:FilterSearch('SWIM'):PriorityRandom()
             if m then return m end
         end
 
         LM_Debug(" - trying Running Mount")
-        m = filteredList:FilterSearch('RUN'):Random()
+        m = filteredList:FilterSearch('RUN'):PriorityRandom()
         if m then return m end
 
         LM_Debug(" - trying Walking Mount")
-        m = filteredList:FilterSearch('WALK'):Random()
+        m = filteredList:FilterSearch('WALK'):PriorityRandom()
         if m then return m end
     end
 
@@ -270,7 +270,7 @@ ACTIONS['Mount'] =
     function (args, env)
         local filters = ReplaceVars(tJoin(env.filters[1], args))
         LM_Debug(" - filters: " .. table.concat(filters, ' '))
-        return LM_PlayerMounts:FilterSearch(unpack(filters)):Random()
+        return LM_PlayerMounts:FilterSearch(unpack(filters)):PriorityRandom()
     end
 
 ACTIONS['Macro'] =
@@ -387,13 +387,13 @@ function LM_Actions:DefaultCombatMacro()
     if playerClass ==  "DRUID" then
         local forms = GetDruidMountForms()
         local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL.TRAVEL_FORM)
-        if mount and not LM_Options:IsExcludedMount(mount) then
+        if mount and LM_Options:GetPriority(mount) > 0 then
             mt = mt .. format("/cast [noform:%s] %s\n", forms, mount.name)
             mt = mt .. format("/cancelform [form:%s]\n", forms)
         end
     elseif playerClass == "SHAMAN" then
         local mount = LM_PlayerMounts:GetMountBySpell(LM_SPELL.GHOST_WOLF)
-        if mount and not LM_Options:IsExcludedMount(mount) then
+        if mount and LM_Options:GetPriority(mount) > 0 then
             local s = GetSpellInfo(LM_SPELL.GHOST_WOLF)
             mt = mt .. "/cast [noform] " .. s .. "\n"
             mt = mt .. "/cancelform [form]\n"

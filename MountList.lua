@@ -120,21 +120,20 @@ function LM_MountList:PriorityRandom()
         priorityCounts[p] = ( priorityCounts[p] or 0 ) + 1
     end
 
-    -- Each priority bucket above 0 is 2 times more likely than the previous.
-
     local weights, totalWeight = {}, 0
 
     for i,m in ipairs(self) do
-        local p = LM_Options:GetPriority(m)
-        if p == 0 then
-            weights[i] = 0
-        else
-            weights[i] = 2^(p-1) / priorityCounts[p]
-        end
+        local p, w  = LM_Options:GetPriority(m)
+        weights[i] = w / priorityCounts[p]
         totalWeight = totalWeight + weights[i]
     end
 
     local r = math.random() * totalWeight
+
+    LM_Debug(format(' n = ' .. tostring(#self)))
+    LM_Debug(format(' totalWeight = ' .. tostring(totalWeight)))
+    LM_Debug(format(' r = ' .. tostring(r)))
+
     local t = 0
     for i = 1, #self do
         t = t + weights[i]

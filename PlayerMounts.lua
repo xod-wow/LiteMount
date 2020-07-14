@@ -66,7 +66,7 @@ function LM_PlayerMounts:Initialize()
     self:AddJournalMounts()
 
     for _,m in ipairs(self.mounts) do
-        LM_Options:InitializeExcludedMount(m)
+        LM_Options:InitializePriority(m)
     end
 
     -- Refresh event setup
@@ -84,14 +84,6 @@ end
 
 function LM_PlayerMounts:AddMount(m)
     tinsert(self.mounts, m)
-end
-
-function LM_PlayerMounts:Random()
-    return self.mounts:Random()
-end
-
-function LM_PlayerMounts:PriorityRandom()
-    return self.mounts:PriorityRandom()
 end
 
 function LM_PlayerMounts:AddJournalMounts()
@@ -142,6 +134,10 @@ function LM_PlayerMounts:GetMountFromUnitAura(unitid)
         return m.isCollected and buffs[spellName] and m:IsCastable()
     end
     return self.mounts:Find(match)
+end
+
+function LM_PlayerMounts:GetActiveMount()
+    return self:GetMountFromUnitAura('player')
 end
 
 function LM_PlayerMounts:GetMountByName(name)

@@ -40,7 +40,7 @@ function LM_Mount:MatchesOneFilter(flags, f)
     if f == "CASTABLE" then
         if self:IsCastable() then return true end
     elseif f == "ENABLED" then
-        if LM_Options:IsExcludedMount(self) ~= true then return true end
+        if LM_Options:GetPriority(self) > 0 then return true end
     elseif tonumber(f) then
         if self.spellID == tonumber(f) then return true end
     elseif f:sub(1, 3) == 'id:' then
@@ -136,6 +136,6 @@ function LM_Mount:Dump(prefix)
     LM_Print(prefix .. " isCollected: " .. tostring(self.isCollected))
     LM_Print(prefix .. " isFavorite: " .. tostring(self.isFavorite))
     LM_Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))
-    LM_Print(prefix .. " excluded: " .. tostring(LM_Options:IsExcludedMount(self)))
+    LM_Print(prefix .. " priority: " .. tostring(LM_Options:GetPriority(self)))
     LM_Print(prefix .. " castable: " .. tostring(self:IsCastable()) .. " (spell " .. tostring(IsUsableSpell(self.spellID)) .. ")")
 end

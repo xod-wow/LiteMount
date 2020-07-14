@@ -12,6 +12,9 @@
 if LibDebug then LibDebug() end
 --@end-debug@
 
+local MIN_PRIORITY, MAX_PRIORITY = 0, 3
+local DEFAULT_PRIORITY, DISABLED_PRIORITY = 1, 0
+
 --[[----------------------------------------------------------------------------
 
 excludedSpells is a table of spell ids the player has seen before, with
@@ -68,12 +71,12 @@ local defaults = {
     profile = {
         customFlags         = { },
         flagChanges         = { },
-        excludedSpells      = { },
+        mountPriorities     = { },
         buttonActions       = { ['*'] = DefaultButtonAction },
         copyTargetsMount    = true,
         enableTwoPress      = false,
         excludeNewMounts    = false,
-        uiMountFilterList   = { },
+        priorityWeights     = { 1, 2, 8 },
     },
     char = {
         unavailableMacro    = "",
@@ -138,15 +141,24 @@ function LM_Options:VersionUpgrade()
                 p.flagChanges[spellID] = Mixin(p.flagChanges[spellID] or {}, changes)
             end
             Mixin(p.customFlags, self.db.global.customFlags or {})
-            self.db.profile.configVersion = 4
+            p.configVersion = 4
         end
         self.db.global.customFlags = nil
         self.db.global.flagChanges = nil
     end
 
+    -- Removed any persistance for the GUI filters
+
+    if (self.db.global.configVersion or 5) < 5 then
+        for _,p in pairs(self.db.profiles) do
+            p.uiMountFilterList = nil
+            p.configVersion = 5
+        end
+    end
+
     -- Set current version
-    self.db.global.configVersion = 4
-    self.db.char.configVersion = 4
+    self.db.global.configVersion = 5
+    self.db.char.configVersion = 5
 end
 
 function LM_Options:ConsistencyCheck()
@@ -177,55 +189,51 @@ end
 
 
 --[[----------------------------------------------------------------------------
-    Excluded Mount stuff.
+    Mount priorities stuff.
 ----------------------------------------------------------------------------]]--
 
-function LM_Options:IsExcludedMount(m)
-    return self.db.profile.excludedSpells[m.spellID] == true
+function LM_Options:GetPriority(m)
+    local p = self.db.profile.mountPriorities[m.spellID]
+    return p, (self.db.profile.priorityWeights[p] or 0)
 end
 
-function LM_Options:InitializeExcludedMount(m)
+function LM_Options:InitializePriority(m)
     
-    if self.db.profile.excludedSpells[m.spellID] ~= nil then
+    if self.db.profile.mountPriorities[m.spellID] then
         return
     end
 
     if self.db.profile.excludeNewMounts then
-        LM_Debug(format("Disabled newly added mount %s (%d).", m.name, m.spellID))
-        self.db.profile.excludedSpells[m.spellID] = true
+        self:SetPriority(m, 0)
     else
-        self.db.profile.excludedSpells[m.spellID] = false
-        LM_Debug(format("Enabled newly added mount %s (%d).", m.name, m.spellID))
+        self:SetDefaultPriority(m)
     end
-end
 
-function LM_Options:AddExcludedMount(m)
-    LM_Debug(format("Disabling mount %s (%d).", m.name, m.spellID))
-    self.db.profile.excludedSpells[m.spellID] = true
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
-function LM_Options:RemoveExcludedMount(m)
-    LM_Debug(format("Enabling mount %s (%d).", m.name, m.spellID))
-    self.db.profile.excludedSpells[m.spellID] = false
+function LM_Options:SetDefaultPriority(m)
+    self:SetPriority(m, DEFAULT_PRIORITY)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
-function LM_Options:ToggleExcludedMount(m)
-    local id = m.spellID
-    LM_Debug(format("Toggling mount %s (%d).", m.name, id))
-    self.db.profile.excludedSpells[id] = not self.db.profile.excludedSpells[id]
+function LM_Options:SetPriority(m, v)
+    LM_Debug(format("Setting mount %s (%d) to priority %d", m.name, m.spellID, v))
+    v = math.max(MIN_PRIORITY, math.min(MAX_PRIORITY, v))
+    self.db.profile.mountPriorities[m.spellID] = v
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
-function LM_Options:SetExcludedMounts(mountlist)
-    LM_Debug("Setting complete list of disabled mounts.")
-    for k in pairs(self.db.profile.excludedSpells) do
-        self.db.profile.excludedSpells[k] = false
-    end
+-- Don't just loop over SetPriority because we don't want the UI to freeze up with
+-- hundreds of unnecessary refreshes.
+
+function LM_Options:SetPriorities(mountlist, v)
+    LM_Debug(format("Setting %d mounts to priority %d", #mountlist, v))
+    v = math.max(MIN_PRIORITY, math.min(MAX_PRIORITY, v))
     for _,m in ipairs(mountlist) do
-        self:AddExcludedMount(m)
+        self.db.profile.mountPriorities[m.spellID] = v
     end
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 --[[----------------------------------------------------------------------------
@@ -334,7 +342,6 @@ function LM_Options:CreateFlag(f)
     if self.db.profile.customFlags[f] then return end
     if self:IsPrimaryFlag(f) then return end
     self.db.profile.customFlags[f] = { }
-    self.db.profile.uiMountFilterList[f] = false
     self:UpdateFlagCache()
     self.db.callbacks:Fire("OnOptionsModified")
 end
@@ -343,7 +350,6 @@ function LM_Options:DeleteFlag(f)
     for _,c in pairs(self.db.profile.flagChanges) do
         c[f] = nil
     end
-    self.db.profile.uiMountFilterList[f] = nil
     self.db.profile.customFlags[f] = nil
     self:UpdateFlagCache()
     self.db.callbacks:Fire("OnOptionsModified")
@@ -360,12 +366,6 @@ function LM_Options:RenameFlag(f, newF)
         tmp = c[f]
         c[f] = nil
         c[newF] = tmp
-    end
-
-    for _,p in pairs(self.db.profiles) do
-        tmp = p.uiMountFilterList[f]
-        p.uiMountFilterList[f] = nil
-        p.uiMountFilterList[newF] = tmp
     end
 
     tmp = self.db.profile.customFlags[f]
@@ -440,18 +440,4 @@ end
 function LM_Options:SetUIDebug(v)
     self.db.char.uiDebugEnabled = not not v
     self.db.callbacks:Fire("OnOptionsModified")
-end
-
-
---[[----------------------------------------------------------------------------
-    Priority
-----------------------------------------------------------------------------]]--
-
-function LM_Options:GetPriority(m)
-    -- Dummy
-    if self:IsExcludedMount(m) then
-        return 0
-    else
-        return 1
-    end
 end

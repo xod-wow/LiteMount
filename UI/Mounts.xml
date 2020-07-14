@@ -37,7 +37,6 @@
     <Layers>
         <Layer level="BACKGROUND">
             <Texture alphaMode="ADD" hidden="true" name="$parentModified" parentKey="Modified">
-                <Color r="0.5" g="0.0" b="0.0" />
                 <Anchors>
                     <Anchor point="TOPLEFT" x="5" y="-5" />
                     <Anchor point="BOTTOMRIGHT" x="-6" y="6" />
@@ -46,6 +45,51 @@
         </Layer>
     </Layers>
 </CheckButton>
+
+<Frame name="LiteMountPriorityTemplate" virtual="true">
+
+    <Size x="72" y="32" />
+
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture parentKey="Background">
+                <Size x="20" y="32" />
+                <Anchors> <Anchor point="CENTER" /> </Anchors>
+            </Texture>
+        </Layer>
+        <Layer level="OVERLAY">
+            <Fontstring parentKEy="Priority" inherits="GameFontNormalLarge">
+                <Anchors> <Anchor point="CENTER" /> </Anchors>
+            </Fontstring>
+        </Layer>
+    </Layers>
+
+    <Frames>
+        <Button parentKey="Minus">
+            <Size x="20" y="20" />
+            <Anchors>
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.Background" x="0" />
+            </Anchors>
+            <NormalTexture file="Interface\MoneyFrame\Arrow-Left-Up"/>
+            <PushedTexture file="Interface\MoneyFrame\Arrow-Left-Down"/>
+            <DisabledCheckedTexture file="Interface\MoneyFrame\Arrow-Left-Disabled"/>
+        </Button>
+        <Button parentKey="Plus">
+            <Size x="20" y="20" />
+            <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Background" x="4" />
+            </Anchors>
+            <NormalTexture file="Interface\MoneyFrame\Arrow-Right-Up"/>
+            <PushedTexture file="Interface\MoneyFrame\Arrow-Right-Down"/>
+            <DisabledCheckedTexture file="Interface\MoneyFrame\Arrow-Right-Disabled"/>
+        </Button>
+    </Frames>
+    <Scripts>
+        <OnLoad function="LiteMountOptionsPriority_OnLoad" />
+        <OnEnter function="LiteMountOptionsPriority_OnEnter" />
+        <OnLeave function="LiteMountOptionsPriority_OnLeave" />
+    </Scripts>
+</Frame>
 
 <Button name="LiteMountOptionsButtonTemplate" virtual="true">
 
@@ -67,36 +111,10 @@
     </Scripts>
 
     <Frames>
-        <CheckButton name="$parentEnabled" parentKey="Enabled">
-            <Size x="32" y="32" />
-            <Anchors>
-                <Anchor point="LEFT" x="2" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="BlizzardOptionsPanel_CheckButton_OnClick" />
-                <OnEnter>
-                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                    if self:GetChecked() then
-                        GameTooltip:SetText(DISABLE, 1, 0, 0)
-                    else
-                        GameTooltip:SetText(ENABLE, 0, 1, 0)
-                    end
-                </OnEnter>
-                <OnLeave>
-                    GameTooltip:Hide()
-                </OnLeave>
-            </Scripts>
-            <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
-            <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
-            <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
-            <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
-            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
-        </CheckButton>
-
         <Button name="$parentIcon" parentKey="Icon" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true">
             <Size x="36" y="36" />
             <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.Enabled" relativePoint="RIGHT" x="2" />
+                <Anchor point="LEFT" x="2" />
             </Anchors>
             <HighlightTexture name="$parentHighlight" parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
 
@@ -165,11 +183,8 @@
             </Scripts>
         </Button>
 
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit6" parentKey="Bit6" id="6">
-            <Anchors> <Anchor point="RIGHT" x="-32" /> </Anchors>
-        </CheckButton>
         <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit5" parentKey="Bit5" id="5">
-            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit6" x="-34" /> </Anchors>
+            <Anchors> <Anchor point="RIGHT" x="-32" /> </Anchors>
         </CheckButton>
         <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit4" parentKey="Bit4" id="4">
             <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit5" x="-34" /> </Anchors>
@@ -183,6 +198,12 @@
         <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit1" parentKey="Bit1" id="1">
             <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit2" x="-34" /> </Anchors>
         </CheckButton>
+
+        <Frame parentKey="Priority" inherits="LiteMountPriorityTemplate">
+            <Anchors>
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.Bit1" x="-30" />
+            </Anchors>
+        </Frame>
     </Frames>
 
     <Layers>
@@ -245,8 +266,8 @@
     <Frames>
         <ScrollFrame inherits="MinimalHybridScrollFrameTemplate" name="$parentScrollFrame" parentKey="ScrollFrame">
             <Anchors>
-                <Anchor point="TOPLEFT" x="16" y="-72" />
-                <Anchor point="BOTTOMRIGHT" x="-32" y="36" />
+                <Anchor point="TOPLEFT" x="16" y="-92" />
+                <Anchor point="BOTTOMRIGHT" x="-32" y="20" />
             </Anchors>
             <Scripts>
                 <OnLoad>
@@ -257,36 +278,10 @@
             </Scripts>
         </ScrollFrame>
 
-        <CheckButton name="$parentAllSelect" parentKey="AllSelect">
-            <Size x="32" y="32" />
-            <Anchors>
-                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollFrame" relativePoint="TOPLEFT" x="2" y="-2" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptions_AllSelect_OnClick" />
-                <OnEnter>
-                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                    if not self:GetChecked() then
-                        GameTooltip:SetText(CHECK_ALL, 0, 1, 0)
-                    else
-                        GameTooltip:SetText(CLEAR_ALL, 1, 0, 0)
-                    end
-                </OnEnter>
-                <OnLeave>
-                    GameTooltip:Hide()
-                </OnLeave>
-            </Scripts>
-            <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
-            <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
-            <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
-            <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
-            <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
-        </CheckButton>
-
         <EditBox autofocus="false" inherits="SearchBoxTemplate" name="$parentSearch" parentKey="Search" letters="40">
             <Size x="145" y="20" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollFrame" relativePoint="TOPLEFT" x="46" y="5" />
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollFrame" relativePoint="TOPLEFT" x="6" y="15" />
             </Anchors>
             <Scripts>
                 <OnTextChanged>
@@ -344,19 +339,15 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString name="$parentBitText6" parentKey="BitText6" inherits="GameFontWhiteTiny" justifyH="CENTER">
-                <Size x="30" y="26" />
-                <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-32" />
-                </Anchors>
-            </FontString>
             <FontString name="$parentBitText5" parentKey="BitText5" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText6" x="-30" /> </Anchors>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-32" y="10" />
+                </Anchors>
             </FontString>
             <FontString name="$parentBitText4" parentKey="BitText4" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText5" x="-34" /> </Anchors>
+                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText5" x="-30" /> </Anchors>
             </FontString>
             <FontString name="$parentBitText3" parentKey="BitText3" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
@@ -377,7 +368,7 @@
         <Button name="$parentNextPageButton" parentKey="NextPageButton">
             <Size x="26" y="26" />
             <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.BitText6" relativePoint="RIGHT" x="4" />
+                <Anchor point="LEFT" relativeKey="$parent.BitText5" relativePoint="RIGHT" x="4" />
             </Anchors>
             <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
             <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
@@ -405,6 +396,14 @@
                 </OnClick>
             </Scripts>
         </Button>
+
+
+        <Frame name="$parentAllPriority" parentKey="AllPriority" inherits="LiteMountPriorityTemplate">
+            <Anchors>
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.BitText1" x="-30" />
+            </Anchors>
+        </Frame>
+
     </Frames>
 
     <Scripts>
