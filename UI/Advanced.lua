@@ -201,6 +201,8 @@ function LiteMountOptionsAdvanced_OnLoad(self)
     self.FlagScroll.update = UpdateFlagScroll
     LiteMountOptionsAdvanced_OnSizeChanged(self)
 
+    self.refresh = LiteMountOptionsAdvanced_Update
+
     LiteMountOptionsPanel_OnLoad(self)
 end
 
