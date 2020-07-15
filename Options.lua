@@ -132,15 +132,13 @@ function LM_Options:VersionUpgrade()
     if (self.db.global.configVersion or 4) < 4 then
         if self.db.global.flagChanges then
             for _,p in pairs(self.db.profiles) do
-                p.flagChanges = p.flagChanges or {}
-                p.flagChanges = Mixin(p.flagChanges, self.db.global.flagChanges)
+                p.flagChanges = Mixin({}, self.db.global.flagChanges)
             end
             self.db.global.flagChanges = nil
         end
         if self.db.global.customFlags then
             for _,p in pairs(self.db.profiles) do
-                p.customFlags = p.customFlags or {}
-                Mixin(p.customFlags, self.db.global.customFlags)
+                p.customFlags = Mixin({}, self.db.global.customFlags)
             end
             self.db.global.customFlags = nil
         end
