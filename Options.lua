@@ -63,6 +63,7 @@ Macro
 
 local defaults = {
     global = {
+        instances = { },
     },
     profile = {
         customFlags         = { },
@@ -166,7 +167,6 @@ end
 
 function LM_Options:Initialize()
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
-    self.db.global.instances = self.db.global.instances or {}
     self:VersionUpgrade()
     self:ConsistencyCheck()
     self:UpdateFlagCache()
