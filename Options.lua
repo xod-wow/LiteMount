@@ -130,34 +130,30 @@ function LM_Options:VersionUpgrade()
     -- again. "Those who cannot remember the past are condemned to repeat it."
 
     if (self.db.global.configVersion or 4) < 4 then
-        if self.db.global.flagChanges then
-            for _,p in pairs(self.db.profiles) do
-                p.flagChanges = Mixin({}, self.db.global.flagChanges)
+        for _,p in pairs(self.db.profiles) do
+            p.flagChanges = p.flagChanges or {}
+            p.customFlags = p.customFlags or {}
+            for spellID,changes in pairs(self.db.global.flagChanges or {}) do
+                p.flagChanges[spellID] = Mixin(p.flagChangesgfc[spellID] or {}, changes)
             end
-            self.db.global.flagChanges = nil
+            Mixin(p.customFlags, self.db.global.customFlags or {})
+            self.db.profile.configVersion = 4
         end
-        if self.db.global.customFlags then
-            for _,p in pairs(self.db.profiles) do
-                p.customFlags = Mixin({}, self.db.global.customFlags)
-            end
-            self.db.global.customFlags = nil
-        end
+        self.db.global.customFlags = nil
+        self.db.global.flagChanges = nil
     end
 
     -- Set current version
     self.db.global.configVersion = 4
-    self.db.profile.configVersion = 4
     self.db.char.configVersion = 4
 end
 
 function LM_Options:ConsistencyCheck()
     -- Make sure any flag is included in the flag list
-    for _,p in pairs(self.db.profiles) do
-        for spellID,changes in pairs(p.flagChanges) do
-            for f in pairs(changes) do
-                if LM_FLAG[f] == nil and p.customFlags[f] == nil then
-                    p.customFlags[f] = { }
-                end
+    for spellID,changes in pairs(self.db.profile.flagChanges) do
+        for f in pairs(changes) do
+            if LM_FLAG[f] == nil and self.db.profile.customFlags[f] == nil then
+                self.db.profile.customFlags[f] = { }
             end
         end
     end
