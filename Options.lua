@@ -135,7 +135,7 @@ function LM_Options:VersionUpgrade()
             p.flagChanges = p.flagChanges or {}
             p.customFlags = p.customFlags or {}
             for spellID,changes in pairs(self.db.global.flagChanges or {}) do
-                p.flagChanges[spellID] = Mixin(p.flagChangesgfc[spellID] or {}, changes)
+                p.flagChanges[spellID] = Mixin(p.flagChanges[spellID] or {}, changes)
             end
             Mixin(p.customFlags, self.db.global.customFlags or {})
             self.db.profile.configVersion = 4
