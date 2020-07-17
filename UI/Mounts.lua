@@ -407,11 +407,8 @@ function LiteMountOptionsMounts_OnLoad(self)
 
     self.name = MOUNTS
     self.default = function ()
-            for m in LM_PlayerMounts:Iterate() do
-                LM_Options:ResetMountFlags(m)
-            end
+            LM_Options:ResetAllMountFlags()
             LM_Options:SetExcludedMounts({})
-            LiteMountOptions_UpdateMountList()
         end
 
     self.currentFlagPage = 1

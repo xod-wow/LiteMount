@@ -298,6 +298,13 @@ function LM_Options:ResetMountFlags(m)
     LM_Debug(format("Defaulting flags for spell %s (%d).", m.name, m.spellID))
     self.db.profile.flagChanges[m.spellID] = nil
     self.cachedMountFlags[m.spellID] = nil
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
+function LM_Options:ResetAllMountFlags()
+    table.wipe(self.db.profile.flagChanges)
+    table.wipe(self.cachedMountFlags)
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM_Options:SetMountFlags(m, flags)
