@@ -413,3 +413,21 @@ function LM_Options:RecordInstance()
         self.db.global.instances[id] = name
     end
 end
+
+function LM_Options:GetDebug(v)
+    return self.db.char.debugEnabled
+end
+
+function LM_Options:SetDebug(v)
+    self.db.char.debugEnabled = not not v
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
+function LM_Options:GetUIDebug(v)
+    return self.db.char.uiDebugEnabled
+end
+
+function LM_Options:SetUIDebug(v)
+    self.db.char.uiDebugEnabled = not not v
+    self.db.callbacks:Fire("OnOptionsModified")
+end

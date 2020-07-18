@@ -68,14 +68,14 @@
                     self.Text:SetText(L.LM_ENABLE_DEBUGGING)
                     self.SetOption = function (self, setting)
                             if not setting or setting == "0" then
-                                LM_Options.db.char.debugEnabled = false
+                                LM_Options:SetDebug(false)
                             else
-                                LM_Options.db.char.debugEnabled = true
+                                LM_Options:SetDebug(true)
                             end
                         end
                     self.GetOptionDefault = function (self) return false end
                     self.GetOption = function (self)
-                            return LM_Options.db.char.debugEnabled
+                            return LM_Options:GetDebug()
                         end
                     LiteMountOptionsControl_OnLoad(self)
                 </OnLoad>

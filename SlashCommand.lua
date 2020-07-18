@@ -157,19 +157,19 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
     elseif cmd == "debug" then
         if IsTrue(args[1]) then
             LM_Print(L.LM_DEBUGGING_ENABLED)
-            LM_Options.db.char.debugEnabled = true
+            LM_Options:SetDebug(true)
         else
             LM_Print(L.LM_DEBUGGING_DISABLED)
-            LM_Options.db.char.debugEnabled = false
+            LM_Options:SetDebug(False)
         end
         return true
     elseif cmd == "uidebug" then
         if IsTrue(args[1]) then
             LM_Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_ENABLED)
-            LM_Options.db.char.uiDebugEnabled = true
+            LM_Options:SetUIDebug(true)
         else
             LM_Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_DISABLED)
-            LM_Options.db.char.uiDebugEnabled = false
+            LM_Options:SetUIDebug(false)
         end
         return true
 --@debug@
