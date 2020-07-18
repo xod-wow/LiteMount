@@ -140,6 +140,14 @@ function LM_MountList:FilterFind(...)
     return self:Find(filterMatch, ...)
 end
 
+local function cmpName(a, b)
+    return a.name < b.name
+end
+
+function LM_MountList:Sort(cmp)
+    table.sort(self, cmp or cmpName)
+end
+
 function LM_MountList:Dump()
     for _,m in ipairs(self) do
         m:Dump()

@@ -12,6 +12,16 @@
 if LibDebug then LibDebug() end
 --@end-debug@
 
+local function tJoin(...)
+    local out = { }
+    for _,t in ipairs({ ... }) do
+        for _,v in ipairs(t) do
+            table.insert(out, v)
+        end
+    end
+    return out
+end
+
 local function ReplaceVars(list)
     local out = {}
     for _,l in ipairs(list) do
@@ -54,15 +64,16 @@ local ACTIONS = { }
 
 ACTIONS['Limit'] =
     function (args, env)
-        args = ReplaceVars(args)
-        table.insert(env.mounts, 1, env.mounts[1]:FilterSearch(unpack(args)))
-        LM_Debug(format(" - limit from %d to %d", #env.mounts[2], #env.mounts[1]))
+        local filters = tJoin(env.filters[1], args)
+        table.insert(env.filters, 1, filters)
+        LM_Debug(" - new filter: " .. table.concat(env.filters[1], ','))
     end
 
 ACTIONS['Endlimit'] =
     function (args, env)
-        if #env.mounts == 1 then return end
-        table.remove(env.mounts, 1)
+        if #env.filters == 1 then return end
+        table.remove(env.filters, 1)
+        LM_Debug(" - restored filter: " .. table.concat(env.filters[1], ','))
     end
 
 local function GetKnownSpell(arg)
@@ -167,7 +178,7 @@ ACTIONS['CancelForm'] =
             end
         end
 
-        LM_Debug("- previous form is " .. tostring(savedFormName))
+        LM_Debug(" - previous form is " .. tostring(savedFormName))
 
         -- The logic here is really ugly.
 
@@ -211,17 +222,22 @@ ACTIONS['CopyTargetsMount'] =
         end
     end
 
+ACTIONS['Shuffle'] =
+    function (args, env)
+        LM_Debug(" - shuffling mounts deck")
+        LM_PlayerMounts:Shuffle()
+    end
+
 ACTIONS['SmartMount'] =
     function (args, env)
 
-        args = ReplaceVars(args)
-        local filteredList = env.mounts[1]:FilterSearch(unpack(args))
+        local filters = ReplaceVars(tJoin(env.filters[1], args))
+        local filteredList = LM_PlayerMounts:FilterSearch(unpack(filters))
 
+        LM_Debug(" - filters: " .. table.concat(filters, ','))
         LM_Debug(" - filtered list contains " .. #filteredList .. " mounts")
 
         if next(filteredList) == nil then return end
-
-        filteredList:Shuffle()
 
         local m
 
@@ -254,10 +270,9 @@ ACTIONS['SmartMount'] =
 
 ACTIONS['Mount'] =
     function (args, env)
-        args = ReplaceVars(args)
-        local filteredList = env.mounts[1]:FilterSearch(unpack(args))
-        LM_Debug(" - filtered list contains " .. #filteredList .. " mounts")
-        return filteredList:Random()
+        local filters = ReplaceVars(tJoin(env.filters[1], args))
+        LM_Debug(" - filters: " .. table.concat(filters, ','))
+        return LM_PlayerMounts:FilterFind(unpack(filters))
     end
 
 ACTIONS['Macro'] =

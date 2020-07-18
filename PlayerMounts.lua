@@ -4,6 +4,8 @@
 
   Information on all your mounts.
 
+  This keeps the shuffle order too, so we aren't constantly reshuffling things.
+
   Copyright 2011-2020 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
@@ -83,6 +85,10 @@ end
 
 function LM_PlayerMounts:AddMount(m)
     tinsert(self.mounts, m)
+end
+
+function LM_PlayerMounts:Shuffle()
+    self.mounts:Shuffle()
 end
 
 function LM_PlayerMounts:AddJournalMounts()

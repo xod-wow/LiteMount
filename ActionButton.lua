@@ -82,11 +82,10 @@ function LM_ActionButton:PreClick(mouseButton)
     LM_PlayerMounts:RefreshMounts()
 
     local env = {
-        ['mounts'] = { LM_PlayerMounts:FilterSearch("CASTABLE", "ENABLED") },
+        ['filters'] = { { "CASTABLE", "ENABLED" } },
 	['flowControl'] = { },
     }
 
-    LM_Debug("Found " .. #env.mounts[1] .. " CASTABLE and ENABLED mounts.")
     for _,a in ipairs(self.actions) do
         if self:Dispatch(a, env) then
             return
