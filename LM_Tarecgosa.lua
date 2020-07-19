@@ -2,6 +2,10 @@
 
   LiteMount/LM_Tarecgosa.lua
 
+  This doesn't work because there is no action that will equip and mount
+  in one. I'm leaving it here as a reference in case I want to do something
+  similar in the future.
+
   Copyright 2011-2020 Mike Battersby
 
 ----------------------------------------------------------------------------]]--

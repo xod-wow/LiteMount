@@ -38,16 +38,6 @@ function LM_ActionButton:Dispatch(action, env)
         return
     end
 
-    -- This is not right, because it relies on there being another action
-    -- it really needs to be handled at a higher level
-    local nextAction = self:GetAttribute('lm-nextaction')
-    if nextAction then
-        LM_Debug("Setting up button as with override from previous action.")
-        self:SetAttribute('lm-nextaction', nil)
-        self:SetupActionButton(nextAction)
-        return true
-    end
-
     if not isTrue or LM_Actions:IsFlowSkipped(env) then return end
 
     handler = LM_Actions:GetHandler(action.action)
