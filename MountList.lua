@@ -104,15 +104,14 @@ end
 
 function LM_MountList:WeightedShuffle()
 
-    local p, r, t, w
-
     -- Count the number of mounts with each priority, so that we can treat
     -- each priority set as a bucket with an overall weight and each mount
     -- within it gets a fraction of that weight.
 
     local priorityCounts = { }
+
     for _,m in ipairs(self) do
-        p = LM_Options:GetPriority(m)
+        local p = LM_Options:GetPriority(m)
         priorityCounts[p] = ( priorityCounts[p] or 0 ) + 1
     end
 
@@ -121,8 +120,9 @@ function LM_MountList:WeightedShuffle()
     -- Each priority bucket above 0 is 5 times more likely than the previous.
 
     local weights, totalWeight = {}, 0
+
     for i,m in ipairs(self) do
-        p = LM_Options:GetPriority(m)
+        local p = LM_Options:GetPriority(m)
         if p == 0 then
             weights[i] = 0
         else
@@ -136,8 +136,8 @@ function LM_MountList:WeightedShuffle()
     -- totalWeight again each time from scratch.
 
     for i = 1, #self - 1 do
-        r = math.random() * totalWeight
-        t = 0
+        local r = math.random() * totalWeight
+        local t = 0
         for j = i, #self do
             t = t + weights[j]
             if t > r then
