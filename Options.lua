@@ -407,12 +407,22 @@ function LM_Options:GetAllFlags()
     return CopyTable(self.allFlags)
 end
 
+--[[----------------------------------------------------------------------------
+    Instance recording
+----------------------------------------------------------------------------]]--
+
+
 function LM_Options:RecordInstance()
     local name, _, _, _, _, _, _, id = GetInstanceInfo()
     if not self.db.global.instances[id] then
         self.db.global.instances[id] = name
     end
 end
+
+
+--[[----------------------------------------------------------------------------
+    Debug settings
+----------------------------------------------------------------------------]]--
 
 function LM_Options:GetDebug(v)
     return self.db.char.debugEnabled
@@ -430,4 +440,18 @@ end
 function LM_Options:SetUIDebug(v)
     self.db.char.uiDebugEnabled = not not v
     self.db.callbacks:Fire("OnOptionsModified")
+end
+
+
+--[[----------------------------------------------------------------------------
+    Priority
+----------------------------------------------------------------------------]]--
+
+function LM_Options:GetPriority(m)
+    -- Dummy
+    if self:IsExcludedMount(m) then
+        return 0
+    else
+        return 1
+    end
 end
