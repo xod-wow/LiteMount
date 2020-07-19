@@ -115,7 +115,7 @@ function LM_MountList:WeightedShuffle()
         priorityCounts[p] = ( priorityCounts[p] or 0 ) + 1
     end
 
-    -- Recalcuating the weights in the shuffle loop makes this way too slow,
+    -- Recalculating the weights in the shuffle loop makes this way too slow,
     -- so cache them upfront. Be careful to swap them when swapping elements.
     -- Each priority bucket above 0 is 5 times more likely than the previous.
 
