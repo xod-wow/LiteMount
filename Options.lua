@@ -118,6 +118,9 @@ function LM_Options:FlagIsUsed(f)
     return false
 end
 
+-- Note to self. In any profile except the active one, the defaults
+-- are not applied and you can't rely on them being there.
+
 function LM_Options:VersionUpgrade()
 
     -- From 1 -> 2 moved a bunch of stuff from char to profile that
@@ -157,6 +160,7 @@ function LM_Options:VersionUpgrade()
     if (self.db.global.configVersion or 5) < 5 then
         for _,p in pairs(self.db.profiles) do
             for spellID,isExcluded in pairs(p.excludedSpells) do
+                p.mountPriorities = p.mountPriorities or {}
                 if isExcluded then
                     p.mountPriorities[spellID] = self.DISABLED_PRIORITY
                 else
