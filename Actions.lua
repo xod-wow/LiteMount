@@ -222,12 +222,6 @@ ACTIONS['CopyTargetsMount'] =
         end
     end
 
-ACTIONS['Shuffle'] =
-    function (args, env)
-        LM_Debug(" - shuffling mounts deck")
-        LM_PlayerMounts:Shuffle()
-    end
-
 ACTIONS['SmartMount'] =
     function (args, env)
 
@@ -243,28 +237,28 @@ ACTIONS['SmartMount'] =
 
         if LM_Conditions:Check("[submerged]") then
             LM_Debug(" - trying Swimming Mount (underwater)")
-            m = filteredList:FilterFind('SWIM')
+            m = filteredList:FilterSearch('SWIM'):Random()
             if m then return m end
         end
 
         if LM_Conditions:Check("[flyable]") then
             LM_Debug(" - trying Flying Mount")
-            m = filteredList:FilterFind('FLY')
+            m = filteredList:FilterSearch('FLY'):Random()
             if m then return m end
         end
 
         if LM_Conditions:Check("[floating,nowaterwalking]") then
             LM_Debug(" - trying Swimming Mount (on the surface)")
-            m = filteredList:FilterFind('SWIM')
+            m = filteredList:FilterSearch('SWIM'):Random()
             if m then return m end
         end
 
         LM_Debug(" - trying Running Mount")
-        m = filteredList:FilterFind('RUN')
+        m = filteredList:FilterSearch('RUN'):Random()
         if m then return m end
 
         LM_Debug(" - trying Walking Mount")
-        m = filteredList:FilterFind('WALK')
+        m = filteredList:FilterSearch('WALK'):Random()
         if m then return m end
     end
 
@@ -272,7 +266,7 @@ ACTIONS['Mount'] =
     function (args, env)
         local filters = ReplaceVars(tJoin(env.filters[1], args))
         LM_Debug(" - filters: " .. table.concat(filters, ','))
-        return LM_PlayerMounts:FilterFind(unpack(filters))
+        return LM_PlayerMounts:FilterSearch(unpack(filters)):Random()
     end
 
 ACTIONS['Macro'] =

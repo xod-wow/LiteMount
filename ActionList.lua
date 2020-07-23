@@ -122,16 +122,5 @@ function LM_ActionList:Compile(text)
         end
     end
 
-    local shuffleFound = false
-    for _,entry in ipairs(out) do
-        if entry.action == 'Shuffle' then
-            shuffleFound = true
-        end
-    end
-
-    if not shuffleFound then
-        tinsert(out, 1, { action = 'Shuffle', args = {}, conditions = nil })
-    end
-
     return out
 end

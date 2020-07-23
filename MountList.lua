@@ -102,11 +102,12 @@ function LM_MountList:Shuffle()
     end
 end
 
-function LM_MountList:WeightedShuffle()
+function LM_MountList:Random()
+    local r = math.random(#self)
+    return self[r]
+end
 
-    -- Count the number of mounts with each priority, so that we can treat
-    -- each priority set as a bucket with an overall weight and each mount
-    -- within it gets a fraction of that weight.
+function LM_MountList:PriorityRandom()
 
     local priorityCounts = { }
 
@@ -115,9 +116,7 @@ function LM_MountList:WeightedShuffle()
         priorityCounts[p] = ( priorityCounts[p] or 0 ) + 1
     end
 
-    -- Recalculating the weights in the shuffle loop makes this way too slow,
-    -- so cache them upfront. Be careful to swap them when swapping elements.
-    -- Each priority bucket above 0 is 5 times more likely than the previous.
+    -- Each priority bucket above 0 is 2 times more likely than the previous.
 
     local weights, totalWeight = {}, 0
 
@@ -126,27 +125,18 @@ function LM_MountList:WeightedShuffle()
         if p == 0 then
             weights[i] = 0
         else
-            weights[i] = 5^(p-1) / priorityCounts[p]
+            weights[i] = 2^(p-1) / priorityCounts[p]
         end
         totalWeight = totalWeight + weights[i]
     end
 
-    -- For each position choose a weighted random from the remainder and
-    -- swap it in. Slight optimization to not have to recalculate the
-    -- totalWeight again each time from scratch.
-
-    for i = 1, #self - 1 do
-        local r = math.random() * totalWeight
-        local t = 0
-        for j = i, #self do
-            t = t + weights[j]
-            if t > r then
-                self[i], self[j] = self[j], self[i]
-                weights[i], weights[j] = weights[j], weights[i]
-                break
-            end
+    local r = math.random() * totalWeight
+    local t = 0
+    for i = 1, #self do
+        t = t + weights[i]
+        if t > r then
+            return self[i]
         end
-        totalWeight = totalWeight - weights[i]
     end
 end
 
@@ -158,8 +148,8 @@ function LM_MountList:FilterSearch(...)
     return self:Search(filterMatch, ...)
 end
 
-function LM_MountList:FilterFind(...)
-    return self:Find(filterMatch, ...)
+function LM_MountList:FilterRandom(...)
+    return self:Random(filterMatch, ...)
 end
 
 local function cmpName(a, b)
