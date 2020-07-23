@@ -12,13 +12,11 @@
 if LibDebug then LibDebug() end
 --@end-debug@
 
-local MIN_PRIORITY, MAX_PRIORITY = 0, 3
-local DEFAULT_PRIORITY, DISABLED_PRIORITY = 1, 0
-
 --[[----------------------------------------------------------------------------
 
-excludedSpells is a table of spell ids the player has seen before, with
-the value true if excluded and false if not excluded
+mountPriorities is a list of spell ids the player has seen before mapped to
+the priority (0/1/2/3) of that mount. If the value is nil it means we haven't
+seen that mount yet.
 
 flagChanges is a table of spellIDs with flags to set (+) and clear (-).
     flagChanges = {
@@ -27,7 +25,6 @@ flagChanges is a table of spellIDs with flags to set (+) and clear (-).
     }
 
 customFlags is a table of flag names, with data about them (currently none)
-
     customFlags = {
         ["PASSENGER"] = { }
     }
@@ -88,7 +85,13 @@ local defaults = {
     },
 }
 
-_G.LM_Options = { }
+_G.LM_Options = {
+    MIN_PRIORITY = 0,
+    MAX_PRIORITY = 3,
+    DISABLED_PRIORITY = 0,
+    DEFAULT_PRIORITY = 1,
+}
+
 
 local function FlagDiff(allFlags, a, b)
     local diff = { }
@@ -147,11 +150,22 @@ function LM_Options:VersionUpgrade()
         self.db.global.flagChanges = nil
     end
 
+    -- Version 5
+    -- Changed profile.excludedSpells into profile.mountPriorities
     -- Removed any persistance for the GUI filters
 
     if (self.db.global.configVersion or 5) < 5 then
         for _,p in pairs(self.db.profiles) do
+            for spellID,isExcluded in pairs(p.excludedSpells) do
+                if isExcluded then
+                    p.mountPriorities[spellID] = self.DISABLED_PRIORITY
+                else
+                    p.mountPriorities[spellID] = self.DEFAULT_PRIORITY
+                end
+            end
+            p.excludedSpells = nil
             p.uiMountFilterList = nil
+            p.enableTwoPress = nil
             p.configVersion = 5
         end
     end
@@ -213,13 +227,13 @@ function LM_Options:InitializePriority(m)
 end
 
 function LM_Options:SetDefaultPriority(m)
-    self:SetPriority(m, DEFAULT_PRIORITY)
+    self:SetPriority(m, self.DEFAULT_PRIORITY)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM_Options:SetPriority(m, v)
     LM_Debug(format("Setting mount %s (%d) to priority %d", m.name, m.spellID, v))
-    v = math.max(MIN_PRIORITY, math.min(MAX_PRIORITY, v))
+    v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
     self.db.profile.mountPriorities[m.spellID] = v
     self.db.callbacks:Fire("OnOptionsModified")
 end
@@ -229,7 +243,7 @@ end
 
 function LM_Options:SetPriorities(mountlist, v)
     LM_Debug(format("Setting %d mounts to priority %d", #mountlist, v))
-    v = math.max(MIN_PRIORITY, math.min(MAX_PRIORITY, v))
+    v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
     for _,m in ipairs(mountlist) do
         self.db.profile.mountPriorities[m.spellID] = v
     end

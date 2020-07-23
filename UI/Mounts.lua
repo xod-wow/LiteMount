@@ -31,8 +31,8 @@ local PriorityColors = {
 local function LiteMountOptionsPriority_Refresh(self)
     local value = self:GetOption()
     if value then
-        self.Minus:SetShown(value > 0)
-        self.Plus:SetShown(value < 3)
+        self.Minus:SetShown(value > LM_Options.MIN_PRIORITY)
+        self.Plus:SetShown(value < LM_Options.MAX_PRIORITY)
         self.Priority:SetText(value)
     else
         self.Minus:Show()
