@@ -32,6 +32,7 @@ function LM_UIFilter.Clear()
     table.wipe(LM_UIFilter.flagFilterList)
     table.wipe(LM_UIFilter.sourceFilterList)
     table.wipe(LM_UIFilter.priorityFilterList)
+    table.wipe(LM_UIFilter.filteredMountList)
 end
 
 function LM_UIFilter.IsFiltered()
@@ -69,7 +70,7 @@ function LM_UIFilter.UpdateCache()
 end
 
 function LM_UIFilter.ClearCache()
-    wipe(LM_UIFilter.filteredMountList)
+    table.wipe(LM_UIFilter.filteredMountList)
 end
 
 function LM_UIFilter.GetFilteredMountList()
@@ -89,7 +90,7 @@ end
 function LM_UIFilter.SetAllSourceFilters(v)
     LM_UIFilter.ClearCache()
     if v then
-        wipe(LM_UIFilter.sourceFilterList)
+        table.wipe(LM_UIFilter.sourceFilterList)
     else
         for i = 1,LM_UIFilter.GetNumSources() do
             if LM_UIFilter.IsValidSourceFilter(i) then
