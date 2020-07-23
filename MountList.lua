@@ -103,11 +103,15 @@ function LM_MountList:Shuffle()
 end
 
 function LM_MountList:Random()
-    local r = math.random(#self)
-    return self[r]
+    if #self > 0 then
+        local r = math.random(#self)
+        return self[r]
+    end
 end
 
 function LM_MountList:PriorityRandom()
+
+    if #self == 0 then return end
 
     local priorityCounts = { }
 
