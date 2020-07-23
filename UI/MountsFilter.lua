@@ -29,7 +29,7 @@ local PriorityColors = {
 -- Clear -----------------------------------------------------------------------
 
 function LM_UIFilter.Clear()
-    table.wipe(LM_UIFlter.flagFilterList)
+    table.wipe(LM_UIFilter.flagFilterList)
     table.wipe(LM_UIFilter.sourceFilterList)
     table.wipe(LM_UIFilter.priorityFilterList)
 end
