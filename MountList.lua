@@ -130,9 +130,7 @@ function LM_MountList:PriorityRandom()
 
     local r = math.random() * totalWeight
 
-    LM_Debug(format(' n = ' .. tostring(#self)))
-    LM_Debug(format(' totalWeight = ' .. tostring(totalWeight)))
-    LM_Debug(format(' r = ' .. tostring(r)))
+    LM_Debug(format(' - PriorityRandom n=%d, t=%0.3f, r=%0.3f', #self, totalWeight, r))
 
     local t = 0
     for i = 1, #self do
