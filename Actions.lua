@@ -66,14 +66,14 @@ ACTIONS['Limit'] =
     function (args, env)
         local filters = tJoin(env.filters[1], args)
         table.insert(env.filters, 1, filters)
-        LM_Debug(" - new filter: " .. table.concat(env.filters[1], ','))
+        LM_Debug(" - new filter: " .. table.concat(env.filters[1], ' '))
     end
 
 ACTIONS['Endlimit'] =
     function (args, env)
         if #env.filters == 1 then return end
         table.remove(env.filters, 1)
-        LM_Debug(" - restored filter: " .. table.concat(env.filters[1], ','))
+        LM_Debug(" - restored filter: " .. table.concat(env.filters[1], ' '))
     end
 
 local function GetKnownSpell(arg)
@@ -228,7 +228,7 @@ ACTIONS['SmartMount'] =
         local filters = ReplaceVars(tJoin(env.filters[1], args))
         local filteredList = LM_PlayerMounts:FilterSearch(unpack(filters))
 
-        LM_Debug(" - filters: " .. table.concat(filters, ','))
+        LM_Debug(" - filters: " .. table.concat(filters, ' '))
         LM_Debug(" - filtered list contains " .. #filteredList .. " mounts")
 
         if next(filteredList) == nil then return end
@@ -265,7 +265,7 @@ ACTIONS['SmartMount'] =
 ACTIONS['Mount'] =
     function (args, env)
         local filters = ReplaceVars(tJoin(env.filters[1], args))
-        LM_Debug(" - filters: " .. table.concat(filters, ','))
+        LM_Debug(" - filters: " .. table.concat(filters, ' '))
         return LM_PlayerMounts:FilterSearch(unpack(filters)):Random()
     end
 
