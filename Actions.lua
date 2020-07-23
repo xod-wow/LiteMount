@@ -237,33 +237,47 @@ ACTIONS['SmartMount'] =
 
         if next(filteredList) == nil then return end
 
-        local m
-
         if LM_Conditions:Check("[submerged]") then
             LM_Debug(" - trying Swimming Mount (underwater)")
-            m = filteredList:FilterSearch('SWIM'):PriorityRandom()
-            if m then return m end
+            local swim = filteredList:FilterSearch('SWIM')
+            LM_Debug(" - found " .. #swim .. " mounts.")
+            if #swim > 0 then
+                return swim:PriorityRandom()
+            end
         end
 
         if LM_Conditions:Check("[flyable]") then
             LM_Debug(" - trying Flying Mount")
-            m = filteredList:FilterSearch('FLY'):PriorityRandom()
-            if m then return m end
+            local fly = filteredList:FilterSearch('FLY')
+            LM_Debug(" - found " .. #fly .. " mounts.")
+            if #fly > 0 then
+                return fly:PriorityRandom()
+            end
         end
 
         if LM_Conditions:Check("[floating,nowaterwalking]") then
             LM_Debug(" - trying Swimming Mount (on the surface)")
-            m = filteredList:FilterSearch('SWIM'):PriorityRandom()
-            if m then return m end
+            local swim = filteredList:FilterSearch('SWIM')
+            LM_Debug(" - found " .. #swim .. " mounts.")
+            if #swim > 0 then
+                return swim:PriorityRandom()
+            end
         end
 
         LM_Debug(" - trying Running Mount")
-        m = filteredList:FilterSearch('RUN'):PriorityRandom()
-        if m then return m end
+        local run = filteredList:FilterSearch('RUN')
+        LM_Debug(" - found " .. #run .. " mounts.")
+        if #run > 0 then
+            return run:PriorityRandom()
+        end
 
         LM_Debug(" - trying Walking Mount")
-        m = filteredList:FilterSearch('WALK'):PriorityRandom()
-        if m then return m end
+        local walk = filteredList:FilterSearch('WALK')
+        LM_Debug(" - found " .. #walk .. " mounts.")
+        if #walk > 0 then
+            return run:PriorityRandom()
+        end
+
     end
 
 ACTIONS['Mount'] =
