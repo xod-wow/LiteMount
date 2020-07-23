@@ -35,11 +35,13 @@ local FLOWCONTROLS = { }
 
 FLOWCONTROLS['IF'] =
     function (args, env, isTrue)
+        LM_Debug(' - IF test is ' .. tostring(isTrue))
         table.insert(env.flowControl, isTrue)
     end
 
 FLOWCONTROLS['ELSEIF'] =
     function (args, env, isTrue)
+        LM_Debug(' - ELSEIF test is ' .. tostring(isTrue))
         table.remove(env.flowControl)
         table.insert(env.flowControl, isTrue)
     end
@@ -48,7 +50,9 @@ FLOWCONTROLS['ELSE'] =
     function (args, env, isTrue)
         local n = #env.flowControl
         if n > 0 then
-            env.flowControl[n] = not env.flowControl[n]
+            isTrue =  not env.flowControl[n]
+            LM_Debug(' - ELSE test is ' .. tostring(isTrue))
+            env.flowControl[n] = isTrue
         end
     end
 
