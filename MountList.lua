@@ -104,7 +104,11 @@ end
 
 function LM_MountList:Random(r)
     if #self > 0 then
-        r = r or math.random(#self)
+        if r then
+            r = math.ceil(r * #self)
+        else
+            r = math.random(#self)
+        end
         return self[r]
     end
 end
