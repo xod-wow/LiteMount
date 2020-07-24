@@ -242,7 +242,7 @@ ACTIONS['SmartMount'] =
             local swim = filteredList:FilterSearch('SWIM')
             LM_Debug(" - found " .. #swim .. " mounts.")
             if #swim > 0 then
-                return swim:PriorityRandom()
+                return swim:PriorityRandom(env.random)
             end
         end
 
@@ -251,7 +251,7 @@ ACTIONS['SmartMount'] =
             local fly = filteredList:FilterSearch('FLY')
             LM_Debug(" - found " .. #fly .. " mounts.")
             if #fly > 0 then
-                return fly:PriorityRandom()
+                return fly:PriorityRandom(env.random)
             end
         end
 
@@ -260,7 +260,7 @@ ACTIONS['SmartMount'] =
             local swim = filteredList:FilterSearch('SWIM')
             LM_Debug(" - found " .. #swim .. " mounts.")
             if #swim > 0 then
-                return swim:PriorityRandom()
+                return swim:PriorityRandom(env.random)
             end
         end
 
@@ -268,14 +268,14 @@ ACTIONS['SmartMount'] =
         local run = filteredList:FilterSearch('RUN')
         LM_Debug(" - found " .. #run .. " mounts.")
         if #run > 0 then
-            return run:PriorityRandom()
+            return run:PriorityRandom(env.random)
         end
 
         LM_Debug(" - trying Walking Mount")
         local walk = filteredList:FilterSearch('WALK')
         LM_Debug(" - found " .. #walk .. " mounts.")
         if #walk > 0 then
-            return run:PriorityRandom()
+            return run:PriorityRandom(env.random)
         end
 
     end
@@ -284,7 +284,8 @@ ACTIONS['Mount'] =
     function (args, env)
         local filters = ReplaceVars(tJoin(env.filters[1], args))
         LM_Debug(" - filters: " .. table.concat(filters, ' '))
-        return LM_PlayerMounts:FilterSearch(unpack(filters)):PriorityRandom()
+        local mounts = LM_PlayerMounts:FilterSearch(unpack(filters))
+        return mounts:PriorityRandom(env.random)
     end
 
 ACTIONS['Macro'] =

@@ -73,7 +73,8 @@ function LM_ActionButton:PreClick(mouseButton)
 
     local env = {
         ['filters'] = { { "CASTABLE", "ENABLED" } },
-	['flowControl'] = { },
+        ['flowControl'] = { },
+        ['random'] = math.random(),
     }
 
     for _,a in ipairs(self.actions) do

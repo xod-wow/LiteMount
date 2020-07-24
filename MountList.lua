@@ -102,14 +102,14 @@ function LM_MountList:Shuffle()
     end
 end
 
-function LM_MountList:Random()
+function LM_MountList:Random(r)
     if #self > 0 then
-        local r = math.random(#self)
+        r = r or math.random(#self)
         return self[r]
     end
 end
 
-function LM_MountList:PriorityRandom()
+function LM_MountList:PriorityRandom(r)
 
     if #self == 0 then return end
 
@@ -128,14 +128,14 @@ function LM_MountList:PriorityRandom()
         totalWeight = totalWeight + weights[i]
     end
 
-    local r = math.random() * totalWeight
+    local cutoff = (r or math.random()) * totalWeight
 
-    LM_Debug(format(' - PriorityRandom n=%d, t=%0.3f, r=%0.3f', #self, totalWeight, r))
+    LM_Debug(format(' - PriorityRandom n=%d, t=%0.3f, c=%0.3f', #self, totalWeight, cutoff))
 
     local t = 0
     for i = 1, #self do
         t = t + weights[i]
-        if t > r then
+        if t > cutoff then
             return self[i]
         end
     end
@@ -147,10 +147,6 @@ end
 
 function LM_MountList:FilterSearch(...)
     return self:Search(filterMatch, ...)
-end
-
-function LM_MountList:FilterRandom(...)
-    return self:Random(filterMatch, ...)
 end
 
 local function cmpName(a, b)
