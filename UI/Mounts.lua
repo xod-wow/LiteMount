@@ -40,7 +40,7 @@ local function LiteMountOptionsPriority_Refresh(self)
         self.Priority:SetText('')
     end
     local r, g, b = PriorityColors[value or '']:GetRGB()
-    self.Background:SetColorTexture(r, g, b, 0.5)
+    self.Background:SetColorTexture(r, g, b, 0.25)
 end
 
 local function LiteMountOptionsPriority_GetOption(self)
