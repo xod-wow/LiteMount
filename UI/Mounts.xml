@@ -68,7 +68,7 @@
         <Button parentKey="Minus">
             <Size x="20" y="20" />
             <Anchors>
-                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.Background" x="0" />
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.Background" x="0" y="-1" />
             </Anchors>
             <NormalTexture file="Interface\MoneyFrame\Arrow-Left-Up"/>
             <PushedTexture file="Interface\MoneyFrame\Arrow-Left-Down"/>
@@ -77,7 +77,7 @@
         <Button parentKey="Plus">
             <Size x="20" y="20" />
             <Anchors>
-                <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Background" x="4" />
+                <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Background" x="4" y="-1" />
             </Anchors>
             <NormalTexture file="Interface\MoneyFrame\Arrow-Right-Up"/>
             <PushedTexture file="Interface\MoneyFrame\Arrow-Right-Down"/>
