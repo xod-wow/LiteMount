@@ -58,7 +58,7 @@
             </Texture>
         </Layer>
         <Layer level="OVERLAY">
-            <Fontstring parentKEy="Priority" inherits="GameFontNormalLarge">
+            <Fontstring parentKey="Priority" inherits="GameFontNormalLarge">
                 <Anchors> <Anchor point="CENTER" /> </Anchors>
             </Fontstring>
         </Layer>

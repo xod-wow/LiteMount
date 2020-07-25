@@ -53,11 +53,7 @@ end
 local function LiteMountOptionsPriority_SetOption(self, v)
     local mount = self:GetParent().mount
     if mount then
-        if v then
-            LM_Options:SetPriority(mount, v)
-        else
-            LM_Options:SetDefaultPriority(mount)
-        end
+        LM_Options:SetPriority(mount, v or LM_Options.DEFAULT_PRIORITY)
     end
 end
 
@@ -66,13 +62,13 @@ local function LiteMountOptionsPriority_IncrementOption(self)
     if v then
         self:SetOption(v + 1)
     else
-        self:SetOption()
+        self:SetOption(LM_Options.DEFAULT_PRIORITY)
     end
 end
 
 local function LiteMountOptionsPriority_DecrementOption(self)
-    local v = self:GetOption() or 1
-    self:SetOption( (v or 1) - 1)
+    local v = self:GetOption() or LM_Options.DEFAULT_PRIORITY
+    self:SetOption(v - 1)
 end
 
 function LiteMountOptionsPriority_OnLoad(self)
@@ -320,7 +316,7 @@ end
 
 local function AllPriority_SetOption(self, v)
     local mounts = LM_UIFilter.GetFilteredMountList()
-    LM_Options:SetPriorities(mounts, v)
+    LM_Options:SetPriorities(mounts, v or LM_Options.DEFAULT_PRIORITY)
 end
 
 local function AllPriority_GetOption(self)
