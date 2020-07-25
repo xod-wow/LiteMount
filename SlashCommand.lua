@@ -67,7 +67,9 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
         return true
     elseif cmd == "priority" then
         local mount = LM_PlayerMounts:GetActiveMount()
-        LM_Options:SetPriority(mount, tonumber(args[1]))
+        if mount then
+            LM_Options:SetPriority(mount, tonumber(args[1]))
+        end
         return true
     elseif cmd == "location" then
         LM_Print(LOCATION_COLON)
