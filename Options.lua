@@ -435,7 +435,10 @@ function LM_Options:GetRandomPersistence()
 end
 
 function LM_Options:SetRandomPersistence(v)
-    self.db.profile.randomKeepSeconds = tonumber(v)
+    v = tonumber(v) or 0
+    if v then
+        self.db.profile.randomKeepSeconds = math.max(0, v)
+    end
 end
 
 --[[----------------------------------------------------------------------------
