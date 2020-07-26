@@ -74,6 +74,7 @@ local defaults = {
         enableTwoPress      = false,
         excludeNewMounts    = false,
         priorityWeights     = { 1, 2, 8 },
+        randomKeepSeconds   = 0,
     },
     char = {
         unavailableMacro    = "",
@@ -242,8 +243,8 @@ function LM_Options:SetPriority(m, v)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
--- Don't just loop over SetPriority because we don't want the UI to freeze up with
--- hundreds of unnecessary refreshes.
+-- Don't just loop over SetPriority because we don't want the UI to freeze up
+-- with hundreds of unnecessary callback refreshes.
 
 function LM_Options:SetPriorities(mountlist, v)
     LM_Debug(format("Setting %d mounts to priority %d", #mountlist, v))
@@ -423,6 +424,18 @@ function LM_Options:GetAllFlags()
         self:UpdateFlagCache()
     end
     return CopyTable(self.allFlags)
+end
+
+--[[----------------------------------------------------------------------------
+    Random persistence
+----------------------------------------------------------------------------]]--
+
+function LM_Options:GetRandomPersistence()
+    return self.db.profile.randomKeepSeconds
+end
+
+function LM_Options:SetRandomPersistence(v)
+    self.db.profile.randomKeepSeconds = tonumber(v)
 end
 
 --[[----------------------------------------------------------------------------

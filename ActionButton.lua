@@ -72,12 +72,17 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_PlayerMounts:RefreshMounts()
 
-    -- Set up the fresh run (.r) environment for a new run.
+    -- Re-randomize if it's time
+    local keepRandomForSeconds = LM_Options:GetRandomPersistence()
+    if GetTime() - (self.env.p.randomTime or 0) > keepRandomForSeconds then
+        self.env.p.random = math.random()
+        self.env.p.randomTime = GetTime()
+    end
 
+    -- Set up the fresh run (.r) environment for a new run.
     table.wipe(self.env.r)
     self.env.r.filters = { { "CASTABLE", "ENABLED" } }
     self.env.r.flowControl = { }
-    self.env.r.random = math.random()
 
     for _,a in ipairs(self.actions) do
         if self:Dispatch(a) then
