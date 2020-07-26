@@ -26,19 +26,20 @@ function LM_ActionButton:SetupActionButton(mount)
     end
 end
 
-function LM_ActionButton:Dispatch(action, env)
+function LM_ActionButton:Dispatch(action)
 
-    local isTrue
-    isTrue, env.unit = LM_Conditions:Eval(action.conditions)
+    local isTrue, unit = LM_Conditions:Eval(action.conditions)
+
+    self.env.r.unit = unit
 
     local handler = LM_Actions:GetFlowControlHandler(action.action)
     if handler then
         LM_Debug("Dispatching flow control action " .. action.action)
-        handler(action.args or {}, env, isTrue)
+        handler(action.args or {}, self.env, isTrue)
         return
     end
 
-    if not isTrue or LM_Actions:IsFlowSkipped(env) then return end
+    if not isTrue or LM_Actions:IsFlowSkipped(self.env) then return end
 
     handler = LM_Actions:GetHandler(action.action)
     if not handler then
@@ -49,7 +50,7 @@ function LM_ActionButton:Dispatch(action, env)
     LM_Debug("Dispatching action " .. action.action)
 
     -- This is super ugly.
-    local m = handler(action.args or {}, env)
+    local m = handler(action.args or {}, self.env)
     if not m then return end
 
     LM_Debug("Setting up button as " .. (m.name or action.action) .. ".")
@@ -71,19 +72,20 @@ function LM_ActionButton:PreClick(mouseButton)
 
     LM_PlayerMounts:RefreshMounts()
 
-    local env = {
-        ['filters'] = { { "CASTABLE", "ENABLED" } },
-        ['flowControl'] = { },
-        ['random'] = math.random(),
-    }
+    -- Set up the fresh run (.r) environment for a new run.
+
+    table.wipe(self.env.r)
+    self.env.r.filters = { { "CASTABLE", "ENABLED" } }
+    self.env.r.flowControl = { }
+    self.env.r.random = math.random()
 
     for _,a in ipairs(self.actions) do
-        if self:Dispatch(a, env) then
+        if self:Dispatch(a) then
             return
         end
     end
 
-    self:Dispatch({ ['action'] = "CantMount" }, env)
+    self:Dispatch({ ['action'] = "CantMount" })
 end
 
 function LM_ActionButton:PostClick()
@@ -110,9 +112,12 @@ function LM_ActionButton:Create(n)
     -- So we can look up action lists in LM_Options
     b.id = n
 
-    b:CompileActions()
+    -- Actions environment, p is persistent, r is single run
+    b.env = { p = {}, r = {} }
 
     -- Button-fu
+    b:CompileActions()
+
     b:RegisterForClicks("AnyDown")
 
     -- SecureActionButton setup
