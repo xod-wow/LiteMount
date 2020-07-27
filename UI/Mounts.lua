@@ -468,7 +468,13 @@ function LiteMountOptionsMounts_OnLoad(self)
             -- undo
         end
 
+    -- Refresh is trigged from OnOptionsModified which means its cached
+    -- ideas about mounts are wrong and need to be cleared. In an ideal world
+    -- it would listen itself but the order is non-deterministic so we're
+    -- force clearing it here, even though it's ugly encapsulation breakage.
+
     self.refresh = function (self)
+        LM_UIFilter.ClearCache()
         LiteMountOptions_UpdateFlagPaging(self)
         LiteMountOptions_UpdateMountList(self)
     end
