@@ -26,20 +26,22 @@ function LM_ActionButton:SetupActionButton(mount)
     end
 end
 
-function LM_ActionButton:Dispatch(action)
+function LM_ActionButton:Dispatch(action, env)
 
     local isTrue, unit = LM_Conditions:Eval(action.conditions)
 
-    self.env.r.unit = unit
+    -- Flow control actions use the run environment
 
     local handler = LM_Actions:GetFlowControlHandler(action.action)
     if handler then
         LM_Debug("Dispatching flow control action " .. action.action)
-        handler(action.args or {}, self.env, isTrue)
+        handler(action.args or {}, env, isTrue)
         return
     end
 
-    if not isTrue or LM_Actions:IsFlowSkipped(self.env) then return end
+    if not isTrue or LM_Actions:IsFlowSkipped(env) then
+        return
+    end
 
     handler = LM_Actions:GetHandler(action.action)
     if not handler then
@@ -49,14 +51,16 @@ function LM_ActionButton:Dispatch(action)
 
     LM_Debug("Dispatching action " .. action.action)
 
-    -- This is super ugly.
-    local m = handler(action.args or {}, self.env)
-    if not m then return end
+    -- New sub-environment for this action
+    local subEnv = CopyTable(env)
+    subEnv.unit = unit
 
-    LM_Debug("Setting up button as " .. (m.name or action.action) .. ".")
-    self:SetupActionButton(m)
-
-    return true
+    local m = handler(action.args or {}, subEnv)
+    if m then
+        LM_Debug("Setting up button as " .. (m.name or action.action) .. ".")
+        self:SetupActionButton(m)
+        return true
+    end
 end
 
 function LM_ActionButton:CompileActions()
@@ -74,23 +78,25 @@ function LM_ActionButton:PreClick(mouseButton)
 
     -- Re-randomize if it's time
     local keepRandomForSeconds = LM_Options:GetRandomPersistence()
-    if GetTime() - (self.env.p.randomTime or 0) > keepRandomForSeconds then
-        self.env.p.random = math.random()
-        self.env.p.randomTime = GetTime()
+    if GetTime() - (self.globalEnv.randomTime or 0) > keepRandomForSeconds then
+        self.globalEnv.random = math.random()
+        self.globalEnv.randomTime = GetTime()
     end
 
-    -- Set up the fresh run (.r) environment for a new run.
-    table.wipe(self.env.r)
-    self.env.r.filters = { { "CASTABLE", "ENABLED" } }
-    self.env.r.flowControl = { }
+    -- New sub-environment for this run
+    local subEnv = CopyTable(self.globalEnv)
+
+    -- Set up the fresh run environment for a new run.
+    subEnv.filters = { { "CASTABLE", "ENABLED" } }
+    subEnv.flowControl = { }
 
     for _,a in ipairs(self.actions) do
-        if self:Dispatch(a) then
+        if self:Dispatch(a, subEnv) then
             return
         end
     end
 
-    self:Dispatch({ ['action'] = "CantMount" })
+    self:Dispatch({ ['action'] = "CantMount" }, subEnv)
 end
 
 function LM_ActionButton:PostClick()
@@ -117,8 +123,8 @@ function LM_ActionButton:Create(n)
     -- So we can look up action lists in LM_Options
     b.id = n
 
-    -- Actions environment, p is persistent, r is single run
-    b.env = { p = {}, r = {} }
+    -- Global actions environment
+    b.globalEnv = { }
 
     -- Button-fu
     b:CompileActions()

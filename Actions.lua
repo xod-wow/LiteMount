@@ -36,29 +36,29 @@ local FLOWCONTROLS = { }
 FLOWCONTROLS['IF'] =
     function (args, env, isTrue)
         LM_Debug(' - IF test is ' .. tostring(isTrue))
-        table.insert(env.r.flowControl, isTrue)
+        table.insert(env.flowControl, isTrue)
     end
 
 FLOWCONTROLS['ELSEIF'] =
     function (args, env, isTrue)
         LM_Debug(' - ELSEIF test is ' .. tostring(isTrue))
-        table.remove(env.r.flowControl)
-        table.insert(env.r.flowControl, isTrue)
+        table.remove(env.flowControl)
+        table.insert(env.flowControl, isTrue)
     end
 
 FLOWCONTROLS['ELSE'] =
     function (args, env, isTrue)
-        local n = #env.r.flowControl
+        local n = #env.flowControl
         if n > 0 then
-            isTrue =  not env.r.flowControl[n]
+            isTrue =  not env.flowControl[n]
             LM_Debug(' - ELSE test is ' .. tostring(isTrue))
-            env.r.flowControl[n] = isTrue
+            env.flowControl[n] = isTrue
         end
     end
 
 FLOWCONTROLS['END'] =
     function (args, env, isTrue)
-        table.remove(env.r.flowControl)
+        table.remove(env.flowControl)
     end
 
 local ACTIONS = { }
@@ -68,16 +68,16 @@ local ACTIONS = { }
 
 ACTIONS['Limit'] =
     function (args, env)
-        local filters = tJoin(env.r.filters[1], args)
-        table.insert(env.r.filters, 1, filters)
-        LM_Debug(" - new filter: " .. table.concat(env.r.filters[1], ' '))
+        local filters = tJoin(env.filters[1], args)
+        table.insert(env.filters, 1, filters)
+        LM_Debug(" - new filter: " .. table.concat(env.filters[1], ' '))
     end
 
 ACTIONS['Endlimit'] =
     function (args, env)
-        if #env.r.filters == 1 then return end
-        table.remove(env.r.filters, 1)
-        LM_Debug(" - restored filter: " .. table.concat(env.r.filters[1], ' '))
+        if #env.filters == 1 then return end
+        table.remove(env.filters, 1)
+        LM_Debug(" - restored filter: " .. table.concat(env.filters[1], ' '))
     end
 
 local function GetKnownSpell(arg)
@@ -105,7 +105,7 @@ ACTIONS['Spell'] =
             local name, id = GetKnownSpell(arg)
             if name and IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
                 LM_Debug(" - setting action to spell " .. name)
-                return LM_SecureAction:Spell(name, env.r.unit)
+                return LM_SecureAction:Spell(name, env.unit)
             end
         end
     end
@@ -219,7 +219,7 @@ ACTIONS['CancelForm'] =
 -- Got a player target, try copying their mount
 ACTIONS['CopyTargetsMount'] =
     function (args, env)
-        local unit = env.r.unit or "target"
+        local unit = env.unit or "target"
         if LM_Options.db.profile.copyTargetsMount and UnitIsPlayer(unit) then
             LM_Debug(format(" - trying to clone %s's mount", unit))
             return LM_PlayerMounts:GetMountFromUnitAura(unit)
@@ -229,7 +229,7 @@ ACTIONS['CopyTargetsMount'] =
 ACTIONS['SmartMount'] =
     function (args, env)
 
-        local filters = ReplaceVars(tJoin(env.r.filters[1], args))
+        local filters = ReplaceVars(tJoin(env.filters[1], args))
         local filteredList = LM_PlayerMounts:FilterSearch(unpack(filters))
 
         LM_Debug(" - filters: " .. table.concat(filters, ' '))
@@ -242,7 +242,7 @@ ACTIONS['SmartMount'] =
             local swim = filteredList:FilterSearch('SWIM')
             LM_Debug(" - found " .. #swim .. " mounts.")
             if #swim > 0 then
-                return swim:PriorityRandom(env.p.random)
+                return swim:PriorityRandom(env.random)
             end
         end
 
@@ -251,7 +251,7 @@ ACTIONS['SmartMount'] =
             local fly = filteredList:FilterSearch('FLY')
             LM_Debug(" - found " .. #fly .. " mounts.")
             if #fly > 0 then
-                return fly:PriorityRandom(env.p.random)
+                return fly:PriorityRandom(env.random)
             end
         end
 
@@ -260,7 +260,7 @@ ACTIONS['SmartMount'] =
             local swim = filteredList:FilterSearch('SWIM')
             LM_Debug(" - found " .. #swim .. " mounts.")
             if #swim > 0 then
-                return swim:PriorityRandom(env.p.random)
+                return swim:PriorityRandom(env.random)
             end
         end
 
@@ -268,31 +268,31 @@ ACTIONS['SmartMount'] =
         local run = filteredList:FilterSearch('RUN')
         LM_Debug(" - found " .. #run .. " mounts.")
         if #run > 0 then
-            return run:PriorityRandom(env.p.random)
+            return run:PriorityRandom(env.random)
         end
 
         LM_Debug(" - trying Walking Mount")
         local walk = filteredList:FilterSearch('WALK')
         LM_Debug(" - found " .. #walk .. " mounts.")
         if #walk > 0 then
-            return run:PriorityRandom(env.p.random)
+            return run:PriorityRandom(env.random)
         end
 
     end
 
 ACTIONS['Mount'] =
     function (args, env)
-        local filters = ReplaceVars(tJoin(env.r.filters[1], args))
+        local filters = ReplaceVars(tJoin(env.filters[1], args))
         LM_Debug(" - filters: " .. table.concat(filters, ' '))
         local mounts = LM_PlayerMounts:FilterSearch(unpack(filters))
-        return mounts:PriorityRandom(env.p.random)
+        return mounts:PriorityRandom(env.random)
     end
 
 ACTIONS['Macro'] =
     function (args, env)
         if LM_Options.db.char.useUnavailableMacro then
             LM_Debug(" - using unavailable macro")
-            return LM_SecureAction:Macro(LM_Options.db.char.unavailableMacro, env.r.unit)
+            return LM_SecureAction:Macro(LM_Options.db.char.unavailableMacro, env.unit)
         end
     end
 
@@ -301,7 +301,7 @@ ACTIONS['Script'] =
         local macroText = table.concat(args, ' ')
         if SecureCmdOptionParse(macroText) then
             LM_Debug(" - running script line: " .. macroText)
-            return LM_SecureAction:Macro(macroText, env.r.unit)
+            return LM_SecureAction:Macro(macroText, env.unit)
         end
     end
 
@@ -364,12 +364,12 @@ ACTIONS['Use'] =
                 local s, d, e = GetInventoryItemCooldown('player', slot)
                 if s == 0 and e == 1 then
                     LM_Debug(' - Setting action to use slot ' .. slot)
-                    return LM_SecureAction:Use(slot, env.r.unit)
+                    return LM_SecureAction:Use(slot, env.unit)
                 end
             elseif name then
                 if IsCastableItem(name) then
                     LM_Debug(' - setting action to use item ' .. name)
-                    return LM_SecureAction:Use(name, env.r.unit)
+                    return LM_SecureAction:Use(name, env.unit)
                 end
             end
         end
@@ -429,5 +429,5 @@ function LM_Actions:GetHandler(action)
 end
 
 function LM_Actions:IsFlowSkipped(env)
-    return tContains(env.r.flowControl, false)
+    return tContains(env.flowControl, false)
 end
