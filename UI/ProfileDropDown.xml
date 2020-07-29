@@ -8,7 +8,7 @@
     <Size x="140" y="22" />
     <Layers>
         <Layer level="ARTWORK">
-            <Texture name="$parentIcon" parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
+            <Texture parentKey="Icon" file="Interface\ChatFrame\ChatFrameExpandArrow">
                 <Size x="10" y="12"/>
                 <Anchors>
                     <Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="RIGHT" x="-5"/>
@@ -21,7 +21,7 @@
         <OnShow function="LiteMountOptionsProfileDropDown_OnShow" />
         <OnHide function="LiteMountOptionsProfileDropDown_OnHide" />
         <OnClick>
-            ToggleDropDownMenu(1, nil, LiteMountOptionsProfileDropDown, self:GetName(), 74, 15)
+            ToggleDropDownMenu(1, nil, LiteMountOptionsProfileDropDown, self, 74, 15)
         </OnClick>
     </Scripts>
 </Button>

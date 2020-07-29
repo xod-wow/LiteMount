@@ -9,7 +9,7 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString name="$parentText" parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
+            <FontString parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
                 <Anchors>
                     <Anchor point="LEFT" x="24" />
                     <Anchor point="RIGHT" x="-12" />
@@ -19,12 +19,12 @@
     </Layers>
 
     <Frames>
-        <Button name="$parentDeleteButton" parentKey="DeleteButton" hidden="true">
+        <Button parentKey="DeleteButton" hidden="true">
             <Size x="14" y="14" />
             <Anchors> <Anchor point="LEFT" x="6" /> </Anchors>
-            <NormalTexture name="$parentNormalTexture" file="Interface\Buttons\UI-MinusButton-UP"/>
-            <PushedTexture name="$parentPushedTexture" file="Interface\Buttons\UI-MinusButton-DOWN"/>
-            <HighlightTexture name="$parentHighlightTexture" file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+            <NormalTexture file="Interface\Buttons\UI-MinusButton-UP"/>
+            <PushedTexture file="Interface\Buttons\UI-MinusButton-DOWN"/>
+            <HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
             <Scripts>
                 <OnClick>
                     local f = self:GetParent().flag
@@ -49,7 +49,7 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString name="$parentExplainText" parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_ADVANCED_EXP">
+            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_ADVANCED_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
                     <Anchor point="LEFT" x="48" />
@@ -60,7 +60,7 @@
     </Layers>
 
     <Frames>
-        <Frame name="$parentEditBoxContainer" parentKey="EditBoxContainer">
+        <Frame parentKey="EditBoxContainer">
             <Size x="400" />
             <Anchors>
                 <Anchor point="TOP" y="-160" />
@@ -84,7 +84,7 @@
             </Scripts>
         </Frame>
 
-        <ScrollFrame name="$parentEditScroll" parentKey="EditScroll" inherits="UIPanelScrollFrameTemplate">
+        <ScrollFrame parentKey="EditScroll" inherits="UIPanelScrollFrameTemplate">
 
             <Anchors>
                 <Anchor point="TOPLEFT" x="8" y="-8" relativeKey="$parent.EditBoxContainer" />
@@ -102,7 +102,7 @@
             </Scripts>
 
             <ScrollChild>
-                <EditBox name="$parentEditBox" parentKey="EditBox" multiLine="true" autoFocus="false">
+                <EditBox parentKey="EditBox" multiLine="true" autoFocus="false">
                     <Size x="1" y="1" />
                     <Anchors>
                         <Anchor point="TOPLEFT" />
@@ -131,7 +131,7 @@
             </ScrollChild>
         </ScrollFrame>
 
-        <Button name="$parentRevertButton" parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
+        <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
             <Size x="96" y="22" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" x="24" y="16" />
@@ -142,7 +142,7 @@
             </Scripts>
         </Button>
 
-        <Button name="$parentDefaultButton" parentKey="DefaultButton" inherits="UIPanelButtonTemplate" text="DEFAULT">
+        <Button parentKey="DefaultButton" inherits="UIPanelButtonTemplate" text="DEFAULT">
             <Size x="96" y="22" />
             <Anchors>
                 <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="3" />
@@ -156,14 +156,14 @@
             </Scripts>
         </Button>
 
-        <Frame name="$parentBindingDropDown" parentkey="BindingDropDown" inherits="UIDropDownMenuTemplate">
+        <Frame parentkey="BindingDropDown" inherits="UIDropDownMenuTemplate">
             <Size x="93" y="22" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="-8" />
             </Anchors>
         </Frame>
 
-        <Frame name="$parentFlagContainer" parentKey="FlagContainer">
+        <Frame parentKey="FlagContainer">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" relativePoint="TOPRIGHT" x="16" />
                 <Anchor point="BOTTOM" relativeKey="$parent.EditBoxContainer" />
@@ -186,7 +186,7 @@
             </Scripts>
         </Frame>
 
-        <ScrollFrame name="$parentFlagScroll" parentKey="FlagScroll" inherits="MinimalHybridScrollFrameTemplate">
+        <ScrollFrame parentKey="FlagScroll" inherits="MinimalHybridScrollFrameTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.FlagContainer" x="8" y="-8" />
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.FlagContainer" x="-28" y="8" />
@@ -199,7 +199,7 @@
                 </OnLoad>
             </Scripts>
             <Frames>
-                <Button name="$parentAddFlagButton" parentKey="AddFlagButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
+                <Button parentKey="AddFlagButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
                     <Size x="96" y="22" />
                     <Scripts>
                         <OnClick>
@@ -210,7 +210,7 @@
             </Frames>
         </ScrollFrame>
 
-        <EditBox name="$parentDocURL" parentKey="DocURL" autoFocus="false" ignoreArrows="true">
+        <EditBox parentKey="DocURL" autoFocus="false" ignoreArrows="true">
             <Size y="16" />
             <Fontstring inherits="GameFontHighlight" />
             <Anchors>
@@ -239,7 +239,7 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString name="$parentFlagsLabel" parentKey="FlagsLabel" inherits="GameFontNormalLarge" text="LM_FLAGS">
+            <FontString parentKey="FlagsLabel" inherits="GameFontNormalLarge" text="LM_FLAGS">
                 <Anchors>
                     <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.FlagContainer" x="8" y="8" />
                 </Anchors>

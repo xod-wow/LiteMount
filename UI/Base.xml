@@ -7,7 +7,7 @@
         <Layer level="ARTWORK">
             <FontString name="$parentTagline" parentKey="Tagline" inherits="GameFontHighlight" justifyH="LEFT" text="LM_SETTINGS_TAGLINE">
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentTitle" y="-16" x="16" />
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.Title" y="-16" x="16" />
                     <Anchor point="RIGHT" />
                 </Anchors>
             </FontString>
@@ -38,7 +38,7 @@
 
             <FontString name="$parentHelpTranslate" parentKey="HelpTranslate" inherits="GameFontNormal" justifyH="LEFT" text="LM_HELP_TRANSLATE">
                 <Anchors>
-                    <Anchor point="LEFT" relativeTo="$parentTitle" x="16" />
+                    <Anchor point="LEFT" relativeKey="$parent.Title" x="16" />
                     <Anchor point="TOP" relativeKey="$parent.AuthorText" relativePoint="BOTTOM" y="-48" />
                 </Anchors>
             </FontString>

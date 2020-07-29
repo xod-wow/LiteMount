@@ -381,14 +381,14 @@ function LiteMountOptions_UpdateFlagPaging()
     local pageOffset = (self.currentFlagPage - 1 ) * NUM_FLAG_BUTTONS + 1
     self.pageFlags = tslice(allFlags, pageOffset, pageOffset+NUM_FLAG_BUTTONS-1)
 
-    local bt
+    local label
     for i = 1, NUM_FLAG_BUTTONS do
-        bt = self["BitText"..i]
+        label = self["BitLabel"..i]
         if self.pageFlags[i] then
-            bt:SetText(L[self.pageFlags[i]])
-            bt:Show()
+            label:SetText(L[self.pageFlags[i]])
+            label:Show()
         else
-            bt:Hide()
+            label:Hide()
         end
     end
 end

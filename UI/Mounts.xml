@@ -36,7 +36,7 @@
     <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
     <Layers>
         <Layer level="BACKGROUND">
-            <Texture alphaMode="ADD" hidden="true" name="$parentModified" parentKey="Modified">
+            <Texture alphaMode="ADD" hidden="true" parentKey="Modified">
                 <Anchors>
                     <Anchor point="TOPLEFT" x="5" y="-5" />
                     <Anchor point="BOTTOMRIGHT" x="-6" y="6" />
@@ -111,16 +111,16 @@
     </Scripts>
 
     <Frames>
-        <Button name="$parentIcon" parentKey="Icon" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true">
+        <Button parentKey="Icon" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true">
             <Size x="36" y="36" />
             <Anchors>
                 <Anchor point="LEFT" x="2" />
             </Anchors>
-            <HighlightTexture name="$parentHighlight" parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
+            <HighlightTexture parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
 
             <Layers>
                 <Layer level="OVERLAY">
-                    <Texture name="$parentUnusable" parentKey="Unusable" setAllPoints="true" hidden="true">
+                    <Texture parentKey="Unusable" setAllPoints="true" hidden="true">
                         <Color r="1" g="0" b="0" />
                     </Texture>
                 </Layer>
@@ -183,19 +183,19 @@
             </Scripts>
         </Button>
 
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit5" parentKey="Bit5" id="5">
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit5" id="5">
             <Anchors> <Anchor point="RIGHT" x="-32" /> </Anchors>
         </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit4" parentKey="Bit4" id="4">
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit4" id="4">
             <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit5" x="-34" /> </Anchors>
         </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit3" parentKey="Bit3" id="3">
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit3" id="3">
             <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit4" x="-34" /> </Anchors>
         </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit2" parentKey="Bit2" id="2">
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit2" id="2">
             <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit3" x="-34" /> </Anchors>
         </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" name="$parentBit1" parentKey="Bit1" id="1">
+        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit1" id="1">
             <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit2" x="-34" /> </Anchors>
         </CheckButton>
 
@@ -208,7 +208,7 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormal" justifyH="LEFT" name="$parentName" parentKey="Name">
+            <FontString inherits="GameFontNormal" justifyH="LEFT" parentKey="Name">
                 <Anchors>
                     <Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT" x="4" />
                     <Anchor point="TOP" y="-2" />
@@ -237,7 +237,7 @@
         </BackgroundInsets>
     </Backdrop>
     <Frames>
-       <PlayerModel name="$parentModel" parentKey="Model">
+       <PlayerModel parentKey="Model">
             <Anchors>
                 <Anchor point="TOPLEFT" x="8" y="-8" />
                 <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
@@ -264,7 +264,7 @@
 <Frame name="LiteMountOptionsMounts" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <Frames>
-        <ScrollFrame inherits="MinimalHybridScrollFrameTemplate" name="$parentScrollFrame" parentKey="ScrollFrame">
+        <ScrollFrame inherits="MinimalHybridScrollFrameTemplate" parentKey="ScrollFrame">
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-92" />
                 <Anchor point="BOTTOMRIGHT" x="-32" y="20" />
@@ -278,7 +278,7 @@
             </Scripts>
         </ScrollFrame>
 
-        <EditBox autofocus="false" inherits="SearchBoxTemplate" name="$parentSearch" parentKey="Search" letters="40">
+        <EditBox autofocus="false" inherits="SearchBoxTemplate" parentKey="Search" letters="40">
             <Size x="145" y="20" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollFrame" relativePoint="TOPLEFT" x="6" y="15" />
@@ -292,7 +292,7 @@
             </Scripts>
         </EditBox>
 
-        <Button name="$parentFilterButton" parentKey="FilterButton" inherits="UIMenuButtonStretchTemplate" text="FILTER">
+        <Button parentKey="FilterButton" inherits="UIMenuButtonStretchTemplate" text="FILTER">
             <Size x="93" y="22" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.Search" relativePoint="RIGHT" x="12" y="-0.5" />
@@ -309,7 +309,7 @@
             </Layers>
             <Scripts>
                 <OnClick>
-                    ToggleDropDownMenu(1, nil, LiteMountOptionsMountsFilterDropDown, self:GetName(), 74, 15)
+                    ToggleDropDownMenu(1, nil, self:GetParent().FilterDropDown, self, 74, 15)
                 </OnClick>
             </Scripts>
 
@@ -330,7 +330,7 @@
             </Frames>
         </Button>
 
-        <Frame name="$parentFilterDropDown" inherits="UIDropDownMenuTemplate">
+        <Frame parentKey="FilterDropDown" inherits="UIDropDownMenuTemplate">
             <Scripts>
                 <OnLoad function="LiteMountOptionsMountsFilterDropDown_OnLoad" />
             </Scripts>
@@ -339,36 +339,36 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString name="$parentBitText5" parentKey="BitText5" inherits="GameFontWhiteTiny" justifyH="CENTER">
+            <FontString parentKey="BitLabel5" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
                 <Anchors>
                     <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-32" y="10" />
                 </Anchors>
             </FontString>
-            <FontString name="$parentBitText4" parentKey="BitText4" inherits="GameFontWhiteTiny" justifyH="CENTER">
+            <FontString parentKey="BitLabel4" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText5" x="-30" /> </Anchors>
+                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitLabel5" x="-30" /> </Anchors>
             </FontString>
-            <FontString name="$parentBitText3" parentKey="BitText3" inherits="GameFontWhiteTiny" justifyH="CENTER">
+            <FontString parentKey="BitLabel3" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText4" x="-34" /> </Anchors>
+                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitLabel4" x="-34" /> </Anchors>
             </FontString>
-            <FontString name="$parentBitText2" parentKey="BitText2" inherits="GameFontWhiteTiny" justifyH="CENTER">
+            <FontString parentKey="BitLabel2" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText3" x="-34" /> </Anchors>
+                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitLabel3" x="-34" /> </Anchors>
             </FontString>
-            <FontString name="$parentBitText1" parentKey="BitText1" inherits="GameFontWhiteTiny" justifyH="CENTER">
+            <FontString parentKey="BitLabel1" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitText2" x="-34" /> </Anchors>
+                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitLabel2" x="-34" /> </Anchors>
             </FontString>
         </Layer>
     </Layers>
 
     <Frames>
-        <Button name="$parentNextPageButton" parentKey="NextPageButton">
+        <Button parentKey="NextPageButton">
             <Size x="26" y="26" />
             <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.BitText5" relativePoint="RIGHT" x="4" />
+                <Anchor point="LEFT" relativeKey="$parent.BitLabel5" relativePoint="RIGHT" x="4" />
             </Anchors>
             <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
             <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
@@ -381,10 +381,10 @@
             </Scripts>
         </Button>
 
-        <Button name="$parentPrevPageButton" parentKey="PrevPageButton">
+        <Button parentKey="PrevPageButton">
             <Size x="26" y="26" />
             <Anchors>
-                <Anchor point="RIGHT" relativeKey="$parent.BitText1" relativePoint="LEFT" x="-4" />
+                <Anchor point="RIGHT" relativeKey="$parent.BitLabel1" relativePoint="LEFT" x="-4" />
             </Anchors>
             <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
             <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
@@ -398,13 +398,23 @@
         </Button>
 
 
-        <Frame name="$parentAllPriority" parentKey="AllPriority" inherits="LiteMountPriorityTemplate">
+        <Frame parentKey="AllPriority" inherits="LiteMountPriorityTemplate">
             <Anchors>
-                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.BitText1" x="-30" />
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.BitLabel1" x="-30" />
             </Anchors>
         </Frame>
 
     </Frames>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="PriorityLabel" inherits="GameFontWhiteTiny" justifyY="CENTER" text="LM_PRIORITY">
+                <Anchors>
+                    <Anchor point="BOTTOM" relativePoint="TOP" relativeKey="$parent.AllPriority" y="8" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
 
     <Scripts>
         <OnLoad function="LiteMountOptionsMounts_OnLoad" />
