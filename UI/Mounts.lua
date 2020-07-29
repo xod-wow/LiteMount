@@ -209,7 +209,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = CHECK_ALL
             info.func = function ()
                     LM_UIFilter.SetAllSourceFilters(true)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
@@ -217,7 +217,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = UNCHECK_ALL
             info.func = function ()
                     LM_UIFilter.SetAllSourceFilters(false)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
@@ -245,7 +245,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = CHECK_ALL
             info.func = function ()
                     LM_UIFilter:SetAllFlagFilters(true)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
@@ -253,7 +253,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = UNCHECK_ALL
             info.func = function ()
                     LM_UIFilter:SetAllFlagFilters(false)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
@@ -278,7 +278,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = CHECK_ALL
             info.func = function ()
                     LM_UIFilter:SetAllPriorityFilters(true)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
@@ -286,7 +286,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = UNCHECK_ALL
             info.func = function ()
                     LM_UIFilter:SetAllPriorityFilters(false)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMountsFilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
