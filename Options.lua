@@ -54,7 +54,6 @@ Mount [nosubmerged,aura:202477] id:881
 IF [mod:shift,flyable][mod:shift,waterwalking]
   Limit RUN/WALK,~FLY
 END
-SmartMount {CLASS}/{RACE}/{FACTION}
 SmartMount
 Macro
 ]]
