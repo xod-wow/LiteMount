@@ -15,19 +15,17 @@
     </Scripts>
 
     <Frames>
-        <Frame parentKey="EditBoxContainer">
+        <Frame parentKey="EditBoxContainer" inherits="TooltipBackdropTemplate">
             <Size x="400" y="200" />
             <Anchors>
                 <Anchor point="CENTER" />
             </Anchors>
-            <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
-                <EdgeSize val="16" />
-                <TileSize val="16" />
-                <BackgroundInsets>
-                    <AbsInset left="5" right="5" top="5" bottom="5" />
-                </BackgroundInsets>
-            </Backdrop>
-        </Frame>
+
+            <KeyValues>
+                <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
+                <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
+                <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
+            </KeyValues>
 
         <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true" mixin="LiteMountMacroEditBoxMixin">
             <Scripts>
