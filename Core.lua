@@ -99,6 +99,12 @@ function LiteMount:Initialize()
 
 end
 
+function LiteMount:RecompileActions()
+    for _,b in ipairs(self.actions) do
+        b:CompileActions()
+    end
+end
+
 function LiteMount:Refresh()
     LM_Debug("Refresh")
 

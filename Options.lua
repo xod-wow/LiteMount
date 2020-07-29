@@ -194,6 +194,7 @@ end
 function LM_Options:OnProfile()
     self:UpdateFlagCache()
     self:InitializePriorities()
+    LiteMount:RecompileActions()
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
@@ -438,6 +439,24 @@ function LM_Options:SetRandomPersistence(v)
         self.db.profile.randomKeepSeconds = math.max(0, v)
     end
 end
+
+--[[----------------------------------------------------------------------------
+    Button action lists
+----------------------------------------------------------------------------]]--
+
+function LM_Options:GetButtonAction(i)
+    return self.db.profile.buttonActions[i]
+end
+
+function LM_Options:SetButtonAction(i, v)
+    self.db.profile.buttonActions[i] = v
+    LiteMount.actions[i]:CompileActions()
+end
+
+function LM_Options:GetDefaultButtonAction()
+     return self.db.defaults.profile.buttonActions['*']
+end
+
 
 --[[----------------------------------------------------------------------------
     Instance recording

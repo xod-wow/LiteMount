@@ -112,11 +112,10 @@
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnLoad>
                              self.SetOption = function (self, v, i)
-                                    LM_Options.db.profile.buttonActions[i] = v
-                                    LiteMount.actions[i]:CompileActions()
+                                    LM_Options:SetButtonAction(i, v)
                                 end
                             self.GetOption = function (self, i)
-                                    return LM_Options.db.profile.buttonActions[i]
+                                    return LM_Options:GetButtonAction(i)
                                 end
                             self.GetOptionDefault = function (self, i)
                                     return LM_Options.db.defaults.profile.buttonActions['*']

@@ -50,7 +50,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
         self.editBox:SetFocus()
     end,
     OnHide = function (self)
-            LiteMountOptionsAdvanced_Update()
+            LiteMountOptionsAdvanced_Refresh()
         end,
 }
 
@@ -64,7 +64,7 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_FLAG"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             LM_Options:DeleteFlag(self.data)
-            LiteMountOptionsAdvanced_Update()
+            LiteMountOptionsAdvanced_Refresh()
         end,
     OnShow = function (self)
             self.text:SetText(format("LiteMount : %s : %s", L.LM_DELETE_FLAG, self.data))
@@ -108,7 +108,7 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_FLAG"] = {
             self.editBox:SetFocus()
         end,
     OnHide = function (self)
-            LiteMountOptionsAdvanced_Update()
+            LiteMountOptionsAdvanced_Refresh()
         end,
 }
 
@@ -178,9 +178,10 @@ local function UpdateFlagScroll(self)
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
-function LiteMountOptionsAdvanced_Update(self)
+function LiteMountOptionsAdvanced_Refresh(self)
     self = self or LiteMountOptionsAdvanced
     UpdateFlagScroll(self.FlagScroll)
+    LiteMountOptionsControl_Refresh(self.EditScroll.EditBox)
 end
 
 function LiteMountOptionsAdvanced_OnSizeChanged(self)
@@ -201,13 +202,13 @@ function LiteMountOptionsAdvanced_OnLoad(self)
     self.FlagScroll.update = UpdateFlagScroll
     LiteMountOptionsAdvanced_OnSizeChanged(self)
 
-    self.refresh = LiteMountOptionsAdvanced_Update
+    self.refresh = LiteMountOptionsAdvanced_Refresh
 
     LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountOptionsAdvanced_OnShow(self)
-    LiteMountOptionsAdvanced_Update(self)
+    LiteMountOptionsAdvanced_Refresh(self)
     LiteMountOptionsPanel_OnShow(self)
 end
 
