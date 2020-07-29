@@ -4,7 +4,7 @@
 
 <Script file="Advanced.lua" />
 
-<Button name="LiteMountFlagButtonTemplate" virtual="true" mixin="LiteMountFlagButtonMixin">
+<Button name="LiteMountFlagButtonTemplate" inherits="TooltipBackdropTemplate" virtual="true" mixin="LiteMountFlagButtonMixin">
     <Size y="22" />
 
     <Scripts>
@@ -57,7 +57,7 @@
     </Layers>
 
     <Frames>
-        <Frame parentKey="EditBoxContainer">
+        <Frame parentKey="EditBoxContainer" inherits="TooltipBackdropTemplate">
             <Size x="424" />
             <Anchors>
                 <Anchor point="TOP" y="-160" />
@@ -65,13 +65,12 @@
                 <Anchor point="BOTTOM" y="48" />
             </Anchors>
 
-            <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
-                <EdgeSize val="16" />
-                <TileSize val="16" />
-                <BackgroundInsets>
-                    <AbsInset left="5" right="5" top="5" bottom="5" />
-                </BackgroundInsets>
-            </Backdrop>
+        <KeyValues>
+            <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
+            <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
+            <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
+        </KeyValues>
+
         </Frame>
 
         <ScrollFrame parentKey="EditScroll" inherits="UIPanelScrollFrameTemplate" mixin="LiteMountAdvancedEditScrollMixin">
@@ -124,20 +123,18 @@
             </Anchors>
         </Frame>
 
-        <Frame parentKey="FlagContainer">
+        <Frame parentKey="FlagContainer" inherits="TooltipBackdropTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" relativePoint="TOPRIGHT" x="8" />
                 <Anchor point="BOTTOM" relativeKey="$parent.EditBoxContainer" />
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
 
-            <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
-                <EdgeSize val="16" />
-                <TileSize val="16" />
-                <BackgroundInsets>
-                    <AbsInset left="5" right="5" top="5" bottom="5" />
-                </BackgroundInsets>
-            </Backdrop>
+            <KeyValues>
+                <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
+                <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
+                <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
+            </KeyValues>
         </Frame>
 
         <ScrollFrame parentKey="FlagScroll" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountFlagScrollMixin">
