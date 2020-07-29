@@ -193,6 +193,7 @@ end
 
 function LM_Options:OnProfile()
     self:UpdateFlagCache()
+    self:InitializePriorities()
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
@@ -216,19 +217,16 @@ function LM_Options:GetPriority(m)
     return p, (self.db.profile.priorityWeights[p] or 0)
 end
 
-function LM_Options:InitializePriority(m)
-    
-    if self.db.profile.mountPriorities[m.spellID] then
-        return
+function LM_Options:InitializePriorities()
+    for _,m in ipairs(LM_PlayerMounts.mounts) do
+        if not self.db.profile.mountPriorities[m.spellID] then
+            if self.db.profile.excludeNewMounts then
+                self.db.profile.mountPriorities[m.spellID] = self.DISABLED_PRIORITY
+            else
+                self.db.profile.mountPriorities[m.spellID] = self.DEFAULT_PRIORITY
+            end
+        end
     end
-
-    if self.db.profile.excludeNewMounts then
-        self:SetPriority(m, 0)
-    else
-        self:SetDefaultPriority(m)
-    end
-
-    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM_Options:SetDefaultPriority(m)

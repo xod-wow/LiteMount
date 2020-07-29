@@ -65,9 +65,11 @@ function LM_PlayerMounts:Initialize()
     self:AddSpellMounts()
     self:AddJournalMounts()
 
-    for _,m in ipairs(self.mounts) do
-        LM_Options:InitializePriority(m)
-    end
+    -- We need to trigger this here for the active profile because LM_Options
+    -- was initialized earlier before we had any mounts, meaning it can't do it
+    -- for itself.
+
+    LM_Options:InitializePriorities()
 
     -- Refresh event setup
     self:SetScript("OnEvent",
