@@ -89,24 +89,17 @@
     </Scripts>
 </Frame>
 
-<Button name="LiteMountOptionsButtonTemplate" virtual="true">
+<Button name="LiteMountOptionsButtonTemplate" inherits="BackdropTemplate" virtual="true">
 
     <Size x="180" y="45" />
 
-    <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
-        <EdgeSize val="8" />
-        <TileSize val="8" />
-        <BackgroundInsets>
-            <AbsInset left="1" right="1" top="1" bottom="1" />
-        </BackgroundInsets>
-    </Backdrop>
-
-    <Scripts>
-        <OnLoad>
-            self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
-            self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
-        </OnLoad>
-    </Scripts>
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" TYpe="global"/>
+        <KeyValue key="backdropColor" value="TOOLTIP_DEFAULT_BACKGROUND_COLOR" type="global"/>
+        <KeyValue key="backdropColorAlpha" value="0.3" type="number"/>
+        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.3" type="number"/>
+    </KeyValues>
 
     <Frames>
         <Button parentKey="Icon" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true">
@@ -222,7 +215,7 @@
 </Button>
 
 
-<Frame name="LiteMountOptionsPreview" parent="UIParent" hidden="true" frameStrata="TOOLTIP">
+<Frame name="LiteMountOptionsPreview" inherits="BackdropTemplate" parent="UIParent" hidden="true" frameStrata="TOOLTIP">
     <Size x="250" y="250" />
     <Anchors>
         <Anchor point="TOPLEFT" relativeTo="GameTooltip" relativePoint="BOTTOMLEFT" y="-4" />
