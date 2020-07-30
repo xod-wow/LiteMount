@@ -89,16 +89,16 @@
     <Scripts>
         <OnLoad>
             local translators = {
-                "deDE - pas06, Salty",
+                "deDE - Bullseify, Selthi, staratnight, wiggelator, pas06, Salty",
                 "esMX - ",
-                "esES - TradOrtiz, Valdesca",
+                "esES - TradOrtiz, valdesca",
                 "frFR - Joured, lastdans",
                 "itIT - ",
                 "koKR - yuk6196",
-                "ptBR - Kalx_",
+                "ptBR - Kalx_, felipe_shaman",
                 "ruRU - ",
                 "zhCN - okaydud, wowuicn",
-                "zhTW - BNSSNB, yunrong"
+                "zhTW - BNSSNB, yunrong, lohipp"
             }
 
             self.Version:SetText(GetAddOnMetadata("LiteMount", "Version") or "")
