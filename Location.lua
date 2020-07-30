@@ -115,6 +115,14 @@ function LM_Location:MapInPath(...)
     return false
 end
 
+function LM_Location:InInstance(...)
+    for i = 1, select('#', ...) do
+        local id = select(i, ...)
+        if self.instanceID == id then return true end
+    end
+    return false
+end
+
 -- apprenticeRiding = IsSpellKnown(33388)
 -- expertRiding = IsSpellKnown(34090)
 -- artisanRiding = IsSpellKnown(34091)
@@ -138,6 +146,7 @@ local InstanceNotFlyable = {
     [1514] = true,          -- Wandering Isle (Monk)
     [1519] = true,          -- Fel Hammer (DH)
     [1604] = true,          -- Niskara, priest legion campaign
+    [1669] = true,          -- Argus
     [1688] = true,          -- The Deadmines (Pet Battle)
     [1760] = true,          -- Ruins of Lordaeron BfA opening
     [1763] = true,          -- Atal'Dazar instance
@@ -181,19 +190,14 @@ function LM_Location:CanFly()
         if not IsSpellKnown(233368) then return false end
     end
 
-    -- Argus is non-flyable, but some parts of it are flagged wrongly
-    if self:MapInPath(905) then
-        return false
-    end
-
     -- Battle for Azeroth Pathfinder, Part 2
-    -- Zan'dalar (875), Kul'tiras (876) and Nazjatar (1355)
-    if self:MapInPath(875, 876, 1355) then
+    -- Zan'dalar (1642), Kul'tiras (1643) and Nazjatar (1718)
+    if self:InInstance(1642, 1643, 1718) then
         if not IsSpellKnown(278833) then return false end
     end
 
     -- Presumably Shadowlands Pathfinder at some point
-    if self.instanceID == 2222 then
+    if self:InInstance(2222) then
         return false
     end
 
