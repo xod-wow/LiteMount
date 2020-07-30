@@ -116,7 +116,7 @@ end
 -- OnSizeChanged on the scrollframe to make the buttons correctly.
 local function CreateMoreButtons(self)
     HybridScrollFrame_CreateButtons(self, "LiteMountOptionsButtonTemplate",
-                                    0, -1, "TOPLEFT", "TOPLEFT",
+                                    0, 0, "TOPLEFT", "TOPLEFT",
                                     0, -1, "TOP", "BOTTOM")
 
     -- Note: the buttons are laid out right to left
@@ -443,7 +443,6 @@ function LiteMountOptionsScrollFrame_OnSizeChanged(self, w, h)
     CreateMoreButtons(self)
     LiteMountOptions_UpdateMountList()
 
-    self.stepSize = self.buttonHeight
     self.update = LiteMountOptions_UpdateMountList
 end
 
