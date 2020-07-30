@@ -4,7 +4,7 @@
 
 <Script file="Advanced.lua" />
 
-<Button name="LiteMountOptionsFlagButtonTemplate" inherits="TooltipBackdropTemplate" virtual="true">
+<Button name="LiteMountOptionsFlagButtonTemplate" virtual="true">
     <Size y="22" />
 
     <Layers>
@@ -12,7 +12,7 @@
             <FontString parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
                 <Anchors>
                     <Anchor point="LEFT" x="24" />
-                    <Anchor point="RIGHT" x="-12" />
+                    <Anchor point="RIGHT" x="-4" />
                 </Anchors>
             </FontString>
         </Layer>
@@ -35,10 +35,6 @@
     </Frames>
 
     <Scripts>
-        <OnLoad>
-            self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
-            self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
-        </OnLoad>
         <OnEnter function="LiteMountOptionsFlagButton_OnEnter" />
         <OnLeave function="LiteMountOptionsFlagButton_OnLeave" />
     </Scripts>
