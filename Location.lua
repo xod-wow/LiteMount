@@ -187,12 +187,12 @@ function LM.Location:CanFly()
     if self:MapInPath(572) then
         if not IsSpellKnown(191645) then return false end
     end
-]]
 
-    -- Broken Isles Pathfinder, Part 2
+    -- Broken Isles Pathfinder, Part 2 - also seems gone in bfa
     if self:MapInPath(619) then
         if not IsSpellKnown(233368) then return false end
     end
+]]
 
     -- Battle for Azeroth Pathfinder, Part 2
     -- Zan'dalar (1642), Kul'tiras (1643) and Nazjatar (1718)
