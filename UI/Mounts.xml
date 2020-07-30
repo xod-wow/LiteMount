@@ -12,9 +12,7 @@
 <CheckButton name="LiteMountOptionsBitTemplate" virtual="true">
     <Size x="26" y="26" />
     <Scripts>
-        <OnClick>
-            LiteMountOptionsBit_OnClick(self)
-        </OnClick>
+        <OnClick function="LiteMountOptionsBit_OnClick" />
         <OnEnter>
             local L = LM_Localize
             if self.flag then

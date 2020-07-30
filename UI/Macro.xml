@@ -42,19 +42,6 @@
             <Scripts>
                 <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
                 <OnEscapePressed function="EditBox_ClearFocus" />
-                <OnLoad>
-                    self.SetOption = function (self, v)
-                            LM_Options.db.char.unavailableMacro = v
-                            LM_Options.db.char.useUnavailableMacro = (v ~= "")
-                        end
-                    self.GetOption = function (self)
-                            return LM_Options.db.char.unavailableMacro or ""
-                        end
-                    self.GetOptionDefault = function (self)
-                            return ""
-                        end
-                    LiteMountOptionsControl_OnLoad(self)
-                </OnLoad>
             </Scripts>
             <FontString inherits="GameFontHighlight" />
         </EditBox>

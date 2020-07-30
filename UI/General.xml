@@ -2,11 +2,17 @@
 
 <!-- Copyright 2011-2020 Mike Battersby -->
 
+<Script file="General.lua" />
+
 <Frame name="LiteMountOptionsGeneral" hidden="true" inherits="LiteMountOptionsPanelTemplate">
 
     <KeyValues>
         <KeyValue key="name" value="GENERAL" type="string" />
     </KeyValues>
+
+    <Scripts>
+        <OnLoad function="LiteMountOptionsGeneral_OnLoad" />
+    </Scripts>
 
     <Frames>
         <CheckButton parentKey="CopyTargetsMount" inherits="InterfaceOptionsCheckButtonTemplate">
@@ -15,22 +21,6 @@
                 <Anchor point="LEFT" x="24" />
             </Anchors>
             <Scripts>
-                <OnLoad>
-                    local L = LM_Localize
-                    self.Text:SetText(L.LM_COPY_TARGETS_MOUNT)
-                    self.SetOption = function (self, setting)
-                            if not setting or setting == "0" then
-                                LM_Options.db.profile.copyTargetsMount = false
-                            else
-                                LM_Options.db.profile.copyTargetsMount = true
-                            end
-                        end
-                    self.GetOption = function (self)
-                            return LM_Options.db.profile.copyTargetsMount
-                        end
-                    self.GetOptionDefault = function (self) return true end
-                    LiteMountOptionsControl_OnLoad(self)
-                </OnLoad>
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
@@ -39,46 +29,31 @@
                 <Anchor point="TOPLEFT" relativeKey="$parent.CopyTargetsMount" relativePoint="BOTTOMLEFT" x="0" y="-8" />
             </Anchors>
             <Scripts>
-                <OnLoad>
-                    local L = LM_Localize
-                    self.Text:SetText(L.LM_DISABLE_NEW_MOUNTS)
-                    self.SetOption = function (self, setting)
-                            if not setting or setting == "0" then
-                                LM_Options.db.profile.excludeNewMounts = false
-                            else
-                                LM_Options.db.profile.excludeNewMounts = true
-                            end
-                        end
-                    self.GetOptionDefault = function (self) return false end
-                    self.GetOption = function (self)
-                            return LM_Options.db.profile.excludeNewMounts
-                        end
-                    LiteMountOptionsControl_OnLoad(self)
-                </OnLoad>
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
+    </Frames>
+    <Layers>
+        <Layer level="OVERLAY">
+            <FontString parentKey="RandomPersist" text="LM_RANDOM_PERSISTENCE" inherits="GameFontHighlight">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" x="30" y="-22" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Frames>
+        <Frame parentKey="RandomPersistDropDown" inherits="UIDropDownMenuTemplate">
+            <Size x="93" y="22" />
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.RandomPersist" relativePoint="RIGHT" x="0" y="0" />
+            </Anchors>
+        </Frame>
         <CheckButton parentKey="Debugging" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-72" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-96" />
             </Anchors>
             <Scripts>
-                <OnLoad>
-                    local L = LM_Localize
-                    self.Text:SetText(L.LM_ENABLE_DEBUGGING)
-                    self.SetOption = function (self, setting)
-                            if not setting or setting == "0" then
-                                LM_Options:SetDebug(false)
-                            else
-                                LM_Options:SetDebug(true)
-                            end
-                        end
-                    self.GetOptionDefault = function (self) return false end
-                    self.GetOption = function (self)
-                            return LM_Options:GetDebug()
-                        end
-                    LiteMountOptionsControl_OnLoad(self)
-                </OnLoad>
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>

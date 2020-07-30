@@ -195,9 +195,17 @@ function LiteMountOptionsAdvanced_OnLoad(self)
     self.name = ADVANCED_OPTIONS
 
     self.EditScroll.EditBox.ntabs = 4
+    self.EditScroll.EditBox.SetOption =
+        function (self, v, i) LM_Options:SetButtonAction(i, v) end
+    self.EditScroll.EditBox.GetOption =
+        function (self, i) return LM_Options:GetButtonAction(i) end
+    self.EditScroll.EditBox.GetOptionDefault =
+        function (self, i) return LM_Options.db.defaults.profile.buttonActions['*'] end
+    LiteMountOptionsControl_OnLoad(self.EditScroll.EditBox, self)
 
     UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountOptionsAdvancedBindingDropDown_Initialize)
     UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
+
 
     self.FlagScroll.update = UpdateFlagScroll
     LiteMountOptionsAdvanced_OnSizeChanged(self)

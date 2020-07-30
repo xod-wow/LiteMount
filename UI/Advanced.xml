@@ -110,18 +110,6 @@
                     <Scripts>
                         <OnTextChanged function="LiteMountOptionsControl_OnChanged" />
                         <OnEscapePressed function="EditBox_ClearFocus" />
-                        <OnLoad>
-                             self.SetOption = function (self, v, i)
-                                    LM_Options:SetButtonAction(i, v)
-                                end
-                            self.GetOption = function (self, i)
-                                    return LM_Options:GetButtonAction(i)
-                                end
-                            self.GetOptionDefault = function (self, i)
-                                    return LM_Options.db.defaults.profile.buttonActions['*']
-                                end
-                            LiteMountOptionsControl_OnLoad(self, self:GetParent():GetParent())
-                        </OnLoad>
                         <OnUpdate function="InputScrollFrame_OnUpdate" />
                         <OnCursorChanged function="ScrollingEdit_OnCursorChanged" />
                     </Scripts>
