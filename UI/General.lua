@@ -11,8 +11,8 @@ local L = LM_Localize
 local persistOptions = {
     { 0,    L.LM_EVERY_TIME },
     { 30,   format(L.LM_EVERY_D_SECONDS, 30) },
+    { 120,  format(L.LM_EVERY_D_MINUTES, 2) },
     { 300,  format(L.LM_EVERY_D_MINUTES, 5) },
-    { 600,  format(L.LM_EVERY_D_MINUTES, 10) },
     { 1800, format(L.LM_EVERY_D_MINUTES, 30) },
 }
 
