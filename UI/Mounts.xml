@@ -89,23 +89,15 @@
     </Scripts>
 </Frame>
 
-<Button name="LiteMountOptionsButtonTemplate" inherits="BackdropTemplate" virtual="true">
+<Button name="LiteMountOptionsButtonTemplate" virtual="true">
 
-    <Size x="180" y="45" />
-
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" TYpe="global"/>
-        <KeyValue key="backdropColor" value="TOOLTIP_DEFAULT_BACKGROUND_COLOR" type="global"/>
-        <KeyValue key="backdropColorAlpha" value="0.3" type="number"/>
-        <KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.3" type="number"/>
-    </KeyValues>
+    <Size x="180" y="44" />
 
     <Frames>
         <Button parentKey="Icon" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true">
             <Size x="36" y="36" />
             <Anchors>
-                <Anchor point="LEFT" x="2" />
+                <Anchor point="LEFT" x="4" />
             </Anchors>
             <HighlightTexture parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
 
@@ -198,6 +190,11 @@
     </Frames>
 
     <Layers>
+        <Layer level="BACKGROUND">
+            <Texture setAllPoints="true">
+                <Color r="0" y="0" g="0" a="0.3" />
+            </Texture>
+        </Layer>
         <Layer level="ARTWORK">
             <FontString inherits="GameFontNormal" justifyH="LEFT" parentKey="Name">
                 <Anchors>
@@ -215,18 +212,11 @@
 </Button>
 
 
-<Frame name="LiteMountOptionsPreview" inherits="BackdropTemplate" parent="UIParent" hidden="true" frameStrata="TOOLTIP">
+<Frame name="LiteMountOptionsPreview" inherits="TooltipBackdropTemplate" parent="UIParent" hidden="true" frameStrata="TOOLTIP">
     <Size x="250" y="250" />
     <Anchors>
         <Anchor point="TOPLEFT" relativeTo="GameTooltip" relativePoint="BOTTOMLEFT" y="-4" />
     </Anchors>
-    <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-        <EdgeSize val="16" />
-        <TileSize val="16" />
-        <BackgroundInsets>
-            <AbsInset left="5" right="5" top="5" bottom="5"/>
-        </BackgroundInsets>
-    </Backdrop>
     <Frames>
        <PlayerModel parentKey="Model">
             <Anchors>
@@ -241,13 +231,9 @@
         </PlayerModel>
     </Frames>
     <Scripts>
-        <OnLoad>
-            self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b);
-            self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b);
-        </OnLoad>
         <OnShow>
             local d = GameTooltip:GetWidth()
-            self:SetSize(d, d)
+            self:SetSize(d, d * 3/4)
         </OnShow>
     </Scripts>
 </Frame>
@@ -257,8 +243,8 @@
     <Frames>
         <ScrollFrame inherits="MinimalHybridScrollFrameTemplate" parentKey="ScrollFrame">
             <Anchors>
-                <Anchor point="TOPLEFT" x="16" y="-92" />
-                <Anchor point="BOTTOMRIGHT" x="-32" y="20" />
+                <Anchor point="TOPLEFT" x="16" y="-102" />
+                <Anchor point="BOTTOMRIGHT" x="-32" y="16" />
             </Anchors>
             <Scripts>
                 <OnLoad>
