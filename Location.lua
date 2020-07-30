@@ -223,10 +223,12 @@ function LM.Location:CanFly()
         return false
     end
 
-    -- Draenor Pathfinder
+--[[
+    -- Draenor Pathfinder - seems to be gone in BfA
     if self:MapInPath(572) then
         if not IsSpellKnown(191645) then return false end
     end
+]]
 
     -- Broken Isles Pathfinder, Part 2
     if self:MapInPath(619) then
