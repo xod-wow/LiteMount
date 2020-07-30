@@ -46,7 +46,6 @@ end
 -- Draenor Ability spells are weird.  The name of the Garrison Ability
 -- (localized) is name = GetSpellInfo(161691)
 -- But, GetSpellInfo(name) returns the actual current spell that's active.
--- XXX FIXME XXX check for shadowlands
 function LM_Nagrand:IsCastable()
     local zoneAbilities = C_ZoneAbility.GetActiveAbilities();
     for _,info in ipairs(zoneAbilities) do
