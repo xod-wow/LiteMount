@@ -194,6 +194,11 @@ function LM_Location:CanFly()
         if not IsSpellKnown(278833) then return false end
     end
 
+    -- Presumably Shadowlands Pathfinder at some point
+    if self.instanceID == 2222 then
+        return false
+    end
+
     -- Can't fly in Warfronts
     if C_Scenario.IsInScenario() then
         local scenarioType = select(10, C_Scenario.GetInfo())
