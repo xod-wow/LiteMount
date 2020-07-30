@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90001
 ## Title: LiteMount
 ## Version: @project-version@
 ## Author: Xodiv-Nagrand
