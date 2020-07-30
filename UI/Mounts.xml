@@ -64,22 +64,22 @@
 
     <Frames>
         <Button parentKey="Minus">
-            <Size x="20" y="20" />
+            <Size x="12" y="12" />
             <Anchors>
-                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.Background" x="0" y="-1" />
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.Background" x="-2" y="0" />
             </Anchors>
-            <NormalTexture file="Interface\MoneyFrame\Arrow-Left-Up"/>
-            <PushedTexture file="Interface\MoneyFrame\Arrow-Left-Down"/>
-            <DisabledCheckedTexture file="Interface\MoneyFrame\Arrow-Left-Disabled"/>
+            <NormalTexture file="Interface\Buttons\SquareButtonTextures">
+                <TexCoords left="0.25" right="0.37837837" bottom="0.01562500" top="0.20312500"/>
+            </NormalTexture>
         </Button>
         <Button parentKey="Plus">
-            <Size x="20" y="20" />
+            <Size x="12" y="12" />
             <Anchors>
-                <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Background" x="4" y="-1" />
+                <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Background" x="2" y="0" />
             </Anchors>
-            <NormalTexture file="Interface\MoneyFrame\Arrow-Right-Up"/>
-            <PushedTexture file="Interface\MoneyFrame\Arrow-Right-Down"/>
-            <DisabledCheckedTexture file="Interface\MoneyFrame\Arrow-Right-Disabled"/>
+            <NormalTexture file="Interface\Buttons\SquareButtonTextures">
+                <TexCoords right="0.25" left="0.37837837" bottom="0.01562500" top="0.20312500"/>
+            </NormalTexture>
         </Button>
     </Frames>
     <Scripts>
