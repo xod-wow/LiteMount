@@ -37,7 +37,7 @@
         <Layer level="OVERLAY">
             <FontString parentKey="RandomPersist" text="LM_RANDOM_PERSISTENCE" inherits="GameFontHighlight">
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" x="30" y="-22" />
+                    <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" y="-12" />
                 </Anchors>
             </FontString>
         </Layer>
@@ -46,12 +46,12 @@
         <Frame parentKey="RandomPersistDropDown" inherits="UIDropDownMenuTemplate">
             <Size x="93" y="22" />
             <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.RandomPersist" relativePoint="RIGHT" x="0" y="0" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" y="-8" />
             </Anchors>
         </Frame>
         <CheckButton parentKey="Debugging" inherits="InterfaceOptionsCheckButtonTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-96" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" x="0" y="-72" />
             </Anchors>
             <Scripts>
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
