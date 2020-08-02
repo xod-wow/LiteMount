@@ -97,7 +97,7 @@ function LM_Journal:CurrentFlags()
     if self.mountType == 398 then
         -- It seems like Alliance don't show the achievement as done but
         -- do flag the quest as completed.
-        if IsQuestFlaggedCompleted(56205) then
+        if C_QuestLog.IsQuestFlaggedCompleted(56205) then
             flags.FLY = true
         else
             flags.RUN = true
