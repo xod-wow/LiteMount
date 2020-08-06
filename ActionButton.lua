@@ -28,9 +28,7 @@ end
 
 function LM_ActionButton:Dispatch(action, env)
 
-    local isTrue, unit = LM_Conditions:Eval(action.conditions)
-
-    -- Flow control actions use the run environment
+    local isTrue, env.unit = LM_Conditions:Eval(action.conditions)
 
     local handler = LM_Actions:GetFlowControlHandler(action.action)
     if handler then
@@ -51,11 +49,7 @@ function LM_ActionButton:Dispatch(action, env)
 
     LM_Debug("Dispatching action " .. action.action)
 
-    -- New sub-environment for this action
-    local subEnv = CopyTable(env)
-    subEnv.unit = unit
-
-    local m = handler(action.args or {}, subEnv)
+    local m = handler(action.args or {}, env)
     if m then
         LM_Debug("Setting up button as " .. (m.name or action.action) .. ".")
         self:SetupActionButton(m)
