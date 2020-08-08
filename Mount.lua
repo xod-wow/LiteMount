@@ -39,8 +39,6 @@ end
 function LM_Mount:MatchesOneFilter(flags, f)
     if f == "CASTABLE" then
         if self:IsCastable() then return true end
-    elseif f == "ENABLED" then
-        if LM_Options:GetPriority(self) > 0 then return true end
     elseif tonumber(f) then
         if self.spellID == tonumber(f) then return true end
     elseif f:sub(1, 3) == 'id:' then
