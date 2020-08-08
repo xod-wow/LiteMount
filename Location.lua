@@ -133,7 +133,7 @@ end
 function LM.Location:KnowsFlyingSkill()
     -- These are in this order because it's more likely you are high level and
     -- know the most advanced one.
-    return IsSpellKnown(90265) or IsSpellKnown(34091) or IsSpellKnown(34090)
+    return IsSpellKnown(90265) or IsSpellKnown(34090)
 end
 
 local InstanceNotFlyable = {
