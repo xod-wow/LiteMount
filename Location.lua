@@ -166,6 +166,7 @@ local InstanceNotFlyable = {
     [1907] = true,          -- Island Expedition Snowblossom Village
     [2124] = true,          -- Island Expedition Crestfall
     [2275] = true,          -- Lesser Vision Vale of Eternal Twilight
+    [2278] = true,          -- Revendreth Scenario
 }
 
 -- Can't fly if you haven't learned a flying skill. Various expansion
