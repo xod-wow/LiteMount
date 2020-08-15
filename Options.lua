@@ -159,8 +159,8 @@ function LM_Options:VersionUpgrade()
 
     if (self.db.global.configVersion or 5) < 5 then
         for _,p in pairs(self.db.profiles) do
-            for spellID,isExcluded in pairs(p.excludedSpells) do
-                p.mountPriorities = p.mountPriorities or {}
+            p.mountPriorities = p.mountPriorities or {}
+            for spellID,isExcluded in pairs(p.excludedSpells or {}) do
                 if isExcluded then
                     p.mountPriorities[spellID] = self.DISABLED_PRIORITY
                 else
