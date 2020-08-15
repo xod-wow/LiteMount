@@ -72,7 +72,7 @@ local defaults = {
         copyTargetsMount    = true,
         enableTwoPress      = false,
         excludeNewMounts    = false,
-        priorityWeights     = { 1, 2, 8 },
+        priorityWeights     = { 1, 2, 6 },
         randomKeepSeconds   = 0,
     },
     char = {
