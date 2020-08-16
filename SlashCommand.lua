@@ -37,7 +37,7 @@ end
 
 local function PrintUsage()
     LM_Print(GAMEMENU_HELP .. ":")
-    LM_Print("  /litemount enable | disable | toggle")
+    LM_Print("  /litemount priority <0-3>")
     LM_Print("  /litemount mounts [<substring>]")
     LM_Print("  /litemount maps [<substring>]")
     LM_Print("  /litemount continents [<substring>]")
