@@ -275,7 +275,7 @@ ACTIONS['SmartMount'] =
         local walk = filteredList:FilterSearch('WALK')
         LM_Debug(" - found " .. #walk .. " mounts.")
         if #walk > 0 then
-            return run:PriorityRandom(env.random)
+            return walk:PriorityRandom(env.random)
         end
 
     end
