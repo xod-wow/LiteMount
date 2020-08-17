@@ -35,6 +35,7 @@
     <Layers>
         <Layer level="BACKGROUND">
             <Texture alphaMode="ADD" hidden="true" parentKey="Modified">
+                <Color r="0.5" g="0.0" b="0.0" />
                 <Anchors>
                     <Anchor point="TOPLEFT" x="5" y="-5" />
                     <Anchor point="BOTTOMRIGHT" x="-6" y="6" />
