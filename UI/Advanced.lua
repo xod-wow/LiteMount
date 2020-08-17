@@ -200,7 +200,7 @@ function LiteMountOptionsAdvanced_OnLoad(self)
     self.EditScroll.EditBox.GetOption =
         function (self, i) return LM_Options:GetButtonAction(i) end
     self.EditScroll.EditBox.GetOptionDefault =
-        function (self, i) return LM_Options.db.defaults.profile.buttonActions['*'] end
+        function (self, i) return LM_Options:GetButtonAction('*') end
     LiteMountOptionsControl_OnLoad(self.EditScroll.EditBox, self)
 
     UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountOptionsAdvancedBindingDropDown_Initialize)

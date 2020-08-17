@@ -59,7 +59,7 @@ function LM_ActionButton:Dispatch(action, env)
 end
 
 function LM_ActionButton:CompileActions()
-    local actionList = LM_Options.db.profile.buttonActions[self.id]
+    local actionList = LM_Options:GetButtonAction(self.id)
     self.actions = LM_ActionList:Compile(actionList)
 end
 
