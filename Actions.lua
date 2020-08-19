@@ -237,46 +237,43 @@ ACTIONS['SmartMount'] =
 
         if next(filteredList) == nil then return end
 
+        local m
+
         if LM_Conditions:Check("[submerged]") then
             LM_Debug(" - trying Swimming Mount (underwater)")
             local swim = filteredList:FilterSearch('SWIM')
             LM_Debug(" - found " .. #swim .. " mounts.")
-            if #swim > 0 then
-                return swim:PriorityRandom(env.random)
-            end
+            m = swim:PriorityRandom(env.random)
+            if m then return m end
         end
 
         if LM_Conditions:Check("[flyable]") then
             LM_Debug(" - trying Flying Mount")
             local fly = filteredList:FilterSearch('FLY')
             LM_Debug(" - found " .. #fly .. " mounts.")
-            if #fly > 0 then
-                return fly:PriorityRandom(env.random)
-            end
+            m = fly:PriorityRandom(env.random)
+            if m then return m end
         end
 
         if LM_Conditions:Check("[floating,nowaterwalking]") then
             LM_Debug(" - trying Swimming Mount (on the surface)")
             local swim = filteredList:FilterSearch('SWIM')
             LM_Debug(" - found " .. #swim .. " mounts.")
-            if #swim > 0 then
-                return swim:PriorityRandom(env.random)
-            end
+            m = swim:PriorityRandom(env.random)
+            if m then return m end
         end
 
         LM_Debug(" - trying Running Mount")
         local run = filteredList:FilterSearch('RUN')
         LM_Debug(" - found " .. #run .. " mounts.")
-        if #run > 0 then
-            return run:PriorityRandom(env.random)
-        end
+        m = run:PriorityRandom(env.random)
+        if m then return m end
 
         LM_Debug(" - trying Walking Mount")
         local walk = filteredList:FilterSearch('WALK')
         LM_Debug(" - found " .. #walk .. " mounts.")
-        if #walk > 0 then
-            return walk:PriorityRandom(env.random)
-        end
+        m = walk:PriorityRandom(env.random)
+        if m then return m end
 
     end
 
