@@ -178,10 +178,10 @@ local function UpdateFlagScroll(self)
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
-function LiteMountOptionsAdvanced_Refresh(self)
+function LiteMountOptionsAdvanced_Refresh(self, isProfileChange)
     self = self or LiteMountOptionsAdvanced
     UpdateFlagScroll(self.FlagScroll)
-    LiteMountOptionsControl_Refresh(self.EditScroll.EditBox)
+    LiteMountOptionsControl_Refresh(self.EditScroll.EditBox, isProfileChange)
 end
 
 function LiteMountOptionsAdvanced_OnSizeChanged(self)
