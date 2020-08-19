@@ -28,7 +28,7 @@ local PriorityColors = {
     [3] =  LEGENDARY_ORANGE_COLOR,
 }
 
-local function LiteMountOptionsPriority_Refresh(self)
+local function LiteMountOptionsPriority_Update(self)
     local value = self:GetOption()
     if value then
         self.Minus:SetShown(value > LM_Options.MIN_PRIORITY)
@@ -74,7 +74,6 @@ end
 function LiteMountOptionsPriority_OnLoad(self)
     self.SetOption = LiteMountOptionsPriority_SetOption
     self.GetOption = LiteMountOptionsPriority_GetOption
-    self.Refresh = LiteMountOptionsPriority_Refresh
     self.Plus:SetScript('OnClick',
         function ()
             LiteMountOptionsPriority_IncrementOption(self)
@@ -362,7 +361,7 @@ local function UpdateMountButton(button, pageFlags, mount)
         button.Icon:GetNormalTexture():SetDesaturated(false)
     end
 
-    button.Priority:Refresh()
+    LiteMountOptionsPriority_Update(button.Priority)
 end
 
 -- local FPCount = 0
@@ -425,7 +424,7 @@ function LiteMountOptions_UpdateMountList()
         end
     end
 
-    LiteMountOptionsMounts.AllPriority:Refresh()
+    LiteMountOptionsPriority_Update(LiteMountOptionsMounts.AllPriority)
 
     if LM_UIFilter.IsFiltered() then
         LiteMountOptionsMounts.FilterButton.ClearButton:Show()
@@ -473,7 +472,7 @@ function LiteMountOptionsMounts_OnLoad(self)
     -- it would listen itself but the order is non-deterministic so we're
     -- force clearing it here, even though it's ugly encapsulation breakage.
 
-    self.refresh = function (self)
+    self.refresh = function (self, isProfileChange)
         LM_UIFilter.ClearCache()
         LiteMountOptions_UpdateFlagPaging(self)
         LiteMountOptions_UpdateMountList(self)

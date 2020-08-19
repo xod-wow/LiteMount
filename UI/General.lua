@@ -105,9 +105,9 @@ function LiteMountOptionsGeneral_OnLoad(self)
     -- Hook in --
 
     self.refresh =
-        function (self)
+        function (self, isProfileChange)
             RandomPersistDropDown_UpdateText(self.RandomPersistDropDown)
-            LiteMountOptionsPanel_Refresh(self)
+            LiteMountOptionsPanel_Refresh(self, isProfileChange)
         end
 
     LiteMountOptionsPanel_OnLoad(self)
