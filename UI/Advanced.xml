@@ -236,7 +236,6 @@
 
     <Scripts>
         <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />
-        <OnShow function="LiteMountOptionsAdvanced_OnShow" />
         <OnSizeChanged function="LiteMountOptionsAdvanced_OnSizeChanged" />
     </Scripts>
 </Frame>

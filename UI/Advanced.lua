@@ -130,11 +130,10 @@ function LiteMountOptionsFlagButton_OnLeave(self)
     end
 end
 
-local function UpdateFlagScroll(self)
+local function UpdateFlagScroll(self, allFlags)
     local offset = HybridScrollFrame_GetOffset(self)
     local buttons = self.buttons
 
-    local allFlags = LM_Options:GetAllFlags()
     local totalHeight = (#allFlags + 1) * buttons[1]:GetHeight()
     local displayedHeight = #buttons * buttons[1]:GetHeight()
 
@@ -178,12 +177,6 @@ local function UpdateFlagScroll(self)
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
-function LiteMountOptionsAdvanced_Refresh(self, trigger, isProfileChange)
-    self = self or LiteMountOptionsAdvanced
-    UpdateFlagScroll(self.FlagScroll)
-    LiteMountOptionsControl_Refresh(self.EditScroll.EditBox, trigger, isProfileChange)
-end
-
 function LiteMountOptionsAdvanced_OnSizeChanged(self)
     HybridScrollFrame_CreateButtons(self.FlagScroll, "LiteMountOptionsFlagButtonTemplate", 0, 0, "TOPLEFT", "TOPLEFT", 0, 0, "TOP", "BOTTOM")
     for _,b in ipairs(self.FlagScroll.buttons) do
@@ -206,11 +199,20 @@ function LiteMountOptionsAdvanced_OnLoad(self)
     UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountOptionsAdvancedBindingDropDown_Initialize)
     UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
 
+    self.FlagScroll.update =
+        function (self)
+            print('UPDATER')
+            local allFlags = LM_Options:GetAllFlags()
+            UpdateFlagScroll(self, allFlags)
+        end
+    self.FlagScroll.GetOption =
+        function (self)
+            return LM_Options:GetAllFlags()
+        end
+    self.FlagScroll.SetControl = UpdateFlagScroll
+    LiteMountOptionsControl_OnLoad(self.FlagScroll, self)
 
-    self.FlagScroll.update = UpdateFlagScroll
     LiteMountOptionsAdvanced_OnSizeChanged(self)
-
-    self.refresh = LiteMountOptionsAdvanced_Refresh
 
     LiteMountOptionsPanel_OnLoad(self)
 end
