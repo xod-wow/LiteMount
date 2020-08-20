@@ -39,10 +39,10 @@ function LiteMountOptionsPanel_Open()
     InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)
 end
 
-function LiteMountOptionsPanel_Refresh(self, isProfileChange)
+function LiteMountOptionsPanel_Refresh(self, trigger, isProfileChange)
     LM_UIDebug("Panel_Refresh " .. self:GetName())
     for _,control in ipairs(self.controls or {}) do
-        LiteMountOptionsControl_Refresh(control, isProfileChange)
+        LiteMountOptionsControl_Refresh(control, trigger, isProfileChange)
     end
 end
 
@@ -122,7 +122,7 @@ function LiteMountOptionsPanel_OnLoad(self)
     InterfaceOptions_AddCategory(self)
 end
 
-function LiteMountOptionsControl_Refresh(self, isProfileChange)
+function LiteMountOptionsControl_Refresh(self, trigger, isProfileChange)
     for i = 1, (self.ntabs or 1) do
         if isProfileChange or self.oldValues[i] == nil then
             self.oldValues[i] = self:GetOption(i)

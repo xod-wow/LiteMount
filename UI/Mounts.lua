@@ -472,7 +472,7 @@ function LiteMountOptionsMounts_OnLoad(self)
     -- it would listen itself but the order is non-deterministic so we're
     -- force clearing it here, even though it's ugly encapsulation breakage.
 
-    self.refresh = function (self, isProfileChange)
+    self.refresh = function (self, trigger, isProfileChange)
         LM_UIFilter.ClearCache()
         LiteMountOptions_UpdateFlagPaging(self)
         LiteMountOptions_UpdateMountList(self)
