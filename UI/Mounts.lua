@@ -454,7 +454,7 @@ function LiteMountOptionsMounts_OnLoad(self)
     self.name = MOUNTS
     self.default = function ()
             LM_Options:ResetAllMountFlags()
-            LM_Options:SetExcludedMounts({})
+            LM_Options:ResetAllPriorities()
         end
 
     self.okay =
