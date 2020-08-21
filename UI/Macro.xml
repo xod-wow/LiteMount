@@ -53,7 +53,8 @@
             </Anchors>
             <Scripts>
                 <OnClick>
-                    self:GetParent().EditBox:SetText("")
+                    local parent = self:GetParent()
+                    parent.EditBox:SetOption("")
                 </OnClick>
             </Scripts>
         </Button>
@@ -65,8 +66,7 @@
             <Scripts>
                 <OnClick>
                     local parent = self:GetParent()
-                    LiteMountOptionsPanel_Revert(parent)
-                    LiteMountOptionsPanel_Refresh(parent)
+                    LiteMountOptionsControl_Revert(parent.EditBox)
                 </OnClick>
             </Scripts>
         </Button>

@@ -53,7 +53,7 @@
             </Anchors>
             <Scripts>
                 <OnClick>
-                    self:GetParent().EditBox:SetText("")
+                    LM_Options:SetCombatMacro("")
                 </OnClick>
             </Scripts>
         </Button>
@@ -64,7 +64,8 @@
             </Anchors>
             <Scripts>
                 <OnClick>
-                    self:GetParent().EditBox:SetText(LM_Actions:DefaultCombatMacro())
+                    local parent = self:GetParent()
+                    LiteMountOptionsControl_Default(parent.EditBox)
                 </OnClick>
             </Scripts>
         </Button>
@@ -77,7 +78,6 @@
                 <OnClick>
                     local parent = self:GetParent()
                     LiteMountOptionsPanel_Revert(parent)
-                    LiteMountOptionsPanel_Refresh(parent)
                 </OnClick>
             </Scripts>
         </Button>

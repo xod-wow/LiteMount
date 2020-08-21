@@ -13,11 +13,10 @@ function LiteMountOptionsMacro_OnLoad(self)
 
     self.EditBox.SetOption =
         function (self, v)
-            LM_Options.db.char.unavailableMacro = v
-            LM_Options.db.char.useUnavailableMacro = (v ~= "")
+            LM_Options:SetUnavailableMacro(v)
         end
     self.EditBox.GetOption =
-        function (self) return LM_Options.db.char.unavailableMacro or "" end
+        function (self) return LM_Options:GetUnavailableMacro() or "" end
     self.EditBox.GetOptionDefault =
         function (self) return "" end
     LiteMountOptionsControl_OnLoad(self.EditBox)
@@ -25,9 +24,8 @@ function LiteMountOptionsMacro_OnLoad(self)
     LiteMountOptionsPanel_OnLoad(self)
 end
 
-function LiteMountOptionsMacro_OnTextChanged(self)
+function LiteMountOptionsMacro_OnTextChanged(self, userInput)
     local c = strlen(self:GetText() or "")
     LiteMountOptionsMacro.Count:SetText(format(MACROFRAME_CHAR_LIMIT, c))
-    LiteMountOptionsControl_OnChanged(self)
+    LiteMountOptionsControl_OnTextChanged(self, userInput)
 end
-

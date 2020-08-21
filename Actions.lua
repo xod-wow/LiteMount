@@ -220,7 +220,7 @@ ACTIONS['CancelForm'] =
 ACTIONS['CopyTargetsMount'] =
     function (args, env)
         local unit = env.unit or "target"
-        if LM_Options.db.profile.copyTargetsMount and UnitIsPlayer(unit) then
+        if LM_Options:GetCopyTargetsMount() and UnitIsPlayer(unit) then
             LM_Debug(format(" - trying to clone %s's mount", unit))
             return LM_PlayerMounts:GetMountFromUnitAura(unit)
         end
@@ -287,9 +287,10 @@ ACTIONS['Mount'] =
 
 ACTIONS['Macro'] =
     function (args, env)
-        if LM_Options.db.char.useUnavailableMacro then
+        if LM_Options:GetUseUnavailableMacro() then
             LM_Debug(" - using unavailable macro")
-            return LM_SecureAction:Macro(LM_Options.db.char.unavailableMacro, env.unit)
+            local macrotext = LM_Options:GetUnavailableMacro()
+            return LM_SecureAction:Macro(macrotext, env.unit)
         end
     end
 
@@ -317,11 +318,13 @@ ACTIONS['Combat'] =
     function (args, env)
         LM_Debug(" - setting action to in-combat action")
 
-        if LM_Options.db.char.useCombatMacro then
-            return LM_SecureAction:Macro(LM_Options.db.char.combatMacro)
+        local macrotext
+        if LM_Options:GetUseCombatMacro() then
+            macrotext = LM_Options:GetCombatMacro()
         else
-            return LM_SecureAction:Macro(LM_Actions:DefaultCombatMacro())
+            macrotext = LM_Actions:DefaultCombatMacro()
         end
+        return LM_SecureAction:Macro(macrotext)
     end
 
 ACTIONS['Stop'] =

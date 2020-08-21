@@ -39,6 +39,9 @@
             self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
             self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
         </OnLoad>
+        <OnShow>
+            self:SetWidth(self:GetParent():GetWidth())
+        </OnShow>
         <OnEnter function="LiteMountOptionsFlagButton_OnEnter" />
         <OnLeave function="LiteMountOptionsFlagButton_OnLeave" />
     </Scripts>
@@ -108,7 +111,7 @@
                         <Anchor point="TOPLEFT" />
                     </Anchors>
                     <Scripts>
-                        <OnTextChanged function="LiteMountOptionsControl_OnChanged" />
+                        <OnTextChanged function="LiteMountOptionsControl_OnTextChanged" />
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnUpdate function="InputScrollFrame_OnUpdate" />
                         <OnCursorChanged function="ScrollingEdit_OnCursorChanged" />
@@ -138,7 +141,6 @@
                 <OnClick>
                     local parent = self:GetParent()
                     LiteMountOptionsControl_Default(parent.EditScroll.EditBox, true)
-                    LiteMountOptionsControl_Refresh(parent.EditScroll.EditBox)
                 </OnClick>
             </Scripts>
         </Button>

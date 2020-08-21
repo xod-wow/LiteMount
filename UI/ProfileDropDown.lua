@@ -190,7 +190,7 @@ function LiteMountOptionsProfileDropDown_Initialize(self, level)
     end
 end
 
-local function UpdateProfileCallback(self)
+local function UpdateProfileCallback()
     LiteMountOptionsProfileButton:SetText(LM_Options.db:GetCurrentProfile())
 end
 

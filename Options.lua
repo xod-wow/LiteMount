@@ -201,15 +201,25 @@ function LM_Options:Initialize()
     self:VersionUpgrade()
     self:ConsistencyCheck()
     self:UpdateFlagCache()
-    self.db.RegisterCallback(self, "OnProfileChanged", self.OnProfile, self)
-    self.db.RegisterCallback(self, "OnProfileCopied", self.OnProfile, self)
-    self.db.RegisterCallback(self, "OnProfileReset", self.OnProfile, self)
+    self.db.RegisterCallback(self, "OnProfileChanged", "OnProfile")
+    self.db.RegisterCallback(self, "OnProfileCopied", "OnProfile")
+    self.db.RegisterCallback(self, "OnProfileReset", "OnProfile")
 end
 
 
 --[[----------------------------------------------------------------------------
     Mount priorities stuff.
 ----------------------------------------------------------------------------]]--
+
+function LM_Options:GetRawMountPriorities()
+    return self.db.profile.mountPriorities
+end
+
+function LM_Options:SetRawMountPriorities(v)
+    self.db.profile.mountPriorities = v
+    self:UpdateFlagCache()
+    self.db.callbacks:Fire("OnOptionsModified")
+end
 
 function LM_Options:GetPriority(m)
     local p = self.db.profile.mountPriorities[m.spellID]
@@ -226,11 +236,6 @@ function LM_Options:InitializePriorities()
             end
         end
     end
-end
-
-function LM_Options:SetDefaultPriority(m)
-    self:SetPriority(m, self.DEFAULT_PRIORITY)
-    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM_Options:SetPriority(m, v)
@@ -256,6 +261,15 @@ end
     Mount flag overrides stuff
 ----------------------------------------------------------------------------]]--
 
+function LM_Options:GetRawFlagChanges()
+    return self.db.profile.flagChanges
+end
+
+function LM_Options:SetRawFlagChanges(v)
+    self.db.profile.flagChanges = v
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
 function LM_Options:ApplyMountFlags(m)
 
     if not self.cachedMountFlags[m.spellID] then
@@ -271,13 +285,11 @@ function LM_Options:ApplyMountFlags(m)
                 end
             end
         end
+        if m.isFavorite then
+            self.cachedMountFlags[m.spellID].FAVORITES = true
+        end
     end
 
-    if m.isFavorite then
-        self.cachedMountFlags[m.spellID].FAVORITES = true
-    else
-        self.cachedMountFlags[m.spellID].FAVORITES = nil
-    end
     return self.cachedMountFlags[m.spellID]
 end
 
@@ -286,9 +298,7 @@ function LM_Options:SetMountFlag(m, setFlag)
                     setFlag, m.name, m.spellID))
 
     if setFlag == "FAVORITES" then
-        if m.SetFavorite ~= nil then
-            m:SetFavorite(true)
-        end
+        -- This needs to fire to reset the UI, because something went wrong
         self.db.callbacks:Fire("OnOptionsModified")
         return
     end
@@ -304,13 +314,6 @@ end
 function LM_Options:ClearMountFlag(m, clearFlag)
     LM_Debug(format("Clearing flag %s for spell %s (%d).",
                      clearFlag, m.name, m.spellID))
-
-    if clearFlag == "FAVORITES" then
-        if m.SetFavorite ~= nil then
-            m:SetFavorite(false)
-        end
-        return
-    end
 
     -- See note above
     local flags = self:ApplyMountFlags(m)
@@ -423,6 +426,85 @@ function LM_Options:GetAllFlags()
     return CopyTable(self.allFlags)
 end
 
+
+--[[----------------------------------------------------------------------------
+    Copy targets mount
+----------------------------------------------------------------------------]]--
+
+function LM_Options:GetCopyTargetsMount()
+    return self.db.profile.copyTargetsMount
+end
+
+function LM_Options:SetCopyTargetsMount(v)
+    if v then
+        self.db.profile.copyTargetsMount = true
+    else
+        self.db.profile.copyTargetsMount = false
+    end
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
+
+--[[----------------------------------------------------------------------------
+    Exclude new mounts
+----------------------------------------------------------------------------]]--
+
+function LM_Options:GetExcludeNewMounts()
+    return self.db.profile.excludeNewMounts
+end
+
+function LM_Options:SetExcludeNewMounts(v)
+    if v then
+        self.db.profile.excludeNewMounts = true
+    else
+        self.db.profile.excludeNewMounts = false
+    end
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
+
+--[[----------------------------------------------------------------------------
+    Unavailable macro
+----------------------------------------------------------------------------]]--
+
+function LM_Options:GetUnavailableMacro()
+    return self.db.char.unvailableMacro
+end
+
+function LM_Options:GetUseUnavailableMacro()
+    return self.db.char.useUnavailableMacro
+end
+
+function LM_Options:SetUnavailableMacro(v)
+    self.db.char.unvailableMacro = v
+    self.db.char.useUnavailableMacro = (v ~= "")
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
+
+--[[----------------------------------------------------------------------------
+    Combat macro
+----------------------------------------------------------------------------]]--
+
+function LM_Options:GetCombatMacro()
+    return self.db.char.combatMacro
+end
+
+function LM_Options:SetCombatMacro(v)
+    self.db.char.combatMacro = v
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
+function LM_Options:GetUseCombatMacro()
+    return self.db.char.useCombatMacro
+end
+
+function LM_Options:SetUseCombatMacro(v)
+    self.db.char.useCombatMacro = v
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
+
 --[[----------------------------------------------------------------------------
     Random persistence
 ----------------------------------------------------------------------------]]--
@@ -436,7 +518,9 @@ function LM_Options:SetRandomPersistence(v)
     if v then
         self.db.profile.randomKeepSeconds = math.max(0, v)
     end
+    self.db.callbacks:Fire("OnOptionsModified")
 end
+
 
 --[[----------------------------------------------------------------------------
     Button action lists
@@ -449,6 +533,7 @@ end
 function LM_Options:SetButtonAction(i, v)
     self.db.profile.buttonActions[i] = v
     LiteMount.actions[i]:CompileActions()
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM_Options:GetDefaultButtonAction()
@@ -482,7 +567,7 @@ function LM_Options:SetDebug(v)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
-function LM_Options:GetUIDebug(v)
+function LM_Options:GetUIDebug()
     return self.db.char.uiDebugEnabled
 end
 

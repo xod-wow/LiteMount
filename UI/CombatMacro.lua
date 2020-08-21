@@ -13,19 +13,22 @@ function LiteMountOptionsCombatMacro_OnLoad(self)
 
     self.EditBox.SetOption =
         function (self, v)
-            LM_Options.db.char.combatMacro = v
+            LM_Options:SetCombatMacro(v)
             LiteMount:Refresh()
         end
     self.EditBox.GetOption =
-        function (self) return LM_Options.db.char.combatMacro or "" end
+        function (self) return LM_Options:GetCombatMacro() or "" end
     self.EditBox.GetOptionDefault =
         function (self) return LM_Actions:DefaultCombatMacro() end
     LiteMountOptionsControl_OnLoad(self.EditBox)
 
     self.EnableButton.SetOption =
-        function (self, v) LM_Options.db.char.useCombatMacro = (v or false) end
+        function (self, v)
+            LM_Options:SetUseCombatMacro(v or false)
+            LiteMount:Refresh()
+        end
     self.EnableButton.GetOption =
-        function (self) return LM_Options.db.char.useCombatMacro end
+        function (self) return LM_Options:GetUseCombatMacro() end
     self.EnableButton.GetOptionDefault =
         function (self) return false end
     LiteMountOptionsControl_OnLoad(self.EnableButton)
@@ -33,8 +36,8 @@ function LiteMountOptionsCombatMacro_OnLoad(self)
     LiteMountOptionsPanel_OnLoad(self)
 end
 
-function LiteMountOptionsCombatMacro_OnTextChanged(self)
+function LiteMountOptionsCombatMacro_OnTextChanged(self, userInput)
     local c = strlen(self:GetText() or "")
     LiteMountOptionsCombatMacro.Count:SetText(format(MACROFRAME_CHAR_LIMIT, c))
-    LiteMountOptionsControl_OnChanged(self)
+    LiteMountOptionsControl_OnTextChanged(self, userInput)
 end

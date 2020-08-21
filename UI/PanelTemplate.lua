@@ -40,35 +40,36 @@ function LiteMountOptionsPanel_Open()
 end
 
 function LiteMountOptionsPanel_Refresh(self, trigger, isProfileChange)
-    LM_UIDebug("Panel_Refresh " .. self:GetName())
+    LM_UIDebug(self, "Panel_Refresh")
+    LM_UIDebug(self, "- trigger " .. tostring(trigger))
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Refresh(control, trigger, isProfileChange)
     end
 end
 
 function LiteMountOptionsPanel_Default(self)
-    LM_UIDebug("Panel_Default " .. self:GetName())
+    LM_UIDebug(self, "Panel_Default")
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Default(control)
     end
 end
 
 function LiteMountOptionsPanel_Okay(self)
-    LM_UIDebug("Panel_Okay " .. self:GetName())
+    LM_UIDebug(self, "Panel_Okay")
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Okay(control)
     end
 end
 
 function LiteMountOptionsPanel_Revert(self)
-    LM_UIDebug("Panel_Revert " .. self:GetName())
+    LM_UIDebug(self, "Panel_Revert")
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Revert(control)
     end
 end
 
 function LiteMountOptionsPanel_Cancel(self)
-    LM_UIDebug("Panel_Cancel " .. self:GetName())
+    LM_UIDebug(self, "Panel_Cancel")
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Cancel(control)
     end
@@ -81,18 +82,20 @@ function LiteMountOptionsPanel_RegisterControl(control, parent)
 end
 
 function LiteMountOptionsPanel_OnShow(self)
-    LM_UIDebug("Panel_OnShow " .. self:GetName())
+    LM_UIDebug(self, "Panel_OnShow")
     LiteMountOptions.CurrentOptionsPanel = self
+
     if not self.dontShowProfile then
         LiteMountOptionsProfileDropDown_Attach(self)
-        LM_Options.db.RegisterCallback(self, "OnOptionsModified", self.refresh, self)
     end
 
-    LiteMountOptionsPanel_Refresh(self)
+    -- LiteMountOptionsPanel_Refresh(self)
+
+    LM_Options.db.RegisterCallback(self, "OnOptionsModified", "refresh")
 end
 
 function LiteMountOptionsPanel_OnHide(self)
-    LM_UIDebug("Panel_OnHide " .. self:GetName())
+    LM_UIDebug(self, "Panel_OnHide")
 
     LM_Options.db.UnregisterAllCallbacks(self)
 
@@ -123,33 +126,47 @@ function LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountOptionsControl_Refresh(self, trigger, isProfileChange)
-    for i = 1, (self.ntabs or 1) do
-        if isProfileChange or self.oldValues[i] == nil then
+    LM_UIDebug(self, string.format("Control_Refresh t=%s i=%s",
+                                   tostring(trigger),
+                                   tostring(isProfileChange)))
+    if isProfileChange or self.oldValues == nil then
+        self.oldValues = table.wipe(self.oldValues or {})
+        for i = 1, (self.ntabs or 1) do
             self.oldValues[i] = self:GetOption(i)
         end
+        self.isDirty = nil
     end
     self:SetControl(self:GetOption(self.tab), self.tab)
 end
 
 function LiteMountOptionsControl_Okay(self)
-    wipe(self.oldValues)
+    LM_UIDebug(self, "Control_Okay")
+    self.oldValues = nil
+    self.isDirty = nil
 end
 
 function LiteMountOptionsControl_Revert(self)
+    LM_UIDebug(self, "Control_Revert")
     for i = 1, (self.ntabs or 1) do
         if self.oldValues[i] ~= nil then
             self:SetOption(self.oldValues[i], i)
         end
     end
+    self.isDirty = nil
 end
 
 function LiteMountOptionsControl_Cancel(self)
-    LiteMountOptionsControl_Revert(self)
-    wipe(self.oldValues)
+    LM_UIDebug(self, "Control_Cancel")
+    if self.isDirty then
+        LiteMountOptionsControl_Revert(self)
+    end
+    self.oldValues = nil
 end
 
 function LiteMountOptionsControl_Default(self, onlyCurrentTab)
     if not self.GetOptionDefault then return end
+
+    LM_UIDebug(self, "Control_Default "..tostring(onlyCurrentTab))
 
     if onlyCurrentTab then
         self:SetOption(self:GetOptionDefault(self.tab), self.tab)
@@ -158,10 +175,21 @@ function LiteMountOptionsControl_Default(self, onlyCurrentTab)
             self:SetOption(self:GetOptionDefault(i), i)
         end
     end
+    self.isDirty = true
 end
 
 function LiteMountOptionsControl_OnChanged(self)
+    LM_UIDebug(self, "Control_OnChanged")
     self:SetOption(self:GetControl(), self.tab)
+    self.isDirty = true
+end
+
+function LiteMountOptionsControl_OnTextChanged(self, userInput)
+    if userInput == true then
+        LM_UIDebug(self, "Control_OnTextChanged")
+        self:SetOption(self:GetControl(), self.tab)
+    end
+    self.isDirty = true
 end
 
 function LiteMountOptionsControl_SetTab(self, n)
@@ -195,7 +223,6 @@ function LiteMountOptionsControl_OnLoad(self, parent)
     self.GetControl = self.GetControl or LiteMountOptionsControl_GetControl
     self.SetControl = self.SetControl or LiteMountOptionsControl_SetControl
 
-    self.oldValues = { }
     self.tab = 1
 
     -- Note we don't set an OnShow per control, the panel handler takes care

@@ -177,11 +177,14 @@ local function UpdateFlagScroll(self, allFlags)
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
-function LiteMountOptionsAdvanced_OnSizeChanged(self)
-    HybridScrollFrame_CreateButtons(self.FlagScroll, "LiteMountOptionsFlagButtonTemplate", 0, 0, "TOPLEFT", "TOPLEFT", 0, 0, "TOP", "BOTTOM")
-    for _,b in ipairs(self.FlagScroll.buttons) do
-        b:SetWidth(self.FlagScroll:GetWidth())
-    end
+function LiteMountOptionsAdvanced_OnSizeChanged(self, x, y)
+    HybridScrollFrame_CreateButtons(
+            self.FlagScroll,
+            "LiteMountOptionsFlagButtonTemplate",
+            0, 0, "TOPLEFT", "TOPLEFT",
+            0, 0, "TOP", "BOTTOM"
+        )
+    self.FlagScroll:update()
 end
 
 function LiteMountOptionsAdvanced_OnLoad(self)
@@ -201,7 +204,6 @@ function LiteMountOptionsAdvanced_OnLoad(self)
 
     self.FlagScroll.update =
         function (self)
-            print('UPDATER')
             local allFlags = LM_Options:GetAllFlags()
             UpdateFlagScroll(self, allFlags)
         end
@@ -212,14 +214,7 @@ function LiteMountOptionsAdvanced_OnLoad(self)
     self.FlagScroll.SetControl = UpdateFlagScroll
     LiteMountOptionsControl_OnLoad(self.FlagScroll, self)
 
-    LiteMountOptionsAdvanced_OnSizeChanged(self)
-
     LiteMountOptionsPanel_OnLoad(self)
-end
-
-function LiteMountOptionsAdvanced_OnShow(self)
-    LiteMountOptionsAdvanced_Refresh(self)
-    LiteMountOptionsPanel_OnShow(self)
 end
 
 function LiteMountOptionsAdvancedRevert_OnShow(self)

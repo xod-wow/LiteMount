@@ -131,48 +131,6 @@ local BlizzardFilterSettings = {
     LE_MOUNT_JOURNAL_FILTER_UNUSABLE,
 }
 
-function LM_Journal:SetFavorite(setting)
-    local SavedCollectedFilters = { }
-    local SavedSourceFilters = { }
-
-    -- Evil, but try not to be too evil saving what we can and restoring it
-    -- This is almost certainly going to break in future patches.
-
-    local SavedSearchText = MountJournal and MountJournal.searchBox:GetText()
-    C_MountJournal.SetSearch("")
-
-    for _,f in ipairs(BlizzardFilterSettings) do
-        SavedCollectedFilters[f] = C_MountJournal.GetCollectedFilterSetting(f)
-        C_MountJournal.SetCollectedFilterSetting(f, true)
-    end
-    for i=1,C_PetJournal.GetNumPetSources() do
-        if C_MountJournal.IsValidSourceFilter(i) then
-            SavedSourceFilters[i] = C_MountJournal.IsSourceChecked(i)
-            C_MountJournal.SetSourceFilter(i, true)
-        end
-    end
-
-    local id
-    for i = 1, C_MountJournal.GetNumDisplayedMounts() do
-        id = select(12, C_MountJournal.GetDisplayedMountInfo(i))
-        if id == self.mountID then
-            C_MountJournal.SetIsFavorite(i, setting)
-            break
-        end
-    end
-    self:Refresh()
-
-    -- Restore saved settings
-    C_MountJournal.SetSearch(SavedSearchText or "")
-    for f,v in pairs(SavedCollectedFilters) do
-        C_MountJournal.SetCollectedFilterSetting(f, v)
-    end
-    for i,v in pairs(SavedSourceFilters) do
-        C_MountJournal.SetSourceFilter(i, v)
-    end
-
-end
-
 function LM_Journal:IsCastable()
     local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
     if not usable then

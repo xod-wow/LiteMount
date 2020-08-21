@@ -19,14 +19,37 @@ end
 
 -- This should be replaced with debug types
 function LM_Debug(msg)
-    if LM_Options.db.char.debugEnabled == true then
+    if LM_Options:GetDebug() then
         LM_Print(msg)
     end
 end
 
-function LM_UIDebug(msg)
-    if LM_Options.db.char.uiDebugEnabled == true then
-        LM_Print(msg)
+local function GetFrameNameInternal(frame)
+    local name = frame:GetName()
+    if name then
+        return name
+    end
+    local parent = frame:GetParent()
+    for name,child in pairs(parent) do
+        if child == frame then
+            return GetFrameNameInternal(parent)..'.'..name
+        end
+    end
+    name = tostring(frame):sub(10)
+    return GetFrameNameInternal(parent)..'.'..name
+end
+
+local function GetFrameName(frame)
+    if not frame.__printableName then
+        frame.__printableName = GetFrameNameInternal(frame)
+    end
+    return frame.__printableName
+end
+
+function LM_UIDebug(frame, msg)
+    if LM_Options:GetUIDebug() then
+        local name = GetFrameName(frame)
+        LM_Print(name .. ' : ' .. msg)
     end
 end
 

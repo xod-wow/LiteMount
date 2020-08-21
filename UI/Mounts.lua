@@ -54,6 +54,7 @@ local function LiteMountOptionsPriority_SetOption(self, v)
     local mount = self:GetParent().mount
     if mount then
         LM_Options:SetPriority(mount, v or LM_Options.DEFAULT_PRIORITY)
+        LiteMountOptionsMounts.isDirty = true
     end
 end
 
@@ -108,6 +109,7 @@ function LiteMountOptionsBit_OnClick(self)
     else
         LM_Options:ClearMountFlag(mount, self.flag)
     end
+    LiteMountOptionsMounts.isDirty = true
 end
 
 -- Because we get attached inside the blizzard options container, we
@@ -140,6 +142,11 @@ local function BitButtonUpdate(checkButton, flag, mount)
 
     -- If we changed this from the default then color the background
     checkButton.Modified:SetShown(mount.flags[flag] ~= cur[flag])
+
+    -- The favorites flag isn't real so it's read only. This is a bit
+    -- annoying since it prevents the mouseover tooltip.
+    -- checkButton:SetEnabled(flag ~= "FAVORITES")
+    checkButton:GetCheckedTexture():SetDesaturated(flag == "FAVORITES")
 end
 
 function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
@@ -316,6 +323,7 @@ end
 local function AllPriority_SetOption(self, v)
     local mounts = LM_UIFilter.GetFilteredMountList()
     LM_Options:SetPriorities(mounts, v or LM_Options.DEFAULT_PRIORITY)
+    LiteMountOptionsMounts.isDirty = true
 end
 
 local function AllPriority_GetOption(self)
@@ -453,18 +461,29 @@ function LiteMountOptionsMounts_OnLoad(self)
 
     self.name = MOUNTS
     self.default = function ()
+            LM_UIDebug(self, 'Custom_Default')
             LM_Options:ResetAllMountFlags()
-            LM_Options:ResetAllPriorities()
+            LM_Options:SetPriorities(LM_PlayerMounts.mounts, LM_Options.DEFAULT_PRIORITY)
+            self.isDirty = true
         end
 
     self.okay =
         function (self)
-            -- remove backup
+            LM_UIDebug(self, 'Custom_Okay')
+            self.oldValues = nil
+            self.isDirty = nil
         end
 
     self.cancel =
         function (self)
-            -- undo
+            LM_UIDebug(self, 'Custom_Cancel')
+            if self.isDirty then
+                LM_UIDebug(self, '>>> CANCEL AND REVERT')
+                LM_Options:SetRawFlagChanges(self.oldValues[1])
+                LM_Options:SetRawMountPriorities(self.oldValues[2])
+            end
+            self.oldValues = nil
+            self.isDirty = nil
         end
 
     -- Refresh is trigged from OnOptionsModified which means its cached
@@ -473,6 +492,14 @@ function LiteMountOptionsMounts_OnLoad(self)
     -- force clearing it here, even though it's ugly encapsulation breakage.
 
     self.refresh = function (self, trigger, isProfileChange)
+        LM_UIDebug(self, 'Custom_Refresh t='..tostring(trigger)..', i='..tostring(isProfileChange))
+        if isProfileChange or self.oldValues == nil then
+            self.oldValues = {
+                    CopyTable(LM_Options:GetRawFlagChanges()),
+                    CopyTable(LM_Options:GetRawMountPriorities())
+                }
+            self.isDirty = nil
+        end
         LM_UIFilter.ClearCache()
         LiteMountOptions_UpdateFlagPaging(self)
         LiteMountOptions_UpdateMountList(self)
@@ -503,11 +530,10 @@ function LiteMountOptionsMounts_OnShow(self)
     -- UpdateCount, FPCount = 0, 0
     LM_PlayerMounts:RefreshMounts()
 
-    LiteMountOptions_UpdateFlagPaging()
-    LiteMountOptions_UpdateMountList()
     LiteMountOptionsPanel_OnShow(self)
 end
 
 function LiteMountOptionsMounts_OnHide(self)
+    LiteMountOptionsPanel_OnHide(self)
 end
 
