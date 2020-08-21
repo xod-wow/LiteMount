@@ -140,13 +140,16 @@ local function BitButtonUpdate(checkButton, flag, mount)
 
     checkButton:SetChecked(cur[flag] or false)
 
-    -- If we changed this from the default then color the background
-    checkButton.Modified:SetShown(mount.flags[flag] ~= cur[flag])
-
-    -- The favorites flag isn't real so it's read only. This is a bit
-    -- annoying since it prevents the mouseover tooltip.
-    -- checkButton:SetEnabled(flag ~= "FAVORITES")
-    checkButton:GetCheckedTexture():SetDesaturated(flag == "FAVORITES")
+    if flag == "FAVORITES" then
+        checkButton.Modified:Show()
+        checkButton.Modified:SetDesaturated(true)
+        checkButton:Disable()
+    else
+        -- If we changed this from the default then color the background
+        checkButton.Modified:SetShown(mount.flags[flag] ~= cur[flag])
+        checkButton.Modified:SetDesaturated(false)
+        checkButton:Enable()
+    end
 end
 
 function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
