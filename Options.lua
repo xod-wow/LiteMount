@@ -178,12 +178,14 @@ function LM_Options:VersionUpgrade()
     self.db.char.configVersion = 5
 end
 
-function LM_Options:ConsistencyCheck()
-    -- Make sure any flag is included in the flag list
+-- We don't delete flags from the profile flagChanges on delete, because
+-- that lets us undo the flag delete by just putting it back.
+
+function LM_Options:PruneDeletedFlags()
     for spellID,changes in pairs(self.db.profile.flagChanges) do
         for f in pairs(changes) do
-            if LM_FLAG[f] == nil and self.db.profile.customFlags[f] == nil then
-                self.db.profile.customFlags[f] = { }
+            if not self:IsActiveFlag(f) then
+                self.db.profile.flageChanges[f] = nil
             end
         end
     end
@@ -199,8 +201,7 @@ end
 function LM_Options:Initialize()
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
     self:VersionUpgrade()
-    self:ConsistencyCheck()
-    self:UpdateFlagCache()
+    self:PruneDeletedFlags()
     self.db.RegisterCallback(self, "OnProfileChanged", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileCopied", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileReset", "OnProfile")
@@ -278,10 +279,12 @@ function LM_Options:ApplyMountFlags(m)
 
         if changes then
             for _,flagName in ipairs(self.allFlags) do
-                if changes[flagName] == '+' then
-                    self.cachedMountFlags[m.spellID][flagName] = true
-                elseif changes[flagName] == '-' then
-                    self.cachedMountFlags[m.spellID][flagName] = nil
+                if self:IsActiveFlag(flagName) then
+                    if changes[flagName] == '+' then
+                        self.cachedMountFlags[m.spellID][flagName] = true
+                    elseif changes[flagName] == '-' then
+                        self.cachedMountFlags[m.spellID][flagName] = nil
+                    end
                 end
             end
         end
@@ -349,8 +352,16 @@ function LM_Options:IsPrimaryFlag(f)
     return LM_FLAG[f] ~= nil
 end
 
+function LM_Options:IsCustomFlag(f)
+    return self.db.profile.customFlags[f] ~= nil
+end
+
+function LM_Options:IsActiveFlag(f)
+    return self:IsPrimaryFlag(f) or self:IsCustomFlag(f)
+end
+
 -- Empty strings and primary flag names are not valid
-function LM_Options:IsValidFlagName(n)
+function LM_Options:IsValidNewFlagName(n)
     if n == "" or self:IsPrimaryFlag(n) then
         return false
     end
@@ -366,9 +377,6 @@ function LM_Options:CreateFlag(f)
 end
 
 function LM_Options:DeleteFlag(f)
-    for _,c in pairs(self.db.profile.flagChanges) do
-        c[f] = nil
-    end
     self.db.profile.customFlags[f] = nil
     self:UpdateFlagCache()
     self.db.callbacks:Fire("OnOptionsModified")

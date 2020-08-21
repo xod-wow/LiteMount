@@ -26,7 +26,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             local text = self.editBox:GetText()
-            if LM_Options:IsValidFlagName(text) then
+            if LM_Options:IsValidNewFlagName(text) then
                 LM_Options:CreateFlag(text)
             end
         end,
@@ -40,7 +40,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
         end,
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
-            if LM_Options:IsValidFlagName(text) then
+            if LM_Options:IsValidNewFlagName(text) then
                 self:GetParent().button1:Enable()
             else
                 self:GetParent().button1:Disable()
@@ -83,7 +83,7 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_FLAG"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             local text = self.editBox:GetText()
-            if LM_Options:IsValidFlagName(text) then
+            if LM_Options:IsValidNewFlagName(text) then
                 LM_Options:RenameFlag(self.data, text)
             end
         end,
@@ -97,7 +97,7 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_FLAG"] = {
         end,
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
-            if LM_Options:IsValidFlagName(text) then
+            if LM_Options:IsValidNewFlagName(text) then
                 self:GetParent().button1:Enable()
             else
                 self:GetParent().button1:Disable()
