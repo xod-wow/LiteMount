@@ -192,6 +192,7 @@ function LM_Options:PruneDeletedFlags()
 end
 
 function LM_Options:OnProfile()
+    self:PruneDeletedFlags()
     self:UpdateFlagCache()
     self:InitializePriorities()
     LiteMount:RecompileActions()
@@ -347,6 +348,16 @@ end
 --[[----------------------------------------------------------------------------
     Custom flags
 ----------------------------------------------------------------------------]]--
+
+function LM_Options:GetRawFlags()
+    return self.db.profile.customFlags
+end
+
+function LM_Options:SetRawFlags(v)
+    self.db.profile.customFlags = v
+    self:UpdateFlagCache()
+    self.db.callbacks:Fire("OnOptionsModified")
+end
 
 function LM_Options:IsPrimaryFlag(f)
     return LM_FLAG[f] ~= nil

@@ -28,6 +28,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
             local text = self.editBox:GetText()
             if LM_Options:IsValidNewFlagName(text) then
                 LM_Options:CreateFlag(text)
+                LiteMountOptionsAdvanced.FlagScroll.isDirty = true
             end
         end,
     EditBoxOnEnterPressed = function (self)
@@ -49,9 +50,6 @@ StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
     OnShow = function (self)
         self.editBox:SetFocus()
     end,
-    OnHide = function (self)
-            LiteMountOptionsAdvanced:refresh()
-        end,
 }
 
 StaticPopupDialogs["LM_OPTIONS_DELETE_FLAG"] = {
@@ -64,52 +62,11 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_FLAG"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             LM_Options:DeleteFlag(self.data)
-            LiteMountOptionsAdvanced:refresh()
+            LiteMountOptionsAdvanced.FlagScroll.isDirty = true
         end,
     OnShow = function (self)
             self.text:SetText(format("LiteMount : %s : %s", L.LM_DELETE_FLAG, self.data))
     end
-}
-
-StaticPopupDialogs["LM_OPTIONS_RENAME_FLAG"] = {
-    text = format("LiteMount : %s", L.LM_RENAME_FLAG),
-    button1 = ACCEPT,
-    button2 = CANCEL,
-    hasEditBox = 1,
-    maxLetters = 24,
-    timeout = 0,
-    exclusive = 1,
-    whileDead = 1,
-    hideOnEscape = 1,
-    OnAccept = function (self)
-            local text = self.editBox:GetText()
-            if LM_Options:IsValidNewFlagName(text) then
-                LM_Options:RenameFlag(self.data, text)
-            end
-        end,
-    EditBoxOnEnterPressed = function (self)
-            if self:GetParent().button1:IsEnabled() then
-                StaticPopup_OnClick(self:GetParent(), 1)
-            end
-        end,
-    EditBoxOnEscapePressed = function (self)
-            self:GetParent():Hide()
-        end,
-    EditBoxOnTextChanged = function (self)
-            local text = self:GetText()
-            if LM_Options:IsValidNewFlagName(text) then
-                self:GetParent().button1:Enable()
-            else
-                self:GetParent().button1:Disable()
-            end
-        end,
-    OnShow = function (self)
-            self.text:SetText(format("LiteMount : %s : %s", L.LM_RENAME_FLAG, self.data))
-            self.editBox:SetFocus()
-        end,
-    OnHide = function (self)
-            LiteMountOptionsAdvanced:refresh()
-        end,
 }
 
 function LiteMountOptionsFlagButton_OnEnter(self)
@@ -130,9 +87,11 @@ function LiteMountOptionsFlagButton_OnLeave(self)
     end
 end
 
-local function UpdateFlagScroll(self, allFlags)
+local function UpdateFlagScroll(self)
     local offset = HybridScrollFrame_GetOffset(self)
     local buttons = self.buttons
+
+    local allFlags = LM_Options:GetAllFlags()
 
     local totalHeight = (#allFlags + 1) * buttons[1]:GetHeight()
     local displayedHeight = #buttons * buttons[1]:GetHeight()
@@ -202,15 +161,11 @@ function LiteMountOptionsAdvanced_OnLoad(self)
     UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountOptionsAdvancedBindingDropDown_Initialize)
     UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
 
-    self.FlagScroll.update =
-        function (self)
-            local allFlags = LM_Options:GetAllFlags()
-            UpdateFlagScroll(self, allFlags)
-        end
+    self.FlagScroll.update = UpdateFlagScroll
     self.FlagScroll.GetOption =
-        function (self)
-            return LM_Options:GetAllFlags()
-        end
+        function (self) return CopyTable(LM_Options:GetRawFlags()) end
+    self.FlagScroll.SetOption =
+        function (self, v) LM_Options:SetRawFlags(v) end
     self.FlagScroll.SetControl = UpdateFlagScroll
     LiteMountOptionsControl_OnLoad(self.FlagScroll, self)
 
