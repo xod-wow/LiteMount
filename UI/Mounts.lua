@@ -20,7 +20,9 @@ local function tslice(t, first, last)
     return out
 end
 
-local PriorityColors = {
+LiteMountPriorityMixin = {}
+
+LiteMountPriorityMixin.PriorityColors = {
     [''] = COMMON_GRAY_COLOR,
     [0] =  RED_FONT_COLOR,
     [1] =  RARE_BLUE_COLOR,
@@ -28,7 +30,7 @@ local PriorityColors = {
     [3] =  LEGENDARY_ORANGE_COLOR,
 }
 
-local function LiteMountOptionsPriority_Update(self)
+function LiteMountPriorityMixin:Update()
     local value = self:Get()
     if value then
         self.Minus:SetShown(value > LM_Options.MIN_PRIORITY)
@@ -39,18 +41,18 @@ local function LiteMountOptionsPriority_Update(self)
         self.Plus:Show()
         self.Priority:SetText('')
     end
-    local r, g, b = PriorityColors[value or '']:GetRGB()
+    local r, g, b = self.PriorityColors[value or '']:GetRGB()
     self.Background:SetColorTexture(r, g, b, 0.25)
 end
 
-local function LiteMountOptionsPriority_Get(self)
+function LiteMountPriorityMixin:Get()
     local mount = self:GetParent().mount
     if mount then
         return LM_Options:GetPriority(mount)
     end
 end
 
-local function LiteMountOptionsPriority_Set(self, v)
+function LiteMountPriorityMixin:Set(v)
     local mount = self:GetParent().mount
     if mount then
         LM_Options:SetPriority(mount, v or LM_Options.DEFAULT_PRIORITY)
@@ -58,7 +60,7 @@ local function LiteMountOptionsPriority_Set(self, v)
     end
 end
 
-local function LiteMountOptionsPriority_Increment(self)
+function LiteMountPriorityMixin:Increment()
     local v = self:Get()
     if v then
         self:Set(v + 1)
@@ -67,21 +69,17 @@ local function LiteMountOptionsPriority_Increment(self)
     end
 end
 
-local function LiteMountOptionsPriority_Decrement(self)
+function LiteMountPriorityMixin:Decrement()
     local v = self:Get() or LM_Options.DEFAULT_PRIORITY
     self:Set(v - 1)
 end
 
-function LiteMountOptionsPriority_OnLoad(self)
-    self.Set = LiteMountOptionsPriority_Set
-    self.Get = LiteMountOptionsPriority_Get
-    self.Plus:SetScript('OnClick',
-            function () LiteMountOptionsPriority_Increment(self) end)
-    self.Minus:SetScript('OnClick',
-            function () LiteMountOptionsPriority_Decrement(self) end)
+function LiteMountPriorityMixin:OnLoad()
+    self.Plus:SetScript('OnClick', function () self:Increment() end)
+    self.Minus:SetScript('OnClick', function () self:Decrement() end)
 end
 
-function LiteMountOptionsPriority_OnEnter(self)
+function LiteMountPriorityMixin:OnEnter()
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     GameTooltip:ClearLines()
     GameTooltip:AddLine(L.LM_PRIORITY)
@@ -92,8 +90,34 @@ function LiteMountOptionsPriority_OnEnter(self)
     GameTooltip:Show()
 end
 
-function LiteMountOptionsPriority_OnLeave(self)
+function LiteMountPriorityMixin:OnLeave()
     GameTooltip:Hide()
+end
+
+LiteMountAllPriorityMixin = {}
+
+function LiteMountAllPriorityMixin:Set(v)
+    local mounts = LM_UIFilter.GetFilteredMountList()
+    LM_Options:SetPriorities(mounts, v or LM_Options.DEFAULT_PRIORITY)
+    LiteMountOptionsMounts.ScrollFrame.isDirty = true
+end
+
+function LiteMountAllPriorityMixin:Get()
+    local mounts = LM_UIFilter.GetFilteredMountList()
+
+    local allValue
+
+    for _,mount in ipairs(mounts) do
+        local v = LM_Options:GetPriority(mount)
+        if (allValue or v) ~= v then
+            allValue = nil
+            break
+        else
+            allValue = v
+        end
+    end
+
+    return allValue
 end
 
 function LiteMountOptionsBit_OnClick(self)
@@ -318,30 +342,6 @@ function LiteMountOptionsMountsFilterDropDown_OnLoad(self)
     UIDropDownMenu_Initialize(self, LiteMountOptionsMountsFilterDropDown_Initialize, "MENU")
 end
 
-local function AllPriority_Set(self, v)
-    local mounts = LM_UIFilter.GetFilteredMountList()
-    LM_Options:SetPriorities(mounts, v or LM_Options.DEFAULT_PRIORITY)
-    LiteMountOptionsMounts.ScrollFrame.isDirty = true
-end
-
-local function AllPriority_Get(self)
-    local mounts = LM_UIFilter.GetFilteredMountList()
-
-    local allValue
-
-    for _,mount in ipairs(mounts) do
-        local v = LM_Options:GetPriority(mount)
-        if (allValue or v) ~= v then
-            allValue = nil
-            break
-        else
-            allValue = v
-        end
-    end
-
-    return allValue
-end
-
 local function UpdateMountButton(button, pageFlags, mount)
     button.mount = mount
     button.Icon:SetNormalTexture(mount.icon)
@@ -367,7 +367,7 @@ local function UpdateMountButton(button, pageFlags, mount)
         button.Icon:GetNormalTexture():SetDesaturated(false)
     end
 
-    LiteMountOptionsPriority_Update(button.Priority)
+    button.Priority:Update()
 end
 
 -- local FPCount = 0
@@ -430,7 +430,7 @@ function LiteMountOptions_UpdateMountList()
         end
     end
 
-    LiteMountOptionsPriority_Update(LiteMountOptionsMounts.AllPriority)
+    LiteMountOptionsMounts.AllPriority:Update()
 
     if LM_UIFilter.IsFiltered() then
         LiteMountOptionsMounts.FilterButton.ClearButton:Show()
@@ -487,9 +487,6 @@ function LiteMountOptionsMounts_OnLoad(self)
         end
 
     LiteMountOptionsPanel_RegisterControl(self.ScrollFrame)
-
-    self.AllPriority.Get = AllPriority_Get
-    self.AllPriority.Set = AllPriority_Set
 
     self.currentFlagPage = 1
     self.maxFlagPages = 1

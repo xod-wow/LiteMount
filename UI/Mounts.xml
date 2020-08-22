@@ -49,7 +49,7 @@
     </Layers>
 </CheckButton>
 
-<Frame name="LiteMountPriorityTemplate" virtual="true">
+<Frame name="LiteMountPriorityTemplate" virtual="true" mixin="LiteMountPriorityMixin">
 
     <Size x="72" y="32" />
 
@@ -88,9 +88,9 @@
         </Button>
     </Frames>
     <Scripts>
-        <OnLoad function="LiteMountOptionsPriority_OnLoad" />
-        <OnEnter function="LiteMountOptionsPriority_OnEnter" />
-        <OnLeave function="LiteMountOptionsPriority_OnLeave" />
+        <OnLoad method="OnLoad" />
+        <OnEnter method="OnEnter" />
+        <OnLeave method="OnLeave" />
     </Scripts>
 </Frame>
 
@@ -400,8 +400,7 @@
             </Scripts>
         </Button>
 
-
-        <Frame parentKey="AllPriority" inherits="LiteMountPriorityTemplate">
+        <Frame parentKey="AllPriority" inherits="LiteMountPriorityTemplate" mixin="LiteMountAllPriorityMixin">
             <Anchors>
                 <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.BitLabel1" x="-30" />
             </Anchors>
