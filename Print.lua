@@ -49,7 +49,7 @@ end
 function LM_UIDebug(frame, msg)
     if LM_Options:GetUIDebug() then
         local name = GetFrameName(frame)
-        LM_Print(name .. ' : ' .. msg)
+        LM_Print(ORANGE_FONT_COLOR:WrapTextInColorCode(name) .. ' : ' .. msg)
     end
 end
 
