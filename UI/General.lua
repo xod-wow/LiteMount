@@ -37,6 +37,7 @@ local function RandomPersistDropDown_Initialize(dropdown, level)
             info.func =
                 function (_, seconds)
                     LM_Options:SetRandomPersistence(seconds)
+                    dropdown.isDirty = true
                 end
             UIDropDownMenu_AddButton(info, level)
         end
@@ -85,7 +86,7 @@ function LiteMountOptionsGeneral_OnLoad(self)
     self.RandomPersistDropDown.GetOption =
         function () return LM_Options:GetRandomPersistence() end
     self.RandomPersistDropDown.SetOption =
-        function (self, v) return LM_Options:SetRandomPersistence(v) end
+        function (self, v) LM_Options:SetRandomPersistence(v) end
     self.RandomPersistDropDown.SetControl = RandomPersistDropDown_UpdateText
     LiteMountOptionsControl_OnLoad(self.RandomPersistDropDown)
 
