@@ -27,7 +27,11 @@ end
 local function GetFrameNameInternal(frame)
     local name = frame:GetName()
     if name then
-        return name
+        if name:sub(1,9) == "LiteMount" then
+            return name:sub(10)
+        else
+            return name
+        end
     end
     local parent = frame:GetParent()
     for name,child in pairs(parent) do
