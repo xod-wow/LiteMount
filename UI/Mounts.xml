@@ -99,7 +99,7 @@
     </Scripts>
 </Button>
 
-<Button name="LiteMountMountButtonTemplate" virtual="true">
+<Button name="LiteMountMountButtonTemplate" virtual="true" mixin="LiteMountMountButtonMixin">
 
     <Size x="180" y="45" />
 
@@ -112,10 +112,7 @@
     </Backdrop>
 
     <Scripts>
-        <OnLoad>
-            self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
-            self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
-        </OnLoad>
+        <OnLoad method="OnLoad" />
     </Scripts>
 
     <Frames>
@@ -218,7 +215,7 @@
             </Scripts>
         </EditBox>
 
-        <Button parentKey="FilterButton" inherits="UIMenuButtonStretchTemplate" text="FILTER">
+        <Button parentKey="FilterButton" inherits="UIMenuButtonStretchTemplate" text="FILTER" mixin="LiteMountFilterButtonMixin">
             <Size x="93" y="22" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.Search" relativePoint="RIGHT" x="12" y="-0.5" />
@@ -234,9 +231,8 @@
                 </Layer>
             </Layers>
             <Scripts>
-                <OnClick>
-                    ToggleDropDownMenu(1, nil, self:GetParent().FilterDropDown, self, 74, 15)
-                </OnClick>
+                <OnClick method="OnClick" />
+                <OnLoad method="OnLoad" />
             </Scripts>
 
             <Frames>
@@ -250,14 +246,10 @@
                         <OnClick method="OnClick" />
                     </Scripts>
                 </Button>
+                <Frame parentKey="FilterDropDown" inherits="UIDropDownMenuTemplate">
+                </Frame>
             </Frames>
         </Button>
-
-        <Frame parentKey="FilterDropDown" inherits="UIDropDownMenuTemplate">
-            <Scripts>
-                <OnLoad function="LiteMountOptionsMountsFilterDropDown_OnLoad" />
-            </Scripts>
-        </Frame>
     </Frames>
 
     <Layers>

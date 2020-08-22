@@ -151,6 +151,32 @@ function LiteMountFlagBitMixin:OnLeave()
     end
 end
 
+function LiteMountFlagBitMixin:Update(flag, mount)
+    self.flag = flag
+
+    if not flag then
+        self:Hide()
+        return
+    else
+        self:Show()
+    end
+
+    local cur = mount:CurrentFlags()
+
+    self:SetChecked(cur[flag] or false)
+
+    if flag == "FAVORITES" then
+        self.Modified:Show()
+        self.Modified:SetDesaturated(true)
+        self:Disable()
+    else
+        -- If we changed this from the default then color the background
+        self.Modified:SetShown(mount.flags[flag] ~= cur[flag])
+        self.Modified:SetDesaturated(false)
+        self:Enable()
+    end
+end
+
 LiteMountMountIconMixin = {}
 
 function LiteMountMountIconMixin:OnEnter()
@@ -256,33 +282,13 @@ local function CreateMoreButtons(self)
     end
 end
 
-local function BitButtonUpdate(checkButton, flag, mount)
-    checkButton.flag = flag
+LiteMountFilterButtonMixin = {}
 
-    if not flag then
-        checkButton:Hide()
-        return
-    else
-        checkButton:Show()
-    end
-
-    local cur = mount:CurrentFlags()
-
-    checkButton:SetChecked(cur[flag] or false)
-
-    if flag == "FAVORITES" then
-        checkButton.Modified:Show()
-        checkButton.Modified:SetDesaturated(true)
-        checkButton:Disable()
-    else
-        -- If we changed this from the default then color the background
-        checkButton.Modified:SetShown(mount.flags[flag] ~= cur[flag])
-        checkButton.Modified:SetDesaturated(false)
-        checkButton:Enable()
-    end
+function LiteMountFilterButtonMixin:OnClick()
+    ToggleDropDownMenu(1, nil, self.FilterDropDown, self, 74, 15)
 end
 
-function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
+function LiteMountFilterButtonMixin:Initialize(level)
     local info = UIDropDownMenu_CreateInfo()
     info.keepShownOnClick = true
 
@@ -348,7 +354,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = CHECK_ALL
             info.func = function ()
                     LM_UIFilter.SetAllSourceFilters(true)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
@@ -356,7 +362,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = UNCHECK_ALL
             info.func = function ()
                     LM_UIFilter.SetAllSourceFilters(false)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
@@ -384,7 +390,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = CHECK_ALL
             info.func = function ()
                     LM_UIFilter:SetAllFlagFilters(true)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
@@ -392,7 +398,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = UNCHECK_ALL
             info.func = function ()
                     LM_UIFilter:SetAllFlagFilters(false)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
@@ -417,7 +423,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = CHECK_ALL
             info.func = function ()
                     LM_UIFilter:SetAllPriorityFilters(true)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
@@ -425,7 +431,7 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
             info.text = UNCHECK_ALL
             info.func = function ()
                     LM_UIFilter:SetAllPriorityFilters(false)
-                    UIDropDownMenu_Refresh(LiteMountOptionsMounts.FilterDropDown, false, 2)
+                    UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountOptions_UpdateMountList()
                 end
             UIDropDownMenu_AddButton(info, level)
@@ -449,36 +455,43 @@ function LiteMountOptionsMountsFilterDropDown_Initialize(self, level)
     end
 end
 
-function LiteMountOptionsMountsFilterDropDown_OnLoad(self)
-    UIDropDownMenu_Initialize(self, LiteMountOptionsMountsFilterDropDown_Initialize, "MENU")
+function LiteMountFilterButtonMixin:OnLoad()
+    UIDropDownMenu_Initialize(self.FilterDropDown, self.Initialize, "MENU")
 end
 
-local function UpdateMountButton(button, pageFlags, mount)
-    button.mount = mount
-    button.Icon:SetNormalTexture(mount.icon)
-    button.Name:SetText(mount.name)
+LiteMountMountButtonMixin = {}
+
+function LiteMountMountButtonMixin:Update(pageFlags, mount)
+    self.mount = mount
+    self.Icon:SetNormalTexture(mount.icon)
+    self.Name:SetText(mount.name)
 
     if not InCombatLockdown() then
         for k,v in pairs(mount:GetSecureAttributes()) do
-            button.Icon:SetAttribute(k, v)
+            self.Icon:SetAttribute(k, v)
         end
     end
 
     local i = 1
-    while button["Bit"..i] do
-        BitButtonUpdate(button["Bit"..i], pageFlags[i], mount)
+    while self["Bit"..i] do
+        self["Bit"..i]:Update(pageFlags[i], mount)
         i = i + 1
     end
 
     if not mount.isCollected then
-        button.Name:SetFontObject("GameFontDisable")
-        button.Icon:GetNormalTexture():SetDesaturated(true)
+        self.Name:SetFontObject("GameFontDisable")
+        self.Icon:GetNormalTexture():SetDesaturated(true)
     else
-        button.Name:SetFontObject("GameFontNormal")
-        button.Icon:GetNormalTexture():SetDesaturated(false)
+        self.Name:SetFontObject("GameFontNormal")
+        self.Icon:GetNormalTexture():SetDesaturated(false)
     end
 
-    button.Priority:Update()
+    self.Priority:Update()
+end
+
+function LiteMountMountButtonMixin:OnLoad()
+    self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
+    self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
 end
 
 -- local FPCount = 0
@@ -534,7 +547,7 @@ function LiteMountOptions_UpdateMountList()
         local button = buttons[i]
         local index = offset + i
         if index <= #mounts then
-            UpdateMountButton(button, LiteMountOptionsMounts.pageFlags, mounts[index])
+            button:Update(LiteMountOptionsMounts.pageFlags, mounts[index])
             button:Show()
         else
             button:Hide()
