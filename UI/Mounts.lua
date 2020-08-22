@@ -20,6 +20,8 @@ local function tslice(t, first, last)
     return out
 end
 
+--[[--------------------------------------------------------------------------]]--
+
 LiteMountPriorityMixin = {}
 
 LiteMountPriorityMixin.PriorityColors = {
@@ -94,6 +96,8 @@ function LiteMountPriorityMixin:OnLeave()
     GameTooltip:Hide()
 end
 
+--[[--------------------------------------------------------------------------]]--
+
 LiteMountAllPriorityMixin = {}
 
 function LiteMountAllPriorityMixin:Set(v)
@@ -119,6 +123,8 @@ function LiteMountAllPriorityMixin:Get()
 
     return allValue
 end
+
+--[[--------------------------------------------------------------------------]]--
 
 LiteMountFlagBitMixin = {}
 
@@ -177,6 +183,8 @@ function LiteMountFlagBitMixin:Update(flag, mount)
     end
 end
 
+--[[--------------------------------------------------------------------------]]--
+
 LiteMountMountIconMixin = {}
 
 function LiteMountMountIconMixin:OnEnter()
@@ -227,6 +235,8 @@ function LiteMountMountIconMixin:OnDragStart()
     end
 end
 
+--[[--------------------------------------------------------------------------]]--
+
 LiteMountPreviewMixin = {}
 
 function LiteMountPreviewMixin:SetMount(m)
@@ -253,6 +263,8 @@ function LiteMountPreviewMixin:OnShow()
     self:SetSize(d, d)
 end
 
+--[[--------------------------------------------------------------------------]]--
+
 LiteMountSearchBoxMixin = {}
 
 function LiteMountSearchBoxMixin:OnTextChanged()
@@ -260,6 +272,8 @@ function LiteMountSearchBoxMixin:OnTextChanged()
     LM_UIFilter.SetSearchText(self:GetText())
     LiteMountMountsPanel:Update()
 end
+
+--[[--------------------------------------------------------------------------]]--
 
 LiteMountFilterClearMixin = {}
 
@@ -281,6 +295,8 @@ local function CreateMoreButtons(self)
         b:SetWidth(b:GetParent():GetWidth())
     end
 end
+
+--[[--------------------------------------------------------------------------]]--
 
 LiteMountFilterButtonMixin = {}
 
@@ -467,6 +483,8 @@ function LiteMountFilterButtonMixin:Update()
     end
 end
 
+--[[--------------------------------------------------------------------------]]--
+
 LiteMountMountButtonMixin = {}
 
 function LiteMountMountButtonMixin:Update(pageFlags, mount)
@@ -501,6 +519,8 @@ function LiteMountMountButtonMixin:OnLoad()
     self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
     self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
 end
+
+--[[--------------------------------------------------------------------------]]--
 
 LiteMountMountScrollMixin = {}
 
@@ -548,6 +568,8 @@ function LiteMountMountScrollMixin:Update()
 
     HybridScrollFrame_Update(self, totalHeight, shownHeight)
 end
+
+--[[--------------------------------------------------------------------------]]--
 
 LiteMountMountsPanelMixin = {}
 

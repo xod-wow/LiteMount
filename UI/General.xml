@@ -4,14 +4,14 @@
 
 <Script file="General.lua" />
 
-<Frame name="LiteMountOptionsGeneral" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountGeneralPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountGeneralPanelMixin">
 
     <KeyValues>
         <KeyValue key="name" value="GENERAL" type="string" />
     </KeyValues>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsGeneral_OnLoad" />
+        <OnLoad method="OnLoad" />
     </Scripts>
 
     <Frames>

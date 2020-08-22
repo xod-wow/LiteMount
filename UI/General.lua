@@ -44,7 +44,11 @@ local function RandomPersistDropDown_Initialize(dropdown, level)
     end
 end
 
-function LiteMountOptionsGeneral_OnLoad(self)
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountGeneralPanelMixin = {}
+
+function LiteMountGeneralPanelMixin:OnLoad()
 
     -- CopyTargetsMount --
 
@@ -111,4 +115,3 @@ function LiteMountOptionsGeneral_OnLoad(self)
 
     LiteMountOptionsPanel_OnLoad(self)
 end
-

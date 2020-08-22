@@ -4,7 +4,15 @@
 
 <Script file="Macro.lua" />
 
-<Frame name="LiteMountOptionsMacro" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountMacroPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMacroPanelMixin">
+
+    <KeyValues>
+        <KeyValue key="dontShowProfile" value="true" type="boolean" />
+    </KeyValues>
+
+    <Scripts>
+        <OnLoad method="OnLoad" />
+    </Scripts>
 
     <Frames>
         <Frame parentKey="EditBoxContainer">
@@ -40,35 +48,22 @@
             </Anchors>
 
             <Scripts>
-                <OnTextChanged function="LiteMountOptionsMacro_OnTextChanged" />
                 <OnEscapePressed function="EditBox_ClearFocus" />
             </Scripts>
             <FontString inherits="GameFontHighlight" />
         </EditBox>
 
-        <Button inherits="UIPanelButtonTemplate" text="DELETE">
+        <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
             <Size x="96" y="22" />
             <Anchors>
                 <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="-3" />
             </Anchors>
-            <Scripts>
-                <OnClick>
-                    local parent = self:GetParent()
-                    parent.EditBox:SetOption("")
-                </OnClick>
-            </Scripts>
         </Button>
         <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="REVERT">
             <Size x="96" y="22" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" x="24" y="16" />
             </Anchors>
-            <Scripts>
-                <OnClick>
-                    local parent = self:GetParent()
-                    LiteMountOptionsControl_Revert(parent.EditBox)
-                </OnClick>
-            </Scripts>
         </Button>
 
     </Frames>
@@ -97,14 +92,6 @@
             </FontString>
         </Layer>
     </Layers>
-
-    <KeyValues>
-        <KeyValue key="dontShowProfile" value="true" type="boolean" />
-    </KeyValues>
-
-    <Scripts>
-        <OnLoad function="LiteMountOptionsMacro_OnLoad" />
-    </Scripts>
 </Frame>
 
 </Ui>
