@@ -20,7 +20,7 @@ function LiteMountOptionsCombatMacro_OnLoad(self)
         function (self) return LM_Options:GetCombatMacro() or "" end
     self.EditBox.GetOptionDefault =
         function (self) return LM_Actions:DefaultCombatMacro() end
-    LiteMountOptionsControl_OnLoad(self.EditBox)
+    LiteMountOptionsPanel_RegisterControl(self.EditBox)
 
     self.EnableButton.SetOption =
         function (self, v)
@@ -31,7 +31,7 @@ function LiteMountOptionsCombatMacro_OnLoad(self)
         function (self) return LM_Options:GetUseCombatMacro() end
     self.EnableButton.GetOptionDefault =
         function (self) return false end
-    LiteMountOptionsControl_OnLoad(self.EnableButton)
+    LiteMountOptionsPanel_RegisterControl(self.EnableButton)
 
     LiteMountOptionsPanel_OnLoad(self)
 end

@@ -61,7 +61,7 @@ function LiteMountOptionsGeneral_OnLoad(self)
         function (self) return LM_Options:GetCopyTargetsMount() end
     self.CopyTargetsMount.GetOptionDefault =
         function (self) return true end
-    LiteMountOptionsControl_OnLoad(self.CopyTargetsMount)
+    LiteMountOptionsPanel_RegisterControl(self.CopyTargetsMount)
 
     -- ExcludeNewMounts --
 
@@ -78,17 +78,19 @@ function LiteMountOptionsGeneral_OnLoad(self)
         function (self) return false end
     self.ExcludeNewMounts.GetOption =
         function (self) return LM_Options:GetExcludeNewMounts() end
-    LiteMountOptionsControl_OnLoad(self.ExcludeNewMounts)
+    LiteMountOptionsPanel_RegisterControl(self.ExcludeNewMounts)
 
     -- RandomPersistDropDown --
 
     UIDropDownMenu_Initialize(self.RandomPersistDropDown, RandomPersistDropDown_Initialize)
     self.RandomPersistDropDown.GetOption =
         function () return LM_Options:GetRandomPersistence() end
+    self.RandomPersistDropDown.GetOptionDefault =
+        function () return 0 end
     self.RandomPersistDropDown.SetOption =
         function (self, v) LM_Options:SetRandomPersistence(v) end
     self.RandomPersistDropDown.SetControl = RandomPersistDropDown_UpdateText
-    LiteMountOptionsControl_OnLoad(self.RandomPersistDropDown)
+    LiteMountOptionsPanel_RegisterControl(self.RandomPersistDropDown)
 
     -- Debugging --
 
@@ -105,7 +107,7 @@ function LiteMountOptionsGeneral_OnLoad(self)
         function (self) return false end
     self.Debugging.GetOption =
         function (self) return LM_Options:GetDebug() end
-    LiteMountOptionsControl_OnLoad(self.Debugging)
+    LiteMountOptionsPanel_RegisterControl(self.Debugging)
 
     LiteMountOptionsPanel_OnLoad(self)
 end

@@ -486,7 +486,7 @@ function LiteMountOptionsMounts_OnLoad(self)
             LiteMountOptions_UpdateMountList(self)
         end
 
-    LiteMountOptionsControl_OnLoad(self.ScrollFrame)
+    LiteMountOptionsPanel_RegisterControl(self.ScrollFrame)
 
     self.AllPriority.Get = AllPriority_Get
     self.AllPriority.Set = AllPriority_Set

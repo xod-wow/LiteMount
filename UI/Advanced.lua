@@ -136,42 +136,6 @@ local function UpdateFlagScroll(self)
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
-function LiteMountOptionsAdvanced_OnSizeChanged(self, x, y)
-    HybridScrollFrame_CreateButtons(
-            self.FlagScroll,
-            "LiteMountOptionsFlagButtonTemplate",
-            0, 0, "TOPLEFT", "TOPLEFT",
-            0, 0, "TOP", "BOTTOM"
-        )
-    self.FlagScroll:update()
-end
-
-function LiteMountOptionsAdvanced_OnLoad(self)
-    self.name = ADVANCED_OPTIONS
-
-    self.EditScroll.EditBox.ntabs = 4
-    self.EditScroll.EditBox.SetOption =
-        function (self, v, i) LM_Options:SetButtonAction(i, v) end
-    self.EditScroll.EditBox.GetOption =
-        function (self, i) return LM_Options:GetButtonAction(i) end
-    self.EditScroll.EditBox.GetOptionDefault =
-        function (self, i) return LM_Options:GetButtonAction('*') end
-    LiteMountOptionsControl_OnLoad(self.EditScroll.EditBox, self)
-
-    UIDropDownMenu_Initialize(self.BindingDropDown, LiteMountOptionsAdvancedBindingDropDown_Initialize)
-    UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
-
-    self.FlagScroll.update = UpdateFlagScroll
-    self.FlagScroll.GetOption =
-        function (self) return CopyTable(LM_Options:GetRawFlags()) end
-    self.FlagScroll.SetOption =
-        function (self, v) LM_Options:SetRawFlags(v) end
-    self.FlagScroll.SetControl = UpdateFlagScroll
-    LiteMountOptionsControl_OnLoad(self.FlagScroll, self)
-
-    LiteMountOptionsPanel_OnLoad(self)
-end
-
 function LiteMountOptionsAdvancedRevert_OnShow(self)
     local parent = self:GetParent()
     local editBox = parent.EditScroll.EditBox
@@ -195,7 +159,7 @@ function LiteMountOptionsAdvancedRevert_OnClick(self)
     end
 end
 
-function LiteMountOptionsAdvancedBindingDropDown_Initialize(dropDown, level)
+local function BindingDropDown_Initialize(dropDown, level)
     local info = UIDropDownMenu_CreateInfo()
     local editBox = LiteMountOptionsAdvanced.EditScroll.EditBox
     if level == 1 then
@@ -211,4 +175,40 @@ function LiteMountOptionsAdvancedBindingDropDown_Initialize(dropDown, level)
             UIDropDownMenu_AddButton(info, level)
         end
     end
+end
+
+function LiteMountOptionsAdvanced_OnSizeChanged(self, x, y)
+    HybridScrollFrame_CreateButtons(
+            self.FlagScroll,
+            "LiteMountOptionsFlagButtonTemplate",
+            0, 0, "TOPLEFT", "TOPLEFT",
+            0, 0, "TOP", "BOTTOM"
+        )
+    self.FlagScroll:update()
+end
+
+function LiteMountOptionsAdvanced_OnLoad(self)
+    self.name = ADVANCED_OPTIONS
+
+    self.EditScroll.EditBox.ntabs = 4
+    self.EditScroll.EditBox.SetOption =
+        function (self, v, i) LM_Options:SetButtonAction(i, v) end
+    self.EditScroll.EditBox.GetOption =
+        function (self, i) return LM_Options:GetButtonAction(i) end
+    self.EditScroll.EditBox.GetOptionDefault =
+        function (self, i) return LM_Options:GetButtonAction('*') end
+    LiteMountOptionsPanel_RegisterControl(self.EditScroll.EditBox, self)
+
+    UIDropDownMenu_Initialize(self.BindingDropDown, BindingDropDown_Initialize)
+    UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
+
+    self.FlagScroll.update = UpdateFlagScroll
+    self.FlagScroll.GetOption =
+        function (self) return CopyTable(LM_Options:GetRawFlags()) end
+    self.FlagScroll.SetOption =
+        function (self, v) LM_Options:SetRawFlags(v) end
+    self.FlagScroll.SetControl = UpdateFlagScroll
+    LiteMountOptionsPanel_RegisterControl(self.FlagScroll, self)
+
+    LiteMountOptionsPanel_OnLoad(self)
 end

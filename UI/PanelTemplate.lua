@@ -4,6 +4,46 @@
 
   Copyright 2016-2020 Mike Battersby
 
+  This is inspired by the Blizzard options panel code, but instead of saving
+  the current values of settings and applying them whenk Okay is clicked, it
+  applies them immediately and backs them out when you click Cancel.
+
+  Create an options panel from like this
+
+  <Frame name=... hidden="true" inherits="LiteMountOptionsPanelTemplate">
+
+  The OnLoad handler must call LiteMountOptionsPanel_OnLoad(self).
+
+  Inside the panel define controls which can have these methods
+    GetOption()
+    GetOptionDefault()
+    SetOption(v)
+    GetControl()
+    SetControl(v)
+
+  Call LiteMountOptionsPanel_RegisterControl(control, [panel]) for each one.
+  If panel is the direct parent of control then it can be omitted.
+
+  There are inbuilt versions of Get/SetControl that work for CheckButton and
+  TextEdit widgets. And maybe Slider, I can't remember.
+
+  When a control is changed call LiteMountOptionsControl_OnChanged(self)
+  which will do SetOption(GetControl()). Alternatively handle it natively
+  and set control.isDirty = true when it has changed and needs to be backed
+  out when Cancel is clicked.
+
+  SetControl does not necessarily need to use the v passed to it, it can
+  read all of the settings itself. Nor do SetOption or OnChanged need to
+  be used when things are modified, as long as isDirty is maintained. This
+  allows use of GetOption/SetOption just for the undo functionality.
+
+  Don't refresh any of UI elements that are controls. The panel has a callback
+  into LM_Options.db that redraws when anything is modified and handles the
+  profile switching.
+
+  In an ideal world most of this would be replaced with an AceDB that has a
+  snapshot and restore capability.
+
 ----------------------------------------------------------------------------]]--
 
 local L = LM_Localize
@@ -84,12 +124,6 @@ function LiteMountOptionsPanel_Cancel(self)
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Cancel(control)
     end
-end
-
-function LiteMountOptionsPanel_RegisterControl(control, parent)
-    parent = parent or control:GetParent()
-    parent.controls = parent.controls or { }
-    tinsert(parent.controls, control)
 end
 
 function LiteMountOptionsPanel_OnShow(self)
@@ -221,16 +255,18 @@ function LiteMountOptionsControl_SetControl(self, v)
     end
 end
 
-function LiteMountOptionsControl_OnLoad(self, parent)
-    self.GetOption = self.GetOption or function (self) end
-    self.SetOption = self.SetOption or function (self, v, i) end
-    self.GetControl = self.GetControl or LiteMountOptionsControl_GetControl
-    self.SetControl = self.SetControl or LiteMountOptionsControl_SetControl
+-- Note we don't set an OnShow per control, the panel handler takes care of
+-- running the refresh for all the controls in its OnShow
 
-    self.tab = 1
+function LiteMountOptionsPanel_RegisterControl(control, parent)
+    control.GetOption = control.GetOption or function (control) end
+    control.SetOption = control.SetOption or function (control, v, i) end
+    control.GetControl = control.GetControl or LiteMountOptionsControl_GetControl
+    control.SetControl = control.SetControl or LiteMountOptionsControl_SetControl
 
-    -- Note we don't set an OnShow per control, the panel handler takes care
-    -- of running the refresh for all the controls in its OnShow
+    control.tab = 1
 
-    LiteMountOptionsPanel_RegisterControl(self, parent)
+    parent = parent or control:GetParent()
+    parent.controls = parent.controls or { }
+    tinsert(parent.controls, control)
 end

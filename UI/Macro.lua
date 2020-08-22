@@ -19,7 +19,7 @@ function LiteMountOptionsMacro_OnLoad(self)
         function (self) return LM_Options:GetUnavailableMacro() or "" end
     self.EditBox.GetOptionDefault =
         function (self) return "" end
-    LiteMountOptionsControl_OnLoad(self.EditBox)
+    LiteMountOptionsPanel_RegisterControl(self.EditBox)
 
     LiteMountOptionsPanel_OnLoad(self)
 end
