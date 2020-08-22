@@ -227,6 +227,14 @@ function LiteMountPreviewMixin:OnShow()
     self:SetSize(d, d)
 end
 
+LiteMountSearchBoxMixin = {}
+
+function LiteMountSearchBoxMixin:OnTextChanged()
+    SearchBoxTemplate_OnTextChanged(self)
+    LM_UIFilter.SetSearchText(self:GetText())
+    LiteMountOptions_UpdateMountList()
+end
+
 -- Because we get attached inside the blizzard options container, we
 -- are size 0x0 on create and even after OnShow, we have to trap
 -- OnSizeChanged on the scrollframe to make the buttons correctly.

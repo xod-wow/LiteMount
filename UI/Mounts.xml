@@ -208,17 +208,13 @@
             </Scripts>
         </ScrollFrame>
 
-        <EditBox autofocus="false" inherits="SearchBoxTemplate" parentKey="Search" letters="40">
+        <EditBox autofocus="false" inherits="SearchBoxTemplate" parentKey="Search" letters="40" mixin="LiteMountSearchBoxMixin">
             <Size x="145" y="20" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollFrame" relativePoint="TOPLEFT" x="6" y="15" />
             </Anchors>
             <Scripts>
-                <OnTextChanged>
-                    SearchBoxTemplate_OnTextChanged(self)
-                    LM_UIFilter.SetSearchText(self:GetText())
-                    LiteMountOptions_UpdateMountList()
-                </OnTextChanged>
+                <OnTextChanged method="OnTextChanged" />
             </Scripts>
         </EditBox>
 
