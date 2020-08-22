@@ -120,7 +120,9 @@ function LiteMountAllPriorityMixin:Get()
     return allValue
 end
 
-function LiteMountOptionsBit_OnClick(self)
+LiteMountFlagBitMixin = {}
+
+function LiteMountFlagBitMixin:OnClick()
     local mount = self:GetParent().mount
 
     if self:GetChecked() then
@@ -129,6 +131,24 @@ function LiteMountOptionsBit_OnClick(self)
         LM_Options:ClearMountFlag(mount, self.flag)
     end
     LiteMountOptionsMounts.ScrollFrame.isDirty = true
+end
+
+function LiteMountFlagBitMixin:OnEnter()
+    if self.flag then
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        if self.flag == "FAVORITES" then
+            GameTooltip:SetText("Blizzard " .. L[self.flag])
+        else
+            GameTooltip:SetText(L[self.flag])
+        end
+        GameTooltip:Show()
+    end
+end
+
+function LiteMountFlagBitMixin:OnLeave()
+    if GameTooltip:GetOwner() == self then
+        GameTooltip:Hide()
+    end
 end
 
 -- Because we get attached inside the blizzard options container, we

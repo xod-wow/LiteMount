@@ -9,27 +9,12 @@
     See OptionsBaseCheckButtonTemplate in FrameXML/OptionsPanelTemplates.xml
     We don't use it directly because of the hitrect crap we don't want.
  -->
-<CheckButton name="LiteMountOptionsBitTemplate" virtual="true">
+<CheckButton name="LiteMountFlagBitTemplate" virtual="true" mixin="LiteMountFlagBitMixin">
     <Size x="26" y="26" />
     <Scripts>
-        <OnClick function="LiteMountOptionsBit_OnClick" />
-        <OnEnter>
-            local L = LM_Localize
-            if self.flag then
-                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                if self.flag == "FAVORITES" then
-                    GameTooltip:SetText("Blizzard " .. L[self.flag])
-                else
-                    GameTooltip:SetText(L[self.flag])
-                end
-                GameTooltip:Show()
-            end
-        </OnEnter>
-        <OnLeave>
-            if GameTooltip:GetOwner() == self then
-                GameTooltip:Hide()
-            end
-        </OnLeave>
+        <OnClick method="OnClick" />
+        <OnEnter method="OnEnter" />
+        <OnLeave method="OnLeave" />
     </Scripts>
     <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
     <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
@@ -186,19 +171,19 @@
             </Scripts>
         </Button>
 
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit5" id="5">
+        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit5" id="5">
             <Anchors> <Anchor point="RIGHT" x="-32" /> </Anchors>
         </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit4" id="4">
+        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit4" id="4">
             <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit5" x="-34" /> </Anchors>
         </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit3" id="3">
+        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit3" id="3">
             <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit4" x="-34" /> </Anchors>
         </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit2" id="2">
+        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit2" id="2">
             <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit3" x="-34" /> </Anchors>
         </CheckButton>
-        <CheckButton inherits="LiteMountOptionsBitTemplate" parentKey="Bit1" id="1">
+        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit1" id="1">
             <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit2" x="-34" /> </Anchors>
         </CheckButton>
 
