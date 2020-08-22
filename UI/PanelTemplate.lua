@@ -73,7 +73,7 @@ end
 function LiteMountOptionsPanel_Open()
     local f = LiteMountOptions
     if not f.CurrentOptionsPanel then
-        f.CurrentOptionsPanel = LiteMountOptionsMounts
+        f.CurrentOptionsPanel = LiteMountMountsPanel
     end
     InterfaceOptionsFrame:Show()
     InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)

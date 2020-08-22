@@ -188,27 +188,24 @@
     </Scripts>
 </Frame>
 
-<Frame name="LiteMountOptionsMounts" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountMountsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMountsPanelMixin">
 
     <Frames>
-        <ScrollFrame inherits="MinimalHybridScrollFrameTemplate" parentKey="ScrollFrame">
+        <ScrollFrame inherits="MinimalHybridScrollFrameTemplate" parentKey="MountScroll" mixin="LiteMountMountScrollMixin">
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-92" />
                 <Anchor point="BOTTOMRIGHT" x="-32" y="20" />
             </Anchors>
             <Scripts>
-                <OnLoad>
-                    local track = _G[self.scrollBar:GetName().."Track"]
-                    track:Hide()
-                </OnLoad>
-                <OnSizeChanged function="LiteMountOptionsScrollFrame_OnSizeChanged" />
+                <OnLoad method="OnLoad" />
+                <OnSizeChanged method="OnSizeChanged" />
             </Scripts>
         </ScrollFrame>
 
         <EditBox autofocus="false" inherits="SearchBoxTemplate" parentKey="Search" letters="40" mixin="LiteMountSearchBoxMixin">
             <Size x="145" y="20" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollFrame" relativePoint="TOPLEFT" x="6" y="15" />
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.MountScroll" relativePoint="TOPLEFT" x="6" y="15" />
             </Anchors>
             <Scripts>
                 <OnTextChanged method="OnTextChanged" />
@@ -257,7 +254,7 @@
             <FontString parentKey="BitLabel5" inherits="GameFontWhiteTiny" justifyH="CENTER">
                 <Size x="30" y="26" />
                 <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollFrame" relativePoint="TOPRIGHT" x="-32" y="10" />
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountScroll" relativePoint="TOPRIGHT" x="-32" y="10" />
                 </Anchors>
             </FontString>
             <FontString parentKey="BitLabel4" inherits="GameFontWhiteTiny" justifyH="CENTER">
@@ -331,9 +328,9 @@
     </Layers>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsMounts_OnLoad" />
-        <OnShow function="LiteMountOptionsMounts_OnShow" />
-        <OnHide function="LiteMountOptionsMounts_OnHide" />
+        <OnLoad method="OnLoad" />
+        <OnShow method="OnShow" />
+        <OnHide method="OnHide" />
     </Scripts>
 
 </Frame>
