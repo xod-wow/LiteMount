@@ -235,6 +235,13 @@ function LiteMountSearchBoxMixin:OnTextChanged()
     LiteMountOptions_UpdateMountList()
 end
 
+LiteMountFilterClearMixin = {}
+
+function LiteMountFilterClearMixin:OnClick()
+    LM_UIFilter.Clear()
+    LiteMountOptions_UpdateMountList()
+end
+
 -- Because we get attached inside the blizzard options container, we
 -- are size 0x0 on create and even after OnShow, we have to trap
 -- OnSizeChanged on the scrollframe to make the buttons correctly.
