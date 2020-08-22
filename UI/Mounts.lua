@@ -177,21 +177,12 @@ function LiteMountMountIconMixin:OnEnter()
         GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
     end
 
-    if m.modelID then
-        LiteMountOptionsPreview.Model:SetDisplayInfo(m.modelID)
-        if m.isSelfMount then
-            LiteMountOptionsPreview.Model:SetDoBlend(false)
-            LiteMountOptionsPreview.Model:SetAnimation(618, -1)
-        end
-        LiteMountOptionsPreview:Show()
-    else
-        LiteMountOptionsPreview:Hide()
-    end
+    LiteMountPreview:SetMount(m)
     GameTooltip:Show()
 end
 
 function LiteMountMountIconMixin:OnLeave()
-    LiteMountOptionsPreview:Hide()
+    LiteMountPreview:Hide()
     GameTooltip:Hide()
 end
 
@@ -208,6 +199,32 @@ function LiteMountMountIconMixin:OnDragStart()
     elseif mount.itemID then
         PickupItem(mount.itemID)
     end
+end
+
+LiteMountPreviewMixin = {}
+
+function LiteMountPreviewMixin:SetMount(m)
+    if m.modelID then
+        self.Model:SetDisplayInfo(m.modelID)
+        if m.isSelfMount then
+            LiteMountPreview.Model:SetDoBlend(false)
+            LiteMountPreview.Model:SetAnimation(618, -1)
+        end
+        self:Show()
+    else
+        self:Hide()
+    end
+end
+
+function LiteMountPreviewMixin:OnLoad()
+    self.Model:SetRotation(-MODELFRAME_DEFAULT_ROTATION)
+    self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b);
+    self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b);
+end
+
+function LiteMountPreviewMixin:OnShow()
+    local d = GameTooltip:GetWidth()
+    self:SetSize(d, d)
 end
 
 -- Because we get attached inside the blizzard options container, we
