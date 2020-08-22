@@ -54,7 +54,7 @@ local function LiteMountOptionsPriority_SetOption(self, v)
     local mount = self:GetParent().mount
     if mount then
         LM_Options:SetPriority(mount, v or LM_Options.DEFAULT_PRIORITY)
-        LiteMountOptionsMounts.isDirty = true
+        LiteMountOptionsMounts.ScrollFrame.isDirty = true
     end
 end
 
@@ -109,7 +109,7 @@ function LiteMountOptionsBit_OnClick(self)
     else
         LM_Options:ClearMountFlag(mount, self.flag)
     end
-    LiteMountOptionsMounts.isDirty = true
+    LiteMountOptionsMounts.ScrollFrame.isDirty = true
 end
 
 -- Because we get attached inside the blizzard options container, we
@@ -326,7 +326,7 @@ end
 local function AllPriority_SetOption(self, v)
     local mounts = LM_UIFilter.GetFilteredMountList()
     LM_Options:SetPriorities(mounts, v or LM_Options.DEFAULT_PRIORITY)
-    LiteMountOptionsMounts.isDirty = true
+    LiteMountOptionsMounts.ScrollFrame.isDirty = true
 end
 
 local function AllPriority_GetOption(self)
@@ -467,46 +467,31 @@ function LiteMountOptionsMounts_OnLoad(self)
             LM_UIDebug(self, 'Custom_Default')
             LM_Options:ResetAllMountFlags()
             LM_Options:SetPriorities(LM_PlayerMounts.mounts, LM_Options.DEFAULT_PRIORITY)
-            self.isDirty = true
+            self.ScrollFrame.isDirty = true
         end
 
-    self.okay =
-        function (self)
-            LM_UIDebug(self, 'Custom_Okay')
-            self.oldValues = nil
-            self.isDirty = nil
+    self.ScrollFrame.GetOption =
+        function (scrollFrame)
+            return {
+                CopyTable(LM_Options:GetRawFlagChanges()),
+                CopyTable(LM_Options:GetRawMountPriorities())
+            }
         end
 
-    self.cancel =
-        function (self)
-            LM_UIDebug(self, 'Custom_Cancel')
-            if self.isDirty then
-                LM_UIDebug(self, '>>> CANCEL AND REVERT')
-                LM_Options:SetRawFlagChanges(self.oldValues[1])
-                LM_Options:SetRawMountPriorities(self.oldValues[2])
-            end
-            self.oldValues = nil
-            self.isDirty = nil
+    self.ScrollFrame.SetOption =
+        function (scrollFrame, v)
+            LM_Options:SetRawFlagChanges(v[1])
+            LM_Options:SetRawMountPriorities(v[2])
         end
 
-    -- Refresh is trigged from OnOptionsModified which means its cached
-    -- ideas about mounts are wrong and need to be cleared. In an ideal world
-    -- it would listen itself but the order is non-deterministic so we're
-    -- force clearing it here, even though it's ugly encapsulation breakage.
-
-    self.refresh = function (self, trigger, isProfileChange)
-        LM_UIDebug(self, 'Custom_Refresh t='..tostring(trigger)..', i='..tostring(isProfileChange))
-        if isProfileChange or self.oldValues == nil then
-            self.oldValues = {
-                    CopyTable(LM_Options:GetRawFlagChanges()),
-                    CopyTable(LM_Options:GetRawMountPriorities())
-                }
-            self.isDirty = nil
+    self.ScrollFrame.SetControl =
+        function (scrollFrame)
+            LM_UIFilter.ClearCache()
+            LiteMountOptions_UpdateFlagPaging(self)
+            LiteMountOptions_UpdateMountList(self)
         end
-        LM_UIFilter.ClearCache()
-        LiteMountOptions_UpdateFlagPaging(self)
-        LiteMountOptions_UpdateMountList(self)
-    end
+
+    LiteMountOptionsControl_OnLoad(self.ScrollFrame)
 
     self.AllPriority.GetOption = AllPriority_GetOption
     self.AllPriority.SetOption = AllPriority_SetOption
