@@ -196,7 +196,7 @@ function LM_Options:OnProfile()
     self:UpdateFlagCache()
     self:InitializePriorities()
     LiteMount:RecompileActions()
-    self.db.callbacks:Fire("OnOptionsModified", true)
+    self.db.callbacks:Fire("OnOptionsProfile")
 end
 
 function LM_Options:Initialize()

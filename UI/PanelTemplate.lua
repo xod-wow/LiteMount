@@ -39,12 +39,21 @@ function LiteMountOptionsPanel_Open()
     InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)
 end
 
-function LiteMountOptionsPanel_Refresh(self, trigger, isProfileChange)
-    LM_UIDebug(self, "Panel_Refresh")
-    LM_UIDebug(self, "- trigger " .. tostring(trigger))
+function LiteMountOptionsPanel_Reset(self, trigger)
+    LM_UIDebug(self, "Panel_Reset t="..tostring(trigger))
     for _,control in ipairs(self.controls or {}) do
-        LiteMountOptionsControl_Refresh(control, trigger, isProfileChange)
+        LiteMountOptionsControl_Okay(control, trigger)
+        LiteMountOptionsControl_Refresh(control, trigger)
     end
+end
+
+function LiteMountOptionsPanel_Refresh(self, trigger)
+    LM_UIDebug(self, "Panel_Refresh t="..tostring(trigger))
+    for _,control in ipairs(self.controls or {}) do
+        LiteMountOptionsControl_Refresh(control, trigger)
+    end
+    LM_Options.db.RegisterCallback(self, "OnOptionsModified", "refresh")
+    LM_Options.db.RegisterCallback(self, "OnOptionsProfile", "reset")
 end
 
 function LiteMountOptionsPanel_Default(self)
@@ -56,6 +65,7 @@ end
 
 function LiteMountOptionsPanel_Okay(self)
     LM_UIDebug(self, "Panel_Okay")
+    LM_Options.db.UnregisterAllCallbacks(self)
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Okay(control)
     end
@@ -70,6 +80,7 @@ end
 
 function LiteMountOptionsPanel_Cancel(self)
     LM_UIDebug(self, "Panel_Cancel")
+    LM_Options.db.UnregisterAllCallbacks(self)
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Cancel(control)
     end
@@ -88,16 +99,10 @@ function LiteMountOptionsPanel_OnShow(self)
     if not self.dontShowProfile then
         LiteMountOptionsProfileDropDown_Attach(self)
     end
-
-    -- LiteMountOptionsPanel_Refresh(self)
-
-    LM_Options.db.RegisterCallback(self, "OnOptionsModified", "refresh")
 end
 
 function LiteMountOptionsPanel_OnHide(self)
     LM_UIDebug(self, "Panel_OnHide")
-
-    LM_Options.db.UnregisterAllCallbacks(self)
 
     -- Seems like the InterfacePanel calls all the Okay or Cancel for
     -- anything that's been opened when the appropriate button is clicked
@@ -119,18 +124,17 @@ function LiteMountOptionsPanel_OnLoad(self)
     self.cancel = self.cancel or LiteMountOptionsPanel_Cancel
     self.default = self.default or LiteMountOptionsPanel_Default
     self.refresh = self.refresh or LiteMountOptionsPanel_Refresh
+    self.reset = self.reset or LiteMountOptionsPanel_Reset
 
     LiteMountOptionsPanel_AutoLocalize(self)
 
     InterfaceOptions_AddCategory(self)
 end
 
-function LiteMountOptionsControl_Refresh(self, trigger, isProfileChange)
-    LM_UIDebug(self, string.format("Control_Refresh t=%s i=%s",
-                                   tostring(trigger),
-                                   tostring(isProfileChange)))
-    if isProfileChange or self.oldValues == nil then
-        self.oldValues = table.wipe(self.oldValues or {})
+function LiteMountOptionsControl_Refresh(self, trigger)
+    LM_UIDebug(self, "Control_Refresh t="..tostring(trigger))
+    if self.oldValues == nil then
+        self.oldValues = {}
         for i = 1, (self.ntabs or 1) do
             self.oldValues[i] = self:GetOption(i)
         end
