@@ -8,13 +8,50 @@
 
 ----------------------------------------------------------------------------]]--
 
-LiteMountCombatMacroPanelMixin = {}
+LiteMountCombatMacroEditBoxMixin = {}
 
-local function OnTextChanged(self, userInput)
+function LiteMountCombatMacroEditBoxMixin:OnTextChanged(userInput)
     local c = strlen(self:GetText() or "")
     self:GetParent().Count:SetText(format(MACROFRAME_CHAR_LIMIT, c))
     LiteMountOptionsControl_OnTextChanged(self, userInput)
 end
+
+function LiteMountCombatMacroEditBoxMixin:GetOption()
+    return LM_Options:GetCombatMacro() or ""
+end
+
+function LiteMountCombatMacroEditBoxMixin:GetOptionDefault()
+    return LM_Actions:DefaultCombatMacro()
+end
+
+function LiteMountCombatMacroEditBoxMixin:SetOption(v)
+    LM_Options:SetCombatMacro(v)
+    LiteMount:Refresh()
+end
+
+function LiteMountCombatMacroEditBoxMixin:OnLoad()
+end
+
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountCombatMacroEnableButtonMixin = {}
+
+function LiteMountCombatMacroEnableButtonMixin:GetOption()
+    return LM_Options:GetUseCombatMacro()
+end
+
+function LiteMountCombatMacroEnableButtonMixin:GetOptionDefault()
+    return false
+end
+
+function LiteMountCombatMacroEnableButtonMixin:SetOption(v)
+    LM_Options:SetUseCombatMacro(v or false)
+    LiteMount:Refresh()
+end
+
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountCombatMacroPanelMixin = {}
 
 function LiteMountCombatMacroPanelMixin:OnLoad()
     self.name = MACRO .. " : " .. COMBAT
@@ -22,27 +59,7 @@ function LiteMountCombatMacroPanelMixin:OnLoad()
     self.EditBoxContainer:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
     self.EditBoxContainer:SetBackdropColor(0, 0, 0, 0.5)
 
-    self.EditBox.SetOption =
-        function (self, v)
-            LM_Options:SetCombatMacro(v)
-            LiteMount:Refresh()
-        end
-    self.EditBox.GetOption =
-        function (self) return LM_Options:GetCombatMacro() or "" end
-    self.EditBox.GetOptionDefault =
-        function (self) return LM_Actions:DefaultCombatMacro() end
-    self.EditBox:SetScript("OnTextChanged", OnTextChanged)
     LiteMountOptionsPanel_RegisterControl(self.EditBox)
-
-    self.EnableButton.SetOption =
-        function (self, v)
-            LM_Options:SetUseCombatMacro(v or false)
-            LiteMount:Refresh()
-        end
-    self.EnableButton.GetOption =
-        function (self) return LM_Options:GetUseCombatMacro() end
-    self.EnableButton.GetOptionDefault =
-        function (self) return false end
     LiteMountOptionsPanel_RegisterControl(self.EnableButton)
 
     self.DeleteButton:SetScript("OnClick",
@@ -51,7 +68,7 @@ function LiteMountCombatMacroPanelMixin:OnLoad()
     self.DefaultButton:SetScript("OnClick",
             function () LiteMountOptionsControl_Default(self.EditBox) end)
 
-    self.RevertButton:SetScript("OnCLick",
+    self.RevertButton:SetScript("OnClick",
             function () LiteMountOptionsPanel_Revert(self) end)
     LiteMountOptionsPanel_OnLoad(self)
 end

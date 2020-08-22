@@ -55,6 +55,9 @@
     <Frames>
         <Button parentKey="Minus">
             <Size x="12" y="12" />
+            <Scripts>
+                <OnClick> self:GetParent():Decrement() </OnClick>
+            </Scripts>
             <Anchors>
                 <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.Background" x="-2" y="0" />
             </Anchors>
@@ -64,6 +67,9 @@
         </Button>
         <Button parentKey="Plus">
             <Size x="12" y="12" />
+            <Scripts>
+                <OnClick> self:GetParent():Increment() </OnClick>
+            </Scripts>
             <Anchors>
                 <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Background" x="2" y="0" />
             </Anchors>
@@ -73,7 +79,6 @@
         </Button>
     </Frames>
     <Scripts>
-        <OnLoad method="OnLoad" />
         <OnEnter method="OnEnter" />
         <OnLeave method="OnLeave" />
     </Scripts>

@@ -76,11 +76,6 @@ function LiteMountPriorityMixin:Decrement()
     self:Set(v - 1)
 end
 
-function LiteMountPriorityMixin:OnLoad()
-    self.Plus:SetScript('OnClick', function () self:Increment() end)
-    self.Minus:SetScript('OnClick', function () self:Decrement() end)
-end
-
 function LiteMountPriorityMixin:OnEnter()
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     GameTooltip:ClearLines()

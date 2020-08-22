@@ -16,13 +16,10 @@
 
     <Frames>
         <Frame parentKey="EditBoxContainer">
-
             <Size x="400" y="200" />
-
             <Anchors>
                 <Anchor point="CENTER" />
             </Anchors>
-
             <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
                 <EdgeSize val="16" />
                 <TileSize val="16" />
@@ -30,26 +27,16 @@
                     <AbsInset left="5" right="5" top="5" bottom="5" />
                 </BackgroundInsets>
             </Backdrop>
-
-            <Scripts>
-                <OnLoad>
-                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
-                    self:SetBackdropColor(0, 0, 0, 0.5)
-                </OnLoad>
-            </Scripts>
-
         </Frame>
 
-        <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
-
+        <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true" mixin="LiteMountMacroEditBoxMixin">
+            <Scripts>
+                <OnEscapePressed function="EditBox_ClearFocus" />
+            </Scripts>
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="8" y="-8" />
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="8" />
             </Anchors>
-
-            <Scripts>
-                <OnEscapePressed function="EditBox_ClearFocus" />
-            </Scripts>
             <FontString inherits="GameFontHighlight" />
         </EditBox>
 
@@ -65,7 +52,6 @@
                 <Anchor point="BOTTOMLEFT" x="24" y="16" />
             </Anchors>
         </Button>
-
     </Frames>
 
     <Layers>

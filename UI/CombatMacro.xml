@@ -32,18 +32,26 @@
             </Backdrop>
         </Frame>
 
-        <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true">
-
+        <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true" mixin="LiteMountCombatMacroEditBoxMixin">
             <Anchors>
                 <Anchor point="TOPLEFT" x="8" y="-8" relativeKey="$parent.EditBoxContainer" />
                 <Anchor point="BOTTOMRIGHT" x="-8" y="8" relativeKey="$parent.EditBoxContainer" />
             </Anchors>
-
             <Scripts>
                 <OnEscapePressed function="EditBox_ClearFocus" />
+                <OnTextChanged method="OnTextChanged" />
             </Scripts>
             <FontString inherits="GameFontHighlight" />
         </EditBox>
+
+        <CheckButton parentKey="EnableButton" inherits="OptionsBaseCheckButtonTemplate" mixin="LiteMountCombatMacroEnableButtonMixin">
+            <Anchors>
+                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" y="32" />
+            </Anchors>
+            <Scripts>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
+            </Scripts>
+        </CheckButton>
 
         <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
             <Size x="96" y="22" />
@@ -63,15 +71,6 @@
                 <Anchor point="BOTTOMLEFT" x="24" y="16" />
             </Anchors>
         </Button>
-
-        <CheckButton parentKey="EnableButton" inherits="OptionsBaseCheckButtonTemplate">
-            <Anchors>
-                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" y="32" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsControl_OnChanged" />
-            </Scripts>
-        </CheckButton>
     </Frames>
 
     <Layers>
