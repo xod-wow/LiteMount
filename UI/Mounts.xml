@@ -79,7 +79,27 @@
     </Scripts>
 </Frame>
 
-<Button name="LiteMountOptionsButtonTemplate" virtual="true">
+<Button name="LiteMountMountIconTemplate" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true" mixin="LiteMountMountIconMixin" virtual="true">
+    <Size x="36" y="36" />
+    <HighlightTexture parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
+
+    <Layers>
+        <Layer level="OVERLAY">
+            <Texture parentKey="Unusable" setAllPoints="true" hidden="true">
+                <Color r="1" g="0" b="0" />
+            </Texture>
+        </Layer>
+    </Layers>
+
+    <Scripts>
+        <OnLoad method="OnLoad" />
+        <OnEnter method="OnEnter" />
+        <OnLeave method="OnLeave" />
+        <OnDragStart method="OnDragStart" />
+    </Scripts>
+</Button>
+
+<Button name="LiteMountMountButtonTemplate" virtual="true">
 
     <Size x="180" y="45" />
 
@@ -99,76 +119,10 @@
     </Scripts>
 
     <Frames>
-        <Button parentKey="Icon" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true">
-            <Size x="36" y="36" />
+        <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">
             <Anchors>
                 <Anchor point="LEFT" x="2" />
             </Anchors>
-            <HighlightTexture parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
-
-            <Layers>
-                <Layer level="OVERLAY">
-                    <Texture parentKey="Unusable" setAllPoints="true" hidden="true">
-                        <Color r="1" g="0" b="0" />
-                    </Texture>
-                </Layer>
-            </Layers>
-
-            <Scripts>
-                <OnEnter>
-                    local m = self:GetParent().mount
-
-                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
-                    if m.mountID then
-                        GameTooltip:SetMountBySpellID(m.spellID)
-                    else
-                        GameTooltip:SetSpellByID(m.spellID)
-                    end
-
-                    GameTooltipTextRight2:SetText(ID.." "..m.spellID)
-                    GameTooltipTextRight2:Show()
-
-                    if m.sourceText then
-                        GameTooltip:AddLine(" ")
-                        GameTooltip:AddLine("|cffffffff" .. SOURCE .. "|r")
-                        GameTooltip:AddLine(m.sourceText)
-                    end
-
-                    if m:IsCastable() then
-                        GameTooltip:AddLine(" ")
-                        GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
-                    end
-
-                    if m.modelID then
-                        LiteMountOptionsPreview.Model:SetDisplayInfo(m.modelID)
-                        if m.isSelfMount then
-                            LiteMountOptionsPreview.Model:SetDoBlend(false)
-                            LiteMountOptionsPreview.Model:SetAnimation(618, -1)
-                        end
-                        LiteMountOptionsPreview:Show()
-                    else
-                        LiteMountOptionsPreview:Hide()
-                    end
-                    GameTooltip:Show()
-                </OnEnter>
-                <OnLeave>
-                    LiteMountOptionsPreview:Hide()
-                    GameTooltip:Hide()
-                </OnLeave>
-                <OnLoad>
-                    self:SetAttribute("unit", "player")
-                    self:RegisterForClicks("RightButtonUp")
-                    self:RegisterForDrag("LeftButton")
-                </OnLoad>
-                <OnDragStart>
-                    local mount = self:GetParent().mount
-                    if mount.spellID then
-                        PickupSpell(mount.spellID)
-                    elseif mount.itemID then
-                        PickupItem(mount.itemID)
-                    end
-                </OnDragStart>
-            </Scripts>
         </Button>
 
         <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit5" id="5">

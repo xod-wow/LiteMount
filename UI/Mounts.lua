@@ -151,11 +151,70 @@ function LiteMountFlagBitMixin:OnLeave()
     end
 end
 
+LiteMountMountIconMixin = {}
+
+function LiteMountMountIconMixin:OnEnter()
+    local m = self:GetParent().mount
+
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
+    if m.mountID then
+        GameTooltip:SetMountBySpellID(m.spellID)
+    else
+        GameTooltip:SetSpellByID(m.spellID)
+    end
+
+    GameTooltipTextRight2:SetText(ID.." "..m.spellID)
+    GameTooltipTextRight2:Show()
+
+    if m.sourceText then
+        GameTooltip:AddLine(" ")
+        GameTooltip:AddLine("|cffffffff" .. SOURCE .. "|r")
+        GameTooltip:AddLine(m.sourceText)
+    end
+
+    if m:IsCastable() then
+        GameTooltip:AddLine(" ")
+        GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
+    end
+
+    if m.modelID then
+        LiteMountOptionsPreview.Model:SetDisplayInfo(m.modelID)
+        if m.isSelfMount then
+            LiteMountOptionsPreview.Model:SetDoBlend(false)
+            LiteMountOptionsPreview.Model:SetAnimation(618, -1)
+        end
+        LiteMountOptionsPreview:Show()
+    else
+        LiteMountOptionsPreview:Hide()
+    end
+    GameTooltip:Show()
+end
+
+function LiteMountMountIconMixin:OnLeave()
+    LiteMountOptionsPreview:Hide()
+    GameTooltip:Hide()
+end
+
+function LiteMountMountIconMixin:OnLoad()
+    self:SetAttribute("unit", "player")
+    self:RegisterForClicks("RightButtonUp")
+    self:RegisterForDrag("LeftButton")
+end
+
+function LiteMountMountIconMixin:OnDragStart()
+    local mount = self:GetParent().mount
+    if mount.spellID then
+        PickupSpell(mount.spellID)
+    elseif mount.itemID then
+        PickupItem(mount.itemID)
+    end
+end
+
 -- Because we get attached inside the blizzard options container, we
 -- are size 0x0 on create and even after OnShow, we have to trap
 -- OnSizeChanged on the scrollframe to make the buttons correctly.
 local function CreateMoreButtons(self)
-    HybridScrollFrame_CreateButtons(self, "LiteMountOptionsButtonTemplate",
+    HybridScrollFrame_CreateButtons(self, "LiteMountMountButtonTemplate",
                                     0, -1, "TOPLEFT", "TOPLEFT",
                                     0, -1, "TOP", "BOTTOM")
 
