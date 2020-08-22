@@ -29,7 +29,7 @@ local PriorityColors = {
 }
 
 local function LiteMountOptionsPriority_Update(self)
-    local value = self:GetOption()
+    local value = self:Get()
     if value then
         self.Minus:SetShown(value > LM_Options.MIN_PRIORITY)
         self.Plus:SetShown(value < LM_Options.MAX_PRIORITY)
@@ -43,14 +43,14 @@ local function LiteMountOptionsPriority_Update(self)
     self.Background:SetColorTexture(r, g, b, 0.25)
 end
 
-local function LiteMountOptionsPriority_GetOption(self)
+local function LiteMountOptionsPriority_Get(self)
     local mount = self:GetParent().mount
     if mount then
         return LM_Options:GetPriority(mount)
     end
 end
 
-local function LiteMountOptionsPriority_SetOption(self, v)
+local function LiteMountOptionsPriority_Set(self, v)
     local mount = self:GetParent().mount
     if mount then
         LM_Options:SetPriority(mount, v or LM_Options.DEFAULT_PRIORITY)
@@ -58,32 +58,27 @@ local function LiteMountOptionsPriority_SetOption(self, v)
     end
 end
 
-local function LiteMountOptionsPriority_IncrementOption(self)
-    local v = self:GetOption()
+local function LiteMountOptionsPriority_Increment(self)
+    local v = self:Get()
     if v then
-        self:SetOption(v + 1)
+        self:Set(v + 1)
     else
-        self:SetOption(LM_Options.DEFAULT_PRIORITY)
+        self:Set(LM_Options.DEFAULT_PRIORITY)
     end
 end
 
-local function LiteMountOptionsPriority_DecrementOption(self)
-    local v = self:GetOption() or LM_Options.DEFAULT_PRIORITY
-    self:SetOption(v - 1)
+local function LiteMountOptionsPriority_Decrement(self)
+    local v = self:Get() or LM_Options.DEFAULT_PRIORITY
+    self:Set(v - 1)
 end
 
 function LiteMountOptionsPriority_OnLoad(self)
-    self.SetOption = LiteMountOptionsPriority_SetOption
-    self.GetOption = LiteMountOptionsPriority_GetOption
+    self.Set = LiteMountOptionsPriority_Set
+    self.Get = LiteMountOptionsPriority_Get
     self.Plus:SetScript('OnClick',
-        function ()
-            LiteMountOptionsPriority_IncrementOption(self)
-        end)
-
+            function () LiteMountOptionsPriority_Increment(self) end)
     self.Minus:SetScript('OnClick',
-        function ()
-            LiteMountOptionsPriority_DecrementOption(self)
-        end)
+            function () LiteMountOptionsPriority_Decrement(self) end)
 end
 
 function LiteMountOptionsPriority_OnEnter(self)
@@ -323,13 +318,13 @@ function LiteMountOptionsMountsFilterDropDown_OnLoad(self)
     UIDropDownMenu_Initialize(self, LiteMountOptionsMountsFilterDropDown_Initialize, "MENU")
 end
 
-local function AllPriority_SetOption(self, v)
+local function AllPriority_Set(self, v)
     local mounts = LM_UIFilter.GetFilteredMountList()
     LM_Options:SetPriorities(mounts, v or LM_Options.DEFAULT_PRIORITY)
     LiteMountOptionsMounts.ScrollFrame.isDirty = true
 end
 
-local function AllPriority_GetOption(self)
+local function AllPriority_Get(self)
     local mounts = LM_UIFilter.GetFilteredMountList()
 
     local allValue
@@ -493,8 +488,8 @@ function LiteMountOptionsMounts_OnLoad(self)
 
     LiteMountOptionsControl_OnLoad(self.ScrollFrame)
 
-    self.AllPriority.GetOption = AllPriority_GetOption
-    self.AllPriority.SetOption = AllPriority_SetOption
+    self.AllPriority.Get = AllPriority_Get
+    self.AllPriority.Set = AllPriority_Set
 
     self.currentFlagPage = 1
     self.maxFlagPages = 1
