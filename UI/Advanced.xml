@@ -104,17 +104,6 @@
             </ScrollChild>
         </ScrollFrame>
 
-        <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="UNLOCK" mixin="LiteMountAdvancedRevertButtonMixin">
-            <Size x="96" y="22" />
-            <Anchors>
-                <Anchor point="BOTTOMLEFT" x="24" y="16" />
-            </Anchors>
-            <Scripts>
-                <OnShow method="OnShow" />
-                <OnClick method="OnClick" />
-            </Scripts>
-        </Button>
-
         <Button parentKey="DefaultButton" inherits="UIPanelButtonTemplate" text="DEFAULT">
             <Size x="96" y="22" />
             <Anchors>

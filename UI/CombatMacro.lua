@@ -70,7 +70,5 @@ function LiteMountCombatMacroPanelMixin:OnLoad()
     self.DefaultButton:SetScript("OnClick",
             function () LiteMountOptionsControl_Default(self.EditBox) end)
 
-    self.RevertButton:SetScript("OnClick",
-            function () LiteMountOptionsPanel_Revert(self) end)
     LiteMountOptionsPanel_OnLoad(self)
 end

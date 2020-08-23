@@ -65,12 +65,6 @@
                 <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="3" />
             </Anchors>
         </Button>
-        <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="REVERT">
-            <Size x="96" y="22" />
-            <Anchors>
-                <Anchor point="BOTTOMLEFT" x="24" y="16" />
-            </Anchors>
-        </Button>
     </Frames>
 
     <Layers>

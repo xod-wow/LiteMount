@@ -173,9 +173,9 @@ end
 
 --[[--------------------------------------------------------------------------]]--
 
-LiteMountAdvancedRevertButtonMixin = {}
+local RevertOverrideMixin = {}
 
-function LiteMountAdvancedRevertButtonMixin:OnShow()
+function RevertOverrideMixin:OnShow()
     local parent = self:GetParent()
     local editBox = parent.EditScroll.EditBox
     editBox:SetAlpha(0.5)
@@ -184,7 +184,7 @@ function LiteMountAdvancedRevertButtonMixin:OnShow()
     self:SetText(UNLOCK)
 end
 
-function LiteMountAdvancedRevertButtonMixin:OnClick()
+function RevertOverrideMixin:OnClick()
     local parent = self:GetParent()
     local editBox = parent.EditScroll.EditBox
     if self:GetText() == UNLOCK then
@@ -194,7 +194,6 @@ function LiteMountAdvancedRevertButtonMixin:OnClick()
         self:SetText(REVERT)
     else
         LiteMountOptionsControl_Revert(editBox)
-        LiteMountOptionsControl_Refresh(editBox)
     end
 end
 
@@ -279,6 +278,9 @@ function LiteMountAdvancedPanelMixin:OnLoad()
 
     UIDropDownMenu_Initialize(self.BindingDropDown, BindingDropDown_Initialize)
     UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
+
+    self.RevertButton:SetScript("OnShow", RevertOverrideMixin.OnShow)
+    self.RevertButton:SetScript("OnClick", RevertOverrideMixin.OnClick)
 
     LiteMountOptionsPanel_OnLoad(self)
 end

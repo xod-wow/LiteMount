@@ -198,8 +198,8 @@
     <Frames>
         <ScrollFrame inherits="MinimalHybridScrollFrameTemplate" parentKey="MountScroll" mixin="LiteMountMountScrollMixin">
             <Anchors>
-                <Anchor point="TOPLEFT" x="16" y="-92" />
-                <Anchor point="BOTTOMRIGHT" x="-32" y="20" />
+                <Anchor point="TOPLEFT" x="16" y="-102" />
+                <Anchor point="BOTTOMRIGHT" x="-32" y="53" />
             </Anchors>
             <Scripts>
                 <OnLoad method="OnLoad" />

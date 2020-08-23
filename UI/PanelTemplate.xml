@@ -4,7 +4,13 @@
 
 <Script file="PanelTemplate.lua" />
 
+
 <Frame name="LiteMountOptionsPanelTemplate" hidden="true" virtual="true">
+    <Scripts>
+        <OnLoad function="LiteMountOptionsPanel_OnLoad" />
+        <OnShow function="LiteMountOptionsPanel_OnShow" />
+        <OnHide function="LiteMountOptionsPanel_OnHide" />
+    </Scripts>
     <Layers>
         <Layer level="ARTWORK">
             <FontString inherits="GameFontNormalLarge" parentKey="Title">
@@ -14,11 +20,19 @@
             </FontString>
         </Layer>
     </Layers>
-    <Scripts>
-        <OnLoad function="LiteMountOptionsPanel_OnLoad" />
-        <OnShow function="LiteMountOptionsPanel_OnShow" />
-        <OnHide function="LiteMountOptionsPanel_OnHide" />
-    </Scripts>
+    <Frames>
+        <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="REVERT">
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="BOTTOMLEFT" x="24" y="16" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    LiteMountOptionsPanel_Revert(self:GetParent())
+                </OnClick>
+            </Scripts>
+        </Button>
+    </Frames>
 </Frame>
 
 </Ui>

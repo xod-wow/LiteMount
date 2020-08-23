@@ -43,7 +43,5 @@ function LiteMountMacroPanelMixin:OnLoad()
 
     self.DeleteButton:SetScript("OnClick",
             function () self.EditBox:SetOption("") end)
-    self.RevertButton:SetScript("OnClick",
-            function () LiteMountOptionsPanel_Revert(self) end)
     LiteMountOptionsPanel_OnLoad(self)
 end
