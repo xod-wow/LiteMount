@@ -564,6 +564,23 @@ function LiteMountMountScrollMixin:Update()
     HybridScrollFrame_Update(self, totalHeight, shownHeight)
 end
 
+function LiteMountMountScrollMixin:GetOption()
+    return {
+        CopyTable(LM_Options:GetRawFlagChanges()),
+        CopyTable(LM_Options:GetRawMountPriorities())
+    }
+end
+
+function LiteMountMountScrollMixin:SetOption(v)
+    LM_Options:SetRawFlagChanges(v[1])
+    LM_Options:SetRawMountPriorities(v[2])
+end
+
+-- The only control: does all the triggered updating for the entire panel
+function LiteMountMountScrollMixin:SetControl(v)
+    self:GetParent():Update()
+end
+
 --[[--------------------------------------------------------------------------]]--
 
 LiteMountMountsPanelMixin = {}
@@ -591,10 +608,28 @@ function LiteMountMountsPanelMixin:UpdateFlagPaging()
 end
 
 function LiteMountMountsPanelMixin:Update()
+    LM_UIFilter.ClearCache()
     self:UpdateFlagPaging()
     self.MountScroll:Update()
     self.AllPriority:Update()
     self.FilterButton:Update()
+end
+
+function LiteMountMountsPanelMixin:default()
+    LM_UIDebug(self, 'Custom_Default')
+    LM_Options:ResetAllMountFlags()
+    LM_Options:SetPriorities(LM_PlayerMounts.mounts, LM_Options.DEFAULT_PRIORITY)
+    self.MountScroll.isDirty = true
+end
+
+function LiteMountMountsPanelMixin:NextFlagPage()
+    self.currentFlagPage = Clamp(self.currentFlagPage + 1, 1, self.maxFlagPages)
+    LiteMountMountsPanel:Update()
+end
+
+function LiteMountMountsPanelMixin:PrevFlagPage()
+    self.currentFlagPage = Clamp(self.currentFlagPage - 1, 1, self.maxFlagPages)
+    LiteMountMountsPanel:Update()
 end
 
 function LiteMountMountsPanelMixin:OnLoad()
@@ -603,46 +638,14 @@ function LiteMountMountsPanelMixin:OnLoad()
     CreateMoreButtons(self.MountScroll)
 
     self.name = MOUNTS
-    self.default = function ()
-            LM_UIDebug(self, 'Custom_Default')
-            LM_Options:ResetAllMountFlags()
-            LM_Options:SetPriorities(LM_PlayerMounts.mounts, LM_Options.DEFAULT_PRIORITY)
-            self.MountScroll.isDirty = true
-        end
 
-    self.MountScroll.GetOption =
-        function (scrollFrame)
-            return {
-                CopyTable(LM_Options:GetRawFlagChanges()),
-                CopyTable(LM_Options:GetRawMountPriorities())
-            }
-        end
-
-    self.MountScroll.SetOption =
-        function (scrollFrame, v)
-            LM_Options:SetRawFlagChanges(v[1])
-            LM_Options:SetRawMountPriorities(v[2])
-        end
-
-    self.MountScroll.SetControl =
-        function (scrollFrame)
-            LM_UIFilter.ClearCache()
-            LiteMountMountsPanel:Update()
-        end
+    -- We are using the MountScroll SetControl to do ALL the updating.
 
     LiteMountOptionsPanel_RegisterControl(self.MountScroll)
 
     self.currentFlagPage = 1
     self.maxFlagPages = 1
     self.pageFlags = { }
-    self.NextFlagPage = function (self)
-        self.currentFlagPage = Clamp(self.currentFlagPage + 1, 1, self.maxFlagPages)
-        LiteMountMountsPanel:Update()
-    end
-    self.PrevFlagPage = function (self)
-        self.currentFlagPage = Clamp(self.currentFlagPage - 1, 1, self.maxFlagPages)
-        LiteMountMountsPanel:Update()
-    end
 
     LiteMountOptionsPanel_OnLoad(self)
 end
