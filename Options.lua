@@ -217,11 +217,11 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRawMountPriorities()
-    return self.db.profile.mountPriorities
+    return CopyTable(self.db.profile.mountPriorities)
 end
 
 function LM.Options:SetRawMountPriorities(v)
-    self.db.profile.mountPriorities = v
+    self.db.profile.mountPriorities = CopyTable(v)
     self:UpdateFlagCache()
     self.db.callbacks:Fire("OnOptionsModified")
 end
@@ -267,11 +267,11 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRawFlagChanges()
-    return self.db.profile.flagChanges
+    return CopyTable(self.db.profile.flagChanges)
 end
 
 function LM.Options:SetRawFlagChanges(v)
-    self.db.profile.flagChanges = v
+    self.db.profile.flagChanges = CopyTable(v)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
