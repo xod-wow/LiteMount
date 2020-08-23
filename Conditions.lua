@@ -517,15 +517,15 @@ CONDITIONS["waterwalking"] =
         end
 
         -- Water Walking (546)
-        if PlayerHasAura(546) then
+        if UnitHasAura('player', 546) then
             return true
         end
         -- Elixir of Water Walking (11319)
-        if PlayerHasAura(11319) then
+        if UnitHasAura('player', 11319) then
             return true
         end
         --  Path of Frost (3714)
-        if PlayerHasAura(3714) then
+        if UnitHasAura('player', 3714) then
             return true
         end
     end
