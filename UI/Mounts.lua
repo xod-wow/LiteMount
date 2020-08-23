@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-local L = LM_Localize
+local _, LM = ...
+
+local L = LM.Localize
 
 local NUM_FLAG_BUTTONS = 5
 
@@ -35,8 +37,8 @@ LiteMountPriorityMixin.PriorityColors = {
 function LiteMountPriorityMixin:Update()
     local value = self:Get()
     if value then
-        self.Minus:SetShown(value > LM_Options.MIN_PRIORITY)
-        self.Plus:SetShown(value < LM_Options.MAX_PRIORITY)
+        self.Minus:SetShown(value > LM.Options.MIN_PRIORITY)
+        self.Plus:SetShown(value < LM.Options.MAX_PRIORITY)
         self.Priority:SetText(value)
     else
         self.Minus:Show()
@@ -50,14 +52,14 @@ end
 function LiteMountPriorityMixin:Get()
     local mount = self:GetParent().mount
     if mount then
-        return LM_Options:GetPriority(mount)
+        return LM.Options:GetPriority(mount)
     end
 end
 
 function LiteMountPriorityMixin:Set(v)
     local mount = self:GetParent().mount
     if mount then
-        LM_Options:SetPriority(mount, v or LM_Options.DEFAULT_PRIORITY)
+        LM.Options:SetPriority(mount, v or LM.Options.DEFAULT_PRIORITY)
         LiteMountMountsPanel.MountScroll.isDirty = true
     end
 end
@@ -67,12 +69,12 @@ function LiteMountPriorityMixin:Increment()
     if v then
         self:Set(v + 1)
     else
-        self:Set(LM_Options.DEFAULT_PRIORITY)
+        self:Set(LM.Options.DEFAULT_PRIORITY)
     end
 end
 
 function LiteMountPriorityMixin:Decrement()
-    local v = self:Get() or LM_Options.DEFAULT_PRIORITY
+    local v = self:Get() or LM.Options.DEFAULT_PRIORITY
     self:Set(v - 1)
 end
 
@@ -80,8 +82,8 @@ function LiteMountPriorityMixin:OnEnter()
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     GameTooltip:ClearLines()
     GameTooltip:AddLine(L.LM_PRIORITY)
-    for _,p in ipairs(LM_UIFilter.GetPriorities()) do
-        local t, d = LM_UIFilter.GetPriorityText(p)
+    for _,p in ipairs(LM.UIFilter.GetPriorities()) do
+        local t, d = LM.UIFilter.GetPriorityText(p)
         GameTooltip:AddLine(t .. ' - ' .. d)
     end
     GameTooltip:Show()
@@ -96,18 +98,18 @@ end
 LiteMountAllPriorityMixin = {}
 
 function LiteMountAllPriorityMixin:Set(v)
-    local mounts = LM_UIFilter.GetFilteredMountList()
-    LM_Options:SetPriorities(mounts, v or LM_Options.DEFAULT_PRIORITY)
+    local mounts = LM.UIFilter.GetFilteredMountList()
+    LM.Options:SetPriorities(mounts, v or LM.Options.DEFAULT_PRIORITY)
     LiteMountMountsPanel.MountScroll.isDirty = true
 end
 
 function LiteMountAllPriorityMixin:Get()
-    local mounts = LM_UIFilter.GetFilteredMountList()
+    local mounts = LM.UIFilter.GetFilteredMountList()
 
     local allValue
 
     for _,mount in ipairs(mounts) do
-        local v = LM_Options:GetPriority(mount)
+        local v = LM.Options:GetPriority(mount)
         if (allValue or v) ~= v then
             allValue = nil
             break
@@ -127,9 +129,9 @@ function LiteMountFlagBitMixin:OnClick()
     local mount = self:GetParent().mount
 
     if self:GetChecked() then
-        LM_Options:SetMountFlag(mount, self.flag)
+        LM.Options:SetMountFlag(mount, self.flag)
     else
-        LM_Options:ClearMountFlag(mount, self.flag)
+        LM.Options:ClearMountFlag(mount, self.flag)
     end
     LiteMountMountsPanel.MountScroll.isDirty = true
 end
@@ -264,7 +266,7 @@ LiteMountSearchBoxMixin = {}
 
 function LiteMountSearchBoxMixin:OnTextChanged()
     SearchBoxTemplate_OnTextChanged(self)
-    LM_UIFilter.SetSearchText(self:GetText())
+    LM.UIFilter.SetSearchText(self:GetText())
     LiteMountMountsPanel:Update()
 end
 
@@ -273,7 +275,7 @@ end
 LiteMountFilterClearMixin = {}
 
 function LiteMountFilterClearMixin:OnClick()
-    LM_UIFilter.Clear()
+    LM.UIFilter.Clear()
     LiteMountMountsPanel:Update()
 end
 
@@ -309,10 +311,10 @@ function LiteMountFilterButtonMixin:Initialize(level)
         info.text = COLLECTED
         info.arg1 = "COLLECTED"
         info.checked = function ()
-                return LM_UIFilter.IsFlagChecked("COLLECTED")
+                return LM.UIFilter.IsFlagChecked("COLLECTED")
             end
         info.func = function (_, _, _, v)
-                LM_UIFilter.SetFlagFilter("COLLECTED", v)
+                LM.UIFilter.SetFlagFilter("COLLECTED", v)
                 LiteMountMountsPanel:Update()
             end
         UIDropDownMenu_AddButton(info, level)
@@ -320,10 +322,10 @@ function LiteMountFilterButtonMixin:Initialize(level)
         info.text = NOT_COLLECTED
         info.arg1 = "NOT_COLLECTED"
         info.checked = function ()
-                return LM_UIFilter.IsFlagChecked("NOT_COLLECTED")
+                return LM.UIFilter.IsFlagChecked("NOT_COLLECTED")
             end
         info.func = function (_, _, _, v)
-                LM_UIFilter.SetFlagFilter("NOT_COLLECTED", v)
+                LM.UIFilter.SetFlagFilter("NOT_COLLECTED", v)
                 LiteMountMountsPanel:Update()
             end
         UIDropDownMenu_AddButton(info, level)
@@ -331,10 +333,10 @@ function LiteMountFilterButtonMixin:Initialize(level)
         info.text = MOUNT_JOURNAL_FILTER_UNUSABLE
         info.arg1 = "UNUSABLE"
         info.checked = function ()
-                return LM_UIFilter.IsFlagChecked("UNUSABLE")
+                return LM.UIFilter.IsFlagChecked("UNUSABLE")
             end
         info.func = function (_, _, _, v)
-                LM_UIFilter.SetFlagFilter("UNUSABLE", v)
+                LM.UIFilter.SetFlagFilter("UNUSABLE", v)
                 LiteMountMountsPanel:Update()
             end
         UIDropDownMenu_AddButton(info, level)
@@ -364,7 +366,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
         if UIDROPDOWNMENU_MENU_VALUE == 3 then -- Sources
             info.text = CHECK_ALL
             info.func = function ()
-                    LM_UIFilter.SetAllSourceFilters(true)
+                    LM.UIFilter.SetAllSourceFilters(true)
                     UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountMountsPanel:Update()
                 end
@@ -372,7 +374,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
 
             info.text = UNCHECK_ALL
             info.func = function ()
-                    LM_UIFilter.SetAllSourceFilters(false)
+                    LM.UIFilter.SetAllSourceFilters(false)
                     UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountMountsPanel:Update()
                 end
@@ -380,27 +382,27 @@ function LiteMountFilterButtonMixin:Initialize(level)
 
             info.notCheckable = false
 
-            for i = 1,LM_UIFilter.GetNumSources() do
-                if LM_UIFilter.IsValidSourceFilter(i) then
-                    info.text = LM_UIFilter.GetSourceText(i)
+            for i = 1,LM.UIFilter.GetNumSources() do
+                if LM.UIFilter.IsValidSourceFilter(i) then
+                    info.text = LM.UIFilter.GetSourceText(i)
                     info.arg1 = i
                     info.func = function (_, _, _, v)
-                            LM_UIFilter.SetSourceFilter(i, v)
+                            LM.UIFilter.SetSourceFilter(i, v)
                             LiteMountMountsPanel:Update()
                         end
                     info.checked = function ()
-                            return LM_UIFilter.IsSourceChecked(i)
+                            return LM.UIFilter.IsSourceChecked(i)
                         end
                     UIDropDownMenu_AddButton(info, level)
                 end
             end
 
         elseif UIDROPDOWNMENU_MENU_VALUE == 2 then -- Flags
-            local flags = LM_UIFilter.GetFlags()
+            local flags = LM.UIFilter.GetFlags()
 
             info.text = CHECK_ALL
             info.func = function ()
-                    LM_UIFilter:SetAllFlagFilters(true)
+                    LM.UIFilter:SetAllFlagFilters(true)
                     UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountMountsPanel:Update()
                 end
@@ -408,7 +410,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
 
             info.text = UNCHECK_ALL
             info.func = function ()
-                    LM_UIFilter:SetAllFlagFilters(false)
+                    LM.UIFilter:SetAllFlagFilters(false)
                     UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountMountsPanel:Update()
                 end
@@ -417,23 +419,23 @@ function LiteMountFilterButtonMixin:Initialize(level)
             info.notCheckable = false
 
             for _,f in ipairs(flags) do
-                info.text = LM_UIFilter.GetFlagText(f)
+                info.text = LM.UIFilter.GetFlagText(f)
                 info.arg1 = f
                 info.func = function (_, _, _, v)
-                        LM_UIFilter.SetFlagFilter(f, v)
+                        LM.UIFilter.SetFlagFilter(f, v)
                         LiteMountMountsPanel:Update()
                     end
                 info.checked = function ()
-                        return LM_UIFilter.IsFlagChecked(f)
+                        return LM.UIFilter.IsFlagChecked(f)
                     end
                 UIDropDownMenu_AddButton(info, level)
             end
         elseif UIDROPDOWNMENU_MENU_VALUE == 1 then -- Priority
-            local priorities = LM_UIFilter.GetPriorities()
+            local priorities = LM.UIFilter.GetPriorities()
 
             info.text = CHECK_ALL
             info.func = function ()
-                    LM_UIFilter:SetAllPriorityFilters(true)
+                    LM.UIFilter:SetAllPriorityFilters(true)
                     UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountMountsPanel:Update()
                 end
@@ -441,7 +443,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
 
             info.text = UNCHECK_ALL
             info.func = function ()
-                    LM_UIFilter:SetAllPriorityFilters(false)
+                    LM.UIFilter:SetAllPriorityFilters(false)
                     UIDropDownMenu_Refresh(self, false, 2)
                     LiteMountMountsPanel:Update()
                 end
@@ -450,14 +452,14 @@ function LiteMountFilterButtonMixin:Initialize(level)
             info.notCheckable = false
 
             for _,p in ipairs(priorities) do
-                info.text = LM_UIFilter.GetPriorityText(p)
+                info.text = LM.UIFilter.GetPriorityText(p)
                 info.arg1 = p
                 info.func = function (_, _, _, v)
-                        LM_UIFilter.SetPriorityFilter(p, v)
+                        LM.UIFilter.SetPriorityFilter(p, v)
                         LiteMountMountsPanel:Update()
                     end
                 info.checked = function ()
-                        return LM_UIFilter.IsPriorityChecked(p)
+                        return LM.UIFilter.IsPriorityChecked(p)
                     end
                 UIDropDownMenu_AddButton(info, level)
             end
@@ -471,7 +473,7 @@ function LiteMountFilterButtonMixin:OnLoad()
 end
 
 function LiteMountFilterButtonMixin:Update()
-    if LM_UIFilter.IsFiltered() then
+    if LM.UIFilter.IsFiltered() then
         self.ClearButton:Show()
     else
         self.ClearButton:Hide()
@@ -543,7 +545,7 @@ function LiteMountMountScrollMixin:Update()
     local offset = HybridScrollFrame_GetOffset(self)
 
 
-    local mounts = LM_UIFilter.GetFilteredMountList()
+    local mounts = LM.UIFilter.GetFilteredMountList()
 
     for i = 1, #self.buttons do
         local button = self.buttons[i]
@@ -564,14 +566,14 @@ end
 
 function LiteMountMountScrollMixin:GetOption()
     return {
-        CopyTable(LM_Options:GetRawFlagChanges()),
-        CopyTable(LM_Options:GetRawMountPriorities())
+        CopyTable(LM.Options:GetRawFlagChanges()),
+        CopyTable(LM.Options:GetRawMountPriorities())
     }
 end
 
 function LiteMountMountScrollMixin:SetOption(v)
-    LM_Options:SetRawFlagChanges(v[1])
-    LM_Options:SetRawMountPriorities(v[2])
+    LM.Options:SetRawFlagChanges(v[1])
+    LM.Options:SetRawMountPriorities(v[2])
 end
 
 -- The only control: does all the triggered updating for the entire panel
@@ -584,7 +586,7 @@ end
 LiteMountMountsPanelMixin = {}
 
 function LiteMountMountsPanelMixin:UpdateFlagPaging()
-    local allFlags = LM_Options:GetAllFlags()
+    local allFlags = LM.Options:GetAllFlags()
 
     self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
     self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
@@ -606,7 +608,7 @@ function LiteMountMountsPanelMixin:UpdateFlagPaging()
 end
 
 function LiteMountMountsPanelMixin:Update()
-    LM_UIFilter.ClearCache()
+    LM.UIFilter.ClearCache()
     self:UpdateFlagPaging()
     self.MountScroll:Update()
     self.AllPriority:Update()
@@ -614,9 +616,9 @@ function LiteMountMountsPanelMixin:Update()
 end
 
 function LiteMountMountsPanelMixin:default()
-    LM_UIDebug(self, 'Custom_Default')
-    LM_Options:ResetAllMountFlags()
-    LM_Options:SetPriorities(LM_PlayerMounts.mounts, LM_Options.DEFAULT_PRIORITY)
+    LM.UIDebug(self, 'Custom_Default')
+    LM.Options:ResetAllMountFlags()
+    LM.Options:SetPriorities(LM.PlayerMounts.mounts, LM.Options.DEFAULT_PRIORITY)
     self.MountScroll.isDirty = true
 end
 
@@ -650,7 +652,7 @@ end
 
 function LiteMountMountsPanelMixin:OnShow()
 
-    LM_PlayerMounts:RefreshMounts()
+    LM.PlayerMounts:RefreshMounts()
 
     LiteMountOptionsPanel_OnShow(self)
 end

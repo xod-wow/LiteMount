@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 LiteMountMacroEditBoxMixin = {}
 
 function LiteMountMacroEditBoxMixin:OnTextChanged(userInput)
@@ -17,14 +19,14 @@ function LiteMountMacroEditBoxMixin:OnTextChanged(userInput)
 end
 
 function LiteMountMacroEditBoxMixin:GetOption()
-    return LM_Options:GetUnavailableMacro() or ""
+    return LM.Options:GetUnavailableMacro() or ""
 end
 function LiteMountMacroEditBoxMixin:GetOptionDefault()
     return ""
 end
 
 function LiteMountMacroEditBoxMixin:SetOption(v)
-    LM_Options:SetUnavailableMacro(v)
+    LM.Options:SetUnavailableMacro(v)
 end
 
 --[[--------------------------------------------------------------------------]]--

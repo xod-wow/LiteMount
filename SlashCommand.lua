@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-local L = LM_Localize
+local _, LM = ...
+
+local L = LM.Localize
 
 local MacroName = "LiteMount"
 local MacroText = [[
@@ -36,25 +38,25 @@ local function IsTrue(x)
 end
 
 local function PrintUsage()
-    LM_Print(GAMEMENU_HELP .. ":")
-    LM_Print("  /litemount priority <0-3>")
-    LM_Print("  /litemount mounts [<substring>]")
-    LM_Print("  /litemount maps [<substring>]")
-    LM_Print("  /litemount continents [<substring>]")
-    LM_Print("  /litemount location")
-    LM_Print("  /litemount macro")
-    LM_Print("  /litemount flags add <flagname>")
-    LM_Print("  /litemount flags del <flagname>")
-    LM_Print("  /litemount flags rename <oldname> <newname>")
-    LM_Print("  /litemount profile <profilename>")
-    LM_Print("  /litemount xmog <slotnumber>")
+    LM.Print(GAMEMENU_HELP .. ":")
+    LM.Print("  /litemount priority <0-3>")
+    LM.Print("  /litemount mounts [<substring>]")
+    LM.Print("  /litemount maps [<substring>]")
+    LM.Print("  /litemount continents [<substring>]")
+    LM.Print("  /litemount location")
+    LM.Print("  /litemount macro")
+    LM.Print("  /litemount flags add <flagname>")
+    LM.Print("  /litemount flags del <flagname>")
+    LM.Print("  /litemount flags rename <oldname> <newname>")
+    LM.Print("  /litemount profile <profilename>")
+    LM.Print("  /litemount xmog <slotnumber>")
 end
 
-_G.LiteMount_SlashCommandFunc = function (argstr)
+LM.SlashCommandFunc = function (argstr)
 
     -- Look, please stop doing this, ok? Nothing good can come of it.
     if InCombatLockdown() then
-        LM_PrintError(ERR_NOT_IN_COMBAT)
+        LM.PrintError(ERR_NOT_IN_COMBAT)
         return true
     end
 
@@ -66,36 +68,36 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
         if i then PickupMacro(i) end
         return true
     elseif cmd == "priority" then
-        local mount = LM_PlayerMounts:GetActiveMount()
+        local mount = LM.PlayerMounts:GetActiveMount()
         if mount then
-            LM_Options:SetPriority(mount, tonumber(args[1]))
+            LM.Options:SetPriority(mount, tonumber(args[1]))
         end
         return true
     elseif cmd == "location" then
-        LM_Print(LOCATION_COLON)
-        for _,line in ipairs(LM_Location:GetLocation()) do
-            LM_Print("  " .. line)
+        LM.Print(LOCATION_COLON)
+        for _,line in ipairs(LM.Location:GetLocation()) do
+            LM.Print("  " .. line)
         end
         return true
     elseif cmd == "maps" then
         local str = table.concat(args, ' ')
-        for _,line in ipairs(LM_Location:GetMaps(str)) do
-            LM_Print(line)
+        for _,line in ipairs(LM.Location:GetMaps(str)) do
+            LM.Print(line)
         end
         return true
     elseif cmd == "continents" then
         local str = table.concat(args, ' ')
-        for _,line in ipairs(LM_Location:GetContinents(str)) do
-            LM_Print(line)
+        for _,line in ipairs(LM.Location:GetContinents(str)) do
+            LM.Print(line)
         end
         return true
     elseif cmd == "mounts" then
         if not args[1] then
-            local m = LM_PlayerMounts:GetMountFromUnitAura("player")
+            local m = LM.PlayerMounts:GetMountFromUnitAura("player")
             if m then m:Dump() end
         else
             local n = string.lower(table.concat(args, ' '))
-            local mounts = LM_PlayerMounts.mounts:Search(function (m) return string.match(strlower(m.name), n) end)
+            local mounts = LM.PlayerMounts.mounts:Search(function (m) return string.match(strlower(m.name), n) end)
             for _,m in ipairs(mounts) do
                 m:Dump()
             end
@@ -103,32 +105,32 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
         return true
     elseif cmd == "flags" then
         if args[1] == "add" and #args == 2 then
-            LM_Options:CreateFlag(args[2])
+            LM.Options:CreateFlag(args[2])
             return true
         elseif args[1] == "del" and #args == 2 then
-            LM_Options:DeleteFlag(args[2])
+            LM.Options:DeleteFlag(args[2])
             return true
         elseif args[1] == "rename" and #args == 3 then
-            LM_Options:RenameFlag(args[2], args[3])
+            LM.Options:RenameFlag(args[2], args[3])
             return true
         elseif args[1] == "list" and #args == 1 then
-            local flags = LM_Options:GetAllFlags()
+            local flags = LM.Options:GetAllFlags()
             for i = 1, #flags do
-                if LM_Options:IsPrimaryFlag(flags[i]) then
+                if LM.Options:IsPrimaryFlag(flags[i]) then
                     flags[i] = ORANGE_FONT_COLOR_CODE .. flags[i] .. FONT_COLOR_CODE_CLOSE
                 end
             end
-            LM_Print(table.concat(flags, ' '))
+            LM.Print(table.concat(flags, ' '))
             return true
         end
     elseif cmd == "profile" then
         -- can't use the split args because we need the raw rest of the line
         local profileName = argstr:gsub('^profile%s+', '')
-        if profileName and LM_Options.db.profiles[profileName] then
-            LM_Options.db:SetProfile(profileName)
-            LM_Print("Switching to profile: " .. profileName)
+        if profileName and LM.Options.db.profiles[profileName] then
+            LM.Options.db:SetProfile(profileName)
+            LM.Print("Switching to profile: " .. profileName)
         else
-            LM_Print("No profile found with name: " .. profileName)
+            LM.Print("No profile found with name: " .. profileName)
         end
         return true
     elseif cmd == "xmog" then
@@ -136,34 +138,34 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
         if slotID then
             local ok, _, _, _, id = pcall(C_Transmog.GetSlotVisualInfo, slotID, LE_TRANSMOG_TYPE_APPEARANCE)
             if ok == true then
-                LM_Print(format("Transmog appearance ID for slot %d = %s", slotID, tostring(id)))
+                LM.Print(format("Transmog appearance ID for slot %d = %s", slotID, tostring(id)))
             else
-                LM_Print("Bad transmog slot number: " .. slotID)
+                LM.Print("Bad transmog slot number: " .. slotID)
             end
             return true
         end
     elseif cmd == "debug" then
         if IsTrue(args[1]) then
-            LM_Print(L.LM_DEBUGGING_ENABLED)
-            LM_Options:SetDebug(true)
+            LM.Print(L.LM_DEBUGGING_ENABLED)
+            LM.Options:SetDebug(true)
         else
-            LM_Print(L.LM_DEBUGGING_DISABLED)
-            LM_Options:SetDebug(false)
+            LM.Print(L.LM_DEBUGGING_DISABLED)
+            LM.Options:SetDebug(false)
         end
         return true
     elseif cmd == "uidebug" then
         if IsTrue(args[1]) then
-            LM_Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_ENABLED)
-            LM_Options:SetUIDebug(true)
+            LM.Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_ENABLED)
+            LM.Options:SetUIDebug(true)
         else
-            LM_Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_DISABLED)
-            LM_Options:SetUIDebug(false)
+            LM.Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_DISABLED)
+            LM.Options:SetUIDebug(false)
         end
         return true
 --@debug@
     elseif cmd == "usable" then
-        LM_Developer:Initialize()
-        LM_Developer:UpdateUsability()
+        LM.Developer:Initialize()
+        LM.Developer:UpdateUsability()
         return true
 --@end-debug@
     elseif cmd == "" then

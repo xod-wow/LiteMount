@@ -8,11 +8,13 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
 
-local L = LM_Localize
+local L = LM.Localize
 
 --[[
 
@@ -220,7 +222,7 @@ CONDITIONS["faction"] =
 
 CONDITIONS["falling"] =
     function (cond, unit)
-        return IsFalling() and ( GetTime() - LM_Location.lastJumpTime > 1 )
+        return IsFalling() and ( GetTime() - LM.Location.lastJumpTime > 1 )
     end
 
 CONDITIONS["false"] =
@@ -230,12 +232,12 @@ CONDITIONS["false"] =
 
 CONDITIONS["floating"] =
     function (cond, unit)
-        return LM_Location:IsFloating()
+        return LM.Location:IsFloating()
     end
 
 CONDITIONS["flyable"] =
     function (cond, unit)
-        return LM_Location:CanFly()
+        return LM.Location:CanFly()
     end
 
 CONDITIONS["flying"] =
@@ -296,7 +298,7 @@ CONDITIONS["instance"] =
 
 CONDITIONS["jump"] =
     function (cond, unit)
-        if GetTime() - LM_Location.lastJumpTime < 2 then
+        if GetTime() - LM.Location.lastJumpTime < 2 then
             return true
         end
     end
@@ -304,9 +306,9 @@ CONDITIONS["jump"] =
 CONDITIONS["map"] =
     function (cond, unit, v)
         if v:sub(1,1) == '*' then
-            return LM_Location.uiMapID == tonumber(v:sub(2))
+            return LM.Location.uiMapID == tonumber(v:sub(2))
         else
-            return LM_Location:MapInPath(tonumber(v))
+            return LM.Location:MapInPath(tonumber(v))
         end
     end
 
@@ -481,7 +483,7 @@ CONDITIONS["stealthed"] =
 
 CONDITIONS["submerged"] =
     function (cond, unit)
-        return (IsSubmerged() and not LM_Location:IsFloating())
+        return (IsSubmerged() and not LM.Location:IsFloating())
     end
 
 CONDITIONS["talent:args"] =
@@ -547,13 +549,13 @@ local function any(f, cond, unit, ...)
 end
 
 
-_G.LM_Conditions = { }
+LM.Conditions = { }
 
-function LM_Conditions:IsTrue(condition, unit)
+function LM.Conditions:IsTrue(condition, unit)
     local str = condition[1]
 
     if condition.vars then
-        str = LM_Vars:StrSubVars(str)
+        str = LM.Vars:StrSubVars(str)
     end
 
     local newunit = str:match('^@(.+)')
@@ -585,18 +587,18 @@ function LM_Conditions:IsTrue(condition, unit)
         end
     end
 
-    LM_WarningAndPrint(format(L.LM_ERR_BAD_CONDITION, cond))
+    LM.WarningAndPrint(format(L.LM_ERR_BAD_CONDITION, cond))
     return false
 end
 
-function LM_Conditions:EvalNot(conditions, unit)
+function LM.Conditions:EvalNot(conditions, unit)
     local v
     v, unit = self:Eval(conditions[1], unit)
     return not v, unit
 end
 
 -- the ANDed sections carry the unit between them as well as returning it
-function LM_Conditions:EvalAnd(conditions, unit)
+function LM.Conditions:EvalAnd(conditions, unit)
     for _,e in ipairs(conditions) do
         local v, u = self:Eval(e, unit)
         if not v then return false end
@@ -605,7 +607,7 @@ function LM_Conditions:EvalAnd(conditions, unit)
     return true, unit
 end
 
-function LM_Conditions:EvalOr(conditions, unit)
+function LM.Conditions:EvalOr(conditions, unit)
     -- Note: deliberately resets the unit
     for _,e in ipairs(conditions) do
         local v, u = self:Eval(e, nil)
@@ -615,7 +617,7 @@ function LM_Conditions:EvalOr(conditions, unit)
 end
 
 -- outer grouping is ORed together
-function LM_Conditions:Eval(conditions, unit)
+function LM.Conditions:Eval(conditions, unit)
     if not conditions or conditions[1] == nil then return true, unit end
 
     if conditions.op == "OR" then
@@ -632,12 +634,12 @@ end
 -- Parsing is slow so we don't want to do it a million times
 local cachedConditions = {}
 
-function LM_Conditions:Check(line)
+function LM.Conditions:Check(line)
     if not line then return end
 
     local _, cond
     if not cachedConditions[line] then
-        _, _, cond = LM_ActionList:ParseActionLine('DUMMY ' .. line)
+        _, _, cond = LM.ActionList:ParseActionLine('DUMMY ' .. line)
         cachedConditions[line] = { cond }
     end
 

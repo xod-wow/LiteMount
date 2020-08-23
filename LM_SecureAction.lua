@@ -6,21 +6,23 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
 
--- This wrapper class is so that LM_ActionButton can treat all of the returns
+-- This wrapper class is so that LM.ActionButton can treat all of the returns
 -- from action functions as if they were a Mount class.
 
-_G.LM_SecureAction = { }
-LM_SecureAction.__index = LM_SecureAction
+LM.SecureAction = { }
+LM.SecureAction.__index = LM.SecureAction
 
-function LM_SecureAction:New(attr)
-    return setmetatable(attr, LM_SecureAction)
+function LM.SecureAction:New(attr)
+    return setmetatable(attr, LM.SecureAction)
 end
 
-function LM_SecureAction:Macro(macroText, unit)
+function LM.SecureAction:Macro(macroText, unit)
     return self:New( {
                 ["type"] = "macro",
                 ["macrotext"] = macroText,
@@ -28,7 +30,7 @@ function LM_SecureAction:Macro(macroText, unit)
             } )
 end
 
-function LM_SecureAction:Spell(spellName, unit)
+function LM.SecureAction:Spell(spellName, unit)
     local attr = {
             ["type"] = "spell",
             ["unit"] = unit or "player",
@@ -37,7 +39,7 @@ function LM_SecureAction:Spell(spellName, unit)
     return self:New(attr)
 end
 
-function LM_SecureAction:Use(useArg, unit)
+function LM.SecureAction:Use(useArg, unit)
     local attr = {
             ["type"] = "item",
             ["unit"] = unit or "player",
@@ -46,7 +48,7 @@ function LM_SecureAction:Use(useArg, unit)
     return self:New(attr)
 end
 
-function LM_SecureAction:Click(clickButton)
+function LM.SecureAction:Click(clickButton)
     local attr = {
             ["type"] = "click",
             ["clickbutton"] = clickButton
@@ -55,6 +57,6 @@ function LM_SecureAction:Click(clickButton)
 end
 
 
-function LM_SecureAction:GetSecureAttributes()
+function LM.SecureAction:GetSecureAttributes()
     return self
 end

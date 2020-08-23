@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -15,9 +17,9 @@ if LibDebug then LibDebug() end
 -- Vim reformatter from curseforge "Global Strings" export.
 -- %s/^\(L\..*\) = \(.*\)/\=printf('%-24s= %s', submatch(1), submatch(2))/
 
-_G.LM_Localize = setmetatable({ }, {__index=function (t,k) return k end})
+LM.Localize = setmetatable({ }, {__index=function (t,k) return k end})
 
-local L = LM_Localize
+local L = LM.Localize
 
 local locale = GetLocale()
 

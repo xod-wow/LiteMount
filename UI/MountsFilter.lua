@@ -8,9 +8,11 @@
 
 ----------------------------------------------------------------------------]]--
 
-local L = LM_Localize
+local _, LM = ...
 
-LM_UIFilter = {
+local L = LM.Localize
+
+LM.UIFilter = {
         filteredMountList = { },
         searchText = nil,
         flagFilterList =  { },
@@ -28,23 +30,23 @@ local PriorityColors = {
 
 -- Clear -----------------------------------------------------------------------
 
-function LM_UIFilter.Clear()
-    table.wipe(LM_UIFilter.flagFilterList)
-    table.wipe(LM_UIFilter.sourceFilterList)
-    table.wipe(LM_UIFilter.priorityFilterList)
-    table.wipe(LM_UIFilter.filteredMountList)
+function LM.UIFilter.Clear()
+    table.wipe(LM.UIFilter.flagFilterList)
+    table.wipe(LM.UIFilter.sourceFilterList)
+    table.wipe(LM.UIFilter.priorityFilterList)
+    table.wipe(LM.UIFilter.filteredMountList)
 end
 
-function LM_UIFilter.IsFiltered()
-    if next(LM_UIFilter.sourceFilterList) ~= nil then
+function LM.UIFilter.IsFiltered()
+    if next(LM.UIFilter.sourceFilterList) ~= nil then
         return true
     end
 
-    if next(LM_UIFilter.priorityFilterList) ~= nil then
+    if next(LM.UIFilter.priorityFilterList) ~= nil then
         return true
     end
 
-    if next(LM_UIFilter.flagFilterList) ~= nil then
+    if next(LM.UIFilter.flagFilterList) ~= nil then
         return true
     end
 
@@ -60,60 +62,60 @@ local function FilterSort(a, b)
     return a.name < b.name
 end
 
-function LM_UIFilter.UpdateCache()
-    for _,m in ipairs(LM_PlayerMounts.mounts) do
-        if not LM_UIFilter.IsFilteredMount(m) then
-            tinsert(LM_UIFilter.filteredMountList, m)
+function LM.UIFilter.UpdateCache()
+    for _,m in ipairs(LM.PlayerMounts.mounts) do
+        if not LM.UIFilter.IsFilteredMount(m) then
+            tinsert(LM.UIFilter.filteredMountList, m)
         end
     end
-    sort(LM_UIFilter.filteredMountList, FilterSort)
+    sort(LM.UIFilter.filteredMountList, FilterSort)
 end
 
-function LM_UIFilter.ClearCache()
-    table.wipe(LM_UIFilter.filteredMountList)
+function LM.UIFilter.ClearCache()
+    table.wipe(LM.UIFilter.filteredMountList)
 end
 
-function LM_UIFilter.GetFilteredMountList()
-    if next(LM_UIFilter.filteredMountList) == nil then
-        LM_UIFilter.UpdateCache()
+function LM.UIFilter.GetFilteredMountList()
+    if next(LM.UIFilter.filteredMountList) == nil then
+        LM.UIFilter.UpdateCache()
     end
-    return LM_UIFilter.filteredMountList
+    return LM.UIFilter.filteredMountList
 end
 
 
 -- Sources ---------------------------------------------------------------------
 
-function LM_UIFilter.GetNumSources()
+function LM.UIFilter.GetNumSources()
     return C_PetJournal.GetNumPetSources() + 1
 end
 
-function LM_UIFilter.SetAllSourceFilters(v)
-    LM_UIFilter.ClearCache()
+function LM.UIFilter.SetAllSourceFilters(v)
+    LM.UIFilter.ClearCache()
     if v then
-        table.wipe(LM_UIFilter.sourceFilterList)
+        table.wipe(LM.UIFilter.sourceFilterList)
     else
-        for i = 1,LM_UIFilter.GetNumSources() do
-            if LM_UIFilter.IsValidSourceFilter(i) then
-                LM_UIFilter.sourceFilterList[i] = true
+        for i = 1,LM.UIFilter.GetNumSources() do
+            if LM.UIFilter.IsValidSourceFilter(i) then
+                LM.UIFilter.sourceFilterList[i] = true
             end
         end
     end
 end
 
-function LM_UIFilter.SetSourceFilter(i, v)
-    LM_UIFilter.ClearCache()
+function LM.UIFilter.SetSourceFilter(i, v)
+    LM.UIFilter.ClearCache()
     if v then
-        LM_UIFilter.sourceFilterList[i] = nil
+        LM.UIFilter.sourceFilterList[i] = nil
     else
-        LM_UIFilter.sourceFilterList[i] = true
+        LM.UIFilter.sourceFilterList[i] = true
     end
 end
 
-function LM_UIFilter.IsSourceChecked(i)
-    return not LM_UIFilter.sourceFilterList[i]
+function LM.UIFilter.IsSourceChecked(i)
+    return not LM.UIFilter.sourceFilterList[i]
 end
 
-function LM_UIFilter.IsValidSourceFilter(i)
+function LM.UIFilter.IsValidSourceFilter(i)
     -- Mounts have an extra filter "OTHER" that pets don't have
     if C_MountJournal.IsValidSourceFilter(i) then
         return true
@@ -124,7 +126,7 @@ function LM_UIFilter.IsValidSourceFilter(i)
     end
 end
 
-function LM_UIFilter.GetSourceText(i)
+function LM.UIFilter.GetSourceText(i)
     local n = C_PetJournal.GetNumPetSources()
     if i <= n then
         return _G["BATTLE_PET_SOURCE_"..i]
@@ -136,31 +138,31 @@ end
 
 -- Flags -----------------------------------------------------------------------
 
-function LM_UIFilter.IsFlagChecked(f)
-    return not LM_UIFilter.flagFilterList[f]
+function LM.UIFilter.IsFlagChecked(f)
+    return not LM.UIFilter.flagFilterList[f]
 end
 
-function LM_UIFilter.SetFlagFilter(f, v)
-    LM_UIFilter.ClearCache()
+function LM.UIFilter.SetFlagFilter(f, v)
+    LM.UIFilter.ClearCache()
     if v then
-        LM_UIFilter.flagFilterList[f] = nil
+        LM.UIFilter.flagFilterList[f] = nil
     else
-        LM_UIFilter.flagFilterList[f] = true
+        LM.UIFilter.flagFilterList[f] = true
     end
 end
 
-function LM_UIFilter:SetAllFlagFilters(v)
-    for _,f in ipairs(LM_UIFilter.GetFlags()) do
-        LM_UIFilter.SetFlagFilter(f, v)
+function LM.UIFilter:SetAllFlagFilters(v)
+    for _,f in ipairs(LM.UIFilter.GetFlags()) do
+        LM.UIFilter.SetFlagFilter(f, v)
     end
 end
 
-function LM_UIFilter.GetFlags()
-    return LM_Options:GetAllFlags()
+function LM.UIFilter.GetFlags()
+    return LM.Options:GetAllFlags()
 end
 
-function LM_UIFilter.GetFlagText(f)
-    if LM_Options:IsPrimaryFlag(f) then
+function LM.UIFilter.GetFlagText(f)
+    if LM.Options:IsPrimaryFlag(f) then
         return ITEM_QUALITY_COLORS[2].hex
             .. L[f]
             .. FONT_COLOR_CODE_CLOSE
@@ -172,30 +174,30 @@ end
 
 -- Priorities ------------------------------------------------------------------
 
-function LM_UIFilter.IsPriorityChecked(p)
-    return not LM_UIFilter.priorityFilterList[p]
+function LM.UIFilter.IsPriorityChecked(p)
+    return not LM.UIFilter.priorityFilterList[p]
 end
 
-function LM_UIFilter.SetPriorityFilter(p, v)
-    LM_UIFilter.ClearCache()
+function LM.UIFilter.SetPriorityFilter(p, v)
+    LM.UIFilter.ClearCache()
     if v then
-        LM_UIFilter.priorityFilterList[p] = nil
+        LM.UIFilter.priorityFilterList[p] = nil
     else
-        LM_UIFilter.priorityFilterList[p] = true
+        LM.UIFilter.priorityFilterList[p] = true
     end
 end
 
-function LM_UIFilter:SetAllPriorityFilters(v)
-    for _,p in ipairs(LM_UIFilter.GetPriorities()) do
-        LM_UIFilter.SetPriorityFilter(p, v)
+function LM.UIFilter:SetAllPriorityFilters(v)
+    for _,p in ipairs(LM.UIFilter.GetPriorities()) do
+        LM.UIFilter.SetPriorityFilter(p, v)
     end
 end
 
-function LM_UIFilter.GetPriorities()
+function LM.UIFilter.GetPriorities()
     return { 0, 1, 2, 3 }
 end
 
-function LM_UIFilter.GetPriorityText(p)
+function LM.UIFilter.GetPriorityText(p)
     local c = PriorityColors[p] or PriorityColors['']
     return c:WrapTextInColorCode(p),
            c:WrapTextInColorCode(L['LM_PRIORITY_DESC'..p])
@@ -204,21 +206,21 @@ end
 
 -- Search ----------------------------------------------------------------------
 
-function LM_UIFilter.SetSearchText(t)
-    LM_UIFilter.ClearCache()
-    LM_UIFilter.searchText = t
+function LM.UIFilter.SetSearchText(t)
+    LM.UIFilter.ClearCache()
+    LM.UIFilter.searchText = t
 end
 
-function LM_UIFilter.GetSearchText(t)
-    return LM_UIFilter.searchText
+function LM.UIFilter.GetSearchText(t)
+    return LM.UIFilter.searchText
 end
 
 
 -- Check -----------------------------------------------------------------------
 
-function LM_UIFilter.IsFilteredMount(m)
+function LM.UIFilter.IsFilteredMount(m)
 
-    local filters = LM_UIFilter.flagFilterList
+    local filters = LM.UIFilter.flagFilterList
 
     -- Does the mount info indicate it should be hidden. This happens (for
     -- example) with some mounts that have different horde/alliance versions
@@ -231,30 +233,30 @@ function LM_UIFilter.IsFilteredMount(m)
 
     local source = m.sourceType
     if not source or source == 0 then
-        source = LM_UIFilter.GetNumSources()
+        source = LM.UIFilter.GetNumSources()
     end
 
-    if LM_UIFilter.sourceFilterList[source] == true then
+    if LM.UIFilter.sourceFilterList[source] == true then
         return true
     end
 
     -- Flag filters
 
-    if LM_UIFilter.flagFilterList.COLLECTED and m.isCollected then
+    if LM.UIFilter.flagFilterList.COLLECTED and m.isCollected then
         return true
     end
 
-    if LM_UIFilter.flagFilterList.NOT_COLLECTED and not m.isCollected then
+    if LM.UIFilter.flagFilterList.NOT_COLLECTED and not m.isCollected then
         return true
     end
 
-    if LM_UIFilter.flagFilterList.UNUSABLE and m.needsFaction and m.needsFaction ~= UnitFactionGroup("player") then
+    if LM.UIFilter.flagFilterList.UNUSABLE and m.needsFaction and m.needsFaction ~= UnitFactionGroup("player") then
         return true
     end
 
     -- Priority Filters
-    for _,p in ipairs(LM_UIFilter.GetPriorities()) do
-        if LM_UIFilter.priorityFilterList[p] and LM_Options:GetPriority(m) == p then
+    for _,p in ipairs(LM.UIFilter.GetPriorities()) do
+        if LM.UIFilter.priorityFilterList[p] and LM.Options:GetPriority(m) == p then
             return true
         end
     end
@@ -265,8 +267,8 @@ function LM_UIFilter.IsFilteredMount(m)
 
     local okflags = CopyTable(m:CurrentFlags())
     local noFilters = true
-    for _,flagName in ipairs(LM_UIFilter:GetFlags()) do
-        if LM_UIFilter.flagFilterList[flagName] then
+    for _,flagName in ipairs(LM.UIFilter:GetFlags()) do
+        if LM.UIFilter.flagFilterList[flagName] then
             okflags[flagName] = nil
             noFilters = false
         end
@@ -278,7 +280,7 @@ function LM_UIFilter.IsFilteredMount(m)
     -- Search text from the input box.
     -- strfind is expensive, avoid if possible, leave all this at the end
 
-    local filtertext = LM_UIFilter.GetSearchText()
+    local filtertext = LM.UIFilter.GetSearchText()
     if not filtertext or filtertext == SEARCH or filtertext == "" then
         return false
     end

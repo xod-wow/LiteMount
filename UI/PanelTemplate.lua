@@ -38,7 +38,7 @@
   allows use of GetOption/SetOption just for the undo functionality.
 
   Don't refresh any of UI elements that are controls. The panel has a callback
-  into LM_Options.db that redraws when anything is modified and handles the
+  into LM.Options.db that redraws when anything is modified and handles the
   profile switching.
 
   In an ideal world most of this would be replaced with an AceDB that has a
@@ -46,7 +46,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-local L = LM_Localize
+local _, LM = ...
+
+local L = LM.Localize
 
 -- Recurse all children finding any FontStrings and replacing their texts
 -- with localized copies.
@@ -80,7 +82,7 @@ function LiteMountOptionsPanel_Open()
 end
 
 function LiteMountOptionsPanel_Reset(self, trigger)
-    LM_UIDebug(self, "Panel_Reset t="..tostring(trigger))
+    LM.UIDebug(self, "Panel_Reset t="..tostring(trigger))
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Okay(control, trigger)
         LiteMountOptionsControl_Refresh(control, trigger)
@@ -88,46 +90,46 @@ function LiteMountOptionsPanel_Reset(self, trigger)
 end
 
 function LiteMountOptionsPanel_Refresh(self, trigger)
-    LM_UIDebug(self, "Panel_Refresh t="..tostring(trigger))
+    LM.UIDebug(self, "Panel_Refresh t="..tostring(trigger))
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Refresh(control, trigger)
     end
-    LM_Options.db.RegisterCallback(self, "OnOptionsModified", "refresh")
-    LM_Options.db.RegisterCallback(self, "OnOptionsProfile", "reset")
+    LM.Options.db.RegisterCallback(self, "OnOptionsModified", "refresh")
+    LM.Options.db.RegisterCallback(self, "OnOptionsProfile", "reset")
 end
 
 function LiteMountOptionsPanel_Default(self)
-    LM_UIDebug(self, "Panel_Default")
+    LM.UIDebug(self, "Panel_Default")
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Default(control)
     end
 end
 
 function LiteMountOptionsPanel_Okay(self)
-    LM_UIDebug(self, "Panel_Okay")
-    LM_Options.db.UnregisterAllCallbacks(self)
+    LM.UIDebug(self, "Panel_Okay")
+    LM.Options.db.UnregisterAllCallbacks(self)
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Okay(control)
     end
 end
 
 function LiteMountOptionsPanel_Revert(self)
-    LM_UIDebug(self, "Panel_Revert")
+    LM.UIDebug(self, "Panel_Revert")
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Revert(control)
     end
 end
 
 function LiteMountOptionsPanel_Cancel(self)
-    LM_UIDebug(self, "Panel_Cancel")
-    LM_Options.db.UnregisterAllCallbacks(self)
+    LM.UIDebug(self, "Panel_Cancel")
+    LM.Options.db.UnregisterAllCallbacks(self)
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Cancel(control)
     end
 end
 
 function LiteMountOptionsPanel_OnShow(self)
-    LM_UIDebug(self, "Panel_OnShow")
+    LM.UIDebug(self, "Panel_OnShow")
     LiteMountOptions.CurrentOptionsPanel = self
 
     if not self.dontShowProfile then
@@ -136,7 +138,7 @@ function LiteMountOptionsPanel_OnShow(self)
 end
 
 function LiteMountOptionsPanel_OnHide(self)
-    LM_UIDebug(self, "Panel_OnHide")
+    LM.UIDebug(self, "Panel_OnHide")
 
     -- Seems like the InterfacePanel calls all the Okay or Cancel for
     -- anything that's been opened when the appropriate button is clicked
@@ -166,7 +168,7 @@ function LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountOptionsControl_Refresh(self, trigger)
-    LM_UIDebug(self, "Control_Refresh t="..tostring(trigger))
+    LM.UIDebug(self, "Control_Refresh t="..tostring(trigger))
     if self.oldValues == nil then
         self.oldValues = {}
         for i = 1, (self.ntabs or 1) do
@@ -178,13 +180,13 @@ function LiteMountOptionsControl_Refresh(self, trigger)
 end
 
 function LiteMountOptionsControl_Okay(self)
-    LM_UIDebug(self, "Control_Okay")
+    LM.UIDebug(self, "Control_Okay")
     self.oldValues = nil
     self.isDirty = nil
 end
 
 function LiteMountOptionsControl_Revert(self)
-    LM_UIDebug(self, "Control_Revert")
+    LM.UIDebug(self, "Control_Revert")
     for i = 1, (self.ntabs or 1) do
         if self.oldValues[i] ~= nil then
             self:SetOption(self.oldValues[i], i)
@@ -194,7 +196,7 @@ function LiteMountOptionsControl_Revert(self)
 end
 
 function LiteMountOptionsControl_Cancel(self)
-    LM_UIDebug(self, "Control_Cancel")
+    LM.UIDebug(self, "Control_Cancel")
     if self.isDirty then
         LiteMountOptionsControl_Revert(self)
     end
@@ -204,7 +206,7 @@ end
 function LiteMountOptionsControl_Default(self, onlyCurrentTab)
     if not self.GetOptionDefault then return end
 
-    LM_UIDebug(self, "Control_Default "..tostring(onlyCurrentTab))
+    LM.UIDebug(self, "Control_Default "..tostring(onlyCurrentTab))
 
     if onlyCurrentTab then
         self:SetOption(self:GetOptionDefault(self.tab), self.tab)
@@ -217,14 +219,14 @@ function LiteMountOptionsControl_Default(self, onlyCurrentTab)
 end
 
 function LiteMountOptionsControl_OnChanged(self)
-    LM_UIDebug(self, "Control_OnChanged")
+    LM.UIDebug(self, "Control_OnChanged")
     self:SetOption(self:GetControl(), self.tab)
     self.isDirty = true
 end
 
 function LiteMountOptionsControl_OnTextChanged(self, userInput)
     if userInput == true then
-        LM_UIDebug(self, "Control_OnTextChanged")
+        LM.UIDebug(self, "Control_OnTextChanged")
         self:SetOption(self:GetControl(), self.tab)
     end
     self.isDirty = true

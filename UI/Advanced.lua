@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-local L = LM_Localize
+local _, LM = ...
+
+local L = LM.Localize
 
 local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)
@@ -26,7 +28,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             local text = self.editBox:GetText()
-            LM_Options:CreateFlag(text)
+            LM.Options:CreateFlag(text)
             LiteMountAdvancedPanel.FlagScroll.isDirty = true
         end,
     EditBoxOnEnterPressed = function (self)
@@ -39,7 +41,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
         end,
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
-            if text ~= "" and not LM_Options:IsActiveFlag(text) then
+            if text ~= "" and not LM.Options:IsActiveFlag(text) then
                 self:GetParent().button1:Enable()
             else
                 self:GetParent().button1:Disable()
@@ -59,7 +61,7 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_FLAG"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LM_Options:DeleteFlag(self.data)
+            LM.Options:DeleteFlag(self.data)
             LiteMountAdvancedPanel.FlagScroll.isDirty = true
         end,
     OnShow = function (self)
@@ -107,7 +109,7 @@ function LiteMountFlagScrollMixin:Update()
 
     local offset = HybridScrollFrame_GetOffset(self)
 
-    local allFlags = LM_Options:GetAllFlags()
+    local allFlags = LM.Options:GetAllFlags()
 
     local totalHeight = (#allFlags + 1) * self.buttons[1]:GetHeight()
     local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
@@ -119,7 +121,7 @@ function LiteMountFlagScrollMixin:Update()
         index = offset + i
         if index <= #allFlags then
             local flagText = allFlags[index]
-            if LM_Options:IsPrimaryFlag(allFlags[index]) then
+            if LM.Options:IsPrimaryFlag(allFlags[index]) then
                 flagText = ITEM_QUALITY_COLORS[2].hex .. flagText .. FONT_COLOR_CODE_CLOSE
                 button.DeleteButton:Hide()
             else
@@ -153,11 +155,11 @@ function LiteMountFlagScrollMixin:Update()
 end
 
 function LiteMountFlagScrollMixin:GetOption()
-    return CopyTable(LM_Options:GetRawFlags())
+    return CopyTable(LM.Options:GetRawFlags())
 end
 
 function LiteMountFlagScrollMixin:SetOption(v)
-    LM_Options:SetRawFlags(v)
+    LM.Options:SetRawFlags(v)
 end
 
 function LiteMountFlagScrollMixin:OnLoad()
@@ -234,15 +236,15 @@ end
 LiteMountAdvancedEditBoxMixin = {}
 
 function LiteMountAdvancedEditBoxMixin:SetOption(v, i)
-    LM_Options:SetButtonAction(i, v)
+    LM.Options:SetButtonAction(i, v)
 end
 
 function LiteMountAdvancedEditBoxMixin:GetOption(i)
-    return LM_Options:GetButtonAction(i)
+    return LM.Options:GetButtonAction(i)
 end
 
 function LiteMountAdvancedEditBoxMixin:GetOptionDefault()
-    return LM_Options:GetButtonAction('*')
+    return LM.Options:GetButtonAction('*')
 end
 
 function LiteMountAdvancedEditBoxMixin:OnLoad()

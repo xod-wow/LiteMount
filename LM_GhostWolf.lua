@@ -6,21 +6,23 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
 
 local TABLET_OF_GHOST_WOLF_AURA = GetSpellInfo(168799)
 
-_G.LM_GhostWolf = setmetatable({ }, LM_Spell)
-LM_GhostWolf.__index = LM_GhostWolf
+LM.GhostWolf = setmetatable({ }, LM.Spell)
+LM.GhostWolf.__index = LM.GhostWolf
 
-function LM_GhostWolf:Get()
-    return LM_Spell.Get(self, LM_SPELL.GHOST_WOLF, 'WALK')
+function LM.GhostWolf:Get()
+    return LM.Spell.Get(self, LM.SPELL.GHOST_WOLF, 'WALK')
 end
 
-function LM_GhostWolf:CurrentFlags()
-    local flags = LM_Mount.CurrentFlags(self)
+function LM.GhostWolf:CurrentFlags()
+    local flags = LM.Mount.CurrentFlags(self)
 
     -- Ghost Wolf is also 100% speed if the Rehgar Earthfury bodyguard
     -- is following you around in Lost Isles (Legion). Unfortunately there's

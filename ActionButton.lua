@@ -8,71 +8,73 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
 
-local L = LM_Localize
+local L = LM.Localize
 
-_G.LM_ActionButton = { }
+LM.ActionButton = { }
 
 -- Fancy SecureActionButton stuff. The default button mechanism is
 -- type="macro" macrotext="...". If we're not in combat we
 -- use a preclick handler to set it to what we really want to do.
 
-function LM_ActionButton:SetupActionButton(mount)
+function LM.ActionButton:SetupActionButton(mount)
     for k,v in pairs(mount:GetSecureAttributes()) do
         self:SetAttribute(k, v)
     end
 end
 
-function LM_ActionButton:Dispatch(action, env)
+function LM.ActionButton:Dispatch(action, env)
 
     local isTrue
-    isTrue, env.unit = LM_Conditions:Eval(action.conditions)
+    isTrue, env.unit = LM.Conditions:Eval(action.conditions)
 
-    local handler = LM_Actions:GetFlowControlHandler(action.action)
+    local handler = LM.Actions:GetFlowControlHandler(action.action)
     if handler then
-        LM_Debug("Dispatching flow control action " .. action.action)
+        LM.Debug("Dispatching flow control action " .. action.action)
         handler(action.args or {}, env, isTrue)
         return
     end
 
-    if not isTrue or LM_Actions:IsFlowSkipped(env) then
+    if not isTrue or LM.Actions:IsFlowSkipped(env) then
         return
     end
 
-    handler = LM_Actions:GetHandler(action.action)
+    handler = LM.Actions:GetHandler(action.action)
     if not handler then
-        LM_WarningAndPrint(format(L.LM_ERR_BAD_ACTION, action.action))
+        LM.WarningAndPrint(format(L.LM_ERR_BAD_ACTION, action.action))
         return
     end
 
-    LM_Debug("Dispatching action " .. action.action)
+    LM.Debug("Dispatching action " .. action.action)
 
     local m = handler(action.args or {}, env)
     if m then
-        LM_Debug("Setting up button as " .. (m.name or action.action) .. ".")
+        LM.Debug("Setting up button as " .. (m.name or action.action) .. ".")
         self:SetupActionButton(m)
         return true
     end
 end
 
-function LM_ActionButton:CompileActions()
-    local actionList = LM_Options:GetButtonAction(self.id)
-    self.actions = LM_ActionList:Compile(actionList)
+function LM.ActionButton:CompileActions()
+    local actionList = LM.Options:GetButtonAction(self.id)
+    self.actions = LM.ActionList:Compile(actionList)
 end
 
-function LM_ActionButton:PreClick(mouseButton)
+function LM.ActionButton:PreClick(mouseButton)
 
     if InCombatLockdown() then return end
 
-    LM_Debug("PreClick handler called on " .. self:GetName())
+    LM.Debug("PreClick handler called on " .. self:GetName())
 
-    LM_PlayerMounts:RefreshMounts()
+    LM.PlayerMounts:RefreshMounts()
 
     -- Re-randomize if it's time
-    local keepRandomForSeconds = LM_Options:GetRandomPersistence()
+    local keepRandomForSeconds = LM.Options:GetRandomPersistence()
     if GetTime() - (self.globalEnv.randomTime or 0) > keepRandomForSeconds then
         self.globalEnv.random = math.random()
         self.globalEnv.randomTime = GetTime()
@@ -94,10 +96,10 @@ function LM_ActionButton:PreClick(mouseButton)
     self:Dispatch({ ['action'] = "CantMount" }, subEnv)
 end
 
-function LM_ActionButton:PostClick()
+function LM.ActionButton:PostClick()
     if InCombatLockdown() then return end
 
-    LM_Debug("PostClick handler called.")
+    LM.Debug("PostClick handler called.")
 
     -- We'd like to set the macro to undo whatever we did, but
     -- tests like IsMounted() and CanExitVehicle() will still
@@ -105,17 +107,17 @@ function LM_ActionButton:PostClick()
     -- to just blindly do the opposite of whatever we chose because
     -- it might not have worked.
 
-    self:SetupActionButton(LM_Actions:GetHandler('Combat')())
+    self:SetupActionButton(LM.Actions:GetHandler('Combat')())
 end
 
-function LM_ActionButton:Create(n)
+function LM.ActionButton:Create(n)
 
     local name = "LM_B" .. n
 
     local b = CreateFrame("Button", name, UIParent, "SecureActionButtonTemplate")
-    Mixin(b, LM_ActionButton)
+    Mixin(b, LM.ActionButton)
 
-    -- So we can look up action lists in LM_Options
+    -- So we can look up action lists in LM.Options
     b.id = n
 
     -- Global actions environment

@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -77,29 +79,29 @@ VARS["{ROLE}"] =
 
 VARS["{MAPID}"] =
     function ()
-        return LM_Location.uiMapID
+        return LM.Location.uiMapID
     end
 
 -- this should totally be some kind of metatable but who cares
 
-_G.LM_Vars = {}
+LM.Vars = {}
 
-function LM_Vars:GetVar(v)
+function LM.Vars:GetVar(v)
     if VARS[v] then
         return VARS[v]()
     end
 end
 
-function LM_Vars:GetConst(v)
+function LM.Vars:GetConst(v)
     if CONSTS[v] then
         return CONSTS[v]()
     end
 end
 
-function LM_Vars:StrSubConsts(str)
+function LM.Vars:StrSubConsts(str)
     return str:gsub('{.-}', function (k) return self:GetConst(k) end)
 end
 
-function LM_Vars:StrSubVars(str)
+function LM.Vars:StrSubVars(str)
     return str:gsub('{.-}', function (k) return self:GetVar(k) end)
 end

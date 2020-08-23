@@ -8,13 +8,11 @@
 
 ----------------------------------------------------------------------------]]--
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
+local _, LM = ...
 
-_G.LM_ActionList = { }
+LM.ActionList = { }
 
-local function replaceConstant(k) return LM_Vars:GetConst(k) end
+local function replaceConstant(k) return LM.Vars:GetConst(k) end
 
 local function ReadWord(line)
     local token, rest
@@ -48,7 +46,7 @@ local function ReadWord(line)
     if token then return token, rest end
 end
 
-function LM_ActionList:ParseActionLine(line)
+function LM.ActionList:ParseActionLine(line)
     local argWords, condWords = { }, { }
     local action
 
@@ -75,7 +73,7 @@ function LM_ActionList:ParseActionLine(line)
         local clause, vars = {}, false
         for c in word:gmatch('[^,]+') do
             c = c:gsub('{.-}', function (k)
-                    local v = LM_Vars:GetConst(k)
+                    local v = LM.Vars:GetConst(k)
                     if v then
                         return v
                     else
@@ -111,7 +109,7 @@ function LM_ActionList:ParseActionLine(line)
     return action, args, conditions
 end
 
-function LM_ActionList:Compile(text)
+function LM.ActionList:Compile(text)
     local out = { }
     local action, args, conditions
     for line in text:gmatch('([^\r\n]+)') do

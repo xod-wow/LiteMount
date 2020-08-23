@@ -10,14 +10,16 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
 
-_G.LM_Location = LM_CreateAutoEventFrame("Frame", "LM_Location")
-LM_Location:RegisterEvent("PLAYER_LOGIN")
+LM.Location = LM.CreateAutoEventFrame("Frame")
+LM.Location:RegisterEvent("PLAYER_LOGIN")
 
-function LM_Location:Initialize()
+function LM.Location:Initialize()
     self.uiMapID = -1
     self.uiMapPath = { }
     self.uiMapPathIDs = { }
@@ -41,18 +43,18 @@ function LM_Location:Initialize()
         end)
 end
 
-function LM_Location:UpdateSwimTimes()
+function LM.Location:UpdateSwimTimes()
     if not IsSubmerged() then
         self.lastDryTime = GetTime()
     end
 end
 
-function LM_Location:IsFloating()
+function LM.Location:IsFloating()
     return IsSubmerged() and not self:CantBreathe() and
            ( GetTime() - (self.lastDryTime or 0 ) < 1.0)
 end
 
-function LM_Location:Update()
+function LM.Location:Update()
     local map = C_Map.GetBestMapForUnit("player")
 
     -- Right after zoning this can be unknown.
@@ -75,39 +77,39 @@ function LM_Location:Update()
     self.subZoneText = GetSubZoneText()
     self.instanceID = select(8, GetInstanceInfo())
 
-    LM_Options:RecordInstance()
+    LM.Options:RecordInstance()
 end
 
-function LM_Location:PLAYER_LOGIN()
+function LM.Location:PLAYER_LOGIN()
     self:Initialize()
 end
 
-function LM_Location:MOUNT_JOURNAL_USABILITY_CHANGED()
-    LM_Debug("Updating swim times due to MOUNT_JOURNAL_USABILITY_CHANGED.")
+function LM.Location:MOUNT_JOURNAL_USABILITY_CHANGED()
+    LM.Debug("Updating swim times due to MOUNT_JOURNAL_USABILITY_CHANGED.")
     self:UpdateSwimTimes()
 end
 
-function LM_Location:PLAYER_ENTERING_WORLD()
-    LM_Debug("Updating location due to PLAYER_ENTERING_WORLD.")
+function LM.Location:PLAYER_ENTERING_WORLD()
+    LM.Debug("Updating location due to PLAYER_ENTERING_WORLD.")
     self:Update()
 end
 
-function LM_Location:ZONE_CHANGED()
-    LM_Debug("Updating location due to ZONE_CHANGED.")
+function LM.Location:ZONE_CHANGED()
+    LM.Debug("Updating location due to ZONE_CHANGED.")
     self:Update()
 end
 
-function LM_Location:ZONE_CHANGED_INDOORS()
-    LM_Debug("Updating location due to ZONE_CHANGED_INDOORS.")
+function LM.Location:ZONE_CHANGED_INDOORS()
+    LM.Debug("Updating location due to ZONE_CHANGED_INDOORS.")
     self:Update()
 end
 
-function LM_Location:ZONE_CHANGED_NEW_AREA()
-    LM_Debug("Updating location due to ZONE_CHANGED_NEW_AREA.")
+function LM.Location:ZONE_CHANGED_NEW_AREA()
+    LM.Debug("Updating location due to ZONE_CHANGED_NEW_AREA.")
     self:Update()
 end
 
-function LM_Location:MapInPath(...)
+function LM.Location:MapInPath(...)
     for i = 1, select('#', ...) do
         local id = select(i, ...)
         if self.uiMapPathIDs[id] then return true end
@@ -115,7 +117,7 @@ function LM_Location:MapInPath(...)
     return false
 end
 
-function LM_Location:InInstance(...)
+function LM.Location:InInstance(...)
     for i = 1, select('#', ...) do
         local id = select(i, ...)
         if self.instanceID == id then return true end
@@ -128,7 +130,7 @@ end
 -- artisanRiding = IsSpellKnown(34091)
 -- masterRiding = IsSpellKnown(90265)
 
-function LM_Location:KnowsFlyingSkill()
+function LM.Location:KnowsFlyingSkill()
     -- These are in this order because it's more likely you are high level and
     -- know the most advanced one.
     return IsSpellKnown(90265) or IsSpellKnown(34091) or IsSpellKnown(34090)
@@ -169,7 +171,7 @@ local InstanceNotFlyable = {
 -- Can't fly if you haven't learned a flying skill. Various expansion
 -- continents from Draenor onwards need achievement unlocks to be able to fly.
 
-function LM_Location:CanFly()
+function LM.Location:CanFly()
 
     -- If you don't know how to fly, you can't fly
     if not self:KnowsFlyingSkill() then
@@ -212,12 +214,12 @@ function LM_Location:CanFly()
     return IsFlyableArea()
 end
 
-function LM_Location:CantBreathe()
+function LM.Location:CantBreathe()
     local name, _, _, rate = GetMirrorTimerInfo(2)
     return (name == "BREATH" and rate < 0)
 end
 
-function LM_Location:GetLocation()
+function LM.Location:GetLocation()
     local path = { }
     for _, mapID in ipairs(self.uiMapPath) do
         tinsert(path, format("%s (%d)", C_Map.GetMapInfo(mapID).name, mapID))
@@ -234,7 +236,7 @@ function LM_Location:GetLocation()
 end
 
 local maxMapID
-function LM_Location:MaxMapID()
+function LM.Location:MaxMapID()
     if not maxMapID then
         -- 10000 is a guess at something way over the current maximum
 
@@ -247,7 +249,7 @@ function LM_Location:MaxMapID()
     return maxMapID
 end
 
-function LM_Location:GetMaps(str)
+function LM.Location:GetMaps(str)
     local searchStr = string.lower(str or "")
 
     local lines = {}
@@ -264,7 +266,7 @@ function LM_Location:GetMaps(str)
     return lines
 end
 
-function LM_Location:GetContinents(str)
+function LM.Location:GetContinents(str)
     local searchStr = string.lower(str or "")
 
     local lines = {}

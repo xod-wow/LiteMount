@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 function LiteMountOptionsBinding_OnLoad(self)
     self.name = "XXX FIXME XXX"
 

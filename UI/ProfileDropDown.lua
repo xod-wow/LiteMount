@@ -8,7 +8,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-local L = LM_Localize
+local _, LM = ...
+
+local L = LM.Localize
 
 StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
     text = format("LiteMount : %s", L.LM_NEW_PROFILE),
@@ -23,9 +25,9 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
     OnAccept = function (self)
             local text = self.editBox:GetText()
             if text and text ~= "" then
-                LM_Options.db:SetProfile(text)
+                LM.Options.db:SetProfile(text)
                 if self.data then
-                    LM_Options.db:CopyProfile(self.data)
+                    LM.Options.db:CopyProfile(self.data)
                 end
             end
         end,
@@ -39,7 +41,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
         end,
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
-            if text ~= "" and not LM_Options.db.profiles[text] then
+            if text ~= "" and not LM.Options.db.profiles[text] then
                 self:GetParent().button1:Enable()
             else
                 self:GetParent().button1:Disable()
@@ -59,7 +61,7 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_PROFILE"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LM_Options.db:DeleteProfile(self.data)
+            LM.Options.db:DeleteProfile(self.data)
         end,
 }
 
@@ -72,12 +74,12 @@ StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LM_Options.db:ResetProfile(self.data)
+            LM.Options.db:ResetProfile(self.data)
         end,
 }
 
 local function ClickSetProfile(self, arg1, arg2, checked)
-    LM_Options.db:SetProfile(self.value)
+    LM.Options.db:SetProfile(self.value)
     UIDropDownMenu_RefreshAll(LiteMountProfileButton.DropDown, true)
 end
 
@@ -92,7 +94,7 @@ local function ClickDeleteProfile(self, arg1, arg2, check)
 end
 
 local function ClickResetProfile(self)
-    local arg1 = LM_Options.db:GetCurrentProfile()
+    local arg1 = LM.Options.db:GetCurrentProfile()
     CloseDropDownMenus()
     StaticPopup_Show("LM_OPTIONS_RESET_PROFILE", arg1, nil, arg1)
 end
@@ -102,8 +104,8 @@ local function DropDown_Initialize(self, level)
 
     if level == nil then return end
 
-    local currentProfile = LM_Options.db:GetCurrentProfile()
-    local dbProfiles = LM_Options.db:GetProfiles() or {}
+    local currentProfile = LM.Options.db:GetCurrentProfile()
+    local dbProfiles = LM.Options.db:GetProfiles() or {}
     tDeleteItem(dbProfiles, "Default")
     sort(dbProfiles)
     tinsert(dbProfiles, 1, "Default")
@@ -126,7 +128,7 @@ local function DropDown_Initialize(self, level)
             end
             info.value = v
             info.checked = function ()
-                    return (v == LM_Options.db:GetCurrentProfile())
+                    return (v == LM.Options.db:GetCurrentProfile())
                 end
             info.keepShownOnClick = 1
             info.func = ClickSetProfile
@@ -187,7 +189,7 @@ local function DropDown_Initialize(self, level)
 end
 
 local function UpdateProfileCallback()
-    LiteMountProfileButton:SetText(LM_Options.db:GetCurrentProfile())
+    LiteMountProfileButton:SetText(LM.Options.db:GetCurrentProfile())
 end
 
 
@@ -205,14 +207,14 @@ function LiteMountProfileButtonMixin:Attach(parent)
 end
 
 function LiteMountProfileButtonMixin:OnShow()
-    self:SetText(LM_Options.db:GetCurrentProfile())
-    LM_Options.db.RegisterCallback(self, "OnProfileCopied", UpdateProfileCallback)
-    LM_Options.db.RegisterCallback(self, "OnProfileChanged", UpdateProfileCallback)
-    LM_Options.db.RegisterCallback(self, "OnProfileReset", UpdateProfileCallback)
+    self:SetText(LM.Options.db:GetCurrentProfile())
+    LM.Options.db.RegisterCallback(self, "OnProfileCopied", UpdateProfileCallback)
+    LM.Options.db.RegisterCallback(self, "OnProfileChanged", UpdateProfileCallback)
+    LM.Options.db.RegisterCallback(self, "OnProfileReset", UpdateProfileCallback)
 end
 
 function LiteMountProfileButtonMixin:OnHide()
-    LM_Options.db.UnregisterAllCallbacks(self)
+    LM.Options.db.UnregisterAllCallbacks(self)
 end
 
 function LiteMountProfileButtonMixin:OnLoad()

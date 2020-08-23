@@ -8,20 +8,22 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
 
-_G.LM_Nagrand = setmetatable({ }, LM_Spell)
-LM_Nagrand.__index = LM_Nagrand
+LM.Nagrand = setmetatable({ }, LM.Spell)
+LM.Nagrand.__index = LM.Nagrand
 
 local FactionRequirements = {
-    [LM_SPELL.FROSTWOLF_WAR_WOLF] = "Horde",
-    [LM_SPELL.TELAARI_TALBUK] = "Alliance",
+    [LM.SPELL.FROSTWOLF_WAR_WOLF] = "Horde",
+    [LM.SPELL.TELAARI_TALBUK] = "Alliance",
 }
 
-function LM_Nagrand:Get(spellID)
-    local m = LM_Spell.Get(self, spellID)
+function LM.Nagrand:Get(spellID)
+    local m = LM.Spell.Get(self, spellID)
 
     if m then
         local playerFaction = UnitFactionGroup("player")
@@ -33,26 +35,26 @@ function LM_Nagrand:Get(spellID)
     return m
 end
 
-function LM_Nagrand:Refresh()
+function LM.Nagrand:Refresh()
     self.isCollected = ( UnitLevel("player") >= 100 )
-    LM_Mount.Refresh(self)
+    LM.Mount.Refresh(self)
 end
 
-function LM_Nagrand:GetSecureAttributes()
-    local spellName = GetSpellInfo(LM_SPELL.GARRISON_ABILITY)
+function LM.Nagrand:GetSecureAttributes()
+    local spellName = GetSpellInfo(LM.SPELL.GARRISON_ABILITY)
     return { ["type"] = "spell", ["spell"] = spellName }
 end
 
 -- Draenor Ability spells are weird.  The name of the Garrison Ability
 -- (localized) is name = GetSpellInfo(161691)
 -- But, GetSpellInfo(name) returns the actual current spell that's active.
-function LM_Nagrand:IsCastable()
+function LM.Nagrand:IsCastable()
     local baseSpellID, garrisonType = GetZoneAbilitySpellInfo()
     local baseSpellName = GetSpellInfo(baseSpellID)
 
     local id = select(7, GetSpellInfo(baseSpellName))
     if id == self.spellID and IsUsableSpell(baseSpellID) then
-        return LM_Mount.IsCastable(self)
+        return LM.Mount.IsCastable(self)
     end
     return false
 end

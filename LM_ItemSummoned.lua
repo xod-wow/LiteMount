@@ -6,12 +6,14 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
 
-_G.LM_ItemSummoned = setmetatable({ }, LM_Mount)
-LM_ItemSummoned.__index = LM_ItemSummoned
+LM.ItemSummoned = setmetatable({ }, LM.Mount)
+LM.ItemSummoned.__index = LM.ItemSummoned
 
 -- In theory we might be able to just use the itemID and use
 --      spellName = GetItemSpell(itemID)
@@ -19,9 +21,9 @@ LM_ItemSummoned.__index = LM_ItemSummoned
 -- worried.  Since there are such a small number of these, keeping track of
 -- the spell as well isn't a burden.
 
-function LM_ItemSummoned:Get(itemID, spellID, ...)
+function LM.ItemSummoned:Get(itemID, spellID, ...)
 
-    local m = LM_Spell.Get(self, spellID, ...)
+    local m = LM.Spell.Get(self, spellID, ...)
     if m then
         -- Used to do GetItemInfo here, but it doesn't work the first
         -- time you log in until the server returns the info and
@@ -34,18 +36,18 @@ function LM_ItemSummoned:Get(itemID, spellID, ...)
     return m
 end
 
-function LM_ItemSummoned:Refresh()
+function LM.ItemSummoned:Refresh()
     self.isCollected = ( GetItemCount(self.itemID) > 0 )
-    LM_Mount.Refresh(self)
+    LM.Mount.Refresh(self)
 end
 
-function LM_ItemSummoned:GetSecureAttributes()
+function LM.ItemSummoned:GetSecureAttributes()
     -- I assume that if you actually have the item, GetItemInfo() works
     local itemName = GetItemInfo(self.itemID)
     return { ["type"] = "item", ["item"] = itemName }
 end
 
-function LM_ItemSummoned:IsCastable()
+function LM.ItemSummoned:IsCastable()
 
     -- IsUsableSpell seems to test correctly whether it's indoors etc.
     if not IsUsableSpell(self.spellID) then

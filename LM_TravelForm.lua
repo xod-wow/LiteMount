@@ -14,29 +14,31 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
 
-_G.LM_TravelForm = setmetatable({ }, LM_Spell)
-LM_TravelForm.__index = LM_TravelForm
+LM.TravelForm = setmetatable({ }, LM.Spell)
+LM.TravelForm.__index = LM.TravelForm
 
 local travelFormFlags = { 'FLY', 'SWIM', 'RUN' }
 
-function LM_TravelForm:Get()
-    return LM_Spell.Get(self, LM_SPELL.TRAVEL_FORM, unpack(travelFormFlags))
+function LM.TravelForm:Get()
+    return LM.Spell.Get(self, LM.SPELL.TRAVEL_FORM, unpack(travelFormFlags))
 end
 
 -- You can cast Travel Form using the SpellID (unlike the journal mounts
 -- where you can't), which bypasses a bug.
 
-function LM_TravelForm:GetSecureAttributes()
+function LM.TravelForm:GetSecureAttributes()
     return { ["type"] = "spell", ["spell"] = self.spellID }
 end
 
 -- IsUsableSpell doesn't return false for Travel Form indoors like it should,
 -- because you can swim indoors with it (apparently).
-function LM_TravelForm:IsCastable()
+function LM.TravelForm:IsCastable()
     if IsIndoors() and not IsSubmerged() then return false end
-    return LM_Spell.IsCastable(self)
+    return LM.Spell.IsCastable(self)
 end

@@ -9,7 +9,9 @@
 
 ----------------------------------------------------------------------------]]--
 
-function LM_CreateAutoEventFrame(frameType, ...)
+local _, LM = ...
+
+function LM.CreateAutoEventFrame(frameType, ...)
     local f = CreateFrame(frameType, ...)
     f:SetScript("OnEvent", function (self, event, ...)
                                 if self[event] then

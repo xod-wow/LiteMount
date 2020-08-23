@@ -8,6 +8,8 @@
 
 ----------------------------------------------------------------------------]]--
 
+local _, LM = ...
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -57,14 +59,14 @@ if LibDebug then LibDebug() end
 
 ----------------------------------------------------------------------------]]--
 
-_G.LM_MountList = { }
-LM_MountList.__index = LM_MountList
+LM.MountList = { }
+LM.MountList.__index = LM.MountList
 
-function LM_MountList:New(ml)
-    return setmetatable(ml or {}, LM_MountList)
+function LM.MountList:New(ml)
+    return setmetatable(ml or {}, LM.MountList)
 end
 
-function LM_MountList:Copy()
+function LM.MountList:Copy()
     local out = { }
     for i,v in ipairs(self) do
         out[i] = v
@@ -72,7 +74,7 @@ function LM_MountList:Copy()
     return self:New(out)
 end
 
-function LM_MountList:Search(matchfunc, ...)
+function LM.MountList:Search(matchfunc, ...)
     local result = self:New()
 
     for _,m in ipairs(self) do
@@ -85,7 +87,7 @@ function LM_MountList:Search(matchfunc, ...)
 end
 
 -- Note that Find doesn't make another table
-function LM_MountList:Find(matchfunc, ...)
+function LM.MountList:Find(matchfunc, ...)
     for _,m in ipairs(self) do
         if matchfunc(m, ...) then
             return m
@@ -93,7 +95,7 @@ function LM_MountList:Find(matchfunc, ...)
     end
 end
 
-function LM_MountList:Shuffle()
+function LM.MountList:Shuffle()
     -- Fisher-Yates algorithm.
     -- Shuffle, http://forums.wowace.com/showthread.php?t=16628
     for i = #self, 2, -1 do
@@ -102,7 +104,7 @@ function LM_MountList:Shuffle()
     end
 end
 
-function LM_MountList:Random(r)
+function LM.MountList:Random(r)
     if #self > 0 then
         if r then
             r = math.ceil(r * #self)
@@ -113,28 +115,28 @@ function LM_MountList:Random(r)
     end
 end
 
-function LM_MountList:PriorityRandom(r)
+function LM.MountList:PriorityRandom(r)
 
     if #self == 0 then return end
 
     local priorityCounts = { }
 
     for _,m in ipairs(self) do
-        local p = LM_Options:GetPriority(m)
+        local p = LM.Options:GetPriority(m)
         priorityCounts[p] = ( priorityCounts[p] or 0 ) + 1
     end
 
     local weights, totalWeight = {}, 0
 
     for i,m in ipairs(self) do
-        local p, w  = LM_Options:GetPriority(m)
+        local p, w  = LM.Options:GetPriority(m)
         weights[i] = w / ( priorityCounts[p] + 1 )
         totalWeight = totalWeight + weights[i]
     end
 
     local cutoff = (r or math.random()) * totalWeight
 
-    LM_Debug(format(' - PriorityRandom n=%d, t=%0.3f, c=%0.3f', #self, totalWeight, cutoff))
+    LM.Debug(format(' - PriorityRandom n=%d, t=%0.3f, c=%0.3f', #self, totalWeight, cutoff))
 
     local t = 0
     for i = 1, #self do
@@ -149,7 +151,7 @@ local function filterMatch(m, ...)
     return m:MatchesFilters(...)
 end
 
-function LM_MountList:FilterSearch(...)
+function LM.MountList:FilterSearch(...)
     return self:Search(filterMatch, ...)
 end
 
@@ -157,11 +159,11 @@ local function cmpName(a, b)
     return a.name < b.name
 end
 
-function LM_MountList:Sort(cmp)
+function LM.MountList:Sort(cmp)
     table.sort(self, cmp or cmpName)
 end
 
-function LM_MountList:Dump()
+function LM.MountList:Dump()
     for _,m in ipairs(self) do
         m:Dump()
     end
