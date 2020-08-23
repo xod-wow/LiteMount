@@ -125,12 +125,6 @@ end
 -- to set the filters back the way they were. Yuck.
 --
 
-local BlizzardFilterSettings = {
-    LE_MOUNT_JOURNAL_FILTER_COLLECTED,
-    LE_MOUNT_JOURNAL_FILTER_NOT_COLLECTED,
-    LE_MOUNT_JOURNAL_FILTER_UNUSABLE,
-}
-
 function LM_Journal:IsCastable()
     local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
     if not usable then
