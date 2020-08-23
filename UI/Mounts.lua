@@ -589,6 +589,10 @@ function LiteMountMountsPanelMixin:UpdateFlagPaging()
     local allFlags = LM.Options:GetAllFlags()
 
     self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
+
+    -- If you change profiles the new one might have fewer pages
+    self.currentFlagPage = Clamp(self.currentFlagPage, 1, self.maxFlagPages)
+
     self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
     self.NextPageButton:SetEnabled(self.currentFlagPage ~= self.maxFlagPages)
 
@@ -623,12 +627,12 @@ function LiteMountMountsPanelMixin:default()
 end
 
 function LiteMountMountsPanelMixin:NextFlagPage()
-    self.currentFlagPage = Clamp(self.currentFlagPage + 1, 1, self.maxFlagPages)
+    self.currentFlagPage = self.currentFlagPage + 1
     LiteMountMountsPanel:Update()
 end
 
 function LiteMountMountsPanelMixin:PrevFlagPage()
-    self.currentFlagPage = Clamp(self.currentFlagPage - 1, 1, self.maxFlagPages)
+    self.currentFlagPage = self.currentFlagPage - 1
     LiteMountMountsPanel:Update()
 end
 
