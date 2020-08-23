@@ -372,14 +372,6 @@ function LM_Options:IsActiveFlag(f)
     return self:IsPrimaryFlag(f) or self:IsCustomFlag(f)
 end
 
--- Empty strings and primary flag names are not valid
-function LM_Options:IsValidNewFlagName(n)
-    if n == "" or self:IsPrimaryFlag(n) then
-        return false
-    end
-    return true
-end
-
 function LM_Options:CreateFlag(f)
     if self.db.profile.customFlags[f] then return end
     if self:IsPrimaryFlag(f) then return end
