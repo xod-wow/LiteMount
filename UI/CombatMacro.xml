@@ -55,12 +55,22 @@
 
         <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
             <Size x="96" y="22" />
+            <Scripts>
+                <OnClick>
+                    self:GetParent().EditBox:SetOption("")
+                </OnClick>
+            </Scripts>
             <Anchors>
                 <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="-3" />
             </Anchors>
         </Button>
         <Button parentKey="DefaultButton" inherits="UIPanelButtonTemplate" text="DEFAULT">
             <Size x="96" y="22" />
+            <Scripts>
+                <OnClick>
+                    LiteMountOptionsControl_Default(self:GetParent().EditBox)
+                </OnClick>
+            </Scripts>
             <Anchors>
                 <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="3" />
             </Anchors>

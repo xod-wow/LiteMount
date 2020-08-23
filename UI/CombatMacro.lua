@@ -64,11 +64,5 @@ function LiteMountCombatMacroPanelMixin:OnLoad()
     LiteMountOptionsPanel_RegisterControl(self.EditBox)
     LiteMountOptionsPanel_RegisterControl(self.EnableButton)
 
-    self.DeleteButton:SetScript("OnClick",
-            function () self.EditBox:SetOption("") end)
-
-    self.DefaultButton:SetScript("OnClick",
-            function () LiteMountOptionsControl_Default(self.EditBox) end)
-
     LiteMountOptionsPanel_OnLoad(self)
 end
