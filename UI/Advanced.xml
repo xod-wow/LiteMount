@@ -58,10 +58,10 @@
 
     <Frames>
         <Frame parentKey="EditBoxContainer">
-            <Size x="400" />
+            <Size x="424" />
             <Anchors>
                 <Anchor point="TOP" y="-160" />
-                <Anchor point="LEFT" x="24" />
+                <Anchor point="LEFT" x="16" />
                 <Anchor point="BOTTOM" y="48" />
             </Anchors>
 
@@ -126,9 +126,9 @@
 
         <Frame parentKey="FlagContainer">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" relativePoint="TOPRIGHT" x="16" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" relativePoint="TOPRIGHT" x="8" />
                 <Anchor point="BOTTOM" relativeKey="$parent.EditBoxContainer" />
-                <Anchor point="RIGHT" x="-24" />
+                <Anchor point="RIGHT" x="-16" />
             </Anchors>
 
             <Backdrop edgefile="Interface\Tooltips\UI-Tooltip-Border" bgfile="Interface\Tooltips\UI-Tooltip-Background" tile="true">
@@ -191,7 +191,7 @@
         <Layer level="ARTWORK">
             <FontString parentKey="FlagsLabel" inherits="GameFontNormalLarge" text="LM_FLAGS">
                 <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.FlagContainer" x="8" y="8" />
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.FlagContainer" x="30" y="8" />
                 </Anchors>
             </FontString>
         </Layer>
