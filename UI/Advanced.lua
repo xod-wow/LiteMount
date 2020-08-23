@@ -26,10 +26,8 @@ StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             local text = self.editBox:GetText()
-            if LM_Options:IsValidNewFlagName(text) then
-                LM_Options:CreateFlag(text)
-                LiteMountOptionsAdvanced.FlagScroll.isDirty = true
-            end
+            LM_Options:CreateFlag(text)
+            LiteMountAdvancedPanel.FlagScroll.isDirty = true
         end,
     EditBoxOnEnterPressed = function (self)
             if self:GetParent().button1:IsEnabled() then
@@ -41,7 +39,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_FLAG"] = {
         end,
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
-            if LM_Options:IsValidNewFlagName(text) then
+            if text ~= "" and not LM_Options:IsActiveFlag(text) then
                 self:GetParent().button1:Enable()
             else
                 self:GetParent().button1:Disable()
@@ -62,14 +60,18 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_FLAG"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             LM_Options:DeleteFlag(self.data)
-            LiteMountOptionsAdvanced.FlagScroll.isDirty = true
+            LiteMountAdvancedPanel.FlagScroll.isDirty = true
         end,
     OnShow = function (self)
             self.text:SetText(format("LiteMount : %s : %s", L.LM_DELETE_FLAG, self.data))
     end
 }
 
-function LiteMountOptionsFlagButton_OnEnter(self)
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountFlagButtonMixin = {}
+
+function LiteMountFlagButtonMixin:OnEnter()
     if self.flag then
         GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
         if rawget(L, self.flag) == nil then
@@ -81,25 +83,39 @@ function LiteMountOptionsFlagButton_OnEnter(self)
     end
 end
 
-function LiteMountOptionsFlagButton_OnLeave(self)
+function LiteMountFlagButtonMixin:OnLeave()
     if GameTooltip:GetOwner() == self then
         GameTooltip:Hide()
     end
 end
 
-local function UpdateFlagScroll(self)
+function LiteMountFlagButtonMixin:OnLoad()
+    self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
+    self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
+end
+
+function LiteMountFlagButtonMixin:OnShow()
+    self:SetWidth(self:GetParent():GetWidth())
+end
+
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountFlagScrollMixin = {}
+
+function LiteMountFlagScrollMixin:Update()
+    if not self.buttons then return end
+
     local offset = HybridScrollFrame_GetOffset(self)
-    local buttons = self.buttons
 
     local allFlags = LM_Options:GetAllFlags()
 
-    local totalHeight = (#allFlags + 1) * buttons[1]:GetHeight()
-    local displayedHeight = #buttons * buttons[1]:GetHeight()
+    local totalHeight = (#allFlags + 1) * self.buttons[1]:GetHeight()
+    local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
 
     local showAddButton, index, button
 
-    for i = 1, #buttons do
-        button = buttons[i]
+    for i = 1, #self.buttons do
+        button = self.buttons[i]
         index = offset + i
         if index <= #allFlags then
             local flagText = allFlags[index]
@@ -136,7 +152,28 @@ local function UpdateFlagScroll(self)
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
-function LiteMountOptionsAdvancedRevert_OnShow(self)
+function LiteMountFlagScrollMixin:GetOption()
+    return CopyTable(LM_Options:GetRawFlags())
+end
+
+function LiteMountFlagScrollMixin:SetOption(v)
+    LM_Options:SetRawFlags(v)
+end
+
+function LiteMountFlagScrollMixin:OnLoad()
+    local track = _G[self.scrollBar:GetName().."Track"]
+    track:Hide()
+    self.scrollBar.doNotHide = true
+
+    self.update = self.Update
+    self.SetControl = self.Update
+end
+
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountAdvancedRevertButtonMixin = {}
+
+function LiteMountAdvancedRevertButtonMixin:OnShow()
     local parent = self:GetParent()
     local editBox = parent.EditScroll.EditBox
     editBox:SetAlpha(0.5)
@@ -145,7 +182,7 @@ function LiteMountOptionsAdvancedRevert_OnShow(self)
     self:SetText(UNLOCK)
 end
 
-function LiteMountOptionsAdvancedRevert_OnClick(self)
+function LiteMountAdvancedRevertButtonMixin:OnClick()
     local parent = self:GetParent()
     local editBox = parent.EditScroll.EditBox
     if self:GetText() == UNLOCK then
@@ -159,9 +196,11 @@ function LiteMountOptionsAdvancedRevert_OnClick(self)
     end
 end
 
+--[[--------------------------------------------------------------------------]]--
+
 local function BindingDropDown_Initialize(dropDown, level)
     local info = UIDropDownMenu_CreateInfo()
-    local editBox = LiteMountOptionsAdvanced.EditScroll.EditBox
+    local editBox = LiteMountAdvancedPanel.EditScroll.EditBox
     if level == 1 then
         for i = 1,4 do
             info.text = BindingText(i)
@@ -177,38 +216,67 @@ local function BindingDropDown_Initialize(dropDown, level)
     end
 end
 
-function LiteMountOptionsAdvanced_OnSizeChanged(self, x, y)
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountAdvancedEditScrollMixin = {}
+
+function LiteMountAdvancedEditScrollMixin:OnLoad()
+    self.scrollBarHideable = 1
+    self.ScrollBar:Hide()
+end
+
+function LiteMountAdvancedEditScrollMixin:OnShow()
+    self.EditBox:SetWidth(self:GetWidth() - 18)
+end
+
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountAdvancedEditBoxMixin = {}
+
+function LiteMountAdvancedEditBoxMixin:SetOption(v, i)
+    LM_Options:SetButtonAction(i, v)
+end
+
+function LiteMountAdvancedEditBoxMixin:GetOption(i)
+    return LM_Options:GetButtonAction(i)
+end
+
+function LiteMountAdvancedEditBoxMixin:GetOptionDefault()
+    return LM_Options:GetButtonAction('*')
+end
+
+function LiteMountAdvancedEditBoxMixin:OnLoad()
+    self.ntabs = 4
+end
+
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountAdvancedPanelMixin = {}
+
+function LiteMountAdvancedPanelMixin:OnSizeChanged(x, y)
     HybridScrollFrame_CreateButtons(
             self.FlagScroll,
-            "LiteMountOptionsFlagButtonTemplate",
+            "LiteMountFlagButtonTemplate",
             0, 0, "TOPLEFT", "TOPLEFT",
             0, 0, "TOP", "BOTTOM"
         )
-    self.FlagScroll:update()
+    self.FlagScroll:Update()
 end
 
-function LiteMountOptionsAdvanced_OnLoad(self)
+function LiteMountAdvancedPanelMixin:OnLoad()
     self.name = ADVANCED_OPTIONS
 
-    self.EditScroll.EditBox.ntabs = 4
-    self.EditScroll.EditBox.SetOption =
-        function (self, v, i) LM_Options:SetButtonAction(i, v) end
-    self.EditScroll.EditBox.GetOption =
-        function (self, i) return LM_Options:GetButtonAction(i) end
-    self.EditScroll.EditBox.GetOptionDefault =
-        function (self, i) return LM_Options:GetButtonAction('*') end
+    self.FlagContainer:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
+    self.FlagContainer:SetBackdropColor(0, 0, 0, 0.5)
+
+    self.EditBoxContainer:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
+    self.EditBoxContainer:SetBackdropColor(0, 0, 0, 0.5)
+
     LiteMountOptionsPanel_RegisterControl(self.EditScroll.EditBox, self)
+    LiteMountOptionsPanel_RegisterControl(self.FlagScroll)
 
     UIDropDownMenu_Initialize(self.BindingDropDown, BindingDropDown_Initialize)
     UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
-
-    self.FlagScroll.update = UpdateFlagScroll
-    self.FlagScroll.GetOption =
-        function (self) return CopyTable(LM_Options:GetRawFlags()) end
-    self.FlagScroll.SetOption =
-        function (self, v) LM_Options:SetRawFlags(v) end
-    self.FlagScroll.SetControl = UpdateFlagScroll
-    LiteMountOptionsPanel_RegisterControl(self.FlagScroll, self)
 
     LiteMountOptionsPanel_OnLoad(self)
 end

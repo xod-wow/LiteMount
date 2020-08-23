@@ -324,7 +324,7 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="PriorityLabel" inherits="GameFontWhiteTiny" justifyY="CENTER" text="LM_PRIORITY">
+            <FontString parentKey="PriorityLabel" inherits="GameFontWhiteTiny" justifyH="CENTER" text="LM_PRIORITY">
                 <Anchors>
                     <Anchor point="BOTTOM" relativePoint="TOP" relativeKey="$parent.AllPriority" y="8" />
                 </Anchors>

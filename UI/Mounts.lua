@@ -531,9 +531,8 @@ function LiteMountMountScrollMixin:OnSizeChanged()
     self.stepSize = self.buttonHeight
 end
 
--- This is lower case because that's what HybridScrollFrameTemplate wants
-
 function LiteMountMountScrollMixin:Update()
+    if not self.buttons then return end
 
     -- Because the Icon is a SecureActionButton and a child of the scroll
     -- buttons, we can't show or hide them in combat. Rather than throw a
@@ -543,7 +542,6 @@ function LiteMountMountScrollMixin:Update()
 
     local offset = HybridScrollFrame_GetOffset(self)
 
-    if not self.buttons then return end
 
     local mounts = LM_UIFilter.GetFilteredMountList()
 

@@ -7,7 +7,7 @@
 <Frame name="LiteMountOptionsPanelTemplate" hidden="true" virtual="true">
     <Layers>
         <Layer level="ARTWORK">
-            <FontString name="$parentTitle" inherits="GameFontNormalLarge" parentKey="Title">
+            <FontString inherits="GameFontNormalLarge" parentKey="Title">
                 <Anchors>
                     <Anchor point="TOPLEFT" x="16" y="-16" />
                 </Anchors>

@@ -131,7 +131,7 @@ function LiteMountOptionsPanel_OnShow(self)
     LiteMountOptions.CurrentOptionsPanel = self
 
     if not self.dontShowProfile then
-        LiteMountOptionsProfileDropDown_Attach(self)
+        LiteMountProfileButton:Attach(self)
     end
 end
 

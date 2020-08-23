@@ -4,8 +4,15 @@
 
 <Script file="Advanced.lua" />
 
-<Button name="LiteMountOptionsFlagButtonTemplate" virtual="true">
+<Button name="LiteMountFlagButtonTemplate" virtual="true" mixin="LiteMountFlagButtonMixin">
     <Size y="22" />
+
+    <Scripts>
+        <OnLoad method="OnLoad" />
+        <OnShow method="OnShow" />
+        <OnEnter method="OnEnter" />
+        <OnLeave method="OnLeave" />
+    </Scripts>
 
     <Layers>
         <Layer level="ARTWORK">
@@ -33,22 +40,9 @@
             </Scripts>
         </Button>
     </Frames>
-
-    <Scripts>
-        <OnLoad>
-            self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
-            self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
-        </OnLoad>
-        <OnShow>
-            self:SetWidth(self:GetParent():GetWidth())
-        </OnShow>
-        <OnEnter function="LiteMountOptionsFlagButton_OnEnter" />
-        <OnLeave function="LiteMountOptionsFlagButton_OnLeave" />
-    </Scripts>
-
 </Button>
 
-<Frame name="LiteMountOptionsAdvanced" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountAdvancedPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountAdvancedPanelMixin">
 
     <Layers>
         <Layer level="ARTWORK">
@@ -78,16 +72,9 @@
                     <AbsInset left="5" right="5" top="5" bottom="5" />
                 </BackgroundInsets>
             </Backdrop>
-
-            <Scripts>
-                <OnLoad>
-                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
-                    self:SetBackdropColor(0, 0, 0, 0.5)
-                </OnLoad>
-            </Scripts>
         </Frame>
 
-        <ScrollFrame parentKey="EditScroll" inherits="UIPanelScrollFrameTemplate">
+        <ScrollFrame parentKey="EditScroll" inherits="UIPanelScrollFrameTemplate" mixin="LiteMountAdvancedEditScrollMixin">
 
             <Anchors>
                 <Anchor point="TOPLEFT" x="8" y="-8" relativeKey="$parent.EditBoxContainer" />
@@ -95,22 +82,18 @@
             </Anchors>
 
             <Scripts>
-                <OnLoad>
-                    self.scrollBarHideable = 1
-                    self.ScrollBar:Hide()
-                </OnLoad>
-                <OnShow>
-                    self.EditBox:SetWidth(self:GetWidth() - 18)
-                </OnShow>
+                <OnLoad method="OnLoad" />
+                <OnShow method="OnShow" />
             </Scripts>
 
             <ScrollChild>
-                <EditBox parentKey="EditBox" multiLine="true" autoFocus="false">
+                <EditBox parentKey="EditBox" multiLine="true" autoFocus="false" mixin="LiteMountAdvancedEditBoxMixin">
                     <Size x="1" y="1" />
                     <Anchors>
                         <Anchor point="TOPLEFT" />
                     </Anchors>
                     <Scripts>
+                        <OnLoad method="OnLoad" />
                         <OnTextChanged function="LiteMountOptionsControl_OnTextChanged" />
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnUpdate function="InputScrollFrame_OnUpdate" />
@@ -121,14 +104,14 @@
             </ScrollChild>
         </ScrollFrame>
 
-        <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="UNLOCK">
+        <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="UNLOCK" mixin="LiteMountAdvancedRevertButtonMixin">
             <Size x="96" y="22" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" x="24" y="16" />
             </Anchors>
             <Scripts>
-                <OnShow function="LiteMountOptionsAdvancedRevert_OnShow" />
-                <OnClick function="LiteMountOptionsAdvancedRevert_OnClick" />
+                <OnShow method="OnShow" />
+                <OnClick method="OnClick" />
             </Scripts>
         </Button>
 
@@ -166,26 +149,15 @@
                     <AbsInset left="5" right="5" top="5" bottom="5" />
                 </BackgroundInsets>
             </Backdrop>
-
-            <Scripts>
-                <OnLoad>
-                    self:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
-                    self:SetBackdropColor(0, 0, 0, 0.5)
-                </OnLoad>
-            </Scripts>
         </Frame>
 
-        <ScrollFrame parentKey="FlagScroll" inherits="MinimalHybridScrollFrameTemplate">
+        <ScrollFrame parentKey="FlagScroll" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountFlagScrollMixin">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.FlagContainer" x="8" y="-8" />
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.FlagContainer" x="-28" y="8" />
             </Anchors>
             <Scripts>
-                <OnLoad>
-                    local track = _G[self.scrollBar:GetName().."Track"]
-                    track:Hide()
-                    self.scrollBar.doNotHide = true
-                </OnLoad>
+                <OnLoad method="OnLoad" />
             </Scripts>
             <Frames>
                 <Button parentKey="AddFlagButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
@@ -237,8 +209,8 @@
     </Layers>
 
     <Scripts>
-        <OnLoad function="LiteMountOptionsAdvanced_OnLoad" />
-        <OnSizeChanged function="LiteMountOptionsAdvanced_OnSizeChanged" />
+        <OnLoad method="OnLoad" />
+        <OnSizeChanged method="OnSizeChanged" />
     </Scripts>
 </Frame>
 

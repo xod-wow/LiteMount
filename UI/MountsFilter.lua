@@ -10,7 +10,7 @@
 
 local L = LM_Localize
 
-_G.LM_UIFilter = {
+LM_UIFilter = {
         filteredMountList = { },
         searchText = nil,
         flagFilterList =  { },
@@ -284,13 +284,7 @@ function LM_UIFilter.IsFilteredMount(m)
     end
 
     if filtertext == "=" then
-        local hasAura
-        if _G.AuraUtil then
-            hasAura = AuraUtil.FindAuraByName(m.name, "player")
-        else
-            hasAura = UnitAura("player", m.name)
-        end
-
+        local hasAura = AuraUtil.FindAuraByName(m.name, "player")
         return hasAura == nil
     end
 

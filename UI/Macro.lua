@@ -23,7 +23,7 @@ function LiteMountMacroEditBoxMixin:GetOptionDefault()
     return ""
 end
 
-function LiteMountMacroEditBoxMixin:SetOption(userInput)
+function LiteMountMacroEditBoxMixin:SetOption(v)
     LM_Options:SetUnavailableMacro(v)
 end
 
@@ -39,7 +39,6 @@ function LiteMountMacroPanelMixin:OnLoad()
 
     LiteMountOptionsPanel_RegisterControl(self.EditBox)
 
-    self.EditBox:SetScript("OnTextChanged", OnTextChanged)
     self.DeleteButton:SetScript("OnClick",
             function () self.EditBox:SetOption("") end)
     self.RevertButton:SetScript("OnClick",

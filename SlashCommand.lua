@@ -148,7 +148,7 @@ _G.LiteMount_SlashCommandFunc = function (argstr)
             LM_Options:SetDebug(true)
         else
             LM_Print(L.LM_DEBUGGING_DISABLED)
-            LM_Options:SetDebug(False)
+            LM_Options:SetDebug(false)
         end
         return true
     elseif cmd == "uidebug" then

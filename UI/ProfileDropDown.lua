@@ -78,7 +78,7 @@ StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
 
 local function ClickSetProfile(self, arg1, arg2, checked)
     LM_Options.db:SetProfile(self.value)
-    UIDropDownMenu_RefreshAll(LiteMountOptionsProfileDropDown, true)
+    UIDropDownMenu_RefreshAll(LiteMountProfileButton.DropDown, true)
 end
 
 local function ClickNewProfile(self, arg1, arg2, check)
@@ -97,7 +97,7 @@ local function ClickResetProfile(self)
     StaticPopup_Show("LM_OPTIONS_RESET_PROFILE", arg1, nil, arg1)
 end
 
-function LiteMountOptionsProfileDropDown_Initialize(self, level)
+local function DropDown_Initialize(self, level)
     local info
 
     if level == nil then return end
@@ -115,11 +115,7 @@ function LiteMountOptionsProfileDropDown_Initialize(self, level)
         info.notCheckable = 1
         UIDropDownMenu_AddButton(info, level)
 
-        if _G.C_Map then
-            UIDropDownMenu_AddSeparator(level)
-        else
-            UIDropDownMenu_AddSeparator(info, level)
-        end
+        UIDropDownMenu_AddSeparator(level)
 
         for _,v in ipairs(dbProfiles) do
             info = UIDropDownMenu_CreateInfo()
@@ -138,11 +134,7 @@ function LiteMountOptionsProfileDropDown_Initialize(self, level)
             UIDropDownMenu_AddButton(info, level)
         end
 
-        if _G.C_Map then
-            UIDropDownMenu_AddSeparator(level)
-        else
-            UIDropDownMenu_AddSeparator(info, level)
-        end
+        UIDropDownMenu_AddSeparator(level)
 
         info = UIDropDownMenu_CreateInfo()
         info.text = L.LM_RESET_PROFILE
@@ -195,29 +187,35 @@ function LiteMountOptionsProfileDropDown_Initialize(self, level)
 end
 
 local function UpdateProfileCallback()
-    LiteMountOptionsProfileButton:SetText(LM_Options.db:GetCurrentProfile())
+    LiteMountProfileButton:SetText(LM_Options.db:GetCurrentProfile())
 end
 
-function LiteMountOptionsProfileDropDown_Attach(parent)
-    local self = LiteMountOptionsProfileButton
+
+LiteMountProfileButtonMixin = {}
+
+function LiteMountProfileButtonMixin:OnClick()
+    ToggleDropDownMenu(1, nil, self.DropDown, self, 74, 15)
+end
+
+function LiteMountProfileButtonMixin:Attach(parent)
     self:SetParent(parent)
     self:ClearAllPoints()
     self:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -32, -12)
     self:Show()
 end
 
-function LiteMountOptionsProfileDropDown_OnShow(self)
+function LiteMountProfileButtonMixin:OnShow()
     self:SetText(LM_Options.db:GetCurrentProfile())
     LM_Options.db.RegisterCallback(self, "OnProfileCopied", UpdateProfileCallback)
     LM_Options.db.RegisterCallback(self, "OnProfileChanged", UpdateProfileCallback)
     LM_Options.db.RegisterCallback(self, "OnProfileReset", UpdateProfileCallback)
 end
 
-function LiteMountOptionsProfileDropDown_OnHide(self)
+function LiteMountProfileButtonMixin:OnHide()
     LM_Options.db.UnregisterAllCallbacks(self)
 end
 
-function LiteMountOptionsProfileDropDown_OnLoad(self)
-    UIDropDownMenu_Initialize(self, LiteMountOptionsProfileDropDown_Initialize, "MENU")
+function LiteMountProfileButtonMixin:OnLoad()
+    UIDropDownMenu_Initialize(self.DropDown, DropDown_Initialize, "MENU")
 end
 
