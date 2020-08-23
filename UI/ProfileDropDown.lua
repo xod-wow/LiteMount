@@ -30,16 +30,23 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
             end
         end,
     EditBoxOnEnterPressed = function (self)
-            StaticPopup_OnClick(self:GetParent(), 1)
+            if self:GetParent().button1:IsEnabled() then
+                StaticPopup_OnClick(self:GetParent(), 1)
+            end
         end,
     EditBoxOnEscapePressed = function (self)
             self:GetParent():Hide()
         end,
+    EditBoxOnTextChanged = function (self)
+            local text = self:GetText()
+            if text ~= "" and not LM_Options.db.profiles[text] then
+                self:GetParent().button1:Enable()
+            else
+                self:GetParent().button1:Disable()
+            end
+        end,
     OnShow = function (self)
             self.editBox:SetFocus()
-        end,
-    OnHide = function (self)
-            LiteMountOptions_UpdateMountList()
         end,
 }
 
@@ -66,9 +73,6 @@ StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             LM_Options.db:ResetProfile(self.data)
-        end,
-    OnHide = function (self)
-            LiteMountOptions_UpdateMountList()
         end,
 }
 
