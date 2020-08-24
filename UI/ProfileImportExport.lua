@@ -19,7 +19,7 @@ LiteMountProfileExportMixin = {}
 function LiteMountProfileExportMixin:ExportProfile(profileName)
     profileName = profileName or 'Default'
 
-    self.Title:SetText('LiteMount : Export Profile: ' .. profileName)
+    self.Title:SetText('LiteMount : Export Profile : ' .. profileName)
 
     local text = LM.Options:ExportProfile(profileName)
     self.Scroll.EditBox:SetText(text)
@@ -45,8 +45,23 @@ function LiteMountProfileImportMixin:ImportProfile()
     LM.Options:ImportProfile(profileName, profileData)
 end
 
-function LiteMountProfileImportMixin:OnLoad()
-    self.Title:SetText(L.LM_NEW_PROFILE)
-    self.ProfileNameText:SetText(L.LM_NEW_PROFILE)
+function LiteMountProfileImportMixin:OnShow()
+    self.ProfileName:SetText("")
+    self.ProfileData:SetText("")
 end
 
+function LiteMountProfileImportMixin:OnLoad()
+    self.Title:SetText("LiteMount : " .. L.LM_IMPORT_PROFILE)
+    self.ImportButton:Disable()
+end
+
+function LiteMountProfileImportMixin:UpdateImportButton()
+    local profileName = self.ProfileName:GetText()
+    local profileData = self.ProfileData:GetText()
+
+    if profileName ~= "" and LM.Options:DecodeProfileData(profileData) then
+        self.ImportButton:Enable()
+    else
+        self.ImportButton:Disable()
+    end
+end

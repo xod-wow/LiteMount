@@ -5,6 +5,10 @@
 <Script file="ProfileImportExport.lua" />
 
 <Frame name="LiteMountProfileExport" parent="UIParent" hidden="true" inherits="TooltipBackdropTemplate" mixin="LiteMountProfileExportMixin" frameStrata="DIALOG" toplevel="true">
+    <KeyValues>
+        <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" TYpe="global" />
+        <KeyValue key="backdropColorAlpha" value="0.8" TYpe="number" />
+    </KeyValues>
     <Scripts>
         <OnLoad inherit="append" method="OnLoad" />
         <OnShow inherit="append" method="OnShow" />
@@ -15,18 +19,13 @@
         <Anchor point="TOP" relativeTo="InterfaceOptionsFrame" relativePoint="TOPRIGHT" y="64" />
     </Anchors>
     <Frames>
-        <Button parentKey="CloseButton" inherits="UIPanelCloseButton">
-            <Anchors>
-                <Anchor point="TOPRIGHT" x="-4" y="-4" />
-            </Anchors>
-        </Button>
         <ScrollFrame parentKey="Scroll" inherits="UIPanelScrollFrameTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-48" />
-                <Anchor point="BOTTOMRIGHT" x="-32" y="8" />
+                <Anchor point="BOTTOMRIGHT" x="-32" y="36" />
             </Anchors>
             <ScrollChild>
-                <EditBox parentKey="EditBox" autoFocus="false" multiLine="true">
+                <EditBox parentKey="EditBox" multiLine="true" autoFocus="false">
                     <Anchors>
                         <Anchor point="TOPLEFT" />
                     </Anchors>
@@ -40,6 +39,15 @@
                 </EditBox>
             </ScrollChild>
         </ScrollFrame>
+        <Button parentKey="OkayButton" inherits="UIPanelButtonTemplate" text="OKAY">
+            <Size x="96" y="22" />
+            <Scripts>
+                <OnClick> self:GetParent():Hide() </OnClick>
+            </Scripts>
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT" x="-16" y="8" />
+            </Anchors>
+        </Button>
     </Frames>
     <Layers>
         <Layer level="ARTWORK">
@@ -53,10 +61,15 @@
 </Frame>
 
 <Frame name="LiteMountProfileImport" parent="UIParent" hidden="true" inherits="TooltipBackdropTemplate" mixin="LiteMountProfileImportMixin" frameStrata="DIALOG" toplevel="true">
+    <KeyValues>
+        <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" TYpe="global" />
+        <KeyValue key="backdropColorAlpha" value="0.8" TYpe="number" />
+    </KeyValues>
     <Scripts>
         <OnLoad inherit="append" method="OnLoad" />
+        <OnShow inherit="append" method="OnShow" />
     </Scripts>
-    <Size x="320" y="160" />
+    <Size x="280" y="140" />
     <Anchors>
         <!-- This puts it over where the profile dropdown menu is. -->
         <Anchor point="TOP" relativeTo="InterfaceOptionsFrame" relativePoint="TOPRIGHT" y="64" />
@@ -68,64 +81,57 @@
                     <Anchor point="TOPLEFT" x="16" y="-16" />
                 </Anchors>
             </FontString>
-            <FontString inherits="GameFontNormal" parentKey="ProfileNameText" justfyH="RIGHT">
+            <FontString inherits="GameFontNormal" parentKey="ProfileNameText" justfyH="RIGHT" text="NAME">
                 <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-64" />
+                    <Anchor point="TOPLEFT" x="24" y="-48" />
                 </Anchors>
             </FontString>
         </Layer>
     </Layers>
     <Frames>
-        <Button parentKey="CloseButton" inherits="UIPanelCloseButton">
-            <Anchors>
-                <Anchor point="TOPRIGHT" x="-4" y="-4" />
-            </Anchors>
-        </Button>
-        <Frame parentKey="NameContainer" inherits="TooltipBackdropTemplate" frameStrata="ARTWORK" enableMouse="false">
-            <KeyValues>
-                <KeyValue key="backdropColor" value="GRAY_FONT_COLOR" type="global" />
-                <KeyValue key="backdropColorAlpha" value="0.5" type="number" />
-            </KeyValues>
+        <EditBox parentKey="ProfileName" inherits="InputBoxTemplate" autoFocus="false">
             <Size y="30" />
             <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.ProfileNameText" relativePoint="RIGHT" x="8" />
+                <Anchor point="LEFT" relativeKey="$parent.ProfileNameText" relativePoint="RIGHT" x="12" />
+                <Anchor point="RIGHT" x="-80" />
+            </Anchors>
+            <FontString inherits="ChatFontNormal" />
+            <Scripts>
+                <OnEscapePressed function="EditBox_ClearFocus" />
+                <OnTextChanged> self:GetParent():UpdateImportButton() </OnTextChanged>
+                <OnTabPressed> self:GetParent().ProfileData:SetFocus() </OnTabPressed>
+            </Scripts>
+        </EditBox>
+        <EditBox parentKey="ProfileData" inherits="InputBoxTemplate" autoFocus="false">
+            <Size y="30" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.ProfileName" relativePoint="BOTTOMLEFT" y="-4" />
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
-        </Frame>
-        <Frame parentKey="DataContainer" inherits="TooltipBackdropTemplate" frameStrata="ARTWORK" enableMouse="false">
-            <KeyValues>
-                <KeyValue key="backdropColor" value="GRAY_FONT_COLOR" type="global" />
-                <KeyValue key="backdropColorAlpha" value="0.5" type="number" />
-            </KeyValues>
-            <Size y="30" />
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.NameContainer" relativePoint="BOTTOMLEFT" y="-8" />
-                <Anchor point="RIGHT" relativeKey="$parent.NameContainer" />
-            </Anchors>
-        </Frame>
-        <EditBox parentKey="ProfileName" autoFocus="false">
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.NameContainer" x="8" />
-                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.NameContainer" x="-8" />
-            </Anchors>
             <FontString inherits="ChatFontNormal" />
-        </EditBox>
-        <EditBox parentKey="ProfileData" autoFocus="false">
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.DataContainer" x="8" />
-                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.DataContainer" x="-8" />
-            </Anchors>
-            <FontString inherits="ChatFontNormal" />
-        </EditBox>
-        <Button parentKey="ImportButton" inherits="UIPanelButtonTemplate" text="IMPORT">
             <Scripts>
-                <OnClick>
-                    self:GetParent():ImportProfile()
-                </OnClick>
+                <OnEscapePressed function="EditBox_ClearFocus" />
+                <OnTextChanged> self:GetParent():UpdateImportButton() </OnTextChanged>
+                <OnTabPressed> self:GetParent().ProfileName:SetFocus() </OnTabPressed>
             </Scripts>
-            <Size x="96" y="26" />
+        </EditBox>
+        <Button parentKey="CancelButton" inherits="UIPanelButtonTemplate" text="CANCEL">
+            <Scripts>
+                <OnClick> self:GetParent():Hide() </OnClick>
+            </Scripts>
+            <Size x="96" y="22" />
             <Anchors>
-                <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.DataContainer" y="-4" />
+                <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
+            </Anchors>
+        </Button>
+
+        <Button parentKey="ImportButton" inherits="UIPanelButtonTemplate" text="Import">
+            <Scripts>
+                <OnClick> self:GetParent():ImportProfile() </OnClick>
+            </Scripts>
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.CancelButton" x="-4" />
             </Anchors>
         </Button>
     </Frames>
