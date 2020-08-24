@@ -105,7 +105,7 @@
 </Button>
 
 <Button name="LiteMountMountButtonTemplate" virtual="true" mixin="LiteMountMountButtonMixin">
-    <Size x="180" y="44" />
+    <Size x="180" y="45" />
 
     <Frames>
         <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">

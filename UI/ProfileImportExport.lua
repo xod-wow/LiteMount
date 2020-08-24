@@ -44,3 +44,9 @@ function LiteMountProfileImportMixin:ImportProfile()
     local profileData = self.ProfileData:GetText()
     LM.Options:ImportProfile(profileName, profileData)
 end
+
+function LiteMountProfileImportMixin:OnLoad()
+    self.Title:SetText(L.LM_NEW_PROFILE)
+    self.ProfileNameText:SetText(L.LM_NEW_PROFILE)
+end
+
