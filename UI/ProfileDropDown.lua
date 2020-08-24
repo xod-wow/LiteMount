@@ -99,6 +99,16 @@ local function ClickResetProfile(self)
     StaticPopup_Show("LM_OPTIONS_RESET_PROFILE", arg1, nil, arg1)
 end
 
+local function ClickExportProfile(self, arg1, arg2, check)
+    CloseDropDownMenus()
+    LiteMountProfileExport:ExportProfile(arg1)
+end
+
+local function ClickImportProfile(self, arg1, arg2, check)
+    CloseDropDownMenus()
+    LiteMountProfileExport:Show()
+end
+
 local function DropDown_Initialize(self, level)
     local info
 
@@ -146,16 +156,30 @@ local function DropDown_Initialize(self, level)
 
         info = UIDropDownMenu_CreateInfo()
         info.text = L.LM_NEW_PROFILE
-        info.value = NEW
+        info.value = 'NEW'
         info.notCheckable = 1
         info.hasArrow = 1
         UIDropDownMenu_AddButton(info, level)
 
         info = UIDropDownMenu_CreateInfo()
         info.text = L.LM_DELETE_PROFILE
-        info.value = DELETE
+        info.value = 'DELETE'
         info.notCheckable = 1
         info.hasArrow = 1
+        UIDropDownMenu_AddButton(info, level)
+
+        info = UIDropDownMenu_CreateInfo()
+        info.text = L.LM_EXPORT_PROFILE
+        info.value = 'EXPORT'
+        info.notCheckable = 1
+        info.hasArrow = 1
+        UIDropDownMenu_AddButton(info, level)
+
+        info = UIDropDownMenu_CreateInfo()
+        info.text = L.LM_IMPORT_PROFILE
+        info.value = 'IMPORT'
+        info.notCheckable = 1
+        info.func = ClickImportProfile
         UIDropDownMenu_AddButton(info, level)
 
     elseif level == 2 then
@@ -171,7 +195,7 @@ local function DropDown_Initialize(self, level)
                 info.func = ClickDeleteProfile
                 UIDropDownMenu_AddButton(info, level)
             end
-        elseif UIDROPDOWNMENU_MENU_VALUE == NEW then
+        elseif UIDROPDOWNMENU_MENU_VALUE == 'NEW' then
             info = UIDropDownMenu_CreateInfo()
             info.text = L.LM_CURRENT_SETTINGS
             info.notCheckable = 1
@@ -184,6 +208,15 @@ local function DropDown_Initialize(self, level)
             info.notCheckable = 1
             info.func = ClickNewProfile
             UIDropDownMenu_AddButton(info, level)
+        elseif UIDROPDOWNMENU_MENU_VALUE == 'EXPORT' then
+            for _, p in ipairs(dbProfiles) do
+                info = UIDropDownMenu_CreateInfo()
+                info.text = p
+                info.arg1 = p
+                info.notCheckable = 1
+                info.func = ClickExportProfile
+                UIDropDownMenu_AddButton(info, level)
+            end
         end
     end
 end
