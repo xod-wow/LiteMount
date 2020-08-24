@@ -36,9 +36,6 @@ LiteMountMacroPanelMixin = {}
 function LiteMountMacroPanelMixin:OnLoad()
     self.name = MACRO .. " : " .. UNAVAILABLE
 
-    self.EditBoxContainer:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
-    self.EditBoxContainer:SetBackdropColor(0, 0, 0, 0.5)
-
     LiteMountOptionsPanel_RegisterControl(self.EditBox)
 
     self.DeleteButton:SetScript("OnClick",

@@ -4,11 +4,10 @@
 
 <Script file="Advanced.lua" />
 
-<Button name="LiteMountFlagButtonTemplate" inherits="TooltipBackdropTemplate" virtual="true" mixin="LiteMountFlagButtonMixin">
+<Button name="LiteMountFlagButtonTemplate" virtual="true" mixin="LiteMountFlagButtonMixin">
     <Size y="22" />
 
     <Scripts>
-        <OnLoad method="OnLoad" />
         <OnShow method="OnShow" />
         <OnEnter method="OnEnter" />
         <OnLeave method="OnLeave" />
@@ -59,18 +58,16 @@
     <Frames>
         <Frame parentKey="EditBoxContainer" inherits="TooltipBackdropTemplate">
             <Size x="424" />
+            <KeyValues>
+                <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
+                <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
+                <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
+            </KeyValues>
             <Anchors>
                 <Anchor point="TOP" y="-160" />
                 <Anchor point="LEFT" x="16" />
                 <Anchor point="BOTTOM" y="48" />
             </Anchors>
-
-        <KeyValues>
-            <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
-            <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
-            <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
-        </KeyValues>
-
         </Frame>
 
         <ScrollFrame parentKey="EditScroll" inherits="UIPanelScrollFrameTemplate" mixin="LiteMountAdvancedEditScrollMixin">
