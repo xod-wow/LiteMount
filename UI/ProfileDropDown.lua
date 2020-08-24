@@ -106,7 +106,7 @@ end
 
 local function ClickImportProfile(self, arg1, arg2, check)
     CloseDropDownMenus()
-    LiteMountProfileExport:Show()
+    LiteMountProfileImport:Show()
 end
 
 local function DropDown_Initialize(self, level)
@@ -183,7 +183,7 @@ local function DropDown_Initialize(self, level)
         UIDropDownMenu_AddButton(info, level)
 
     elseif level == 2 then
-        if UIDROPDOWNMENU_MENU_VALUE == DELETE then
+        if UIDROPDOWNMENU_MENU_VALUE == 'DELETE' then
             tDeleteItem(dbProfiles, "Default")
             tDeleteItem(dbProfiles, currentProfile)
 
