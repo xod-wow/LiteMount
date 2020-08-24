@@ -10,6 +10,9 @@
 
 local _, LM = ...
 
+local Serializer = LibStub("AceSerializer-3.0")
+local LibDeflate = LibStub("LibDeflate")
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -595,3 +598,33 @@ function LM.Options:SetUIDebug(v)
     self.db.char.uiDebugEnabled = not not v
     self.db.callbacks:Fire("OnOptionsModified")
 end
+
+--[[----------------------------------------------------------------------------
+    Import/Export Profile
+----------------------------------------------------------------------------]]--
+
+function LM.Options:ExportProfile(profileName)
+    local data = LM.Options.db.profiles[profileName]
+    return LibDeflate:EncodeForPrint(
+            LibDeflate:CompressDeflate(
+             Serializer:Serialize(data) ) )
+end
+
+function LM.Options:ImportProfile(profilename, str)
+    local decoded = LibDeflate:DecodeForPrint(str)
+    if not decoded then return false end
+
+    local deflated = LibDeflate:DecompressDeflate(decoded)
+    if not deflated then return false end
+
+    local isValid, data = Serializer:Deserialize(deflated)
+    if not isValid then return false end
+
+    LoadAddOn("Blizzard_DebugTools")
+    DevTools_Dump(data)
+
+    -- LM.Options.db.profiles[profileName] = data
+
+    LM.Options:OnProfile()
+end
+
