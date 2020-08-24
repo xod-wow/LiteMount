@@ -250,12 +250,11 @@ function LiteMountPreviewMixin:SetMount(m)
 end
 
 function LiteMountPreviewMixin:OnLoad()
-    self.Model:SetRotation(-MODELFRAME_DEFAULT_ROTATION)
+    self.Model:SetRotation(MODELFRAME_DEFAULT_ROTATION)
 end
 
 function LiteMountPreviewMixin:OnShow()
-    local d = GameTooltip:GetWidth()
-    self:SetSize(d, d)
+    self:SetSize(200, 200)
 end
 
 --[[--------------------------------------------------------------------------]]--

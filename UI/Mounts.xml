@@ -164,8 +164,8 @@
         </PlayerModel>
     </Frames>
     <Scripts>
-        <OnLoad method="OnLoad" />
-        <OnShow method="OnShow" />
+        <OnLoad inherit="append" method="OnLoad" />
+        <OnShow inherit="append" method="OnShow" />
     </Scripts>
 </Frame>
 
