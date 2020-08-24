@@ -74,7 +74,6 @@ local defaults = {
         mountPriorities     = { },
         buttonActions       = { ['*'] = DefaultButtonAction },
         copyTargetsMount    = true,
-        enableTwoPress      = false,
         excludeNewMounts    = false,
         priorityWeights     = { 1, 2, 6 },
         randomKeepSeconds   = 0,
@@ -636,21 +635,41 @@ function LM.Options:ExportProfile(profileName)
              Serializer:Serialize(data) ) )
 end
 
-function LM.Options:ImportProfile(profilename, str)
+function LM.Options:DecodeProfileData(str)
     local decoded = LibDeflate:DecodeForPrint(str)
-    if not decoded then return false end
+    if not decoded then return end
 
     local deflated = LibDeflate:DecompressDeflate(decoded)
-    if not deflated then return false end
+    if not deflated then return end
 
     local isValid, data = Serializer:Deserialize(deflated)
-    if not isValid then return false end
+    if not isValid then return end
 
-    LoadAddOn("Blizzard_DebugTools")
-    DevTools_Dump(data)
+    for k in pairs(data) do print(k) end
 
-    -- LM.Options.db.profiles[profileName] = data
+    if not (
+        data.customFlags and
+        data.flagChanges and
+        data.mountPriorities and
+        data.buttonActions
+        ) then
+        return
+    end
 
+    return data
+end
+
+function LM.Options:ImportProfile(profileName, str)
+    local data = self:DecodeProfileData(str)
+    if not data then return false end
+
+    -- This is only safe to do because I know that there aren't any child
+    -- namespaces in the profile.
+    LM.Options.db.profiles[profileName] = data
+
+    -- XXX FIXME XXX what if an old profile is pasted
     LM.Options:OnProfile()
+
+    return true
 end
 
