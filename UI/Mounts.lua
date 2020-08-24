@@ -251,8 +251,6 @@ end
 
 function LiteMountPreviewMixin:OnLoad()
     self.Model:SetRotation(-MODELFRAME_DEFAULT_ROTATION)
-    self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b)
-    self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b)
 end
 
 function LiteMountPreviewMixin:OnShow()
@@ -510,11 +508,6 @@ function LiteMountMountButtonMixin:Update(pageFlags, mount)
     end
 
     self.Priority:Update()
-end
-
-function LiteMountMountButtonMixin:OnLoad()
-    self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
-    self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
 end
 
 --[[--------------------------------------------------------------------------]]--

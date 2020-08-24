@@ -58,9 +58,6 @@ LiteMountCombatMacroPanelMixin = {}
 function LiteMountCombatMacroPanelMixin:OnLoad()
     self.name = MACRO .. " : " .. COMBAT
 
-    self.EditBoxContainer:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
-    self.EditBoxContainer:SetBackdropColor(0, 0, 0, 0.5)
-
     LiteMountOptionsPanel_RegisterControl(self.EditBox)
     LiteMountOptionsPanel_RegisterControl(self.EnableButton)
 
