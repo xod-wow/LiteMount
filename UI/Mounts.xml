@@ -95,12 +95,8 @@
     </Scripts>
 </Button>
 
-<Button name="LiteMountMountButtonTemplate" inherits="BackdropTemplate" virtual="true" mixin="LiteMountMountButtonMixin">
+<Button name="LiteMountMountButtonTemplate" virtual="true" mixin="LiteMountMountButtonMixin">
     <Size x="180" y="44" />
-
-    <Scripts>
-        <OnLoad method="OnLoad" />
-    </Scripts>
 
     <Frames>
         <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">

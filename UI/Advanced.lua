@@ -91,11 +91,6 @@ function LiteMountFlagButtonMixin:OnLeave()
     end
 end
 
-function LiteMountFlagButtonMixin:OnLoad()
-    self:SetBackdropBorderColor(0.3, 0.3, 0.3, 0.3)
-    self:SetBackdropColor(0.3, 0.3, 0.3, 0.3)
-end
-
 function LiteMountFlagButtonMixin:OnShow()
     self:SetWidth(self:GetParent():GetWidth())
 end
@@ -266,12 +261,6 @@ end
 
 function LiteMountAdvancedPanelMixin:OnLoad()
     self.name = ADVANCED_OPTIONS
-
-    self.FlagContainer:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
-    self.FlagContainer:SetBackdropColor(0, 0, 0, 0.5)
-
-    self.EditBoxContainer:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
-    self.EditBoxContainer:SetBackdropColor(0, 0, 0, 0.5)
 
     LiteMountOptionsPanel_RegisterControl(self.EditScroll.EditBox, self)
     LiteMountOptionsPanel_RegisterControl(self.FlagScroll)

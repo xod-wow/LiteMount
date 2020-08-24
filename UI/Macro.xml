@@ -27,6 +27,7 @@
                 <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" type="global"/>
                 <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
             </KeyValues>
+        </Frame>
 
         <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true" mixin="LiteMountMacroEditBoxMixin">
             <Scripts>
