@@ -1,5 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
     <Include file="ProfileDropDown.xml" />
+    <Include file="ProfileImportExport.xml" />
     <Include file="PanelTemplate.xml" />
     <Include file="Base.xml" />
 
