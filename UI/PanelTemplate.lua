@@ -154,6 +154,7 @@ function LiteMountOptionsPanel_OnLoad(self)
     else
         self.name = "LiteMount"
         self.Title:SetText("LiteMount")
+        self.RevertButton:Hide()
     end
 
     self.okay = self.okay or LiteMountOptionsPanel_Okay
