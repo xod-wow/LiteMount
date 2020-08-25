@@ -187,6 +187,9 @@ function LM.Options:VersionUpgrade5()
             p.enableTwoPress = nil
             LM.Debug(string.format('   - finished: total=%d, p0=%d, p1=%d', nTotal, nExcluded, nIncluded))
         end
+        p.uiMountFilterList = nil
+        p.enableTwoPress = nil
+        p.configVersion = 5
     end
 
     for _, p in pairs(self.db.profiles) do p.configVersion = 5 end
