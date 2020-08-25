@@ -168,6 +168,8 @@ local function DropDown_Initialize(self, level)
         info.hasArrow = 1
         UIDropDownMenu_AddButton(info, level)
 
+        UIDropDownMenu_AddSeparator(level)
+
         info = UIDropDownMenu_CreateInfo()
         info.text = L.LM_EXPORT_PROFILE
         info.value = 'EXPORT'
