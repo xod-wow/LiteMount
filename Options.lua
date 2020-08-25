@@ -124,24 +124,14 @@ end
 
 function LM.Options:VersionUpgrade()
 
-    -- From 1 -> 2 moved a bunch of stuff from char to profile that
-    -- can't be migrated.
-
-    if (self.db.global.configVersion or 2) < 2 then
-        self.db.global.enableTwoPress = nil
-    end
-
-    if (self.db.char.configVersion or 2) < 2 then
-        self.db.char.copyTargetsMount = nil
-        self.db.char.uiMountFilterList = nil
-    end
+    -- [[ VERSION 4 ]] --
 
     -- Version 3 moved flag stuff global, and now version 4 is putting them
     -- back into profile. I hope I'm not making the same mistakes all over
     -- again. "Those who cannot remember the past are condemned to repeat it."
 
-    if (self.db.global.configVersion or 4) < 4 then
-        for _,p in pairs(self.db.profiles) do
+    for _,p in pairs(self.db.profiles) do
+        if (p.configVersion or 4) < 4 then
             p.flagChanges = p.flagChanges or {}
             p.customFlags = p.customFlags or {}
             for spellID,changes in pairs(self.db.global.flagChanges or {}) do
@@ -150,16 +140,20 @@ function LM.Options:VersionUpgrade()
             Mixin(p.customFlags, self.db.global.customFlags or {})
             p.configVersion = 4
         end
+    end
+
+    if (self.db.global.configVersion or 4) < 4 then
         self.db.global.customFlags = nil
         self.db.global.flagChanges = nil
     end
 
-    -- Version 5
+    -- [[ VERSION 5 ]] --
+
     -- Changed profile.excludedSpells into profile.mountPriorities
     -- Removed any persistance for the GUI filters
 
-    if (self.db.global.configVersion or 5) < 5 then
-        for _,p in pairs(self.db.profiles) do
+    for _,p in pairs(self.db.profiles) do
+        if (p.configVersion or 5) < 5 then
             p.mountPriorities = p.mountPriorities or {}
             for spellID,isExcluded in pairs(p.excludedSpells or {}) do
                 if isExcluded then
@@ -169,10 +163,10 @@ function LM.Options:VersionUpgrade()
                 end
             end
             p.excludedSpells = nil
-            p.uiMountFilterList = nil
-            p.enableTwoPress = nil
-            p.configVersion = 5
         end
+        p.uiMountFilterList = nil
+        p.enableTwoPress = nil
+        p.configVersion = 5
     end
 
     -- Set current version
