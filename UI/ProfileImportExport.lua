@@ -14,25 +14,35 @@ local _, LM = ...
 
 local L = LM.Localize
 
+local function PositionAtCursor(frame)
+    local x, y = GetCursorPosition()
+    frame:ClearAllPoints()
+    x = x / frame:GetEffectiveScale();
+    y = y / frame:GetEffectiveScale();
+
+    -- Try to position so the bottom right button is under the cursor
+    frame:SetPoint("BOTTOMRIGHT", nil, "BOTTOMLEFT", x+64, y-16)
+    frame:Raise();
+end
+
 LiteMountProfileExportMixin = {}
 
 function LiteMountProfileExportMixin:ExportProfile(profileName)
     profileName = profileName or 'Default'
-
     self.Title:SetText('LiteMount : Export Profile : ' .. profileName)
 
     local text = LM.Options:ExportProfile(profileName)
     self.Scroll.EditBox:SetText(text)
     self.Scroll.EditBox:HighlightText()
-    self:Show()
-end
 
-function LiteMountProfileExportMixin:OnShow()
-    self.Scroll.EditBox:SetWidth(self.Scroll:GetWidth() - 18)
+    self:Show()
+    PositionAtCursor(self)
 end
 
 function LiteMountProfileExportMixin:OnLoad()
-    tinsert(UISpecialFrames, self:GetName())
+    self.OkayButton:SetScript('OnClick', function () self:Hide() end)
+    self.Scroll.EditBox:SetScript('OnEscapePressed', function () self:Hide() end)
+    self.Scroll.EditBox:SetAutoFocus(true)
 end
 
 --[[ Import  ---------------------------------------------------------------]]--
@@ -46,6 +56,7 @@ function LiteMountProfileImportMixin:ImportProfile()
 end
 
 function LiteMountProfileImportMixin:OnShow()
+    PositionAtCursor(self)
     self.ProfileName:SetText("")
     self.ProfileData:SetText("")
 end
@@ -53,6 +64,9 @@ end
 function LiteMountProfileImportMixin:OnLoad()
     self.Title:SetText("LiteMount : " .. L.LM_IMPORT_PROFILE)
     self.ImportButton:Disable()
+    self.ProfileName:SetMaxLetters(24)
+    self.ProfileName.nextEditBox = self.ProfileData
+    self.ProfileData.nextEditBox = self.ProfileName
 end
 
 function LiteMountProfileImportMixin:UpdateImportButton()
