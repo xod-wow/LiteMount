@@ -208,6 +208,7 @@ local InstanceNotFlyable = {
     [2124] = true,          -- Island Expedition Crestfall
     [2275] = true,          -- Lesser Vision Vale of Eternal Twilight
     [2278] = true,          -- Revendreth Scenario
+    [2363] = true,          -- Queen's Winter Conservatory
 }
 
 -- Can't fly if you haven't learned a flying skill. Various expansion
@@ -223,18 +224,6 @@ function LM.Location:CanFly()
     if InstanceNotFlyable[self.instanceID] then
         return false
     end
-
---[[
-    -- Draenor Pathfinder - seems to be gone in SL
-    if self:InInstance(1116) then
-        if not IsSpellKnown(191645) then return false end
-    end
-
-    -- Broken Isles Pathfinder, Part 2 - also seems gone in SL
-    if self:InInstance(1220) then
-        if not IsSpellKnown(233368) then return false end
-    end
-]]
 
     -- Battle for Azeroth Pathfinder, Part 2
     -- Zan'dalar (1642), Kul'tiras (1643) and Nazjatar (1718)
