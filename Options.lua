@@ -599,11 +599,38 @@ end
     Import/Export Profile
 ----------------------------------------------------------------------------]]--
 
+-- You can't safely export (or import) the current profile, because it has all
+-- kinds of metatables and defaults. Unfortunately AceDB does not expose a way
+-- to access a stripped copy, so we have to switch to a temp profile and back
+-- if it is the current profile.
+
 function LM.Options:ExportProfile(profileName)
-    local data = LM.Options.db.profiles[profileName]
-    return LibDeflate:EncodeForPrint(
+    local currentProfileName = self.db:GetCurrentProfile()
+
+    if currentProfileName == profileName then
+        self.db:SetProfile('__EXPORT__')
+    end
+
+    local data
+
+    -- Add an export time into the profile
+
+    self.db.profiles.profileName.__export__ = time()
+
+    data = LibDeflate:EncodeForPrint(
             LibDeflate:CompressDeflate(
-             Serializer:Serialize(data) ) )
+             Serializer:Serialize(
+               LM.Options.db.profiles[profileName]
+             ) ) )
+
+    self.db.profiles.profileName.__export__ = nil
+
+    if currentProfileName == profileName then
+        self.db:SetProfile(currentProfileName)
+        self.db:DeleteProfile('__EXPORT__', true)
+    end
+
+    return data
 end
 
 function LM.Options:DecodeProfileData(str)
@@ -616,30 +643,34 @@ function LM.Options:DecodeProfileData(str)
     local isValid, data = Serializer:Deserialize(deflated)
     if not isValid then return end
 
-    for k in pairs(data) do print(k) end
-
-    if not (
-        data.customFlags and
-        data.flagChanges and
-        data.mountPriorities and
-        data.buttonActions
-        ) then
-        return
-    end
+    if not data.__export__ then return end
+    data.__export__ = nil
 
     return data
 end
 
+
 function LM.Options:ImportProfile(profileName, str)
+
     local data = self:DecodeProfileData(str)
     if not data then return false end
 
-    -- This is only safe to do because I know that there aren't any child
-    -- namespaces in the profile.
-    LM.Options.db.profiles[profileName] = data
+    local currentProfileName = self.db:GetCurrentProfile()
 
-    -- XXX FIXME XXX what if an old profile is pasted
-    LM.Options:OnProfile()
+    -- It's not safe to import the current profile, the same way that it's not
+    -- safe to export it.
+
+    if currentProfileName == profileName then
+        self.db:SetProfile('__IMPORT__')
+    end
+
+    LM.Options.db.profiles[profileName] = data
+    LM.Options:VersionUpgrade()
+
+    if currentProfileName == profileName then
+        self.db:SetProfile(currentProfileName)
+        self.db:DeleteProfile('__IMPORT__', true)
+    end
 
     return true
 end

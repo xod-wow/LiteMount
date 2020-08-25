@@ -53,7 +53,11 @@ LiteMountProfileImportMixin = {}
 function LiteMountProfileImportMixin:ImportProfile()
     local profileName = self.ProfileName:GetText()
     local profileData = self.ProfileData:GetText()
-    LM.Options:ImportProfile(profileName, profileData)
+
+    local ok = LM.Options:ImportProfile(profileName, profileData)
+    if ok then
+        self:Hide()
+    end
 end
 
 function LiteMountProfileImportMixin:OnShow()
