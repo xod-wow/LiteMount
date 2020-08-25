@@ -121,8 +121,11 @@ function LM.Options:FlagIsUsed(f)
     return false
 end
 
--- Note to self. In any profile except the active one, the defaults
--- are not applied and you can't rely on them being there.
+-- Note to self. In any profile except the active one, the defaults are not
+-- applied and you can't rely on them being there. This is super annoying.
+-- Any time you loop over the profiles table one profile has all the defaults
+-- jammed into it and all the other don't. You can't assume the profile has
+-- any valeus in it at all.
 
 function LM.Options:VersionUpgrade()
 
