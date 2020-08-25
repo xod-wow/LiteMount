@@ -96,8 +96,10 @@
 </Button>
 
 <Button name="LiteMountMountButtonTemplate" virtual="true" mixin="LiteMountMountButtonMixin">
+    <Scripts>
+        <OnShow method="OnShow" />
+    </Scripts>
     <Size x="180" y="45" />
-
     <Frames>
         <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">
             <Anchors>
@@ -149,25 +151,6 @@
     </Frames>
 
 </Button>
-
-<Frame name="LiteMountPreview" inherits="TooltipBackdropTemplate" parent="UIParent" hidden="true" frameStrata="TOOLTIP" mixin="LiteMountPreviewMixin">
-    <Size x="250" y="250" />
-    <Anchors>
-        <Anchor point="TOPLEFT" relativeTo="GameTooltip" relativePoint="TOPRIGHT" x="4" />
-    </Anchors>
-    <Frames>
-       <PlayerModel parentKey="Model">
-            <Anchors>
-                <Anchor point="TOPLEFT" x="8" y="-8" />
-                <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
-            </Anchors>
-        </PlayerModel>
-    </Frames>
-    <Scripts>
-        <OnLoad inherit="append" method="OnLoad" />
-        <OnShow inherit="append" method="OnShow" />
-    </Scripts>
-</Frame>
 
 <Frame name="LiteMountMountsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMountsPanelMixin">
 

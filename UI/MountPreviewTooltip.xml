@@ -1,0 +1,26 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011-2020 Mike Battersby -->
+
+<Script file="MountPreviewTooltip.lua" />
+
+<Frame name="LiteMountPreview" inherits="TooltipBackdropTemplate" parent="UIParent" hidden="true" frameStrata="TOOLTIP" mixin="LiteMountPreviewMixin">
+    <Size x="250" y="250" />
+    <Anchors>
+        <Anchor point="TOPLEFT" relativeTo="GameTooltip" relativePoint="TOPRIGHT" x="4" />
+    </Anchors>
+    <Frames>
+       <PlayerModel parentKey="Model">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="8" y="-8" />
+                <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
+            </Anchors>
+        </PlayerModel>
+    </Frames>
+    <Scripts>
+        <OnLoad inherit="append" method="OnLoad" />
+        <OnShow inherit="append" method="OnShow" />
+    </Scripts>
+</Frame>
+
+</Ui>

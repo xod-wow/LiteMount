@@ -232,30 +232,6 @@ function LiteMountMountIconMixin:OnDragStart()
     end
 end
 
---[[--------------------------------------------------------------------------]]--
-
-LiteMountPreviewMixin = {}
-
-function LiteMountPreviewMixin:SetMount(m)
-    if m.modelID then
-        self.Model:SetDisplayInfo(m.modelID)
-        if m.isSelfMount then
-            LiteMountPreview.Model:SetDoBlend(false)
-            LiteMountPreview.Model:SetAnimation(618, -1)
-        end
-        self:Show()
-    else
-        self:Hide()
-    end
-end
-
-function LiteMountPreviewMixin:OnLoad()
-    self.Model:SetRotation(MODELFRAME_DEFAULT_ROTATION)
-end
-
-function LiteMountPreviewMixin:OnShow()
-    self:SetSize(200, 200)
-end
 
 --[[--------------------------------------------------------------------------]]--
 
@@ -274,20 +250,6 @@ LiteMountFilterClearMixin = {}
 function LiteMountFilterClearMixin:OnClick()
     LM.UIFilter.Clear()
     LiteMountMountsPanel:Update()
-end
-
--- Because we get attached inside the blizzard options container, we
--- are size 0x0 on create and even after OnShow, we have to trap
--- OnSizeChanged on the scrollframe to make the buttons correctly.
-local function CreateMoreButtons(self)
-    HybridScrollFrame_CreateButtons(self, "LiteMountMountButtonTemplate",
-                                    0, -1, "TOPLEFT", "TOPLEFT",
-                                    0, -1, "TOP", "BOTTOM")
-
-    -- Note: the buttons are laid out right to left
-    for _,b in ipairs(self.buttons) do
-        b:SetWidth(b:GetParent():GetWidth())
-    end
 end
 
 --[[--------------------------------------------------------------------------]]--
@@ -526,9 +488,22 @@ function LiteMountMountButtonMixin:Update(pageFlags, mount)
     self.Priority:Update()
 end
 
+function LiteMountMountButtonMixin:OnShow()
+    self:SetWidth(self:GetParent():GetWidth())
+end
+
 --[[--------------------------------------------------------------------------]]--
 
 LiteMountMountScrollMixin = {}
+
+-- Because we get attached inside the blizzard options container, we
+-- are size 0x0 on create and even after OnShow, we have to trap
+-- OnSizeChanged on the scrollframe to make the buttons correctly.
+function LiteMountMountScrollMixin:CreateMoreButtons()
+    HybridScrollFrame_CreateButtons(self, "LiteMountMountButtonTemplate",
+                                    0, -1, "TOPLEFT", "TOPLEFT",
+                                    0, -1, "TOP", "BOTTOM")
+end
 
 function LiteMountMountScrollMixin:OnLoad()
     local track = _G[self.scrollBar:GetName().."Track"]
@@ -537,7 +512,7 @@ function LiteMountMountScrollMixin:OnLoad()
 end
 
 function LiteMountMountScrollMixin:OnSizeChanged()
-    CreateMoreButtons(self)
+    self:CreateMoreButtons()
     self:Update()
     self.stepSize = self.buttonHeight
 end
@@ -647,8 +622,9 @@ end
 
 function LiteMountMountsPanelMixin:OnLoad()
 
-    -- Because we're the wrong size at the moment we'll only have 1 button
-    CreateMoreButtons(self.MountScroll)
+    -- Because we're the wrong size at the moment we'll only have 1 button after
+    -- this but that's enough to stop everything crapping out.
+    self.MountScroll:CreateMoreButtons()
 
     self.name = MOUNTS
 
