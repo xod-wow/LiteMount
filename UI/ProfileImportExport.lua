@@ -40,6 +40,7 @@ function LiteMountProfileExportMixin:ExportProfile(profileName)
 end
 
 function LiteMountProfileExportMixin:OnLoad()
+    LiteMountOptionsPanel_AutoLocalize(self)
     self.OkayButton:SetScript('OnClick', function () self:Hide() end)
     self.Scroll.EditBox:SetScript('OnEscapePressed', function () self:Hide() end)
     self.Scroll.EditBox:SetAutoFocus(true)
@@ -62,6 +63,7 @@ function LiteMountProfileImportMixin:OnShow()
 end
 
 function LiteMountProfileImportMixin:OnLoad()
+    LiteMountOptionsPanel_AutoLocalize(self)
     self.Title:SetText("LiteMount : " .. L.LM_IMPORT_PROFILE)
     self.ImportButton:Disable()
     self.ProfileName:SetMaxLetters(24)

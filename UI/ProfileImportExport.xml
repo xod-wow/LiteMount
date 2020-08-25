@@ -12,7 +12,7 @@
     <Scripts>
         <OnLoad inherit="append" method="OnLoad" />
     </Scripts>
-    <Size x="480" y="320" />
+    <Size x="480" y="360" />
     <Anchors>
         <Anchor point="CENTER" />
     </Anchors>
@@ -22,7 +22,7 @@
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
             </KeyValues>
             <Anchors>
-                <Anchor point="TOPLEFT" x="16" y="-48" />
+                <Anchor point="TOPLEFT" x="16" y="-88" />
                 <Anchor point="BOTTOMRIGHT" x="-16" y="48" />
             </Anchors>
         </ScrollFrame>
@@ -40,6 +40,13 @@
                     <Anchor point="TOPLEFT" x="16" y="-16" />
                 </Anchors>
             </FontString>
+            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_EXPORT_PROFILE_EXP">
+                <Anchors>
+                    <Anchor point="TOP" y="-40" />
+                    <Anchor point="LEFT" x="24" />
+                    <Anchor point="RIGHT" x="-24" />
+                </Anchors>
+            </FontString>
         </Layer>
     </Layers>
 </Frame>
@@ -53,7 +60,7 @@
         <OnLoad inherit="append" method="OnLoad" />
         <OnShow inherit="append" method="OnShow" />
     </Scripts>
-    <Size x="280" y="140" />
+    <Size x="280" y="180" />
     <Anchors>
         <Anchor point="CENTER" />
     </Anchors>
@@ -66,7 +73,14 @@
             </FontString>
             <FontString inherits="GameFontNormal" parentKey="ProfileNameText" justfyH="RIGHT" text="NAME">
                 <Anchors>
-                    <Anchor point="TOPLEFT" x="24" y="-48" />
+                    <Anchor point="TOPLEFT" x="24" y="-88" />
+                </Anchors>
+            </FontString>
+            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_IMPORT_PROFILE_EXP">
+                <Anchors>
+                    <Anchor point="TOP" y="-40" />
+                    <Anchor point="LEFT" x="24" />
+                    <Anchor point="RIGHT" x="-24" />
                 </Anchors>
             </FontString>
         </Layer>

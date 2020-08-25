@@ -168,6 +168,7 @@ local function DropDown_Initialize(self, level)
         info.hasArrow = 1
         UIDropDownMenu_AddButton(info, level)
 
+--@debug@
         UIDropDownMenu_AddSeparator(level)
 
         info = UIDropDownMenu_CreateInfo()
@@ -183,6 +184,7 @@ local function DropDown_Initialize(self, level)
         info.notCheckable = 1
         info.func = ClickImportProfile
         UIDropDownMenu_AddButton(info, level)
+--@end-debug@
 
     elseif level == 2 then
         if UIDROPDOWNMENU_MENU_VALUE == 'DELETE' then
