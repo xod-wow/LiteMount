@@ -3,6 +3,10 @@
 <!-- Copyright 2011-2020 Mike Battersby -->
 
 <Frame name="LiteMountOptions" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+    <KeyValues>
+        <KeyValue key="dontShowProfile" value="true" type="boolean" />
+    </KeyValues>
+
     <Layers>
         <Layer level="ARTWORK">
             <FontString parentKey="Tagline" inherits="GameFontHighlight" justifyH="LEFT" text="LM_SETTINGS_TAGLINE">
