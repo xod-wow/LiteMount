@@ -73,8 +73,8 @@ keep the list updated.
 
 ### ActionButton.lua
 
-LM.ActionButton is a SecureActionButton frame actually does the summoning -
-it's not a visible button, just a Frame that is clicked by the
+LM.ActionButton is a SecureActionButton frame which actually does the
+summoning - it's not a visible button, just a Frame that is clicked by the
 keybindings. The magic is all done in a PreClick handler, which (out of
 combat) can modify what the button will do immediately before it does it.
 
