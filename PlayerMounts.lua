@@ -67,12 +67,6 @@ function LM.PlayerMounts:Initialize()
     self:AddSpellMounts()
     self:AddJournalMounts()
 
-    -- We need to trigger this here for the active profile because LM.Options
-    -- was initialized earlier before we had any mounts, meaning it can't do it
-    -- for itself.
-
-    LM.Options:InitializePriorities()
-
     -- Refresh event setup
     self:SetScript("OnEvent",
             function (self, event, ...)
