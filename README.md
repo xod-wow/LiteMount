@@ -166,7 +166,7 @@ E.g.,
   f:RegisterEvent('PLAYER_LOGIN')
 ```
 
-### Bindings.xml / KeyBindingStrings.xml
+### Bindings.xml / KeyBindingStrings.lua
 
 This is some deeply weird voodoo that WoW looks for in an addon to set up
 keybindings.
