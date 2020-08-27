@@ -35,6 +35,8 @@ L.LM_PRIORITY_DESC0     = NEVER
 
 -- enUS / enGB / Default -------------------------------------------------------
 
+-- enUS / enGB / Default -------------------------------------------------------
+
 L.FLOAT                 = "Float"
 L.FLY                   = "Fly"
 L.LM_ADVANCED_EXP       = "These settings allow you to customize the actions run by each of the LiteMount key bindings. Please read the documentation at the URL below before changing anything."
@@ -56,8 +58,10 @@ L.LM_ERR_BAD_CONDITION  = "Bad condition '%s' in action list."
 L.LM_EVERY_D_MINUTES    = "Every %d minutes"
 L.LM_EVERY_D_SECONDS    = "Every %d seconds"
 L.LM_EVERY_TIME         = "Every time"
+L.LM_EXPORT_PROFILE     = "Export Profile"
 L.LM_FLAGS              = "Flags"
 L.LM_HELP_TRANSLATE     = "Help translate LiteMount into your language. Thank you."
+L.LM_IMPORT_PROFILE     = "Import Profile"
 L.LM_MACRO_EXP          = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
 L.LM_NEW_FLAG           = "New Flag"
 L.LM_NEW_PROFILE        = "New Profile"
@@ -190,8 +194,10 @@ L.LM_ERR_BAD_CONDITION  = "Mauvaise condition '%s' dans la liste des actions."
 L.LM_EVERY_D_MINUTES    = "Toutes les %d minutes"
 L.LM_EVERY_D_SECONDS    = "Toutes les %d secondes"
 L.LM_EVERY_TIME         = "À chaque fois"
+L.LM_EXPORT_PROFILE     = "Exporter un profil"
 L.LM_FLAGS              = "Tags"
 L.LM_HELP_TRANSLATE     = "Aidez a traduire LiteMount dans votre langue. Merci."
+L.LM_IMPORT_PROFILE     = "Importer un profil"
 L.LM_MACRO_EXP          = "Cette macro sera exécutée si LiteMount ne trouve pas de monture utilisable. Cela peut arriver si vous êtes en intérieur, ou si vous bougez et n'avez pas de monture instantanée."
 L.LM_NEW_FLAG           = "Nouveau Tag"
 L.LM_NEW_PROFILE        = "Créer un profil"
