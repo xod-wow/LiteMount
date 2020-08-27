@@ -141,8 +141,8 @@ Addon core that initializes everything and creates the 4 action buttons.
 So here's what happens, tying it all together:
 
 1. person hits a LiteMount keybinding
+1. the keybinding triggers a click on the matching LM.ActionButton
 1. if we're not in combat:
-    1. the keybinding triggers a click on the matching LM.ActionButton
     1. the preclick handler on the button runs:
        - evaluates each line in its action list in turn
        - once one returns a mount, sets up its secure attributes
