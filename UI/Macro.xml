@@ -32,6 +32,7 @@
         <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true" mixin="LiteMountMacroEditBoxMixin">
             <Scripts>
                 <OnEscapePressed function="EditBox_ClearFocus" />
+                <OnTextChanged method="OnTextChanged" />
             </Scripts>
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="8" y="-8" />
