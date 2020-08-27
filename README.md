@@ -227,8 +227,10 @@ Each UI panel frame inherits from LiteMountOptionsPanelTemplate, and defines
 a number of controls by calling
 
 ```
-  LiteMountOptionsPanel_RegisterControl(self, control)
+  LiteMountOptionsPanel_RegisterControl(control [, self])
 ```
+
+The second argument defaults to control:GetParent() if not specified.
 
 The controls are UI elements. It doesn't really matter what they are but they
 must implement this interface:
