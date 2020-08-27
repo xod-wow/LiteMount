@@ -31,21 +31,26 @@ The basic object is LM.Mount, which is  subclassed to a bunch of specifics
 for various mounts and mount-like things. The majority of which are
 LM.Journal - mounts from the mount journal.
 
-All mounts must have a
-    .name                   - Mount name
-    .spellID                - Spell that summons this mount
-    .flags                  - Inherent default flags
+All mounts must have:
+```
+  .name                     - Mount name
+  .spellID                  - Spell that summons this mount
+  .flags                    - Inherent default flags
+```
 
 The important methods are
 
+```
   IsCastable()
   GetCurrentFlags()         - Returns the options-modified set
   GetSecureAttributes()     - Returns a table of attributes to set on a
                               SecureActionButton frame to make it activate
                               the mount when clicked.
+```
 
 ### MountList.lua
 
+```
   LM.MountList              - A list of mounts.
     Copy()
     Search(matchFunc, ...)  - calls matchFunc(mount, ...) to test
@@ -53,6 +58,7 @@ The important methods are
     Random(r)               - if r [0,1) is passed it is used as the
     PriorityRandom(r)         random number
     Sort()
+```
 
 ### PlayerMounts.lua
 
@@ -67,16 +73,18 @@ keep the list updated.
 
 ### ActionButton.lua
 
-LM.ActionButton is a SecureActionButton frame actually does the summoning
-- it's not a visible button, just a Frame that is clicked by the
+LM.ActionButton is a SecureActionButton frame actually does the summoning -
+it's not a visible button, just a Frame that is clicked by the
 keybindings. The magic is all done in a PreClick handler, which (out of
 combat) can modify what the button will do immediately before it does it.
 
 Each ActionButton has an LM.ActionList assigned to it with the list of
 actions that are attempted when it is clicked.
 
+```
   LM.ActionButton
     Create(n)               - Buttons are named LM_{n} and
+```
 
 ### ActionList.lua
 
@@ -86,7 +94,9 @@ are actions, various things are tests and various things are arguments.
 
 The only method is
 
+```
   LM.ActionList:Compile(text)
+```
 
 which returns a list of (action, args, conditions) tuples in a format that
 LM.ActionButton knows how to dispatch.
@@ -96,8 +106,10 @@ LM.ActionButton knows how to dispatch.
 Handlers for each of the LiteMount actions and the flow control pseudo-
 actions.
 
+```
   handler = LM.Actions:GetHandler(action)
   mount = handler(args, env)
+```
 
 Handlers return a LM.Mount(-like) object if they were successful, which
 should be applied to an LM.ActionButton's secure attributes.
@@ -107,16 +119,20 @@ should be applied to an LM.ActionButton's secure attributes.
 LM.Conditions is an evaluator for the parsed conditions, and is mostly
 a heap of WoW API calls to do tests.
 
+```
   LM.Conditions
     Eval(connditions, unit)
+```
 
 ### Vars.lua
 
-  The small number of {NAME} variables and constants that are supported
-  in action lists.
+The small number of {NAME} variables and constants that are supported
+in action lists.
 
+```
   newStr = LM.Vars:StrSubConsts(str)
   newStr = LM.Vars:StrSubVars(str)
+```
 
 ### Core.lua
 
@@ -144,9 +160,11 @@ matching name.
 
 E.g.,
 
+```
   f = LM.CreateAutoEventFrame('Frame')
   function f:PLAYER_LOGIN() print('You logged in!') end
   f:RegisterEvent('PLAYER_LOGIN')
+```
 
 ### Bindings.xml / KeyBindingStrings.xml
 
@@ -165,17 +183,20 @@ you didn't have to keep messing with the map GUI to find out where you are.
 
 The table InstanceNotFlyable is really the only interesting part.
 
+```
   LM.Location
     CanFly()
     CantBreath()
     InInstance(instanceID, [instanceID, ...])
     IsFloating()
     MapInPath(mapID, [mapID, ...])
-  
+```
+
 ### Print.lua
 
 Printing and debugging functions.
 
+```
   LM.Print
     Print(msg)
     PrintError(msg)
@@ -183,6 +204,7 @@ Printing and debugging functions.
     WarningAndPrint(msg)
     Debug(msg)
     UIDebug(frame, msg)
+```
 
 ### SlashCommand.lua
 
@@ -204,20 +226,25 @@ the ability to prepend/append script handlers when inheriting.
 Each UI panel frame inherits from LiteMountOptionsPanelTemplate, and defines
 a number of controls by calling
 
+```
   LiteMountOptionsPanel_RegisterControl(self, control)
+```
 
 The controls are UI elements. It doesn't really matter what they are but they
 must implement this interface:
 
+```
   val = control:GetOption()
   val = control:GetDefaultOption()
   control:SetOption(val)
+```
 
 and optionally:
 
+```
   val = control:Getcontrol()
   control:SetControl(val)
-
+```
 The panel template code takes care calling these methods to keep the state
 of the options and the controls in sync, as well as keeping the "undo" state
 and reverting on cancel.
@@ -225,6 +252,7 @@ and reverting on cancel.
 It's not strictly necessary that GetOption() and SetOption() have anything to
 do with what the control shows.  Usually the flow is something like:
 
+```
   OnPanelOpened:
       foreach control
           control.oldValues = control:GetOption()
@@ -246,6 +274,7 @@ do with what the control shows.  Usually the flow is something like:
   OnControlChanged:
       val = control:GetControl()
       control:SetOption(val)
+```
 
 But if you ignore the passed value on SetControl and query it in the UI itself
 then you can just use the GetOption/SetOption for the undo behaviour.
