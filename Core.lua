@@ -37,7 +37,7 @@ LiteMount.LM = LM
 function LiteMount:Initialize()
 
     -- Do this first because LM.Debug doesn't work until it's loaded.
-    LM.Options:Initialize()
+    LM.Options:Load()
 
     local version = GetAddOnMetadata("LiteMount", "Version") or "UNKNOWN"
 
@@ -63,6 +63,7 @@ function LiteMount:Initialize()
         self:SetAttribute("*clickbutton"..i, self.actions[i])
     end
 
+    LM.Options:Initialize()
 end
 
 function LiteMount:RecompileActions()

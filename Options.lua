@@ -201,16 +201,22 @@ function LM.Options:OnProfile()
     self.db.callbacks:Fire("OnOptionsProfile")
 end
 
-function LM.Options:Initialize()
+-- This is split into two because I want to load it early in the
+-- setup process to get access to the debugging settings, but it can't
+-- run OnProfile() until the action buttons are set up as RecompileActions
+-- won't work yet.
+
+function LM.Options:Load()
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
     self:VersionUpgrade()
-    self:PruneDeletedFlags()
-    self:UpdateFlagCache()
+end
+
+function LM.Options:Initialize()
+    self:OnProfile()
     self.db.RegisterCallback(self, "OnProfileChanged", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileCopied", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileReset", "OnProfile")
 end
-
 
 --[[----------------------------------------------------------------------------
     Mount priorities stuff.
