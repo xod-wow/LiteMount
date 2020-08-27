@@ -237,19 +237,19 @@ must implement this interface:
 
 ```
   val = control:GetOption()
-  val = control:GetDefaultOption()
   control:SetOption(val)
 ```
 
 and optionally:
 
 ```
+  val = control:GetDefaultOption()
   val = control:Getcontrol()
   control:SetControl(val)
 ```
-The panel template code takes care calling these methods to keep the state
-of the options and the controls in sync, as well as keeping the "undo" state
-and reverting on cancel.
+The panel template code takes care of calling these methods to keep the
+state of the options and the controls in sync, as well as keeping the "undo"
+state and reverting on cancel.
 
 It's not strictly necessary that GetOption() and SetOption() have anything to
 do with what the control shows.  Usually the flow is something like:
