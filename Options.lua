@@ -634,36 +634,27 @@ end
     Import/Export Profile
 ----------------------------------------------------------------------------]]--
 
--- You can't safely export (or import) the current profile, because it has all
--- kinds of metatables and defaults. Unfortunately AceDB does not expose a way
--- to access a stripped copy, so we have to switch to a temp profile and back
--- if it is the current profile.
-
 function LM.Options:ExportProfile(profileName)
     local currentProfileName = self.db:GetCurrentProfile()
 
-    if currentProfileName == profileName then
-        self.db:SetProfile('__EXPORT__')
-    end
-
-    local data
+    -- remove all the defaults from the DB before export
+    local savedDefaults = self.db.defaults
+    self.db:RegisterDefaults(nil)
 
     -- Add an export time into the profile
 
-    self.db.profiles.profileName.__export__ = time()
+    self.db.profiles[profileName].__export__ = time()
 
-    data = LibDeflate:EncodeForPrint(
-            LibDeflate:CompressDeflate(
-             Serializer:Serialize(
-               LM.Options.db.profiles[profileName]
-             ) ) )
+    local data = LibDeflate:EncodeForPrint(
+                    LibDeflate:CompressDeflate(
+                     Serializer:Serialize(
+                       LM.Options.db.profiles[profileName]
+                     ) ) )
 
-    self.db.profiles.profileName.__export__ = nil
+    self.db.profiles[profileName].__export__ = nil
 
-    if currentProfileName == profileName then
-        self.db:SetProfile(currentProfileName)
-        self.db:DeleteProfile('__EXPORT__', true)
-    end
+    -- put the defaults back
+    self.db:RegisterDefaults(savedDefaults)
 
     return data
 end
@@ -690,22 +681,12 @@ function LM.Options:ImportProfile(profileName, str)
     local data = self:DecodeProfileData(str)
     if not data then return false end
 
-    local currentProfileName = self.db:GetCurrentProfile()
-
-    -- It's not safe to import the current profile, the same way that it's not
-    -- safe to export it.
-
-    if currentProfileName == profileName then
-        self.db:SetProfile('__IMPORT__')
-    end
+    local savedDefaults = self.db.defaults
 
     LM.Options.db.profiles[profileName] = data
     LM.Options:VersionUpgrade()
 
-    if currentProfileName == profileName then
-        self.db:SetProfile(currentProfileName)
-        self.db:DeleteProfile('__IMPORT__', true)
-    end
+    self.db:RegisterDefaults(savedDefaults)
 
     return true
 end
