@@ -98,7 +98,9 @@ local function FlagDiff(allFlags, a, b)
     local diff = { }
 
     for _,flagName in ipairs(allFlags) do
-        if a[flagName] and not b[flagName] then
+        if flagName == "FAVORITES" then
+            -- Do nothing
+        elseif a[flagName] and not b[flagName] then
             diff[flagName] = '-'
         elseif not a[flagName] and b[flagName] then
             diff[flagName] = '+'
