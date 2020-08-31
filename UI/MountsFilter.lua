@@ -222,13 +222,6 @@ function LM.UIFilter.IsFilteredMount(m)
 
     local filters = LM.UIFilter.flagFilterList
 
-    -- Does the mount info indicate it should be hidden. This happens (for
-    -- example) with some mounts that have different horde/alliance versions
-    -- with the same name.
-    if m.isFiltered then
-        return true
-    end
-
     -- Source filters
 
     local source = m.sourceType
@@ -242,6 +235,14 @@ function LM.UIFilter.IsFilteredMount(m)
 
     -- Flag filters
 
+    -- Does the mount info indicate it should be hidden. This happens (for
+    -- example) with some mounts that have different horde/alliance versions
+    -- with the same name.
+
+    if LM.UIFilter.flagFilterList.HIDDEN and m.isFiltered then
+        return true
+    end
+
     if LM.UIFilter.flagFilterList.COLLECTED and m.isCollected then
         return true
     end
@@ -250,7 +251,8 @@ function LM.UIFilter.IsFilteredMount(m)
         return true
     end
 
-    if LM.UIFilter.flagFilterList.UNUSABLE and m.needsFaction and m.needsFaction ~= UnitFactionGroup("player") then
+    -- isUsable is only set for journal mounts so nil is true
+    if LM.UIFilter.flagFilterList.UNUSABLE and m.isUsable == false then
         return true
     end
 

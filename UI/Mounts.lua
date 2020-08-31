@@ -341,6 +341,17 @@ function LiteMountFilterButtonMixin:Initialize(level)
             end
         UIDropDownMenu_AddButton(info, level)
 
+        info.text = L.LM_HIDDEN
+        info.arg1 = "HIDDEN"
+        info.checked = function ()
+                return LM.UIFilter.IsFlagChecked("HIDDEN")
+            end
+        info.func = function (_, _, _, v)
+                LM.UIFilter.SetFlagFilter("HIDDEN", v)
+                LiteMountMountsPanel:Update()
+            end
+        UIDropDownMenu_AddButton(info, level)
+
         info.checked = nil
         info.func = nil
         info.isNotRadio = nil
