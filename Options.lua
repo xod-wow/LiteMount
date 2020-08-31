@@ -124,58 +124,81 @@ end
 -- Note to self. In any profile except the active one, the defaults
 -- are not applied and you can't rely on them being there.
 
-function LM.Options:VersionUpgrade()
-    local savedDefaults = self.db.defaults
-    self.db:RegisterDefaults(nil)
+-- Version 3 moved flag stuff global, and now version 4 is putting them
+-- back into profile. I hope I'm not making the same mistakes all over
+-- again. "Those who cannot remember the past are condemned to repeat it."
+function LM.Options:VersionUpgrade4()
+    if (self.db.global.configVersion or 4) >= 4 then
+        return
+    end
 
-    -- [[ VERSION 4 ]] --
+    LM.Debug('VersionUpgrade: 4')
 
-    -- Version 3 moved flag stuff global, and now version 4 is putting them
-    -- back into profile. I hope I'm not making the same mistakes all over
-    -- again. "Those who cannot remember the past are condemned to repeat it."
-
-    for _,p in pairs(self.db.profiles) do
-        if (p.configVersion or 4) < 4 then
+    if self.db.global.flagChanges then
+        LM.Debug(' - migrating global.flagChanges')
+        for n, p in pairs(self.db.profiles) do
+            LM.Debug('   - into profile: ' .. n)
             p.flagChanges = p.flagChanges or {}
-            p.customFlags = p.customFlags or {}
-            for spellID,changes in pairs(self.db.global.flagChanges or {}) do
+            for spellID,changes in pairs(self.db.global.flagChanges) do
                 p.flagChanges[spellID] = Mixin(p.flagChanges[spellID] or {}, changes)
             end
-            Mixin(p.customFlags, self.db.global.customFlags or {})
-            p.configVersion = 4
         end
     end
 
-    if (self.db.global.configVersion or 4) < 4 then
-        self.db.global.customFlags = nil
-        self.db.global.flagChanges = nil
+    if self.db.global.customFlags then
+        LM.Debug(' - migrating global.customFlags')
+        for n, p in pairs(self.db.profiles) do
+            LM.Debug('   - into profile: ' .. n)
+            p.customFlags = p.customFlags or {}
+            Mixin(p.customFlags, self.db.global.customFlags)
+        end
     end
 
-    -- [[ VERSION 5 ]] --
+    self.db.global.customFlags = nil
+    self.db.global.flagChanges = nil
 
-    -- Changed profile.excludedSpells into profile.mountPriorities
-    -- Removed any persistance for the GUI filters
+    for _, p in pairs(self.db.profiles) do p.configVersion = 4 end
+    self.db.global.configVersion = 4
+end
 
-    for _,p in pairs(self.db.profiles) do
+function LM.Options:VersionUpgrade5()
+    LM.Debug('VersionUpgrade: 5')
+
+    for n, p in pairs(self.db.profiles) do
+        LM.Debug(' - checking profile: ' .. n)
         if (p.configVersion or 5) < 5 then
+            LM.Debug('   - upgrading profile: ' .. n)
             p.mountPriorities = p.mountPriorities or {}
+            local nTotal, nExcluded, nIncluded = 0, 0, 0
             for spellID,isExcluded in pairs(p.excludedSpells or {}) do
+                nTotal = nTotal + 1
                 if isExcluded then
+                    nExcluded = nExcluded + 1
                     p.mountPriorities[spellID] = self.DISABLED_PRIORITY
                 else
+                    nIncluded = nIncluded + 1
                     p.mountPriorities[spellID] = self.DEFAULT_PRIORITY
                 end
             end
             -- p.excludedSpells = nil
+            p.uiMountFilterList = nil
+            p.enableTwoPress = nil
+            LM.Debug(string.format('   - finished: total=%d, p0=%d, p1=%d', nTotal, nExcluded, nIncluded))
         end
-        p.uiMountFilterList = nil
-        p.enableTwoPress = nil
-        p.configVersion = 5
     end
 
-    -- Set current version
+    for _, p in pairs(self.db.profiles) do p.configVersion = 5 end
     self.db.global.configVersion = 5
     self.db.char.configVersion = 5
+end
+
+function LM.Options:VersionUpgrade()
+    local savedDefaults = self.db.defaults
+    self.db:RegisterDefaults(nil)
+
+    self:VersionUpgrade4()
+
+    self:VersionUpgrade5()
 
     self.db:RegisterDefaults(savedDefaults)
 end
