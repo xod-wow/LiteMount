@@ -42,7 +42,7 @@ function LM.Tarecgosa:InProgress()
     end
 end
 
-function LM.Tarecgosa:GetSecureAttributes()
+function LM.Tarecgosa:GetMountAttributes()
     if self:InProgress() then
         return { ['type'] = "macro", ['macrotext'] = "" }
     end
@@ -113,7 +113,7 @@ function LM.Tarecgosa2:Macro()
     return text
 end
 
-function LM.Tarecgosa2:GetSecureAttributes()
+function LM.Tarecgosa2:GetMountAttributes()
 
     local tryAgain = {
         ['type'] = 'macro',

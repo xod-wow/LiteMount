@@ -19,12 +19,13 @@ LM.PlayerMounts = CreateFrame("Frame", nil, UIParent)
 -- Type, type class create args
 local MOUNT_SPELLS = {
     { "RunningWild", LM.SPELL.RUNNING_WILD },
-    { "FlightForm", LM.SPELL.FLIGHT_FORM },
     { "GhostWolf", LM.SPELL.GHOST_WOLF },
-    { "TravelForm", LM.SPELL.TRAVEL_FORM },
+    { "TravelForm", LM.SPELL.TRAVEL_FORM, 'RUN', 'FLY', 'SWIM' },
+    { "TravelForm", LM.SPELL.FLIGHT_FORM, 'FLY' },
+    { "TravelForm", LM.SPELL.STAG_FORM, 'RUN' },
     { "Nagrand", LM.SPELL.FROSTWOLF_WAR_WOLF },
     { "Nagrand", LM.SPELL.TELAARI_TALBUK },
-    { "Spell", LM.SPELL.STAG_FORM, 'RUN' },
+    { "Soulshape", LM.SPELL.SOULSHAPE, 'WALK' },
     { "ItemSummoned",
         LM.ITEM.LOANED_GRYPHON_REINS, LM.SPELL.LOANED_GRYPHON, 'FLY' },
     { "ItemSummoned",
@@ -143,11 +144,7 @@ function LM.PlayerMounts:GetMountFromUnitAura(unitid)
         if aura then buffs[aura] = true else break end
         i = i + 1
     end
-    local function match(m)
-        local spellName = GetSpellInfo(m.spellID)
-        return m.isCollected and buffs[spellName] and m:IsCastable()
-    end
-    return self.mounts:Find(match)
+    return self.mounts:Find(function (m) return buffs[m.name] end)
 end
 
 function LM.PlayerMounts:GetActiveMount()

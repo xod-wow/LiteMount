@@ -43,7 +43,7 @@ The important methods are
 ```
   IsCastable()
   GetCurrentFlags()         - Returns the options-modified set
-  GetSecureAttributes()     - Returns a table of attributes to set on a
+  GetMountAttributes()      - Returns a table of attributes to set on a
                               SecureActionButton frame to make it activate
                               the mount when clicked.
 ```

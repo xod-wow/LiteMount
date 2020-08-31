@@ -22,8 +22,8 @@ local FactionRequirements = {
     [LM.SPELL.TELAARI_TALBUK] = "Alliance",
 }
 
-function LM.Nagrand:Get(spellID)
-    local m = LM.Spell.Get(self, spellID)
+function LM.Nagrand:Get(spellID, ...)
+    local m = LM.Spell.Get(self, spellID, ...)
 
     if m then
         local playerFaction = UnitFactionGroup("player")
@@ -40,7 +40,7 @@ function LM.Nagrand:Refresh()
     LM.Mount.Refresh(self)
 end
 
-function LM.Nagrand:GetSecureAttributes()
+function LM.Nagrand:GetMountAttributes()
     local spellName = GetSpellInfo(LM.SPELL.GARRISON_ABILITY)
     return { ["type"] = "spell", ["spell"] = spellName }
 end

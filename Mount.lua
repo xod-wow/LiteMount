@@ -97,19 +97,30 @@ local function PlayerIsMovingOrFalling()
     return (GetUnitSpeed("player") > 0 or IsFalling())
 end
 
-function LM.Mount:IsCastable()
+function LM.Mount:IsActive(buffTable)
+    return buffTable[self.spellID]
+end
 
+function LM.Mount:IsCastable()
     if PlayerIsMovingOrFalling() then
         local castTime = select(4, GetSpellInfo(self.spellID))
         if castTime > 0 then return false end
     end
-
     return true
 end
 
-function LM.Mount:GetSecureAttributes()
+function LM.Mount:IsCancelable()
+    return true
+end
+
+function LM.Mount:GetMountAttributes()
     local spellName = GetSpellInfo(self.spellID)
     return { ["type"] = "spell", ["spell"] = spellName }
+end
+
+function LM.Mount:GetCancelAttributes()
+    local spellName = GetSpellInfo(self.spellID)
+    return { ["type"] = "cancelaura", ["spell"] = spellName }
 end
 
 function LM.Mount:Dump(prefix)

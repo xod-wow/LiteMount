@@ -23,7 +23,7 @@ LM.ActionButton = { }
 -- use a preclick handler to set it to what we really want to do.
 
 function LM.ActionButton:SetupActionButton(mount)
-    for k,v in pairs(mount:GetSecureAttributes()) do
+    for k,v in pairs(mount:GetMountAttributes()) do
         self:SetAttribute(k, v)
     end
 end

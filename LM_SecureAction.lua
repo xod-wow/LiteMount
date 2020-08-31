@@ -57,6 +57,6 @@ function LM.SecureAction:Click(clickButton)
 end
 
 
-function LM.SecureAction:GetSecureAttributes()
+function LM.SecureAction:GetMountAttributes()
     return self
 end

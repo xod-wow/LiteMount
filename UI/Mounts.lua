@@ -460,7 +460,7 @@ function LiteMountMountButtonMixin:Update(pageFlags, mount)
     self.Name:SetText(mount.name)
 
     if not InCombatLockdown() then
-        for k,v in pairs(mount:GetSecureAttributes()) do
+        for k,v in pairs(mount:GetMountAttributes()) do
             self.Icon:SetAttribute(k, v)
         end
     end

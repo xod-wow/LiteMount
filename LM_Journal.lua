@@ -92,7 +92,6 @@ function LM.Journal:Get(id, isUsable)
     return m
 end
 
-
 function LM.Journal:CurrentFlags()
     local flags = LM.Mount.CurrentFlags(self)
 
@@ -118,16 +117,6 @@ function LM.Journal:Refresh()
     LM.Mount.Refresh(self)
 end
 
---
--- In an ideal world this would be a one-liner:
---
---      C_MountJournal.SetIsFavoriteByID(id, setting)
---
--- but you can only set favorites on displayed journal mounts by index. That
--- means we have to clear all the filters, find the index, favorite, and try
--- to set the filters back the way they were. Yuck.
---
-
 function LM.Journal:IsCastable()
     local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
     if not usable then
@@ -137,6 +126,10 @@ function LM.Journal:IsCastable()
         return false
     end
     return LM.Mount.IsCastable(self)
+end
+
+function LM.Journal:GetCancelAttributes()
+    return { ['type'] = macro, ['macrotext'] = SLASH_DISMOUNT1 }
 end
 
 function LM.Journal:Dump(prefix)
