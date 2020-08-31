@@ -209,9 +209,12 @@ end
 function LM.Options:PruneDeletedFlags()
     for spellID,changes in pairs(self.db.profile.flagChanges) do
         for f in pairs(changes) do
-            if not self:IsActiveFlag(f) then
-                self.db.profile.flagChanges[f] = nil
+            if f == 'FAVORITES' or not self:IsActiveFlag(f) then
+                changes[f] = nil
             end
+        end
+        if next(changes) == nil then
+            self.db.profile.flagChanges[spellID] = nil
         end
     end
 end
