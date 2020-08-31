@@ -29,18 +29,59 @@ function LM.Location:Initialize()
 
     self:UpdateSwimTimes()
 
+    self.startedFalling = 0
+    self.stoppedFalling = 0
+
+    local elapsed = 0
+    self:SetScript('OnUpdate', self.OnUpdate)
+
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
     self:RegisterEvent("ZONE_CHANGED")
     self:RegisterEvent("ZONE_CHANGED_INDOORS")
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     self:RegisterEvent("MOUNT_JOURNAL_USABILITY_CHANGED")
+end
 
-    self.lastJumpTime = 0
-    hooksecurefunc('AscendStop', function ()
-            if not IsMounted() and not IsFlying() then
-                self.lastJumpTime = GetTime()
+-- I hate OnUpdate handlers but there are just no good events for determining
+-- falling and jumping. Keep an eye on it to make sure it's not using up
+-- too much CPU.  Though given WeakAuras, it's hard to see how anyone would
+-- notice.
+
+local onUpdateElapsed = 0
+local IsFalling = IsFalling
+
+function LM.Location:OnUpdate(delta)
+    onUpdateElapsed = onUpdateElapsed + delta
+    if onUpdateElapsed > 0.05 then
+        if IsFalling() then
+            if self.startedFalling < self.stoppedFalling then
+                LM.Debug('started falling')
+                self.startedFalling = GetTime()
             end
-        end)
+        else
+            if self.stoppedFalling <= self.startedFalling then
+                LM.Debug('stopped falling')
+                self.stoppedFalling = GetTime()
+            end
+        end
+        onUpdateElapsed = 0
+    end
+end
+
+function LM.Location:IsFalling()
+    return IsFalling() and
+        self.startedFalling > self.stoppedFalling and
+        GetTime() - self.startedFalling > 1
+end
+
+-- A jump in place takes approximately 0.83 seconds
+
+function LM.Location:HasJumped(seconds)
+    local airTime = self.stoppedFalling - self.startedFalling
+    local timeSinceLanded = GetTime() - self.stoppedFalling
+    if airTime > 0.73 and airTime < 0.93 and timeSinceLanded < seconds then
+        return true
+    end
 end
 
 function LM.Location:UpdateSwimTimes()

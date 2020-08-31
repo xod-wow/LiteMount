@@ -222,7 +222,7 @@ CONDITIONS["faction"] =
 
 CONDITIONS["falling"] =
     function (cond, unit)
-        return IsFalling() and ( GetTime() - LM.Location.lastJumpTime > 1 )
+        return LM.Location:IsFalling()
     end
 
 CONDITIONS["false"] =
@@ -298,9 +298,7 @@ CONDITIONS["instance"] =
 
 CONDITIONS["jump"] =
     function (cond, unit)
-        if GetTime() - LM.Location.lastJumpTime < 2 then
-            return true
-        end
+        return LM.Location:HasJumped(2.0)
     end
 
 CONDITIONS["map"] =
