@@ -96,13 +96,13 @@
                 "deDE - Bullseify, Selthi, staratnight, wiggelator, pas06, Salty",
                 "esMX - ",
                 "esES - TradOrtiz, valdesca",
-                "frFR - Joured, lastdans",
+                "frFR - Joured, lastdans, Khis_wow",
                 "itIT - ",
                 "koKR - yuk6196",
                 "ptBR - Kalx_, felipe_shaman",
                 "ruRU - ",
                 "zhCN - okaydud, wowuicn",
-                "zhTW - BNSSNB, yunrong, lohipp"
+                "zhTW - BNSSNB, yunrong81, lohipp, BNS333"
             }
 
             self.Version:SetText(GetAddOnMetadata("LiteMount", "Version") or "")
