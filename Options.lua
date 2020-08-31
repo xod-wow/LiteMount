@@ -125,6 +125,8 @@ end
 -- are not applied and you can't rely on them being there.
 
 function LM.Options:VersionUpgrade()
+    local savedDefaults = self.db.defaults
+    self.db:RegisterDefaults(nil)
 
     -- [[ VERSION 4 ]] --
 
@@ -164,7 +166,7 @@ function LM.Options:VersionUpgrade()
                     p.mountPriorities[spellID] = self.DEFAULT_PRIORITY
                 end
             end
-            p.excludedSpells = nil
+            -- p.excludedSpells = nil
         end
         p.uiMountFilterList = nil
         p.enableTwoPress = nil
@@ -174,6 +176,8 @@ function LM.Options:VersionUpgrade()
     -- Set current version
     self.db.global.configVersion = 5
     self.db.char.configVersion = 5
+
+    self.db:RegisterDefaults(savedDefaults)
 end
 
 -- We don't delete flags from the profile flagChanges on delete, because
