@@ -85,8 +85,24 @@ function LM.PlayerMounts:AddMount(m)
 end
 
 function LM.PlayerMounts:AddJournalMounts()
+    -- This is horrible but I can't find any other way to get the "unusable" flag
+    local usableMounts = {}
+
+    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_COLLECTED, true)
+    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_NOT_COLLECTED, true)
+    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_UNUSABLE, false)
+    C_MountJournal.SetAllSourceFilters(true)
+    C_MountJournal.SetSearch('')
+
+    for i = 1, C_MountJournal.GetNumDisplayedMounts() do
+        local mountID = select(12, C_MountJournal.GetDisplayedMountInfo(i))
+        usableMounts[mountID] = true
+    end
+
+    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_UNUSABLE, true)
+
     for _, mountID in ipairs(C_MountJournal.GetMountIDs()) do
-        local m = LM.Mount:Get("Journal", mountID)
+        local m = LM.Mount:Get("Journal", mountID, usableMounts[mountID])
         self:AddMount(m)
     end
 end

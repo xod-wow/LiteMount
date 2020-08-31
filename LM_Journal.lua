@@ -34,10 +34,10 @@ LM.Journal.__index = LM.Journal
 --  [2] description,
 --  [3] source,
 --  [4] isSelfMount,
---  [5] mounTypeID,
+--  [5] mountTypeID,
 --  [6] uiModelSceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
-function LM.Journal:Get(id)
+function LM.Journal:Get(id, isUsable)
     local name, spellID, icon, _, _, sourceType, isFavorite, _, faction, isFiltered, isCollected, mountID = C_MountJournal.GetMountInfoByID(id)
     local modelID, _, sourceText, isSelfMount, mountType = C_MountJournal.GetMountInfoExtraByID(mountID)
 
@@ -60,6 +60,7 @@ function LM.Journal:Get(id)
     m.isFavorite    = isFavorite
     m.isFiltered    = isFiltered
     m.isCollected   = isCollected
+    m.isUsable      = isFiltered or isUsable == true
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
     m.flags         = { }
 
@@ -141,6 +142,7 @@ end
 function LM.Journal:Dump(prefix)
     prefix = prefix or ""
     LM.Mount.Dump(self, prefix)
+    LM.Print(prefix .. " isUsable: " .. tostring(self.isUsable))
     LM.Print(prefix .. " mountType: " .. tostring(self.mountType))
     LM.Print(prefix .. " sourceType: " .. tostring(self.sourceType))
 end
