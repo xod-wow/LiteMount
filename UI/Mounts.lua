@@ -512,11 +512,17 @@ function LiteMountMountButtonMixin:Update(pageFlags, mount)
         i = i + 1
     end
 
-    if not mount.isCollected then
+    if mount.isUsable == false then
+        self.Name:SetFontObject("GameFontNormal")
+        self.Icon:GetNormalTexture():SetDesaturated(true)
+        self.Icon:GetNormalTexture():SetVertexColor(0.6, 0.2, 0.2)
+    elseif not mount.isCollected then
         self.Name:SetFontObject("GameFontDisable")
+        self.Icon:GetNormalTexture():SetVertexColor(1, 1, 1)
         self.Icon:GetNormalTexture():SetDesaturated(true)
     else
         self.Name:SetFontObject("GameFontNormal")
+        self.Icon:GetNormalTexture():SetVertexColor(1, 1, 1)
         self.Icon:GetNormalTexture():SetDesaturated(false)
     end
 
