@@ -167,6 +167,9 @@ LM.SlashCommandFunc = function (argstr)
         LM.Developer:Initialize()
         LM.Developer:UpdateUsability()
         return true
+    elseif cmd == "pi" then
+        LiteMountProfileInspect:Show()
+        return true
 --@end-debug@
     elseif cmd == "" then
         return LiteMountOptionsPanel_Open()

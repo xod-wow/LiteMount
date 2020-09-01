@@ -87,3 +87,48 @@ function LiteMountProfileImportMixin:UpdateImportButton()
         self.ImportButton:Disable()
     end
 end
+
+--[[ Inspect ---------------------------------------------------------------]]--
+
+local function pairsByKeys (t, f)
+    local a = {}
+    for n in pairs(t) do table.insert(a, n) end
+    table.sort(a, f)
+    local i = 0      -- iterator variable
+    local iter = function ()   -- iterator function
+        i = i + 1
+        if a[i] == nil then return nil else return a[i], t[a[i]] end
+    end
+    return iter
+end
+
+local function dump(o,indent)
+    indent = indent or 0
+    local pad = string.rep('  ', indent)
+    local pad2 = string.rep('  ', indent+1)
+
+    if type(o) == 'table' then
+        local s = '{\n'
+
+        for k,v in pairsByKeys(o) do
+            if type(k) ~= 'number' then k = '"'..k..'"' end
+            s = s .. pad2 .. '['..k..'] = ' .. dump(v, indent+1) .. ',\n'
+        end
+
+        return s .. pad .. '}\n'
+    else
+        if type(o) == 'string' then
+            return '"' .. tostring(o) .. '"'
+        else
+            return tostring(o)
+        end
+    end
+end
+
+LiteMountProfileInspectMixin = {}
+
+function LiteMountProfileInspectMixin:Apply()
+    local text = self.ProfileData:GetText()
+    local data = LM.Options:DecodeProfileData(text)
+    self.Scroll.EditBox:SetText(dump(data))
+end

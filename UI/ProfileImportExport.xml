@@ -132,4 +132,60 @@
     </Frames>
 </Frame>
 
+<!--@debug@-->
+<Frame name="LiteMountProfileInspect" parent="UIParent" hidden="true" inherits="TooltipBackdropTemplate" mixin="LiteMountProfileInspectMixin" frameStrata="DIALOG" toplevel="true">
+    <KeyValues>
+        <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" TYpe="global" />
+        <KeyValue key="backdropColorAlpha" value="0.8" TYpe="number" />
+    </KeyValues>
+    <Size x="640" y="960" />
+    <Anchors>
+        <Anchor point="CENTER" />
+    </Anchors>
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormalLarge" parentKey="Title" Text="LiteMount : Profile Inspector">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="16" y="-16" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Frames>
+        <Button inherits="UIPanelCloseButton">
+            <Anchors>
+                <Anchor point="TOPRIGHT" x="-4" y="-4" />
+            </Anchors>
+        </Button>
+        <EditBox parentKey="ProfileData" inherits="InputBoxTemplate" autoFocus="false">
+            <Size y="30" />
+            <Anchors>
+                <Anchor point="TOP" relativePoint="BOTTOM" relativeKey="$parent.Title" y="-8" />
+                <Anchor point="LEFT" x="8" y="-8" />
+                <Anchor point="RIGHT" x="-8" />
+            </Anchors>
+            <FontString inherits="GameFontHighlight" />
+            <Scripts>
+                <OnTextChanged> self:GetParent():Apply() </OnTextChanged>
+                <OnEscapePressed> self:GetParent():Hide() </OnEscapePressed>
+            </Scripts>
+        </EditBox>
+        <ScrollFrame parentKey="Scroll" inherits="InputScrollFrameTemplate">
+            <KeyValues>
+                <KeyValue key="hideCharCount" value="true" type="boolean" />
+            </KeyValues>
+            <Scripts>
+                <OnLoad inherit="append">
+                self.EditBox:SetFont("fonts\\2002.ttf", 14)
+                </OnLoad>
+            </Scripts>
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.ProfileData" relativePoint="BOTTOMLEFT" y="-8" />
+                <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
+            </Anchors>
+        </ScrollFrame>
+    </Frames>
+</Frame>
+<!--@end-debug@-->
+
 </Ui>
