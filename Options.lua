@@ -648,7 +648,7 @@ function LM.Options:ExportProfile(profileName)
     local data = LibDeflate:EncodeForPrint(
                     LibDeflate:CompressDeflate(
                      Serializer:Serialize(
-                       LM.Options.db.profiles[profileName]
+                       self.db.profiles[profileName]
                      ) ) )
 
     self.db.profiles[profileName].__export__ = nil
@@ -656,6 +656,7 @@ function LM.Options:ExportProfile(profileName)
     -- put the defaults back
     self.db:RegisterDefaults(savedDefaults)
 
+    -- If something went wrong upstream this could be nil
     return data
 end
 
@@ -678,13 +679,19 @@ end
 
 function LM.Options:ImportProfile(profileName, str)
 
+    -- I really just can't be bothered fighting with AceDB to make it safe to
+    -- import the current profile, given that they don't expose enough
+    -- functionality to do so in an "approved" way.
+
+    if profileName == self.db:GetCurrentProfile() then return false end
+
     local data = self:DecodeProfileData(str)
     if not data then return false end
 
     local savedDefaults = self.db.defaults
 
-    LM.Options.db.profiles[profileName] = data
-    LM.Options:VersionUpgrade()
+    self.db.profiles[profileName] = data
+    self:VersionUpgrade()
 
     self.db:RegisterDefaults(savedDefaults)
 
