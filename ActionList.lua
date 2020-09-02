@@ -116,7 +116,7 @@ function LM.ActionList:Compile(text)
         line = line:gsub('%s*#.*', '')
         if line ~= '' then
             action, args, conditions = self:ParseActionLine(line)
-            tinsert(out, { action = action, args = args, conditions = conditions })
+            tinsert(out, { action = action, line = line, args = args, conditions = conditions })
         end
     end
 

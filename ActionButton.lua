@@ -29,7 +29,7 @@ function LM.ActionButton:Dispatch(action, env)
 
     local handler = LM.Actions:GetFlowControlHandler(action.action)
     if handler then
-        LM.Debug("Dispatching flow control action " .. action.action)
+        LM.Debug("Dispatching flow control action " .. action.line)
         handler(action.args or {}, env, isTrue)
         return
     end
@@ -44,7 +44,7 @@ function LM.ActionButton:Dispatch(action, env)
         return
     end
 
-    LM.Debug("Dispatching action " .. action.action)
+    LM.Debug("Dispatching action " .. action.line)
 
     local act = handler(action.args or {}, env)
     if act then
