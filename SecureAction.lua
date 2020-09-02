@@ -1,6 +1,9 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/LM_SecureAction.lua
+  LiteMount/SecureAction.lua
+
+  A set of secure attributes that know how to put themselves onto a button
+  to perform an action.
 
   Copyright 2011-2020 Mike Battersby
 
@@ -22,6 +25,12 @@ function LM.SecureAction:New(attr)
     return setmetatable(attr, LM.SecureAction)
 end
 
+function LM.SecureAction:SetupActionButton(button)
+    for k,v in pairs(self) do
+        button:SetAttribute(k, v)
+    end
+end
+
 function LM.SecureAction:Macro(macroText, unit)
     return self:New( {
                 ["type"] = "macro",
@@ -34,6 +43,14 @@ function LM.SecureAction:Spell(spellName, unit)
     local attr = {
             ["type"] = "spell",
             ["unit"] = unit or "player",
+            ["spell"] = spellName
+    }
+    return self:New(attr)
+end
+
+function LM.SecureAction:CancelAura(spellName, unit)
+    local attr = {
+            ["type"] = "cancelaura",
             ["spell"] = spellName
     }
     return self:New(attr)
@@ -54,9 +71,4 @@ function LM.SecureAction:Click(clickButton)
             ["clickbutton"] = clickButton
     }
     return self:New(attr)
-end
-
-
-function LM.SecureAction:GetMountAttributes()
-    return self
 end

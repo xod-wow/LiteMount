@@ -42,10 +42,10 @@ The important methods are
 
 ```
   IsCastable()
+  IsCancelable()
   GetCurrentFlags()         - Returns the options-modified set
-  GetMountAttributes()      - Returns a table of attributes to set on a
-                              SecureActionButton frame to make it activate
-                              the mount when clicked.
+  GetCastAction()           - Returns an LM.SecureAction to summon this mount.
+  GetCancelAction()         - Same but for dismount/cancel
 ```
 
 ### MountList.lua

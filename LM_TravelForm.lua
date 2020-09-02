@@ -72,7 +72,7 @@ end
 --
 -- Takes care of saving the current form in case we need to restore it
 
-function LM.TravelForm:GetMountAttributes()
+function LM.TravelForm:GetCastAction()
     local currentFormID = GetShapeshiftFormID()
 
     if currentFormID and restoreFormIDs[currentFormID] then
@@ -80,14 +80,15 @@ function LM.TravelForm:GetMountAttributes()
         LM.Debug(" - saving current form " .. tostring(savedFormName))
     end
 
-    return { ["type"] = "spell", ["spell"] = self.spellID }
+    return LM.SecureAction:Spell(self.spellID)
 end
-function LM.TravelForm:GetCancelAttributes()
+function LM.TravelForm:GetCancelAction()
     if savedFormName then
-        local attr = { ["type"] = "spell", ["spell"] = savedFormName }
+        local act = LM.SecureAction:Spell(savedFormName)
         savedFormName = nil
-        return attr
+        return act
     else
-        return { ["type"] = "cancelaura", ["spell"] = self.name }
+        -- Is there any good reason to use /cancelform instead?
+        return LM.SecureAction:CancelAura(self.name)
     end
 end

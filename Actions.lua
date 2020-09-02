@@ -115,12 +115,6 @@ ACTIONS['Spell'] =
 -- In vehicle -> exit it
 ACTIONS['LeaveVehicle'] =
     function (args, env)
-        --[[
-        if UnitOnTaxi("player") then
-            LM.Debug(" - setting action to TaxiRequestEarlyLanding")
-            return LM.SecureAction:Click(MainMenuBarVehicleLeaveButton)
-        elseif CanExitVehicle() then
-        ]]
         if CanExitVehicle() then
             LM.Debug(" - setting action to leavevehicle")
             return LM.SecureAction:Macro(SLASH_LEAVEVEHICLE1)
@@ -145,9 +139,8 @@ ACTIONS['Dismount'] =
         -- actions.
         local m = LM.PlayerMounts:GetActiveMount()
         if m and m:IsCancelable() then
-            LM.Debug(string.format(" - setting action to cancel " .. m.name))
-            local attr = m:GetCancelAttributes()
-            return LM.SecureAction:New(attr)
+            LM.Debug(" - setting action to cancel " .. m.name)
+            return m:GetCancelAction()
         end
     end
 
@@ -159,10 +152,11 @@ ACTIONS['CopyTargetsMount'] =
     function (args, env)
         local unit = env.unit or "target"
         if LM.Options:GetCopyTargetsMount() and UnitIsPlayer(unit) then
-            LM.Debug(format(" - trying to clone %s's mount", unit))
+            LM.Debug(string.format(" - trying to clone %s's mount", unit))
             local m = LM.PlayerMounts:GetMountFromUnitAura(unit)
             if m and m:IsCastable() then
-                return m
+                LM.Debug(format(" - setting action to mount %s", m.name))
+                return m:GetCastAction()
             end
         end
     end
@@ -180,23 +174,21 @@ ACTIONS['SmartMount'] =
 
         local m
 
-        if LM.Conditions:Check("[submerged]") then
+        if not m and LM.Conditions:Check("[submerged]") then
             LM.Debug(" - trying Swimming Mount (underwater)")
             local swim = filteredList:FilterSearch('SWIM')
             LM.Debug(" - found " .. #swim .. " mounts.")
             m = swim:PriorityRandom(env.random)
-            if m then return m end
         end
 
-        if LM.Conditions:Check("[flyable]") then
+        if not m and LM.Conditions:Check("[flyable]") then
             LM.Debug(" - trying Flying Mount")
             local fly = filteredList:FilterSearch('FLY')
             LM.Debug(" - found " .. #fly .. " mounts.")
             m = fly:PriorityRandom(env.random)
-            if m then return m end
         end
 
-        if LM.Conditions:Check("[floating,nowaterwalking]") then
+        if not m and LM.Conditions:Check("[floating,nowaterwalking]") then
             LM.Debug(" - trying Swimming Mount (on the surface)")
             local swim = filteredList:FilterSearch('SWIM')
             LM.Debug(" - found " .. #swim .. " mounts.")
@@ -204,18 +196,24 @@ ACTIONS['SmartMount'] =
             if m then return m end
         end
 
-        LM.Debug(" - trying Running Mount")
-        local run = filteredList:FilterSearch('RUN')
-        LM.Debug(" - found " .. #run .. " mounts.")
-        m = run:PriorityRandom(env.random)
-        if m then return m end
+        if not m then
+            LM.Debug(" - trying Running Mount")
+            local run = filteredList:FilterSearch('RUN')
+            LM.Debug(" - found " .. #run .. " mounts.")
+            m = run:PriorityRandom(env.random)
+        end
 
-        LM.Debug(" - trying Walking Mount")
-        local walk = filteredList:FilterSearch('WALK')
-        LM.Debug(" - found " .. #walk .. " mounts.")
-        m = walk:PriorityRandom(env.random)
-        if m then return m end
+        if not m then
+            LM.Debug(" - trying Walking Mount")
+            local walk = filteredList:FilterSearch('WALK')
+            LM.Debug(" - found " .. #walk .. " mounts.")
+            m = walk:PriorityRandom(env.random)
+        end
 
+        if m then
+            LM.Debug(format(" - setting action to mount %s", m.name))
+            return m:GetCastAction()
+        end
     end
 
 ACTIONS['Mount'] =
@@ -223,7 +221,11 @@ ACTIONS['Mount'] =
         local filters = ReplaceVars(tJoin(env.filters[1], args))
         LM.Debug(" - filters: " .. table.concat(filters, ' '))
         local mounts = LM.PlayerMounts:FilterSearch(unpack(filters))
-        return mounts:PriorityRandom(env.random)
+        local m = mounts:PriorityRandom(env.random)
+        if m then
+            LM.Debug(format(" - setting action to mount %s", m.name))
+            return m:GetCastAction()
+        end
     end
 
 ACTIONS['Macro'] =

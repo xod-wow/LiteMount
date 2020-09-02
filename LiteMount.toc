@@ -19,6 +19,7 @@ Developer.lua
 
 SpellInfo.lua
 Mount.lua
+SecureAction.lua
 LM_Journal.lua
 LM_Spell.lua
 LM_ItemSummoned.lua
@@ -26,7 +27,6 @@ LM_GhostWolf.lua
 LM_Nagrand.lua
 LM_RunningWild.lua
 LM_TravelForm.lua
-LM_SecureAction.lua
 LM_Soulshape.lua
 MountList.lua
 PlayerMounts.lua

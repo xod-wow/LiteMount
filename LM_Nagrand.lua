@@ -40,9 +40,9 @@ function LM.Nagrand:Refresh()
     LM.Mount.Refresh(self)
 end
 
-function LM.Nagrand:GetMountAttributes()
+function LM.Nagrand:GetCastAction()
     local spellName = GetSpellInfo(LM.SPELL.GARRISON_ABILITY)
-    return { ["type"] = "spell", ["spell"] = spellName }
+    return LM.SecureAction:Spell(spellName)
 end
 
 -- Draenor Ability spells are weird.  The name of the Garrison Ability

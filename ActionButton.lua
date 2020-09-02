@@ -4,6 +4,10 @@
 
   A SecureActionButton to call mount actions based on an action list.
 
+  Fancy SecureActionButton stuff. The default button mechanism is
+  type="macro" macrotext="...". If we're not in combat we
+  use a preclick handler to set it to what we really want to do.
+
   Copyright 2011-2020 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
@@ -17,16 +21,6 @@ if LibDebug then LibDebug() end
 local L = LM.Localize
 
 LM.ActionButton = { }
-
--- Fancy SecureActionButton stuff. The default button mechanism is
--- type="macro" macrotext="...". If we're not in combat we
--- use a preclick handler to set it to what we really want to do.
-
-function LM.ActionButton:SetupActionButton(mount)
-    for k,v in pairs(mount:GetMountAttributes()) do
-        self:SetAttribute(k, v)
-    end
-end
 
 function LM.ActionButton:Dispatch(action, env)
 
@@ -52,10 +46,9 @@ function LM.ActionButton:Dispatch(action, env)
 
     LM.Debug("Dispatching action " .. action.action)
 
-    local m = handler(action.args or {}, env)
-    if m then
-        LM.Debug("Setting up button as " .. (m.name or action.action) .. ".")
-        self:SetupActionButton(m)
+    local act = handler(action.args or {}, env)
+    if act then
+        act:SetupActionButton(self)
         return true
     end
 end
@@ -107,7 +100,11 @@ function LM.ActionButton:PostClick()
     -- to just blindly do the opposite of whatever we chose because
     -- it might not have worked.
 
-    self:SetupActionButton(LM.Actions:GetHandler('Combat')())
+    local handler = LM.Actions:GetHandler('Combat')
+    local act = handler()
+    if act then
+        act:SetupActionButton(self)
+    end
 end
 
 function LM.ActionButton:Create(n)

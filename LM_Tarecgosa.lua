@@ -42,7 +42,7 @@ function LM.Tarecgosa:InProgress()
     end
 end
 
-function LM.Tarecgosa:GetMountAttributes()
+function LM.Tarecgosa:GetCastAction()
     if self:InProgress() then
         return { ['type'] = "macro", ['macrotext'] = "" }
     end
@@ -51,14 +51,11 @@ function LM.Tarecgosa:GetMountAttributes()
 
     -- We could move this back into LM.ItemSummoned if I could figure
     -- out how to determine what slot an item went into automatically.
-    local attrs = {
-        ["type"] = "item",
-        ["item"] = itemName
-    }
+    local action = LM.SecureAction:Item(itemName)
 
     -- Make sure you're not just wearing the item around like a champ
     if not IsEquippedItem(self.itemID) then
-        attrs['lm-nextaction'] = LM.Tarecgosa2:Get(self.itemID)
+        action['lm-nextaction'] = LM.Tarecgosa2:Get(self.itemID)
     end
 
     return attrs
@@ -113,7 +110,7 @@ function LM.Tarecgosa2:Macro()
     return text
 end
 
-function LM.Tarecgosa2:GetMountAttributes()
+function LM.Tarecgosa2:GetCastAction()
 
     local tryAgain = {
         ['type'] = 'macro',
@@ -122,7 +119,7 @@ function LM.Tarecgosa2:GetMountAttributes()
     }
 
     if not IsEquippedItem(self.itemID) or not IsUsableSpell(self.spellID) then
-        return tryAgain
+        return LM.SecureAction:New(tryAgain)
     end
 
     --[[
@@ -132,6 +129,6 @@ function LM.Tarecgosa2:GetMountAttributes()
     end
     ]]
 
-    return { ['type'] = 'macro', ['macrotext'] = self:Macro() }
+    return LM.SecureAction:Macro(self:Macro())
 end
 

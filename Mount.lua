@@ -113,14 +113,16 @@ function LM.Mount:IsCancelable()
     return true
 end
 
-function LM.Mount:GetMountAttributes()
+-- These should probably not be making new identical objects all tha time.
+
+function LM.Mount:GetCastAction()
     local spellName = GetSpellInfo(self.spellID)
-    return { ["type"] = "spell", ["spell"] = spellName }
+    return LM.SecureAction:Spell(spellName)
 end
 
-function LM.Mount:GetCancelAttributes()
+function LM.Mount:GetCancelAction()
     local spellName = GetSpellInfo(self.spellID)
-    return { ["type"] = "cancelaura", ["spell"] = spellName }
+    return LM.SecureAction:CancelAura(spellName)
 end
 
 function LM.Mount:Dump(prefix)
