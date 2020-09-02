@@ -133,7 +133,9 @@
 </Frame>
 
 <!--@debug@-->
-<Frame name="LiteMountProfileInspect" parent="UIParent" hidden="true" inherits="TooltipBackdropTemplate" mixin="LiteMountProfileInspectMixin" frameStrata="DIALOG" toplevel="true">
+<Frame name="LiteMountProfileInspect" parent="UIParent" hidden="true"
+       inherits="TooltipBackdropTemplate" mixin="LiteMountProfileInspectMixin"
+       frameStrata="DIALOG" toplevel="true" movable="true">
     <KeyValues>
         <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" TYpe="global" />
         <KeyValue key="backdropColorAlpha" value="0.8" TYpe="number" />
@@ -152,6 +154,22 @@
         </Layer>
     </Layers>
     <Frames>
+        <Button parentKey="DragBar">
+            <Size y="36" />
+            <Anchors>
+                <Anchor point="TOPLEFT" />
+                <Anchor point="TOPRIGHT" x="-48" />
+            </Anchors>
+            <Scripts>
+                <OnMouseDown>
+                    self:GetParent():StartMoving()
+                </OnMouseDown>
+                <OnMouseUp>
+                    self:GetParent():StopMovingOrSizing()
+                    self:GetParent():SetUserPlaced(false)
+                </OnMouseUp>
+            </Scripts>
+        </Button>
         <Button inherits="UIPanelCloseButton">
             <Anchors>
                 <Anchor point="TOPRIGHT" x="-4" y="-4" />
