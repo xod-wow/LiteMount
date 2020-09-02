@@ -240,13 +240,9 @@ end
 -- run OnProfile() until the action buttons are set up as RecompileActions
 -- won't work yet.
 
-function LM.Options:Load()
+function LM.Options:Initialize()
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
     self:VersionUpgrade()
-end
-
-function LM.Options:Initialize()
-    self:OnProfile()
     self.db.RegisterCallback(self, "OnProfileChanged", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileCopied", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileReset", "OnProfile")
