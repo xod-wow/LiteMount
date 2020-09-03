@@ -917,12 +917,10 @@ function GetSpellInfo(id)
     print("GetSpellInfo", id)
 end
 
+-- Assume that all spells put a buff on you with the same id
 function CastSpell(id)
     MockState.buffs[id] = true
     print(">>> CastSpell " .. id .. " " .. data[id][1])
-    for _,info in pairs(C_MountJournal.data.GetMountInfoByID) do
-        if id == info[2] then MockState.mounted = true end
-    end
 end
 
 function CastSpellByName(name)
@@ -933,9 +931,6 @@ end
 function CancelAura(id)
     MockState.buffs[id] = nil
     print(">>> CancelAura " .. id .. " " .. data[id][1])
-    for _,info in pairs(C_MountJournal.data.GetMountInfoByID) do
-        if id == info[2] then MockState.mounted = false end
-    end
 end
 
 function CancelAuraByName(name)
@@ -944,7 +939,11 @@ function CancelAuraByName(name)
 end
 
 function IsSpellKnown(id)
-    return data[id] ~= nil
+    if id == 90265 or id == 34090 then
+        return MockState.playerKnowsFlying
+    else
+        return data[id] ~= nil
+    end
 end
 
 function IsUsableSpell(id)

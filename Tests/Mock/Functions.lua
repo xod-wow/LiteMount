@@ -26,7 +26,15 @@ function IsSubmerged() return MockState.submerged end
 
 function IsFalling() return MockState.falling end
 
-function IsMounted() return MockState.mounted end
+function IsMounted()
+    for _, info in pairs(C_MountJournal.data.GetMountInfoByID) do
+        if MockState.buffs[info[2]] then
+            return true
+        end
+    end
+end
+
+function IsFlyableArea() return MockState.isFlyableArea end
 
 function IsIndoors() return MockState.indoors end
 

@@ -11,10 +11,11 @@ MockState = {
     region = 1,
     submerged = false,
     falling = false,
-    mounted = false,
     indoors = false,
     inVehicle = false,
     inCombat = false,
     keyDown = { shift = false, ctrl = false, alt = false },
     extraActionButton = nil,
+    playerKnowsFlying = true,
+    flyableArea = true,
 }

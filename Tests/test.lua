@@ -70,7 +70,7 @@ LM.Options:Initialize()
 SpamOnUpdate(100)
 
 -- MockState.extraActionButton = 202477
-MockState.keyDown.shift = true
+-- MockState.keyDown.shift = true
 
 LiteMount.actions[1]:Click()
 
