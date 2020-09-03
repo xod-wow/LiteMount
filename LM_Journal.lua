@@ -128,10 +128,6 @@ function LM.Journal:IsCastable()
     return LM.Mount.IsCastable(self)
 end
 
-function LM.Journal:GetCancelAttributes()
-    return { ['type'] = macro, ['macrotext'] = SLASH_DISMOUNT1 }
-end
-
 function LM.Journal:Dump(prefix)
     prefix = prefix or ""
     LM.Mount.Dump(self, prefix)
