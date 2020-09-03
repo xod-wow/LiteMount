@@ -945,6 +945,4 @@ LiteMountDB = {
 			[0] = "Eastern Kingdoms",
 		},
 	},
-	["GetSpellIfno"] = {
-	},
 }
