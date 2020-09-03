@@ -2,157 +2,166 @@ data = data or {}
 
 data.GetItemInfo = {
     [139421] = {
-        "Ratstallion Harness", -- [1]
-        "|cffffffff|Hitem:139421::::::::60:269:::::::|h[Ratstallion Harness]|h|r", -- [2]
-        1, -- [3]
-        1, -- [4]
-        1, -- [5]
-        "Consumable", -- [6]
-        "Other", -- [7]
-        1, -- [8]
-        "", -- [9]
-        1119938, -- [10]
-        0, -- [11]
-        0, -- [12]
-        8, -- [13]
-        0, -- [14]
-        0, -- [15]
-        nil, -- [16]
-        false, -- [17]
+        "Ratstallion Harness",
+        "|cffffffff|Hitem:139421::::::::60:269:::::::|h[Ratstallion Harness]|h|r",
+        1,
+        1,
+        1,
+        "Consumable",
+        "Other",
+        1,
+        "",
+        1119938,
+        0,
+        0,
+        8,
+        0,
+        0,
+        nil,
+        false,
     },
     [44221] = {
-        "Loaned Gryphon Reins", -- [1]
-        "|cffffffff|Hitem:44221::::::::60:269:::::::|h[Loaned Gryphon Reins]|h|r", -- [2]
-        1, -- [3]
-        26, -- [4]
-        26, -- [5]
-        "Miscellaneous", -- [6]
-        "Mount", -- [7]
-        1, -- [8]
-        "", -- [9]
-        294468, -- [10]
-        0, -- [11]
-        15, -- [12]
-        5, -- [13]
-        1, -- [14]
-        0, -- [15]
-        nil, -- [16]
-        false, -- [17]
+        "Loaned Gryphon Reins",
+        "|cffffffff|Hitem:44221::::::::60:269:::::::|h[Loaned Gryphon Reins]|h|r",
+        1,
+        26,
+        26,
+        "Miscellaneous",
+        "Mount",
+        1,
+        "",
+        294468,
+        0,
+        15,
+        5,
+        1,
+        0,
+        nil,
+        false,
     },
     [44229] = {
-        "Loaned Wind Rider Reins", -- [1]
-        "|cffffffff|Hitem:44229::::::::60:269:::::::|h[Loaned Wind Rider Reins]|h|r", -- [2]
-        1, -- [3]
-        26, -- [4]
-        26, -- [5]
-        "Miscellaneous", -- [6]
-        "Mount", -- [7]
-        1, -- [8]
-        "", -- [9]
-        298596, -- [10]
-        0, -- [11]
-        15, -- [12]
-        5, -- [13]
-        1, -- [14]
-        0, -- [15]
-        nil, -- [16]
-        false, -- [17]
+        "Loaned Wind Rider Reins",
+        "|cffffffff|Hitem:44229::::::::60:269:::::::|h[Loaned Wind Rider Reins]|h|r",
+        1,
+        26,
+        26,
+        "Miscellaneous",
+        "Mount",
+        1,
+        "",
+        298596,
+        0,
+        15,
+        5,
+        1,
+        0,
+        nil,
+        false,
     },
     [151626] = {
-        "Sapphire Qiraji Resonating Crystal", -- [1]
-        "|cff0070dd|Hitem:151626::::::::60:269:::::::|h[Sapphire Qiraji Resonating Crystal]|h|r", -- [2]
-        3, -- [3]
-        1, -- [4]
-        10, -- [5]
-        "Miscellaneous", -- [6]
-        "Mount", -- [7]
-        1, -- [8]
-        "", -- [9]
-        134398, -- [10]
-        1, -- [11]
-        15, -- [12]
-        5, -- [13]
-        1, -- [14]
-        0, -- [15]
-        nil, -- [16]
-        false, -- [17]
+        "Sapphire Qiraji Resonating Crystal",
+        "|cff0070dd|Hitem:151626::::::::60:269:::::::|h[Sapphire Qiraji Resonating Crystal]|h|r",
+        3,
+        1,
+        10,
+        "Miscellaneous",
+        "Mount",
+        1,
+        "",
+        134398,
+        1,
+        15,
+        5,
+        1,
+        0,
+        nil,
+        false,
     },
     [101675] = {
-        "Shimmering Moonstone", -- [1]
-        "|cffffffff|Hitem:101675::::::::60:269:::::::|h[Shimmering Moonstone]|h|r", -- [2]
-        1, -- [3]
-        10, -- [4]
-        1, -- [5]
-        "Consumable", -- [6]
-        "Other", -- [7]
-        1, -- [8]
-        "", -- [9]
-        136096, -- [10]
-        0, -- [11]
-        0, -- [12]
-        8, -- [13]
-        1, -- [14]
-        0, -- [15]
-        nil, -- [16]
-        false, -- [17]
-    },
-    [33176] = {
+        "Shimmering Moonstone",
+        "|cffffffff|Hitem:101675::::::::60:269:::::::|h[Shimmering Moonstone]|h|r",
+        1,
+        10,
+        1,
+        "Consumable",
+        "Other",
+        1,
+        "",
+        136096,
+        0,
+        0,
+        8,
+        1,
+        0,
+        nil,
+        false,
     },
     [151625] = {
-        "Ruby Qiraji Resonating Crystal", -- [1]
-        "|cff0070dd|Hitem:151625::::::::60:269:::::::|h[Ruby Qiraji Resonating Crystal]|h|r", -- [2]
-        3, -- [3]
-        1, -- [4]
-        10, -- [5]
-        "Miscellaneous", -- [6]
-        "Mount", -- [7]
-        1, -- [8]
-        "", -- [9]
-        134396, -- [10]
-        1, -- [11]
-        15, -- [12]
-        5, -- [13]
-        1, -- [14]
-        0, -- [15]
-        nil, -- [16]
-        false, -- [17]
+        "Ruby Qiraji Resonating Crystal",
+        "|cff0070dd|Hitem:151625::::::::60:269:::::::|h[Ruby Qiraji Resonating Crystal]|h|r",
+        3,
+        1,
+        10,
+        "Miscellaneous",
+        "Mount",
+        1,
+        "",
+        134396,
+        1,
+        15,
+        5,
+        1,
+        0,
+        nil,
+        false,
     },
     [37011] = {
-        "Magic Broom", -- [1]
-        "|cff0070dd|Hitem:37011::::::::60:269:::::::|h[Magic Broom]|h|r", -- [2]
-        3, -- [3]
-        1, -- [4]
-        10, -- [5]
-        "Miscellaneous", -- [6]
-        "Mount", -- [7]
-        1, -- [8]
-        "", -- [9]
-        236552, -- [10]
-        0, -- [11]
-        15, -- [12]
-        5, -- [13]
-        1, -- [14]
-        0, -- [15]
-        nil, -- [16]
-        false, -- [17]
+        "Magic Broom",
+        "|cff0070dd|Hitem:37011::::::::60:269:::::::|h[Magic Broom]|h|r",
+        3,
+        1,
+        10,
+        "Miscellaneous",
+        "Mount",
+        1,
+        "",
+        236552,
+        0,
+        15,
+        5,
+        1,
+        0,
+        nil,
+        false,
     },
     [71086] = {
-        "Dragonwrath, Tarecgosa's Rest", -- [1]
-        "|cffff8000|Hitem:71086::::::::60:269:::::::|h[Dragonwrath, Tarecgosa's Rest]|h|r", -- [2]
-        5, -- [3]
-        37, -- [4]
-        0, -- [5]
-        "Weapon", -- [6]
-        "Staves", -- [7]
-        1, -- [8]
-        "INVTYPE_2HWEAPON", -- [9]
-        523897, -- [10]
-        132310, -- [11]
-        2, -- [12]
-        10, -- [13]
-        1, -- [14]
-        3, -- [15]
-        nil, -- [16]
-        false, -- [17]
+        "Dragonwrath, Tarecgosa's Rest",
+        "|cffff8000|Hitem:71086::::::::60:269:::::::|h[Dragonwrath, Tarecgosa's Rest]|h|r",
+        5,
+        37,
+        0,
+        "Weapon",
+        "Staves",
+        1,
+        "INVTYPE_2HWEAPON",
+        523897,
+        132310,
+        2,
+        10,
+        1,
+        3,
+        nil,
+        false,
     },
+}
+
+data.GetItemSpell = {
+    [37011] = { "Magic Broom", 47977, },
+    [44221] = { "Loaned Gryphon", 64749, },
+    [44229] = { "Loaned Wind Rider", 64762, },
+    [71086] = { "Tarecgosa's Visage", 101641, },
+    [101675] = { "Moonfang", 145133, },
+    [139421] = { "Ratstallion Harness", 220123, },
+    [151625] = { "Red Qiraji War Tank", 239767, },
+    [151626] = { "Blue Qiraji War Tank", 239766, },
 }

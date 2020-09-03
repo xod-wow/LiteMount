@@ -7,6 +7,7 @@ MockState = {
     realmName = 'MockRealm',
     buffs = {},
     debuffs = {},
+    equipped = {},
     locale = "enUS",
     region = 1,
     submerged = false,

@@ -5,6 +5,12 @@ local function Dismount()
             CancelAura(spellID)
         end
     end
+    for id, info in pairs(data.GetItemSpell) do
+        local spellID = info[2]
+        if MockState.buffs[spellID] then
+            CancelAura(spellID)
+        end
+    end
 end
 
 function RunMacroText(macrotext)

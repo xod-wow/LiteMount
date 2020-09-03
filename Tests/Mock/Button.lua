@@ -14,14 +14,6 @@ function mockButton:Click(mouseButton)
         pre(self, mouseButton)
     end
 
---[[
-    for k,v in pairs(self) do
-        if type(v) == 'string' then
-            print("   ", k, v)
-        end
-    end
-]]
-
     -- SecureActionButton emulation
     local actionType = self:GetAttribute('type')
     if actionType == 'spell' then
@@ -32,6 +24,9 @@ function mockButton:Click(mouseButton)
     elseif actionType == 'cancelaura' then
         local spellName = self:GetAttribute('spell')
         CancelAuraByName(spellName)
+    elseif actionType == "item" then
+        local itemName = self:GetAttribute('item')
+        UseItemByName(itemName)
     else
         print(">>> " .. actionType)
     end

@@ -32,6 +32,11 @@ function IsMounted()
             return true
         end
     end
+    for _, info in pairs(data.GetItemSpell) do
+        if MockState.buffs[info[2]] then
+            return true
+        end
+    end
 end
 
 function IsFlyableArea() return MockState.flyableArea end
@@ -44,44 +49,10 @@ function GetTime() return socket.gettime() end
 
 function InCombatLockdown() return MockState.inCombat end
 
-function IsEquippableItem(id) return math.random(2) == 1 end
-
-function IsEquippedItem(id) return math.random(2) == 1 end
-
 function UnitLevel(unit) return MockState.playerLevel end
-
-function UnitAura(unit, idx, filter)
-    local tbl
-    
-    if filter and filter:find('HARMFUL') then
-        tbl = MockState.debuffs
-    else
-        tbl = MockState.buffs
-    end
-
-    local i = 0
-    for id in pairs(tbl) do
-        print(">>> " .. id)
-        i = i + 1
-        if i == idx then
-            return GetSpellInfo(id), nil, nil, nil, nil, nil, nil, nil, nil, id
-        end
-    end
-end
-
-function GetItemInfo(itemID)
-    return data.GetItemInfo[itemID]
-end
 
 function GetShapeshiftFormID()
     -- base this off something
-end
-
-function GetItemCount(id) return 0 end
-
-function GetItemCooldown(id)
-    -- start, duration, enable
-    return 0, 0, 1
 end
 
 function GetInstanceInfo()
@@ -150,6 +121,41 @@ end
 function tContains(tbl, val)
     for _,v in ipairs(tbl) do
         if v == val then return true end
+    end
+end
+
+local function pairsByKeys (t, f)
+    local a = {}
+    for n in pairs(t) do table.insert(a, n) end
+    table.sort(a, f)
+    local i = 0      -- iterator variable
+    local iter = function ()   -- iterator function
+        i = i + 1
+        if a[i] == nil then return nil else return a[i], t[a[i]] end
+    end
+    return iter
+end
+
+function DumpTable(o, indent)
+    indent = indent or 0
+    local pad = string.rep('    ', indent)
+    local pad2 = string.rep('    ', indent+1)
+
+    if type(o) == 'table' then
+        local s = '{'
+
+        for k,v in pairsByKeys(o) do
+            if type(k) ~= 'number' then k = '"'..k..'"' end
+            s = s .."\n" .. pad2 .. '['..k..'] = ' .. DumpTable(v, indent+1) .. ','
+        end
+
+        return s .. "\n" .. pad .. '}'
+    else
+        if type(o) == 'string' then
+            return '"' .. tostring(o) .. '"'
+        else
+            return tostring(o)
+        end
     end
 end
 

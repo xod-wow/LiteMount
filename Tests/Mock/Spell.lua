@@ -7,7 +7,7 @@ function GetSpellInfo(id)
             if info[1] == id then return unpack(info) end
         end
     end
-    print("GetSpellInfo", id)
+    print("GetSpellInfo", tostring(id))
 end
 
 -- Assume that all spells put a buff on you with the same id
@@ -54,3 +54,20 @@ function GetSpellCooldown(id)
     return 0
 end
 
+function UnitAura(unit, idx, filter)
+    if filter and filter:find('HARMFUL') then
+        tbl = MockState.debuffs
+    else
+        tbl = MockState.buffs
+    end
+
+    local buffs = {}
+    for id in pairs(tbl) do
+        buffs[#buffs+1] = id
+    end
+    sort(buffs)
+
+    if buffs[idx] then
+        return GetSpellInfo(buffs[idx]), nil, nil, nil, nil, nil, nil, nil, nil, buffs[idx]
+    end
+end
