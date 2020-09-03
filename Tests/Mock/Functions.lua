@@ -34,7 +34,7 @@ function IsMounted()
     end
 end
 
-function IsFlyableArea() return MockState.isFlyableArea end
+function IsFlyableArea() return MockState.flyableArea end
 
 function IsIndoors() return MockState.indoors end
 
