@@ -1,4 +1,5 @@
-C_MountJournal.data.GetMountInfoByID = {
+data = data or {}
+data.GetMountInfoByID = {
     nil, -- [1]
     nil, -- [2]
     nil, -- [3]
@@ -12519,7 +12520,7 @@ C_MountJournal.data.GetMountInfoByID = {
     },
 }
 
-C_MountJournal.data.GetMountInfoExtraByID = {
+data.GetMountInfoExtraByID = {
     nil, -- [1]
     nil, -- [2]
     nil, -- [3]

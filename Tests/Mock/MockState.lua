@@ -18,4 +18,5 @@ MockState = {
     extraActionButton = nil,
     playerKnowsFlying = true,
     flyableArea = true,
+    moving = false,
 }

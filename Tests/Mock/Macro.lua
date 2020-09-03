@@ -1,5 +1,5 @@
 local function Dismount()
-    for id,info in pairs(C_MountJournal.data.GetMountInfoByID) do
+    for id,info in pairs(data.GetMountInfoByID) do
         local spellID = info[2]
         if MockState.buffs[spellID] then
             CancelAura(spellID)

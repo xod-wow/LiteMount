@@ -27,7 +27,7 @@ function IsSubmerged() return MockState.submerged end
 function IsFalling() return MockState.falling end
 
 function IsMounted()
-    for _, info in pairs(C_MountJournal.data.GetMountInfoByID) do
+    for _, info in pairs(data.GetMountInfoByID) do
         if MockState.buffs[info[2]] then
             return true
         end
@@ -67,6 +67,14 @@ function UnitAura(unit, idx, filter)
             return GetSpellInfo(id), nil, nil, nil, nil, nil, nil, nil, nil, id
         end
     end
+end
+
+function GetItemInfo(itemID)
+    return data.GetItemInfo[itemID]
+end
+
+function GetShapeshiftFormID()
+    -- base this off something
 end
 
 function GetItemCount(id) return 0 end

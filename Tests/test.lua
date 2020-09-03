@@ -72,11 +72,10 @@ SpamOnUpdate(100)
 -- MockState.extraActionButton = 202477
 -- MockState.keyDown.shift = true
 -- MockState.inCombat = true
+-- MockState.moving = true
 
-LiteMount.actions[1]:Click()
-
-SpamOnUpdate(3)
-
-LiteMount.actions[1]:Click()
+for i = 1, 10000 do
+    LiteMount.actions[1]:Click()
+end
 
 SendEvent('PLAYER_LOGOUT')
