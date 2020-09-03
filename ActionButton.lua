@@ -86,7 +86,7 @@ function LM.ActionButton:PreClick(mouseButton)
         end
     end
 
-    self:Dispatch({ ['action'] = "CantMount" }, subEnv)
+    self:Dispatch({ action="CantMount", line="" }, subEnv)
 end
 
 function LM.ActionButton:PostClick()
