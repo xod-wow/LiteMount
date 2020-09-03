@@ -42,9 +42,11 @@ function CanExitVehicle() return MockState.inVehicle end
 
 function GetTime() return socket.gettime() end
 
-function InCombatLockdown() return false end
+function InCombatLockdown() return MockState.inCombat end
 
-function IsEquippableItem(id) return MockState.inCombat end
+function IsEquippableItem(id) return math.random(2) == 1 end
+
+function IsEquippedItem(id) return math.random(2) == 1 end
 
 function UnitLevel(unit) return MockState.playerLevel end
 
@@ -68,6 +70,11 @@ function UnitAura(unit, idx, filter)
 end
 
 function GetItemCount(id) return 0 end
+
+function GetItemCooldown(id)
+    -- start, duration, enable
+    return 0, 0, 1
+end
 
 function GetInstanceInfo()
     return "The Shadowlands", "none", 0, "", 5, 0, false, 2222, 0

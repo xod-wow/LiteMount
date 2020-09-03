@@ -71,6 +71,7 @@ SpamOnUpdate(100)
 
 -- MockState.extraActionButton = 202477
 -- MockState.keyDown.shift = true
+-- MockState.inCombat = true
 
 LiteMount.actions[1]:Click()
 
