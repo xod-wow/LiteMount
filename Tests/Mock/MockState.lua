@@ -1,4 +1,4 @@
-MockState = {
+local StateInfo = {
     playerName = 'Xodiv',
     playerClass = 'Warrior',
     playerRace = 'NightElf',
@@ -21,3 +21,20 @@ MockState = {
     flyableArea = true,
     moving = false,
 }
+
+local function Randomize(tbl)
+    for k,v in pairs(tbl) do
+        if type(v) == 'table' then
+            Randomize(v)
+        elseif type(v) == 'boolean' then
+            tbl[k] = ( math.random(2) == 1 )
+        end
+    end
+end
+
+function MockStateRandomize()
+    Randomize(MockState)
+    print("MockState = " ..DumpTable(MockState, 1))
+end
+
+MockState = CopyTable(StateInfo)
