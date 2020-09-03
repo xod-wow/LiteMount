@@ -6,7 +6,6 @@ dofile("Mock/MapData.lua")
 dofile("Mock/MountData.lua")
 dofile("Mock/SpellData.lua")
 
-dofile("Mock/MockState.lua")
 dofile("Mock/Constants.lua")
 dofile("Mock/Functions.lua")
 dofile("Mock/Item.lua")
@@ -21,3 +20,5 @@ dofile("Mock/C_QuestLog.lua")
 dofile("Mock/C_Scenario.lua")
 dofile("Mock/C_ZoneAbility.lua")
 dofile("Mock/GlobalFrames.lua")
+
+dofile("Mock/MockState.lua")
