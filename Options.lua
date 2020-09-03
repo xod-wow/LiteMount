@@ -42,7 +42,6 @@ local DefaultButtonAction = [[
 # Slow Fall, Levitate, Zen Flight, Glide
 Spell [falling] 130, 1706, 125883, 131347
 LeaveVehicle
-CancelForm
 Dismount
 CopyTargetsMount
 # Swimming mount to fly in Nazjatar with Budding Deepcoral
