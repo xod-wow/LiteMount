@@ -73,6 +73,12 @@ function HasExtraActionBar()
     return ( MockState.extraActionButon ~= nil )
 end
 
+function GetMirrorTimerInfo()
+    if MockState.submerge then
+        return "BREATH", nil, nil, -1
+    end
+end
+
 function IsShiftKeyDown() return MockState.keyDown.shift end
 function IsAltKeyDown() return MockState.keyDown.alt end
 function IsControlKeyDown() return MockState.keyDown.ctrl end
