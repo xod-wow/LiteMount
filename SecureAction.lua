@@ -5,6 +5,9 @@
   A set of secure attributes that know how to put themselves onto a button
   to perform an action.
 
+  Way too many things in this addon are named "action" and I should think of
+  better names.
+
   Copyright 2011-2020 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
@@ -61,6 +64,13 @@ function LM.SecureAction:Use(useArg, unit)
             ["type"] = "item",
             ["unit"] = unit or "player",
             ["item"] = useArg
+    }
+    return self:New(attr)
+end
+
+function LM.SecureAction:LeaveVehicle()
+    local attr = {
+        ["type"] = "leavevehicle",
     }
     return self:New(attr)
 end

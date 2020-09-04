@@ -117,7 +117,7 @@ ACTIONS['LeaveVehicle'] =
     function (args, env)
         if CanExitVehicle() then
             LM.Debug(" - setting action to leavevehicle")
-            return LM.SecureAction:Macro(SLASH_LEAVEVEHICLE1)
+            return LM.SecureAction:LeaveVehicle()
         end
     end
 
