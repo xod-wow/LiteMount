@@ -10,6 +10,9 @@
     <!-- The order of these is the order of the settings tabs -->
     <Include file="General.xml" />
     <Include file="Mounts.xml" />
+<!--@debug@-->
+    <Include file="Actions.xml" />
+<!--@end-debug@-->
     <Include file="Macro.xml" />
     <Include file="CombatMacro.xml" />
     <Include file="Advanced.xml" />
