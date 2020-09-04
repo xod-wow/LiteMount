@@ -44,7 +44,7 @@ The important methods are
   IsCastable()
   IsCancelable()
   GetCurrentFlags()         - Returns the options-modified set
-  GetCastAction()           - Returns an LM.SecureAction to summon this mount.
+  GetCastAction()           - Returns a LM.SecureAction to summon this mount.
   GetCancelAction()         - Same but for dismount/cancel
 ```
 
@@ -111,8 +111,17 @@ actions.
   mount = handler(args, env)
 ```
 
-Handlers return a LM.Mount(-like) object if they were successful, which
-should be applied to an LM.ActionButton's secure attributes.
+Handlers return a LM.SecureAction object if they were successful, which is
+then used to set up an LM.ActionButton's secure attributes.
+
+### SecureAction.lua
+
+The intermediary between handlers and the action buttons.
+
+```
+  LM.SecureAction
+    SetupActionButton(button)
+```
 
 ### Conditions.lua
 
