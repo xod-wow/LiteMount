@@ -98,10 +98,9 @@
 <Button name="LiteMountMountButtonTemplate" virtual="true" mixin="LiteMountMountButtonMixin" inherits="BackdropTemplate">
     <KeyValues>
         <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" type="global" />
-        <KeyValue key="backdropColor" value="GRAY_FONT_COLOR" type="global" />
-        <KeyValue key="backdropColorAlpha" value="0.5" type="number" />
-        <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" type="global" />
-        <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number" />
+        <KeyValue key="backdropColor" value="GRAY_FONT_COLOR" type="global"/>
+        <KeyValue key="backdropColorAlpha" value="0.3" type="number" />
+        <KeyValue key="backdropBorderColor" value="LIGHTGRAY_FONT_COLOR" type="global"/>
     </KeyValues>
     <Scripts>
         <OnShow method="OnShow" />
