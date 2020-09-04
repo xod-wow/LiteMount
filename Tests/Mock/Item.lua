@@ -12,6 +12,14 @@ function IsEquippedItem(id)
     return MockState.equipped[id]
 end
 
+function IsEquippedItemType(itemType)
+    if math.random() < 0.2 then
+        return true
+    else
+        return false
+    end
+end
+
 function GetItemInfo(id)
     if type(id) == 'number' then
         local info = data.GetItemInfo[id]

@@ -20,9 +20,13 @@ SendEvent('PLAYER_ENTERING_WORLD')
 -- MockState.moving = true
 
 for i = 1, 10000 do
-    local n = math.random(4)
     MockStateRandomize()
-    LiteMount.actions[n]:Click()
+    -- local n = math.random(4)
+    -- LiteMount.actions[n]:Click()
+    if MockState.inCombat == false then
+        MockStatePrint()
+        LiteMount.actions[1]:Click()
+    end
 end
 
 SendEvent('PLAYER_LOGOUT')

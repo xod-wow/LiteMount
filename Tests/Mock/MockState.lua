@@ -12,6 +12,7 @@ local StateInfo = {
     region = 1,
     submerged = false,
     falling = false,
+    flying = false,
     indoors = false,
     inVehicle = false,
     inCombat = false,
@@ -32,9 +33,12 @@ local function Randomize(tbl)
     end
 end
 
+function MockStatePrint()
+    print("MockState = " ..DumpTable(MockState, 1))
+end
+
 function MockStateRandomize()
     Randomize(MockState)
-    print("MockState = " ..DumpTable(MockState, 1))
 end
 
 MockState = CopyTable(StateInfo)

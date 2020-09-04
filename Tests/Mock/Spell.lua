@@ -54,6 +54,10 @@ function GetSpellCooldown(id)
     return 0
 end
 
+-- I should probably pick a test spell and have it be channeling sometimes
+function UnitChannelInfo(unit)
+end
+
 function UnitAura(unit, idx, filter)
     if filter and filter:find('HARMFUL') then
         tbl = MockState.debuffs

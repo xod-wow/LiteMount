@@ -18,6 +18,7 @@ dofile("Mock/C_Map.lua")
 dofile("Mock/C_MountJournal.lua")
 dofile("Mock/C_QuestLog.lua")
 dofile("Mock/C_Scenario.lua")
+dofile("Mock/C_Transmog.lua")
 dofile("Mock/C_ZoneAbility.lua")
 dofile("Mock/GlobalFrames.lua")
 
