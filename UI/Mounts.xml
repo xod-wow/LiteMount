@@ -95,11 +95,18 @@
     </Scripts>
 </Button>
 
-<Button name="LiteMountMountButtonTemplate" virtual="true" mixin="LiteMountMountButtonMixin">
+<Button name="LiteMountMountButtonTemplate" virtual="true" mixin="LiteMountMountButtonMixin" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" type="global" />
+        <KeyValue key="backdropColor" value="GRAY_FONT_COLOR" type="global" />
+        <KeyValue key="backdropColorAlpha" value="0.5" type="number" />
+        <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" type="global" />
+        <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number" />
+    </KeyValues>
     <Scripts>
         <OnShow method="OnShow" />
     </Scripts>
-    <Size x="180" y="45" />
+    <Size x="180" y="44" />
     <Frames>
         <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">
             <Anchors>
@@ -131,11 +138,6 @@
     </Frames>
 
     <Layers>
-        <Layer level="BACKGROUND">
-            <Texture setAllPoints="true">
-                <Color r="0" y="0" g="0" a="0.3" />
-            </Texture>
-        </Layer>
         <Layer level="ARTWORK">
             <FontString inherits="GameFontNormal" justifyH="LEFT" parentKey="Name">
                 <Anchors>
