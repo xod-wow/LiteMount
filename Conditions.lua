@@ -92,8 +92,15 @@ CONDITIONS["canexitvehicle"] =
     end
 
 CONDITIONS["channeling"] =
-    function (cond, unit)
-        return UnitChannelInfo(unit or "player") ~= nil
+    function (cond, unit, v)
+        unit = unit or "player"
+        if not v then
+            return UnitChannelInfo(unit) ~= nil
+        elseif tonumber(v) then
+            return select(8, UnitChannelInfo(unit)) == tonumber(v)
+        else
+            return UnitChannelInfo(unit) == v
+        end
     end
 
 CONDITIONS["class"] =
