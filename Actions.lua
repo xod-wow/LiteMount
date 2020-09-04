@@ -307,12 +307,12 @@ ACTIONS['Use'] =
                 local s, d, e = GetInventoryItemCooldown('player', slot)
                 if s == 0 and e == 1 then
                     LM.Debug(' - Setting action to use slot ' .. slot)
-                    return LM.SecureAction:Use(slot, env.unit)
+                    return LM.SecureAction:Item(slot, env.unit)
                 end
             elseif name then
                 if IsCastableItem(name) then
                     LM.Debug(' - setting action to use item ' .. name)
-                    return LM.SecureAction:Use(name, env.unit)
+                    return LM.SecureAction:Item(name, env.unit)
                 end
             end
         end

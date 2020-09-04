@@ -59,7 +59,7 @@ function LM.SecureAction:CancelAura(spellName, unit)
     return self:New(attr)
 end
 
-function LM.SecureAction:Use(useArg, unit)
+function LM.SecureAction:Item(useArg, unit)
     local attr = {
             ["type"] = "item",
             ["unit"] = unit or "player",
