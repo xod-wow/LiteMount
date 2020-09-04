@@ -50,6 +50,8 @@ Mount [map:1355,flyable,qfc:56766] mt:254
 Mount [map:203,submerged] mt:232
 # AQ-only bugs in the raid zone
 Mount [instance:531] mt:241
+# The Nagrand (WoD) mounts can interact while mounted
+Mount [map:550,noflyable,nosubmerged] 164222/165803
 # Use Arcanist's Manasaber if it will disguise you
 IF [extra:202477][aura:202477]
   Mount [nosubmerged] id:881

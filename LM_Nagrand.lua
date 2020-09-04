@@ -4,6 +4,14 @@
 
   Nagrand mounts, Telaari Talbuk and Frostwolf War Wolf.
 
+  Draenor Ability spells are weird.
+
+  The name of the Garrison Ability (localized) is
+        name = GetSpellInfo(161691)
+  But,
+        GetSpellInfo(name)
+  returns the actual current spell that's active.
+
   Copyright 2011-2020 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
@@ -17,27 +25,16 @@ if LibDebug then LibDebug() end
 LM.Nagrand = setmetatable({ }, LM.Spell)
 LM.Nagrand.__index = LM.Nagrand
 
-local FactionRequirements = {
-    [LM.SPELL.FROSTWOLF_WAR_WOLF] = "Horde",
-    [LM.SPELL.TELAARI_TALBUK] = "Alliance",
-}
-
-function LM.Nagrand:Get(spellID, ...)
+function LM.Nagrand:Get(spellID, faction, ...)
     local m = LM.Spell.Get(self, spellID, ...)
 
     if m then
         local playerFaction = UnitFactionGroup("player")
-        m.isCollected = ( UnitLevel("player") >= 100 )
-        m.isFiltered = ( playerFaction ~= FactionRequirements[spellID] )
-        m.needsFaction = FactionRequirements[spellID]
+        m.isFiltered = ( playerFaction ~= faction )
+        m.needsFaction = faction
     end
 
     return m
-end
-
-function LM.Nagrand:Refresh()
-    self.isCollected = ( UnitLevel("player") >= 100 )
-    LM.Mount.Refresh(self)
 end
 
 function LM.Nagrand:GetCastAction()
@@ -45,16 +42,20 @@ function LM.Nagrand:GetCastAction()
     return LM.SecureAction:Spell(spellName)
 end
 
--- Draenor Ability spells are weird.  The name of the Garrison Ability
--- (localized) is name = GetSpellInfo(161691)
--- But, GetSpellInfo(name) returns the actual current spell that's active.
+function LM.Nagrand:GetCancelAction()
+    local spellName = GetSpellInfo(LM.SPELL.GARRISON_ABILITY)
+    return LM.SecureAction:CancelAura(spellName)
+end
+
+-- Check if the spell is in one of the zone spell slots.
+
 function LM.Nagrand:IsCastable()
     local zoneAbilities = C_ZoneAbility.GetActiveAbilities();
     for _,info in ipairs(zoneAbilities) do
         local baseSpellName = GetSpellInfo(info.spellID)
         local id = select(7, GetSpellInfo(baseSpellName))
-        if id == self.spellID and IsUsableSpell(info.spellID) then
-            return LM.Mount.IsCastable(self)
+        if id == self.spellID then
+            return IsUsableSpell(info.spellID) and LM.Mount.IsCastable(self)
         end
     end
     return false
