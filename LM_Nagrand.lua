@@ -46,7 +46,7 @@ function LM.Nagrand:Refresh()
 end
 
 function LM.Nagrand:GetCastAction()
-    return LM.SecureAction:Spell(self.name)
+    return LM.SecureAction:Spell(self.baseSpellName)
 end
 
 -- Check if the spell is in one of the zone spell slots.

@@ -190,7 +190,7 @@ Keeps track of various things about the player's environment. The location
 part of it was more of a big deal before BfA when the map system changed and
 you didn't have to keep messing with the map GUI to find out where you are.
 
-The table InstanceNotFlyable is really the only interesting part.
+The table InstanceFlyableOverride is really the only interesting part.
 
 ```
   LM.Environment
