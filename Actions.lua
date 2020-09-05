@@ -193,7 +193,6 @@ ACTIONS['SmartMount'] =
             local swim = filteredList:FilterSearch('SWIM')
             LM.Debug(" - found " .. #swim .. " mounts.")
             m = swim:PriorityRandom(env.random)
-            if m then return m end
         end
 
         if not m then
