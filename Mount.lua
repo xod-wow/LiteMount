@@ -93,16 +93,12 @@ function LM.Mount:FlagsSet(checkFlags)
     return true
 end
 
-local function PlayerIsMovingOrFalling()
-    return (GetUnitSpeed("player") > 0 or IsFalling())
-end
-
 function LM.Mount:IsActive(buffTable)
     return buffTable[self.spellID]
 end
 
 function LM.Mount:IsCastable()
-    if PlayerIsMovingOrFalling() then
+    if LM.Location:IsMovingOrFalling() then
         local castTime = select(4, GetSpellInfo(self.spellID))
         if castTime > 0 then return false end
     end

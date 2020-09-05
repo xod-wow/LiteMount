@@ -339,7 +339,7 @@ CONDITIONS["mounted"] =
 
 CONDITIONS["moving"] =
     function (cond, unit)
-        return IsFalling() or GetUnitSpeed("player") > 0
+        return LM.Location:IsMovingOrFalling()
     end
 
 CONDITIONS["name"] =

@@ -95,6 +95,10 @@ function LM.Location:IsFloating()
            ( GetTime() - (self.lastDryTime or 0 ) < 1.0)
 end
 
+function LM.Location:IsMovingOrFalling()
+    return (GetUnitSpeed("player") > 0 or IsFalling())
+end
+
 function LM.Location:Update()
     local map = C_Map.GetBestMapForUnit("player")
 

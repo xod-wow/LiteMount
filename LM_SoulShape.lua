@@ -25,7 +25,7 @@ LM.Soulshape.__index = LM.Soulshape
 function LM.Soulshape:IsCancelable()
     if not IsResting() then
         return false
-    elseif GetUnitSpeed('player') > 0 or IsFalling() then
+    elseif LM.Location:IsMovingOrFalling() then
         return false
     else
         return true
