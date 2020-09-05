@@ -98,7 +98,7 @@ function LM.Mount:IsActive(buffTable)
 end
 
 function LM.Mount:IsCastable()
-    if LM.Location:IsMovingOrFalling() then
+    if LM.Environment:IsMovingOrFalling() then
         local castTime = select(4, GetSpellInfo(self.spellID))
         if castTime > 0 then return false end
     end

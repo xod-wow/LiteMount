@@ -229,7 +229,7 @@ CONDITIONS["faction"] =
 
 CONDITIONS["falling"] =
     function (cond, unit)
-        return LM.Location:IsFalling()
+        return LM.Environment:IsFalling()
     end
 
 CONDITIONS["false"] =
@@ -239,12 +239,12 @@ CONDITIONS["false"] =
 
 CONDITIONS["floating"] =
     function (cond, unit)
-        return LM.Location:IsFloating()
+        return LM.Environment:IsFloating()
     end
 
 CONDITIONS["flyable"] =
     function (cond, unit)
-        return LM.Location:CanFly()
+        return LM.Environment:CanFly()
     end
 
 CONDITIONS["flying"] =
@@ -305,15 +305,15 @@ CONDITIONS["instance"] =
 
 CONDITIONS["jump"] =
     function (cond, unit)
-        return LM.Location:HasJumped(2.0)
+        return LM.Environment:HasJumped(2.0)
     end
 
 CONDITIONS["map"] =
     function (cond, unit, v)
         if v:sub(1,1) == '*' then
-            return LM.Location.uiMapID == tonumber(v:sub(2))
+            return LM.Environment.uiMapID == tonumber(v:sub(2))
         else
-            return LM.Location:MapInPath(tonumber(v))
+            return LM.Environment:MapInPath(tonumber(v))
         end
     end
 
@@ -339,7 +339,7 @@ CONDITIONS["mounted"] =
 
 CONDITIONS["moving"] =
     function (cond, unit)
-        return LM.Location:IsMovingOrFalling()
+        return LM.Environment:IsMovingOrFalling()
     end
 
 CONDITIONS["name"] =
@@ -488,7 +488,7 @@ CONDITIONS["stealthed"] =
 
 CONDITIONS["submerged"] =
     function (cond, unit)
-        return (IsSubmerged() and not LM.Location:IsFloating())
+        return (IsSubmerged() and not LM.Environment:IsFloating())
     end
 
 CONDITIONS["talent:args"] =

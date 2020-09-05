@@ -30,31 +30,33 @@ function LM.Nagrand:Get(spellID, faction, ...)
 
     if m then
         local playerFaction = UnitFactionGroup("player")
+        m.baseSpellID = LM.SPELL.GARRISON_ABILITY
+        m.baseSpellName = GetSpellInfo(m.baseSpellID)
         m.isFiltered = ( playerFaction ~= faction )
         m.needsFaction = faction
+        m.isCollected = (not m.isFiltered) and IsSpellKnown(m.baseSpellID)
     end
 
     return m
 end
 
-function LM.Nagrand:GetCastAction()
-    local spellName = GetSpellInfo(LM.SPELL.GARRISON_ABILITY)
-    return LM.SecureAction:Spell(spellName)
+function LM.Nagrand:Refresh()
+    self.isCollected = IsSpellKnown(self.baseSpellID)
+    LM.Mount.Refresh(self)
 end
 
-function LM.Nagrand:GetCancelAction()
-    local spellName = GetSpellInfo(LM.SPELL.GARRISON_ABILITY)
-    return LM.SecureAction:CancelAura(spellName)
+function LM.Nagrand:GetCastAction()
+    return LM.SecureAction:Spell(self.name)
 end
 
 -- Check if the spell is in one of the zone spell slots.
 
 function LM.Nagrand:IsCastable()
-    local zoneAbilities = C_ZoneAbility.GetActiveAbilities();
+    local zoneAbilities = C_ZoneAbility.GetActiveAbilities()
     for _,info in ipairs(zoneAbilities) do
-        local baseSpellName = GetSpellInfo(info.spellID)
-        local id = select(7, GetSpellInfo(baseSpellName))
-        if id == self.spellID then
+        local zoneSpellName = GetSpellInfo(info.spellID)
+        local zoneSpellID = select(7, GetSpellInfo(zoneSpellName))
+        if zoneSpellID == self.spellID then
             return IsUsableSpell(info.spellID) and LM.Mount.IsCastable(self)
         end
     end

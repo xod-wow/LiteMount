@@ -44,7 +44,7 @@ end
 function LM.ItemSummoned:GetCastAction()
     -- I assume that if you actually have the item, GetItemInfo() works
     local itemName = GetItemInfo(self.itemID)
-    return LM.SecureAction:Use(itemName)
+    return LM.SecureAction:Item(itemName)
 end
 
 function LM.ItemSummoned:IsCastable()

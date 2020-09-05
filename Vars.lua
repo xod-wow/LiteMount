@@ -79,7 +79,7 @@ VARS["{ROLE}"] =
 
 VARS["{MAPID}"] =
     function ()
-        return LM.Location.uiMapID
+        return LM.Environment.uiMapID
     end
 
 -- this should totally be some kind of metatable but who cares

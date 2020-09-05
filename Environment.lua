@@ -2,9 +2,9 @@
 
   LiteMount/Location.lua
 
-  Some basics about the current location with respect to mounting.  Most of
-  the mojo is done by IsUsableSpell to know if a mount can be cast, this
-  just helps with the prioritization.
+  Some basics about the current game state with respect to mounting. Most of
+  the mojo is done by IsUsableSpell to know if a mount can be cast, this just
+  helps with the prioritization.
 
   Copyright 2011-2020 Mike Battersby
 
@@ -16,10 +16,10 @@ local _, LM = ...
 if LibDebug then LibDebug() end
 --@end-debug@
 
-LM.Location = LM.CreateAutoEventFrame("Frame")
-LM.Location:RegisterEvent("PLAYER_LOGIN")
+LM.Environment = LM.CreateAutoEventFrame("Frame")
+LM.Environment:RegisterEvent("PLAYER_LOGIN")
 
-function LM.Location:Initialize()
+function LM.Environment:Initialize()
     self.uiMapID = -1
     self.uiMapPath = { }
     self.uiMapPathIDs = { }
@@ -50,7 +50,7 @@ end
 local onUpdateElapsed = 0
 local IsFalling = IsFalling
 
-function LM.Location:OnUpdate(delta)
+function LM.Environment:OnUpdate(delta)
     onUpdateElapsed = onUpdateElapsed + delta
     if onUpdateElapsed > 0.05 then
         if IsFalling() then
@@ -68,7 +68,7 @@ function LM.Location:OnUpdate(delta)
     end
 end
 
-function LM.Location:IsFalling()
+function LM.Environment:IsFalling()
     return IsFalling() and
         self.startedFalling > self.stoppedFalling and
         GetTime() - self.startedFalling > 1
@@ -76,7 +76,7 @@ end
 
 -- A jump in place takes approximately 0.83 seconds
 
-function LM.Location:HasJumped(seconds)
+function LM.Environment:HasJumped(seconds)
     local airTime = self.stoppedFalling - self.startedFalling
     local timeSinceLanded = GetTime() - self.stoppedFalling
     if airTime > 0.73 and airTime < 0.93 and timeSinceLanded < seconds then
@@ -84,22 +84,22 @@ function LM.Location:HasJumped(seconds)
     end
 end
 
-function LM.Location:UpdateSwimTimes()
+function LM.Environment:UpdateSwimTimes()
     if not IsSubmerged() then
         self.lastDryTime = GetTime()
     end
 end
 
-function LM.Location:IsFloating()
+function LM.Environment:IsFloating()
     return IsSubmerged() and not self:CantBreathe() and
            ( GetTime() - (self.lastDryTime or 0 ) < 1.0)
 end
 
-function LM.Location:IsMovingOrFalling()
+function LM.Environment:IsMovingOrFalling()
     return (GetUnitSpeed("player") > 0 or IsFalling())
 end
 
-function LM.Location:Update()
+function LM.Environment:Update()
     local map = C_Map.GetBestMapForUnit("player")
 
     -- Right after zoning this can be unknown.
@@ -125,36 +125,36 @@ function LM.Location:Update()
     LM.Options:RecordInstance()
 end
 
-function LM.Location:PLAYER_LOGIN()
+function LM.Environment:PLAYER_LOGIN()
     self:Initialize()
 end
 
-function LM.Location:MOUNT_JOURNAL_USABILITY_CHANGED()
+function LM.Environment:MOUNT_JOURNAL_USABILITY_CHANGED()
     LM.Debug("Updating swim times due to MOUNT_JOURNAL_USABILITY_CHANGED.")
     self:UpdateSwimTimes()
 end
 
-function LM.Location:PLAYER_ENTERING_WORLD()
+function LM.Environment:PLAYER_ENTERING_WORLD()
     LM.Debug("Updating location due to PLAYER_ENTERING_WORLD.")
     self:Update()
 end
 
-function LM.Location:ZONE_CHANGED()
+function LM.Environment:ZONE_CHANGED()
     LM.Debug("Updating location due to ZONE_CHANGED.")
     self:Update()
 end
 
-function LM.Location:ZONE_CHANGED_INDOORS()
+function LM.Environment:ZONE_CHANGED_INDOORS()
     LM.Debug("Updating location due to ZONE_CHANGED_INDOORS.")
     self:Update()
 end
 
-function LM.Location:ZONE_CHANGED_NEW_AREA()
+function LM.Environment:ZONE_CHANGED_NEW_AREA()
     LM.Debug("Updating location due to ZONE_CHANGED_NEW_AREA.")
     self:Update()
 end
 
-function LM.Location:MapInPath(...)
+function LM.Environment:MapInPath(...)
     for i = 1, select('#', ...) do
         local id = select(i, ...)
         if self.uiMapPathIDs[id] then return true end
@@ -162,7 +162,7 @@ function LM.Location:MapInPath(...)
     return false
 end
 
-function LM.Location:InInstance(...)
+function LM.Environment:InInstance(...)
     for i = 1, select('#', ...) do
         local id = select(i, ...)
         if self.instanceID == id then return true end
@@ -175,58 +175,63 @@ end
 -- artisanRiding = IsSpellKnown(34091)
 -- masterRiding = IsSpellKnown(90265)
 
-function LM.Location:KnowsFlyingSkill()
+function LM.Environment:KnowsFlyingSkill()
     -- These are in this order because it's more likely you are high level and
     -- know the most advanced one.
     return IsSpellKnown(90265) or IsSpellKnown(34090)
 end
 
-local InstanceNotFlyable = {
-    [ 754] = true,          -- Throne of the Four Winds
-    [1107] = true,          -- Dreadscar Rift (Warlock)
-    [1191] = true,          -- Ashran PVP Area
-    [1265] = true,          -- Tanaan Jungle Intro
-    [1463] = true,          -- Helheim Exterior Area
-    [1469] = true,          -- Heart of Azeroth (Shaman)
-    [1479] = true,          -- Skyhold (Warrior)
-    [1500] = true,          -- Broken Shore DH Scenario
-    [1514] = true,          -- Wandering Isle (Monk)
-    [1519] = true,          -- Fel Hammer (DH)
-    [1604] = true,          -- Niskara, priest legion campaign
-    [1669] = true,          -- Argus
-    [1688] = true,          -- The Deadmines (Pet Battle)
-    [1760] = true,          -- Ruins of Lordaeron BfA opening
-    [1763] = true,          -- Atal'Dazar instance
-    [1803] = true,          -- Battleground: Seething Shore
-    [1813] = true,          -- Island Expedition Un'gol Ruins
-    [1814] = true,          -- Island Expedition Havenswood
-    [1879] = true,          -- Island Expedition Jorundall
-    [1882] = true,          -- Island Expedition Verdant Wilds
-    [1883] = true,          -- Island Expedition Whispering Reef
-    [1892] = true,          -- Island Expedition Rotting Mire
-    [1893] = true,          -- Island Expedition The Dread Chain
-    [1897] = true,          -- Island Expedition Molten Cay
-    [1898] = true,          -- Island Expedition Skittering Hollow
-    [1906] = true,          -- Zuldazar Continent Finale
-    [1907] = true,          -- Island Expedition Snowblossom Village
-    [2124] = true,          -- Island Expedition Crestfall
-    [2275] = true,          -- Lesser Vision Vale of Eternal Twilight
-    [2278] = true,          -- Revendreth Scenario
-    [2363] = true,          -- Queen's Winter Conservatory
+local InstanceFlyableOverride = {
+    [ 754] = false,         -- Throne of the Four Winds
+    [1107] = false,         -- Dreadscar Rift (Warlock)
+    [1191] = false,         -- Ashran PVP Area
+    [1265] = false,         -- Tanaan Jungle Intro
+    [1463] = false,         -- Helheim Exterior Area
+    [1469] = false,         -- Heart of Azeroth (Shaman)
+    [1479] = false,         -- Skyhold (Warrior)
+    [1500] = false,         -- Broken Shore DH Scenario
+    [1514] = false,         -- Wandering Isle (Monk)
+    [1519] = false,         -- Fel Hammer (DH)
+    [1604] = false,         -- Niskara, priest legion campaign
+    [1669] = false,         -- Argus
+    [1688] = false,         -- The Deadmines (Pet Battle)
+    [1760] = false,         -- Ruins of Lordaeron BfA opening
+    [1763] = false,         -- Atal'Dazar instance
+    [1803] = false,         -- Battleground: Seething Shore
+    [1813] = false,         -- Island Expedition Un'gol Ruins
+    [1814] = false,         -- Island Expedition Havenswood
+    [1879] = false,         -- Island Expedition Jorundall
+    [1882] = false,         -- Island Expedition Verdant Wilds
+    [1883] = false,         -- Island Expedition Whispering Reef
+    [1892] = false,         -- Island Expedition Rotting Mire
+    [1893] = false,         -- Island Expedition The Dread Chain
+    [1897] = false,         -- Island Expedition Molten Cay
+    [1898] = false,         -- Island Expedition Skittering Hollow
+    [1906] = false,         -- Zuldazar Continent Finale
+    [1907] = false,         -- Island Expedition Snowblossom Village
+    [2124] = false,         -- Island Expedition Crestfall
+    [2275] = false,         -- Lesser Vision Vale of Eternal Twilight
+    [2278] = false,         -- Revendreth Scenario
+    [2363] = false,         -- Queen's Winter Conservatory
 }
+
+function LM.Environment:ForceFlyable(instanceID)
+    instanceID = instanceID or select(8, GetInstanceInfo())
+    InstanceFlyableOverride[instanceID] = true
+end
 
 -- Can't fly if you haven't learned a flying skill. Various expansion
 -- continents from Draenor onwards need achievement unlocks to be able to fly.
 
-function LM.Location:CanFly()
+function LM.Environment:CanFly()
 
     -- If you don't know how to fly, you can't fly
     if not self:KnowsFlyingSkill() then
         return false
     end
 
-    if InstanceNotFlyable[self.instanceID] then
-        return false
+    if InstanceFlyableOverride[self.instanceID] ~= nil then
+        return InstanceFlyableOverride[self.instanceID]
     end
 
     -- Battle for Azeroth Pathfinder, Part 2
@@ -251,12 +256,12 @@ function LM.Location:CanFly()
     return IsFlyableArea()
 end
 
-function LM.Location:CantBreathe()
+function LM.Environment:CantBreathe()
     local name, _, _, rate = GetMirrorTimerInfo(2)
     return (name == "BREATH" and rate < 0)
 end
 
-function LM.Location:GetLocation()
+function LM.Environment:GetLocation()
     local path = { }
     for _, mapID in ipairs(self.uiMapPath) do
         tinsert(path, format("%s (%d)", C_Map.GetMapInfo(mapID).name, mapID))
@@ -273,7 +278,7 @@ function LM.Location:GetLocation()
 end
 
 local maxMapID
-function LM.Location:MaxMapID()
+function LM.Environment:MaxMapID()
     if not maxMapID then
         -- 10000 is a guess at something way over the current maximum
 
@@ -286,7 +291,7 @@ function LM.Location:MaxMapID()
     return maxMapID
 end
 
-function LM.Location:GetMaps(str)
+function LM.Environment:GetMaps(str)
     local searchStr = string.lower(str or "")
 
     local lines = {}
@@ -303,7 +308,7 @@ function LM.Location:GetMaps(str)
     return lines
 end
 
-function LM.Location:GetContinents(str)
+function LM.Environment:GetContinents(str)
     local searchStr = string.lower(str or "")
 
     local lines = {}

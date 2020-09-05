@@ -75,19 +75,19 @@ LM.SlashCommandFunc = function (argstr)
         return true
     elseif cmd == "location" then
         LM.Print(LOCATION_COLON)
-        for _,line in ipairs(LM.Location:GetLocation()) do
+        for _,line in ipairs(LM.Environment:GetLocation()) do
             LM.Print("  " .. line)
         end
         return true
     elseif cmd == "maps" then
         local str = table.concat(args, ' ')
-        for _,line in ipairs(LM.Location:GetMaps(str)) do
+        for _,line in ipairs(LM.Environment:GetMaps(str)) do
             LM.Print(line)
         end
         return true
     elseif cmd == "continents" then
         local str = table.concat(args, ' ')
-        for _,line in ipairs(LM.Location:GetContinents(str)) do
+        for _,line in ipairs(LM.Environment:GetContinents(str)) do
             LM.Print(line)
         end
         return true
@@ -161,6 +161,9 @@ LM.SlashCommandFunc = function (argstr)
             LM.Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_DISABLED)
             LM.Options:SetUIDebug(false)
         end
+        return true
+    elseif cmd == "forcefly" then
+        LM.Environment:ForceFlyable()
         return true
 --@debug@
     elseif cmd == "usable" then

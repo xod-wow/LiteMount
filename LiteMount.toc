@@ -18,8 +18,10 @@ Developer.lua
 #@end-debug@
 
 SpellInfo.lua
-Mount.lua
+Environment.lua
+Options.lua
 SecureAction.lua
+Mount.lua
 LM_Journal.lua
 LM_Spell.lua
 LM_ItemSummoned.lua
@@ -30,8 +32,6 @@ LM_TravelForm.lua
 LM_Soulshape.lua
 MountList.lua
 PlayerMounts.lua
-Location.lua
-Options.lua
 SlashCommand.lua
 Conditions.lua
 Vars.lua
