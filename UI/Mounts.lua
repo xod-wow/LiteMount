@@ -460,7 +460,7 @@ function LiteMountMountButtonMixin:Update(pageFlags, mount)
     self.Name:SetText(mount.name)
 
     if not InCombatLockdown() then
-        mount:GetCastAction():SetupActionButton(self)
+        mount:GetCastAction():SetupActionButton(self.Icon)
     end
 
     local i = 1
