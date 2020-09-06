@@ -60,7 +60,7 @@ function LM.Journal:Get(id, isUsable)
     m.isFavorite    = isFavorite
     m.isFiltered    = isFiltered
     m.isCollected   = isCollected
-    m.isUsable      = isFiltered or isUsable == true
+    m.isUsable      = isFiltered == false and isUsable == true
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
     m.flags         = { }
 
