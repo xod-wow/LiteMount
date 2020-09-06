@@ -7,11 +7,12 @@
 <Button name="LiteMountActionsButtonTemplate" virtual="true" mixin="LiteMountActionsButtonMixin" inherits="BackdropTemplate">
     <KeyValues>
         <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" type="global" />
-        <KeyValue key="backdropColor" value="GRAY_FONT_COLOR" type="global"/>
+        <KeyValue key="backdropColor" value="DARKGRAY_COLOR" type="global"/>
         <KeyValue key="backdropColorAlpha" value="0.3" type="number" />
-        <KeyValue key="backdropBorderColor" value="LIGHTGRAY_FONT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.3" type="number" />
     </KeyValues>
-    <Size y="44" />
+    <Size y="33" />
     <Scripts>
         <OnShow method="OnShow" />
     </Scripts>
