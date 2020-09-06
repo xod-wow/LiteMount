@@ -305,7 +305,8 @@ CONDITIONS["instance"] =
 
 CONDITIONS["jump"] =
     function (cond, unit)
-        return LM.Environment:HasJumped(2.0)
+        local jumpTime = LM.Environment:JumpTime()
+        return ( jumpTime and jumpTime < 2 )
     end
 
 CONDITIONS["map"] =
@@ -477,6 +478,22 @@ CONDITIONS["spec"] =
             else
                 local _, name, _, _, _, role = GetSpecializationInfo(index)
                 return (name == v or role == v)
+            end
+        end
+    end
+
+CONDITIONS["stationary:args"] =
+    function (cond, unit, minv, maxv)
+        minv = tonumber(minv)
+        maxv = tonumber(maxv)
+        local stationaryTime = LM.Environment:StationaryTime()
+        if stationaryTime then
+            if stationaryTime < ( minv or 0 ) then
+                return false
+            elseif maxv then
+                return ( stationaryTime <= maxv )
+            else
+                return true
             end
         end
     end

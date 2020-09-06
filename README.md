@@ -196,8 +196,10 @@ The table InstanceFlyableOverride is really the only interesting part.
   LM.Environment
     CanFly()
     CantBreath()
-    InInstance(instanceID, [instanceID, ...])
     IsFloating()
+    IsMovingOrFalling()
+    InInstance(instanceID, [instanceID, ...])
+    HasJumped(maxSecondsSinceJump)
     MapInPath(mapID, [mapID, ...])
 ```
 

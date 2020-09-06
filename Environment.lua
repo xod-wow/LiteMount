@@ -31,6 +31,7 @@ function LM.Environment:Initialize()
 
     self.startedFalling = 0
     self.stoppedFalling = 0
+    self.stoppedMoving = GetTime()
 
     local elapsed = 0
     self:SetScript('OnUpdate', self.OnUpdate)
@@ -40,6 +41,8 @@ function LM.Environment:Initialize()
     self:RegisterEvent("ZONE_CHANGED_INDOORS")
     self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     self:RegisterEvent("MOUNT_JOURNAL_USABILITY_CHANGED")
+    self:RegisterEvent("PLAYER_STARTED_MOVING")
+    self:RegisterEvent("PLAYER_STOPPED_MOVING")
 end
 
 -- I hate OnUpdate handlers but there are just no good events for determining
@@ -76,11 +79,19 @@ end
 
 -- A jump in place takes approximately 0.83 seconds
 
-function LM.Environment:HasJumped(seconds)
+function LM.Environment:JumpTime()
     local airTime = self.stoppedFalling - self.startedFalling
-    local timeSinceLanded = GetTime() - self.stoppedFalling
-    if airTime > 0.73 and airTime < 0.93 and timeSinceLanded < seconds then
-        return true
+    if airTime > 0.73 and airTime < 0.93 then
+        local timeSinceLanded = GetTime() - self.stoppedFalling
+        return timeSinceLanded
+    end
+end
+
+function LM.Environment:StationaryTime()
+    if not self.stoppedMoving then
+        return 0
+    else
+        return GetTime() - math.max(self.stoppedMoving, self.stoppedFalling)
     end
 end
 
@@ -127,6 +138,14 @@ end
 
 function LM.Environment:PLAYER_LOGIN()
     self:Initialize()
+end
+
+function LM.Environment:PLAYER_STARTED_MOVING()
+    self.stoppedMoving = nil
+end
+
+function LM.Environment:PLAYER_STOPPED_MOVING()
+    self.stoppedMoving = GetTime()
 end
 
 function LM.Environment:MOUNT_JOURNAL_USABILITY_CHANGED()
