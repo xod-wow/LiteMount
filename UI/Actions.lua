@@ -58,11 +58,6 @@ function LiteMountActionsScrollMixin:Update()
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
-function LiteMountActionsScrollMixin:OnLoad()
-    self.scrollBarHideable = 1
-    self.ScrollBar:Hide()
-end
-
 function LiteMountActionsScrollMixin:OnShow()
     self.EditBox:SetWidth(self:GetWidth() - 18)
 end
@@ -79,10 +74,9 @@ function LiteMountActionsScrollMixin:GetOptionDefault()
 end
 
 function LiteMountActionsScrollMixin:OnLoad()
+    local track = _G[self.scrollBar:GetName().."Track"]
+    track:Hide()
     self.ntabs = 4
-end
-
-function LiteMountActionsScrollMixin:OnLoad()
     self.update = self.Update
     self.SetControl = self.Update
 end
