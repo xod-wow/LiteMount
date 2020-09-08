@@ -92,7 +92,7 @@ end
 function LM.ActionButton:PostClick()
     if InCombatLockdown() then return end
 
-    LM.Debug("PostClick handler called.")
+    LM.Debug("PostClick handler called on " .. self:GetName())
 
     -- We'd like to set the macro to undo whatever we did, but
     -- tests like IsMounted() and CanExitVehicle() will still
