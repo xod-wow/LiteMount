@@ -88,12 +88,29 @@ function LiteMountProfileImportMixin:UpdateImportButton()
     end
 end
 
+--@debug@
+
 --[[ Inspect ---------------------------------------------------------------]]--
+
+local Serializer = LibStub("AceSerializer-3.0")
+local LibDeflate = LibStub("LibDeflate")
 
 LiteMountProfileInspectMixin = {}
 
 function LiteMountProfileInspectMixin:Apply()
     local text = self.ProfileData:GetText()
-    local data = LM.Options:DecodeProfileData(text)
+    if not text then return end
+
+    local decoded = LibDeflate:DecodeForPrint(text)
+    if not decoded then return end
+
+    local deflated = LibDeflate:DecompressDeflate(decoded)
+    if not deflated then return end
+
+    local isValid, data = Serializer:Deserialize(deflated)
+    if not isValid then return end
+
     self.Scroll.EditBox:SetText(LM.TableToString(data))
 end
+
+--@end-debug@
