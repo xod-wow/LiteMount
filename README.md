@@ -55,8 +55,8 @@ The important methods are
     Copy()
     Search(matchFunc, ...)  - calls matchFunc(mount, ...) to test
     Shuffle()               - not used any more with the weighting system
-    Random(r)               - if r [0,1) is passed it is used as the
-    PriorityRandom(r)         random number
+    Random(r)               - if r [0,1) is passed it is used as the random number
+    PriorityRandom(r)
     Sort()
 ```
 
@@ -83,7 +83,7 @@ actions that are attempted when it is clicked.
 
 ```
   LM.ActionButton
-    Create(n)               - Buttons are named LM_{n} and
+    Create(n)               - Buttons are named LM_B{n}
 ```
 
 ### ActionList.lua
