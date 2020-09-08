@@ -19,7 +19,7 @@ LM.PlayerMounts = CreateFrame("Frame", nil, UIParent)
 -- Type, type class create args
 local MOUNT_SPELLS = {
     { "RunningWild", LM.SPELL.RUNNING_WILD },
-    { "GhostWolf", LM.SPELL.GHOST_WOLF },
+    { "GhostWolf", LM.SPELL.GHOST_WOLF, 'WALK' },
     { "TravelForm", LM.SPELL.TRAVEL_FORM, 'RUN', 'FLY', 'SWIM' },
     { "TravelForm", LM.SPELL.FLIGHT_FORM, 'FLY' },
     { "TravelForm", LM.SPELL.STAG_FORM, 'RUN' },
