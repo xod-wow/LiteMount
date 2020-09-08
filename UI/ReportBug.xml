@@ -1,0 +1,81 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011-2020 Mike Battersby -->
+
+<Script file="ReportBug.lua" />
+
+<Frame name="LiteMountReportBug" parent="UIParent" hidden="true"
+       inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountReportBugMixin"
+       frameStrata="DIALOG" toplevel="true" movable="true">
+    <KeyValues>
+        <KeyValue key="hideRevertButton" value="true" type="boolean" />
+        <KeyValue key="hideProfileButton" value="true" type="boolean" />
+        <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" type="global" />
+        <KeyValue key="backdropColorAlpha" value="0.8" TYpe="number" />
+    </KeyValues>
+    <Scripts>
+        <OnLoad inherit="append" method="OnLoad" />
+        <OnShow inherit="append" method="OnShow" />
+        <OnSizeChanged inherit="append" method="OnSizeChanged" />
+    </Scripts>
+    <Size x="480" y="640" />
+    <Anchors>
+        <Anchor point="CENTER" />
+    </Anchors>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_REPORT_BUG_EXP">
+                <Anchors>
+                    <Anchor point="TOP" y="-48" />
+                    <Anchor point="LEFT" x="48" />
+                    <Anchor point="RIGHT" x="-48" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+
+    <Frames>
+        <EditBox parentKey="CreateIssueURL" autoFocus="false" ignoreArrows="true">
+            <Size y="16" />
+            <Fontstring inherits="GameFontHighlight" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.ExplainText" relativePoint="BOTTOMLEFT" y="-12" x="16" />
+                <Anchor point="RIGHT" x="-16" />
+            </Anchors>
+            <Scripts>
+                <OnLoad>
+                    self.url = 'https://www.curseforge.com/wow/addons/litemount/issues/create'
+                </OnLoad>
+                <OnShow>
+                    self:SetText(self.url)
+                </OnShow>
+                <OnTextChanged>
+                    self:SetText(self.url)
+                </OnTextChanged>
+                <OnEscapePressed function="EditBox_ClearFocus" />
+            </Scripts>
+        </EditBox>
+        <ScrollFrame parentKey="Scroll" inherits="InputScrollFrameTemplate">
+            <KeyValues>
+                <KeyValue key="hideCharCount" value="true" type="boolean" />
+            </KeyValues>
+            <Anchors>
+                <Anchor point="TOP" relativeKey="$parent.CreateIssueURL" relativePoint="BOTTOM" y="-16" />
+                <Anchor point="LEFT" x="16" />
+                <Anchor point="BOTTOMRIGHT" x="-16" y="42" />
+            </Anchors>
+        </ScrollFrame>
+        <Button parentKey="RefreshButton" inherits="UIPanelButtonTemplate" text="REFRESH">
+            <Scripts>
+                <OnClick> self:GetParent():OnShow() </OnClick>
+            </Scripts>
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT" x="-16" y="8" />
+            </Anchors>
+        </Button>
+    </Frames>
+</Frame>
+
+</Ui>
