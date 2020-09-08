@@ -107,8 +107,11 @@ Handlers for each of the LiteMount actions and the flow control pseudo-
 actions.
 
 ```
+  fcHandler = LM.Actions:GetFlowControlHandler(action)
+  fcHandler(args, env)
+
   handler = LM.Actions:GetHandler(action)
-  mount = handler(args, env)
+  secureAction = handler(args, env)
 ```
 
 Handlers return a LM.SecureAction object if they were successful, which is
@@ -154,7 +157,7 @@ So here's what happens, tying it all together:
 1. if we're not in combat:
     1. the preclick handler on the button runs:
        - evaluates each line in its action list in turn
-       - once one returns a mount, sets up its secure attributes
+       - once one returns a SeucreAction, sets up the button's secure attributes
 1. the blizzard secure click handler uses the attributes to perform
    the mount action
 1. if we're not in combat:
@@ -182,7 +185,7 @@ keybindings.
 
 ### Localization.lua
 
-  Translations of all the texts.
+Translations of all the texts.
 
 ### Environment.lua
 
