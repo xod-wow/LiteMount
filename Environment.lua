@@ -58,12 +58,10 @@ function LM.Environment:OnUpdate(delta)
     if onUpdateElapsed > 0.05 then
         if IsFalling() then
             if self.startedFalling < self.stoppedFalling then
-                LM.Debug('started falling')
                 self.startedFalling = GetTime()
             end
         else
             if self.stoppedFalling <= self.startedFalling then
-                LM.Debug('stopped falling')
                 self.stoppedFalling = GetTime()
             end
         end
