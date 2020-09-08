@@ -4,7 +4,8 @@
 
 <Frame name="LiteMountOptions" hidden="true" inherits="LiteMountOptionsPanelTemplate">
     <KeyValues>
-        <KeyValue key="dontShowProfile" value="true" type="boolean" />
+        <KeyValue key="hideRevertButton" value="true" type="boolean" />
+        <KeyValue key="hideProfileButton" value="true" type="boolean" />
     </KeyValues>
 
     <Layers>

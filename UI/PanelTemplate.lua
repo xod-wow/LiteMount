@@ -132,7 +132,7 @@ function LiteMountOptionsPanel_OnShow(self)
     LM.UIDebug(self, "Panel_OnShow")
     LiteMountOptions.CurrentOptionsPanel = self
 
-    if not self.dontShowProfile then
+    if not self.hideProfileButton then
         LiteMountProfileButton:Attach(self)
     end
 end
@@ -154,6 +154,9 @@ function LiteMountOptionsPanel_OnLoad(self)
     else
         self.name = "LiteMount"
         self.Title:SetText("LiteMount")
+    end
+
+    if self.hideRevertButton then
         self.RevertButton:Hide()
     end
 
