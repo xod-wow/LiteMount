@@ -3,6 +3,9 @@
     <Include file="MountPreviewTooltip.xml" />
     <Include file="ProfileDropDown.xml" />
     <Include file="ProfileImportExport.xml" />
+<!--@debug-->
+    <Include file="MountSelector.xml" />
+<!--@end-debug-->
 
     <!-- Main parent settings panel -->
     <Include file="Base.xml" />
