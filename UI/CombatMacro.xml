@@ -15,20 +15,11 @@
     </Scripts>
 
     <Frames>
-        <Frame parentKey="EditBoxContainer" inherits="TooltipBackdropTemplate">
-
+        <Frame parentKey="EditBoxContainer" inherits="LiteMountOptionsContainerTemplate">
             <Size x="400" y="200" />
-
             <Anchors>
                 <Anchor point="CENTER" />
             </Anchors>
-
-            <KeyValues>
-                <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
-                <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
-                <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" type="global"/>
-                <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
-            </KeyValues>
         </Frame>
 
         <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true" mixin="LiteMountCombatMacroEditBoxMixin">

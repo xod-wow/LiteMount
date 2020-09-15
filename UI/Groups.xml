@@ -1,0 +1,176 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011-2020 Mike Battersby -->
+
+<Script file="Groups.lua" />
+
+<Button name="LiteMountGroupsPanelGroupTemplate" virtual="true" mixin="LiteMountGroupsPanelGroupMixin" inherits="TooltipBackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" type="global" />
+        <KeyValue key="backdropColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropColorAlpha" value="0.3" type="number" />
+        <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.3" type="number" />
+    </KeyValues>
+
+    <Scripts>
+        <OnClick method="OnClick" />
+    </Scripts>
+
+    <Size y="37" />
+
+    <HighlightTexture atlas="PetList-ButtonHighlight"/>
+
+    <Layers>
+        <Layer level="OVERLAY">
+            <Texture parentKey="SelectedTexture" atlas="PetList-ButtonSelect" hidden="true"/>
+            <Texture parentKey="Icon">
+                <Size x="18" y="18" />
+                <Anchors><Anchor point="LEFT" x="8" /></Anchors>
+            </Texture>
+        </Layer>
+        <Layer level="ARTWORK">
+            <FontString parentKey="Text" inherits="GameFontNormal" justifyH="LEFT">
+                <Anchors>
+                    <Anchor point="LEFT" x="8" />
+                    <Anchor point="RIGHT" x="-4" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+
+    <Frames>
+        <Button parentKey="DeleteButton" hidden="true">
+            <Size x="26" y="26" />
+            <Anchors>
+                <Anchor point="RIGHT" x="0" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    local f = self:GetParent().flag
+                    StaticPopup_Show("LM_OPTIONS_DELETE_FLAG", f, nil, f)
+                </OnClick>
+            </Scripts>
+            <DisabledTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Disabled"/>
+            <NormalTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Down"/>
+            <HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+        </Button>
+    </Frames>
+</Button>
+
+<Button name="LiteMountGroupsPanelMountTemplate" virtual="true" mixin="LiteMountGroupsPanelMountMixin" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" type="global" />
+        <KeyValue key="backdropColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropColorAlpha" value="0.3" type="number" />
+        <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.3" type="number" />
+    </KeyValues>
+    <Scripts>
+        <OnClick method="OnClick" />
+    </Scripts>
+
+    <Size y="22" />
+
+    <HighlightTexture atlas="PetList-ButtonHighlight"/>
+
+    <Layers>
+        <Layer level="OVERLAY">
+            <Texture parentKey="CheckedTexture" file="Interface\Buttons\UI-CheckBox-Check" hidden="true">
+                <Size x="20" y="20" />
+                <Anchors>
+                    <Anchor point="LEFT" x="8" />
+                </Anchors>
+            </Texture>
+            <Texture parentKey="SelectedTexture" atlas="PetList-ButtonSelect" hidden="true"/>
+            <Texture parentKey="Icon">
+                <Size x="18" y="18" />
+                <Anchors>
+                    <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.CheckedTexture" x="8" />
+                </Anchors>
+            </Texture>
+            <FontString parentKey="Name" inherits="GameFontHighlightSmall" justifyH="LEFT" wordwrap="false">
+                <Anchors>
+                    <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Icon" x="8" />
+                    <Anchor point="RIGHT" x="-8" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+</Button>
+
+<Frame name="LiteMountGroupsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountGroupsPanelMixin">
+    <KeyValues>
+        <KeyValue key="name" value="Mount Groups" type="string" />
+    </KeyValues>
+
+    <Scripts>
+        <OnLoad inherit="append" method="OnLoad" />
+    </Scripts>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_GROUPS_EXP">
+                <Anchors>
+                    <Anchor point="TOP" y="-48" />
+                    <Anchor point="LEFT" x="48" />
+                    <Anchor point="RIGHT" x="-48" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+
+    <Frames>
+        <Frame parentKey="GroupsContainer" inherits="LiteMountOptionsContainerTemplate" frameStrata="LOW">
+            <Size x="180" />
+            <Anchors>
+                <Anchor point="TOPLEFT" x="16" y="-120" />
+                <Anchor point="BOTTOM" y="53" />
+            </Anchors>
+        </Frame>
+        <Frame parentKey="MountsContainer" inherits="LiteMountOptionsContainerTemplate" frameStrata="LOW">
+            <Anchors>
+                <Anchor point="TOP" relativeKey="$parent.GroupsContainer" />
+                <Anchor point="LEFT" relativeKey="$parent.GroupsContainer" relativePoint="RIGHT" x="8"/>
+                <Anchor point="BOTTOM" relativeKey="$parent.GroupsContainer" />
+                <Anchor point="RIGHT" x="-16" />
+            </Anchors>
+        </Frame>
+        <ScrollFrame name="$parentGroups" parentKey="Groups" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountGroupsPanelGroupsMixin">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.GroupsContainer" x="8" y="-8" />
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.GroupsContainer" x="-8" y="8" />
+            </Anchors>
+            <Scripts>
+                <OnLoad inherit="append" method="OnLoad" />
+                <OnShow inherit="append" method="OnShow" />
+                <OnSizeChanged inherit="append" method="OnSizeChanged" />
+            </Scripts>
+            <Frames>
+                <Button parentKey="AddFlagButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
+                    <Size x="96" y="22" />
+                    <Scripts>
+                        <OnClick>
+                            StaticPopup_Show("LM_OPTIONS_NEW_FLAG")
+                        </OnClick>
+                    </Scripts>
+                </Button>
+            </Frames>
+        </ScrollFrame>
+        <ScrollFrame name="$parentMounts" parentKey="Mounts" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountGroupsPanelMountsMixin">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.MountsContainer" x="8" y="-8" />
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountsContainer" x="-30" y="8" />
+            </Anchors>
+            <Scripts>
+                <OnShow inherit="append" method="OnShow" />
+                <OnLoad inherit="append" method="OnLoad" />
+                <OnSizeChanged inherit="append" method="OnSizeChanged" />
+            </Scripts>
+        </ScrollFrame>
+    </Frames>
+
+</Frame>
+
+</Ui>

@@ -49,32 +49,18 @@
     <Frames>
         <ScrollFrame name="$parentOut" parentKey="Out" inherits="LiteMountSelectorScrollTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" x="32" y="-32" />
-                <Anchor point="RIGHT" relativePoint="CENTER" x="-32" />
-                <Anchor point="BOTTOM" y="32" />
+                <Anchor point="TOPLEFT" x="8" y="-8" />
+                <Anchor point="RIGHT" relativePoint="CENTER" x="-24" />
+                <Anchor point="BOTTOM" y="8" />
             </Anchors>
         </ScrollFrame>
         <ScrollFrame name="$parentIn" parentKey="In" inherits="LiteMountSelectorScrollTemplate">
             <Anchors>
-                <Anchor point="TOPRIGHT" x="-32" y="-32" />
-                <Anchor point="LEFT" relativePoint="CENTER" x="32" />
-                <Anchor point="BOTTOM" y="32" />
+                <Anchor point="TOPRIGHT" x="-8" y="-8" />
+                <Anchor point="LEFT" relativePoint="CENTER" x="24" />
+                <Anchor point="BOTTOM" y="8" />
             </Anchors>
         </ScrollFrame>
-        <Button parentKey="MoveIn" mixin="LiteMountSelectorMoveButtonMixin">
-            <KeyValues>
-                <KeyValue key="direction" value="In" type="string" />
-            </KeyValues>
-            <Scripts>
-                <OnClick method="OnClick" />
-            </Scripts>
-            <Anchors>
-                <Anchor point="BOTTOM" relativePoint="CENTER" y="16" />
-            </Anchors>
-            <Size x="32" y="32"/>
-            <NormalTexture file="Interface\ICONS\misc_arrowright" />
-            <HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
-        </Button>
         <Button parentKey="MoveOut" mixin="LiteMountSelectorMoveButtonMixin">
             <KeyValues>
                 <KeyValue key="direction" value="Out" type="string" />
@@ -83,10 +69,24 @@
                 <OnClick method="OnClick" />
             </Scripts>
             <Anchors>
-                <Anchor point="TOP" relativePoint="CENTER" y="-16" />
+                <Anchor point="BOTTOM" relativePoint="CENTER" y="16" />
             </Anchors>
             <Size x="32" y="32"/>
             <NormalTexture file="Interface\ICONS\misc_arrowleft" />
+            <HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
+        </Button>
+        <Button parentKey="MoveIn" mixin="LiteMountSelectorMoveButtonMixin">
+            <KeyValues>
+                <KeyValue key="direction" value="In" type="string" />
+            </KeyValues>
+            <Scripts>
+                <OnClick method="OnClick" />
+            </Scripts>
+            <Anchors>
+                <Anchor point="TOP" relativePoint="CENTER" y="-16" />
+            </Anchors>
+            <Size x="32" y="32"/>
+            <NormalTexture file="Interface\ICONS\misc_arrowright" />
             <HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
         </Button>
     </Frames>

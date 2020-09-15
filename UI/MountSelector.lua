@@ -85,24 +85,25 @@ function LiteMountSelectorScrollMixin:OnLoad()
     self.scrollBar:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, bottomYOff)
 
     _G[self.scrollBar:GetName().."Track"]:SetVertexColor(0.4, 0.4, 0.4, 0.1)
-    self.scrollBar.doNotHide = true
+    self.scrollBar.doNotHide = false
     self.update = self.Update
 end
 
 function LiteMountSelectorScrollMixin:Update()
     if not self.buttons then return end
-    if not self.mounts then return end
 
     local offset = HybridScrollFrame_GetOffset(self)
 
-    local totalHeight = #self.mounts * self.buttons[1]:GetHeight()
+    local mounts = self.mounts or {}
+
+    local totalHeight = #mounts * self.buttons[1]:GetHeight()
     local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
 
     for i = 1, #self.buttons do
         local button = self.buttons[i]
         local index = offset + i
-        if index <= #self.mounts then
-            local mount = self.mounts[index]
+        if index <= #mounts then
+            local mount = mounts[index]
             button:SetMount(mount)
             button.SelectedTexture:SetShown(self.selected[mount])
             button:Show()
@@ -122,13 +123,17 @@ function LiteMountSelectorMixin:OnLoad()
 end
 
 function LiteMountSelectorMixin:SetFlag(flag)
-    self.Out.mounts = LM.PlayerMounts:FilterSearch('~'..flag)
-    self.Out.mounts:Sort()
+    if flag then
+        self.Out.mounts = LM.PlayerMounts:FilterSearch('~'..flag)
+        self.Out.mounts:Sort()
+        self.In.mounts = LM.PlayerMounts:FilterSearch(flag)
+        self.In.mounts:Sort()
+    else
+        self.Out.mounts = nil
+        self.In.mounts = nil
+    end
     self.Out.selected = table.wipe(self.Out.selected or {})
     self.Out:Update()
-
-    self.In.mounts = LM.PlayerMounts:FilterSearch(flag)
-    self.In.mounts:Sort()
     self.In.selected = table.wipe(self.In.selected or {})
     self.In:Update()
 end

@@ -4,6 +4,14 @@
 
 <Script file="PanelTemplate.lua" />
 
+<Frame name="LiteMountOptionsContainerTemplate" virtual="true" inherits="TooltipBackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
+        <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
+        <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
+    </KeyValues>
+</Frame>
 
 <Frame name="LiteMountOptionsPanelTemplate" hidden="true" virtual="true">
     <Scripts>
