@@ -199,6 +199,17 @@ function LM.Environment:KnowsFlyingSkill()
 end
 
 local InstanceFlyableOverride = {
+    -- IsFlyableArea() seems to be broken for all of WoD in the Shadowlands prepatch
+    -- unless you have the old achievement completed.
+    [1116] = true,          -- Draenor (WoD)
+    [1330] = true,          -- Horde Garrison Level 1
+    [1153] = true,          -- Horde Garrison Level 2
+    [1154] = true,          -- Horde Garrison Level 3
+    [1158] = true,          -- Alliance Garrison Level 1
+    [1331] = true,          -- Alliance Garrison Level 2
+    [1159] = true,          -- Alliance Garrison Level 3
+    [1464] = true,          -- Tanaan Jungle (WoD)
+
     [ 754] = false,         -- Throne of the Four Winds
     [1107] = false,         -- Dreadscar Rift (Warlock)
     [1191] = false,         -- Ashran PVP Area
