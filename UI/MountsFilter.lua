@@ -2,7 +2,7 @@
 
   LiteMount/UI/MountsFilter.lua
 
-  UI Filter state abstracted out similar to how C_MountJournal does it
+  Options frame for the mount list.
 
   Copyright 2011-2020 Mike Battersby
 
@@ -12,285 +12,219 @@ local _, LM = ...
 
 local L = LM.Localize
 
-LM.UIFilter = {
-        filteredMountList = { },
-        searchText = nil,
-        flagFilterList =  { },
-        sourceFilterList = { },
-        priorityFilterList = { },
-    }
 
-local PriorityColors = {
-    [''] = COMMON_GRAY_COLOR,
-    [0] =  RED_FONT_COLOR,
-    [1] =  RARE_BLUE_COLOR,
-    [2] =  EPIC_PURPLE_COLOR,
-    [3] =  LEGENDARY_ORANGE_COLOR,
-}
+--[[--------------------------------------------------------------------------]]--
 
--- Clear -----------------------------------------------------------------------
+LiteMountFilterMixin = {}
 
-function LM.UIFilter.Clear()
-    table.wipe(LM.UIFilter.flagFilterList)
-    table.wipe(LM.UIFilter.sourceFilterList)
-    table.wipe(LM.UIFilter.priorityFilterList)
-    table.wipe(LM.UIFilter.filteredMountList)
+function LiteMountFilterMixin:OnLoad()
+    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "Update")
 end
 
-function LM.UIFilter.IsFiltered()
-    if next(LM.UIFilter.sourceFilterList) ~= nil then
-        return true
-    end
-
-    if next(LM.UIFilter.priorityFilterList) ~= nil then
-        return true
-    end
-
-    if next(LM.UIFilter.flagFilterList) ~= nil then
-        return true
-    end
-
-    return false
-end
-
--- Fetch -----------------------------------------------------------------------
-
--- Show all the collected mounts before the uncollected mounts, then by name
-local function FilterSort(a, b)
-    if a.isCollected and not b.isCollected then return true end
-    if not a.isCollected and b.isCollected then return false end
-    return a.name < b.name
-end
-
-function LM.UIFilter.UpdateCache()
-    for _,m in ipairs(LM.PlayerMounts.mounts) do
-        if not LM.UIFilter.IsFilteredMount(m) then
-            tinsert(LM.UIFilter.filteredMountList, m)
-        end
-    end
-    sort(LM.UIFilter.filteredMountList, FilterSort)
-end
-
-function LM.UIFilter.ClearCache()
-    table.wipe(LM.UIFilter.filteredMountList)
-end
-
-function LM.UIFilter.GetFilteredMountList()
-    if next(LM.UIFilter.filteredMountList) == nil then
-        LM.UIFilter.UpdateCache()
-    end
-    return LM.UIFilter.filteredMountList
-end
-
-
--- Sources ---------------------------------------------------------------------
-
-function LM.UIFilter.GetNumSources()
-    return C_PetJournal.GetNumPetSources() + 1
-end
-
-function LM.UIFilter.SetAllSourceFilters(v)
-    LM.UIFilter.ClearCache()
-    if v then
-        table.wipe(LM.UIFilter.sourceFilterList)
+function LiteMountFilterMixin:Update()
+    if LM.UIFilter.IsFiltered() then
+        self.FilterButton.ClearButton:Show()
     else
-        for i = 1,LM.UIFilter.GetNumSources() do
-            if LM.UIFilter.IsValidSourceFilter(i) then
-                LM.UIFilter.sourceFilterList[i] = true
+        self.FilterButton.ClearButton:Hide()
+    end
+end
+
+function LiteMountFilterMixin:Attach(parent, fromPoint, frame, toPoint, xOff, yOff)
+    self:SetParent(parent)
+    self:ClearAllPoints()
+    self:SetPoint(fromPoint, frame, toPoint, xOff, yOff)
+end
+
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountSearchBoxMixin = {}
+
+function LiteMountSearchBoxMixin:OnTextChanged()
+    SearchBoxTemplate_OnTextChanged(self)
+    LM.UIFilter.SetSearchText(self:GetText())
+end
+
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountFilterClearMixin = {}
+
+function LiteMountFilterClearMixin:OnClick()
+    LM.UIFilter.Clear()
+end
+
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountFilterButtonMixin = {}
+
+function LiteMountFilterButtonMixin:OnClick()
+    ToggleDropDownMenu(1, nil, self.FilterDropDown, self, 74, 15)
+end
+
+function LiteMountFilterButtonMixin:Initialize(level)
+    local info = UIDropDownMenu_CreateInfo()
+    info.keepShownOnClick = true
+
+    if level == 1 then
+        info.isNotRadio = true
+
+        info.text = COLLECTED
+        info.arg1 = "COLLECTED"
+        info.checked = function ()
+                return LM.UIFilter.IsFlagChecked("COLLECTED")
             end
+        info.func = function (_, _, _, v)
+                LM.UIFilter.SetFlagFilter("COLLECTED", v)
+            end
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = NOT_COLLECTED
+        info.arg1 = "NOT_COLLECTED"
+        info.checked = function ()
+                return LM.UIFilter.IsFlagChecked("NOT_COLLECTED")
+            end
+        info.func = function (_, _, _, v)
+                LM.UIFilter.SetFlagFilter("NOT_COLLECTED", v)
+            end
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = MOUNT_JOURNAL_FILTER_UNUSABLE
+        info.arg1 = "UNUSABLE"
+        info.checked = function ()
+                return LM.UIFilter.IsFlagChecked("UNUSABLE")
+            end
+        info.func = function (_, _, _, v)
+                LM.UIFilter.SetFlagFilter("UNUSABLE", v)
+            end
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = L.LM_HIDDEN
+        info.arg1 = "HIDDEN"
+        info.checked = function ()
+                return LM.UIFilter.IsFlagChecked("HIDDEN")
+            end
+        info.func = function (_, _, _, v)
+                LM.UIFilter.SetFlagFilter("HIDDEN", v)
+            end
+        UIDropDownMenu_AddButton(info, level)
+
+        info.checked = nil
+        info.func = nil
+        info.isNotRadio = nil
+        info.hasArrow = true
+        info.notCheckable = true
+
+        info.text = L.LM_PRIORITY
+        info.value = 1
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = L.LM_FLAGS
+        info.value = 2
+        UIDropDownMenu_AddButton(info, level)
+
+        info.text = SOURCES
+        info.value = 3
+        UIDropDownMenu_AddButton(info, level)
+    elseif level == 2 then
+        info.hasArrow = false
+        info.isNotRadio = true
+        info.notCheckable = true
+
+        if UIDROPDOWNMENU_MENU_VALUE == 3 then -- Sources
+            info.text = CHECK_ALL
+            info.func = function ()
+                    LM.UIFilter.SetAllSourceFilters(true)
+                    UIDropDownMenu_Refresh(self, false, 2)
+                end
+            UIDropDownMenu_AddButton(info, level)
+
+            info.text = UNCHECK_ALL
+            info.func = function ()
+                    LM.UIFilter.SetAllSourceFilters(false)
+                    UIDropDownMenu_Refresh(self, false, 2)
+                end
+            UIDropDownMenu_AddButton(info, level)
+
+            info.notCheckable = false
+
+            for i = 1,LM.UIFilter.GetNumSources() do
+                if LM.UIFilter.IsValidSourceFilter(i) then
+                    info.text = LM.UIFilter.GetSourceText(i)
+                    info.arg1 = i
+                    info.func = function (_, _, _, v)
+                            LM.UIFilter.SetSourceFilter(i, v)
+                        end
+                    info.checked = function ()
+                            return LM.UIFilter.IsSourceChecked(i)
+                        end
+                    UIDropDownMenu_AddButton(info, level)
+                end
+            end
+
+        elseif UIDROPDOWNMENU_MENU_VALUE == 2 then -- Flags
+            local flags = LM.UIFilter.GetFlags()
+
+            info.text = CHECK_ALL
+            info.func = function ()
+                    LM.UIFilter:SetAllFlagFilters(true)
+                    UIDropDownMenu_Refresh(self, false, 2)
+                end
+            UIDropDownMenu_AddButton(info, level)
+
+            info.text = UNCHECK_ALL
+            info.func = function ()
+                    LM.UIFilter:SetAllFlagFilters(false)
+                    UIDropDownMenu_Refresh(self, false, 2)
+                end
+            UIDropDownMenu_AddButton(info, level)
+
+            info.notCheckable = false
+
+            for _,f in ipairs(flags) do
+                info.text = LM.UIFilter.GetFlagText(f)
+                info.arg1 = f
+                info.func = function (_, _, _, v)
+                        LM.UIFilter.SetFlagFilter(f, v)
+                    end
+                info.checked = function ()
+                        return LM.UIFilter.IsFlagChecked(f)
+                    end
+                UIDropDownMenu_AddButton(info, level)
+            end
+        elseif UIDROPDOWNMENU_MENU_VALUE == 1 then -- Priority
+            local priorities = LM.UIFilter.GetPriorities()
+
+            info.text = CHECK_ALL
+            info.func = function ()
+                    LM.UIFilter:SetAllPriorityFilters(true)
+                    UIDropDownMenu_Refresh(self, false, 2)
+                end
+            UIDropDownMenu_AddButton(info, level)
+
+            info.text = UNCHECK_ALL
+            info.func = function ()
+                    LM.UIFilter:SetAllPriorityFilters(false)
+                    UIDropDownMenu_Refresh(self, false, 2)
+                end
+            UIDropDownMenu_AddButton(info, level)
+
+            info.notCheckable = false
+
+            for _,p in ipairs(priorities) do
+                info.text = LM.UIFilter.GetPriorityText(p)
+                info.arg1 = p
+                info.func = function (_, _, _, v)
+                        LM.UIFilter.SetPriorityFilter(p, v)
+                    end
+                info.checked = function ()
+                        return LM.UIFilter.IsPriorityChecked(p)
+                    end
+                UIDropDownMenu_AddButton(info, level)
+            end
+
         end
     end
 end
 
-function LM.UIFilter.SetSourceFilter(i, v)
-    LM.UIFilter.ClearCache()
-    if v then
-        LM.UIFilter.sourceFilterList[i] = nil
-    else
-        LM.UIFilter.sourceFilterList[i] = true
-    end
-end
-
-function LM.UIFilter.IsSourceChecked(i)
-    return not LM.UIFilter.sourceFilterList[i]
-end
-
-function LM.UIFilter.IsValidSourceFilter(i)
-    -- Mounts have an extra filter "OTHER" that pets don't have
-    if C_MountJournal.IsValidSourceFilter(i) then
-        return true
-    elseif i == C_PetJournal.GetNumPetSources() + 1 then
-        return true
-    else
-        return false
-    end
-end
-
-function LM.UIFilter.GetSourceText(i)
-    local n = C_PetJournal.GetNumPetSources()
-    if i <= n then
-        return _G["BATTLE_PET_SOURCE_"..i]
-    elseif i == n+1 then
-        return OTHER
-    end
-end
-
-
--- Flags -----------------------------------------------------------------------
-
-function LM.UIFilter.IsFlagChecked(f)
-    return not LM.UIFilter.flagFilterList[f]
-end
-
-function LM.UIFilter.SetFlagFilter(f, v)
-    LM.UIFilter.ClearCache()
-    if v then
-        LM.UIFilter.flagFilterList[f] = nil
-    else
-        LM.UIFilter.flagFilterList[f] = true
-    end
-end
-
-function LM.UIFilter:SetAllFlagFilters(v)
-    for _,f in ipairs(LM.UIFilter.GetFlags()) do
-        LM.UIFilter.SetFlagFilter(f, v)
-    end
-end
-
-function LM.UIFilter.GetFlags()
-    return LM.Options:GetAllFlags()
-end
-
-function LM.UIFilter.GetFlagText(f)
-    if LM.Options:IsPrimaryFlag(f) then
-        return ITEM_QUALITY_COLORS[2].hex
-            .. L[f]
-            .. FONT_COLOR_CODE_CLOSE
-    else
-        return f
-    end
-end
-
-
--- Priorities ------------------------------------------------------------------
-
-function LM.UIFilter.IsPriorityChecked(p)
-    return not LM.UIFilter.priorityFilterList[p]
-end
-
-function LM.UIFilter.SetPriorityFilter(p, v)
-    LM.UIFilter.ClearCache()
-    if v then
-        LM.UIFilter.priorityFilterList[p] = nil
-    else
-        LM.UIFilter.priorityFilterList[p] = true
-    end
-end
-
-function LM.UIFilter:SetAllPriorityFilters(v)
-    for _,p in ipairs(LM.UIFilter.GetPriorities()) do
-        LM.UIFilter.SetPriorityFilter(p, v)
-    end
-end
-
-function LM.UIFilter.GetPriorities()
-    return { 0, 1, 2, 3 }
-end
-
-function LM.UIFilter.GetPriorityText(p)
-    local c = PriorityColors[p] or PriorityColors['']
-    return c:WrapTextInColorCode(p),
-           c:WrapTextInColorCode(L['LM_PRIORITY_DESC'..p])
-end
-
-
--- Search ----------------------------------------------------------------------
-
-function LM.UIFilter.SetSearchText(t)
-    LM.UIFilter.ClearCache()
-    LM.UIFilter.searchText = t
-end
-
-function LM.UIFilter.GetSearchText(t)
-    return LM.UIFilter.searchText
-end
-
-
--- Check -----------------------------------------------------------------------
-
-function LM.UIFilter.IsFilteredMount(m)
-
-    local filters = LM.UIFilter.flagFilterList
-
-    -- Source filters
-
-    local source = m.sourceType
-    if not source or source == 0 then
-        source = LM.UIFilter.GetNumSources()
-    end
-
-    if LM.UIFilter.sourceFilterList[source] == true then
-        return true
-    end
-
-    -- Flag filters
-
-    -- Does the mount info indicate it should be hidden. This happens (for
-    -- example) with some mounts that have different horde/alliance versions
-    -- with the same name.
-
-    if LM.UIFilter.flagFilterList.HIDDEN and m.isFiltered then
-        return true
-    end
-
-    if LM.UIFilter.flagFilterList.COLLECTED and m.isCollected then
-        return true
-    end
-
-    if LM.UIFilter.flagFilterList.NOT_COLLECTED and not m.isCollected then
-        return true
-    end
-
-    -- isUsable is only set for journal mounts so nil is true
-    if LM.UIFilter.flagFilterList.UNUSABLE and m.isUsable == false then
-        return true
-    end
-
-    -- Priority Filters
-    for _,p in ipairs(LM.UIFilter.GetPriorities()) do
-        if LM.UIFilter.priorityFilterList[p] and LM.Options:GetPriority(m) == p then
-            return true
-        end
-    end
-
-    -- This weirdness is because some mounts don't have any flags and we show them all the
-    -- time instead of never. I should check if it's easier to just look for no flags on the
-    -- mount itself. XXX FIXME XXX
-
-    local okflags = CopyTable(m:CurrentFlags())
-    local noFilters = true
-    for _,flagName in ipairs(LM.UIFilter:GetFlags()) do
-        if LM.UIFilter.flagFilterList[flagName] then
-            okflags[flagName] = nil
-            noFilters = false
-        end
-    end
-    if noFilters == false and next(okflags) == nil then
-        return true
-    end
-
-    -- Search text from the input box.
-    -- strfind is expensive, avoid if possible, leave all this at the end
-
-    local filtertext = LM.UIFilter.GetSearchText()
-    if not filtertext or filtertext == SEARCH or filtertext == "" then
-        return false
-    end
-
-    if filtertext == "=" then
-        local hasAura = AuraUtil.FindAuraByName(m.name, "player")
-        return hasAura == nil
-    end
-
-    return strfind(m.name:lower(), filtertext:lower(), 1, true) == nil
+function LiteMountFilterButtonMixin:OnLoad()
+    UIDropDownMenu_Initialize(self.FilterDropDown, self.Initialize, "MENU")
 end
