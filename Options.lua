@@ -597,9 +597,7 @@ end
 
 function LM.Options:RecordInstance()
     local name, _, _, _, _, _, _, id = GetInstanceInfo()
-    if not self.db.global.instances[id] then
-        self.db.global.instances[id] = name
-    end
+    self.db.global.instances[id] = name
 end
 
 
