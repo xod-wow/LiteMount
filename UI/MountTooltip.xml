@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011-2020 Mike Battersby -->
 
-<Script file="MountPreviewTooltip.lua" />
+<Script file="MountTooltip.lua" />
 
 <Frame name="LiteMountPreview" inherits="TooltipBackdropTemplate" parent="UIParent" hidden="true" frameStrata="TOOLTIP" mixin="LiteMountPreviewMixin">
     <Size x="250" y="250" />

@@ -1,6 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
     <Include file="PanelTemplate.xml" />
-    <Include file="MountPreviewTooltip.xml" />
+    <Include file="MountTooltip.xml" />
     <Include file="ProfileDropDown.xml" />
     <Include file="ProfileImportExport.xml" />
     <Include file="MountsFilter.xml" />

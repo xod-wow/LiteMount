@@ -186,39 +186,11 @@ LiteMountMountIconMixin = {}
 
 function LiteMountMountIconMixin:OnEnter()
     local m = self:GetParent().mount
-
-    GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
-    if m.mountID then
-        GameTooltip:SetMountBySpellID(m.spellID)
-    else
-        GameTooltip:SetSpellByID(m.spellID)
-    end
-
-    GameTooltipTextRight2:SetText(ID.." "..m.spellID)
-    GameTooltipTextRight2:Show()
-
-    if m.description then
-        GameTooltip:AddLine(" ")
-        GameTooltip:AddLine("|cffffffff" .. DESCRIPTION .. "|r")
-        GameTooltip:AddLine(m.description, nil, nil, nil, true)
-    end
-
-    if m.sourceText then
-        GameTooltip:AddLine(" ")
-        GameTooltip:AddLine("|cffffffff" .. SOURCE .. "|r")
-        GameTooltip:AddLine(m.sourceText, nil, nil, nil, true)
-    end
-
-    if m:IsCastable() then
-        GameTooltip:AddLine(" ")
-        GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
-    end
-
-    GameTooltip:Show()
-    LiteMountPreview:SetMount(m)
+    LM.ShowMountTooltip(self, m)
 end
 
 function LiteMountMountIconMixin:OnLeave()
+    LM.HideMountTooltip()
     LiteMountPreview:Hide()
     GameTooltip:Hide()
 end
