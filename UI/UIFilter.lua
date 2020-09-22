@@ -31,6 +31,12 @@ local PriorityColors = {
     [3] =  LEGENDARY_ORANGE_COLOR,
 }
 
+local function searchMatch(src, text)
+    src = src:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):lower()
+    text = text:lower()
+    return src:find(text, 1, true) ~= nil
+end
+
 -- Clear -----------------------------------------------------------------------
 
 function LM.UIFilter.Clear()
@@ -314,5 +320,17 @@ function LM.UIFilter.IsFilteredMount(m)
         return hasAura == nil
     end
 
-    return strfind(m.name:lower(), filtertext:lower(), 1, true) == nil
+    if strfind(m.name:lower(), filtertext:lower(), 1, true) then
+        return false
+    end
+
+    if m.description and searchMatch(m.description, filtertext) then
+        return false
+    end
+
+    if m.sourceText and searchMatch(m.sourceText, filtertext) then
+        return false
+    end
+
+    return true
 end
