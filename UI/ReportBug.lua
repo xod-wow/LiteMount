@@ -52,21 +52,31 @@ function LiteMountReportBugMixin:OnShow()
 |cffffaa00Please do not modify anything below this line.|r
 |cff777777
 ]] ..
-        "--- General ---\n\n" ..
+        "--- General ---\n" ..
+        "\n" ..
         string.format("date: %s\n", date()) ..
         string.format("version: %s\n", GetAddOnMetadata('LiteMount', 'version')) ..
         string.format("locale: %s\n", GetLocale()) ..
-        "\n--- Player ---\n\n" ..
+        "\n" ..
+        "--- Player ---\n" ..
+        "\n" ..
         string.format("name: %s-%s\n", UnitFullName('player')) ..
         string.format("class: %s\n", UnitClass('player')) ..
         string.format("race: %s\n", UnitRace('player')) ..
         string.format("faction: %s\n", UnitFactionGroup('player')) ..
         string.format("spec: %d %d %s\n", spec, specID, specName) ..
-        "\n--- Location ---\n\n" ..
-        table.concat(LM.Environment:GetLocation(), "\n") .. "\n" ..
-        "\n--- Debugging Output ---\n\n" ..
+        "\n" ..
+        "--- Location ---\n" ..
+        "\n" ..
+        table.concat(LM.Environment:GetLocation(), "\n") ..  "\n" ..
+        "\n" ..
+        "--- Debugging Output ---\n" ..
+        "\n" ..
         table.concat(LM.GetDebugLines(), "\n") .. "\n" ..
-        "\n--- Options DB ---\n\n" .. data
+        "\n" ..
+        "--- Options DB ---\n" ..
+        "\n" ..
+         data
     )
     self.Scroll.EditBox:SetCursorPosition(0)
 end
