@@ -25,7 +25,7 @@ LM.Options.db fires two LibCallback events that can be listened for:
 OnOptionsModified (when any setting is changed) and OnOptionsProfile
 (profile changed).
 
-### Mount.lua and LM\_*.lua
+### Mount.lua and LM\_\*.lua
 
 The basic object is LM.Mount, which is  subclassed to a bunch of specifics
 for various mounts and mount-like things. The majority of which are
@@ -83,7 +83,7 @@ actions that are attempted when it is clicked.
 
 ```
   LM.ActionButton
-    Create(n)               - Buttons are named LM_B{n}
+    Create(n)               - Buttons are named LM_B{n} and use LM.Options.db.buttonActions[n]
 ```
 
 ### ActionList.lua
@@ -157,7 +157,7 @@ So here's what happens, tying it all together:
 1. if we're not in combat:
     1. the preclick handler on the button runs:
        - evaluates each line in its action list in turn
-       - once one returns a SeucreAction, sets up the button's secure attributes
+       - once one returns a SecureAction, sets up the button's secure attributes
 1. the blizzard secure click handler uses the attributes to perform
    the mount action
 1. if we're not in combat:
@@ -174,8 +174,8 @@ E.g.,
 
 ```
   f = LM.CreateAutoEventFrame('Frame')
-  function f:PLAYER_LOGIN() print('You logged in!') end
-  f:RegisterEvent('PLAYER_LOGIN')
+  function f:PLAYER\_LOGIN() print('You logged in!') end
+  f:RegisterEvent('PLAYER\_LOGIN')
 ```
 
 ### Bindings.xml / KeyBindingStrings.lua
