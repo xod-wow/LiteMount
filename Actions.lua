@@ -113,8 +113,9 @@ ACTIONS['Spell'] =
     end
 
 -- Buff is the same as Spell but checks if you have a matching aura and
--- doesn't recast. Note that it only checks for buffs on the assumption
--- that you can't cast a debuff on yourself.
+-- doesn't recast. Note that it checks only for buffs on the assumption
+-- that you can't cast a debuff on yourself, and that it checks by name
+-- because some spells (e.g., Levitate) the ID doesn't match.
 
 ACTIONS['Buff'] =
     function (args, env)
