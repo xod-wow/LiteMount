@@ -115,20 +115,17 @@ ACTIONS['Spell'] =
 -- Buff is the same as Spell but checks if you have a matching aura and
 -- doesn't recast. Note that it checks only for buffs on the assumption
 -- that you can't cast a debuff on yourself, and that it checks by name
--- because some spells (e.g., Levitate) the ID doesn't match.
+-- because for some spells (e.g., Levitate) the ID doesn't match.
 
 ACTIONS['Buff'] =
     function (args, env)
         for _, arg in ipairs(args) do
             LM.Debug(' - trying buff: ' .. tostring(arg))
             local name, id = GetKnownSpell(arg)
-            if name then
-                if LM.UnitAura(env.unit or 'player', name) then
-                    return
-                elseif IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
-                    LM.Debug(" - setting action to spell " .. name)
-                    return LM.SecureAction:Spell(name, env.unit)
-                end
+            if name and not LM.UnitAura(env.unit or 'player', name) and
+               IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
+                LM.Debug(" - setting action to spell " .. name)
+                return LM.SecureAction:Spell(name, env.unit)
             end
         end
     end
@@ -136,8 +133,8 @@ ACTIONS['Buff'] =
 ACTIONS['CancelAura'] =
     function (args, env)
         for _, arg in ipairs(args) do
-            local name = LM.UnitAura('player', arg)
-            if name then
+            local name, _, _, _, _, _, _, _, _, _, castable = LM.UnitAura('player', arg)
+            if name and castable then
                 return LM.SecureAction:CancelAura(name)
             end
         end
