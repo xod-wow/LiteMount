@@ -94,8 +94,6 @@ function LiteMountOptionsPanel_Refresh(self, trigger)
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Refresh(control, trigger)
     end
-    LM.Options.db.RegisterCallback(self, "OnOptionsModified", "refresh")
-    LM.Options.db.RegisterCallback(self, "OnOptionsProfile", "reset")
 end
 
 function LiteMountOptionsPanel_Default(self)
@@ -107,7 +105,6 @@ end
 
 function LiteMountOptionsPanel_Okay(self)
     LM.UIDebug(self, "Panel_Okay")
-    LM.Options.db.UnregisterAllCallbacks(self)
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Okay(control)
     end
@@ -135,10 +132,14 @@ function LiteMountOptionsPanel_OnShow(self)
     if not self.hideProfileButton then
         LiteMountProfileButton:Attach(self)
     end
+
+    LM.Options.db.RegisterCallback(self, "OnOptionsModified", "refresh")
+    LM.Options.db.RegisterCallback(self, "OnOptionsProfile", "reset")
 end
 
 function LiteMountOptionsPanel_OnHide(self)
     LM.UIDebug(self, "Panel_OnHide")
+    LM.Options.db.UnregisterAllCallbacks(self)
 
     -- Seems like the InterfacePanel calls all the Okay or Cancel for
     -- anything that's been opened when the appropriate button is clicked
