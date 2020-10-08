@@ -296,6 +296,7 @@ function LiteMountMountScrollMixin:Update()
         if index <= #mounts then
             button:Update(LiteMountMountsPanel.pageFlags, mounts[index])
             button:Show()
+            if button.Icon:IsMouseOver() then button.Icon:OnEnter() end
         else
             button:Hide()
         end
