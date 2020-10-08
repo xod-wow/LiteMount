@@ -70,7 +70,7 @@
     <Scripts>
         <OnClick method="OnClick" />
         <OnEnter method="OnEnter" />
-        <OnHide method="OnHide" />
+        <OnLeave method="OnLeave" />
     </Scripts>
 
     <Size y="22" />

@@ -70,12 +70,6 @@ function LiteMountGroupsPanelGroupsMixin:Update()
         index = offset + i
         if index <= #allFlags then
             local flagText = allFlags[index]
-            if LM.Options:IsPrimaryFlag(allFlags[index]) then
-                flagText = ITEM_QUALITY_COLORS[2].hex .. flagText .. FONT_COLOR_CODE_CLOSE
-                button.DeleteButton:Hide()
-            else
-                button.DeleteButton:Show()
-            end
             button.Text:SetFormattedText(flagText)
             button.Text:Show()
             button:Show()
@@ -142,7 +136,7 @@ function LiteMountGroupsPanelMountMixin:OnEnter()
     LM.ShowMountTooltip(self, self.mount)
 end
 
-function LiteMountGroupsPanelMountMixin:OnHide()
+function LiteMountGroupsPanelMountMixin:OnLeave()
     LM.HideMountTooltip()
 end
 
@@ -190,11 +184,21 @@ function LiteMountGroupsPanelMountsMixin:Update()
 
     local mounts = LM.UIFilter.GetFilteredMountList()
 
+    local flag = self:GetParent().selectedFlag
+    if not flag then
+        for _, button in ipairs(self.buttons) do
+            button:Hide()
+        end
+        HybridScrollFrame_Update(self, 0, 0)
+        return
+    end
+
     for i, button in ipairs(self.buttons) do
         local index = offset + i
-        if index <= #mounts then
-            button:SetMount(mounts[index], self:GetParent().selectedFlag)
+        if flag and index <= #mounts then
+            button:SetMount(mounts[index], flag)
             button:Show()
+            if button:IsMouseOver() then button:OnEnter() end
         else
             button:Hide()
         end
