@@ -41,21 +41,6 @@ local L = LM.Localize
 
 ]]
 
-local function UnitHasAura(unit, spellID, filter)
-    local i = 1
-    local auraID
-    while true do
-        auraID = select(10, UnitAura(unit, i, filter))
-        if not auraID then
-            break
-        end
-        if auraID == spellID then
-            return true
-        end
-        i = i + 1
-    end
-end
-
 -- If any condition starts with "no" we're screwed
 -- ":args" functions take a fixed set of arguments rather using / for OR
 
@@ -68,14 +53,8 @@ CONDITIONS["achievement"] =
 
 CONDITIONS["aura"] =
     function (cond, unit, v)
-        v = tonumber(v)
-        if not v then
-            return
-        end
-
         unit = unit or "player"
-
-        if UnitHasAura(unit, v) or UnitHasAura(unit, v, "HARMFUL") then
+        if LM.UnitAura(unit, v) or LM.UnitAura(unit, v, "HARMFUL") then
             return true
         end
     end

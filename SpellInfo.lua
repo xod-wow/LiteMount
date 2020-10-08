@@ -50,3 +50,17 @@ LM.ITEM.SHIMMERING_MOONSTONE = 101675
 LM.ITEM.RATSTALLION_HARNESS = 139421
 LM.ITEM.RUBY_QIRAJI_RESONATING_CRYSTAL = 151625
 LM.ITEM.SAPPHIRE_QIRAJI_RESONATING_CRYSTAL = 151626
+
+function LM.UnitAura(unit, aura, filter)
+    local i = 1
+    while true do
+        local name, _, _, _, _, _, _, _, _, id = UnitAura('player', i, filter)
+        if not name then
+            return
+        end
+        if name == aura or id == tonumber(aura) then
+            return UnitAura('player', i, filter)
+        end
+        i = i + 1
+    end
+end

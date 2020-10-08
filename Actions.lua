@@ -112,6 +112,36 @@ ACTIONS['Spell'] =
         end
     end
 
+-- Buff is the same as Spell but checks if you have a matching aura and
+-- doesn't recast. Note that it only checks for buffs on the assumption
+-- that you can't cast a debuff on yourself.
+
+ACTIONS['Buff'] =
+    function (args, env)
+        for _, arg in ipairs(args) do
+            LM.Debug(' - trying buff: ' .. tostring(arg))
+            local name, id = GetKnownSpell(arg)
+            if name then
+                if LM.UnitAura(env.unit or 'player', name) then
+                    return
+                elseif IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
+                    LM.Debug(" - setting action to spell " .. name)
+                    return LM.SecureAction:Spell(name, env.unit)
+                end
+            end
+        end
+    end
+
+ACTIONS['CancelAura'] =
+    function (args, env)
+        for _, arg in ipairs(args) do
+            local name = LM.UnitAura('player', arg)
+            if name then
+                return LM.SecureAction:CancelAura(name)
+            end
+        end
+    end
+
 -- In vehicle -> exit it
 ACTIONS['LeaveVehicle'] =
     function (args, env)
