@@ -15,6 +15,17 @@ local _, LM = ...
 LiteMountGroupsPanelMixin = {}
 
 function LiteMountGroupsPanelMixin:OnLoad()
+    self.refresh = self.Update
+    self.reset = self.Update
+end
+
+function LiteMountGroupsPanelMixin:OnShow()
+    LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.Mounts, 'TOPLEFT', 0, 15)
+    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "refresh")
+end
+
+function LiteMountGroupsPanelMixin:OnHide()
+    LM.UIFilter.UnregisterAllCallbacks(self)
 end
 
 function LiteMountGroupsPanelMixin:Update()
@@ -27,8 +38,10 @@ end
 LiteMountGroupsPanelGroupMixin = {}
 
 function LiteMountGroupsPanelGroupMixin:OnClick()
-    LiteMountGroupsPanel.selectedFlag = self.flag
-    LiteMountGroupsPanel:Update()
+    if self.flag then
+        LiteMountGroupsPanel.selectedFlag = self.flag
+        LiteMountGroupsPanel:Update()
+    end
 end
 
 --[[--------------------------------------------------------------------------]]--
@@ -117,21 +130,53 @@ end
 LiteMountGroupsPanelMountMixin = {}
 
 function LiteMountGroupsPanelMountMixin:OnClick()
+    local flag = LiteMountGroupsPanel.selectedFlag
+    if self.mount:MatchesFilters(flag) then
+        LM.Options:ClearMountFlag(self.mount, flag)
+    else
+        LM.Options:SetMountFlag(self.mount, flag)
+    end
+end
+
+function LiteMountGroupsPanelMountMixin:OnEnter()
+    LM.ShowMountTooltip(self, self.mount)
+end
+
+function LiteMountGroupsPanelMountMixin:OnHide()
+    LM.HideMountTooltip()
 end
 
 function LiteMountGroupsPanelMountMixin:SetMount(mount, flag)
     self.mount = mount
-    if self.mount then
-        self.Icon:SetTexture(mount.icon)
-        self.Name:SetText(mount.name)
-        if flag and mount:MatchesFilters(flag) then
-            self.SelectedTexture:Show()
-            self.CheckedTexture:Show()
-        else
-            self.SelectedTexture:Hide()
-            self.CheckedTexture:Hide()
-        end
+
+    if not self.mount then
+        return
     end
+
+    self.Icon:SetTexture(mount.icon)
+    self.Name:SetText(mount.name)
+    if flag and mount:MatchesFilters(flag) then
+        self.SelectedTexture:Show()
+        self.CheckedTexture:Show()
+    else
+        self.SelectedTexture:Hide()
+        self.CheckedTexture:Hide()
+    end
+
+    if not mount.isCollected then
+        self.Name:SetFontObject("GameFontDisable")
+        self.Icon:SetVertexColor(1, 1, 1)
+        self.Icon:SetDesaturated(true)
+    elseif mount.isUsable == false then
+        self.Name:SetFontObject("GameFontNormal")
+        self.Icon:SetDesaturated(true)
+        self.Icon:SetVertexColor(0.6, 0.2, 0.2)
+    else
+        self.Name:SetFontObject("GameFontNormal")
+        self.Icon:SetVertexColor(1, 1, 1)
+        self.Icon:SetDesaturated(false)
+    end
+
 end
 
 --[[--------------------------------------------------------------------------]]--

@@ -69,6 +69,8 @@
     </KeyValues>
     <Scripts>
         <OnClick method="OnClick" />
+        <OnEnter method="OnEnter" />
+        <OnHide method="OnHide" />
     </Scripts>
 
     <Size y="22" />
@@ -76,6 +78,11 @@
     <HighlightTexture atlas="PetList-ButtonHighlight"/>
 
     <Layers>
+        <Layer level="ARTWORK">
+            <Texture parentKey="SelectedTexture" hidden="true" setAllPoints="true">
+                <Color r="1" g="0.843" b="0" a="0.2" />
+            </Texture>
+        </Layer>
         <Layer level="OVERLAY">
             <Texture parentKey="CheckedTexture" file="Interface\Buttons\UI-CheckBox-Check" hidden="true">
                 <Size x="20" y="20" />
@@ -83,7 +90,6 @@
                     <Anchor point="LEFT" x="8" />
                 </Anchors>
             </Texture>
-            <Texture parentKey="SelectedTexture" atlas="PetList-ButtonSelect" hidden="true"/>
             <Texture parentKey="Icon">
                 <Size x="18" y="18" />
                 <Anchors>
@@ -102,11 +108,13 @@
 
 <Frame name="LiteMountGroupsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountGroupsPanelMixin">
     <KeyValues>
-        <KeyValue key="name" value="Mount Groups" type="string" />
+        <KeyValue key="name" value="GROUPS" type="global" />
     </KeyValues>
 
     <Scripts>
         <OnLoad inherit="append" method="OnLoad" />
+        <OnShow inherit="append" method="OnShow" />
+        <OnHide inherit="append" method="OnHide" />
     </Scripts>
 
     <Layers>
