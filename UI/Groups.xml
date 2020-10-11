@@ -28,12 +28,16 @@
                 <Size x="18" y="18" />
                 <Anchors><Anchor point="LEFT" x="8" /></Anchors>
             </Texture>
+            <Texture parentKey="SelectedArrow" file="Interface\ChatFrame\ChatFrameExpandArrow" hidden="true">
+                <Size x="18" y="18" />
+                <Anchors><Anchor point="RIGHT" x="-4" /></Anchors>
+            </Texture>
         </Layer>
         <Layer level="ARTWORK">
             <FontString parentKey="Text" inherits="GameFontNormal" justifyH="LEFT">
                 <Anchors>
-                    <Anchor point="LEFT" x="8" />
-                    <Anchor point="RIGHT" x="-4" />
+                    <Anchor point="LEFT" x="12" />
+                    <Anchor point="RIGHT" relativeKey="$parent.SelectedArrow" x="-4" />
                 </Anchors>
             </FontString>
         </Layer>
@@ -145,7 +149,6 @@
             </Anchors>
             <Scripts>
                 <OnLoad inherit="append" method="OnLoad" />
-                <OnShow inherit="append" method="OnShow" />
                 <OnSizeChanged inherit="append" method="OnSizeChanged" />
             </Scripts>
             <Frames>
@@ -165,7 +168,6 @@
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountsContainer" x="-30" y="8" />
             </Anchors>
             <Scripts>
-                <OnShow inherit="append" method="OnShow" />
                 <OnLoad inherit="append" method="OnLoad" />
                 <OnSizeChanged inherit="append" method="OnSizeChanged" />
             </Scripts>
