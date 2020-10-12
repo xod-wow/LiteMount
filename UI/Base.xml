@@ -19,7 +19,7 @@
 
             <FontString parentKey="VersionText" inherits="GameFontNormal" justifyH="RIGHT" text="GAME_VERSION_LABEL">
                 <Anchors>
-                    <Anchor point="TOPLEFT" x="72" y="-96" />
+                    <Anchor point="TOPLEFT" x="72" y="-72" />
                 </Anchors>
             </FontString>
 
@@ -41,15 +41,42 @@
                 </Anchors>
             </FontString>
 
-            <FontString parentKey="HelpTranslate" inherits="GameFontNormal" justifyH="LEFT" text="LM_HELP_TRANSLATE">
+            <FontString parentKey="HelpText" inherits="GameFontNormal" justifyH="LEFT" text="HELP_LABEL">
                 <Anchors>
                     <Anchor point="LEFT" relativeKey="$parent.Title" x="16" />
-                    <Anchor point="TOP" relativeKey="$parent.AuthorText" relativePoint="BOTTOM" y="-48" />
+                    <Anchor point="TOP" relativeKey="$parent.AuthorText" relativePoint="BOTTOM" y="-24" />
+                </Anchors>
+            </FontString>
+
+            <FontString parentKey="HelpTranslate" inherits="GameFontNormal" justifyH="LEFT" text="LM_HELP_TRANSLATE">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.HelpText" relativePoint="BOTTOMLEFT" y="-56" />
                 </Anchors>
             </FontString>
         </Layer>
     </Layers>
     <Frames>
+            <EditBox parentKey="HelpURL" autoFocus="false" ignoreArrows="true">
+                <Size y="16" />
+                <Fontstring inherits="GameFontHighlight" />
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.HelpText" relativePoint="BOTTOMLEFT" y="-8" x="16" />
+                    <Anchor point="RIGHT" x="-16" />
+                </Anchors>
+                <Scripts>
+                    <OnShow>
+                        self:SetText(self.url)
+                    </OnShow>
+                    <OnTextChanged>
+                        self:SetText(self.url)
+                        self:HighlightText()
+                    </OnTextChanged>
+                    <OnEditFocusGained>
+                        self:HighlightText()
+                    </OnEditFocusGained>
+                    <OnEscapePressed function="EditBox_ClearFocus" />
+                </Scripts>
+            </EditBox>
             <EditBox parentKey="TranslateURL" autoFocus="false" ignoreArrows="true">
                 <Size y="16" />
                 <Fontstring inherits="GameFontHighlight" />
@@ -77,7 +104,7 @@
             <FontString parentKey="TranslatorsText" inherits="GameFontNormal" justifyH="RIGHT" text="LM_TRANSLATORS">
                 <Anchors>
                     <Anchor point="RIGHT" relativeKey="$parent.AuthorText" />
-                    <Anchor point="TOP" relativeKey="$parent.TranslateURL" relativePoint="BOTTOM" y="-48" />
+                    <Anchor point="TOP" relativeKey="$parent.TranslateURL" relativePoint="BOTTOM" y="-32" />
                 </Anchors>
             </FontString>
 
@@ -110,6 +137,7 @@
             self.Author:SetText(GetAddOnMetadata("LiteMount", "Author") or "")
             self.Translators:SetText(table.concat(translators, "\n"))
 
+            self.HelpURL.url = 'https://github.com/xod-wow/LiteMount/wiki'
             self.TranslateURL.url = 'https://www.curseforge.com/wow/addons/litemount/localization'
 
             LiteMountOptionsPanel_OnLoad(self)
