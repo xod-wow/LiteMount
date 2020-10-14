@@ -32,10 +32,11 @@ function LiteMountReportBugMixin:OnShow()
 
     local data = LibDeflate:EncodeForPrint(
                     LibDeflate:CompressDeflate(
-                     Serializer:Serialize(sv) ) )
+                        Serializer:Serialize(sv) ) )
 
     local _, race = UnitRace('player')
     local _, class = UnitClass('player')
+    local level = UnitLevel('player')
     local spec = GetSpecialization()
     local specID, specName = GetSpecializationInfo(spec)
 
@@ -57,12 +58,14 @@ function LiteMountReportBugMixin:OnShow()
         string.format("date: %s\n", date()) ..
         string.format("version: %s\n", GetAddOnMetadata('LiteMount', 'version')) ..
         string.format("locale: %s\n", GetLocale()) ..
+        string.format("current profile: %s\n", LM.Options.db:GetCurrentProfile()) ..
         "\n" ..
         "--- Player ---\n" ..
         "\n" ..
         string.format("name: %s-%s\n", UnitFullName('player')) ..
-        string.format("class: %s\n", UnitClass('player')) ..
-        string.format("race: %s\n", UnitRace('player')) ..
+        string.format("class: %s\n", class) ..
+        string.format("level: %s\n", level) ..
+        string.format("race: %s\n", race) ..
         string.format("faction: %s\n", UnitFactionGroup('player')) ..
         string.format("spec: %d %d %s\n", spec, specID, specName) ..
         "\n" ..
