@@ -65,6 +65,11 @@ function LiteMount:Initialize()
 
     -- Setup actions for the initial profile
     LM.Options:OnProfile()
+
+    -- Set all the buttons to the default combat action
+    for i = 1, 4 do
+        self.actions[i]:PostClick()
+    end
 end
 
 function LiteMount:RecompileActions()

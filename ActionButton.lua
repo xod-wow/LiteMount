@@ -129,7 +129,5 @@ function LM.ActionButton:Create(n)
     b:SetScript("PreClick", self.PreClick)
     b:SetScript("PostClick", self.PostClick)
 
-    b:PostClick()
-
     return b
 end
