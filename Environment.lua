@@ -202,13 +202,18 @@ local InstanceFlyableOverride = {
     -- IsFlyableArea() seems to be broken for all of WoD in the Shadowlands prepatch
     -- unless you have the old achievement completed.
     [1116] = true,          -- Draenor (WoD)
-    [1330] = true,          -- Horde Garrison Level 1
-    [1153] = true,          -- Horde Garrison Level 2
-    [1154] = true,          -- Horde Garrison Level 3
+    [1152] = true,          -- Horde Garrison Level 1
+    [1330] = true,          -- Horde Garrison Level 2
+    [1153] = true,          -- Horde Garrison Level 3
+    [1154] = true,          -- Horde Garrison Level 4 (?)
     [1158] = true,          -- Alliance Garrison Level 1
     [1331] = true,          -- Alliance Garrison Level 2
     [1159] = true,          -- Alliance Garrison Level 3
+    [1160] = true,          -- Alliance Garrison Level 4 (?)
     [1464] = true,          -- Tanaan Jungle (WoD)
+
+    -- Some people report IsFlyableArea() broken for Broken Isles (Legion) too
+    [1220] = true,          -- Broken Isles
 
     [ 754] = false,         -- Throne of the Four Winds
     [1107] = false,         -- Dreadscar Rift (Warlock)

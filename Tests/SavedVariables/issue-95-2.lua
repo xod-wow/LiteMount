@@ -189,7 +189,7 @@ LiteMountDB = {
   ["profiles"] = {
     ["Default"] = {
       ["buttonActions"] = {
-        [2] = "LeaveVehicle
+        [2] = [[LeaveVehicle
 Dismount
 CancelForm
 CopyTargetsMount
@@ -201,14 +201,14 @@ Mount [filter=230987][nosubmerged,aura:202477]
 SmartMount [filter={CLASS}]
 SmartMount [filter=~FLY]
 Macro
-",
-        [3] = "LeaveVehicle
+]],
+        [3] = [[LeaveVehicle
 Dismount
 CancelForm
 CopyTargetsMount
 Mount [filter=CUSTOM1]
 Macro
-",
+]]
       }
 ,
       ["configVersion"] = 5,
