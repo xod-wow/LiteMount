@@ -30,7 +30,7 @@ function LM.GhostWolf:CurrentFlags()
 
     if flags.WALK then
         local hasAura
-        hasAura = AuraUtil.FindAuraByName(TABLET_OF_GHOST_WOLF_AURA, "player")
+        hasAura = LM.UnitAura('player', TABLET_OF_GHOST_WOLF_AURA)
         if hasAura then
             flags = CopyTable(flags)
             flags.WALK = nil
