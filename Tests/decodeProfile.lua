@@ -6,14 +6,9 @@ local LibDeflate = LibStub("LibDeflate")
 
 SendEvent('ADDON_LOADED', 'LiteMount')
 
-local lines = {}
-while true do
-    local line = io.stdin:read()
-    if not line then break end
-    lines[#lines+1] = line
-end
-
-local str = table.concat(lines, '')
+local f = io.open(arg[1], 'r')
+local str = f:read('*all')
+f:close()
 
 local decoded = LibDeflate:DecodeForPrint(str)
 if not decoded then
@@ -33,4 +28,4 @@ if not isValid then
     os.exit()
 end
 
-print(LM.TableToString(data))
+print('LiteMountDB = ' .. LM.TableToString(data))
