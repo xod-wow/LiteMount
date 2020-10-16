@@ -4,10 +4,16 @@ dofile("LoadAddOn.lua")
 local Serializer = LibStub("AceSerializer-3.0")
 local LibDeflate = LibStub("LibDeflate")
 
-SendEvent('ADDON_LOADED', 'LiteMount')
+local str = ''
 
 local f = io.open(arg[1], 'r')
-local str = f:read('*all')
+
+while true do
+    local line = f:read()
+    if not line then break end
+    str = str .. line
+end
+
 f:close()
 
 local decoded = LibDeflate:DecodeForPrint(str)
