@@ -4,6 +4,8 @@ function UnitName() return MockState.playerName end
 
 function UnitClass() return MockState.playerClass end
 
+function UnitFullName(unit) return MockState.playerName, MockState.realmName end
+
 function UnitRace() return MockState.playerRace end
 
 function UnitExists() return math.random() <= 0.5 end
