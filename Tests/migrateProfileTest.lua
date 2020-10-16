@@ -17,7 +17,6 @@ SendEvent('VARIABLES_LOADED')
 SendEvent('PLAYER_LOGIN')
 SendEvent('PLAYER_ENTERING_WORLD')
 
-
 local function FlagTableMatches(a, b)
     for k in pairs(a) do
         if k ~= 'FAVORITES' then
@@ -39,7 +38,7 @@ function CheckProfile(profileName)
     local newp = LiteMountDB.profiles[profileName]
 
     if not oldp then
-        print("  Error: old profile doesn't exist.")
+        print("  >>> Error: old profile doesn't exist. <<<")
         return
     end
 
@@ -49,7 +48,7 @@ function CheckProfile(profileName)
     end
 
     if not newp.mountPriorities then
-        print("  Error: profile missing mountPriorities.")
+        print("  >>> Error: profile missing mountPriorities. <<<")
         return
     end
 
@@ -58,7 +57,7 @@ function CheckProfile(profileName)
     if oldp.excludedSpells and not oldp.mountPriorities then
         for spellId, isExcluded in pairs(oldp.excludedSpells) do
             if newp.mountPriorities[spellId] == nil then
-                print("Error: new profile missing priority for " .. tostring(spellId))
+                print("   >>> Error: new profile missing priority for " .. tostring(spellId) .. " <<<")
             elseif isExcluded and newp.mountPriorities[spellId] ~= 0 then
                 print("Error: migrate priority failed: " ..tostring(spellId))
             end
@@ -70,9 +69,9 @@ function CheckProfile(profileName)
     if oldp.flagChanges then
         for k,v in pairs(oldp.flagChanges) do
             if not FlagTableMatches(v, newp.flagChanges[k]) then
-                print("  Error: flag difference.")
-                print('  old = ' .. DumpTable(v, 1))
-                print('  new = ' .. DumpTable(newp.flagChanges[k], 1))
+                print(">>>  Error: flag difference. <<<")
+                print('  old' .. DumpTable(v, 1))
+                print('  new' .. DumpTable(newp.flagChanges[k], 1))
             end
         end
     end
@@ -82,7 +81,7 @@ function CheckProfile(profileName)
         local oldAction = (oldp.buttonActions or {})[i]
         local newAction = rawget(newp.buttonActions or {}, i)
         if oldAction ~= newAction then
-            print("  Error: buttonActions difference: " .. i)
+            print(">>>  Error: buttonActions difference: " .. i .. " <<<")
             print("  old = " .. oldAction)
             print("  new = " .. newAction)
         end
