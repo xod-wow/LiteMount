@@ -110,7 +110,7 @@ function LiteMountProfileInspectMixin:Apply()
     local isValid, data = Serializer:Deserialize(deflated)
     if not isValid then return end
 
-    self.Scroll.EditBox:SetText(LM.TableToString(data))
+    self.Scroll.EditBox:SetText(LM.TableToString({ LiteMountDB = data }))
 end
 
 --@end-debug@

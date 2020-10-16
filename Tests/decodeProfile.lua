@@ -28,4 +28,4 @@ if not isValid then
     os.exit()
 end
 
-print('LiteMountDB = ' .. LM.TableToString(data))
+print(LM.TableToString({ LiteMountDB = data }))
