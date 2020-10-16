@@ -98,7 +98,7 @@ local function pairsByKeys (t, f)
     return iter
 end
 
--- This dumper is adapated from DevTools_Dump and is a lot less
+-- This dumper is adapted from DevTools_Dump and is a lot less
 -- capable BUT it never truncates anything, and it doesn' put
 -- color codes into the output.
 
