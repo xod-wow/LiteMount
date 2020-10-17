@@ -21,6 +21,13 @@ function LM.GhostWolf:IsCancelable()
     return false
 end
 
+function LM.GhostWolf:IsCastable()
+    if LM.UnitAura('player', self.spellID) then
+        return false
+    end
+    return LM.Spell.IsCastable(self)
+end
+
 function LM.GhostWolf:CurrentFlags()
     local flags = LM.Mount.CurrentFlags(self)
 

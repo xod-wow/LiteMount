@@ -34,10 +34,16 @@ function LM.Soulshape:IsCastable()
         return false
     end
 
+    if LM.UnitAura('player', self.spellID) then
+        return false
+    end
+
     local activeSpellID = select(7, GetSpellInfo(self.name))
+
     if not IsUsableSpell(activeSpellID) then
         return false
     end
+
     if GetSpellCooldown(activeSpellID) > 0 then
         return false
     end
