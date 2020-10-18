@@ -45,7 +45,7 @@
             </Anchors>
             <Scripts>
                 <OnLoad>
-                    self.url = 'https://www.curseforge.com/wow/addons/litemount/issues/create'
+                    self.url = 'https://github.com/xod-wow/LiteMount/issues/new'
                 </OnLoad>
                 <OnShow>
                     self:SetText(self.url)

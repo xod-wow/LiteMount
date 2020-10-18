@@ -13,6 +13,14 @@ local L = LM.Localize
 local Serializer = LibStub("AceSerializer-3.0")
 local LibDeflate = LibStub("LibDeflate")
 
+local function linefold(str, n)
+    local out = ''
+    for i = 1, str:len(), n do
+        out = out .. str:sub(i, i+n-1) .. "\n"
+    end
+    return out
+end
+
 LiteMountReportBugMixin = {}
 
 function LiteMountReportBugMixin:OnLoad()
@@ -79,7 +87,7 @@ function LiteMountReportBugMixin:OnShow()
         "\n" ..
         "--- Options DB ---\n" ..
         "\n" ..
-         data
+         linefold(data, 80)
     )
     self.Scroll.EditBox:SetCursorPosition(0)
 end
