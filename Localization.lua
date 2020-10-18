@@ -35,7 +35,6 @@ L.LM_PRIORITY_DESC0     = NEVER
 
 -- enUS / enGB / Default -------------------------------------------------------
 
-L.FLOAT                 = "Float"
 L.FLY                   = "Fly"
 L.LM_ADVANCED_EXP       = "These settings allow you to customize the actions run by each of the LiteMount key bindings. Please read the documentation at the URL below before changing anything."
 L.LM_AUTHOR             = "Author"
@@ -86,7 +85,6 @@ L.WALK                  = "Walk"
 -- deDE ------------------------------------------------------------------------
 
 if locale == "deDE" then
-L.FLOAT                 = "Wasserwandeln"
 L.FLY                   = "Fliegen"
 L.LM_ADVANCED_EXP       = "Mit diesen Einstellungen können Sie die Aktionen anpassen, die von den einzelnen LiteMount-Tastenbindungen ausgeführt werden. Bitte lesen Sie die Dokumentation unter der folgenden URL, bevor Sie etwas ändern."
 L.LM_AUTHOR             = "Autor"
@@ -133,7 +131,6 @@ end
 -- esES / esMX -----------------------------------------------------------------
 
 if locale == "esES" or locale == "esMX" then
-L.FLOAT                 = "Flotador"
 L.FLY                   = "Volar"
 L.LM_ADVANCED_EXP       = "Estas configuraciones le permiten personalizar las acciones ejecutadas por cada uno de los acciones clave de LiteMount. Lea la documentación en la URL a continuación antes de cambiar cualquier cosa."
 L.LM_AUTHOR             = "Auto"
@@ -180,7 +177,6 @@ end
 -- frFR ------------------------------------------------------------------------
 
 if locale == "frFR" then
-L.FLOAT                 = "Flotte"
 L.FLY                   = "Vol"
 L.LM_ADVANCED_EXP       = "Ces paramètres vous permettent de customiser les actions lancées par chacun des raccourcis de LiteMount. Veillez à lire la documentation jointe à l’URL ci-dessous avant de changer quoique ce soit."
 L.LM_AUTHOR             = "Auteur"
@@ -231,7 +227,6 @@ end
 -- itIT ------------------------------------------------------------------------
 
 if locale == "itIT" then
-L.FLOAT                 = "Float"
 L.FLY                   = "Vola"
 L.LM_ADVANCED_EXP       = "Queste impostazioni consentono di personalizzare le azioni di ciascun binding di chiavi LiteMount.\" Leggere la documentazione all'URL sottostante prima di modificare qualsiasi cosa."
 L.LM_AUTHOR             = "Autore"
@@ -278,7 +273,6 @@ end
 -- koKR ------------------------------------------------------------------------
 
 if locale == "koKR" then
-L.FLOAT                 = "수면 보행"
 L.FLY                   = "비행"
 L.LM_ADVANCED_EXP       = "이 설정을 통해 각 LiteMount 키 바인딩이 실행하는 작업을 사용자 정의 할 수 있습니다. 아무 것도 변경하기 전에 아래 URL의 설명서를 읽어보십시오."
 L.LM_AUTHOR             = "저자"
@@ -325,7 +319,6 @@ end
 -- ptBR ------------------------------------------------------------------------
 
 if locale == "ptBR" then
-L.FLOAT                 = "Flutuar"
 L.FLY                   = "Voar"
 L.LM_ADVANCED_EXP       = "Essas configurações permitem personalizar as ações executadas por cada uma das teclas de atalho do LiteMount. Por favor, leia a documentação no URL abaixo antes de alterar qualquer coisa."
 L.LM_AUTHOR             = "Autor"
@@ -346,9 +339,13 @@ L.LM_ERR_BAD_CONDITION  = "Condição ruim '%s' na lista de ações."
 L.LM_EVERY_D_MINUTES    = "A cada %d minutos"
 L.LM_EVERY_D_SECONDS    = "A cada %d segundos"
 L.LM_EVERY_TIME         = "Cada vez"
+L.LM_EXPORT_PROFILE     = "Exportar Perfil"
+L.LM_EXPORT_PROFILE_EXP = "Copie e cole o texto abaixo em um arquivo de texto para salvar esse perfil. Você pode restaurá-lo novamente com \"Importar Perfil\""
 L.LM_FLAGS              = "Rótulos"
 L.LM_HELP_TRANSLATE     = "Ajude a traduzir o LiteMount para o seu idioma. Obrigado."
 L.LM_HIDDEN             = "Oculta"
+L.LM_IMPORT_PROFILE     = "Importar Perfil"
+L.LM_IMPORT_PROFILE_EXP = "Cole um perfil exportado anteriormente na caixa de texto abaixo para importá-lo com o nome indicado."
 L.LM_MACRO_EXP          = "Esta macro será executada se o LiteMount não conseguir encontrar uma montaria utilizável. Isso pode ser porque você está dentro de casa, ou está se movendo e não conhece nenhuma montaria instantânea."
 L.LM_NEW_FLAG           = "Crie um rótulo"
 L.LM_NEW_PROFILE        = "Cria um perfil"
@@ -360,6 +357,7 @@ L.LM_PROFILES           = "Perfis"
 L.LM_RANDOM_PERSISTENCE = "Com que frequência selecionar uma nova montaria aleatória"
 L.LM_RENAME_FLAG        = "Renomear um rótulo"
 L.LM_REPORT_BUG         = "Reportar erro"
+L.LM_REPORT_BUG_EXP     = "Para reportar um erro no LiteMount, favor descrever o erro no topo do campo abaixo, depois recorte e cole o texto completo no formulário Criar Problema nessa URL:"
 L.LM_RESET_PROFILE      = "Resetar Perfil"
 L.LM_SETTINGS_TAGLINE   = "Montarias aleatórias simples e confiáveis."
 L.LM_TRANSLATORS        = "Tradutores"
@@ -372,7 +370,6 @@ end
 -- ruRU ------------------------------------------------------------------------
 
 if locale == "ruRU" then
-L.FLOAT                 = "плавучий"
 L.FLY                   = "летающий"
 L.LM_ADVANCED_EXP       = "Эти настройки позволяют настраивать действия, выполняемые каждым из привязок клавиш LiteMount. Прочтите документацию по URL-адресу ниже, прежде чем что-либо менять."
 L.LM_AUTHOR             = "Aвтор"
@@ -419,7 +416,6 @@ end
 -- zhCN ------------------------------------------------------------------------
 
 if locale == "zhCN" then
-L.FLOAT                 = "浮动"
 L.FLY                   = "飞"
 L.LM_ADVANCED_EXP       = "这些设置允许您自定义每个LiteMount键绑定运行的操作。在更改任何内容之前，请阅读以下URL中的文档。"
 L.LM_AUTHOR             = "作者"
@@ -471,7 +467,6 @@ end
 -- zhTW ------------------------------------------------------------------------
 
 if locale == "zhTW" then
-L.FLOAT                 = "水上"
 L.FLY                   = "飛行"
 L.LM_ADVANCED_EXP       = "這些設定允許你為每一個LiteMount的按鍵綁定自定義行動。請在更改任何內容之前閱讀以下URL中的文件資料。"
 L.LM_AUTHOR             = "作者"
