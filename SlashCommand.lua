@@ -37,6 +37,158 @@ local function IsTrue(x)
     end
 end
 
+local COMMANDS = {}
+
+COMMANDS[''] =
+    function ()
+        LiteMountOptionsPanel_Open()
+    end
+
+COMMANDS['macro'] =
+    function ()
+        local i = CreateOrUpdateMacro()
+        if i then PickupMacro(i) end
+    end
+
+COMMANDS['priority'] =
+    function (argstr, priority)
+        local mount = LM.PlayerMounts:GetActiveMount()
+        priority = tonumber(priority)
+        if mount and priority then
+            LM.Options:SetPriority(mount, priority)
+        end
+    end
+
+COMMANDS['location'] =
+    function ()
+        LM.Print(LOCATION_COLON)
+        for _,line in ipairs(LM.Environment:GetLocation()) do
+            LM.Print("  " .. line)
+        end
+    end
+
+COMMANDS['maps'] =
+    function ()
+        local str = table.concat(args, ' ')
+        for _,line in ipairs(LM.Environment:GetMaps(str)) do
+            LM.Print(line)
+        end
+    end
+
+COMMANDS['continents'] =
+    function ()
+        local str = table.concat(args, ' ')
+        for _,line in ipairs(LM.Environment:GetContinents(str)) do
+            LM.Print(line)
+        end
+    end
+
+COMMANDS['mounts'] =
+    function (argstr, ...)
+        if select('#', ...) == 0 then
+            local m = LM.PlayerMounts:GetMountFromUnitAura("player")
+            if m then m:Dump() end
+        else
+            local n = string.lower(table.concat({ ... }, ' '))
+            local mounts = LM.PlayerMounts.mounts:Search(function (m) return string.match(strlower(m.name), n) end)
+            for _,m in ipairs(mounts) do
+                m:Dump()
+            end
+        end
+        return true
+    end
+
+COMMANDS['flags'] =
+    function (argstr, action, arg1, arg2)
+        if action == "add" and arg1 then
+            LM.Options:CreateFlag(args[2])
+        elseif action == "del" and arg1 then
+            LM.Options:DeleteFlag(args[2])
+        elseif action == "rename" and arg1 and arg2 then
+            LM.Options:RenameFlag(arg1, arg2)
+        elseif action == "list" and arg1 == nil then
+            local flags = LM.Options:GetAllFlags()
+            for i = 1, #flags do
+                if LM.Options:IsPrimaryFlag(flags[i]) then
+                    flags[i] = ORANGE_FONT_COLOR_CODE .. flags[i] .. FONT_COLOR_CODE_CLOSE
+                end
+            end
+            LM.Print(table.concat(flags, ' '))
+        end
+    end
+
+COMMANDS['playermodel'] =
+    function ()
+        LM.Print("Player model file ID: " .. LM.Environment:GetPlayerModel())
+    end
+
+COMMANDS['profile'] =
+    function (argstr)
+        -- can't use the split args because we need the raw rest of the line
+        local profileName = argstr:gsub('^profile%s+', '')
+        if profileName and LM.Options.db.profiles[profileName] then
+            LM.Options.db:SetProfile(profileName)
+            LM.Print("Switching to profile: " .. profileName)
+        else
+            LM.Print("No profile found with name: " .. profileName)
+        end
+    end
+
+COMMANDS['xmog'] =
+    function (argstr, slotID)
+         slotId = tonumber(slotID) or 0
+        local tmSlot = TRANSMOG_SLOTS[slotID*100]
+        if tmSlot then
+            local ok, _, _, _, id = pcall(C_Transmog.GetSlotVisualInfo, tmSlot.location)
+            if ok == true then
+                LM.Print(format("Transmog appearance ID for slot %d = %s", slotID, tostring(id)))
+            else
+                LM.Print("Bad transmog slot number: " .. slotID)
+            end
+        end
+    end
+
+COMMANDS['debug'] =
+    function (argstr, arg1)
+        if IsTrue(arg1) then
+            LM.Print(L.LM_DEBUGGING_ENABLED)
+            LM.Options:SetDebug(true)
+        else
+            LM.Print(L.LM_DEBUGGING_DISABLED)
+            LM.Options:SetDebug(false)
+        end
+    end
+
+
+COMMANDS['uidebug'] =
+    function (argstr, arg1)
+        if IsTrue(arg1) then
+            LM.Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_ENABLED)
+            LM.Options:SetUIDebug(true)
+        else
+            LM.Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_DISABLED)
+            LM.Options:SetUIDebug(false)
+        end
+    end
+
+COMMANDS['forcefly'] =
+    function ()
+        LM.Environment:ForceFlyable()
+    end
+
+--@debug@
+COMMANDS['usable'] =
+    function ()
+        LM.Developer:Initialize()
+        LM.Developer:UpdateUsability()
+    end
+
+COMMANDS['pi'] =
+    function ()
+        LiteMountProfileInspect:Show()
+    end
+--@end-debug@
+
 local function PrintUsage()
     LM.Print(GAMEMENU_HELP .. ":")
     LM.Print("  /litemount priority <0-3>")
@@ -48,6 +200,7 @@ local function PrintUsage()
     LM.Print("  /litemount flags add <flagname>")
     LM.Print("  /litemount flags del <flagname>")
     LM.Print("  /litemount flags rename <oldname> <newname>")
+    LM.Print("  /litemount playermodel")
     LM.Print("  /litemount profile <profilename>")
     LM.Print("  /litemount xmog <slotnumber>")
 end
@@ -63,122 +216,13 @@ LM.SlashCommandFunc = function (argstr)
     local args = { strsplit(" ", argstr) }
     local cmd = table.remove(args, 1)
 
-    if cmd == "macro" or cmd == strlower(MACRO) then
-        local i = CreateOrUpdateMacro()
-        if i then PickupMacro(i) end
+    if COMMANDS[cmd] then
+        COMMANDS[cmd](argstr, unpack(args))
         return true
-    elseif cmd == "priority" then
-        local mount = LM.PlayerMounts:GetActiveMount()
-        if mount then
-            LM.Options:SetPriority(mount, tonumber(args[1]))
-        end
-        return true
-    elseif cmd == "location" then
-        LM.Print(LOCATION_COLON)
-        for _,line in ipairs(LM.Environment:GetLocation()) do
-            LM.Print("  " .. line)
-        end
-        return true
-    elseif cmd == "maps" then
-        local str = table.concat(args, ' ')
-        for _,line in ipairs(LM.Environment:GetMaps(str)) do
-            LM.Print(line)
-        end
-        return true
-    elseif cmd == "continents" then
-        local str = table.concat(args, ' ')
-        for _,line in ipairs(LM.Environment:GetContinents(str)) do
-            LM.Print(line)
-        end
-        return true
-    elseif cmd == "mounts" then
-        if not args[1] then
-            local m = LM.PlayerMounts:GetMountFromUnitAura("player")
-            if m then m:Dump() end
-        else
-            local n = string.lower(table.concat(args, ' '))
-            local mounts = LM.PlayerMounts.mounts:Search(function (m) return string.match(strlower(m.name), n) end)
-            for _,m in ipairs(mounts) do
-                m:Dump()
-            end
-        end
-        return true
-    elseif cmd == "flags" then
-        if args[1] == "add" and #args == 2 then
-            LM.Options:CreateFlag(args[2])
-            return true
-        elseif args[1] == "del" and #args == 2 then
-            LM.Options:DeleteFlag(args[2])
-            return true
-        elseif args[1] == "rename" and #args == 3 then
-            LM.Options:RenameFlag(args[2], args[3])
-            return true
-        elseif args[1] == "list" and #args == 1 then
-            local flags = LM.Options:GetAllFlags()
-            for i = 1, #flags do
-                if LM.Options:IsPrimaryFlag(flags[i]) then
-                    flags[i] = ORANGE_FONT_COLOR_CODE .. flags[i] .. FONT_COLOR_CODE_CLOSE
-                end
-            end
-            LM.Print(table.concat(flags, ' '))
-            return true
-        end
-    elseif cmd == "profile" then
-        -- can't use the split args because we need the raw rest of the line
-        local profileName = argstr:gsub('^profile%s+', '')
-        if profileName and LM.Options.db.profiles[profileName] then
-            LM.Options.db:SetProfile(profileName)
-            LM.Print("Switching to profile: " .. profileName)
-        else
-            LM.Print("No profile found with name: " .. profileName)
-        end
-        return true
-    elseif cmd == "xmog" then
-        local slotID = tonumber(args[1])
-        if slotID then
-            local ok, _, _, _, id = pcall(C_Transmog.GetSlotVisualInfo, slotID, LE_TRANSMOG_TYPE_APPEARANCE)
-            if ok == true then
-                LM.Print(format("Transmog appearance ID for slot %d = %s", slotID, tostring(id)))
-            else
-                LM.Print("Bad transmog slot number: " .. slotID)
-            end
-            return true
-        end
-    elseif cmd == "debug" then
-        if IsTrue(args[1]) then
-            LM.Print(L.LM_DEBUGGING_ENABLED)
-            LM.Options:SetDebug(true)
-        else
-            LM.Print(L.LM_DEBUGGING_DISABLED)
-            LM.Options:SetDebug(false)
-        end
-        return true
-    elseif cmd == "uidebug" then
-        if IsTrue(args[1]) then
-            LM.Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_ENABLED)
-            LM.Options:SetUIDebug(true)
-        else
-            LM.Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_DISABLED)
-            LM.Options:SetUIDebug(false)
-        end
-        return true
-    elseif cmd == "forcefly" then
-        LM.Environment:ForceFlyable()
-        return true
---@debug@
-    elseif cmd == "usable" then
-        LM.Developer:Initialize()
-        LM.Developer:UpdateUsability()
-        return true
-    elseif cmd == "pi" then
-        LiteMountProfileInspect:Show()
-        return true
---@end-debug@
-    elseif cmd == "" then
-        return LiteMountOptionsPanel_Open()
+    else
+        PrintUsage()
     end
 
-    PrintUsage()
     return true
 end
 
