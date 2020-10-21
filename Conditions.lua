@@ -334,6 +334,13 @@ CONDITIONS["outdoors"] =
         return IsOutdoors()
     end
 
+CONDITIONS["playermodel"] =
+    function (cond, unit, v)
+        if v then
+            return LM.Environment:GetPlayerModel() == tonumber(v)
+        end
+    end
+
 CONDITIONS["party"] =
     function (cond, unit)
         return UnitPlayerOrPetInParty(unit or "target")

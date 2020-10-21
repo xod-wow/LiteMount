@@ -310,6 +310,17 @@ function LM.Environment:GetLocation()
     }
 end
 
+local ModelScanFrame = CreateFrame('PlayerModel')
+ModelScanFrame:Hide()
+
+function LM.Environment:GetPlayerModel()
+    ModelScanFrame:Show()
+    ModelScanFrame:SetUnit('player')
+    local id = ModelScanFrame:GetModelFileID()
+    ModelScanFrame:Hide()
+    return id
+end
+
 local maxMapID
 function LM.Environment:MaxMapID()
     if not maxMapID then
