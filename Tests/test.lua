@@ -1,6 +1,6 @@
 --[[------------------------------------------------------------------------]]--
 
-dofile("mock/WoWAPI.lua")
+dofile("Mock/WoWAPI.lua")
 dofile("LoadAddOn.lua")
 
 SendEvent('ADDON_LOADED', 'LiteMount')

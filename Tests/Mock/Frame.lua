@@ -42,6 +42,30 @@ function mockFrame:GetParent()
     return self.__parent
 end
 
+function mockFrame:Show()
+    self.isShown = true
+end
+
+function mockFrame:Hide()
+    self.isShown = false
+end
+
+function mockFrame:SetShown(v)
+    if v then
+        self.isShown = true
+    else
+        self.isShown = false
+    end
+end
+
+function mockFrame:IsShown()
+    return self.isShown == false
+end
+
+function mockFrame:IsVisible()
+    return self.isShown == false
+end
+
 function mockFrame:SetAttribute(k, v)
     self[k] = v
 end

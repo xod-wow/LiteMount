@@ -301,5 +301,6 @@ strlen = string.len
 format = string.format
 wipe = table.wipe
 tinsert = table.insert
+unpack = table.unpack
 sort = table.sort
 time = os.time
