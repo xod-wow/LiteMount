@@ -199,11 +199,15 @@ The table InstanceFlyableOverride is really the only interesting part.
   LM.Environment
     CanFly()
     CantBreath()
+    GetPlayerModel()
+    InInstance(instanceID, [instanceID, ...])
+    IsFalling()
     IsFloating()
     IsMovingOrFalling()
-    InInstance(instanceID, [instanceID, ...])
-    HasJumped(maxSecondsSinceJump)
+    JumpTime()
+    KnowsFlyingSkill()
     MapInPath(mapID, [mapID, ...])
+    StationaryTime()
 ```
 
 ### Print.lua
