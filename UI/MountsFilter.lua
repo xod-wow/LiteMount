@@ -122,11 +122,11 @@ function LiteMountFilterButtonMixin:Initialize(level)
         info.value = 2
         UIDropDownMenu_AddButton(info, level)
 
-        info.text = SOURCES
+        info.text = 'Family'
         info.value = 3
         UIDropDownMenu_AddButton(info, level)
 
-        info.text = 'Family'
+        info.text = SOURCES
         info.value = 4
         UIDropDownMenu_AddButton(info, level)
     elseif level == 2 then
@@ -134,7 +134,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
         info.isNotRadio = true
         info.notCheckable = true
 
-        if UIDROPDOWNMENU_MENU_VALUE == 4 then -- Family
+        if UIDROPDOWNMENU_MENU_VALUE == 3 then -- Family
             info.text = CHECK_ALL
             info.func = function ()
                     LM.UIFilter.SetAllFamilyFilters(true)
@@ -163,7 +163,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
                 UIDropDownMenu_AddButton(info, level)
             end
 
-        elseif UIDROPDOWNMENU_MENU_VALUE == 3 then -- Sources
+        elseif UIDROPDOWNMENU_MENU_VALUE == 4 then -- Sources
             info.text = CHECK_ALL
             info.func = function ()
                     LM.UIFilter.SetAllSourceFilters(true)
