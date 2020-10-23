@@ -17,6 +17,7 @@ LM.UIFilter = {
         searchText = nil,
         flagFilterList =  { },
         sourceFilterList = { },
+        familyFilterList = { },
         priorityFilterList = { },
     }
 
@@ -41,8 +42,9 @@ end
 
 function LM.UIFilter.Clear()
     table.wipe(LM.UIFilter.flagFilterList)
-    table.wipe(LM.UIFilter.sourceFilterList)
+    table.wipe(LM.UIFilter.familyFilterList)
     table.wipe(LM.UIFilter.priorityFilterList)
+    table.wipe(LM.UIFilter.sourceFilterList)
     table.wipe(LM.UIFilter.filteredMountList)
     callbacks:Fire('OnFilterChanged')
 end
@@ -57,6 +59,10 @@ function LM.UIFilter.IsFiltered()
     end
 
     if next(LM.UIFilter.flagFilterList) ~= nil then
+        return true
+    end
+
+    if next(LM.UIFilter.familyFilterList) ~= nil then
         return true
     end
 
@@ -145,6 +151,52 @@ function LM.UIFilter.GetSourceText(i)
     elseif i == n+1 then
         return OTHER
     end
+end
+
+
+-- Families --------------------------------------------------------------------
+
+function LM.UIFilter.GetFamilies()
+    local out = {}
+    for k in pairs(LM.MOUNTFAMILY) do
+        table.insert(out, k)
+    end
+    table.sort(out, function (a, b) return L[a] < L[b] end)
+    return out
+end
+
+function LM.UIFilter.SetAllFamilyFilters(v)
+    LM.UIFilter.ClearCache()
+    if v then
+        table.wipe(LM.UIFilter.familyFilterList)
+    else
+        for k in pairs(LM.MOUNTFAMILY) do
+            LM.UIFilter.familyFilterList[k] = true
+        end
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.SetFamilyFilter(i, v)
+    LM.UIFilter.ClearCache()
+    if v then
+        LM.UIFilter.familyFilterList[i] = nil
+    else
+        LM.UIFilter.familyFilterList[i] = true
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.IsFamilyChecked(i)
+    return not LM.UIFilter.familyFilterList[i]
+end
+
+function LM.UIFilter.IsValidFamilyFilter(i)
+    return LM.MOUNTFAMILY[i] ~= nil
+end
+
+function LM.UIFilter.GetFamilyText(i)
+    return L[i]
 end
 
 
@@ -258,6 +310,11 @@ function LM.UIFilter.IsFilteredMount(m)
     end
 
     if LM.UIFilter.sourceFilterList[source] == true then
+        return true
+    end
+
+    -- Family filters
+    if m.family and LM.UIFilter.familyFilterList[m.family] == true then
         return true
     end
 

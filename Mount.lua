@@ -27,6 +27,12 @@ function LM.Mount:Get(className, ...)
     local m = class:Get(...)
     if not m then return end
 
+    for familyName, familyMounts in pairs(LM.MOUNTFAMILY) do
+        if familyMounts[m.spellID] then
+            m.family = familyName
+        end
+    end
+
     return m
 end
 
@@ -142,6 +148,7 @@ function LM.Mount:Dump(prefix)
                    )
             )
     LM.Print(prefix .. " mountID: " .. tostring(self.mountID))
+    LM.Print(prefix .. " family: " .. tostring(self.family))
     LM.Print(prefix .. " isCollected: " .. tostring(self.isCollected))
     LM.Print(prefix .. " isFavorite: " .. tostring(self.isFavorite))
     LM.Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))

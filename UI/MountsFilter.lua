@@ -12,8 +12,9 @@ local _, LM = ...
 
 local L = LM.Localize
 
+local FAMILY_MENU_SPLIT_SIZE = 20
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountFilterMixin = {}
 
@@ -35,7 +36,7 @@ function LiteMountFilterMixin:Attach(parent, fromPoint, frame, toPoint, xOff, yO
     self:SetPoint(fromPoint, frame, toPoint, xOff, yOff)
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountSearchBoxMixin = {}
 
@@ -44,7 +45,7 @@ function LiteMountSearchBoxMixin:OnTextChanged()
     LM.UIFilter.SetSearchText(self:GetText())
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountFilterClearMixin = {}
 
@@ -52,7 +53,7 @@ function LiteMountFilterClearMixin:OnClick()
     LM.UIFilter.Clear()
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountFilterButtonMixin = {}
 
@@ -124,12 +125,45 @@ function LiteMountFilterButtonMixin:Initialize(level)
         info.text = SOURCES
         info.value = 3
         UIDropDownMenu_AddButton(info, level)
+
+        info.text = 'Family'
+        info.value = 4
+        UIDropDownMenu_AddButton(info, level)
     elseif level == 2 then
         info.hasArrow = false
         info.isNotRadio = true
         info.notCheckable = true
 
-        if UIDROPDOWNMENU_MENU_VALUE == 3 then -- Sources
+        if UIDROPDOWNMENU_MENU_VALUE == 4 then -- Family
+            info.text = CHECK_ALL
+            info.func = function ()
+                    LM.UIFilter.SetAllFamilyFilters(true)
+                    UIDropDownMenu_Refresh(self, false, 2)
+                end
+            UIDropDownMenu_AddButton(info, level)
+
+            info.text = UNCHECK_ALL
+            info.func = function ()
+                    LM.UIFilter.SetAllFamilyFilters(false)
+                    UIDropDownMenu_Refresh(self, false, 2)
+                end
+            UIDropDownMenu_AddButton(info, level)
+
+            info.func = nil
+            info.isNotRadio = false
+            info.hasArrow = true
+
+            local families = LM.UIFilter.GetFamilies()
+            for i = 1, #families, FAMILY_MENU_SPLIT_SIZE do
+                local j = math.min(#families, i+FAMILY_MENU_SPLIT_SIZE-1)
+                local fromFamily = LM.UIFilter.GetFamilyText(families[i])
+                local toFamily = LM.UIFilter.GetFamilyText(families[j])
+                info.text = format(INT_SPELL_POINTS_SPREAD_TEMPLATE, fromFamily, toFamily)
+                info.value = i
+                UIDropDownMenu_AddButton(info, level)
+            end
+
+        elseif UIDROPDOWNMENU_MENU_VALUE == 3 then -- Sources
             info.text = CHECK_ALL
             info.func = function ()
                     LM.UIFilter.SetAllSourceFilters(true)
@@ -221,6 +255,25 @@ function LiteMountFilterButtonMixin:Initialize(level)
                 UIDropDownMenu_AddButton(info, level)
             end
 
+        end
+    elseif level == 3 then
+        local startFrom = UIDROPDOWNMENU_MENU_VALUE
+        local families = LM.UIFilter.GetFamilies()
+
+        for i = startFrom, math.min(startFrom + FAMILY_MENU_SPLIT_SIZE -1, #families) do
+            local family = families[i]
+            info.notCheckable = false
+            info.isNotRadio = true
+            info.hasArrow = false
+            info.text = LM.UIFilter.GetFamilyText(family)
+            info.arg1 = family
+            info.func = function (_, _, _, v)
+                    LM.UIFilter.SetFamilyFilter(family, v)
+                end
+            info.checked = function ()
+                    return LM.UIFilter.IsFamilyChecked(family)
+                end
+            UIDropDownMenu_AddButton(info, level)
         end
     end
 end
