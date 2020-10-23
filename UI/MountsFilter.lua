@@ -149,6 +149,8 @@ function LiteMountFilterButtonMixin:Initialize(level)
                 end
             UIDropDownMenu_AddButton(info, level)
 
+            UIDropDownMenu_AddSeparator(level)
+
             info.func = nil
             info.isNotRadio = false
             info.hasArrow = true
@@ -158,7 +160,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
                 local j = math.min(#families, i+FAMILY_MENU_SPLIT_SIZE-1)
                 local fromFamily = LM.UIFilter.GetFamilyText(families[i])
                 local toFamily = LM.UIFilter.GetFamilyText(families[j])
-                info.text = format(INT_SPELL_POINTS_SPREAD_TEMPLATE, fromFamily, toFamily)
+                info.text = format('%s...%s', fromFamily, toFamily)
                 info.value = i
                 UIDropDownMenu_AddButton(info, level)
             end
@@ -177,6 +179,8 @@ function LiteMountFilterButtonMixin:Initialize(level)
                     UIDropDownMenu_Refresh(self, false, 2)
                 end
             UIDropDownMenu_AddButton(info, level)
+
+            UIDropDownMenu_AddSeparator(level)
 
             info.notCheckable = false
 
@@ -211,6 +215,8 @@ function LiteMountFilterButtonMixin:Initialize(level)
                 end
             UIDropDownMenu_AddButton(info, level)
 
+            UIDropDownMenu_AddSeparator(level)
+
             info.notCheckable = false
 
             for _,f in ipairs(flags) do
@@ -240,6 +246,8 @@ function LiteMountFilterButtonMixin:Initialize(level)
                     UIDropDownMenu_Refresh(self, false, 2)
                 end
             UIDropDownMenu_AddButton(info, level)
+
+            UIDropDownMenu_AddSeparator(level)
 
             info.notCheckable = false
 
