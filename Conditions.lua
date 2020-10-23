@@ -542,8 +542,6 @@ CONDITIONS["waterwalking"] =
 
 CONDITIONS["xmog:args"] =
     function (cond, unit, slotID, appearanceID)
-        print(slotID)
-        print(appearanceID)
         slotID, appearanceID = tonumber(slotID), tonumber(appearanceID)
         local tmSlot = TRANSMOG_SLOTS[(slotID or 0) * 100]
         if tmSlot then
