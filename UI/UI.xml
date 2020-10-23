@@ -4,9 +4,9 @@
     <Include file="ProfileDropDown.xml" />
     <Include file="ProfileImportExport.xml" />
     <Include file="MountsFilter.xml" />
-<!--@debug-->
+<!--@debug@-->
     <Include file="MountSelector.xml" />
-<!--@end-debug-->
+<!--@end-debug@-->
 
     <!-- Main parent settings panel -->
     <Include file="Base.xml" />
