@@ -12,6 +12,7 @@ tocFiles = {
     "Print.lua",
     "Developer.lua",
     "SpellInfo.lua",
+    "FamilyInfo.lua",
     "Environment.lua",
     "Options.lua",
     "SecureAction.lua",
