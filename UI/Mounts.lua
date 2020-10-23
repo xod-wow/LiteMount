@@ -195,10 +195,18 @@ function LiteMountMountIconMixin:OnLeave()
     GameTooltip:Hide()
 end
 
+function LiteMountMountIconMixin:PreClick(mouseButton)
+    if mouseButton == 'LeftButton' and IsModifiedClick("CHATLINK") then
+        local mount = self:GetParent().mount
+        ChatEdit_InsertLink(GetSpellLink(mount.spellID))
+    end
+end
+
 function LiteMountMountIconMixin:OnLoad()
     self:SetAttribute("unit", "player")
-    self:RegisterForClicks("RightButtonUp")
+    self:RegisterForClicks("AnyUp")
     self:RegisterForDrag("LeftButton")
+    self:SetScript('PreClick', self.PreClick)
 end
 
 function LiteMountMountIconMixin:OnDragStart()
@@ -221,7 +229,7 @@ function LiteMountMountButtonMixin:Update(pageFlags, mount)
     self.Name:SetText(mount.name)
 
     if not InCombatLockdown() then
-        mount:GetCastAction():SetupActionButton(self.Icon)
+        mount:GetCastAction():SetupActionButton(self.Icon, 2)
     end
 
     local i = 1

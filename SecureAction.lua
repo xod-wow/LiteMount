@@ -28,8 +28,11 @@ function LM.SecureAction:New(attr)
     return setmetatable(attr, LM.SecureAction)
 end
 
-function LM.SecureAction:SetupActionButton(button)
+function LM.SecureAction:SetupActionButton(button, n)
     for k,v in pairs(self) do
+        if k ~= 'type' and n then
+            k = k .. tostring(n)
+        end
         button:SetAttribute(k, v)
     end
 end
