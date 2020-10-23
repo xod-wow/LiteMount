@@ -17,12 +17,7 @@ LM.MOUNTFAMILY["Alpaca"] = {
 
 }
 
-LM.MOUNTFAMILY["Anima Gorger"] = {
-    [333027] = true, -- Loyal Gorger
-    [344659] = true, -- Voracious Gorger
-}
-
-LM.MOUNTFAMILY["Aqir Flyer"] = {
+LM.MOUNTFAMILY["Aqir Drone"] = {
     [316339] = true, -- Shadowbarb Drone
     [316337] = true, -- Malevolent Drone
     [316340] = true, -- Wicked Swarmer
@@ -240,6 +235,7 @@ LM.MOUNTFAMILY["Courser"] = {
     [242875] = true, -- Wild Dreamrunner
     [247402] = true, -- Lucid Nightmare
     [134573] = true, -- Swift Windsteed
+    [163024] = true, -- Warforged Nightmare
 }
 
 LM.MOUNTFAMILY["Crab"] = {
@@ -266,6 +262,11 @@ LM.MOUNTFAMILY["Deathroc"] = {
     [327405] = true, -- Colossal Slaughterclaw
     [336041] = true, -- Bonesewn Fleshroc
     [336045] = true, -- Predatory Plagueroc
+}
+
+LM.MOUNTFAMILY["Devourer"] = {
+    [333027] = true, -- Loyal Gorger
+    [344659] = true, -- Voracious Gorger
 }
 
 LM.MOUNTFAMILY["Direhorn"] = {
@@ -698,11 +699,6 @@ LM.MOUNTFAMILY["Mechanoflier"] = {
     [247448] = true, -- Darkmoon Dirigible
 }
 
-LM.MOUNTFAMILY["Mechanosteed"] = {
-    [163024] = true, -- Warforged Nightmare
-    [142910] = true, -- Ironbound Wraithcharger
-}
-
 LM.MOUNTFAMILY["Mechanostrider"] = {
     [ 33630] = true, -- Blue Mechanostrider
     [ 10969] = true, -- Blue Mechanostrider
@@ -1007,6 +1003,7 @@ LM.MOUNTFAMILY["Skeletal Horse"] = {
     [146622] = true, -- Vicious Skeletal Warhorse
     [ 65645] = true, -- White Skeletal Warhorse
     [ 17481] = true, -- Rivendare's Deathcharger
+    [142910] = true, -- Ironbound Wraithcharger
     [229499] = true, -- Midnight
     [288722] = true, -- Risen Mare
     [ 63643] = true, -- Forsaken Warhorse
@@ -1025,10 +1022,6 @@ LM.MOUNTFAMILY["Snapdragon"] = {
     [300147] = true, -- Deepcoral Snapdragon
     [294038] = true, -- Royal Snapdragon
     [300146] = true, -- Snapdragon Kelpstalker
-}
-
-LM.MOUNTFAMILY["Soul Eater"] = {
-    [332400] = true, -- Sinful Gladiator's Soul Eater
 }
 
 LM.MOUNTFAMILY["Spider"] = {
@@ -1140,6 +1133,7 @@ LM.MOUNTFAMILY["Undead Wyrm"] = {
     [231428] = true, -- Smoldering Ember Wyrm
     [ 72808] = true, -- Bloodbathed Frostbrood Vanquisher
     [ 72807] = true, -- Icebound Frostbrood Vanquisher
+    [332400] = true, -- Sinful Gladiator's Soul Eater
 }
 
 LM.MOUNTFAMILY["Ur'zul"] = {
