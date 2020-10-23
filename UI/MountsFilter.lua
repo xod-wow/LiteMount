@@ -189,7 +189,13 @@ function LiteMountFilterButtonMixin:Initialize(level)
                     info.text = LM.UIFilter.GetSourceText(i)
                     info.arg1 = i
                     info.func = function (_, _, _, v)
-                            LM.UIFilter.SetSourceFilter(i, v)
+                            if IsShiftKeyDown() then
+                                LM.UIFilter.SetAllSourceFilters(false)
+                                LM.UIFilter.SetSourceFilter(i, true)
+                                UIDropDownMenu_Refresh(self, false, 2)
+                            else
+                                LM.UIFilter.SetSourceFilter(i, v)
+                            end
                         end
                     info.checked = function ()
                             return LM.UIFilter.IsSourceChecked(i)
@@ -223,7 +229,13 @@ function LiteMountFilterButtonMixin:Initialize(level)
                 info.text = LM.UIFilter.GetFlagText(f)
                 info.arg1 = f
                 info.func = function (_, _, _, v)
-                        LM.UIFilter.SetFlagFilter(f, v)
+                        if IsShiftKeyDown() then
+                            LM.UIFilter.SetAllFlagFilters(false)
+                            LM.UIFilter.SetFlagFilter(f, true)
+                            UIDropDownMenu_Refresh(self, false, 2)
+                        else
+                            LM.UIFilter.SetFlagFilter(f, v)
+                        end
                     end
                 info.checked = function ()
                         return LM.UIFilter.IsFlagChecked(f)
@@ -255,7 +267,13 @@ function LiteMountFilterButtonMixin:Initialize(level)
                 info.text = LM.UIFilter.GetPriorityText(p)
                 info.arg1 = p
                 info.func = function (_, _, _, v)
-                        LM.UIFilter.SetPriorityFilter(p, v)
+                        if IsShiftKeyDown() then
+                            LM.UIFilter.SetAllPriorityFilters(false)
+                            LM.UIFilter.SetPriorityFilter(p, true)
+                            UIDropDownMenu_Refresh(self, false, 2)
+                        else
+                            LM.UIFilter.SetPriorityFilter(p, v)
+                        end
                     end
                 info.checked = function ()
                         return LM.UIFilter.IsPriorityChecked(p)
@@ -276,7 +294,13 @@ function LiteMountFilterButtonMixin:Initialize(level)
             info.text = LM.UIFilter.GetFamilyText(family)
             info.arg1 = family
             info.func = function (_, _, _, v)
-                    LM.UIFilter.SetFamilyFilter(family, v)
+                    if IsShiftKeyDown() then
+                        LM.UIFilter.SetAllFamilyFilters(false)
+                        LM.UIFilter.SetFamilyFilter(family, true)
+                        UIDropDownMenu_Refresh(self, false, 3)
+                    else
+                        LM.UIFilter.SetFamilyFilter(family, v)
+                    end
                 end
             info.checked = function ()
                     return LM.UIFilter.IsFamilyChecked(family)
