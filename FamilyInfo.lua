@@ -210,11 +210,9 @@ LM.MOUNTFAMILY["Cloud Serpent"] = {
 }
 
 LM.MOUNTFAMILY["Core Hound"] = {
-    [344228] = true, -- Battle-Bound Warhound
     [170347] = true, -- Core Hound
     [271646] = true, -- Dark Iron Core Hound
     [213209] = true, -- Steelbound Devourer
-    [341766] = true, -- Warstitched Darkhound
 }
 
 LM.MOUNTFAMILY["Courser"] = {
@@ -583,9 +581,11 @@ LM.MOUNTFAMILY["Horse"] = {
 }
 
 LM.MOUNTFAMILY["Hound"] = {
+    [344228] = true, -- Battle-Bound Warhound
     [344578] = true, -- Corridor Creeper
     [189998] = true, -- Illidari Felstalker
     [312762] = true, -- Mawsworn Soulhunter
+    [341766] = true, -- Warstitched Darkhound
 }
 
 LM.MOUNTFAMILY["Hyena"] = {
