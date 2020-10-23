@@ -17,12 +17,12 @@ local L = LM.Localize
 local function PositionAtCursor(frame)
     local x, y = GetCursorPosition()
     frame:ClearAllPoints()
-    x = x / frame:GetEffectiveScale();
-    y = y / frame:GetEffectiveScale();
+    x = x / frame:GetEffectiveScale()
+    y = y / frame:GetEffectiveScale()
 
     -- Try to position so the bottom right button is under the cursor
     frame:SetPoint("BOTTOMRIGHT", nil, "BOTTOMLEFT", x+64, y-16)
-    frame:Raise();
+    frame:Raise()
 end
 
 LiteMountProfileExportMixin = {}

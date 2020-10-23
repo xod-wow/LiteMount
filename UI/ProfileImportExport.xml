@@ -71,7 +71,7 @@
                     <Anchor point="TOPLEFT" x="16" y="-16" />
                 </Anchors>
             </FontString>
-            <FontString inherits="GameFontNormal" parentKey="ProfileNameText" justfyH="RIGHT" text="NAME">
+            <FontString inherits="GameFontNormal" parentKey="ProfileNameText" justifyH="RIGHT" text="NAME">
                 <Anchors>
                     <Anchor point="TOPLEFT" x="24" y="-88" />
                 </Anchors>
