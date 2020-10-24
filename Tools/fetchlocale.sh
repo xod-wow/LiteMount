@@ -17,7 +17,7 @@ header () {
 }
 
 fetch () {
-    curl -s -H "X-Api-Token: $APIKEY" "https://wow.curseforge.com/api/projects/30359/localization/export?export-type=GlobalStrings&lang=$1&unlocalized=Ignore" | awk -F' = ' '{ printf("L.%-21s = %s\n", $1, $2) }'
+    curl -s -H "X-Api-Token: $APIKEY" "https://wow.curseforge.com/api/projects/30359/localization/export?export-type=TableAdditions&lang=$1&namespaces=Base+Namespace,Family&concatenate-subnamespaces=true&unlocalized=Ignore" | sed -e 's/^..*$/    &/'
 }
 
 header "enUS / enGB / Default"
@@ -46,5 +46,7 @@ for locale in "deDE" "esES" "frFR" "itIT" "koKR" "ptBR" "ruRU" "zhCN" "zhTW"; do
     esac
 
     echo "end"
-    echo
+    if [ "$locale" != "zhTW" ]; then
+        echo
+    fi
 done

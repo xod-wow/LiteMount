@@ -30,3 +30,6 @@ for i = 1, 10000 do
 end
 
 SendEvent('PLAYER_LOGOUT')
+
+print('\nCompleted and exiting.\n')
+os.exit(0)

@@ -122,7 +122,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
         info.value = 2
         UIDropDownMenu_AddButton(info, level)
 
-        info.text = 'Family'
+        info.text = L.LM_FAMILY
         info.value = 3
         UIDropDownMenu_AddButton(info, level)
 
