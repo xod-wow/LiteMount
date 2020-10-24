@@ -80,8 +80,6 @@ LM.MOUNTFAMILY["Bee"] = {
 }
 
 LM.MOUNTFAMILY["Bird"] = {
-    [183117] = true, -- Corrupted Dreadwing
-    [155741] = true, -- Dread Raven
     [231524] = true, -- Shadowblade's Baneful Omen
     [231525] = true, -- Shadowblade's Crimson Omen
     [231523] = true, -- Shadowblade's Lethal Omen
@@ -335,6 +333,11 @@ LM.MOUNTFAMILY["Drake"] = {
     [107844] = true, -- Twilight Harbinger
     [302143] = true, -- Uncorrupted Voidwing
     [101282] = true, -- Vicious Gladiator's Twilight Drake
+}
+
+LM.MOUNTFAMILY["Dread Raven"] = {
+    [183117] = true, -- Corrupted Dreadwing
+    [155741] = true, -- Dread Raven
 }
 
 LM.MOUNTFAMILY["Dreadsteed"] = {
