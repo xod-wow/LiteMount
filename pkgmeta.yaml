@@ -1,5 +1,5 @@
 ignore:
-    - ABOUT.md
     - README.md
-    - fetchlocale.sh
+    - DEVELOPER_NOTES.md
     - Tests
+    - Tools
