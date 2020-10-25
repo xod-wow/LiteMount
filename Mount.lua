@@ -33,6 +33,10 @@ function LM.Mount:Get(className, ...)
         end
     end
 
+    if not m.family then
+        LM.PrintError('Mount with no family: ' .. m.name)
+    end
+
     return m
 end
 

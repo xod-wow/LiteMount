@@ -113,11 +113,6 @@ LM.MOUNTFAMILY["Boar"] = {
     [171633] = true, -- Wild Goretusk
 }
 
-LM.MOUNTFAMILY["Bonehoof"] = {
-    [332462] = true, -- Armored War-Bred Bonehoof
-    [332455] = true, -- War-Bred Bonehoof
-}
-
 LM.MOUNTFAMILY["Brutosaur"] = {
     [264058] = true, -- Mighty Caravan Brutosaur
 }
@@ -796,6 +791,17 @@ LM.MOUNTFAMILY["Panthara"] = {
     [243512] = true, -- Luminous Starseeker
 }
 
+LM.MOUNTFAMILY["Phalynx"] = {
+    [334406] = true, -- Eternal Phalynx of Courage
+    [334409] = true, -- Eternal Phalynx of Humility
+    [334408] = true, -- Eternal Phalynx of Loyalty
+    [334403] = true, -- Eternal Phalynx of Purity
+    [334391] = true, -- Phalynx of Courage
+    [334386] = true, -- Phalynx of Humility
+    [334382] = true, -- Phalynx of Loyalty
+    [334398] = true, -- Phalynx of Purity
+}
+
 LM.MOUNTFAMILY["Phoenix"] = {
     [132117] = true, -- Ashen Pandaren Phoenix
     [ 40192] = true, -- Ashes of Al'ar
@@ -930,6 +936,7 @@ LM.MOUNTFAMILY["Rooster"] = {
 LM.MOUNTFAMILY["Runedeer"] = {
     [312759] = true, -- Dreamlight Runedeer
     [312761] = true, -- Dreamlight Runestag
+    [332248] = true, -- Enchanted Winterborn Runestag
     [332243] = true, -- Umbral Runedeer
     [332246] = true, -- Umbral Runestag
     [332244] = true, -- Wakener's Runedeer
@@ -1087,6 +1094,17 @@ LM.MOUNTFAMILY["Talbuk"] = {
     [253008] = true, -- Umber Ruinstrider
     [ 39319] = true, -- White Riding Talbuk
     [ 34897] = true, -- White War Talbuk
+}
+
+LM.MOUNTFAMILY["Tauralus"] = {
+    [332466] = true, -- Armored Bonehoof Tauralus
+    [332467] = true, -- Armored Chosen Tauralus
+    [332464] = true, -- Armored Plaguerot Tauralus
+    [332462] = true, -- Armored War-Bred Tauralus
+    [332457] = true, -- Bonehoof Tauralus
+    [332460] = true, -- Chosen Tauralus
+    [332456] = true, -- Plaguerot Tauralus
+    [332455] = true, -- War-Bred Tauralus
 }
 
 LM.MOUNTFAMILY["Tallstrider"] = {
