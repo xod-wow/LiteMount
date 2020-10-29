@@ -173,3 +173,22 @@ function LM.PlayerMounts:GetMountByShapeshiftForm(i)
         if spellID then return self:GetMountBySpell(spellID) end
     end
 end
+
+
+function LM.PlayerMounts:GetTotals()
+    local c = { total=0, collected=0, usable=0 }
+
+    for _,m in ipairs(self.mounts) do
+        if m.mountType then
+            c.total = c.total + 1
+            if m.isCollected then
+                c.collected = c.collected + 1
+                if m.isUsable and not m.isFiltered then
+                    c.usable = c.usable + 1
+                end
+            end
+        end
+    end
+    return c
+end
+

@@ -410,6 +410,21 @@ function LiteMountMountsPanelMixin:OnShow()
     LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.MountScroll, 'TOPLEFT', 0, 15)
     LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "refresh")
     LM.PlayerMounts:RefreshMounts()
+
+    -- Update the counts, Journal-only
+    local counts = LM.PlayerMounts:GetTotals()
+    self.Counts:SetText(
+            string.format(
+                '%s: %s %s: %s %s: %s',
+                TOTAL,
+                WHITE_FONT_COLOR:WrapTextInColorCode(counts.total),
+                COLLECTED,
+                WHITE_FONT_COLOR:WrapTextInColorCode(counts.collected),
+                L.LM_USABLE,
+                WHITE_FONT_COLOR:WrapTextInColorCode(counts.usable)
+            )
+        )
+
     LiteMountOptionsPanel_OnShow(self)
 end
 

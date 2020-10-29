@@ -245,6 +245,13 @@
                 </Anchors>
             </FontString>
         </Layer>
+        <Layer level="OVERLAY">
+            <FontString parentKey="Counts" inherits="GameFontNormal">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativePOint="BOTTOMRIGHT" relativeKEy="$parent.MountScroll" y="-12" />
+                </Anchors>
+            </FontString>
+        </Layer>
     </Layers>
 
     <Scripts>
