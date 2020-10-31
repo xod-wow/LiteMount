@@ -350,8 +350,8 @@ LM.Actions = { }
 local function GetDruidMountForms()
     local forms = {}
     for i = 1,GetNumShapeshiftForms() do
-        local spell = select(5, GetShapeshiftFormInfo(i))
-        if spell == LM.SPELL.FLIGHT_FORM or spell == LM.SPELL.TRAVEL_FORM then
+        local spell = select(4, GetShapeshiftFormInfo(i))
+        if spell == LM.SPELL.TRAVEL_FORM or spell == LM.SPELL.MOUNT_FORM then
             tinsert(forms, i)
         end
     end
