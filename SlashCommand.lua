@@ -86,7 +86,7 @@ COMMANDS['continents'] =
 COMMANDS['mounts'] =
     function (argstr, ...)
         if select('#', ...) == 0 then
-            local m = LM.PlayerMounts:GetMountFromUnitAura("player")
+            local m = LM.PlayerMounts:GetActiveMount()
             if m then m:Dump() end
         else
             local n = string.lower(table.concat({ ... }, ' '))

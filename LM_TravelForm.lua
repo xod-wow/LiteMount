@@ -36,6 +36,15 @@ local restoreFormIDs = {
     [31] = true,    -- Moonkin Form
 }
 
+-- Druid forms don't reliably have a corresponding player buff, so we need
+-- to check the spell from GetShapeshiftFormInfo.
+function LM.TravelForm:IsActive(buffTable)
+    local id = GetShapeshiftForm()
+    if id > 0 then
+        return select(4, GetShapeshiftFormInfo(id)) == self.spellID
+    end
+end
+
 -- IsUsableSpell doesn't return false for Travel Form indoors like it should,
 -- because you can swim indoors with it (apparently).
 function LM.TravelForm:IsCastable()
