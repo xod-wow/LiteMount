@@ -16,6 +16,12 @@ local FAMILY_MENU_SPLIT_SIZE = 20
 
 --[[------------------------------------------------------------------------]]--
 
+local function tSlice(t, from, to)
+    return { unpack(t, from, to) }
+end
+
+--[[------------------------------------------------------------------------]]--
+
 LiteMountFilterMixin = {}
 
 function LiteMountFilterMixin:OnLoad()
@@ -61,13 +67,14 @@ function LiteMountFilterButtonMixin:OnClick()
     ToggleDropDownMenu(1, nil, self.FilterDropDown, self, 74, 15)
 end
 
-function LiteMountFilterButtonMixin:Initialize(level)
+function LiteMountFilterButtonMixin:Initialize(level, menuList)
     local info = UIDropDownMenu_CreateInfo()
     info.keepShownOnClick = true
 
     if level == 1 then
         info.isNotRadio = true
 
+        ---- 1. COLLECTED ----
         info.text = COLLECTED
         info.arg1 = "COLLECTED"
         info.checked = function ()
@@ -78,6 +85,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
             end
         UIDropDownMenu_AddButton(info, level)
 
+        ---- 2. NOT COLLECTED ----
         info.text = NOT_COLLECTED
         info.arg1 = "NOT_COLLECTED"
         info.checked = function ()
@@ -88,6 +96,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
             end
         UIDropDownMenu_AddButton(info, level)
 
+        ---- 3. UNUSABLE ----
         info.text = MOUNT_JOURNAL_FILTER_UNUSABLE
         info.arg1 = "UNUSABLE"
         info.checked = function ()
@@ -98,6 +107,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
             end
         UIDropDownMenu_AddButton(info, level)
 
+        ---- 4. HIDDEN ----
         info.text = L.LM_HIDDEN
         info.arg1 = "HIDDEN"
         info.checked = function ()
@@ -114,27 +124,31 @@ function LiteMountFilterButtonMixin:Initialize(level)
         info.hasArrow = true
         info.notCheckable = true
 
+        ---- 5. PRIORITY ----
         info.text = L.LM_PRIORITY
-        info.value = 1
+        info.value = 'PRIORITY'
         UIDropDownMenu_AddButton(info, level)
 
+        ---- 6. FLAGS ----
         info.text = L.LM_FLAGS
-        info.value = 2
+        info.value = 'FLAGS'
         UIDropDownMenu_AddButton(info, level)
 
+        ---- 7. FAMILY ----
         info.text = L.LM_FAMILY
-        info.value = 3
+        info.value = 'FAMILY'
         UIDropDownMenu_AddButton(info, level)
 
+        ---- 8. SOURCES ----
         info.text = SOURCES
-        info.value = 4
+        info.value = 'SOURCES'
         UIDropDownMenu_AddButton(info, level)
     elseif level == 2 then
         info.hasArrow = false
         info.isNotRadio = true
         info.notCheckable = true
 
-        if UIDROPDOWNMENU_MENU_VALUE == 3 then -- Family
+        if UIDROPDOWNMENU_MENU_VALUE == 'FAMILY' then
             info.text = CHECK_ALL
             info.func = function ()
                     LM.UIFilter.SetAllFamilyFilters(true)
@@ -151,21 +165,21 @@ function LiteMountFilterButtonMixin:Initialize(level)
 
             UIDropDownMenu_AddSeparator(level)
 
+            local families = LM.UIFilter.GetFamilies()
+
             info.func = nil
             info.isNotRadio = false
             info.hasArrow = true
 
-            local families = LM.UIFilter.GetFamilies()
             for i = 1, #families, FAMILY_MENU_SPLIT_SIZE do
                 local j = math.min(#families, i+FAMILY_MENU_SPLIT_SIZE-1)
-                local fromFamily = LM.UIFilter.GetFamilyText(families[i])
-                local toFamily = LM.UIFilter.GetFamilyText(families[j])
-                info.text = format('%s...%s', fromFamily, toFamily)
-                info.value = i
+                info.menuList = tSlice(families, i, j)
+                info.text = format('%s...%s', info.menuList[1], info.menuList[#info.menuList])
+                info.value = 'FAMILY'
                 UIDropDownMenu_AddButton(info, level)
             end
 
-        elseif UIDROPDOWNMENU_MENU_VALUE == 4 then -- Sources
+        elseif UIDROPDOWNMENU_MENU_VALUE == 'SOURCES' then
             info.text = CHECK_ALL
             info.func = function ()
                     LM.UIFilter.SetAllSourceFilters(true)
@@ -204,7 +218,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
                 end
             end
 
-        elseif UIDROPDOWNMENU_MENU_VALUE == 2 then -- Flags
+        elseif UIDROPDOWNMENU_MENU_VALUE == 'FLAGS' then
             local flags = LM.UIFilter.GetFlags()
 
             info.text = CHECK_ALL
@@ -242,7 +256,7 @@ function LiteMountFilterButtonMixin:Initialize(level)
                     end
                 UIDropDownMenu_AddButton(info, level)
             end
-        elseif UIDROPDOWNMENU_MENU_VALUE == 1 then -- Priority
+        elseif UIDROPDOWNMENU_MENU_VALUE == 'PRIORITY' then
             local priorities = LM.UIFilter.GetPriorities()
 
             info.text = CHECK_ALL
@@ -284,27 +298,28 @@ function LiteMountFilterButtonMixin:Initialize(level)
         end
     elseif level == 3 then
         local startFrom = UIDROPDOWNMENU_MENU_VALUE
-        local families = LM.UIFilter.GetFamilies()
 
-        for i = startFrom, math.min(startFrom + FAMILY_MENU_SPLIT_SIZE -1, #families) do
-            local family = families[i]
+        for i, menuEntry in ipairs(menuList) do
             info.notCheckable = false
             info.isNotRadio = true
             info.hasArrow = false
-            info.text = LM.UIFilter.GetFamilyText(family)
-            info.arg1 = family
-            info.func = function (_, _, _, v)
-                    if IsShiftKeyDown() then
-                        LM.UIFilter.SetAllFamilyFilters(false)
-                        LM.UIFilter.SetFamilyFilter(family, true)
-                        UIDropDownMenu_Refresh(self, false, 3)
-                    else
-                        LM.UIFilter.SetFamilyFilter(family, v)
+
+            if UIDROPDOWNMENU_MENU_VALUE == 'FAMILY' then
+                info.text = LM.UIFilter.GetFamilyText(menuEntry)
+                info.arg1 = menuEntry
+                info.func = function (_, _, _, v)
+                        if IsShiftKeyDown() then
+                            LM.UIFilter.SetAllFamilyFilters(false)
+                            LM.UIFilter.SetFamilyFilter(menuEntry, true)
+                            UIDropDownMenu_Refresh(self, false, 3)
+                        else
+                            LM.UIFilter.SetFamilyFilter(menuEntry, v)
+                        end
                     end
+                info.checked = function ()
+                    return LM.UIFilter.IsFamilyChecked(menuEntry)
                 end
-            info.checked = function ()
-                    return LM.UIFilter.IsFamilyChecked(family)
-                end
+            end
             UIDropDownMenu_AddButton(info, level)
         end
     end
