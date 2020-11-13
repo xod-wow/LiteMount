@@ -12,7 +12,7 @@ local _, LM = ...
 
 local L = LM.Localize
 
-local FAMILY_MENU_SPLIT_SIZE = 20
+local MENU_SPLIT_SIZE = 20
 
 --[[------------------------------------------------------------------------]]--
 
@@ -171,10 +171,12 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
             info.isNotRadio = false
             info.hasArrow = true
 
-            for i = 1, #families, FAMILY_MENU_SPLIT_SIZE do
-                local j = math.min(#families, i+FAMILY_MENU_SPLIT_SIZE-1)
+            for i = 1, #families, MENU_SPLIT_SIZE do
+                local j = math.min(#families, i+MENU_SPLIT_SIZE-1)
                 info.menuList = tSlice(families, i, j)
-                info.text = format('%s...%s', info.menuList[1], info.menuList[#info.menuList])
+                local f = LM.UIFilter.GetFamilyText(info.menuList[1])
+                local t = LM.UIFilter.GetFamilyText(info.menuList[#info.menuList])
+                info.text = format('%s...%s', f, t)
                 info.value = 'FAMILY'
                 UIDropDownMenu_AddButton(info, level)
             end
@@ -219,8 +221,6 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
             end
 
         elseif UIDROPDOWNMENU_MENU_VALUE == 'FLAGS' then
-            local flags = LM.UIFilter.GetFlags()
-
             info.text = CHECK_ALL
             info.func = function ()
                     LM.UIFilter:SetAllFlagFilters(true)
@@ -237,24 +237,41 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
 
             UIDropDownMenu_AddSeparator(level)
 
-            info.notCheckable = false
+            local flags = LM.UIFilter.GetFlags()
 
-            for _,f in ipairs(flags) do
-                info.text = LM.UIFilter.GetFlagText(f)
-                info.arg1 = f
-                info.func = function (_, _, _, v)
-                        if IsShiftKeyDown() then
-                            LM.UIFilter.SetAllFlagFilters(false)
-                            LM.UIFilter.SetFlagFilter(f, true)
-                            UIDropDownMenu_Refresh(self, false, 2)
-                        else
-                            LM.UIFilter.SetFlagFilter(f, v)
+            if #flags > MENU_SPLIT_SIZE * 1.5 then
+                info.notCheckable = true
+                info.hasArrow = true
+                info.func = nil
+                for i = 1, #flags, MENU_SPLIT_SIZE do
+                    local j = math.min(#flags, i+MENU_SPLIT_SIZE-1)
+                    info.menuList = tSlice(flags, i, j)
+                    local f = LM.UIFilter.GetFlagText(info.menuList[1])
+                    local t = LM.UIFilter.GetFlagText(info.menuList[#info.menuList])
+                    info.text = format('%s...%s', f, t)
+                    info.value = 'FLAGS'
+                    UIDropDownMenu_AddButton(info, level)
+                end
+            else
+                info.notCheckable = false
+
+                for _,f in ipairs(flags) do
+                    info.text = LM.UIFilter.GetFlagText(f)
+                    info.arg1 = f
+                    info.func = function (_, _, _, v)
+                            if IsShiftKeyDown() then
+                                LM.UIFilter.SetAllFlagFilters(false)
+                                LM.UIFilter.SetFlagFilter(f, true)
+                                UIDropDownMenu_Refresh(self, false, 2)
+                            else
+                                LM.UIFilter.SetFlagFilter(f, v)
+                            end
                         end
-                    end
-                info.checked = function ()
-                        return LM.UIFilter.IsFlagChecked(f)
-                    end
-                UIDropDownMenu_AddButton(info, level)
+                    info.checked = function ()
+                            return LM.UIFilter.IsFlagChecked(f)
+                        end
+                    UIDropDownMenu_AddButton(info, level)
+                end
             end
         elseif UIDROPDOWNMENU_MENU_VALUE == 'PRIORITY' then
             local priorities = LM.UIFilter.GetPriorities()
@@ -297,8 +314,6 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
 
         end
     elseif level == 3 then
-        local startFrom = UIDROPDOWNMENU_MENU_VALUE
-
         for i, menuEntry in ipairs(menuList) do
             info.notCheckable = false
             info.isNotRadio = true
@@ -318,6 +333,21 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
                     end
                 info.checked = function ()
                     return LM.UIFilter.IsFamilyChecked(menuEntry)
+                end
+            elseif UIDROPDOWNMENU_MENU_VALUE == 'FLAGS' then
+                info.text = LM.UIFilter.GetFlagText(menuEntry)
+                info.arg1 = menuEntry
+                info.func = function (_, _, _, v)
+                        if IsShiftKeyDown() then
+                            LM.UIFilter.SetAllFlagFilters(false)
+                            LM.UIFilter.SetFlagFilter(menuEntry, true)
+                            UIDropDownMenu_Refresh(self, false, 3)
+                        else
+                            LM.UIFilter.SetFlagFilter(menuEntry, v)
+                        end
+                    end
+                info.checked = function ()
+                    return LM.UIFilter.IsFlagChecked(menuEntry)
                 end
             end
             UIDropDownMenu_AddButton(info, level)

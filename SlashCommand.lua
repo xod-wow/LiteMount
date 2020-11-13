@@ -68,16 +68,16 @@ COMMANDS['location'] =
     end
 
 COMMANDS['maps'] =
-    function ()
-        local str = table.concat(args, ' ')
+    function (argstr, ...)
+        local str = table.concat({ ... }, ' ')
         for _,line in ipairs(LM.Environment:GetMaps(str)) do
             LM.Print(line)
         end
     end
 
 COMMANDS['continents'] =
-    function ()
-        local str = table.concat(args, ' ')
+    function (argstr, ...)
+        local str = table.concat({ ... }, ' ')
         for _,line in ipairs(LM.Environment:GetContinents(str)) do
             LM.Print(line)
         end
@@ -101,9 +101,9 @@ COMMANDS['mounts'] =
 COMMANDS['flags'] =
     function (argstr, action, arg1, arg2)
         if action == "add" and arg1 then
-            LM.Options:CreateFlag(args[2])
+            LM.Options:CreateFlag(arg1)
         elseif action == "del" and arg1 then
-            LM.Options:DeleteFlag(args[2])
+            LM.Options:DeleteFlag(arg1)
         elseif action == "rename" and arg1 and arg2 then
             LM.Options:RenameFlag(arg1, arg2)
         elseif action == "list" and arg1 == nil then
