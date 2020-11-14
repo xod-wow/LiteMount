@@ -193,18 +193,52 @@ function LM.PlayerMounts:GetMountByShapeshiftForm(i)
     end
 end
 
+local function IsRightFaction(info)
+    if not info[9] then
+        return true
+    end
+    local faction = UnitFactionGroup('player')
+    local fnum = PLAYER_FACTION_GROUP[faction]
+    if info[9] == fnum then
+        return true
+    end
+end
 
-function LM.PlayerMounts:GetTotals()
+-- Paladin level 20/40 mounts and felsaber are only counted if actually usable.
+-- Everything else is counted if you're the right faction, irrespective of
+-- whether you can mount up on it. This makes no sense at all.
+
+local notCounted = {
+    [367]   = true,     -- Exarch's Elekk
+    [368]   = true,     -- Great Exarch's Elekk
+    [1046]  = true,     -- Darkforge Ram
+    [1047]  = true,     -- Dawnforge Ram
+    [350]   = true,     -- Sunwalker Kodo
+    [351]   = true,     -- Great Sunwalker Kodo
+    [149]   = true,     -- Thalassian Charger
+    [150]   = true,     -- Thalassian Warhorse
+    [1225]  = true,     -- Crusader's Direhorn
+    [780]   = true,     -- Felsaber
+}
+
+local function IsCounted(info)
+    if notCounted[info[12]] then
+        return info[4]
+    else
+        return true
+    end
+end
+
+function LM.PlayerMounts:GetJournalTotals()
     local c = { total=0, collected=0, usable=0 }
 
-    for _,m in ipairs(self.mounts) do
-        if m.mountType then
-            c.total = c.total + 1
-            if m.isCollected then
-                c.collected = c.collected + 1
-                if m.isUsable and not m.isFiltered then
-                    c.usable = c.usable + 1
-                end
+    for _,id in ipairs(C_MountJournal.GetMountIDs()) do
+        local info = { C_MountJournal.GetMountInfoByID(id) }
+        c.total = c.total + 1
+        if info[11] and not info[10] then
+            c.collected = c.collected + 1
+            if IsRightFaction(info) and IsCounted(info) then
+                c.usable = c.usable + 1
             end
         end
     end

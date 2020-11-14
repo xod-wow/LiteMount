@@ -412,7 +412,7 @@ function LiteMountMountsPanelMixin:OnShow()
     LM.PlayerMounts:RefreshMounts()
 
     -- Update the counts, Journal-only
-    local counts = LM.PlayerMounts:GetTotals()
+    local counts = LM.PlayerMounts:GetJournalTotals()
     self.Counts:SetText(
             string.format(
                 '%s: %s %s: %s %s: %s',
