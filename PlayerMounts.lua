@@ -160,14 +160,6 @@ function LM.PlayerMounts:GetActiveMount()
             return m
         end
     end
-
-    -- This is ridiculous, druid Mount Form doesn't have an aura
-    if GetShapeshiftFormID() == 3 then
-        if select(4, GetShapeshiftFormInfo(3)) == LM.SPELL.MOUNT_FORM then
-            return self:GetMountBySpell(LM.SPELL.MOUNT_FORM)
-        end
-    end
-    return self:GetMountFromUnitAura('player')
 end
 
 function LM.PlayerMounts:GetMountByName(name)
