@@ -101,6 +101,18 @@ end
 
 -- Sources ---------------------------------------------------------------------
 
+function LM.UIFilter.GetSources()
+    local out = {}
+    local n = LM.UIFilter.GetNumSources()
+    for i = 1, LM.UIFilter.GetNumSources() do
+        if LM.UIFilter.IsValidSourceFilter(i) then
+            out[#out+1] = i
+        end
+    end
+    out[#out+1] = n
+    return out
+end
+
 function LM.UIFilter.GetNumSources()
     return C_PetJournal.GetNumPetSources() + 1
 end
