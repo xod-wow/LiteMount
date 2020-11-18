@@ -71,15 +71,8 @@ local DROPDOWNS = {
     ['COLLECTED'] = {
         value = 'COLLECTED',
         text = COLLECTED,
-        checked = function ()
-            local r = LM.UIFilter.IsFlagChecked("COLLECTED")
-            print('collected checked() : ' .. tostring(r))
-            return r
-        end,
-        set = function (v)
-            print('collected set() : ' .. tostring(v))
-            LM.UIFilter.SetFlagFilter("COLLECTED", v)
-        end
+        checked = function () return LM.UIFilter.IsFlagChecked("COLLECTED") end,
+        set = function (v) LM.UIFilter.SetFlagFilter("COLLECTED", v) end
     },
     ['NOT_COLLECTED'] = {
         value = 'NOT_COLLECTED',
@@ -142,8 +135,6 @@ local function InitDropDownSection(template, self, level, menuList)
     local info = UIDropDownMenu_CreateInfo()
     info.keepShownOnClick = true
     info.isNotRadio = true
-
-    print('InitDropDownSection ' .. template.value .. ' ' .. tostring(level))
 
     if level == 1 then
         if not template.menulist then
