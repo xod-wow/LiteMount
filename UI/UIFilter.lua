@@ -216,7 +216,7 @@ function LM.UIFilter.SetFlagFilter(f, v)
     callbacks:Fire('OnFilterChanged')
 end
 
-function LM.UIFilter:SetAllFlagFilters(v)
+function LM.UIFilter.SetAllFlagFilters(v)
     LM.UIFilter.ClearCache()
     for _,f in ipairs(LM.UIFilter.GetFlags()) do
         if v then
@@ -259,13 +259,12 @@ function LM.UIFilter.SetPriorityFilter(p, v)
     callbacks:Fire('OnFilterChanged')
 end
 
-function LM.UIFilter:SetAllPriorityFilters(v)
+function LM.UIFilter.SetAllPriorityFilters(v)
     LM.UIFilter.ClearCache()
-    v = v and true or nil
-    for _,p in ipairs(LM.UIFilter.GetPriorities()) do
-        if v then
-            LM.UIFilter.priorityFilterList[p] = nil
-        else
+    if v then
+        table.wipe(LM.UIFilter.priorityFilterList)
+    else
+        for _,p in ipairs(LM.UIFilter.GetPriorities()) do
             LM.UIFilter.priorityFilterList[p] = true
         end
     end
@@ -354,7 +353,7 @@ function LM.UIFilter.IsFilteredMount(m)
 
     local okflags = CopyTable(m:CurrentFlags())
     local noFilters = true
-    for _,flagName in ipairs(LM.UIFilter:GetFlags()) do
+    for _,flagName in ipairs(LM.UIFilter.GetFlags()) do
         if LM.UIFilter.flagFilterList[flagName] then
             okflags[flagName] = nil
             noFilters = false
