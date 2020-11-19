@@ -74,15 +74,51 @@ function LM.MountList:Copy()
     return self:New(out)
 end
 
+function LM.MountList:Clear()
+    table.wipe(self)
+    return self
+end
+
+function LM.MountList:Extend(other)
+    local exists = { }
+    for _,m in ipairs(self) do
+        exists[m] = true
+    end
+    for _,m in ipairs(other) do
+        if not exists[m] then
+            table.insert(self, m)
+        end
+    end
+    return self
+end
+
+function LM.MountList:Reduce(other)
+    local remove = { }
+    for _,m in ipairs(other) do
+        remove[m] = true
+    end
+    local j, n = 1, #self
+    for i = 1, n do
+        if remove[self[i]] then
+            self[i] = nil
+        else
+            if i ~= j then
+                self[j] = self[i]
+                self[i] = nil
+            end
+            j = j + 1
+        end
+    end
+    return self
+end
+
 function LM.MountList:Search(matchfunc, ...)
     local result = self:New()
-
     for _,m in ipairs(self) do
         if matchfunc(m, ...) then
             tinsert(result, m)
         end
     end
-
     return result
 end
 
