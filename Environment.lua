@@ -1,5 +1,4 @@
 --[[----------------------------------------------------------------------------
-
   LiteMount/Location.lua
 
   Some basics about the current game state with respect to mounting. Most of
@@ -106,6 +105,14 @@ end
 
 function LM.Environment:IsMovingOrFalling()
     return (GetUnitSpeed("player") > 0 or IsFalling())
+end
+
+function LM.Environment:TheMaw()
+    -- This is the instanced starting experience
+    if self.instanceID == 2364 then return true end
+
+    -- Otherwise, The Maw is just a Shadowlands zone in instance 2222
+    if LM.Environment.uiMapID == 1543 then return true end
 end
 
 function LM.Environment:Update()
