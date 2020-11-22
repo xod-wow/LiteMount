@@ -70,6 +70,6 @@ function LM.ItemSummoned:IsCastable()
         return false
     end
 
-    return true
+    return LM.Mount.IsCastable(self)
 end
 

@@ -112,6 +112,9 @@ function LM.Mount:IsCastable()
         local castTime = select(4, GetSpellInfo(self.spellID))
         if castTime > 0 then return false end
     end
+    if LM.Environment:TheMaw() and not self:MawUsable() then
+        return false
+    end
     return true
 end
 
@@ -129,6 +132,21 @@ end
 function LM.Mount:GetCancelAction()
     local spellName = GetSpellInfo(self.spellID)
     return LM.SecureAction:CancelAura(spellName)
+end
+
+-- This is gross
+
+local MawUsableSpells = {
+    [LM.SPELL.TRAVEL_FORM] = true,
+    [LM.SPELL.MOUNT_FORM] = true,
+    [LM.SPELL.RUNNING_WILD] = true,
+    [LM.SPELL.SOULSHAPE] = true,
+    [LM.SPELL.GHOST_WOLF] = true,
+    [344578] = true,                -- Corridor Creeper
+}
+
+function LM.Mount:MawUsable()
+    return MawUsableSpells[self.spellID]
 end
 
 function LM.Mount:Dump(prefix)

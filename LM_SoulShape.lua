@@ -47,5 +47,6 @@ function LM.Soulshape:IsCastable()
     if GetSpellCooldown(activeSpellID) > 0 then
         return false
     end
-    return true
+
+    return LM.Mount.IsCastable(self)
 end

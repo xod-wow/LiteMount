@@ -91,6 +91,7 @@ function LM.TravelForm:GetCastAction()
 
     return LM.SecureAction:Spell(self.spellID)
 end
+
 function LM.TravelForm:GetCancelAction()
     if savedFormName then
         local act = LM.SecureAction:Spell(savedFormName)
