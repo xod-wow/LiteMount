@@ -252,6 +252,8 @@ local InstanceFlyableOverride = {
     [2124] = false,         -- Island Expedition Crestfall
     [2275] = false,         -- Lesser Vision Vale of Eternal Twilight
     [2278] = false,         -- Revendreth Scenario
+    [2291] = false,         -- De Other Side
+    [2293] = false,         -- Theater of Pain
     [2363] = false,         -- Queen's Winter Conservatory
 }
 
