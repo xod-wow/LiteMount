@@ -22,21 +22,46 @@ if LibDebug then LibDebug() end
 LM.Soulshape = setmetatable({ }, LM.Spell)
 LM.Soulshape.__index = LM.Soulshape
 
-function LM.Soulshape:IsCancelable()
---  if IsResting() and not LM.Environment:IsMovingOrFalling() then
---      return true
---  end
+function LM.Soulshape:Get(spellID, ...)
+    local m = LM.Spell.Get(self, spellID, ...)
+    m.isCollected = m:IsKnown()
+    return m
+end
+
+function LM.Soulshape:IsActive()
     return false
 end
 
+function LM.Soulshape:IsCancelable()
+    return false
+end
+
+function LM.Soulshape:Refresh()
+    self.isCollected = self:IsKnown()
+end
+
+function LM.Soulshape:IsKnown()
+    if IsSpellKnown(self.spellID) then
+        return true
+    end
+    for _,ability in ipairs(C_ZoneAbility.GetActiveAbilities()) do
+        local id = FindSpellOverrideByID(ability.spellID) or ability.spellID
+        if id == LM.SPELL.SOULSHAPE or id == LM.SPELL.FLICKER then
+            return true
+        end
+    end
+end
+
 function LM.Soulshape:IsCastable()
-    if not IsSpellKnown(self.spellID) then
+    if not self:IsKnown() then
         return false
     end
 
+--[[
     if LM.UnitAura('player', self.spellID) then
         return false
     end
+]]
 
     local activeSpellID = select(7, GetSpellInfo(self.name))
 

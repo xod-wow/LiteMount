@@ -30,7 +30,7 @@ LM_GhostWolf.lua
 LM_Nagrand.lua
 LM_RunningWild.lua
 LM_TravelForm.lua
-LM_Soulshape.lua
+#LM_Soulshape.lua
 MountList.lua
 PlayerMounts.lua
 SlashCommand.lua
