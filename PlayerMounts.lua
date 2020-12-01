@@ -25,7 +25,7 @@ local MOUNT_SPELLS = {
     { "TravelForm", LM.SPELL.MOUNT_FORM, 'RUN' },
     { "Nagrand", LM.SPELL.FROSTWOLF_WAR_WOLF, 'Horde', 'RUN' },
     { "Nagrand", LM.SPELL.TELAARI_TALBUK, 'Alliance', 'RUN' },
-    { "Soulshape", LM.SPELL.SOULSHAPE, 'WALK' },
+--  { "Soulshape", LM.SPELL.SOULSHAPE, 'WALK' },
     { "ItemSummoned",
         LM.ITEM.LOANED_GRYPHON_REINS, LM.SPELL.LOANED_GRYPHON, 'FLY' },
     { "ItemSummoned",
