@@ -142,6 +142,7 @@ local MawUsableSpells = {
     [LM.SPELL.RUNNING_WILD] = true,
     [LM.SPELL.SOULSHAPE] = true,
     [LM.SPELL.GHOST_WOLF] = true,
+    [312762] = true,                -- Mawsworn Soulhunter
     [344578] = true,                -- Corridor Creeper
 }
 
