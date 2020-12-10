@@ -378,8 +378,12 @@ CONDITIONS["profession"] =
     end
 
 CONDITIONS["pvp"] =
-    function (cond, unit)
-        return UnitIsPVP(unit or "player")
+    function (cond, unit, v)
+        if not v then
+            return UnitIsPVP(unit or "player")
+        else
+            return GetZonePVPInfo() == v
+        end
     end
 
 CONDITIONS["qfc"] =
