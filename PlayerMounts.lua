@@ -46,6 +46,8 @@ local MOUNT_SPELLS = {
         LM.ITEM.DRAGONWRATH_TARECGOSAS_REST, LM.SPELL.TARECGOSAS_VISAGE, 'FLY' },
     { "ItemSummoned",
         LM.ITEM.MAWRAT_HARNESS, LM.SPELL.MAWRAT_HARNESS, 'RUN' },
+    { "ItemSummoned",
+        LM.ITEM.SPECTRAL_BRIDLE, LM.SPELL.SPECTRAL_BRIDLE, 'RUN' },
 }
 
 local RefreshEvents = {
