@@ -108,9 +108,11 @@ function LM.Mount:IsActive(buffTable)
 end
 
 function LM.Mount:IsCastable()
+    local castTime = select(4, GetSpellInfo(self.spellID))
     if LM.Environment:IsMovingOrFalling() then
-        local castTime = select(4, GetSpellInfo(self.spellID))
         if castTime > 0 then return false end
+    elseif LM.Options:GetInstantOnlyMoving() then
+        if castTime == 0 then return false end
     end
     if LM.Environment:TheMaw() and not self:MawUsable() then
         return false

@@ -76,6 +76,7 @@ local defaults = {
         excludeNewMounts    = false,
         priorityWeights     = { 1, 2, 6 },
         randomKeepSeconds   = 0,
+        instantOnlyMoving   = false,
     },
     char = {
         unavailableMacro    = "",
@@ -489,6 +490,24 @@ function LM.Options:SetCopyTargetsMount(v)
         self.db.profile.copyTargetsMount = true
     else
         self.db.profile.copyTargetsMount = false
+    end
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
+
+--[[----------------------------------------------------------------------------
+    Only use instant cast mounts when moving
+----------------------------------------------------------------------------]]--
+
+function LM.Options:GetInstantOnlyMoving()
+    return self.db.profile.instantOnlyMoving
+end
+
+function LM.Options:SetInstantOnlyMoving(v)
+    if v then
+        self.db.profile.instantOnlyMoving = true
+    else
+        self.db.profile.instantOnlyMoving = false
     end
     self.db.callbacks:Fire("OnOptionsModified")
 end

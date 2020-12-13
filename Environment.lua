@@ -71,7 +71,7 @@ end
 function LM.Environment:IsFalling()
     return IsFalling() and
         self.startedFalling > self.stoppedFalling and
-        GetTime() - self.startedFalling > 1
+        GetTime() - self.startedFalling >= 0.45
 end
 
 -- A jump in place takes approximately 0.83 seconds

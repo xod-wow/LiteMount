@@ -571,6 +571,7 @@ LM.MOUNTFAMILY["Horse"] = {
     [255695] = true, -- Seabraid Stallion
     [339588] = true, -- Sinrunner Blanchy
     [260173] = true, -- Smoky Charger
+    [315315] = true, -- Spectral Bridle
     [ 92231] = true, -- Spectral Steed
     [ 63232] = true, -- Stormwind Steed
     [ 68057] = true, -- Swift Alliance Steed
@@ -900,6 +901,7 @@ LM.MOUNTFAMILY["Raptor"] = {
 LM.MOUNTFAMILY["Ratstallion"] = {
     [215558] = true, -- Ratstallion
     [220123] = true, -- Ratstallion Harness
+    [342780] = true, -- Mawrat Harness
 }
 
 LM.MOUNTFAMILY["Ravager"] = {
