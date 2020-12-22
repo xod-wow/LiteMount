@@ -32,12 +32,20 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
+        <CheckButton parentKey="InstantOnlyMoving" inherits="InterfaceOptionsCheckButtonTemplate">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" x="0" y="-8" />
+            </Anchors>
+            <Scripts>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
+            </Scripts>
+        </CheckButton>
     </Frames>
     <Layers>
         <Layer level="OVERLAY">
             <FontString parentKey="RandomPersist" text="LM_RANDOM_PERSISTENCE" inherits="GameFontHighlight">
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.ExcludeNewMounts" relativePoint="BOTTOMLEFT" y="-12" />
+                    <Anchor point="TOPLEFT" relativeKey="$parent.InstantOnlyMoving" relativePoint="BOTTOMLEFT" y="-12" />
                 </Anchors>
             </FontString>
         </Layer>

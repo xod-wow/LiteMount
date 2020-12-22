@@ -86,6 +86,23 @@ function LiteMountGeneralPanelMixin:OnLoad()
         function (self) return LM.Options:GetExcludeNewMounts() end
     LiteMountOptionsPanel_RegisterControl(self.ExcludeNewMounts)
 
+    -- InstantOnlyMoving --
+
+    self.InstantOnlyMoving.Text:SetText(L.LM_INSTANT_ONLY_MOVING)
+    self.InstantOnlyMoving.SetOption =
+        function (self, setting)
+            if not setting or setting == "0" then
+                LM.Options:SetInstantOnlyMoving(false)
+            else
+                LM.Options:SetInstantOnlyMoving(true)
+            end
+        end
+    self.InstantOnlyMoving.GetOptionDefault =
+        function (self) return false end
+    self.InstantOnlyMoving.GetOption =
+        function (self) return LM.Options:GetInstantOnlyMoving() end
+    LiteMountOptionsPanel_RegisterControl(self.InstantOnlyMoving)
+
     -- RandomPersistDropDown --
 
     UIDropDownMenu_Initialize(self.RandomPersistDropDown, RandomPersistDropDown_Initialize)

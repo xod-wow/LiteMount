@@ -64,6 +64,7 @@ L.LM_PRIORITY_DESC0     = DISABLE
     L["LM_HIDDEN"] = "Hidden"
     L["LM_IMPORT_PROFILE"] = "Import Profile"
     L["LM_IMPORT_PROFILE_EXP"] = "Paste a previously exported profile into the box below to import it as the entered name."
+    L["LM_INSTANT_ONLY_MOVING"] = "Don't summon instant-cast mounts unless moving."
     L["LM_MACRO_EXP"] = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
     L["LM_NEW_FLAG"] = "New Flag"
     L["LM_NEW_PROFILE"] = "New Profile"
