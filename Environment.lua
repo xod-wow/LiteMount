@@ -315,7 +315,7 @@ function LM.Environment:GetLocation()
         "instance: " .. self.instanceID,
         "zoneText: " .. GetZoneText(),
         "subZoneText: " .. GetSubZoneText(),
-        "IsFlyableArea(): " .. (IsFlyableArea() and "true" or "false"),
+        "IsFlyableArea(): " .. tostring(IsFlyableArea()),
     }
 end
 
