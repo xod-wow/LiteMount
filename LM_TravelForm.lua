@@ -94,7 +94,10 @@ end
 
 function LM.TravelForm:GetCancelAction()
     if savedFormName then
-        local act = LM.SecureAction:Spell(savedFormName)
+        -- Without the /cancelform the "Auto Dismount in Flight" setting stops
+        -- this from working.
+        local macroText = string.format("/cancelform\n/cast %s", savedFormName)
+        local act = LM.SecureAction:Macro(macroText)
         savedFormName = nil
         return act
     else
