@@ -6,7 +6,7 @@
   in one. I'm leaving it here as a reference in case I want to do something
   similar in the future.
 
-  Copyright 2011-2020 Mike Battersby
+  Copyright 2011-2021 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

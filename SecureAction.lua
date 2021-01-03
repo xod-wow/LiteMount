@@ -8,7 +8,7 @@
   Way too many things in this addon are named "action" and I should think of
   better names.
 
-  Copyright 2011-2020 Mike Battersby
+  Copyright 2011-2021 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

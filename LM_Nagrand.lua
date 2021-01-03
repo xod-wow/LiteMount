@@ -12,7 +12,7 @@
         GetSpellInfo(name)
   returns the actual current spell that's active.
 
-  Copyright 2011-2020 Mike Battersby
+  Copyright 2011-2021 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

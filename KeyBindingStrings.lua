@@ -4,7 +4,7 @@
 
   Texts for keybindings menu entries.
 
-  Copyright 2011-2020 Mike Battersby
+  Copyright 2011-2021 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

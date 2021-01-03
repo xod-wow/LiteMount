@@ -8,7 +8,7 @@
   type="macro" macrotext="...". If we're not in combat we
   use a preclick handler to set it to what we really want to do.
 
-  Copyright 2011-2020 Mike Battersby
+  Copyright 2011-2021 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

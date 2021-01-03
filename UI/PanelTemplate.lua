@@ -2,7 +2,7 @@
 
   LiteMount/UI/PanelTemplate.lua
 
-  Copyright 2016-2020 Mike Battersby
+  Copyright 2016-2021 Mike Battersby
 
   This is inspired by the Blizzard options panel code, but instead of saving
   the current values of settings and applying them whenk Okay is clicked, it

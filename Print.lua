@@ -4,7 +4,7 @@
 
   AddMessage() into the currently displayed chat window.
 
-  Copyright 2011-2020 Mike Battersby
+  Copyright 2011-2021 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
