@@ -103,6 +103,16 @@ CONDITIONS["combat"] =
         return UnitAffectingCombat(unit) or UnitAffectingCombat(petunit)
     end
 
+CONDITIONS["covenant"] =
+    function (cond, unit, v)
+        if not C_Covenants or not v then return end
+        local id = C_Covenants.GetActiveCovenantID()
+        if not id then return end
+        if tonumber(v) == id then return true end
+        local data = C_Covenants.GetCovenantData(id)
+        if data.name == v then return true end
+    end
+
 --- Note that this diverges from the macro [dead] defaults to "target".
 CONDITIONS["dead"] =
     function (cond, unit)
