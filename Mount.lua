@@ -10,6 +10,8 @@
 
 local _, LM = ...
 
+local L = LM.Localize
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -57,6 +59,10 @@ function LM.Mount:MatchesOneFilter(flags, f)
         if self.mountID == tonumber(f:sub(4)) then return true end
     elseif f:sub(1, 3) == 'mt:' then
         if self.mountType == tonumber(f:sub(4)) then return true end
+    elseif f:sub(1, 7) == 'family:' then
+        if self.family == f:sub(8) or L[self.family] == f:sub(8) then
+            return true
+        end
     elseif f:sub(1, 1) == '~' then
         if not self:MatchesOneFilter(flags, f:sub(2)) then return true end
     else
