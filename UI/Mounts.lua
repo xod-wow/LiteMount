@@ -38,7 +38,7 @@ function LiteMountPriorityMixin:Update()
         self.Priority:SetText('')
     end
     local r, g, b = LM.UIFilter.GetPriorityColor(value):GetRGB()
-    self.Background:SetColorTexture(r, g, b, 0.25)
+    self.Background:SetColorTexture(r, g, b, 0.33)
 end
 
 function LiteMountPriorityMixin:Get()
