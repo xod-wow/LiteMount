@@ -27,9 +27,10 @@ local callbacks = CallbackHandler:New(LM.UIFilter)
 local PriorityColors = {
     [''] = COMMON_GRAY_COLOR,
     [0] =  RED_FONT_COLOR,
-    [1] =  RARE_BLUE_COLOR,
-    [2] =  EPIC_PURPLE_COLOR,
-    [3] =  LEGENDARY_ORANGE_COLOR,
+    [1] =  UNCOMMON_GREEN_COLOR,
+    [2] =  RARE_BLUE_COLOR,
+    [3] =  EPIC_PURPLE_COLOR,
+    [4] =  LEGENDARY_ORANGE_COLOR,
 }
 
 local function searchMatch(src, text)
@@ -282,7 +283,11 @@ function LM.UIFilter.SetAllPriorityFilters(v)
 end
 
 function LM.UIFilter.GetPriorities()
-    return { 0, 1, 2, 3 }
+    return LM.Options:GetAllPriorities()
+end
+
+function LM.UIFilter.GetPriorityColor(p)
+    return PriorityColors[p] or PriorityColors['']
 end
 
 function LM.UIFilter.GetPriorityText(p)

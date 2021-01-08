@@ -74,7 +74,7 @@ local defaults = {
         buttonActions       = { ['*'] = DefaultButtonAction },
         copyTargetsMount    = true,
         excludeNewMounts    = false,
-        priorityWeights     = { 1, 2, 6 },
+        priorityWeights     = { 1, 2, 6, 1 },
         randomKeepSeconds   = 0,
         instantOnlyMoving   = false,
     },
@@ -90,9 +90,10 @@ local defaults = {
 
 LM.Options = {
     MIN_PRIORITY = 0,
-    MAX_PRIORITY = 3,
+    MAX_PRIORITY = 4,
     DISABLED_PRIORITY = 0,
     DEFAULT_PRIORITY = 1,
+    ALWAYS_PRIORITY = 4,
 }
 
 
@@ -251,6 +252,10 @@ end
 --[[----------------------------------------------------------------------------
     Mount priorities stuff.
 ----------------------------------------------------------------------------]]--
+
+function LM.Options:GetAllPriorities()
+    return { 0, 1, 2, 3, 4 }
+end
 
 function LM.Options:GetRawMountPriorities()
     return CopyTable(self.db.profile.mountPriorities)

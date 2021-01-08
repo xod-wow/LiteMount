@@ -26,14 +26,6 @@ end
 
 LiteMountPriorityMixin = {}
 
-LiteMountPriorityMixin.PriorityColors = {
-    [''] = COMMON_GRAY_COLOR,
-    [0] =  RED_FONT_COLOR,
-    [1] =  RARE_BLUE_COLOR,
-    [2] =  EPIC_PURPLE_COLOR,
-    [3] =  LEGENDARY_ORANGE_COLOR,
-}
-
 function LiteMountPriorityMixin:Update()
     local value = self:Get()
     if value then
@@ -45,7 +37,7 @@ function LiteMountPriorityMixin:Update()
         self.Plus:Show()
         self.Priority:SetText('')
     end
-    local r, g, b = self.PriorityColors[value or '']:GetRGB()
+    local r, g, b = LM.UIFilter.GetPriorityColor(value):GetRGB()
     self.Background:SetColorTexture(r, g, b, 0.25)
 end
 

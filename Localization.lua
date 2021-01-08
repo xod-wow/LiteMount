@@ -25,10 +25,9 @@ local locale = GetLocale()
 
 -- Automatic / Blizzard --------------------------------------------------------
 
-L.CUSTOM1               = CUSTOM .. " 1"
-L.CUSTOM2               = CUSTOM .. " 2"
 L.FAVORITES             = FAVORITES
 L.LM_PRIORITY_DESC0     = DISABLE
+L.LM_PRIORITY_DESC4     = ALWAYS
 
 
 -- :r! sh Tools/fetchlocale.sh -------------------------------------------------

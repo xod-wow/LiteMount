@@ -166,7 +166,12 @@ function LM.MountList:PriorityRandom(r)
 
     for i,m in ipairs(self) do
         local p, w  = LM.Options:GetPriority(m)
-        weights[i] = w / ( priorityCounts[p] + 1 )
+        -- Handle the "always" priority by setting all the others to weight 0
+        if priorityCounts[LM.Options.ALWAYS_PRIORITY] and p ~= LM.Options.ALWAYS_PRIORITY then
+            weights[i] = 0
+        else
+            weights[i] = w / ( priorityCounts[p] + 1 )
+        end
         totalWeight = totalWeight + weights[i]
     end
 
