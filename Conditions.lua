@@ -307,6 +307,11 @@ CONDITIONS["map"] =
         end
     end
 
+CONDITIONS["maw"] =
+    function (cond, unit, v)
+        return LM.Environment:TheMaw()
+    end
+
 CONDITIONS["mod"] =
      function (cond, unit, v)
         if not v then
