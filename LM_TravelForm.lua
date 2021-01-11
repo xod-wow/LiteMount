@@ -38,11 +38,29 @@ local restoreFormIDs = {
 
 -- Druid forms don't reliably have a corresponding player buff, so we need
 -- to check the spell from GetShapeshiftFormInfo.
+
 function LM.TravelForm:IsActive(buffTable)
     local id = GetShapeshiftForm()
-    if id > 0 then
-        return select(4, GetShapeshiftFormInfo(id)) == self.spellID
+
+    if id == 0 then
+        return false
     end
+
+    if select(4, GetShapeshiftFormInfo(id)) ~= self.spellID then
+        return false
+    end
+
+    -- Check for the slow Travel Form from casting it in combat and
+    -- don't consider that to be our Travel Form
+
+    if GetShapeshiftFormID() == 3 then
+        local _, run, fly, swim = GetUnitSpeed('player')
+        if fly < run then
+            return false
+        end
+    end
+
+    return true
 end
 
 -- IsUsableSpell doesn't return false for Travel Form indoors like it should,
@@ -50,18 +68,6 @@ end
 function LM.TravelForm:IsCastable()
     if IsIndoors() and not IsSubmerged() then return false end
     return LM.Spell.IsCastable(self)
-end
-
--- Check for the bad Travel Form from casting it in combat and
--- don't consider that to be mounted
-function LM.TravelForm:IsCancelable()
-    if GetShapeshiftFormID() == 27 then
-        local _, run, fly, swim = GetUnitSpeed('player')
-        if fly < run then
-            return false
-        end
-    end
-    return LM.Spell.IsCancelable(self)
 end
 
 -- Work around a Blizzard bug with calling shapeshift forms in macros in 8.0
@@ -76,10 +82,10 @@ local function GetFormNameWithSubtext()
 end
 
 -- You can cast Travel Form using the SpellID (unlike the journal mounts
--- where you can't), which bypasses a bug. This takes care of saving the
--- current form name as well.
+-- where you can't), which bypasses the same bug GetFormNameWithSubtext
+-- addresses.
 --
--- Takes care of saving the current form in case we need to restore it
+-- This takes care of saving the current form in case we need to restore it
 
 function LM.TravelForm:GetCastAction()
     local currentFormID = GetShapeshiftFormID()
