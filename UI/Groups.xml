@@ -17,13 +17,17 @@
         <OnClick method="OnClick" />
     </Scripts>
 
-    <Size y="37" />
+    <Size y="22" />
 
-    <HighlightTexture atlas="PetList-ButtonHighlight"/>
+    <HighlightTexture alphaMode="ADD">
+        <Color r="0.3" g="0.5" b="1" a="0.3" />
+    </HighlightTexture>
 
     <Layers>
         <Layer level="OVERLAY">
-            <Texture parentKey="SelectedTexture" atlas="PetList-ButtonSelect" hidden="true"/>
+            <Texture parentKey="SelectedTexture" hidden="true" setAllPoints="true">
+                <Color r="1" g="0.843" b="0" a="0.2" />
+            </Texture>
             <Texture parentKey="Icon">
                 <Size x="18" y="18" />
                 <Anchors><Anchor point="LEFT" x="8" /></Anchors>
@@ -34,7 +38,7 @@
             </Texture>
         </Layer>
         <Layer level="ARTWORK">
-            <FontString parentKey="Text" inherits="GameFontNormal" justifyH="LEFT">
+            <FontString parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
                 <Anchors>
                     <Anchor point="LEFT" x="12" />
                     <Anchor point="RIGHT" relativeKey="$parent.SelectedArrow" x="-4" />
@@ -72,7 +76,9 @@
 
     <Size y="22" />
 
-    <HighlightTexture atlas="PetList-ButtonHighlight"/>
+    <HighlightTexture alphaMode="ADD">
+        <Color r="0.3" g="0.5" b="1" a="0.3" />
+    </HighlightTexture>
 
     <Layers>
         <Layer level="ARTWORK">
@@ -93,7 +99,7 @@
                     <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.CheckedTexture" x="8" />
                 </Anchors>
             </Texture>
-            <FontString parentKey="Name" inherits="GameFontHighlightSmall" justifyH="LEFT" wordwrap="false">
+            <FontString parentKey="Name" inherits="GameFontNormal" justifyH="LEFT" wordwrap="false">
                 <Anchors>
                     <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Icon" x="8" />
                     <Anchor point="RIGHT" x="-8" />
@@ -128,7 +134,7 @@
 
     <Frames>
         <Frame parentKey="GroupsContainer" inherits="LiteMountOptionsContainerTemplate" frameStrata="LOW">
-            <Size x="180" />
+            <Size x="150" />
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-120" />
                 <Anchor point="BOTTOM" y="53" />
