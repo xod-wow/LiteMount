@@ -49,19 +49,10 @@ end
 -- because you can swim indoors with it (apparently).
 function LM.TravelForm:IsCastable()
     if IsIndoors() and not IsSubmerged() then return false end
+    local id = GetShapeshiftFormID()
+    -- Don't recast over mount-like forms as it behaves as a dismount
+    if id == 3 or id == 27 then return false end
     return LM.Spell.IsCastable(self)
-end
-
--- Check for the bad Travel Form from casting it in combat and
--- don't consider that to be mounted
-function LM.TravelForm:IsCancelable()
-    if GetShapeshiftFormID() == 27 then
-        local _, run, fly, swim = GetUnitSpeed('player')
-        if fly < run then
-            return false
-        end
-    end
-    return LM.Spell.IsCancelable(self)
 end
 
 -- Work around a Blizzard bug with calling shapeshift forms in macros in 8.0
