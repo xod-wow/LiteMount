@@ -243,7 +243,9 @@ CONDITIONS["flying"] =
 
 CONDITIONS["form"] =
     function (cond, unit, v)
-        if v then
+        if v == "slow" then
+            return LM.Environment.combatTravelForm
+        elseif v then
             return GetShapeshiftForm() == tonumber(v)
         else
             return GetShapeshiftForm() > 0

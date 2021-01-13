@@ -26,6 +26,8 @@ function LM.Environment:Initialize()
     self.instanceID = -1
     self.zoneText = nil
 
+    self.combatTravelForm = nil
+
     self:UpdateSwimTimes()
 
     self.startedFalling = 0
@@ -42,6 +44,7 @@ function LM.Environment:Initialize()
     self:RegisterEvent("MOUNT_JOURNAL_USABILITY_CHANGED")
     self:RegisterEvent("PLAYER_STARTED_MOVING")
     self:RegisterEvent("PLAYER_STOPPED_MOVING")
+    self:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
 end
 
 -- I hate OnUpdate handlers but there are just no good events for determining
@@ -176,6 +179,15 @@ end
 function LM.Environment:ZONE_CHANGED_NEW_AREA()
     LM.Debug("Updating location due to ZONE_CHANGED_NEW_AREA.")
     self:Update()
+end
+
+function LM.Environment:UPDATE_SHAPESHIFT_FORM()
+    if GetShapeshiftFormID() == 3 and InCombatLockdown() then
+        LM.Debug("Changed to travel form in combat.")
+        self.combatTravelForm = true
+    else
+        self.combatTravelForm = nil
+    end
 end
 
 function LM.Environment:MapInPath(...)
