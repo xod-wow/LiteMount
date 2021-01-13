@@ -99,6 +99,11 @@ local function GetUsableSpell(arg)
         return
     end
 
+    -- Zen Flight only works if you can fly
+    if spellID == 125883 and not LM.Environment:CanFly() then
+        return
+    end
+
     if name and IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
         return name, spellID
     end
