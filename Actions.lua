@@ -51,7 +51,8 @@ FLOWCONTROLS['ELSEIF'] =
 
 FLOWCONTROLS['ELSE'] =
     function (args, env, isTrue)
-        isTrue = not flowControl[#env.flowControl]
+        local wasTrue = env.flowControl[#env.flowControl]
+        isTrue = not wasTrue
         LM.Debug(' - ELSE test is ' .. tostring(isTrue))
         env.flowControl[#env.flowControl] = isTrue
     end
