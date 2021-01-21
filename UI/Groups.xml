@@ -74,39 +74,57 @@
         <OnLeave method="OnLeave" />
     </Scripts>
 
-    <Size y="22" />
+    <Size y="18" />
 
     <HighlightTexture alphaMode="ADD">
         <Color r="0.3" g="0.5" b="1" a="0.3" />
     </HighlightTexture>
 
     <Layers>
-        <Layer level="ARTWORK">
+        <Layer level="ARTWORK">A
+            <Texture parentKey="CheckBox" file="Interface\Buttons\UI-CheckBox-Up">
+                <Size x="20" y="20" />
+                <Anchors>
+                    <Anchor point="LEFT" x="4" />
+                </Anchors>
+            </Texture>
             <Texture parentKey="SelectedTexture" hidden="true" setAllPoints="true">
                 <Color r="1" g="0.843" b="0" a="0.2" />
             </Texture>
         </Layer>
         <Layer level="OVERLAY">
-            <Texture parentKey="CheckedTexture" file="Interface\Buttons\UI-CheckBox-Check" hidden="true">
+            <Texture parentKey="Checked" hidden="true" file="Interface\Buttons\UI-CheckBox-Check">
                 <Size x="20" y="20" />
                 <Anchors>
-                    <Anchor point="LEFT" x="8" />
-                </Anchors>
-            </Texture>
-            <Texture parentKey="Icon">
-                <Size x="18" y="18" />
-                <Anchors>
-                    <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.CheckedTexture" x="8" />
+                    <Anchor point="CENTER" relativeKey="$parent.CheckBox" />
                 </Anchors>
             </Texture>
             <FontString parentKey="Name" inherits="GameFontNormal" justifyH="LEFT" wordwrap="false">
                 <Anchors>
-                    <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Icon" x="8" />
-                    <Anchor point="RIGHT" x="-8" />
+                    <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Checked" x="4" />
+                    <Anchor point="RIGHT" x="-4" />
                 </Anchors>
             </FontString>
         </Layer>
     </Layers>
+</Button>
+
+<Button name="LiteMountGroupsPanelButtonTemplate" virtual="true">
+    <Size y="18" />
+    <Frames>
+        <Button parentKey="mount1" inherits="LiteMountGroupsPanelMountTemplate">
+            <Anchors>
+                <Anchor point="LEFT" x="4" />
+                <Anchor point="RIGHT" relativePoint="CENTER" x="-4" />
+            </Anchors>
+        </Button>
+        <Button parentKey="mount2" inherits="LiteMountGroupsPanelMountTemplate">
+            <Anchors>
+                <Anchor point="LEFT" relativePoint="CENTER" x="4" />
+                <Anchor point="RIGHT" x="-4" />
+            </Anchors>
+        </Button>
+    </Frames>
 </Button>
 
 <Frame name="LiteMountGroupsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountGroupsPanelMixin">

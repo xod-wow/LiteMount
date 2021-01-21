@@ -140,7 +140,9 @@ function LiteMountGroupsPanelMountMixin:OnClick()
 end
 
 function LiteMountGroupsPanelMountMixin:OnEnter()
-    LM.ShowMountTooltip(self, self.mount)
+    if self.mount then
+        LM.ShowMountTooltip(self, self.mount)
+    end
 end
 
 function LiteMountGroupsPanelMountMixin:OnLeave()
@@ -150,32 +152,19 @@ end
 function LiteMountGroupsPanelMountMixin:SetMount(mount, flag)
     self.mount = mount
 
-    if not self.mount then
-        return
-    end
-
-    self.Icon:SetTexture(mount.icon)
     self.Name:SetText(mount.name)
     if flag and mount:MatchesFilters(flag) then
-        self.SelectedTexture:Show()
-        self.CheckedTexture:Show()
+        self.Checked:Show()
     else
-        self.SelectedTexture:Hide()
-        self.CheckedTexture:Hide()
+        self.Checked:Hide()
     end
 
     if not mount.isCollected then
         self.Name:SetFontObject("GameFontDisable")
-        self.Icon:SetVertexColor(1, 1, 1)
-        self.Icon:SetDesaturated(true)
     elseif mount.isUsable == false then
         self.Name:SetFontObject("GameFontNormal")
-        self.Icon:SetDesaturated(true)
-        self.Icon:SetVertexColor(0.6, 0.2, 0.2)
     else
         self.Name:SetFontObject("GameFontNormal")
-        self.Icon:SetVertexColor(1, 1, 1)
-        self.Icon:SetDesaturated(false)
     end
 
 end
@@ -200,25 +189,41 @@ function LiteMountGroupsPanelMountsMixin:Update()
         return
     end
 
+    local col2offset
+
+    if #mounts < #self.buttons then
+        col2offset = #self.buttons
+    else
+        col2offset = math.ceil(#mounts/2)
+    end
+
     for i, button in ipairs(self.buttons) do
         local index = offset + i
-        if flag and index <= #mounts then
-            button:SetMount(mounts[index], flag)
-            button:Show()
-            if button:IsMouseOver() then button:OnEnter() end
-        else
+        local index2 = offset + col2offset + i
+        if not flag or index > #mounts then
             button:Hide()
+        else
+            button.mount1:SetMount(mounts[index], flag)
+            if button.mount1:IsMouseOver() then button.mount1:OnEnter() end
+            if mounts[index2] then
+                button.mount2:SetMount(mounts[index2], flag)
+                button.mount2:Show()
+                if button.mount2:IsMouseOver() then button.mount2:OnEnter() end
+            else
+                button.mount2:Hide()
+            end
+            button:Show()
         end
     end
 
-    local totalHeight = #mounts * self.buttons[1]:GetHeight()
+    local totalHeight = col2offset * self.buttons[1]:GetHeight()
     local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
 
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
 function LiteMountGroupsPanelMountsMixin:OnSizeChanged()
-    HybridScrollFrame_CreateButtons(self, 'LiteMountGroupsPanelMountTemplate')
+    HybridScrollFrame_CreateButtons(self, 'LiteMountGroupsPanelButtonTemplate')
     for _, b in ipairs(self.buttons) do
         b:SetWidth(self:GetWidth())
     end
