@@ -47,6 +47,7 @@
         </Layer>
     </Layers>
 
+    <!-- FIXME -->
     <Frames>
         <Button parentKey="DeleteButton" hidden="true">
             <Size x="26" y="26" />
@@ -81,15 +82,12 @@
     </HighlightTexture>
 
     <Layers>
-        <Layer level="ARTWORK">A
+        <Layer level="ARTWORK">
             <Texture parentKey="CheckBox" file="Interface\Buttons\UI-CheckBox-Up">
                 <Size x="20" y="20" />
                 <Anchors>
                     <Anchor point="LEFT" x="4" />
                 </Anchors>
-            </Texture>
-            <Texture parentKey="SelectedTexture" hidden="true" setAllPoints="true">
-                <Color r="1" g="0.843" b="0" a="0.2" />
             </Texture>
         </Layer>
         <Layer level="OVERLAY">

@@ -131,7 +131,7 @@ ACTIONS['Buff'] =
     function (args, env)
         for _, arg in ipairs(args) do
             LM.Debug(' - trying buff: ' .. tostring(arg))
-            local name, id = GetKnownSpell(arg)
+            local name, id = GetUsableSpell(arg)
             -- Glide won't cast while mounted
             if id == 131347 and IsMounted() then return end
             if name and not LM.UnitAura(env.unit or 'player', name) and
