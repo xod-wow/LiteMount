@@ -245,6 +245,7 @@ if locale == "deDE" then
     L["LM_HIDDEN"] = "Versteckt"
     L["LM_IMPORT_PROFILE"] = "Importprofil"
     L["LM_IMPORT_PROFILE_EXP"] = "Fügen Sie ein zuvor exportiertes Profil in das Feld unten ein, um es unter dem angegebenen Namen zu importieren."
+    L["LM_INSTANT_ONLY_MOVING"] = "Keine Instant-Reittiere beschwören, außer wenn du dich bewegst. "
     L["LM_MACRO_EXP"] = "Dieses Makro wird ausgeführt, wenn LiteMount kein nutzbares Reittier findet. Dies kann passieren, wenn du dich in Gebäuden aufhältst oder läufst und keine spontan wirkbaren Reittiere hast."
     L["LM_NEW_FLAG"] = "Markierung hinzufügen"
     L["LM_NEW_PROFILE"] = "Neues Profil"
