@@ -595,6 +595,7 @@ LM.MOUNTFAMILY["Horse"] = {
 LM.MOUNTFAMILY["Hound"] = {
     [344228] = true, -- Battle-Bound Warhound
     [344578] = true, -- Corridor Creeper
+    [343635] = true, -- Deadsoul Hound Harness
     [189998] = true, -- Illidari Felstalker
     [312762] = true, -- Mawsworn Soulhunter
     [341766] = true, -- Warstitched Darkhound
