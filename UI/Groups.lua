@@ -15,6 +15,7 @@ local _, LM = ...
 LiteMountGroupsPanelMixin = {}
 
 function LiteMountGroupsPanelMixin:OnLoad()
+    self.showAll = true
     self.refresh = self.Update
     self.reset = self.Update
 end
@@ -40,6 +41,7 @@ function LiteMountGroupsPanelMixin:Update()
     end
     self.Groups:Update()
     self.Mounts:Update()
+    self.ShowAll:SetChecked(self.showAll)
 end
 
 --[[--------------------------------------------------------------------------]]--
@@ -181,12 +183,17 @@ function LiteMountGroupsPanelMountsMixin:Update()
     local mounts = LM.UIFilter.GetFilteredMountList()
 
     local flag = self:GetParent().selectedFlag
+
     if not flag then
         for _, button in ipairs(self.buttons) do
             button:Hide()
         end
         HybridScrollFrame_Update(self, 0, 0)
         return
+    end
+
+    if not self:GetParent().showAll then
+        mounts = mounts:Search(function (m) return m:CurrentFlags()[flag] end)
     end
 
     local col2offset

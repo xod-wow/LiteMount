@@ -13,7 +13,7 @@ local _, LM = ...
 local L = LM.Localize
 
 LM.UIFilter = {
-        filteredMountList = { },
+        filteredMountList = LM.MountList:New(),
         searchText = nil,
         flagFilterList =  { },
         sourceFilterList = { },

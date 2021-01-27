@@ -194,7 +194,43 @@
                 <OnSizeChanged inherit="append" method="OnSizeChanged" />
             </Scripts>
         </ScrollFrame>
+        <CheckButton parentKey="ShowAll">
+            <Size x="22" y="22" />
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountsContainer" relativePoint="TOPRIGHT" x="-4" y="8" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    local parent = self:GetParent()
+                    parent.showAll = self:GetChecked() or nil
+                    parent:refresh()
+                </OnClick>
+            </Scripts>
+            <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+            <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+            <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+            <Layers>
+                <Layer level="OVERLAY">
+                    <FontString parentKey="Text" inherits="GameFontHighlight" text="LM_SHOW_ALL_MOUNTS">
+                        <Anchors>
+                            <Anchor point="RIGHT" relativePoint="LEFT" x="-4" />
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
+        </CheckButton>
     </Frames>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString inherits="GameFontHighlightLarge" text="GROUP">
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.GroupsContainer" y="4" x="20" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
 
 </Frame>
 
