@@ -78,6 +78,7 @@ L.LM_PRIORITY_DESC4     = ALWAYS
     L["LM_REPORT_BUG_EXP"] = "To report a bug in LiteMount, please describe the bug at the top of the field below, then cut-and-paste the entire text into the Create Issue form at this URL:"
     L["LM_RESET_PROFILE"] = "Reset Profile"
     L["LM_SETTINGS_TAGLINE"] = "Simple and reliable random mount summoning."
+    L["LM_SHOW_ALL_MOUNTS"] = "Show all mounts"
     L["LM_TRANSLATORS"] = "Translators"
     L["LM_USABLE"] = "Usable"
     L["LM_WARN_REPLACE_COND"] = "The [%s] action list condition has been replaced by [%s] due to Blizzard changes."
