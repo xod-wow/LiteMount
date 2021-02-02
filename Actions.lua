@@ -205,7 +205,7 @@ ACTIONS['SmartMount'] =
     function (args, env)
 
         local filters = ReplaceVars(tJoin(env.filters[1], args))
-        local filteredList = LM.PlayerMounts:FilterSearch(unpack(filters))
+        local filteredList = LM.PlayerMounts:Limit(unpack(filters))
 
         LM.Debug(" - filters: " .. table.concat(filters, ' '))
         LM.Debug(" - filtered list contains " .. #filteredList .. " mounts")
@@ -259,7 +259,7 @@ ACTIONS['Mount'] =
     function (args, env)
         local filters = ReplaceVars(tJoin(env.filters[1], args))
         LM.Debug(" - filters: " .. table.concat(filters, ' '))
-        local mounts = LM.PlayerMounts:FilterSearch(unpack(filters))
+        local mounts = LM.PlayerMounts:Limit(unpack(filters))
         local m = mounts:PriorityRandom(env.random)
         if m then
             LM.Debug(format(" - setting action to mount %s", m.name))

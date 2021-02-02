@@ -196,6 +196,34 @@ function LM.MountList:FilterSearch(...)
     return self:Search(filterMatch, ...)
 end
 
+-- Limits can be set (no prefix), extend (+) or reduce (-)
+
+function LM.MountList:Limit(...)
+    -- Everything before a 'set' is irrelevant, so look for the last set
+    -- action and start from there
+    local begin = 1
+    for i = 1, select('#', ...) do
+        if f:sub(1,1) ~= '+' and f:sub(1,1) ~= '-' then
+            begin = i
+        end
+    end
+
+    local mounts = self:New()
+
+    for i = begin, select('#', ...) do
+        local f = select(i, ...)
+        if f:sub(1,1) == '+' then
+            mounts:Extend(self:FilterSearch(f:sub(2)))
+        elseif f:sub(1,1) == '-' then
+            mounts:Reduce(self:FilterSearch(f:sub(2)))
+        else
+            mounts = self:FilterSearch(f)
+        end
+    end
+
+    return mounts
+end
+
 local function cmpName(a, b)
     return a.name < b.name
 end

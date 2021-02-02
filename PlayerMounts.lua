@@ -138,6 +138,10 @@ function LM.PlayerMounts:FilterSearch(...)
     return self.mounts:FilterSearch(...)
 end
 
+function LM.PlayerMounts:Limit(...)
+    return self.mounts:Limit(...)
+end
+
 -- This is deliberately by spell name instead of using the
 -- spell ID because there are some horde/alliance mounts with
 -- the same name but different spells.
