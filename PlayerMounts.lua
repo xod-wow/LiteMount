@@ -138,8 +138,22 @@ function LM.PlayerMounts:FilterSearch(...)
     return self.mounts:FilterSearch(...)
 end
 
-function LM.PlayerMounts:Limit(...)
-    return self.mounts:Limit(...)
+-- Selections can be set (no prefix), reduce (-) or extend (+)
+function LM.PlayerMounts:Select(...)
+    local mounts = self.mounts:Copy()
+
+    for i = 1, select('#', ...) do
+        local f = select(i, ...)
+        if f:sub(1,1) == '+' then
+            mounts:Extend(self:FilterSearch(f:sub(2)))
+        elseif f:sub(1,1) == '-' then
+            mounts = mounts:FilterSearch(f)
+        else
+            mounts = self.mounts:FilterSearch(f)
+        end
+    end
+
+    return mounts
 end
 
 -- This is deliberately by spell name instead of using the
