@@ -203,6 +203,7 @@ function LM.MountList:Limit(...)
     -- action and start from there
     local begin = 1
     for i = 1, select('#', ...) do
+        local f = select(i, ...)
         if f:sub(1,1) ~= '+' and f:sub(1,1) ~= '-' then
             begin = i
         end
