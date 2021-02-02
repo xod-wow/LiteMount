@@ -1247,4 +1247,5 @@ LM.MOUNTFAMILY["Zodiac"] = {
     [290134] = true, -- Hogrus, Swine of Good Fortune
     [259395] = true, -- Shu-Zen, the Divine Sentinel
     [308078] = true, -- Squeakers, the Trickster
+    [308087] = true, -- Lucky Yun
 }
