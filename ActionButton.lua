@@ -77,7 +77,7 @@ function LM.ActionButton:PreClick(mouseButton)
     local subEnv = CopyTable(self.globalEnv)
 
     -- Set up the fresh run environment for a new run.
-    subEnv.filters = { { "CASTABLE" } }
+    subEnv.filters = { { } }
     subEnv.flowControl = { }
 
     for _,a in ipairs(self.actions) do
