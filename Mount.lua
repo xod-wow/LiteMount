@@ -51,7 +51,9 @@ function LM.Mount:Refresh()
 end
 
 function LM.Mount:MatchesOneFilter(flags, f)
-    if f == "CASTABLE" then
+    if f == "NONE" then
+        return false
+    elseif f == "CASTABLE" then
         if self:IsCastable() then return true end
     elseif tonumber(f) then
         if self.spellID == tonumber(f) then return true end

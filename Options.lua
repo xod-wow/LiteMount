@@ -345,7 +345,7 @@ function LM.Options:SetMountFlag(m, setFlag)
     LM.Debug(format("Setting flag %s for spell %s (%d).",
                     setFlag, m.name, m.spellID))
 
-    if setFlag == "FAVORITES" then
+    if setFlag == "FAVORITES" or setFlag == "NONE" or setFlag == "CASTABLE" then
         -- This needs to fire to reset the UI, because something went wrong
         self.db.callbacks:Fire("OnOptionsModified")
         return
@@ -404,7 +404,13 @@ function LM.Options:SetRawFlags(v)
 end
 
 function LM.Options:IsPrimaryFlag(f)
-    return LM.FLAG[f] ~= nil
+    -- These are pseudo-flags used in Mount:MatchesOneFilter and we don't
+    -- let custom flags have the name.
+    if f == "NONE" or f == "CASTABLE" then
+        return true
+    else
+        return LM.FLAG[f] ~= nil
+    end
 end
 
 function LM.Options:IsCustomFlag(f)

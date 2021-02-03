@@ -138,18 +138,33 @@ function LM.PlayerMounts:FilterSearch(...)
     return self.mounts:FilterSearch(...)
 end
 
--- Selections can be set (no prefix), reduce (-) or extend (+)
-function LM.PlayerMounts:Select(...)
+-- Limits can be filter (no prefix), set (=), reduce (-) or extend (+).
+
+function LM.PlayerMounts:Limit(...)
+
     local mounts = self.mounts:Copy()
 
+    -- This is a dubiously worthwhile optimization, to look for the last
+    -- set (=) and ignore everything before it as irrelevant. Depending on
+    -- how inefficient sub(1,1) is this might actually be slower.
+
+    local begin = 1
     for i = 1, select('#', ...) do
+        if select(i, ...):sub(1,1) == '=' then
+            begin = i
+        end
+    end
+
+    for i = begin, select('#', ...) do
         local f = select(i, ...)
         if f:sub(1,1) == '+' then
-            mounts:Extend(self:FilterSearch(f:sub(2)))
+            mounts:Extend(self.mounts:FilterSearch(f:sub(2)))
         elseif f:sub(1,1) == '-' then
-            mounts = mounts:FilterSearch(f)
-        else
+            mounts:Reduce(self.mounts:FilterSearch(f:sub(2)))
+        elseif f:sub(1,1) == '=' then
             mounts = self.mounts:FilterSearch(f)
+        else
+            mounts = mounts:FilterSearch(f)
         end
     end
 
