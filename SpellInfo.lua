@@ -61,12 +61,12 @@ LM.ITEM.SPECTRAL_BRIDLE = 174464
 function LM.UnitAura(unit, aura, filter)
     local i = 1
     while true do
-        local name, _, _, _, _, _, _, _, _, id = UnitAura('player', i, filter)
+        local name, _, _, _, _, _, _, _, _, id = UnitAura(unit, i, filter)
         if not name then
             return
         end
         if name == aura or id == tonumber(aura) then
-            return UnitAura('player', i, filter)
+            return UnitAura(unit, i, filter)
         end
         i = i + 1
     end
