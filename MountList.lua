@@ -196,6 +196,39 @@ function LM.MountList:FilterSearch(...)
     return self:Search(filterMatch, ...)
 end
 
+-- Limits can be filter (no prefix), set (=), reduce (-) or extend (+).
+
+function LM.MountList:Limit(...)
+
+    -- This is a dubiously worthwhile optimization, to look for the last
+    -- set (=) and ignore everything before it as irrelevant. Depending on
+    -- how inefficient sub(1,1) is this might actually be slower.
+
+    local begin = 1
+    for i = 1, select('#', ...) do
+        if select(i, ...):sub(1,1) == '=' then
+            begin = i
+        end
+    end
+
+    local mounts = self:Copy()
+
+    for i = begin, select('#', ...) do
+        local f = select(i, ...)
+        if f:sub(1,1) == '+' then
+            mounts:Extend(self:FilterSearch(f:sub(2)))
+        elseif f:sub(1,1) == '-' then
+            mounts:Reduce(self:FilterSearch(f:sub(2)))
+        elseif f:sub(1,1) == '=' then
+            mounts = self:FilterSearch(f)
+        else
+            mounts = mounts:FilterSearch(f)
+        end
+    end
+
+    return mounts
+end
+
 local function cmpName(a, b)
     return a.name < b.name
 end
