@@ -31,6 +31,8 @@ if LibDebug then LibDebug() end
 
   Also arithmetic and comparison operators: __add __mul __eq __lt __le
 
+  For a full list: http://lua-users.org/wiki/MetatableEvents
+
   The generic case for metatable "inheritence" is
 
     baseTable = { whatever }
