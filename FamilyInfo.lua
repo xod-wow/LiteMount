@@ -81,6 +81,7 @@ LM.MOUNTFAMILY["Bee"] = {
 }
 
 LM.MOUNTFAMILY["Bird"] = {
+    [347812] = true, -- Sapphire Skyblazer
     [231524] = true, -- Shadowblade's Baneful Omen
     [231525] = true, -- Shadowblade's Crimson Omen
     [231523] = true, -- Shadowblade's Lethal Omen
@@ -812,6 +813,7 @@ LM.MOUNTFAMILY["Phoenix"] = {
     [139448] = true, -- Clutch of Ji-Kun
     [129552] = true, -- Crimson Pandaren Phoenix
     [ 88990] = true, -- Dark Phoenix
+    [347813] = true, -- Fireplume Phoenix
     [132118] = true, -- Emerald Pandaren Phoenix
     [132119] = true, -- Violet Pandaren Phoenix
 }
