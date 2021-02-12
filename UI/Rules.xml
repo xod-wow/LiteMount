@@ -2,9 +2,9 @@
 
 <!-- Copyright 2011-2021 Mike Battersby -->
 
-<Script file="Actions.lua" />
+<Script file="Rules.lua" />
 
-<Button name="LiteMountActionsButtonTemplate" virtual="true" mixin="LiteMountActionsButtonMixin" inherits="BackdropTemplate">
+<Button name="LiteMountRuleButtonTemplate" virtual="true" mixin="LiteMountRuleButtonMixin" inherits="BackdropTemplate">
     <KeyValues>
         <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" type="global" />
         <KeyValue key="backdropColor" value="DARKGRAY_COLOR" type="global"/>
@@ -25,7 +25,7 @@
                     <Anchor point="LEFT" x="16" />
                 </Anchors>
             </FontString>
-            <FontString parentKey="ActionText" inherits="GameFontHighlight" justifyH="LEFT">
+            <FontString parentKey="RuleText" inherits="GameFontHighlight" justifyH="LEFT">
                 <Anchors>
                     <Anchor point="LEFT" relativeKey="$parent.NumText" relativePoint="RIGHT" x="4" />
                     <Anchor point="RIGHT" x="-16" />
@@ -35,7 +35,7 @@
     </Layers>
 </Button>
 
-<Frame name="LiteMountActionsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountActionsPanelMixin">
+<Frame name="LiteMountRulesPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountRulesPanelMixin">
 
     <Layers>
         <Layer level="ARTWORK">
@@ -50,7 +50,7 @@
     </Layers>
 
     <Frames>
-        <ScrollFrame parentKey="Scroll" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountActionsScrollMixin">
+        <ScrollFrame parentKey="Scroll" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountRulesScrollMixin">
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-120" />
                 <Anchor point="BOTTOMRIGHT" x="-34" y="48" />

@@ -16,7 +16,7 @@
     <Include file="Mounts.xml" />
 <!--@debug@-->
     <Include file="Groups.xml" />
-    <Include file="Actions.xml" />
+    <Include file="Rules.xml" />
 <!--@end-debug@-->
     <Include file="Macro.xml" />
     <Include file="CombatMacro.xml" />

@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/UI/Actions.lua
+  LiteMount/UI/Rules.lua
 
   Options frame to plug in to the Blizzard interface menu.
 
@@ -18,19 +18,19 @@ end
 
 --[[--------------------------------------------------------------------------]]--
 
-LiteMountActionsButtonMixin = {}
+LiteMountRuleButtonMixin = {}
 
-function LiteMountActionsButtonMixin:OnShow()
+function LiteMountRuleButtonMixin:OnShow()
     self:SetWidth(self:GetParent():GetWidth())
 end
 
 --[[--------------------------------------------------------------------------]]--
 
-LiteMountActionsScrollMixin = {}
+LiteMountRulesScrollMixin = {}
 
 LoadAddOn('Blizzard_DebugTools')
 
-function LiteMountActionsScrollMixin:Update()
+function LiteMountRulesScrollMixin:Update()
     if not self.buttons then return end
 
     local offset = HybridScrollFrame_GetOffset(self)
@@ -58,22 +58,22 @@ function LiteMountActionsScrollMixin:Update()
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
-function LiteMountActionsScrollMixin:OnShow()
+function LiteMountRulesScrollMixin:OnShow()
     self.EditBox:SetWidth(self:GetWidth() - 18)
 end
 
-function LiteMountActionsScrollMixin:SetOption(v, i)
+function LiteMountRulesScrollMixin:SetOption(v, i)
 end
 
-function LiteMountActionsScrollMixin:GetOption(i)
+function LiteMountRulesScrollMixin:GetOption(i)
     return LM.Options:GetButtonAction(i)
 end
 
-function LiteMountActionsScrollMixin:GetOptionDefault()
+function LiteMountRulesScrollMixin:GetOptionDefault()
     return LM.Options:GetButtonAction('*')
 end
 
-function LiteMountActionsScrollMixin:OnLoad()
+function LiteMountRulesScrollMixin:OnLoad()
     local track = _G[self.scrollBar:GetName().."Track"]
     track:Hide()
     self.ntabs = 4
@@ -85,7 +85,7 @@ end
 
 local function BindingDropDown_Initialize(dropDown, level)
     local info = UIDropDownMenu_CreateInfo()
-    local scroll = LiteMountActionsPanel.Scroll
+    local scroll = LiteMountRulesPanel.Scroll
     if level == 1 then
         for i = 1,4 do
             info.text = BindingText(i)
@@ -103,20 +103,20 @@ end
 
 --[[--------------------------------------------------------------------------]]--
 
-LiteMountActionsPanelMixin = {}
+LiteMountRulesPanelMixin = {}
 
-function LiteMountActionsPanelMixin:OnSizeChanged(x, y)
+function LiteMountRulesPanelMixin:OnSizeChanged(x, y)
     HybridScrollFrame_CreateButtons(
             self.Scroll,
-            "LiteMountActionsButtonTemplate",
+            "LiteMountRuleButtonTemplate",
             0, 0, "TOPLEFT", "TOPLEFT",
             0, 0, "TOP", "BOTTOM"
         )
     self.Scroll:Update()
 end
 
-function LiteMountActionsPanelMixin:OnLoad()
-    self.name = "Actions"
+function LiteMountRulesPanelMixin:OnLoad()
+    self.name = "Rules"
 
     LiteMountOptionsPanel_RegisterControl(self.Scroll)
 
