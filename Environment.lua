@@ -266,6 +266,7 @@ local InstanceFlyableOverride = {
     [2278] = false,         -- Revendreth Scenario
     [2291] = false,         -- De Other Side
     [2293] = false,         -- Theater of Pain
+    [2296] = false,         -- Castle Nathria
     [2363] = false,         -- Queen's Winter Conservatory
 }
 
