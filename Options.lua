@@ -39,8 +39,8 @@ customFlags is a table of flag names, with data about them (currently none)
 -- Don't use names here, it will break in other locales
 
 local DefaultButtonAction = [[
-# Slow Fall, Levitate, Zen Flight, Glide
-Spell [falling] 130, 1706, 125883, 131347
+# Slow Fall, Levitate, Zen Flight, Glide, Flap
+Spell [falling] 130, 1706, 125883, 131347, 164862
 LeaveVehicle
 Dismount
 CopyTargetsMount
