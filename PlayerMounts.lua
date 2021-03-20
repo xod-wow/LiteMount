@@ -50,6 +50,8 @@ local MOUNT_SPELLS = {
         LM.ITEM.SPECTRAL_BRIDLE, LM.SPELL.SPECTRAL_BRIDLE, 'RUN' },
     { "ItemSummoned",
         LM.ITEM.DEADSOUL_HOUND_HARNESS, LM.SPELL.DEADSOUL_HOUND_HARNESS, 'RUN' },
+    { "ItemSummoned",
+        LM.ITEM.MAW_SEEKER_HARNESS, LM.SPELL.MAW_SEEKER_HARNESS, 'RUN' },
 }
 
 local RefreshEvents = {
