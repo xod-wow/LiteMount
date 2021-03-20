@@ -154,6 +154,7 @@ local MawUsableSpells = {
     [LM.SPELL.GHOST_WOLF] = true,
     [312762] = true,                -- Mawsworn Soulhunter
     [344578] = true,                -- Corridor Creeper
+    [344577] = true,                -- Bound Shadehound
 }
 
 function LM.Mount:MawUsable()
