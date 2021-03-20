@@ -389,6 +389,7 @@ LM.MOUNTFAMILY["Elemental"] = {
     [231442] = true, -- Farseer's Raging Tempest
     [289555] = true, -- Glacial Tidestorm
     [340068] = true, -- Sintouched Deathwalker
+    [348162] = true, -- Wandering Ancient
 }
 
 LM.MOUNTFAMILY["Fathom Dweller"] = {
