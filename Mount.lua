@@ -36,7 +36,10 @@ function LM.Mount:Get(className, ...)
     end
 
     if not m.family then
+        m.family = UNKNOWN
+--@debug@
         LM.PrintError('Mount with no family: ' .. m.name)
+--@end-debug@
     end
 
     return m
