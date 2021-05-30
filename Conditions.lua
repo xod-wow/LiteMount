@@ -754,10 +754,10 @@ function LM.Conditions:Eval(conditions, env)
     end
 end
 
-function LM.Conditions:Check(...)
+function LM.Conditions:Check(checks, env)
     local conditions = { op = "AND" }
-    for i = 1, select('#', ...) do
-        table.insert(conditions, { select(i, ...) })
+    for _, check in ipairs(checks) do
+        table.insert(conditions, { check })
     end
-    return self:Eval(conditions, {})
+    return self:Eval(conditions, env or {})
 end

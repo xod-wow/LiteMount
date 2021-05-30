@@ -205,6 +205,9 @@ ACTIONS['ApplyRules'] =
     function (args, env)
         local rules = LM.Options:GetRules(env.id)
         for _,rule in ipairs(rules) do
+            if LM.Conditions:Check(rule.conditions, env) then
+                LM.ActionButton:Dispatch(rule.action, env)
+            end
         end
     end
 
@@ -221,21 +224,21 @@ ACTIONS['SmartMount'] =
 
         local m
 
-        if not m and LM.Conditions:Check("submerged") then
+        if not m and LM.Conditions:Check({"submerged"}, env) then
             LM.Debug(" - trying Swimming Mount (underwater)")
             local swim = filteredList:FilterSearch('SWIM')
             LM.Debug(" - found " .. #swim .. " mounts.")
             m = swim:PriorityRandom(env.random)
         end
 
-        if not m and LM.Conditions:Check("flyable") then
+        if not m and LM.Conditions:Check({"flyable"}, env) then
             LM.Debug(" - trying Flying Mount")
             local fly = filteredList:FilterSearch('FLY')
             LM.Debug(" - found " .. #fly .. " mounts.")
             m = fly:PriorityRandom(env.random)
         end
 
-        if not m and LM.Conditions:Check("floating", "nowaterwalking") then
+        if not m and LM.Conditions:Check({"floating", "nowaterwalking"}, env) then
             LM.Debug(" - trying Swimming Mount (on the surface)")
             local swim = filteredList:FilterSearch('SWIM')
             LM.Debug(" - found " .. #swim .. " mounts.")
