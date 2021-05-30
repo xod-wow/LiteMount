@@ -47,32 +47,32 @@ local L = LM.Localize
 local CONDITIONS = { }
 
 CONDITIONS["achievement"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         return select(4, GetAchievementInfo(tonumber(v or 0)))
     end
 
 CONDITIONS["aura"] =
-    function (cond, unit, v)
-        unit = unit or "player"
+    function (cond, env, v)
+        local unit = env.unit or "player"
         if LM.UnitAura(unit, v) or LM.UnitAura(unit, v, "HARMFUL") then
             return true
         end
     end
 
 CONDITIONS["breathbar"] =
-    function (cond, unit)
+    function (cond, env)
         local name, _, _, rate = GetMirrorTimerInfo(2)
         return (name == "BREATH" and rate < 0)
     end
 
 CONDITIONS["canexitvehicle"] =
-    function (cond, unit)
+    function (cond, env)
         return CanExitVehicle()
     end
 
 CONDITIONS["channeling"] =
-    function (cond, unit, v)
-        unit = unit or "player"
+    function (cond, env, v)
+        local unit = env.unit or "player"
         if not v then
             return UnitChannelInfo(unit) ~= nil
         elseif tonumber(v) then
@@ -83,28 +83,29 @@ CONDITIONS["channeling"] =
     end
 
 CONDITIONS["class"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v then
-            return tContains({ UnitClass(unit or "player") }, v)
+            return tContains({ UnitClass(env.unit or "player") }, v)
         end
     end
 
 -- This can never work, but included for completeness
 CONDITIONS["combat"] =
-    function (cond, unit)
-        local petunit
-        if not unit then
+    function (cond, env)
+        local unit, petunit
+        if not env.unit then
             unit, petunit = "player", "pet"
-        elseif unit == "player" then
+        elseif env.unit == "player" then
             petunit = "pet"
         else
-            petunit = unit .. "pet"
+            unit = env.unit
+            petunit = env.unit .. "pet"
         end
         return UnitAffectingCombat(unit) or UnitAffectingCombat(petunit)
     end
 
 CONDITIONS["covenant"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if not C_Covenants or not v then return end
         local id = C_Covenants.GetActiveCovenantID()
         if not id then return end
@@ -115,13 +116,13 @@ CONDITIONS["covenant"] =
 
 --- Note that this diverges from the macro [dead] defaults to "target".
 CONDITIONS["dead"] =
-    function (cond, unit)
-        return UnitIsDead(unit or "player")
+    function (cond, env)
+        return UnitIsDead(env.unit or "player")
     end
 
 -- https://wow.gamepedia.com/DifficultyID
 CONDITIONS["difficulty"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v then
             local id, name = select(3, GetInstanceInfo())
             if id == tonumber(v) or name == v then
@@ -133,7 +134,7 @@ CONDITIONS["difficulty"] =
 -- Persistent "deck of cards" draw randomness
 
 CONDITIONS["draw:args"] =
-    function (cond, unit, x, y)
+    function (cond, env, x, y)
         x, y = tonumber(x), tonumber(y)
         if not cond.deck then
             if y > 52 then
@@ -158,7 +159,7 @@ CONDITIONS["draw:args"] =
     end
 
 CONDITIONS["elapsed"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         v = tonumber(v)
         if v then
             if time() - (cond.elapsed or 0) >= v then
@@ -169,7 +170,7 @@ CONDITIONS["elapsed"] =
     end
 
 CONDITIONS["equipped"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if not v then
             return false
         end
@@ -190,13 +191,13 @@ CONDITIONS["equipped"] =
     end
 
 CONDITIONS["exists"] =
-    function (cond, unit)
-        return UnitExists(unit or "target")
+    function (cond, env)
+        return UnitExists(env.unit or "target")
     end
 
 -- Check for an extraactionbutton, optionally with a specific spell
 CONDITIONS["extra"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if HasExtraActionBar() and HasAction(169) then
             if v then
                 local aType, aID = GetActionInfo(169)
@@ -210,39 +211,39 @@ CONDITIONS["extra"] =
     end
 
 CONDITIONS["faction"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v then
-            return tContains({ UnitFactionGroup(unit or "player") }, v)
+            return tContains({ UnitFactionGroup(env.unit or "player") }, v)
         end
     end
 
 CONDITIONS["falling"] =
-    function (cond, unit)
+    function (cond, env)
         return LM.Environment:IsFalling()
     end
 
 CONDITIONS["false"] =
-    function (cond, unit)
+    function (cond, env)
         return false
     end
 
 CONDITIONS["floating"] =
-    function (cond, unit)
+    function (cond, env)
         return LM.Environment:IsFloating()
     end
 
 CONDITIONS["flyable"] =
-    function (cond, unit)
+    function (cond, env)
         return LM.Environment:CanFly()
     end
 
 CONDITIONS["flying"] =
-    function (cond, unit)
+    function (cond, env)
         return IsFlying()
     end
 
 CONDITIONS["form"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v == "slow" then
             return LM.Environment.combatTravelForm
         elseif v then
@@ -253,7 +254,7 @@ CONDITIONS["form"] =
     end
 
 CONDITIONS["group"] =
-    function (cond, unit, groupType)
+    function (cond, env, groupType)
         if not groupType then
             return IsInGroup() or IsInRaid()
         elseif groupType == "raid" then
@@ -264,22 +265,22 @@ CONDITIONS["group"] =
     end
 
 CONDITIONS["harm"] =
-    function (cond, unit)
-        return not UnitIsFriend("player", unit or "target")
+    function (cond, env)
+        return not UnitIsFriend("player", env.unit or "target")
     end
 
 CONDITIONS["help"] =
-    function (cond, unit)
-        return UnitIsFriend("player", unit or "target")
+    function (cond, env)
+        return UnitIsFriend("player", env.unit or "target")
     end
 
 CONDITIONS["indoors"] =
-    function (cond, unit)
+    function (cond, env)
         return IsIndoors()
     end
 
 CONDITIONS["instance"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if not v then
             return IsInInstance()
         end
@@ -295,13 +296,20 @@ CONDITIONS["instance"] =
     end
 
 CONDITIONS["jump"] =
-    function (cond, unit)
+    function (cond, env)
         local jumpTime = LM.Environment:JumpTime()
         return ( jumpTime and jumpTime < 2 )
     end
 
+CONDITIONS["keybind"] =
+    function (cond, env, v)
+        if v then
+            return env.id == tonumber(v)
+        end
+    end
+
 CONDITIONS["map"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v:sub(1,1) == '*' then
             return LM.Environment.uiMapID == tonumber(v:sub(2))
         else
@@ -310,12 +318,12 @@ CONDITIONS["map"] =
     end
 
 CONDITIONS["maw"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         return LM.Environment:TheMaw()
     end
 
 CONDITIONS["mod"] =
-     function (cond, unit, v)
+     function (cond, env, v)
         if not v then
             return IsModifierKeyDown()
         elseif v == "alt" then
@@ -330,43 +338,43 @@ CONDITIONS["mod"] =
     end
 
 CONDITIONS["mounted"] =
-    function (cond, unit)
+    function (cond, env)
         return IsMounted()
     end
 
 CONDITIONS["moving"] =
-    function (cond, unit)
+    function (cond, env)
         return LM.Environment:IsMovingOrFalling()
     end
 
 CONDITIONS["name"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v then
-            return UnitName(unit or "player") == v
+            return UnitName(env.unit or "player") == v
         end
     end
 
 CONDITIONS["outdoors"] =
-    function (cond, unit)
+    function (cond, env)
         return IsOutdoors()
     end
 
 CONDITIONS["playermodel"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v then
             return LM.Environment:GetPlayerModel() == tonumber(v)
         end
     end
 
 CONDITIONS["party"] =
-    function (cond, unit)
-        return UnitPlayerOrPetInParty(unit or "target")
+    function (cond, env)
+        return UnitPlayerOrPetInParty(env.unit or "target")
     end
 
 CONDITIONS["pet"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         local petunit
-        if not unit or unit == "player" then
+        if not env.unit or env.unit == "player" then
             petunit = "pet"
         else
             petunit = unit .. "pet"
@@ -379,7 +387,7 @@ CONDITIONS["pet"] =
     end
 
 CONDITIONS["profession"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if not v then return end
         local professions = { GetProfessions() }
         local n = tonumber(v)
@@ -395,16 +403,16 @@ CONDITIONS["profession"] =
     end
 
 CONDITIONS["pvp"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if not v then
-            return UnitIsPVP(unit or "player")
+            return UnitIsPVP(env.unit or "player")
         else
             return GetZonePVPInfo() == v
         end
     end
 
 CONDITIONS["qfc"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v then
             v = tonumber(v)
             return v and C_QuestLog.IsQuestFlaggedCompleted(v)
@@ -412,51 +420,51 @@ CONDITIONS["qfc"] =
     end
 
 CONDITIONS["race"] =
-    function (cond, unit, v)
-        local race, raceEN, raceID = UnitRace(unit or "player")
+    function (cond, env, v)
+        local race, raceEN, raceID = UnitRace(env.unit or "player")
         return ( race == v or raceEN == v or raceID == tonumber(v) )
     end
 
 CONDITIONS["raid"] =
-    function (cond, unit)
-        return UnitPlayerOrPetInRaid(unit or "target")
+    function (cond, env)
+        return UnitPlayerOrPetInRaid(env.unit or "target")
     end
 
 CONDITIONS["random"] =
-    function (cond, unit, n)
+    function (cond, env, n)
         return math.random(100) <= tonumber(n)
     end
 
 CONDITIONS["realm"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v then
             return GetRealmName() == v
         end
     end
 
 CONDITIONS["resting"] =
-    function (cond, unit)
+    function (cond, env)
         return IsResting()
     end
 
 CONDITIONS["role"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v then
-            return UnitGroupRolesAssigned(unit or "player") == v
+            return UnitGroupRolesAssigned(env.unit or "player") == v
         end
     end
 
 CONDITIONS["sameunit:args"] =
-    function (cond, unit, unit1)
+    function (cond, env, unit1)
         if unit1 then
-            return UnitIsUnit(unit1, unit or "player")
+            return UnitIsUnit(unit1, env.unit or "player")
         end
     end
 
 CONDITIONS["sex"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v then
-            return UnitSex(unit or "player") == tonumber(v)
+            return UnitSex(env.unit or "player") == tonumber(v)
         end
     end
 
@@ -466,17 +474,17 @@ CONDITIONS["sex"] =
 -- is still counted as being submerged.
 
 CONDITIONS["swimming"] =
-    function (cond, unit)
+    function (cond, env)
         return IsSubmerged()
     end
 
 CONDITIONS["shapeshift"] =
-    function (cond, unit)
+    function (cond, env)
         return HasTempShapeshiftActionBar()
     end
 
 CONDITIONS["spec"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         if v then
             local index = GetSpecialization()
             if tonumber(v) ~= nil then
@@ -490,7 +498,7 @@ CONDITIONS["spec"] =
     end
 
 CONDITIONS["stationary:args"] =
-    function (cond, unit, minv, maxv)
+    function (cond, env, minv, maxv)
         minv = tonumber(minv)
         maxv = tonumber(maxv)
         local stationaryTime = LM.Environment:StationaryTime()
@@ -506,22 +514,22 @@ CONDITIONS["stationary:args"] =
     end
 
 CONDITIONS["stealthed"] =
-    function (cond, unit)
+    function (cond, env)
         return IsStealthed()
     end
 
 CONDITIONS["submerged"] =
-    function (cond, unit)
+    function (cond, env)
         return (IsSubmerged() and not LM.Environment:IsFloating())
     end
 
 CONDITIONS["talent:args"] =
-    function (cond, unit, tier, talent)
+    function (cond, env, tier, talent)
         return select(2, GetTalentTierInfo(tier, 1)) == tonumber(talent)
     end
 
 CONDITIONS["tracking"] =
-    function (cond, unit, v)
+    function (cond, env, v)
         local name, active, _
         for i = 1, GetNumTrackingTypes() do
             name, _, active = GetTrackingInfo(i)
@@ -533,12 +541,12 @@ CONDITIONS["tracking"] =
     end
 
 CONDITIONS["true"] =
-    function (cond, unit)
+    function (cond, env)
         return true
     end
 
 CONDITIONS["waterwalking"] =
-    function (cond, unit)
+    function (cond, env)
         -- Anglers Waters Striders (168416) or Inflatable Mount Shoes (168417)
         if not C_MountJournal.AreMountEquipmentEffectsSuppressed() then
             local id = C_MountJournal.GetAppliedMountEquipmentID()
@@ -631,7 +639,7 @@ end
 -- now that the other form works.
 
 CONDITIONS["xmog:args"] =
-    function (cond, unit, arg1, arg2)
+    function (cond, env, arg1, arg2)
         if arg2 then
             local slotID, appearanceID = tonumber(arg1), tonumber(arg2)
             local tmSlot = TRANSMOG_SLOTS[(slotID or 0) * 100]
@@ -651,11 +659,11 @@ CONDITIONS["xmog:args"] =
         end
     end
 
-local function any(f, cond, unit, ...)
+local function any(f, cond, env, ...)
     local n = select('#', ...)
     for i = 1, n do
         local v = select(i, ...)
-        if f(cond, unit, v) then return true end
+        if f(cond, env, v) then return true end
     end
     return false
 end
@@ -663,7 +671,7 @@ end
 
 LM.Conditions = { }
 
-function LM.Conditions:IsTrue(condition, unit)
+function LM.Conditions:IsTrue(condition, env)
     local str = condition[1]
 
     if condition.vars then
@@ -671,12 +679,15 @@ function LM.Conditions:IsTrue(condition, unit)
     end
 
     local newunit = str:match('^@(.+)')
-    if newunit then return true, newunit end
+    if newunit then
+        env.unit = newunit
+        return true
+    end
 
     local cond, valuestr = strsplit(':', str)
 
     -- Empty condition [] is true
-    if cond == "" then return true, unit end
+    if cond == "" then return true end
 
     local values
     if valuestr then
@@ -687,15 +698,15 @@ function LM.Conditions:IsTrue(condition, unit)
 
     local handler = CONDITIONS[cond..":args"]
     if handler then
-        return handler(condition, unit, unpack(values))
+        return handler(condition, env, unpack(values))
     end
 
     handler = CONDITIONS[cond]
     if handler then
         if #values == 0 then
-            return handler(condition, unit)
+            return handler(condition, env)
         else
-            return any(handler, condition, unit, unpack(values))
+            return any(handler, condition, env, unpack(values))
         end
     end
 
@@ -703,43 +714,43 @@ function LM.Conditions:IsTrue(condition, unit)
     return false
 end
 
-function LM.Conditions:EvalNot(conditions, unit)
-    local v
-    v, unit = self:Eval(conditions[1], unit)
-    return not v, unit
+function LM.Conditions:EvalNot(conditions, env)
+    local v = self:Eval(conditions[1], env)
+    if v then return v end
+    return false
 end
 
--- the ANDed sections carry the unit between them as well as returning it
-function LM.Conditions:EvalAnd(conditions, unit)
+-- the ANDed sections carry the unit between them
+function LM.Conditions:EvalAnd(conditions, env)
     for _,e in ipairs(conditions) do
-        local v, u = self:Eval(e, unit)
+        local v = self:Eval(e, env)
         if not v then return false end
-        unit = u or unit
     end
-    return true, unit
+    return true
 end
 
-function LM.Conditions:EvalOr(conditions, unit)
-    -- Note: deliberately resets the unit
+-- Note: deliberately resets the unit on false
+function LM.Conditions:EvalOr(conditions, env)
     for _,e in ipairs(conditions) do
-        local v, u = self:Eval(e, nil)
-        if v then return v, u end
+        local v = self:Eval(e, env)
+        if v then return v end
+        env.unit = nil
     end
     return false
 end
 
 -- outer grouping is ORed together
-function LM.Conditions:Eval(conditions, unit)
-    if not conditions or conditions[1] == nil then return true, unit end
+function LM.Conditions:Eval(conditions, env)
+    if not conditions or conditions[1] == nil then return true end
 
     if conditions.op == "OR" then
-        return self:EvalOr(conditions, unit)
+        return self:EvalOr(conditions, env)
     elseif conditions.op == "AND" then
-        return self:EvalAnd(conditions, unit)
+        return self:EvalAnd(conditions, env)
     elseif conditions.op == "NOT" then
-        return self:EvalNot(conditions, unit)
+        return self:EvalNot(conditions, env)
     else
-        return self:IsTrue(conditions, unit)
+        return self:IsTrue(conditions, env)
     end
 end
 
@@ -755,5 +766,5 @@ function LM.Conditions:Check(line)
         cachedConditions[line] = { cond }
     end
 
-    return self:Eval(cachedConditions[line][1])
+    return self:Eval(cachedConditions[line][1], {})
 end

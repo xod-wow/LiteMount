@@ -24,8 +24,7 @@ LM.ActionButton = { }
 
 function LM.ActionButton:Dispatch(action, env)
 
-    local isTrue
-    isTrue, env.unit = LM.Conditions:Eval(action.conditions)
+    local isTrue = LM.Conditions:Eval(action.conditions, env)
 
     local handler = LM.Actions:GetFlowControlHandler(action.action)
     if handler then
@@ -118,7 +117,7 @@ function LM.ActionButton:Create(n)
     b.id = n
 
     -- Global actions environment
-    b.globalEnv = { }
+    b.globalEnv = { id = n }
 
     -- Button-fu
     b:CompileActions()
