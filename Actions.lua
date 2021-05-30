@@ -201,6 +201,13 @@ ACTIONS['CopyTargetsMount'] =
         end
     end
 
+ACTIONS['ApplyRules'] =
+    function (args, env)
+        local rules = LM.Options:GetRules(env.id)
+        for _,rule in ipairs(rules) do
+        end
+    end
+
 ACTIONS['SmartMount'] =
     function (args, env)
 
