@@ -48,14 +48,13 @@ end
 
 function LM.ActionList:ParseActionLine(line)
     local argWords, condWords = { }, { }
-    local action
 
     -- Note this is intentionally unanchored to skip leading whitespace
-    action, line = line:match('(%S+)%s*(.*)')
+    local action, rest = line:match('(%S+)%s*(.*)')
 
-    while line ~= nil do
+    while rest ~= nil do
         local word
-        word, line = ReadWord(line)
+        word, rest = ReadWord(rest)
         if word then
             if word:match('^%[filter=.-%]$') then
                 tinsert(argWords, word:sub(9, -2))
