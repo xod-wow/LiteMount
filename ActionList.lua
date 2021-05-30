@@ -106,17 +106,20 @@ function LM.ActionList:ParseActionLine(line)
         end
     end
 
-    return action, args, conditions
+    return {
+        action = action,
+        line = line,
+        args = args,
+        conditions = conditions
+    }
 end
 
 function LM.ActionList:Compile(text)
     local out = { }
-    local action, args, conditions
     for line in text:gmatch('([^\r\n]+)') do
         line = line:gsub('%s*#.*', '')
         if line ~= '' then
-            action, args, conditions = self:ParseActionLine(line)
-            tinsert(out, { action = action, line = line, args = args, conditions = conditions })
+            tinsert(out, self:ParseActionLine(line))
         end
     end
 

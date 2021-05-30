@@ -754,17 +754,6 @@ function LM.Conditions:Eval(conditions, env)
     end
 end
 
--- Parsing is slow so we don't want to do it a million times
-local cachedConditions = {}
-
-function LM.Conditions:Check(line)
-    if not line then return end
-
-    local _, cond
-    if not cachedConditions[line] then
-        _, _, cond = LM.ActionList:ParseActionLine('DUMMY ' .. line)
-        cachedConditions[line] = { cond }
-    end
-
-    return self:Eval(cachedConditions[line][1], {})
+function LM.Conditions:Check(...)
+    return self:Eval({ op = "AND", ... }, {})
 end
