@@ -755,5 +755,9 @@ function LM.Conditions:Eval(conditions, env)
 end
 
 function LM.Conditions:Check(...)
-    return self:Eval({ op = "AND", ... }, {})
+    local conditions = { op = "AND" }
+    for i = 1, select('#', ...) do
+        table.insert(conditions, { select(i, ...) })
+    end
+    return self:Eval(conditions, {})
 end
