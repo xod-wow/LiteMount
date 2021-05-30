@@ -1146,6 +1146,10 @@ LM.MOUNTFAMILY["Vile Fiend"] = {
     [243652] = true, -- Vile Fiend
 }
 
+LM.MOUNTFAMILY["Warpstalker"] = {
+    [346136] = true, -- Viridian Phase-Hunter
+}
+
 LM.MOUNTFAMILY["Water Strider"] = {
     [118089] = true, -- Azure Water Strider
     [127271] = true, -- Crimson Water Strider
