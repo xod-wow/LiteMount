@@ -1146,7 +1146,7 @@ LM.MOUNTFAMILY["Vile Fiend"] = {
     [243652] = true, -- Vile Fiend
 }
 
-LM.MOUNTFAMILY["Warpstalker"] = {
+LM.MOUNTFAMILY["Warp Stalker"] = {
     [346136] = true, -- Viridian Phase-Hunter
 }
 
