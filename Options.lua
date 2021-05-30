@@ -638,9 +638,8 @@ end
 ----------------------------------------------------------------------------]]--
 
 
-function LM.Options:RecordInstance()
-    local name, _, _, _, _, _, _, id = GetInstanceInfo()
-    self.db.global.instances[id] = name
+function LM.Options:RecordInstance(info)
+    self.db.global.instances[info[8]] = info[1]
 end
 
 

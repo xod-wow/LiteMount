@@ -139,9 +139,12 @@ function LM.Environment:Update()
 
     self.zoneText = GetZoneText()
     self.subZoneText = GetSubZoneText()
-    self.instanceID = select(8, GetInstanceInfo())
 
-    LM.Options:RecordInstance()
+    info = GetInstanceInfo()
+    self.instanceName = info[1]
+    self.instanceID = info[8]
+
+    LM.Options:RecordInstance(info)
 end
 
 function LM.Environment:PLAYER_LOGIN()

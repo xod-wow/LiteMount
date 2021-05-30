@@ -308,6 +308,12 @@ CONDITIONS["keybind"] =
         end
     end
 
+CONDITIONS["location"] =
+    function (cond, env, v)
+        if LM.Environment.uiMapName == v then return true end
+        if LM.Environment.instanceName == v then return true end
+    end
+
 CONDITIONS["map"] =
     function (cond, env, v)
         if v:sub(1,1) == '*' then
