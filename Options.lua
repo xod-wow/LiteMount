@@ -57,6 +57,7 @@ END
 IF [mod:shift,flyable][mod:shift,waterwalking]
   Limit RUN/WALK,~FLY
 END
+ApplyRules
 SmartMount
 Macro
 ]]
@@ -72,6 +73,7 @@ local defaults = {
         flagChanges         = { },
         mountPriorities     = { },
         buttonActions       = { ['*'] = DefaultButtonAction },
+        rules               = { ['*'] = { } },
         copyTargetsMount    = true,
         excludeNewMounts    = false,
         priorityWeights     = { 1, 2, 6, 1 },
@@ -487,6 +489,17 @@ function LM.Options:GetAllFlags()
     return CopyTable(self.allFlags)
 end
 
+--[[----------------------------------------------------------------------------
+    Rules stuff.
+----------------------------------------------------------------------------]]--
+
+function LM.Options:GetRules(n)
+    return self.db.profile.rules[n]
+end
+
+function LM.Options:SetRules(n, rules)
+    self.db.profile.rules[n] = rules
+end
 
 --[[----------------------------------------------------------------------------
     Copy targets mount
