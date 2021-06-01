@@ -62,6 +62,9 @@ SmartMount
 Macro
 ]]
 
+local DefaultRules = {
+}
+
 -- A lot of things need to be cleaned up when flags are deleted/renamed
 
 local defaults = {
@@ -73,7 +76,7 @@ local defaults = {
         flagChanges         = { },
         mountPriorities     = { },
         buttonActions       = { ['*'] = DefaultButtonAction },
-        rules               = { ['*'] = { } },
+        rules               = { ['*'] = DefaultRules },
         copyTargetsMount    = true,
         excludeNewMounts    = false,
         priorityWeights     = { 1, 2, 6, 1 },

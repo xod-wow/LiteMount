@@ -43,7 +43,11 @@ function LM.ActionButton:Dispatch(action, env)
         return
     end
 
-    LM.Debug("Dispatching action " .. action.line)
+    if action.line then
+        LM.Debug("Dispatching action " .. action.line)
+    else
+        LM.Debug("Dispatching action from rule.")
+    end
 
     return handler(action.args or {}, env)
 end
