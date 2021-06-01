@@ -140,7 +140,7 @@ function LM.Environment:Update()
     self.zoneText = GetZoneText()
     self.subZoneText = GetSubZoneText()
 
-    info = GetInstanceInfo()
+    info = { GetInstanceInfo() }
     self.instanceName = info[1]
     self.instanceID = info[8]
 
