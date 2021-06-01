@@ -205,9 +205,8 @@ ACTIONS['ApplyRules'] =
     function (args, env)
         local rules = LM.Options:GetRules(env.id)
         for _,rule in ipairs(rules) do
-            if LM.Conditions:Check(rule.conditions, env) then
-                LM.ActionButton:Dispatch(rule.action, env)
-            end
+            local act = LM.ActionButton:Dispatch(rule, env)
+            if act then return act end
         end
     end
 

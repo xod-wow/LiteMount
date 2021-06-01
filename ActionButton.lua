@@ -45,11 +45,7 @@ function LM.ActionButton:Dispatch(action, env)
 
     LM.Debug("Dispatching action " .. action.line)
 
-    local act = handler(action.args or {}, env)
-    if act then
-        act:SetupActionButton(self)
-        return true
-    end
+    return handler(action.args or {}, env)
 end
 
 function LM.ActionButton:CompileActions()
@@ -80,12 +76,16 @@ function LM.ActionButton:PreClick(mouseButton)
     subEnv.flowControl = { }
 
     for _,a in ipairs(self.actions) do
-        if self:Dispatch(a, subEnv) then
+        local act = self:Dispatch(a, subEnv)
+        if act then
+            act:SetupActionButton(self)
             return
         end
     end
 
-    self:Dispatch({ action="CantMount", line="" }, subEnv)
+    local handler = LM.Actions:GetHandler('CantMount')
+    local act = handler()
+    act:SetupActionButton(self)
 end
 
 function LM.ActionButton:PostClick()
