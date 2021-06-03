@@ -65,9 +65,9 @@ Macro
 local DefaultRules = {
 --@debug@
     {
-        ["conditions"] = { "location:Stormwind City", },
-        ["action"] = "Mount",
-        ["args"] = { "Mimiron's Head" },
+        conditions = { "location:Stormwind City", },
+        action = "Mount",
+        args = { "Mimiron's Head" },
     },
     {
         conditions = { "map:203", "submerged", op="AND" },
@@ -95,7 +95,7 @@ local DefaultRules = {
         args = { "RUN/WALK", "~FLY" }
     },
     {
-        condition = { "mod:shift", "waterwalking", op="AND" },
+        conditions = { "mod:shift", "waterwalking", op="AND" },
         action = "Limit",
         args = { "RUN/WALK", "~FLY" }
     }
