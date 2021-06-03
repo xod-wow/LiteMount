@@ -204,10 +204,15 @@ ACTIONS['CopyTargetsMount'] =
 ACTIONS['ApplyRules'] =
     function (args, env)
         local rules = LM.Options:GetRules(env.id)
-        for _,rule in ipairs(rules) do
+        LM.Debug(string.format(" - checking %d rules for button %d", #rules, env.id))
+        for i,rule in ipairs(rules) do
             local act = LM.ActionButton:Dispatch(rule, env)
-            if act then return act end
+            if act then
+                LM.Debug(string.format(" - found matching rule %d", i))
+                return act
+            end
         end
+        LM.Debug(" - no rules matched")
     end
 
 ACTIONS['SmartMount'] =
