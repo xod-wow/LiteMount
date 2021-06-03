@@ -25,13 +25,15 @@ function LiteMountRuleButtonMixin:OnShow()
 end
 
 function LiteMountRuleButtonMixin:OnLoad()
-    UIDropDownMenu_Initialize(self.ConditionType, self.Initialize)
-    UIDropDownMenu_Initialize(self.ConditionValue, self.Initialize, "MENU")
-    UIDropDownMenu_Initialize(self.Action, self.Initialize, "MENU")
-    UIDropDownMenu_Initialize(self.ActionArgs, self.Initialize, "MENU")
+--[[
+    UIDropDownMenu_Initialize(self.Condition.DropDown, self.Initialize, "MENU")
+    UIDropDownMenu_Initialize(self.ConditionArg.DropDown, self.Initialize, "MENU")
+    UIDropDownMenu_Initialize(self.Action.DropDown, self.Initialize, "MENU")
+    UIDropDownMenu_Initialize(self.ActionArg.DropDown, self.Initialize, "MENU")
+]]
 end
 
-function LiteMountRuleButtonMixin:Initialize()
+function LiteMountRuleButtonMixin:Initialize(level, menuList)
 end
 
 --[[--------------------------------------------------------------------------]]--
@@ -56,7 +58,11 @@ function LiteMountRulesScrollMixin:Update()
         if index <= #rules then
             local rule = rules[index]
             button.NumText:SetText(index)
-            -- XXX
+            local a, b = strsplit(':', rule.conditions[1], 2)
+            button.Condition:SetText(a)
+            button.ConditionArg:SetText(b)
+            button.Action:SetText(rule.action)
+            button.ActionArg:SetText(table.concat(rule.args, ' '))
             button:Show()
         else
             button:Hide()
