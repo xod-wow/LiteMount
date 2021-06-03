@@ -32,28 +32,24 @@
         <Button parentKey="Condition" inherits="UIMenuButtonStretchTemplate">
             <Size x="93" y="33" />
             <Anchors> <Anchor point="LEFT" relativeKey="$parent.NumText" relativePoint="RIGHT" x="8" /> </Anchors>
-            <Frames> <Frame parentKey="DropDown" text="TYPE" inherits="UIDropDownMenuTemplate" /> </Frames>
             <NormalFont style="GameFontNormal" />
             <HighlightFont style="GameFontNormal" />
         </Button>
         <Button parentKey="ConditionArg" inherits="UIMenuButtonStretchTemplate">
             <Size x="132" y="33" />
             <Anchors> <Anchor point="LEFT" relativeKey="$parent.Condition" relativePoint="RIGHT" x="8" /> </Anchors>
-            <Frames> <Frame parentKey="DropDown" text="TYPE" inherits="UIDropDownMenuTemplate" /> </Frames>
             <NormalFont style="GameFontHighlight" />
             <HighlightFont style="GameFontHighlight" />
         </Button>
         <Button parentKey="Action" inherits="UIMenuButtonStretchTemplate">
             <Size x="93" y="33" />
             <Anchors> <Anchor point="LEFT" relativeKey="$parent.ConditionArg" relativePoint="RIGHT" x="8" /> </Anchors>
-            <Frames> <Frame parentKey="DropDown" text="TYPE" inherits="UIDropDownMenuTemplate" /> </Frames>
             <NormalFont style="GameFontNormal" />
             <HighlightFont style="GameFontNormal" />
         </Button>
         <Button parentKey="ActionArg" inherits="UIMenuButtonStretchTemplate">
             <Size x="132" y="33" />
             <Anchors> <Anchor point="LEFT" relativeKey="$parent.Action" relativePoint="RIGHT" x="8" /> </Anchors>
-            <Frames> <Frame parentKey="DropDown" text="TYPE" inherits="UIDropDownMenuTemplate" /> </Frames>
             <NormalFont style="GameFontHighlight" />
             <HighlightFont style="GameFontHighlight" />
         </Button>
@@ -92,6 +88,8 @@
             </Anchors>
         </Frame>
 
+        <!-- all of the buttons share this one dropdown -->
+        <Frame parentKey="RuleDropDown" inherits="UIDropDownMenuTemplate" />
     </Frames>
 
     <Scripts>

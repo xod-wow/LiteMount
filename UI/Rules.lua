@@ -16,6 +16,40 @@ local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)
 end
 
+local function ExpandRule(rule)
+    local condition, conditionArg = string.split(':', rule.conditions[1], 2)
+    local action = rule.action
+    local actionArg = table.concat(rule.args, ' ')
+
+    if condition == "map" then
+        local info = C_Map.GetMapInfo(tonumber(conditionArg))
+        conditionArg = string.format('%s (%s)', info.name, conditionArg)
+    elseif condition == "instance" then
+        local n = LM.Options:GetInstanceNameByID(tonumber(conditionArg))
+        if n then conditionArg = string.format('%s (%s)', n, conditionArg) end
+    elseif condition == "extra" and conditionArg then
+        local n = GetSpellInfo(tonumber(conditionArg))
+        if n then conditionArg = n end
+    elseif condition == "mod" then
+        if conditionArg == "alt" then
+            conditionArg = ALT_KEY
+        elseif conditionArg == "ctrl" then
+            conditionArg = CTRL_KEY
+        elseif conditionArg == "shift" then
+            conditionArg = SHIFT_KEY
+        end
+    end
+
+    if tContains({ 'Mount', 'SmartMount', 'Limit'}, action) then
+        if actionArg and actionArg:match('id:%d+') then
+            local _, id = string.split(':', actionArg)
+            actionArg = C_MountJournal.GetMountInfoByID(tonumber(id))
+        end
+    end
+
+    return condition, conditionArg, action, actionArg
+end
+
 --[[--------------------------------------------------------------------------]]--
 
 LiteMountRuleButtonMixin = {}
@@ -58,11 +92,11 @@ function LiteMountRulesScrollMixin:Update()
         if index <= #rules then
             local rule = rules[index]
             button.NumText:SetText(index)
-            local a, b = strsplit(':', rule.conditions[1], 2)
-            button.Condition:SetText(a)
-            button.ConditionArg:SetText(b)
-            button.Action:SetText(rule.action)
-            button.ActionArg:SetText(table.concat(rule.args, ' '))
+            local c, ca, a, aa = ExpandRule(rule)
+            button.Condition:SetText(c)
+            button.ConditionArg:SetText(ca)
+            button.Action:SetText(a)
+            button.ActionArg:SetText(aa)
             button:Show()
         else
             button:Hide()
