@@ -24,31 +24,39 @@ function LiteMountRuleButtonMixin:OnShow()
     self:SetWidth(self:GetParent():GetWidth())
 end
 
+function LiteMountRuleButtonMixin:OnLoad()
+    UIDropDownMenu_Initialize(self.ConditionType, self.Initialize)
+    UIDropDownMenu_Initialize(self.ConditionValue, self.Initialize, "MENU")
+    UIDropDownMenu_Initialize(self.Action, self.Initialize, "MENU")
+    UIDropDownMenu_Initialize(self.ActionArgs, self.Initialize, "MENU")
+end
+
+function LiteMountRuleButtonMixin:Initialize()
+end
+
 --[[--------------------------------------------------------------------------]]--
 
 LiteMountRulesScrollMixin = {}
 
-LoadAddOn('Blizzard_DebugTools')
+-- LoadAddOn('Blizzard_DebugTools')
 
 function LiteMountRulesScrollMixin:Update()
     if not self.buttons then return end
 
     local offset = HybridScrollFrame_GetOffset(self)
 
-    local text = LM.Options:GetButtonAction(self.tab)
+    local rules = LM.Options:GetRules(self.tab)
 
-    local actions = LM.ActionList:Compile(text)
-
-    local totalHeight = #actions * self.buttons[1]:GetHeight()
+    local totalHeight = #rules * self.buttons[1]:GetHeight()
     local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
 
     for i = 1, #self.buttons do
         local button = self.buttons[i]
         local index = offset + i
-        if index <= #actions then
-            local action = actions[index]
+        if index <= #rules then
+            local rule = rules[index]
             button.NumText:SetText(index)
-            button.ActionText:SetText(action.line)
+            -- XXX
             button:Show()
         else
             button:Hide()

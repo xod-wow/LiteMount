@@ -12,9 +12,10 @@
         <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
         <KeyValue key="backdropBorderColorAlpha" value="0.3" type="number" />
     </KeyValues>
-    <Size y="33" />
+    <Size y="66" />
     <Scripts>
-        <OnShow method="OnShow" />
+        <OnShow method="OnShow" inherit="prepend" />
+        <OnShow method="OnLoad" inherit="prepend" />
     </Scripts>
 
     <Layers>
@@ -25,21 +26,41 @@
                     <Anchor point="LEFT" x="16" />
                 </Anchors>
             </FontString>
-            <FontString parentKey="RuleText" inherits="GameFontHighlight" justifyH="LEFT">
-                <Anchors>
-                    <Anchor point="LEFT" relativeKey="$parent.NumText" relativePoint="RIGHT" x="4" />
-                    <Anchor point="RIGHT" x="-16" />
-                </Anchors>
-            </FontString>
         </Layer>
     </Layers>
+    <Frames>
+        <Frame parentKey="ConditionType" text="TYPE" inherits="UIDropDownMenuTemplate">
+            <Size x="93" y="22" />
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.NumText" relativePoint="RIGHT" x="8" />
+            </Anchors>
+        </Frame>
+        <Frame parentKey="ConditionValue" inherits="UIDropDownMenuTemplate">
+            <Size x="93" y="22" />
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.ConditionType" relativePoint="RIGHT" x="8" />
+            </Anchors>
+        </Frame>
+        <Frame parentKey="Action" inherits="UIDropDownMenuTemplate">
+            <Size x="93" y="22" />
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.ConditionValue" relativePoint="RIGHT" x="8" />
+            </Anchors>
+        </Frame>
+        <Frame parentKey="ActionArgs" inherits="UIDropDownMenuTemplate">
+            <Size x="93" y="22" />
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.Action" relativePoint="RIGHT" x="8" />
+            </Anchors>
+        </Frame>
+    </Frames>
 </Button>
 
 <Frame name="LiteMountRulesPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountRulesPanelMixin">
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_ACTIONS_EXP">
+            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_RULES_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-48" />
                     <Anchor point="LEFT" x="48" />
