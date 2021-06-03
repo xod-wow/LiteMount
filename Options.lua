@@ -63,6 +63,43 @@ Macro
 ]]
 
 local DefaultRules = {
+--@debug@
+    {
+        ["conditions"] = { "location:Stormwind City", },
+        ["action"] = "Mount",
+        ["args"] = { "Mimiron's Head" },
+    },
+    {
+        conditions = { "map:203", "submerged", op="AND" },
+        action = "Mount",
+        args = { "mt:232" }
+    },
+    {
+        conditions = { "map:1355", "flyable", "qfc:56766", op="AND" },
+        action = "Mount",
+        args = { "mt:254" }
+    },
+    {
+        conditions = { "instance:531" },
+        action = "Mount",
+        args = { "mt:241" }
+    },
+    {
+        conditions = { "extra:202477", "nosubmerged", op="AND" },
+        action = "Mount",
+        args = { "id:881" }
+    },
+    {
+        conditions = { "mod:shift", "flyable", op="AND" },
+        action = "Limit",
+        args = { "RUN/WALK", "~FLY" }
+    },
+    {
+        condition = { "mod:shift", "waterwalking", op="AND" },
+        action = "Limit",
+        args = { "RUN/WALK", "~FLY" }
+    }
+--@end-debug@
 }
 
 -- A lot of things need to be cleaned up when flags are deleted/renamed
