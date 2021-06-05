@@ -77,6 +77,7 @@ function LiteMountGroupsPanelGroupsMixin:Update()
             local flagText = allFlags[index]
             button.Text:SetFormattedText(flagText)
             button.Text:Show()
+            button.DeleteButton:Show()
             button:Show()
             button.flag = allFlags[index]
         elseif index == #allFlags + 1 then
@@ -87,9 +88,7 @@ function LiteMountGroupsPanelGroupsMixin:Update()
             self.AddFlagButton:SetParent(button)
             self.AddFlagButton:ClearAllPoints()
             self.AddFlagButton:SetPoint("CENTER")
-            button.DeleteButton:Hide()
             showAddButton = true
-            button.flag = false
         else
             button:Hide()
             button.flag = nil
