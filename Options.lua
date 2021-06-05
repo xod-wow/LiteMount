@@ -72,7 +72,8 @@ local DefaultRules = {
     {
         conditions = { "location:Oribos" },
         action = "Mount",
-        args = { "id:1039" },
+        -- args = { "id:1039" },
+        args = { "family:Brutosaur" },
     },
     {
         conditions = { "map:203", "submerged", op="AND" },

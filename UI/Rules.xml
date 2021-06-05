@@ -50,8 +50,8 @@
         <Button parentKey="Condition" inherits="UIMenuButtonStretchTemplate">
             <Size x="240" y="58" />
             <Anchors> <Anchor point="LEFT" relativeKey="$parent.NumText" relativePoint="RIGHT" x="8" /> </Anchors>
-            <NormalFont style="GameFontHighlightSmall" />
-            <HighlightFont style="GameFontHighlightSmall" />
+            <NormalFont style="GameFontHighlight" />
+            <HighlightFont style="GameFontHighlight" />
         </Button>
         <Button parentKey="Action" inherits="UIMenuButtonStretchTemplate">
             <Size x="240" y="58" />

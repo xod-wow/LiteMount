@@ -65,22 +65,27 @@ local function ExpandMountFilter(actionArg)
     if actionArg:match('id:%d+') then
         local _, id = string.split(':', actionArg)
         actionArg = C_MountJournal.GetMountInfoByID(tonumber(id))
+    elseif actionArg:match('family:') then
+        local _, family = string.split(':', actionArg)
+        return L.LM_FAMILY .. ': ' .. L[family]
     elseif actionArg:match('mt:230') then
-        return "Ground Type"
+        return "Type: Ground"
     elseif actionArg:match('mt:231') then
-        return "Turtle Type"
+        return "Type: Turtle"
     elseif actionArg:match('mt:232') then
-        return "Vashj'ir Type"
+        return "Type: Vashj'ir"
     elseif actionArg:match('mt:241') then
-        return "Ahn'qiraj Type"
+        return "Type: Ahn'qiraj"
     elseif actionArg:match('mt:248') then
-        return "Flying Type"
+        return "Type: Flying"
     elseif actionArg:match('mt:254') then
-        return "Swimming Type"
+        return "Type: Swimming"
     elseif actionArg:match('mt:284') then
-        return "Chauffeur Type"
+        return "Type: Chauffeur"
     elseif actionArg:match('mt:398') then
-        return "Kua'fon Type"
+        return "Type: Kua'fon"
+    elseif LM.Options:IsActiveFlag(actionArg) then
+        return GROUP .. ': ' .. actionArg
     end
     return actionArg
 end
@@ -94,11 +99,11 @@ local function ExpandAction(rule)
         end
     elseif action == "Limit" then
         if actionArg:sub(1,1) == '-' then
-            return "Exclude " .. ExpandMountFilter(actionArg:sub(2))
+            return "Exclude: " .. ExpandMountFilter(actionArg:sub(2))
         elseif actionArg:sub(1,1) == '+' then
-            return "Include" .. ExpandMountFilter(actionArg:sub(2))
+            return "Include: " .. ExpandMountFilter(actionArg:sub(2))
         else
-            return "Restrict to " .. ExpandMountFilter(actionArg)
+            return "LimiT: " .. ExpandMountFilter(actionArg)
         end
     end
     return action .. ' ' .. actionArg
@@ -126,6 +131,18 @@ function LiteMountRuleButtonMixin:OnShow()
 end
 
 function LiteMountRuleButtonMixin:OnLoad()
+    self.Condition.Text:SetSpacing(3)
+    self.Condition.Text:SetJustifyH('LEFT')
+    self.Condition.Text:ClearAllPoints()
+    self.Condition.Text:SetPoint('LEFT', self.Condition, 'LEFT', 16, 0)
+    self.Condition.Text:SetPoint('RIGHT', self.Condition, 'RIGHT', 0, 0)
+
+    self.Action.Text:SetSpacing(3)
+    self.Action.Text:SetJustifyH('LEFT')
+    self.Action.Text:ClearAllPoints()
+    self.Action.Text:SetPoint('LEFT', self.Action, 'LEFT', 16, 0)
+    self.Action.Text:SetPoint('RIGHT', self.Action, 'RIGHT', 0, 0)
+
     self.MoveUp:SetScript('OnClick', function (self) MoveRule(self:GetParent().index, -1) end)
     self.MoveDown:SetScript('OnClick', function (self) MoveRule(self:GetParent().index, 1) end)
 end
