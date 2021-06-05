@@ -682,6 +682,14 @@ function LM.Options:RecordInstance(info)
     self.db.global.instances[info[8]] = info[1]
 end
 
+function LM.Options:GetInstanceNameByID(id)
+    -- AQ is hard-coded in the default rules
+    if id == 531 and not self.db.global.instances[531] then
+        return C_Map.GetMapInfo(319).name
+    end
+    return self.db.global.instances[id]
+end
+
 
 --[[----------------------------------------------------------------------------
     Debug settings
