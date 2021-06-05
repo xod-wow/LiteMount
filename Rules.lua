@@ -10,6 +10,8 @@
 
 local _, LM = ...
 
+local L = LM.Localize
+
 LM.Rules = { }
 
 local function replaceConstant(k) return LM.Vars:GetConst(k) end
@@ -128,4 +130,99 @@ function LM.Rules:Compile(text)
     end
 
     return out
+end
+
+local function ExpandOneCondition(ruleCondition)
+    local condition, conditionArg = string.split(':', ruleCondition, 2)
+
+    if condition == "map" then
+        local info = C_Map.GetMapInfo(tonumber(conditionArg))
+        return string.format("%s: %s (%s)", WORLD_MAP, info.name, conditionArg)
+    elseif condition == "instance" then
+        local n = LM.Options:GetInstanceNameByID(tonumber(conditionArg))
+        if n then
+            return string.format("%s: %s (%s)", INSTANCE, n, conditionArg)
+        end
+    elseif condition == "location" then
+        return string.format("%s %s", LOCATION_COLON, conditionArg)
+    elseif condition == "submerged" then
+        return TUTORIAL_TITLE28
+    elseif condition == "mod" then
+        if conditionArg == "alt" then
+            return ALT_KEY
+        elseif conditionArg == "ctrl" then
+            return CTRL_KEY
+        elseif conditionArg == "shift" then
+            return SHIFT_KEY
+        end
+    elseif condition == "flyable" then
+        return "Flying mounts are usable"
+    end
+
+    return ORANGE_FONT_COLOR_CODE .. ruleCondition .. FONT_COLOR_CODE_CLOSE
+end
+
+local function ExpandConditions(rule)
+    local conditions = {}
+    for _, ruleCondition in ipairs(rule.conditions) do
+        if type(ruleCondition) == 'table' then
+            table.insert(conditions, RED_FONT_COLOR_CODE .. 'NOT ' .. ExpandOneCondition(ruleCondition[1]) .. FONT_COLOR_CODE_CLOSE)
+        else
+            table.insert(conditions, ExpandOneCondition(ruleCondition))
+        end
+    end
+    return table.concat(conditions, "\n")
+end
+
+local function ExpandMountFilter(actionArg)
+    if not actionArg then return end
+    if actionArg:match('id:%d+') then
+        local _, id = string.split(':', actionArg)
+        actionArg = C_MountJournal.GetMountInfoByID(tonumber(id))
+    elseif actionArg:match('family:') then
+        local _, family = string.split(':', actionArg)
+        return L.LM_FAMILY .. ': ' .. L[family]
+    elseif actionArg:match('mt:230') then
+        return "Type: Ground"
+    elseif actionArg:match('mt:231') then
+        return "Type: Turtle"
+    elseif actionArg:match('mt:232') then
+        return "Type: Vashj'ir"
+    elseif actionArg:match('mt:241') then
+        return "Type: Ahn'qiraj"
+    elseif actionArg:match('mt:248') then
+        return "Type: Flying"
+    elseif actionArg:match('mt:254') then
+        return "Type: Swimming"
+    elseif actionArg:match('mt:284') then
+        return "Type: Chauffeur"
+    elseif actionArg:match('mt:398') then
+        return "Type: Kua'fon"
+    elseif LM.Options:IsActiveFlag(actionArg) then
+        return GROUP .. ': ' .. actionArg
+    end
+    return actionArg
+end
+
+local function ExpandAction(rule)
+    local action = rule.action
+    local actionArg = table.concat(rule.args, ' ')
+    if tContains({ 'Mount', 'SmartMount' }, action) then
+        if actionArg then
+            return ExpandMountFilter(actionArg)
+        end
+    elseif action == "Limit" then
+        if actionArg:sub(1,1) == '-' then
+            return "Exclude: " .. ExpandMountFilter(actionArg:sub(2))
+        elseif actionArg:sub(1,1) == '+' then
+            return "Include: " .. ExpandMountFilter(actionArg:sub(2))
+        else
+            return "LimiT: " .. ExpandMountFilter(actionArg)
+        end
+    end
+    return action .. ' ' .. actionArg
+end
+
+function LM.Rules:UserRuleText(rule)
+    return ExpandConditions(rule), ExpandAction(rule)
 end
