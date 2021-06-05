@@ -65,39 +65,44 @@ Macro
 local DefaultRules = {
 --@debug@
     {
-        conditions = { { "location:Stormwind City" }, op="AND" },
+        conditions = { "location:Stormwind City" },
         action = "Mount",
         args = { "Mimiron's Head" },
     },
     {
-        conditions = { { "map:203" }, { "submerged" }, op="AND" },
+        conditions = { "location:Oribos" },
+        action = "Mount",
+        args = { "id:1039" },
+    },
+    {
+        conditions = { "map:203", "submerged", op="AND" },
         action = "Mount",
         args = { "mt:232" }
     },
     {
-        conditions = { { "map:1355" }, { "flyable" }, { "qfc:56766" }, op="AND" },
+        conditions = { "map:1355", "flyable", "qfc:56766", op="AND" },
         action = "Mount",
         args = { "mt:254" }
     },
     {
-        conditions = { { "instance:531" }, op="AND" },
+        conditions = { "instance:531", op="AND" },
         action = "Mount",
         args = { "mt:241" }
     },
     {
-        conditions = { { "extra:202477" }, { "nosubmerged" }, op="AND" },
+        conditions = { "extra:202477", { "submerged", op="NOT" }, op="AND" },
         action = "Mount",
         args = { "id:881" }
     },
     {
-        conditions = { { "mod:shift" }, { "flyable" }, op="AND" },
+        conditions = { "mod:shift", "flyable", op="AND" },
         action = "Limit",
         args = { "-mt:248" }
     },
     {
-        conditions = { { "mod:shift" }, { "waterwalking" }, op="AND" },
+        conditions = { "mod:shift", "submerged", "waterwalking", op="AND" },
         action = "Limit",
-        args = { "-mt:248" }
+        args = { "-mt:254" }
     }
 --@end-debug@
 }
@@ -539,6 +544,7 @@ end
 
 function LM.Options:SetRules(n, rules)
     self.db.profile.rules[n] = rules
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 --[[----------------------------------------------------------------------------
