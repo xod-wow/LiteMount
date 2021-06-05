@@ -93,9 +93,6 @@
                 <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.Scroll" x="-8" />
             </Anchors>
         </Frame>
-
-        <!-- all of the buttons share this one dropdown -->
-        <Frame parentKey="RuleDropDown" inherits="UIDropDownMenuTemplate" />
     </Frames>
 
     <Scripts>
