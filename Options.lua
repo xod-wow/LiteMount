@@ -65,37 +65,37 @@ Macro
 local DefaultRules = {
 --@debug@
     {
-        conditions = { "location:Stormwind City", op="AND" },
+        conditions = { { "location:Stormwind City" }, op="AND" },
         action = "Mount",
         args = { "Mimiron's Head" },
     },
     {
-        conditions = { "map:203", "submerged", op="AND" },
+        conditions = { { "map:203" }, { "submerged" }, op="AND" },
         action = "Mount",
         args = { "mt:232" }
     },
     {
-        conditions = { "map:1355", "flyable", "qfc:56766", op="AND" },
+        conditions = { { "map:1355" }, { "flyable" }, { "qfc:56766" }, op="AND" },
         action = "Mount",
         args = { "mt:254" }
     },
     {
-        conditions = { "instance:531", op="AND" },
+        conditions = { { "instance:531" }, op="AND" },
         action = "Mount",
         args = { "mt:241" }
     },
     {
-        conditions = { "extra:202477", "nosubmerged", op="AND" },
+        conditions = { { "extra:202477" }, { "nosubmerged" }, op="AND" },
         action = "Mount",
         args = { "id:881" }
     },
     {
-        conditions = { "mod:shift", "flyable", op="AND" },
+        conditions = { { "mod:shift" }, { "flyable" }, op="AND" },
         action = "Limit",
         args = { "-mt:248" }
     },
     {
-        conditions = { "mod:shift", "waterwalking", op="AND" },
+        conditions = { { "mod:shift" }, { "waterwalking" }, op="AND" },
         action = "Limit",
         args = { "-mt:248" }
     }

@@ -2,7 +2,7 @@
 
   LiteMount/ActionButton.lua
 
-  A SecureActionButton to call mount actions based on an action list.
+  A SecureActionButton to call mount rules based on an action list.
 
   Fancy SecureActionButton stuff. The default button mechanism is
   type="macro" macrotext="...". If we're not in combat we
@@ -54,7 +54,7 @@ end
 
 function LM.ActionButton:CompileActions()
     local actionList = LM.Options:GetButtonAction(self.id)
-    self.actions = LM.ActionList:Compile(actionList)
+    self.rules = LM.Rules:Compile(actionList)
 end
 
 function LM.ActionButton:PreClick(mouseButton)
@@ -79,8 +79,8 @@ function LM.ActionButton:PreClick(mouseButton)
     subEnv.filters = { { } }
     subEnv.flowControl = { }
 
-    for _,a in ipairs(self.actions) do
-        local act = self:Dispatch(a, subEnv)
+    for _,rule in ipairs(self.rules) do
+        local act = self:Dispatch(rule, subEnv)
         if act then
             act:SetupActionButton(self)
             return
@@ -120,7 +120,7 @@ function LM.ActionButton:Create(n)
     -- So we can look up action lists in LM.Options
     b.id = n
 
-    -- Global actions environment
+    -- Global environment
     b.globalEnv = { id = n }
 
     -- Button-fu

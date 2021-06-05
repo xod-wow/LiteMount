@@ -17,7 +17,7 @@ local function BindingText(n)
 end
 
 local function ExpandRule(rule)
-    local condition, conditionArg = string.split(':', rule.conditions[1], 2)
+    local condition, conditionArg = string.split(':', rule.conditions[1][1], 2)
     local action = rule.action
     local actionArg = table.concat(rule.args, ' ')
 

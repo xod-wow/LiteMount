@@ -677,20 +677,18 @@ end
 
 LM.Conditions = { }
 
-function LM.Conditions:IsTrue(condition, env)
-    local str = condition[1]
-
-    if condition.vars then
-        str = LM.Vars:StrSubVars(str)
+function LM.Conditions:IsTrue(condition, env, vars)
+    if vars then
+        condition = LM.Vars:StrSubVars(condition)
     end
 
-    local newunit = str:match('^@(.+)')
+    local newunit = condition:match('^@(.+)')
     if newunit then
         env.unit = newunit
         return true
     end
 
-    local cond, valuestr = strsplit(':', str)
+    local cond, valuestr = strsplit(':', condition)
 
     -- Empty condition [] is true
     if cond == "" then return true end
@@ -720,25 +718,24 @@ function LM.Conditions:IsTrue(condition, env)
     return false
 end
 
-function LM.Conditions:EvalNot(conditions, env)
-    local v = self:Eval(conditions[1], env)
-    if v then return v end
-    return false
+function LM.Conditions:EvalNot(conditions, env, vars)
+    local v = self:Eval(conditions[1], env, vars)
+    return not v
 end
 
 -- the ANDed sections carry the unit between them
-function LM.Conditions:EvalAnd(conditions, env)
+function LM.Conditions:EvalAnd(conditions, env, vars)
     for _,e in ipairs(conditions) do
-        local v = self:Eval(e, env)
+        local v = self:Eval(e, env, vars)
         if not v then return false end
     end
     return true
 end
 
 -- Note: deliberately resets the unit on false
-function LM.Conditions:EvalOr(conditions, env)
+function LM.Conditions:EvalOr(conditions, env, vars)
     for _,e in ipairs(conditions) do
-        local v = self:Eval(e, env)
+        local v = self:Eval(e, env, vars)
         if v then return v end
         env.unit = nil
     end
@@ -746,17 +743,19 @@ function LM.Conditions:EvalOr(conditions, env)
 end
 
 -- outer grouping is ORed together
-function LM.Conditions:Eval(conditions, env)
-    if not conditions or conditions[1] == nil then return true end
+function LM.Conditions:Eval(conditions, env, vars)
+    if not conditions then return true end
 
-    if conditions.op == "OR" then
-        return self:EvalOr(conditions, env)
-    elseif conditions.op == "AND" then
-        return self:EvalAnd(conditions, env)
-    elseif conditions.op == "NOT" then
-        return self:EvalNot(conditions, env)
+    if type(conditions) == 'table' then
+        if conditions.op == "NOT" then
+            return self:EvalNot(conditions, env, vars)
+        elseif conditions.op == "AND" then
+            return self:EvalAnd(conditions, env, vars)
+        else
+            return self:EvalOr(conditions, env, vars)
+        end
     else
-        return self:IsTrue(conditions, env)
+        return self:IsTrue(conditions, env, vars)
     end
 end
 

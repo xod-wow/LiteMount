@@ -78,24 +78,24 @@ summoning - it's not a visible button, just a Frame that is clicked by the
 keybindings. The magic is all done in a PreClick handler, which (out of
 combat) can modify what the button will do immediately before it does it.
 
-Each ActionButton has an LM.ActionList assigned to it with the list of
-actions that are attempted when it is clicked.
+Each ActionButton has an array of rules assigned to it with the list of
+rules that are attempted when it is clicked.
 
 ```
   LM.ActionButton
     Create(n)               - Buttons are named LM_B{n} and use LM.Options.db.buttonActions[n]
 ```
 
-### ActionList.lua
+### Rules.lua
 
-LM.ActionList is a parser for the action lists. It doesn't really understand
+LM.Rules is a parser for the action lists rule lines. It doesn't really understand
 anything, it just assumes various things in various positions on the lines
 are actions, various things are tests and various things are arguments.
 
 The only method is
 
 ```
-  LM.ActionList:Compile(text)
+  LM.Rules:Compile(text)
 ```
 
 which returns a list of (action, args, conditions) tuples in a format that

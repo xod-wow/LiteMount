@@ -5,7 +5,7 @@
     <Include file="ProfileImportExport.xml" />
     <Include file="MountsFilter.xml" />
 <!--@debug@-->
-    <Include file="MountSelector.xml" />
+    <Include file="Picker.xml" />
 <!--@end-debug@-->
 
     <!-- Main parent settings panel -->

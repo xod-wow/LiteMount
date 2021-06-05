@@ -1,8 +1,8 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/ActionList.lua
+  LiteMount/Rules.lua
 
-  A list of actions.
+  An action rule.
 
   Copyright 2011-2021 Mike Battersby
 
@@ -10,7 +10,7 @@
 
 local _, LM = ...
 
-LM.ActionList = { }
+LM.Rules = { }
 
 local function replaceConstant(k) return LM.Vars:GetConst(k) end
 
@@ -46,7 +46,7 @@ local function ReadWord(line)
     if token then return token, rest end
 end
 
-function LM.ActionList:ParseActionLine(line)
+function LM.Rules:ParseActionLine(line)
     local argWords, condWords = { }, { }
 
     -- Note this is intentionally unanchored to skip leading whitespace
@@ -66,10 +66,11 @@ function LM.ActionList:ParseActionLine(line)
         end
     end
 
-    local conditions
+    local conditions = { op="OR" }
+    local vars
 
     for _, word in ipairs(condWords) do
-        local clause, vars = {}, false
+        local clause = { op="AND" }
         for c in word:gmatch('[^,]+') do
             c = c:gsub('{.-}', function (k)
                     local v = LM.Vars:GetConst(k)
@@ -80,17 +81,20 @@ function LM.ActionList:ParseActionLine(line)
                     end
                  end)
             if c:sub(1,2) == 'no' then
-                tinsert(clause, { op = 'NOT', [1] = { c:sub(3), vars=vars } })
+                tinsert(clause, { c:sub(3), op = 'NOT' })
             else
-                tinsert(clause, { c, vars=vars })
+                tinsert(clause, c)
             end
         end
-        if #clause > 0 then
-            clause.op = 'AND'
-            conditions = conditions or { op = 'OR' }
+        -- Simplify, no need for op="AND" if just one term
+        if #clause < 2 then clause = clause[1] end
+        if clause then
             tinsert(conditions, clause)
         end
     end
+
+    -- Simplify if no need for op="OR"
+    if #conditions < 2 then conditions = conditions[1] end
 
     local args = { }
 
@@ -109,11 +113,12 @@ function LM.ActionList:ParseActionLine(line)
         action = action,
         line = line,
         args = args,
-        conditions = conditions
+        conditions = conditions,
+        vars = vars
     }
 end
 
-function LM.ActionList:Compile(text)
+function LM.Rules:Compile(text)
     local out = { }
     for line in text:gmatch('([^\r\n]+)') do
         line = line:gsub('%s*#.*', '')
