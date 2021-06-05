@@ -539,7 +539,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRules(n)
-    return self.db.profile.rules[n]
+    return CopyTable(self.db.profile.rules[n])
 end
 
 function LM.Options:SetRules(n, rules)
