@@ -271,6 +271,7 @@ local InstanceFlyableOverride = {
     [2293] = false,         -- Theater of Pain
     [2296] = false,         -- Castle Nathria
     [2363] = false,         -- Queen's Winter Conservatory
+    [2364] = false,         -- The Maw (Starting Experience)
 }
 
 function LM.Environment:ForceFlyable(instanceID)
@@ -298,9 +299,11 @@ function LM.Environment:CanFly()
         if not IsSpellKnown(278833) then return false end
     end
 
-    -- Presumably Shadowlands Pathfinder at some point
+    -- Memories of Sunless Skies / Shadowlands Flying
     if self:InInstance(2222) then
-        return false
+        if not C_QuestLog.IsQuestFlaggedCompleted(63893) then
+            return false
+        end
     end
 
     -- Can't fly in Warfronts

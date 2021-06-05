@@ -65,7 +65,7 @@ Macro
 local DefaultRules = {
 --@debug@
     {
-        conditions = { "location:Stormwind City", },
+        conditions = { "location:Stormwind City", op="AND" },
         action = "Mount",
         args = { "Mimiron's Head" },
     },
@@ -80,7 +80,7 @@ local DefaultRules = {
         args = { "mt:254" }
     },
     {
-        conditions = { "instance:531" },
+        conditions = { "instance:531", op="AND" },
         action = "Mount",
         args = { "mt:241" }
     },
@@ -92,12 +92,12 @@ local DefaultRules = {
     {
         conditions = { "mod:shift", "flyable", op="AND" },
         action = "Limit",
-        args = { "RUN/WALK", "~FLY" }
+        args = { "-mt:248" }
     },
     {
         conditions = { "mod:shift", "waterwalking", op="AND" },
         action = "Limit",
-        args = { "RUN/WALK", "~FLY" }
+        args = { "-mt:248" }
     }
 --@end-debug@
 }
@@ -683,11 +683,15 @@ function LM.Options:RecordInstance(info)
 end
 
 function LM.Options:GetInstanceNameByID(id)
-    -- AQ is hard-coded in the default rules
-    if id == 531 and not self.db.global.instances[531] then
+    if self.db.global.instances[id] then
+        return self.db.global.instances[id]
+    end
+
+    -- AQ is hard-coded in the default rules. This is not really the right
+    -- name but it's close enough.
+    if id == 531 then
         return C_Map.GetMapInfo(319).name
     end
-    return self.db.global.instances[id]
 end
 
 
