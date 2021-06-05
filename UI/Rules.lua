@@ -112,17 +112,22 @@ end
 
 LiteMountRuleButtonMixin = {}
 
+local function MoveRule(i, n)
+    local scroll = LiteMountRulesPanel.Scroll
+    local rules = LM.Options:GetRules(scroll.tab)
+    if i+n < 1 or i+n > #rules then return end
+    local elt = table.remove(rules, i)
+    table.insert(rules, i+n, elt)
+    LM.Options:SetRules(scroll.tab, rules)
+end
+
 function LiteMountRuleButtonMixin:OnShow()
     self:SetWidth(self:GetParent():GetWidth())
 end
 
 function LiteMountRuleButtonMixin:OnLoad()
---[[
-    UIDropDownMenu_Initialize(self.Condition.DropDown, self.Initialize, "MENU")
-    UIDropDownMenu_Initialize(self.ConditionArg.DropDown, self.Initialize, "MENU")
-    UIDropDownMenu_Initialize(self.Action.DropDown, self.Initialize, "MENU")
-    UIDropDownMenu_Initialize(self.ActionArg.DropDown, self.Initialize, "MENU")
-]]
+    self.MoveUp:SetScript('OnClick', function (self) MoveRule(self:GetParent().index, -1) end)
+    self.MoveDown:SetScript('OnClick', function (self) MoveRule(self:GetParent().index, 1) end)
 end
 
 function LiteMountRuleButtonMixin:Initialize(level, menuList)
@@ -148,6 +153,7 @@ function LiteMountRulesScrollMixin:Update()
         local button = self.buttons[i]
         local index = offset + i
         if index <= #rules then
+            button.index = index
             local rule = rules[index]
             button.NumText:SetText(index)
             local c, a = ExpandRule(rule)
