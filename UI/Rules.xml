@@ -20,7 +20,7 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="NumText" inherits="GameFontNormal" justifyH="LEFT">
+            <FontString parentKey="NumText" inherits="GameFontNormal" justifyH="RIGHT">
                 <Size x="24" />
                 <Anchors>
                     <Anchor point="LEFT" x="16" />
@@ -30,28 +30,16 @@
     </Layers>
     <Frames>
         <Button parentKey="Condition" inherits="UIMenuButtonStretchTemplate">
-            <Size x="93" y="33" />
+            <Size x="240" y="58" />
             <Anchors> <Anchor point="LEFT" relativeKey="$parent.NumText" relativePoint="RIGHT" x="8" /> </Anchors>
-            <NormalFont style="GameFontNormal" />
-            <HighlightFont style="GameFontNormal" />
-        </Button>
-        <Button parentKey="ConditionArg" inherits="UIMenuButtonStretchTemplate">
-            <Size x="132" y="33" />
-            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Condition" relativePoint="RIGHT" x="8" /> </Anchors>
-            <NormalFont style="GameFontHighlight" />
-            <HighlightFont style="GameFontHighlight" />
+            <NormalFont style="GameFontHighlightSmall" />
+            <HighlightFont style="GameFontHighlightSmall" />
         </Button>
         <Button parentKey="Action" inherits="UIMenuButtonStretchTemplate">
-            <Size x="93" y="33" />
-            <Anchors> <Anchor point="LEFT" relativeKey="$parent.ConditionArg" relativePoint="RIGHT" x="8" /> </Anchors>
+            <Size x="240" y="58" />
+            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Condition" relativePoint="RIGHT" x="8" /> </Anchors>
             <NormalFont style="GameFontNormal" />
             <HighlightFont style="GameFontNormal" />
-        </Button>
-        <Button parentKey="ActionArg" inherits="UIMenuButtonStretchTemplate">
-            <Size x="132" y="33" />
-            <Anchors> <Anchor point="LEFT" relativeKey="$parent.Action" relativePoint="RIGHT" x="8" /> </Anchors>
-            <NormalFont style="GameFontHighlight" />
-            <HighlightFont style="GameFontHighlight" />
         </Button>
     </Frames>
 </Button>

@@ -16,38 +16,96 @@ local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)
 end
 
-local function ExpandRule(rule)
-    local condition, conditionArg = string.split(':', rule.conditions[1][1], 2)
-    local action = rule.action
-    local actionArg = table.concat(rule.args, ' ')
+-- user rules have a simpler condition format: 1 level and op="AND"
+
+local function ExpandOneCondition(ruleCondition)
+    local condition, conditionArg = string.split(':', ruleCondition, 2)
 
     if condition == "map" then
         local info = C_Map.GetMapInfo(tonumber(conditionArg))
-        conditionArg = string.format('%s (%s)', info.name, conditionArg)
+        return string.format("%s: %s (%s)", WORLD_MAP, info.name, conditionArg)
     elseif condition == "instance" then
         local n = LM.Options:GetInstanceNameByID(tonumber(conditionArg))
-        if n then conditionArg = string.format('%s (%s)', n, conditionArg) end
-    elseif condition == "extra" and conditionArg then
-        local n = GetSpellInfo(tonumber(conditionArg))
-        if n then conditionArg = n end
+        if n then
+            return string.format("%s: %s (%s)", INSTANCE, n, conditionArg)
+        end
+    elseif condition == "location" then
+        return string.format("%s %s", LOCATION_COLON, conditionArg)
+    elseif condition == "submerged" then
+        return TUTORIAL_TITLE28
     elseif condition == "mod" then
         if conditionArg == "alt" then
-            conditionArg = ALT_KEY
+            return ALT_KEY
         elseif conditionArg == "ctrl" then
-            conditionArg = CTRL_KEY
+            return CTRL_KEY
         elseif conditionArg == "shift" then
-            conditionArg = SHIFT_KEY
+            return SHIFT_KEY
         end
+    elseif condition == "flyable" then
+        return "Flying mounts are usable"
     end
 
-    if tContains({ 'Mount', 'SmartMount', 'Limit'}, action) then
-        if actionArg and actionArg:match('id:%d+') then
-            local _, id = string.split(':', actionArg)
-            actionArg = C_MountJournal.GetMountInfoByID(tonumber(id))
+    return ORANGE_FONT_COLOR_CODE .. '[' .. ruleCondition .. ']' .. FONT_COLOR_CODE_CLOSE
+end
+
+local function ExpandConditions(rule)
+    local conditions = {}
+    for _, ruleCondition in ipairs(rule.conditions) do
+        if type(ruleCondition) == 'table' then
+            table.insert(conditions, RED_FONT_COLOR_CODE .. 'NOT ' .. ExpandOneCondition(ruleCondition[1]) .. FONT_COLOR_CODE_CLOSE)
+        else
+            table.insert(conditions, ExpandOneCondition(ruleCondition))
         end
     end
+    return table.concat(conditions, "\n")
+end
 
-    return condition, conditionArg, action, actionArg
+local function ExpandMountFilter(actionArg)
+    if not actionArg then return end
+    if actionArg:match('id:%d+') then
+        local _, id = string.split(':', actionArg)
+        actionArg = C_MountJournal.GetMountInfoByID(tonumber(id))
+    elseif actionArg:match('mt:230') then
+        return "Ground Type"
+    elseif actionArg:match('mt:231') then
+        return "Turtle Type"
+    elseif actionArg:match('mt:232') then
+        return "Vashj'ir Type"
+    elseif actionArg:match('mt:241') then
+        return "Ahn'qiraj Type"
+    elseif actionArg:match('mt:248') then
+        return "Flying Type"
+    elseif actionArg:match('mt:254') then
+        return "Swimming Type"
+    elseif actionArg:match('mt:284') then
+        return "Chauffeur Type"
+    elseif actionArg:match('mt:398') then
+        return "Kua'fon Type"
+    end
+    return actionArg
+end
+
+local function ExpandAction(rule)
+    local action = rule.action
+    local actionArg = table.concat(rule.args, ' ')
+    if tContains({ 'Mount', 'SmartMount' }, action) then
+        if actionArg then
+            return ExpandMountFilter(actionArg)
+        end
+    elseif action == "Limit" then
+        if actionArg:sub(1,1) == '-' then
+            return "Exclude " .. ExpandMountFilter(actionArg:sub(2))
+        elseif actionArg:sub(1,1) == '+' then
+            return "Include" .. ExpandMountFilter(actionArg:sub(2))
+        else
+            return "Restrict to " .. ExpandMountFilter(actionArg)
+        end
+    end
+    return action .. ' ' .. actionArg
+end
+
+local function ExpandRule(rule)
+    return ExpandConditions(rule), ExpandAction(rule)
 end
 
 --[[--------------------------------------------------------------------------]]--
@@ -92,11 +150,9 @@ function LiteMountRulesScrollMixin:Update()
         if index <= #rules then
             local rule = rules[index]
             button.NumText:SetText(index)
-            local c, ca, a, aa = ExpandRule(rule)
+            local c, a = ExpandRule(rule)
             button.Condition:SetText(c)
-            button.ConditionArg:SetText(ca)
             button.Action:SetText(a)
-            button.ActionArg:SetText(aa)
             button:Show()
         else
             button:Hide()
@@ -111,14 +167,15 @@ function LiteMountRulesScrollMixin:OnShow()
 end
 
 function LiteMountRulesScrollMixin:SetOption(v, i)
+    return LM.Options:SetRules(i, v)
 end
 
 function LiteMountRulesScrollMixin:GetOption(i)
-    return LM.Options:GetButtonAction(i)
+    return LM.Options:GetRules(i)
 end
 
 function LiteMountRulesScrollMixin:GetOptionDefault()
-    return LM.Options:GetButtonAction('*')
+    return LM.Options:GetRules('*')
 end
 
 function LiteMountRulesScrollMixin:OnLoad()
