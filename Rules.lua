@@ -132,19 +132,23 @@ function LM.Rules:Compile(text)
     return out
 end
 
-local function ExpandOneCondition(ruleCondition)
+function LM.Rules:ExpandOneCondition(ruleCondition)
     local condition, conditionArg = string.split(':', ruleCondition, 2)
 
     if condition == "map" then
-        local info = C_Map.GetMapInfo(tonumber(conditionArg))
-        return string.format("%s: %s (%s)", WORLD_MAP, info.name, conditionArg)
+        if conditionArg then
+            local info = C_Map.GetMapInfo(tonumber(conditionArg))
+            return string.format("%s: %s (%s)", WORLD_MAP, info.name, conditionArg)
+        end
     elseif condition == "instance" then
         local n = LM.Options:GetInstanceNameByID(tonumber(conditionArg))
         if n then
             return string.format("%s: %s (%s)", INSTANCE, n, conditionArg)
         end
     elseif condition == "location" then
-        return string.format("%s %s", LOCATION_COLON, conditionArg)
+        if conditionArg then
+            return string.format("%s %s", LOCATION_COLON, conditionArg)
+        end
     elseif condition == "submerged" then
         return TUTORIAL_TITLE28
     elseif condition == "mod" then
@@ -156,7 +160,7 @@ local function ExpandOneCondition(ruleCondition)
             return SHIFT_KEY
         end
     elseif condition == "flyable" then
-        return "Flying mounts are usable"
+        return "Flyable area"
     end
 
     return ORANGE_FONT_COLOR_CODE .. ruleCondition .. FONT_COLOR_CODE_CLOSE
@@ -166,9 +170,9 @@ local function ExpandConditions(rule)
     local conditions = {}
     for _, ruleCondition in ipairs(rule.conditions) do
         if type(ruleCondition) == 'table' then
-            table.insert(conditions, RED_FONT_COLOR_CODE .. 'NOT ' .. ExpandOneCondition(ruleCondition[1]) .. FONT_COLOR_CODE_CLOSE)
+            table.insert(conditions, RED_FONT_COLOR_CODE .. 'NOT ' .. self:ExpandOneCondition(ruleCondition[1]) .. FONT_COLOR_CODE_CLOSE)
         else
-            table.insert(conditions, ExpandOneCondition(ruleCondition))
+            table.insert(conditions, self:ExpandOneCondition(ruleCondition))
         end
     end
     return table.concat(conditions, "\n")

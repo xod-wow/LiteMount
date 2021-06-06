@@ -5,6 +5,7 @@
     <Include file="ProfileImportExport.xml" />
     <Include file="MountsFilter.xml" />
 <!--@debug@-->
+    <Include file="RuleEdit.xml" />
     <Include file="Picker.xml" />
 <!--@end-debug@-->
 

@@ -89,7 +89,7 @@ function LiteMountRulesScrollMixin:Update()
 end
 
 function LiteMountRulesScrollMixin:OnShow()
-    self.EditBox:SetWidth(self:GetWidth() - 18)
+    self:Update()
 end
 
 function LiteMountRulesScrollMixin:SetOption(v, i)

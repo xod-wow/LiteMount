@@ -4,40 +4,64 @@
 
 <Script file="RuleEdit.lua" />
 
+<Frame name="LiteMountRuleEditCondition" mixin="LiteMountRuleEditConditionMixin" inherits="TooltipBackdropTemplate" virtual="true">
+    <Size y="66" />
+    <Scripts>
+        <OnLoad method="OnLoad" />
+    </Scripts>
+
+    <Frames>
+        <Button parentkey="Type" inherits="UIMenuButtonStretchTemplate">
+            <Size y="33" />
+            <Anchors>
+                <Anchor point="LEFT" x="16" />
+                <Anchor point="RIGHT" relativePoint="CENTER" x="-8" />
+            </Anchors>
+        </Button>
+        <Button parentkey="ArgDropDown" inherits="UIMenuButtonStretchTemplate" hidden="true">
+            <Size y="33" />
+            <Anchors>
+                <Anchor point="LEFT" relativePoint="CENTER" x="8" />
+                <Anchor point="RIGHT" x="-16" />
+            </Anchors>
+        </Button>
+        <EditBox parentkey="ArgText" autofocus="false" letters="40" inherits="LargeInputBoxTemplate">
+            <Size y="33" />
+            <Anchors>
+                <Anchor point="LEFT" relativePoint="CENTER" x="8" y="-2" />
+                <Anchor point="RIGHT" x="-16" />
+            </Anchors>
+        </EditBox>
+        <Frame parentKey="DropDown" inherits="UIDropDownMenuTemplate" />
+    </Frames>
+</Frame>
+
 <Frame name="LiteMountRuleEdit" mixin="LiteMountRuleEditMixin" inherits="TooltipBackdropTemplate" frameStrata="DIALOG" parent="UIParent">
 
-    <Size x="600" y="400" />
+    <Size x="623" y="568" />
 
     <!-- XXX DEBUGGING XXX -->
     <Anchors> <Anchor point="TOP" y="-160" /> </Anchors>
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="Condition1Text" inherits="GameFontNormalHuge" text="Condition 1: ">
+            <FontString parentKey="ConditionsHeader" inherits="GameFontNormalMed2" text="Conditions">
                 <Anchors> <Anchor point="TOPLEFT" x="16" y="-32" /> </Anchors>
             </FontString>
-            <FontString parentKey="Condition2Text" inherits="GameFontNormalHuge" text="Condition 2: ">
-                <Anchors> <Anchor point="TOPLEFT" x="16" y="-96" /> </Anchors>
-            </FontString>
-            <FontString parentKey="Condition3Text" inherits="GameFontNormalHuge" text="Condition 3: ">
-                <Anchors> <Anchor point="TOPLEFT" x="16" y="-160" /> </Anchors>
-            </FontString>
-            <FontString parentKey="ActionText" inherits="GameFontNormalHuge" text="Action: ">
+            <FontString parentKey="ActionHeader" inherits="GameFontNormalMed2" text="Action">
                 <Anchors> <Anchor point="TOPLEFT" x="16" y="-288" /> </Anchors>
             </FontString>
         </Layer>
     </Layers>
 
     <Frames>
-        <Button parentkey="Condition1Type" inherits="UIDropDownMenuTemplate">
-            <Size x="96" y="22" />
+        <Frame parentKey="Condition1" inherits="LiteMountRuleEditCondition">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.Condition1Text" relativePoint="BOTTOMLEFT" x="16" y="-6" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.ConditionsHeader" relativePoint="BOTTOMLEFT" y="-12" />
+                <Anchor point="RIGHT" x="-16" />
             </Anchors>
-        </Button>
-        <Frame parentKey="DropDown" inherits="UIDropDownMenuTemplate" />
+        </Frame>
     </Frames>
-
 </Frame>
 
 </Ui>

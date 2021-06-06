@@ -396,3 +396,40 @@ function LM.Environment:GetContinents(str)
     end
     return lines
 end
+
+function LM.Environment:GetMapTree()
+    local allMaps = {}
+
+    for i = 1, self:MaxMapID() do
+        local info = C_Map.GetMapInfo(i)
+        if info and info.name ~= "" and info.mapType <= Enum.UIMapType.Zone then
+            allMaps[i] = info
+        end
+    end
+
+    local tree = {}
+    for i, info in pairs(allMaps) do
+        if bit.band(info.flags, Enum.UIMapFlag.Deprecated) ~= 0 then
+            print('Deprecated ' .. i)
+        end
+        if info.parentMapID == 0 then
+            if i == 946 then
+                tree[i] = info
+            end
+        else
+            local parent = allMaps[info.parentMapID]
+            if parent then
+                parent.children = parent.children or {}
+                table.insert(parent.children, info)
+            end
+        end
+    end
+
+    for i, info in pairs(allMaps) do
+        if info.children then
+            table.sort(info.children, function (a,b) return a.name:lower() < b.name:lower() end)
+        end
+    end
+
+    return tree
+end
