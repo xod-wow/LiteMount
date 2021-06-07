@@ -37,7 +37,7 @@ end
 
 --[[--------------------------------------------------------------------------]]--
 
-function LM.ShowMountTooltip(self, m)
+function LM.ShowMountTooltip(self, m, canMount)
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
     if m.mountID then
         GameTooltip:SetMountBySpellID(m.spellID)
@@ -71,7 +71,7 @@ function LM.ShowMountTooltip(self, m)
         GameTooltip:AddLine(m.sourceText, nil, nil, nil, true)
     end
 
-    if m:IsCastable() then
+    if canMount and m:IsCastable() then
         GameTooltip:AddLine(" ")
         GameTooltip:AddLine("|cffff00ff" .. HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. ": " .. MOUNT .. "|r")
     end

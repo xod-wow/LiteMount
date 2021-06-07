@@ -178,7 +178,7 @@ LiteMountMountIconMixin = {}
 
 function LiteMountMountIconMixin:OnEnter()
     local m = self:GetParent().mount
-    LM.ShowMountTooltip(self, m)
+    LM.ShowMountTooltip(self, m, true)
 end
 
 function LiteMountMountIconMixin:OnLeave()
