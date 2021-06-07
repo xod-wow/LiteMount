@@ -84,7 +84,6 @@ function LiteMountGroupsPanelGroupsMixin:Update()
             button.Text:Hide()
             button.DeleteButton:Hide()
             button:Show()
-            button.flag = nil
             self.AddFlagButton:SetParent(button)
             self.AddFlagButton:ClearAllPoints()
             self.AddFlagButton:SetPoint("CENTER")
@@ -94,8 +93,8 @@ function LiteMountGroupsPanelGroupsMixin:Update()
             button.flag = nil
         end
         -- button:SetWidth(buttonWidth)
-        button.SelectedTexture:SetShown(button.flag == self:GetParent().selectedFlag)
-        button.SelectedArrow:SetShown(button.flag == self:GetParent().selectedFlag)
+        button.SelectedTexture:SetShown(button.flag and button.flag == self:GetParent().selectedFlag)
+        button.SelectedArrow:SetShown(button.flag and button.flag == self:GetParent().selectedFlag)
     end
 
     self.AddFlagButton:SetShown(showAddButton)
