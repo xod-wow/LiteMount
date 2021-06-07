@@ -110,7 +110,7 @@ COMMANDS['flags'] =
             local flags = LM.Options:GetAllFlags()
             for i = 1, #flags do
                 if LM.Options:IsPrimaryFlag(flags[i]) then
-                    flags[i] = ORANGE_FONT_COLOR_CODE .. flags[i] .. FONT_COLOR_CODE_CLOSE
+                    flags[i] = ORANGE_FONT_COLOR:WrapTextInColorCode(flags[i])
                 end
             end
             LM.Print(table.concat(flags, ' '))

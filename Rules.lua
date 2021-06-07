@@ -137,7 +137,7 @@ function LM.Rules:ExpandOneCondition(ruleCondition)
     -- Only handles 'NOT' for now
     if type(ruleCondition) == 'table' then
         if ruleCondition.op == 'NOT' then
-            return RED_FONT_COLOR_CODE .. 'NOT ' .. self:ExpandOneCondition(ruleCondition[1]) .. FONT_COLOR_CODE_CLOSE
+            return RED_FONT_COLOR:WrapTextInColorCode('NOT ' .. self:ExpandOneCondition(ruleCondition[1]))
         else
             return ERROR_CAPS
         end
@@ -175,7 +175,7 @@ function LM.Rules:ExpandOneCondition(ruleCondition)
         return "Flyable area"
     end
 
-    return ORANGE_FONT_COLOR_CODE .. ruleCondition .. FONT_COLOR_CODE_CLOSE
+    return 'Raw : ' .. ruleCondition
 end
 
 function LM.Rules:ExpandConditions(rule)
@@ -183,7 +183,7 @@ function LM.Rules:ExpandConditions(rule)
     for _, ruleCondition in ipairs(rule.conditions) do
         table.insert(conditions, self:ExpandOneCondition(ruleCondition))
     end
-    return table.concat(conditions, "\n")
+    return GREEN_FONT_COLOR:WrapTextInColorCode(table.concat(conditions, "\n"))
 end
 
 local function ExpandMountFilter(actionArg)
