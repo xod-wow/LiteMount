@@ -34,18 +34,6 @@ function LiteMountRuleButtonMixin:OnShow()
 end
 
 function LiteMountRuleButtonMixin:OnLoad()
-    self.Condition.Text:SetSpacing(3)
-    self.Condition.Text:SetJustifyH('LEFT')
-    self.Condition.Text:ClearAllPoints()
-    self.Condition.Text:SetPoint('LEFT', self.Condition, 'LEFT', 16, 0)
-    self.Condition.Text:SetPoint('RIGHT', self.Condition, 'RIGHT', 0, 0)
-
-    self.Action.Text:SetSpacing(3)
-    self.Action.Text:SetJustifyH('LEFT')
-    self.Action.Text:ClearAllPoints()
-    self.Action.Text:SetPoint('LEFT', self.Action, 'LEFT', 16, 0)
-    self.Action.Text:SetPoint('RIGHT', self.Action, 'RIGHT', 0, 0)
-
     self.MoveUp:SetScript('OnClick', function (self) MoveRule(self:GetParent().index, -1) end)
     self.MoveDown:SetScript('OnClick', function (self) MoveRule(self:GetParent().index, 1) end)
 end
