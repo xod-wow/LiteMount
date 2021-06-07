@@ -133,6 +133,16 @@ function LM.Rules:Compile(text)
 end
 
 function LM.Rules:ExpandOneCondition(ruleCondition)
+
+    -- Only handles 'NOT' for now
+    if type(ruleCondition) == 'table' then
+        if ruleCondition.op == 'NOT' then
+            return RED_FONT_COLOR_CODE .. 'NOT ' .. self:ExpandOneCondition(ruleCondition[1]) .. FONT_COLOR_CODE_CLOSE
+        else
+            return ERROR_CAPS
+        end
+    end
+
     local condition, conditionArg = string.split(':', ruleCondition, 2)
 
     if condition == "map" then
@@ -158,6 +168,8 @@ function LM.Rules:ExpandOneCondition(ruleCondition)
             return CTRL_KEY
         elseif conditionArg == "shift" then
             return SHIFT_KEY
+        elseif not conditionArg then
+            return "MODIFIER key"
         end
     elseif condition == "flyable" then
         return "Flyable area"
@@ -169,11 +181,7 @@ end
 function LM.Rules:ExpandConditions(rule)
     local conditions = {}
     for _, ruleCondition in ipairs(rule.conditions) do
-        if type(ruleCondition) == 'table' then
-            table.insert(conditions, RED_FONT_COLOR_CODE .. 'NOT ' .. self:ExpandOneCondition(ruleCondition[1]) .. FONT_COLOR_CODE_CLOSE)
-        else
-            table.insert(conditions, self:ExpandOneCondition(ruleCondition))
-        end
+        table.insert(conditions, self:ExpandOneCondition(ruleCondition))
     end
     return table.concat(conditions, "\n")
 end
