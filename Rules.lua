@@ -148,12 +148,12 @@ function LM.Rules:ExpandOneCondition(ruleCondition)
     if condition == "map" then
         if conditionArg then
             local info = C_Map.GetMapInfo(tonumber(conditionArg))
-            return string.format("%s: %s (%s)", WORLD_MAP, info.name, conditionArg)
+            return string.format("%s : %s (%s)", WORLD_MAP, info.name, conditionArg)
         end
     elseif condition == "instance" then
         local n = LM.Options:GetInstanceNameByID(tonumber(conditionArg))
         if n then
-            return string.format("%s: %s (%s)", INSTANCE, n, conditionArg)
+            return string.format("%s : %s (%s)", INSTANCE, n, conditionArg)
         end
     elseif condition == "location" then
         if conditionArg then
@@ -188,30 +188,19 @@ end
 
 local function ExpandMountFilter(actionArg)
     if not actionArg then return end
-    if actionArg:match('id:%d+') then
-        local _, id = string.split(':', actionArg)
+    if actionArg:match('^id:%d+$') then
+        local _, id = string.split(':', actionArg, 2)
         actionArg = C_MountJournal.GetMountInfoByID(tonumber(id))
-    elseif actionArg:match('family:') then
-        local _, family = string.split(':', actionArg)
-        return L.LM_FAMILY .. ': ' .. L[family]
-    elseif actionArg:match('mt:230') then
-        return "Type: Ground"
-    elseif actionArg:match('mt:231') then
-        return "Type: Turtle"
-    elseif actionArg:match('mt:232') then
-        return "Type: Vashj'ir"
-    elseif actionArg:match('mt:241') then
-        return "Type: Ahn'qiraj"
-    elseif actionArg:match('mt:248') then
-        return "Type: Flying"
-    elseif actionArg:match('mt:254') then
-        return "Type: Swimming"
-    elseif actionArg:match('mt:284') then
-        return "Type: Chauffeur"
-    elseif actionArg:match('mt:398') then
-        return "Type: Kua'fon"
+    elseif actionArg:match('^%d+$') then
+        return GetSpellInfo(tonumbber(actionArg))
+    elseif actionArg:match('^family:') then
+        local _, family = string.split(':', actionArg, 2)
+        return L.LM_FAMILY .. ' : ' .. L[family]
+    elseif actionArg:match('^mt:%d+$') then
+        local _, id = string.split(':', actionArg, 2)
+        return TYPE .. " : " .. LM.MOUNT_TYPES[tonumber(id)]
     elseif LM.Options:IsActiveFlag(actionArg) then
-        return GROUP .. ': ' .. actionArg
+        return GROUP .. ' : ' .. actionArg
     end
     return actionArg
 end
