@@ -55,6 +55,11 @@
     </Layers>
 
     <Frames>
+        <Button inherits="UIPanelCloseButton">
+            <Anchors>
+                <Anchor point="TOPRIGHT" x="-4" y="-4" />
+            </Anchors>
+        </Button>
         <Frame parentKey="Condition1" inherits="LiteMountRuleEditCondition">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.ConditionsHeader" relativePoint="BOTTOMLEFT" y="-12" />

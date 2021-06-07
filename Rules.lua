@@ -166,7 +166,7 @@ function LM.Rules:ExpandOneCondition(ruleCondition)
     return ORANGE_FONT_COLOR_CODE .. ruleCondition .. FONT_COLOR_CODE_CLOSE
 end
 
-local function ExpandConditions(rule)
+function LM.Rules:ExpandConditions(rule)
     local conditions = {}
     for _, ruleCondition in ipairs(rule.conditions) do
         if type(ruleCondition) == 'table' then
@@ -213,20 +213,20 @@ local function ExpandAction(rule)
     local actionArg = table.concat(rule.args, ' ')
     if tContains({ 'Mount', 'SmartMount' }, action) then
         if actionArg then
-            return ExpandMountFilter(actionArg)
+            return action .. "\n" .. ExpandMountFilter(actionArg)
         end
     elseif action == "Limit" then
         if actionArg:sub(1,1) == '-' then
-            return "Exclude: " .. ExpandMountFilter(actionArg:sub(2))
+            return "Exclude\n" .. ExpandMountFilter(actionArg:sub(2))
         elseif actionArg:sub(1,1) == '+' then
-            return "Include: " .. ExpandMountFilter(actionArg:sub(2))
+            return "Include\n" .. ExpandMountFilter(actionArg:sub(2))
         else
-            return "LimiT: " .. ExpandMountFilter(actionArg)
+            return "Limit\n" .. ExpandMountFilter(actionArg)
         end
     end
     return action .. ' ' .. actionArg
 end
 
 function LM.Rules:UserRuleText(rule)
-    return ExpandConditions(rule), ExpandAction(rule)
+    return self:ExpandConditions(rule), ExpandAction(rule)
 end
