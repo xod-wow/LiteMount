@@ -4,15 +4,7 @@
 
 <Script file="Groups.lua" />
 
-<Button name="LiteMountGroupsPanelGroupTemplate" virtual="true" mixin="LiteMountGroupsPanelGroupMixin" inherits="TooltipBackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" type="global" />
-        <KeyValue key="backdropColor" value="DARKGRAY_COLOR" type="global"/>
-        <KeyValue key="backdropColorAlpha" value="0.3" type="number" />
-        <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.3" type="number" />
-    </KeyValues>
-
+<Button name="LiteMountGroupsPanelGroupTemplate" virtual="true" mixin="LiteMountGroupsPanelGroupMixin" inherits="LiteMountListButtonStyleTemplate">
     <Scripts>
         <OnClick method="OnClick" />
     </Scripts>
@@ -76,7 +68,7 @@
     </Layers>
 </Button>
 
-<Button name="LiteMountGroupsPanelMountTemplate" virtual="true" mixin="LiteMountGroupsPanelMountMixin">
+<Button name="LiteMountGroupsPanelMountTemplate" inherits="LiteMountListButtonStyleTemplate" virtual="true" mixin="LiteMountGroupsPanelMountMixin">
     <Scripts>
         <OnClick method="OnClick" />
         <OnEnter method="OnEnter" />
@@ -157,14 +149,14 @@
     </Layers>
 
     <Frames>
-        <Frame parentKey="GroupsContainer" inherits="LiteMountOptionsContainerTemplate" frameStrata="LOW">
+        <Frame parentKey="GroupsContainer" inherits="LiteMountContainerStyleTemplate" frameStrata="LOW">
             <Size x="150" />
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-120" />
                 <Anchor point="BOTTOM" y="53" />
             </Anchors>
         </Frame>
-        <Frame parentKey="MountsContainer" inherits="LiteMountOptionsContainerTemplate" frameStrata="LOW">
+        <Frame parentKey="MountsContainer" inherits="LiteMountContainerStyleTemplate" frameStrata="LOW">
             <Anchors>
                 <Anchor point="TOP" relativeKey="$parent.GroupsContainer" />
                 <Anchor point="LEFT" relativeKey="$parent.GroupsContainer" relativePoint="RIGHT" x="4"/>

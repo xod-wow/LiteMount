@@ -56,13 +56,8 @@
     </Layers>
 
     <Frames>
-        <Frame parentKey="EditBoxContainer" inherits="TooltipBackdropTemplate">
+        <Frame parentKey="EditBoxContainer" inherits="LiteMountContainerStyleTemplate">
             <Size x="424" />
-            <KeyValues>
-                <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
-                <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
-                <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
-            </KeyValues>
             <Anchors>
                 <Anchor point="TOP" y="-160" />
                 <Anchor point="LEFT" x="16" />
@@ -120,18 +115,12 @@
             </Anchors>
         </Frame>
 
-        <Frame parentKey="FlagContainer" inherits="TooltipBackdropTemplate">
+        <Frame parentKey="FlagContainer" inherits="LiteMountContainerStyleTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" relativePoint="TOPRIGHT" x="8" />
                 <Anchor point="BOTTOM" relativeKey="$parent.EditBoxContainer" />
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
-
-            <KeyValues>
-                <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
-                <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
-                <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
-            </KeyValues>
         </Frame>
 
         <ScrollFrame parentKey="FlagScroll" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountFlagScrollMixin">

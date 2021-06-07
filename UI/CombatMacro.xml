@@ -15,7 +15,7 @@
     </Scripts>
 
     <Frames>
-        <Frame parentKey="EditBoxContainer" inherits="LiteMountOptionsContainerTemplate">
+        <Frame parentKey="EditBoxContainer" inherits="LiteMountContainerStyleTemplate">
             <Size x="400" y="200" />
             <Anchors>
                 <Anchor point="CENTER" />

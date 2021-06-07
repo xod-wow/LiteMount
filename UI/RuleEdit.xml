@@ -4,10 +4,11 @@
 
 <Script file="RuleEdit.lua" />
 
-<Frame name="LiteMountRuleEditCondition" mixin="LiteMountRuleEditConditionMixin" inherits="TooltipBackdropTemplate" virtual="true">
+<Frame name="LiteMountRuleEditCondition" mixin="LiteMountRuleEditConditionMixin" inherits="LiteMountListButtonStyleTemplate" virtual="true">
     <Size y="66" />
+
     <Scripts>
-        <OnLoad method="OnLoad" />
+        <OnLoad inherit="prepend" method="OnLoad" />
     </Scripts>
 
     <Frames>
@@ -60,6 +61,7 @@
                 <Anchor point="TOPRIGHT" x="-4" y="-4" />
             </Anchors>
         </Button>
+
         <Frame parentKey="Condition1" inherits="LiteMountRuleEditCondition">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.ConditionsHeader" relativePoint="BOTTOMLEFT" y="-12" />

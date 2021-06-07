@@ -46,6 +46,17 @@
 
 ----------------------------------------------------------------------------]]--
 
+LM_LISTBUTTON_BACKDROP_INFO = {
+    bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+    tile = true,
+    tileSize = 8,
+    insets = { left = 1, right = 1, top = 1, bottom = 1 },
+}
+
+LM_NEARLYBLACK_COLOR = CreateColor(0.2, 0.2, 0.2)
+
+----------------------------------------------------------------------------]]--
+
 local _, LM = ...
 
 local L = LM.Localize

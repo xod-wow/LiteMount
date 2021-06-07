@@ -4,14 +4,7 @@
 
 <Script file="Rules.lua" />
 
-<Button name="LiteMountRuleButtonTemplate" virtual="true" mixin="LiteMountRuleButtonMixin" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" type="global" />
-        <KeyValue key="backdropColor" value="DARKGRAY_COLOR" type="global"/>
-        <KeyValue key="backdropColorAlpha" value="0.3" type="number" />
-        <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.3" type="number" />
-    </KeyValues>
+<Button name="LiteMountRuleButtonTemplate" virtual="true" mixin="LiteMountRuleButtonMixin" inherits="LiteMountListButtonStyleTemplate">
     <Size y="66" />
     <Scripts>
         <OnShow method="OnShow" inherit="prepend" />
@@ -47,7 +40,7 @@
             <PushedTexture atlas="hud-MainMenuBar-arrowdown-down" />
             <HighlightTexture atlas="hud-MainMenuBar-arrowdown-highlight" alphaMode="ADD" />
         </Button>
-        <Button parentKey="Condition" inherits="TooltipBackdropTemplate">
+        <Button parentKey="Condition" inherits="LiteMountButtonStyleTemplate">
             <Size x="240" y="58" />
             <Anchors> <Anchor point="LEFT" relativeKey="$parent.NumText" relativePoint="RIGHT" x="8" /> </Anchors>
             <ButtonText parentKey="Text" name="$parentText" spacing="3" justifyH="LEFT">
@@ -59,7 +52,7 @@
             <NormalFont style="GameFontHighlight" />
             <HighlightFont style="GameFontHighlight" />
         </Button>
-        <Button parentKey="Action" inherits="TooltipBackdropTemplate">
+        <Button parentKey="Action" inherits="LiteMountButtonStyleTemplate">
             <Size x="240" y="58" />
             <Anchors> <Anchor point="LEFT" relativeKey="$parent.Condition" relativePoint="RIGHT" x="8" /> </Anchors>
             <ButtonText parentKey="Text" name="$parentText" spacing="3" justifyH="LEFT">

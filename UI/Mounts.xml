@@ -95,19 +95,19 @@
     </Scripts>
 </Button>
 
-<Button name="LiteMountMountButtonTemplate" virtual="true" mixin="LiteMountMountButtonMixin" inherits="BackdropTemplate">
+<Button name="LiteMountMountButtonTemplate" virtual="true" mixin="LiteMountMountButtonMixin" inherits="LiteMountListButtonStyleTemplate">
     <KeyValues>
-        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" type="global" />
 <!--
+        <KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_8_8_1111" type="global" />
         <KeyValue key="backdropColor" value="DARKGRAY_COLOR" type="global"/>
         <KeyValue key="backdropColorAlpha" value="0.3" type="number" />
         <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
         <KeyValue key="backdropBorderColorAlpha" value="0.3" type="number" />
--->
         <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
         <KeyValue key="backdropColorAlpha" value="0.3" type="number"/>
         <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" type="global"/>
         <KeyValue key="backdropBorderColorAlpha" value="0.3" type="number"/>
+-->
     </KeyValues>
     <Scripts>
         <OnShow method="OnShow" />
