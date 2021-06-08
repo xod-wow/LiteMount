@@ -12,21 +12,36 @@
     </Scripts>
 
     <Frames>
-        <Button parentkey="Type" inherits="UIMenuButtonStretchTemplate">
-            <Size y="33" />
+        <Button parentkey="Type" inherits="LiteMountButtonStyleTemplate">
+            <Size x="192" y="33" />
             <Anchors>
                 <Anchor point="LEFT" x="16" />
-                <Anchor point="RIGHT" relativePoint="CENTER" x="-8" />
             </Anchors>
+            <ButtonText parentKey="Text" justifyH="left">
+                <Anchors>
+                    <Anchor point="LEFT" x="16" />
+                    <Anchor point="RIGHT" x="-16" />
+                </Anchors>
+            </ButtonText>
+            <NormalFont style="GameFontNormal" />
+            <HighlightFont style="GameFontHighlight" />
         </Button>
-        <Button parentkey="ArgDropDown" inherits="UIMenuButtonStretchTemplate" hidden="true">
+        <Button parentkey="ArgDropDown" inherits="LiteMountButtonStyleTemplate">
             <Size y="33" />
             <Anchors>
                 <Anchor point="LEFT" relativePoint="CENTER" x="8" />
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
+            <ButtonText parentKey="Text" justifyH="left">
+                <Anchors>
+                    <Anchor point="LEFT" x="16" />
+                    <Anchor point="RIGHT" x="-16" />
+                </Anchors>
+            </ButtonText>
+            <NormalFont style="GameFontNormal" />
+            <HighlightFont style="GameFontHighlight" />
         </Button>
-        <EditBox parentkey="ArgText" autofocus="false" letters="40" inherits="LargeInputBoxTemplate">
+        <EditBox parentkey="ArgText" autofocus="false" letters="40" inherits="LargeInputBoxTemplate" hidden="true">
             <Size y="33" />
             <Anchors>
                 <Anchor point="LEFT" relativePoint="CENTER" x="8" y="-2" />
@@ -46,11 +61,8 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="ConditionsHeader" inherits="GameFontNormalMed2" text="Conditions">
+            <FontString parentKey="ConditionsHeader" inherits="GameFontNormalMed1" text="Conditions">
                 <Anchors> <Anchor point="TOPLEFT" x="16" y="-32" /> </Anchors>
-            </FontString>
-            <FontString parentKey="ActionHeader" inherits="GameFontNormalMed2" text="Action">
-                <Anchors> <Anchor point="TOPLEFT" x="16" y="-288" /> </Anchors>
             </FontString>
         </Layer>
     </Layers>
