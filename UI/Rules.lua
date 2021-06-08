@@ -38,14 +38,19 @@ function LiteMountRuleButtonMixin:OnLoad()
     self.MoveDown:SetScript('OnClick', function (self) MoveRule(self:GetParent().index, 1) end)
 end
 
-function LiteMountRuleButtonMixin:Initialize(level, menuList)
+function LiteMountRuleButtonMixin:Update(index, rule)
+    self.index = index
+    self.NumText:SetText(index)
+    local conditions, action = LM.Rules:UserRuleText(rule)
+    self.Action:SetText(action)
+    self.Condition:SetText(table.concat(conditions, '\n'))
 end
+
 
 --[[--------------------------------------------------------------------------]]--
 
 LiteMountRulesScrollMixin = {}
 
--- LoadAddOn('Blizzard_DebugTools')
 
 function LiteMountRulesScrollMixin:Update()
     if not self.buttons then return end
@@ -61,12 +66,7 @@ function LiteMountRulesScrollMixin:Update()
         local button = self.buttons[i]
         local index = offset + i
         if index <= #rules then
-            button.index = index
-            local rule = rules[index]
-            button.NumText:SetText(index)
-            local c, a = LM.Rules:UserRuleText(rule)
-            button.Condition:SetText(c)
-            button.Action:SetText(a)
+            button:Update(index, rules[index])
             button:Show()
         else
             button:Hide()

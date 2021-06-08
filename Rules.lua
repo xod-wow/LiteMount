@@ -181,9 +181,10 @@ end
 function LM.Rules:ExpandConditions(rule)
     local conditions = {}
     for _, ruleCondition in ipairs(rule.conditions) do
-        table.insert(conditions, self:ExpandOneCondition(ruleCondition))
+        local text = self:ExpandOneCondition(ruleCondition)
+        table.insert(conditions, GREEN_FONT_COLOR:WrapTextInColorCode(text))
     end
-    return GREEN_FONT_COLOR:WrapTextInColorCode(table.concat(conditions, "\n"))
+    return conditions
 end
 
 local function ExpandMountFilter(actionArg)
