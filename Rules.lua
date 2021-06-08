@@ -173,6 +173,10 @@ function LM.Rules:ExpandOneCondition(ruleCondition)
         end
     elseif condition == "flyable" then
         return "Flyable area"
+    elseif condition == "faction" and conditionArg then
+        return string.format('%s : %s', FACTION, FACTION_LABELS[PLAYER_FACTION_GROUP[conditionArg]])
+    elseif condition == "class" and conditionArg then
+        return string.format('%s : %s', CLASS, LOCALIZED_CLASS_NAMES_FEMALE[conditionArg])
     end
 
     return 'Raw : ' .. ruleCondition
