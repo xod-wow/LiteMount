@@ -397,6 +397,10 @@ function LM.Environment:GetContinents(str)
     return lines
 end
 
+function LM.Environment:GetInstances()
+    return LM.Options:GetInstances()
+end
+
 local mapTree
 
 function LM.Environment:GetMapTree()
