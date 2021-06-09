@@ -4,42 +4,47 @@
 
 <Script file="RuleEdit.lua" />
 
+<Button name="LiteMountRuleEditDropDownButtonTemplate" inherits="LiteMountButtonStyleTemplate" virtual="true">
+    <ButtonText parentKey="Text" justifyH="left">
+        <Anchors>
+            <Anchor point="LEFT" x="16" />
+            <Anchor point="RIGHT" x="-16" />
+        </Anchors>
+    </ButtonText>
+    <NormalFont style="GameFontHighlight" />
+    <HighlightFont style="GameFontHighlight" />
+    <Layers>
+        <Layer level="ARTWORK">
+            <Texture atlas="hud-MainMenuBar-arrowdown-down" useAtlasSize="true">
+                <Anchors>
+                    <Anchor point="RIGHT" x="-4" y="1" />
+                </Anchors>
+            </Texture>
+        </Layer>
+    </Layers>
+</Button>
+
 <Frame name="LiteMountRuleEditCondition" mixin="LiteMountRuleEditConditionMixin" inherits="LiteMountListButtonStyleTemplate" virtual="true">
     <Size y="66" />
 
     <Scripts>
         <OnLoad inherit="prepend" method="OnLoad" />
+        <OnLoad inherit="prepend" method="OnShow" />
     </Scripts>
 
     <Frames>
-        <Button parentkey="Type" inherits="LiteMountButtonStyleTemplate">
+        <Button parentkey="TypeDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate">
             <Size x="192" y="33" />
             <Anchors>
                 <Anchor point="LEFT" x="16" />
             </Anchors>
-            <ButtonText parentKey="Text" justifyH="left">
-                <Anchors>
-                    <Anchor point="LEFT" x="16" />
-                    <Anchor point="RIGHT" x="-16" />
-                </Anchors>
-            </ButtonText>
-            <NormalFont style="GameFontNormal" />
-            <HighlightFont style="GameFontHighlight" />
         </Button>
-        <Button parentkey="ArgDropDown" inherits="LiteMountButtonStyleTemplate">
+        <Button parentkey="ArgDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate" hidden="true">
             <Size y="33" />
             <Anchors>
                 <Anchor point="LEFT" relativePoint="CENTER" x="8" />
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
-            <ButtonText parentKey="Text" justifyH="left">
-                <Anchors>
-                    <Anchor point="LEFT" x="16" />
-                    <Anchor point="RIGHT" x="-16" />
-                </Anchors>
-            </ButtonText>
-            <NormalFont style="GameFontNormal" />
-            <HighlightFont style="GameFontHighlight" />
         </Button>
         <EditBox parentkey="ArgText" autofocus="false" letters="40" inherits="LargeInputBoxTemplate" hidden="true">
             <Size y="33" />
@@ -48,7 +53,7 @@
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
         </EditBox>
-        <Frame parentKey="DropDown" inherits="UIDropDownMenuTemplate" />
+        <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate" />
     </Frames>
 </Frame>
 
