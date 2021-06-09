@@ -68,7 +68,10 @@ function LiteMountGroupsPanelGroupsMixin:Update()
     local totalHeight = (#allFlags + 1) * (self.buttons[1]:GetHeight() + 1)
     local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
 
-    local showAddButton, index, button
+    local index, button
+
+    self.AddFlagButton:SetParent(nil)
+    self.AddFlagButton:Hide()
 
     for i = 1, #self.buttons do
         button = self.buttons[i]
@@ -87,7 +90,8 @@ function LiteMountGroupsPanelGroupsMixin:Update()
             self.AddFlagButton:SetParent(button)
             self.AddFlagButton:ClearAllPoints()
             self.AddFlagButton:SetPoint("CENTER")
-            showAddButton = true
+            self.AddFlagButton:Show()
+            button.flag = nil
         else
             button:Hide()
             button.flag = nil
@@ -97,7 +101,6 @@ function LiteMountGroupsPanelGroupsMixin:Update()
         button.SelectedArrow:SetShown(button.flag and button.flag == self:GetParent().selectedFlag)
     end
 
-    self.AddFlagButton:SetShown(showAddButton)
 
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
     for i, button in ipairs(self.buttons) do
@@ -171,9 +174,9 @@ end
 
 --[[--------------------------------------------------------------------------]]--
 
-LiteMountGroupsPanelMountsMixin = {}
+LiteMountGroupsPanelMountScrollMixin = {}
 
-function LiteMountGroupsPanelMountsMixin:Update()
+function LiteMountGroupsPanelMountScrollMixin:Update()
     if not self.buttons then return end
 
     local offset = HybridScrollFrame_GetOffset(self)
@@ -194,18 +197,12 @@ function LiteMountGroupsPanelMountsMixin:Update()
         mounts = mounts:Search(function (m) return m:CurrentFlags()[flag] end)
     end
 
-    local col2offset
-
-    if #mounts < #self.buttons then
-        col2offset = #self.buttons
-    else
-        col2offset = math.ceil(#mounts/2)
-    end
+    local col2offset = math.ceil(#mounts/2)
 
     for i, button in ipairs(self.buttons) do
         local index = offset + i
         local index2 = offset + col2offset + i
-        if not flag or index > #mounts then
+        if not flag or index > col2offset then
             button:Hide()
         else
             button.mount1:SetMount(mounts[index], flag)
@@ -227,14 +224,14 @@ function LiteMountGroupsPanelMountsMixin:Update()
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
-function LiteMountGroupsPanelMountsMixin:OnSizeChanged()
+function LiteMountGroupsPanelMountScrollMixin:OnSizeChanged()
     HybridScrollFrame_CreateButtons(self, 'LiteMountGroupsPanelButtonTemplate')
     for _, b in ipairs(self.buttons) do
         b:SetWidth(self:GetWidth())
     end
 end
 
-function LiteMountGroupsPanelMountsMixin:OnLoad()
+function LiteMountGroupsPanelMountScrollMixin:OnLoad()
     local track = _G[self.scrollBar:GetName().."Track"]
     track:Hide()
     self.update = self.Update

@@ -58,7 +58,7 @@
             </Texture>
         </Layer>
         <Layer level="ARTWORK">
-            <FontString parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
+            <FontString parentKey="Text" inherits="GameFontNormal" justifyH="LEFT">
                 <Anchors>
                     <Anchor point="LEFT" relativeKey="$parent.DeleteButton" relativePoint="RIGHT" x="0" />
                     <Anchor point="RIGHT" x="-4" />
@@ -75,7 +75,7 @@
         <OnLeave method="OnLeave" />
     </Scripts>
 
-    <Size y="18" />
+    <Size y="22" />
 
     <HighlightTexture alphaMode="ADD">
         <Color r="0.3" g="0.5" b="1" a="0.3" />
@@ -84,7 +84,7 @@
     <Layers>
         <Layer level="ARTWORK">
             <Texture parentKey="CheckBox" file="Interface\Buttons\UI-CheckBox-Up">
-                <Size x="20" y="20" />
+                <Size x="22" y="22" />
                 <Anchors>
                     <Anchor point="LEFT" x="4" />
                 </Anchors>
@@ -92,7 +92,7 @@
         </Layer>
         <Layer level="OVERLAY">
             <Texture parentKey="Checked" hidden="true" file="Interface\Buttons\UI-CheckBox-Check">
-                <Size x="20" y="20" />
+                <Size x="22" y="22" />
                 <Anchors>
                     <Anchor point="CENTER" relativeKey="$parent.CheckBox" />
                 </Anchors>
@@ -108,7 +108,7 @@
 </Button>
 
 <Button name="LiteMountGroupsPanelButtonTemplate" virtual="true">
-    <Size y="18" />
+    <Size y="22" />
     <Frames>
         <Button parentKey="mount1" inherits="LiteMountGroupsPanelMountTemplate">
             <Anchors>
@@ -184,7 +184,7 @@
                 </Button>
             </Frames>
         </ScrollFrame>
-        <ScrollFrame name="$parentMounts" parentKey="Mounts" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountGroupsPanelMountsMixin">
+        <ScrollFrame name="$parentMounts" parentKey="Mounts" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountGroupsPanelMountScrollMixin">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.MountsContainer" x="8" y="-8" />
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountsContainer" x="-30" y="8" />
