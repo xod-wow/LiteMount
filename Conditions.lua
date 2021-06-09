@@ -766,3 +766,7 @@ function LM.Conditions:Check(checks, env)
     end
     return self:Eval(conditions, env or {})
 end
+
+function LM.Conditions:Validate(text)
+    return CONDITIONS[text] ~= nil or CONDITIONS[text..':args'] ~= nil
+end
