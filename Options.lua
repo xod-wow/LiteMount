@@ -689,6 +689,10 @@ function LM.Options:RecordInstance(info)
     self.db.global.instances[info[8]] = info[1]
 end
 
+function LM.Options:GetInstances(id)
+    return CopyTable(self.db.global.instances)
+end
+
 function LM.Options:GetInstanceNameByID(id)
     if self.db.global.instances[id] then
         return self.db.global.instances[id]
