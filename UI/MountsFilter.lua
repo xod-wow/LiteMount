@@ -174,12 +174,20 @@ local function InitDropDownSection(template, self, level, menuList)
 
     info.notCheckable = nil
 
+    -- The complicated stride calc is because the %s...%s entries are super
+    -- annoying and so we want to max out the number of entries in the leafs
+    -- but still need to make sure each menu is small enough.
+
     if #menuList > MENU_SPLIT_SIZE * 1.5 then
         info.notCheckable = true
         info.hasArrow = true
         info.func = nil
-        for i = 1, #menuList, MENU_SPLIT_SIZE do
-            local j = math.min(#menuList, i+MENU_SPLIT_SIZE-1)
+
+        local stride = 1
+        while #menuList/stride > MENU_SPLIT_SIZE do stride = stride * MENU_SPLIT_SIZE end
+
+        for i = 1, #menuList, stride do
+            local j = math.min(#menuList, i+stride-1)
             info.menuList = tSlice(menuList, i, j)
             local f = template.gettext(info.menuList[1])
             local t = template.gettext(info.menuList[#info.menuList])
