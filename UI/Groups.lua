@@ -197,18 +197,15 @@ function LiteMountGroupsPanelMountScrollMixin:Update()
         mounts = mounts:Search(function (m) return m:CurrentFlags()[flag] end)
     end
 
-    local col2offset = math.ceil(#mounts/2)
-
     for i, button in ipairs(self.buttons) do
-        local index = offset + i
-        local index2 = offset + col2offset + i
-        if not flag or index > col2offset then
+        local index = ( offset + i - 1 ) * 2 + 1
+        if index > #mounts then
             button:Hide()
         else
             button.mount1:SetMount(mounts[index], flag)
             if button.mount1:IsMouseOver() then button.mount1:OnEnter() end
-            if mounts[index2] then
-                button.mount2:SetMount(mounts[index2], flag)
+            if mounts[index+1] then
+                button.mount2:SetMount(mounts[index+1], flag)
                 button.mount2:Show()
                 if button.mount2:IsMouseOver() then button.mount2:OnEnter() end
             else
@@ -218,7 +215,7 @@ function LiteMountGroupsPanelMountScrollMixin:Update()
         end
     end
 
-    local totalHeight = col2offset * self.buttons[1]:GetHeight()
+    local totalHeight = math.ceil(#mounts/2) * self.buttons[1]:GetHeight()
     local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
 
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
