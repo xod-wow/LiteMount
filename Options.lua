@@ -70,7 +70,7 @@ local DefaultRules = {
         args = { "Mimiron's Head" },
     },
     {
-        conditions = { "location:Oribos" },
+        conditions = { "map:1670" },
         action = "Mount",
         -- args = { "id:1039" },
         args = { "family:Brutosaur" },

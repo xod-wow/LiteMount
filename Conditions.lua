@@ -1091,7 +1091,10 @@ function LM.Conditions:ArgsToString(text)
     end
 
     local c = CONDITIONS[cond]
-    if not c or not c.tostring then return end
+    if not c then return end
+
+    if not c.name then return text end
+    if not c.tostring then return end
 
     local values
     if valuestr then
