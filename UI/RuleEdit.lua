@@ -138,13 +138,18 @@ function LiteMountRuleEditConditionMixin:Update()
     self.ArgDropDown:Hide()
     self.ArgText:Hide()
 
-    if info and info.menu then
-        if self.arg then
-            self.ArgDropDown:SetText(LM.Conditions:ArgsToString(self.arg))
-        else
-            self.ArgDropDown:SetText(nil)
+    if info then
+        if info.menu then
+            if self.arg then
+                self.ArgDropDown:SetText(LM.Conditions:ArgsToString(self.arg))
+            else
+                self.ArgDropDown:SetText(nil)
+            end
+            self.ArgDropDown:Show()
+        elseif info.validate then
+            self.ArgText:SetText(self.arg or '')
+            self.ArgText:Show()
         end
-        self.ArgDropDown:Show()
     end
 end
 

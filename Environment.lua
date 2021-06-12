@@ -414,12 +414,10 @@ function LM.Environment:GetMapTree()
             end
         end
 
-        local tree = {}
-
         for i, info in pairs(allMaps) do
-            if bit.band(info.flags, Enum.UIMapFlag.Deprecated) ~= 0 then
-                print('Deprecated ' .. i)
-            end
+            -- if bit.band(info.flags, Enum.UIMapFlag.Deprecated) ~= 0 then
+            --     print('Deprecated ' .. i)
+            -- end
             local parent = allMaps[info.parentMapID]
             if parent then
                 table.insert(parent, info)

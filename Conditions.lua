@@ -468,6 +468,10 @@ CONDITIONS["location"] = {
         function (v)
             return v
         end,
+    validate =
+        function (v)
+            return v and v:len() > 0
+        end,
     handler =
         function (cond, env, v)
             if LM.Environment.uiMapName == v then return true end
@@ -476,7 +480,7 @@ CONDITIONS["location"] = {
 }
 
 local function MapTreeToMenu(node)
-    local out = { val = "map:" .. node.mapID }
+    local out = { val = "map:" .. node.mapID, nosort = true }
     for _, n in ipairs(node) do table.insert(out, MapTreeToMenu(n)) end
     return out
 end
@@ -1104,8 +1108,4 @@ function LM.Conditions:ArgsToString(text)
         argText = c.tostring(values[1])
     end
     return argText
-end
-
-function LM.Conditions:Validate(text)
-    return CONDITIONS[text] ~= nil
 end
