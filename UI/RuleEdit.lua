@@ -23,11 +23,18 @@ end
 local function TypeInitialize(dropDown, level, menuList)
     if level == 1 then
         local info = UIDropDownMenu_CreateInfo()
+        info.minWidth = dropDown.owner:GetWidth() - 25 - 10
         info.func = function (button, arg1, arg2)
             dropDown.owner:GetParent():SetType(arg1)
         end
+        info.text = NONE:upper()
+        info.arg1 = nil
+        UIDropDownMenu_AddButton(info, level)
+        info.text = ALWAYS:upper()
+        info.arg1 = ""
+        UIDropDownMenu_AddButton(info, level)
+        UIDropDownMenu_AddSeparator(level)
         for _,item in ipairs(LM.Conditions:GetConditions()) do
-            info.minWidth = dropDown.owner:GetWidth() - 25 - 10
             info.text = item.name
             info.arg1 = item.condition
             info.checked = dropDown.owner:GetParent():GetType() == item.condition
@@ -130,7 +137,11 @@ function LiteMountRuleEditConditionMixin:Update()
     local info = LM.Conditions:GetCondition(self.type)
 
     if not info then
-        self.TypeDropDown:SetText(NONE:upper())
+        if self.type == "" then
+            self.TypeDropDown:SetText(ALWAYS:upper())
+        else
+            self.TypeDropDown:SetText(NONE:upper())
+        end
     else
         self.TypeDropDown:SetText(info.name)
     end
