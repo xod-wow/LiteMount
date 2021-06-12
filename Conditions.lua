@@ -496,7 +496,7 @@ CONDITIONS["map"] = {
     handler =
         function (cond, env, v)
             if v:sub(1,1) == '*' then
-                return LM.Environment.uiMapID == tonumber(v:sub(2))
+                return LM.Environment:IsOnMap(tonumber(v:sub(2)))
             else
                 return LM.Environment:MapInPath(tonumber(v))
             end

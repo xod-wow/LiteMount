@@ -20,8 +20,10 @@ LM.Environment:RegisterEvent("PLAYER_LOGIN")
 
 function LM.Environment:Initialize()
     self.uiMapID = -1
+    self.uiMapGroupID = -1
     self.uiMapPath = { }
     self.uiMapPathIDs = { }
+    self.uiMapPathGroupIDs = { }
 
     self.instanceID = -1
     self.zoneText = nil
@@ -126,14 +128,20 @@ function LM.Environment:Update()
 
     local info = C_Map.GetMapInfo(map)
 
-    self.uiMapID  = map
+    self.uiMapID = map
+    self.uiMapGroupID = C_Map.GetMapGroupID(map)
     self.uiMapName = info.name
 
     wipe(self.uiMapPath)
     wipe(self.uiMapPathIDs)
+    wipe(self.uiMapPathGroupIDs)
     while info do
         tinsert(self.uiMapPath, info.mapID)
         self.uiMapPathIDs[info.mapID] = true
+        local groupID = C_Map.GetMapGroupID(info.mapID)
+        if groupID then
+            self.uiMapPathGroupIDs[groupID] = true
+        end
         info = C_Map.GetMapInfo(info.parentMapID)
     end
 
@@ -193,10 +201,19 @@ function LM.Environment:UPDATE_SHAPESHIFT_FORM()
     end
 end
 
+function LM.Environment:IsOnMap(mapID)
+    if mapId == self.uiMapID then return true end
+    local groupID = C_Map.GetMapGroupID(mapID)
+    if groupID and groupID == self.uiMapGroupID then return true end
+    return false
+end
+
 function LM.Environment:MapInPath(...)
     for i = 1, select('#', ...) do
         local id = select(i, ...)
         if self.uiMapPathIDs[id] then return true end
+        local groupID = C_Map.GetMapGroupID(id)
+        if groupID and self.uiMapPathGroupIDs[groupID] then return true end
     end
     return false
 end
@@ -403,32 +420,20 @@ end
 
 local mapTree
 
+local function FillChildren(info)
+    for _, child in ipairs(C_Map.GetMapChildrenInfo(info.mapID)) do
+        if C_Map.IsMapValidForNavBarDropDown(child.mapID) then
+            FillChildren(child)
+            table.insert(info, child)
+            table.sort(info, function (a,b) return a.name < b.name end)
+        end
+    end
+end
+
 function LM.Environment:GetMapTree()
     if not mapTree then
-        local allMaps = {}
-
-        for i = 1, self:MaxMapID() do
-            local info = C_Map.GetMapInfo(i)
-            if info and info.name ~= "" and info.mapType <= Enum.UIMapType.Zone then
-                allMaps[i] = info
-            end
-        end
-
-        for i, info in pairs(allMaps) do
-            -- if bit.band(info.flags, Enum.UIMapFlag.Deprecated) ~= 0 then
-            --     print('Deprecated ' .. i)
-            -- end
-            local parent = allMaps[info.parentMapID]
-            if parent then
-                table.insert(parent, info)
-            end
-        end
-
-        for i, info in pairs(allMaps) do
-            table.sort(info, function (a,b) return a.name:lower() < b.name:lower() end)
-        end
-
-        mapTree = allMaps[946]
+        mapTree = C_Map.GetMapInfo(946)
+        FillChildren(mapTree)
     end
     return mapTree
 end
