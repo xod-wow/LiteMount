@@ -515,11 +515,11 @@ CONDITIONS["mod"] = {
     tostring =
         function (v)
             if v == "alt" then
-                return ALT_KEY
+                return ALT_KEY_TEXT
             elseif v == "ctrl" then
-                return CTRL_KEY
+                return CTRL_KEY_TEXT
             elseif v == "shift" then
-                return SHIFT_KEY
+                return SHIFT_KEY_TEXT
             elseif not v then
                 return CLUB_FINDER_ANY_FLAG
             end
