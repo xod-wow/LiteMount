@@ -42,16 +42,18 @@ local L = LM.Localize
 ]]
 
 -- If any condition starts with "no" we're screwed
--- ":args" functions take a fixed set of arguments rather using / for OR
+-- ".args" functions take a fixed set of arguments rather using / for OR
 
 local CONDITIONS = { }
 
-CONDITIONS["achievement"] =
+CONDITIONS["achievement"] = {}
+CONDITIONS["achievement"].handler =
     function (cond, env, v)
         return select(4, GetAchievementInfo(tonumber(v or 0)))
     end
 
-CONDITIONS["aura"] =
+CONDITIONS["aura"] = {}
+CONDITIONS["aura"].handler =
     function (cond, env, v)
         local unit = env.unit or "player"
         if LM.UnitAura(unit, v) or LM.UnitAura(unit, v, "HARMFUL") then
@@ -59,18 +61,21 @@ CONDITIONS["aura"] =
         end
     end
 
-CONDITIONS["breathbar"] =
+CONDITIONS["breathbar"] = {}
+CONDITIONS["breathbar"].handler =
     function (cond, env)
         local name, _, _, rate = GetMirrorTimerInfo(2)
         return (name == "BREATH" and rate < 0)
     end
 
-CONDITIONS["canexitvehicle"] =
+CONDITIONS["canexitvehicle"] = {}
+CONDITIONS["canexitvehicle"].handler =
     function (cond, env)
         return CanExitVehicle()
     end
 
-CONDITIONS["channeling"] =
+CONDITIONS["channeling"] = {}
+CONDITIONS["channeling"].handler =
     function (cond, env, v)
         local unit = env.unit or "player"
         if not v then
@@ -82,7 +87,8 @@ CONDITIONS["channeling"] =
         end
     end
 
-CONDITIONS["class"] =
+CONDITIONS["class"] = {}
+CONDITIONS["class"].handler =
     function (cond, env, v)
         if v then
             return tContains({ UnitClass(env.unit or "player") }, v)
@@ -90,7 +96,8 @@ CONDITIONS["class"] =
     end
 
 -- This can never work, but included for completeness
-CONDITIONS["combat"] =
+CONDITIONS["combat"] = {}
+CONDITIONS["combat"].handler =
     function (cond, env)
         local unit, petunit
         if not env.unit then
@@ -104,7 +111,8 @@ CONDITIONS["combat"] =
         return UnitAffectingCombat(unit) or UnitAffectingCombat(petunit)
     end
 
-CONDITIONS["covenant"] =
+CONDITIONS["covenant"] = {}
+CONDITIONS["covenant"].handler =
     function (cond, env, v)
         if not C_Covenants or not v then return end
         local id = C_Covenants.GetActiveCovenantID()
@@ -115,13 +123,15 @@ CONDITIONS["covenant"] =
     end
 
 --- Note that this diverges from the macro [dead] defaults to "target".
-CONDITIONS["dead"] =
+CONDITIONS["dead"] = {}
+CONDITIONS["dead"].handler =
     function (cond, env)
         return UnitIsDead(env.unit or "player")
     end
 
 -- https://wow.gamepedia.com/DifficultyID
-CONDITIONS["difficulty"] =
+CONDITIONS["difficulty"] = {}
+CONDITIONS["difficulty"].handler =
     function (cond, env, v)
         if v then
             local id, name = select(3, GetInstanceInfo())
@@ -133,7 +143,8 @@ CONDITIONS["difficulty"] =
 
 -- Persistent "deck of cards" draw randomness
 
-CONDITIONS["draw:args"] =
+CONDITIONS["draw"] = { args = true }
+CONDITIONS["draw"].handler =
     function (cond, env, x, y)
         x, y = tonumber(x), tonumber(y)
         if not cond.deck then
@@ -158,7 +169,8 @@ CONDITIONS["draw:args"] =
         return result
     end
 
-CONDITIONS["elapsed"] =
+CONDITIONS["elapsed"] = {}
+CONDITIONS["elapsed"].handler =
     function (cond, env, v)
         v = tonumber(v)
         if v then
@@ -169,7 +181,8 @@ CONDITIONS["elapsed"] =
         end
     end
 
-CONDITIONS["equipped"] =
+CONDITIONS["equipped"] = {}
+CONDITIONS["equipped"].handler =
     function (cond, env, v)
         if not v then
             return false
@@ -190,13 +203,15 @@ CONDITIONS["equipped"] =
         end
     end
 
-CONDITIONS["exists"] =
+CONDITIONS["exists"] = {}
+CONDITIONS["exists"].handler =
     function (cond, env)
         return UnitExists(env.unit or "target")
     end
 
 -- Check for an extraactionbutton, optionally with a specific spell
-CONDITIONS["extra"] =
+CONDITIONS["extra"] = {}
+CONDITIONS["extra"].handler =
     function (cond, env, v)
         if HasExtraActionBar() and HasAction(169) then
             if v then
@@ -210,39 +225,46 @@ CONDITIONS["extra"] =
         end
     end
 
-CONDITIONS["faction"] =
+CONDITIONS["faction"] = {}
+CONDITIONS["faction"].handler =
     function (cond, env, v)
         if v then
             return tContains({ UnitFactionGroup(env.unit or "player") }, v)
         end
     end
 
-CONDITIONS["falling"] =
+CONDITIONS["falling"] = {}
+CONDITIONS["falling"].handler =
     function (cond, env)
         return LM.Environment:IsFalling()
     end
 
-CONDITIONS["false"] =
+CONDITIONS["false"] = {}
+CONDITIONS["false"].handler =
     function (cond, env)
         return false
     end
 
-CONDITIONS["floating"] =
+CONDITIONS["floating"] = {}
+CONDITIONS["floating"].handler =
     function (cond, env)
         return LM.Environment:IsFloating()
     end
 
-CONDITIONS["flyable"] =
+CONDITIONS["flyable"] = {}
+CONDITIONS["flyable"].handler =
     function (cond, env)
         return LM.Environment:CanFly()
     end
 
-CONDITIONS["flying"] =
+CONDITIONS["flying"] = {}
+CONDITIONS["flying"].handler =
     function (cond, env)
         return IsFlying()
     end
 
-CONDITIONS["form"] =
+CONDITIONS["form"] = {}
+CONDITIONS["form"].handler =
     function (cond, env, v)
         if v == "slow" then
             return LM.Environment.combatTravelForm
@@ -253,7 +275,8 @@ CONDITIONS["form"] =
         end
     end
 
-CONDITIONS["group"] =
+CONDITIONS["group"] = {}
+CONDITIONS["group"].handler =
     function (cond, env, groupType)
         if not groupType then
             return IsInGroup() or IsInRaid()
@@ -264,22 +287,26 @@ CONDITIONS["group"] =
         end
     end
 
-CONDITIONS["harm"] =
+CONDITIONS["harm"] = {}
+CONDITIONS["harm"].handler =
     function (cond, env)
         return not UnitIsFriend("player", env.unit or "target")
     end
 
-CONDITIONS["help"] =
+CONDITIONS["help"] = {}
+CONDITIONS["help"].handler =
     function (cond, env)
         return UnitIsFriend("player", env.unit or "target")
     end
 
-CONDITIONS["indoors"] =
+CONDITIONS["indoors"] = {}
+CONDITIONS["indoors"].handler =
     function (cond, env)
         return IsIndoors()
     end
 
-CONDITIONS["instance"] =
+CONDITIONS["instance"] = {}
+CONDITIONS["instance"].handler =
     function (cond, env, v)
         if not v then
             return IsInInstance()
@@ -295,26 +322,30 @@ CONDITIONS["instance"] =
         return instanceType == v
     end
 
-CONDITIONS["jump"] =
+CONDITIONS["jump"] = {}
+CONDITIONS["jump"].handler =
     function (cond, env)
         local jumpTime = LM.Environment:JumpTime()
         return ( jumpTime and jumpTime < 2 )
     end
 
-CONDITIONS["keybind"] =
+CONDITIONS["keybind"] = {}
+CONDITIONS["keybind"].handler =
     function (cond, env, v)
         if v then
             return env.id == tonumber(v)
         end
     end
 
-CONDITIONS["location"] =
+CONDITIONS["location"] = {}
+CONDITIONS["location"].handler =
     function (cond, env, v)
         if LM.Environment.uiMapName == v then return true end
         if LM.Environment.instanceName == v then return true end
     end
 
-CONDITIONS["map"] =
+CONDITIONS["map"] = {}
+CONDITIONS["map"].handler =
     function (cond, env, v)
         if v:sub(1,1) == '*' then
             return LM.Environment.uiMapID == tonumber(v:sub(2))
@@ -323,12 +354,14 @@ CONDITIONS["map"] =
         end
     end
 
-CONDITIONS["maw"] =
+CONDITIONS["maw"] = {}
+CONDITIONS["maw"].handler =
     function (cond, env, v)
         return LM.Environment:TheMaw()
     end
 
-CONDITIONS["mod"] =
+CONDITIONS["mod"] = {}
+CONDITIONS["mod"].handler =
      function (cond, env, v)
         if not v then
             return IsModifierKeyDown()
@@ -343,41 +376,48 @@ CONDITIONS["mod"] =
         end
     end
 
-CONDITIONS["mounted"] =
+CONDITIONS["mounted"] = {}
+CONDITIONS["mounted"].handler =
     function (cond, env)
         return IsMounted()
     end
 
-CONDITIONS["moving"] =
+CONDITIONS["moving"] = {}
+CONDITIONS["moving"].handler =
     function (cond, env)
         return LM.Environment:IsMovingOrFalling()
     end
 
-CONDITIONS["name"] =
+CONDITIONS["name"] = {}
+CONDITIONS["name"].handler =
     function (cond, env, v)
         if v then
             return UnitName(env.unit or "player") == v
         end
     end
 
-CONDITIONS["outdoors"] =
+CONDITIONS["outdoors"] = {}
+CONDITIONS["outdoors"].handler =
     function (cond, env)
         return IsOutdoors()
     end
 
-CONDITIONS["playermodel"] =
+CONDITIONS["playermodel"] = {}
+CONDITIONS["playermodel"].handler =
     function (cond, env, v)
         if v then
             return LM.Environment:GetPlayerModel() == tonumber(v)
         end
     end
 
-CONDITIONS["party"] =
+CONDITIONS["party"] = {}
+CONDITIONS["party"].handler =
     function (cond, env)
         return UnitPlayerOrPetInParty(env.unit or "target")
     end
 
-CONDITIONS["pet"] =
+CONDITIONS["pet"] = {}
+CONDITIONS["pet"].handler =
     function (cond, env, v)
         local petunit
         if not env.unit or env.unit == "player" then
@@ -392,7 +432,8 @@ CONDITIONS["pet"] =
         end
     end
 
-CONDITIONS["profession"] =
+CONDITIONS["profession"] = {}
+CONDITIONS["profession"].handler =
     function (cond, env, v)
         if not v then return end
         local professions = { GetProfessions() }
@@ -408,7 +449,8 @@ CONDITIONS["profession"] =
         end
     end
 
-CONDITIONS["pvp"] =
+CONDITIONS["pvp"] = {}
+CONDITIONS["pvp"].handler =
     function (cond, env, v)
         if not v then
             return UnitIsPVP(env.unit or "player")
@@ -417,7 +459,8 @@ CONDITIONS["pvp"] =
         end
     end
 
-CONDITIONS["qfc"] =
+CONDITIONS["qfc"] = {}
+CONDITIONS["qfc"].handler =
     function (cond, env, v)
         if v then
             v = tonumber(v)
@@ -425,49 +468,57 @@ CONDITIONS["qfc"] =
         end
     end
 
-CONDITIONS["race"] =
+CONDITIONS["race"] = {}
+CONDITIONS["race"].handler =
     function (cond, env, v)
         local race, raceEN, raceID = UnitRace(env.unit or "player")
         return ( race == v or raceEN == v or raceID == tonumber(v) )
     end
 
-CONDITIONS["raid"] =
+CONDITIONS["raid"] = {}
+CONDITIONS["raid"].handler =
     function (cond, env)
         return UnitPlayerOrPetInRaid(env.unit or "target")
     end
 
-CONDITIONS["random"] =
+CONDITIONS["random"] = {}
+CONDITIONS["random"].handler =
     function (cond, env, n)
         return math.random(100) <= tonumber(n)
     end
 
-CONDITIONS["realm"] =
+CONDITIONS["realm"] = {}
+CONDITIONS["realm"].handler =
     function (cond, env, v)
         if v then
             return GetRealmName() == v
         end
     end
 
-CONDITIONS["resting"] =
+CONDITIONS["resting"] = {}
+CONDITIONS["resting"].handler =
     function (cond, env)
         return IsResting()
     end
 
-CONDITIONS["role"] =
+CONDITIONS["role"] = {}
+CONDITIONS["role"].handler =
     function (cond, env, v)
         if v then
             return UnitGroupRolesAssigned(env.unit or "player") == v
         end
     end
 
-CONDITIONS["sameunit:args"] =
-    function (cond, env, unit1)
-        if unit1 then
-            return UnitIsUnit(unit1, env.unit or "player")
+CONDITIONS["sameunit"] = { }
+CONDITIONS["sameunit"].handler =
+    function (cond, env, v)
+        if v then
+            return UnitIsUnit(v, env.unit or "player")
         end
     end
 
-CONDITIONS["sex"] =
+CONDITIONS["sex"] = {}
+CONDITIONS["sex"].handler =
     function (cond, env, v)
         if v then
             return UnitSex(env.unit or "player") == tonumber(v)
@@ -479,17 +530,20 @@ CONDITIONS["sex"] =
 -- it sadly does not return false when you are floating on the top, that
 -- is still counted as being submerged.
 
-CONDITIONS["swimming"] =
+CONDITIONS["swimming"] = {}
+CONDITIONS["swimming"].handler =
     function (cond, env)
         return IsSubmerged()
     end
 
-CONDITIONS["shapeshift"] =
+CONDITIONS["shapeshift"] = {}
+CONDITIONS["shapeshift"].handler =
     function (cond, env)
         return HasTempShapeshiftActionBar()
     end
 
-CONDITIONS["spec"] =
+CONDITIONS["spec"] = {}
+CONDITIONS["spec"].handler =
     function (cond, env, v)
         if v then
             local index = GetSpecialization()
@@ -503,7 +557,8 @@ CONDITIONS["spec"] =
         end
     end
 
-CONDITIONS["stationary:args"] =
+CONDITIONS["stationary"] = { args = true }
+CONDITIONS["stationary"].handler =
     function (cond, env, minv, maxv)
         minv = tonumber(minv)
         maxv = tonumber(maxv)
@@ -519,22 +574,26 @@ CONDITIONS["stationary:args"] =
         end
     end
 
-CONDITIONS["stealthed"] =
+CONDITIONS["stealthed"] = {}
+CONDITIONS["stealthed"].handler =
     function (cond, env)
         return IsStealthed()
     end
 
-CONDITIONS["submerged"] =
+CONDITIONS["submerged"] = {}
+CONDITIONS["submerged"].handler =
     function (cond, env)
         return (IsSubmerged() and not LM.Environment:IsFloating())
     end
 
-CONDITIONS["talent:args"] =
+CONDITIONS["talent"] = { args = true }
+CONDITIONS["talent"].handler =
     function (cond, env, tier, talent)
         return select(2, GetTalentTierInfo(tier, 1)) == tonumber(talent)
     end
 
-CONDITIONS["tracking"] =
+CONDITIONS["tracking"] = {}
+CONDITIONS["tracking"].handler =
     function (cond, env, v)
         local name, active, _
         for i = 1, GetNumTrackingTypes() do
@@ -546,12 +605,14 @@ CONDITIONS["tracking"] =
         return false
     end
 
-CONDITIONS["true"] =
+CONDITIONS["true"] = {}
+CONDITIONS["true"].handler =
     function (cond, env)
         return true
     end
 
-CONDITIONS["waterwalking"] =
+CONDITIONS["waterwalking"] = {}
+CONDITIONS["waterwalking"].handler =
     function (cond, env)
         -- Anglers Waters Striders (168416) or Inflatable Mount Shoes (168417)
         if not C_MountJournal.AreMountEquipmentEffectsSuppressed() then
@@ -641,10 +702,11 @@ local function IsTransmogOutfitActive(outfitID)
     return true
 end
 
--- The :args version of this takes slotid/appearanceid and really should be junked
+-- The args version of this takes slotid/appearanceid and really should be junked
 -- now that the other form works.
 
-CONDITIONS["xmog:args"] =
+CONDITIONS["xmog"] = { args = true }
+CONDITIONS["xmog"].handler =
     function (cond, env, arg1, arg2)
         if arg2 then
             local slotID, appearanceID = tonumber(arg1), tonumber(arg2)
@@ -700,22 +762,19 @@ function LM.Conditions:IsTrue(condition, env, vars)
         values = { }
     end
 
-    local handler = CONDITIONS[cond..":args"]
-    if handler then
-        return handler(condition, env, unpack(values))
+    local c = CONDITIONS[cond]
+    if not c then
+        LM.WarningAndPrint(format(L.LM_ERR_BAD_CONDITION, cond))
+        return false
     end
 
-    handler = CONDITIONS[cond]
-    if handler then
-        if #values == 0 then
-            return handler(condition, env)
-        else
-            return any(handler, condition, env, unpack(values))
-        end
+    if c.args then
+        return c.handler(condition, env, unpack(values))
+    elseif #values == 0 then
+        return c.handler(condition, env)
+    else
+        return any(c.handler, condition, env, unpack(values))
     end
-
-    LM.WarningAndPrint(format(L.LM_ERR_BAD_CONDITION, cond))
-    return false
 end
 
 function LM.Conditions:EvalNot(conditions, env, vars)
@@ -768,5 +827,5 @@ function LM.Conditions:Check(checks, env)
 end
 
 function LM.Conditions:Validate(text)
-    return CONDITIONS[text] ~= nil or CONDITIONS[text..':args'] ~= nil
+    return CONDITIONS[text] ~= nil
 end
