@@ -629,7 +629,7 @@ CONDITIONS["profession"] = {
 }
 
 CONDITIONS["pvp"] = {
-    -- name = PVP,
+    name = PVP,
     handler =
         function (cond, env, v)
             if not v then
