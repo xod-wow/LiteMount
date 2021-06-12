@@ -103,3 +103,6 @@ function LiteMount:PLAYER_REGEN_ENABLED()
     self:Initialize()
 end
 
+--@debug@
+_G.LM = LM
+--@end-debug@

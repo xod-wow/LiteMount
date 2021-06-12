@@ -134,52 +134,32 @@ end
 
 function LM.Rules:ExpandOneCondition(ruleCondition)
 
+    local isNot
+
     -- Only handles 'NOT' for now
     if type(ruleCondition) == 'table' then
         if ruleCondition.op == 'NOT' then
-            return RED_FONT_COLOR:WrapTextInColorCode('NOT ' .. self:ExpandOneCondition(ruleCondition[1]))
+            isNot = true
+            ruleCondition = ruleCondition[1]
         else
             return ERROR_CAPS
         end
     end
 
-    local condition, conditionArg = string.split(':', ruleCondition, 2)
+    local cText = LM.Conditions:ToString(ruleCondition)
+    local cArgText = LM.Conditions:ArgsToString(ruleCondition)
 
-    if condition == "map" then
-        if conditionArg then
-            local info = C_Map.GetMapInfo(tonumber(conditionArg))
-            return string.format("%s : %s (%s)", WORLD_MAP, info.name, conditionArg)
-        end
-    elseif condition == "instance" then
-        local n = LM.Options:GetInstanceNameByID(tonumber(conditionArg))
-        if n then
-            return string.format("%s : %s (%s)", INSTANCE, n, conditionArg)
-        end
-    elseif condition == "location" then
-        if conditionArg then
-            return string.format("%s %s", LOCATION_COLON, conditionArg)
-        end
-    elseif condition == "submerged" then
-        return TUTORIAL_TITLE28
-    elseif condition == "mod" then
-        if conditionArg == "alt" then
-            return ALT_KEY
-        elseif conditionArg == "ctrl" then
-            return CTRL_KEY
-        elseif conditionArg == "shift" then
-            return SHIFT_KEY
-        elseif not conditionArg then
-            return "MODIFIER key"
-        end
-    elseif condition == "flyable" then
-        return "Flyable area"
-    elseif condition == "faction" and conditionArg then
-        return string.format('%s : %s', FACTION, FACTION_LABELS[PLAYER_FACTION_GROUP[conditionArg]])
-    elseif condition == "class" and conditionArg then
-        return string.format('%s : %s', CLASS, LOCALIZED_CLASS_NAMES_FEMALE[conditionArg])
+    local text
+    if cArgText then
+        text = string.format("%s : %s", cText, cArgText)
+    else
+        text = cText
     end
-
-    return 'Raw : ' .. ruleCondition
+    if isNot then
+        return RED_FONT_COLOR:WrapTextInColorCode('NOT ' .. text)
+    else
+        return GREEN_FONT_COLOR:WrapTextInColorCode(text)
+    end
 end
 
 function LM.Rules:ExpandConditions(rule)

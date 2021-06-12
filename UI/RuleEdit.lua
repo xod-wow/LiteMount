@@ -20,129 +20,17 @@ end
 
 --[[--------------------------------------------------------------------------]]--
 
-local function MapTreeToTypeInfo(node)
-    local out = { val = "map:" .. node.mapID, text = string.format("%s (%d)", node.name, node.mapID) }
-    for _, n in ipairs(node) do table.insert(out, MapTreeToTypeInfo(n))
-    end
-    return out
-end
-
-local function InstanceTypeInfo()
-    local out = { }
-    for id, name in pairs(LM.Environment:GetInstances()) do
-        table.insert(out, { val = "instance:" .. id, text = string.format("%s (%d)", name, id) })
-    end
-    return out
-end
-
-local function LocationTypeInfo()
-    local names = {}
-    for i = 1, LM.Environment:MaxMapID() do
-        local info = C_Map.GetMapInfo(i)
-        if info and info.name ~= '' and info.mapType <= Enum.UIMapType.Zone then
-            names[info.name] = true
-        end
-    end
-    local out = {}
-    for k in pairs(names) do
-        table.insert(out, { val = "location:" .. k })
-    end
-    return out
-end
-
-local TypeInfo = {
-    {
-        type = "map",
-        text = WORLD_MAP,
-        values = MapTreeToTypeInfo(LM.Environment:GetMapTree()),
-    },
-    {
-        type = "instance",
-        text = INSTANCE,
-        values = InstanceTypeInfo,
-    },
-    {
-        type = "location",
-        text = "Location",
-        values = LocationTypeInfo,
-        validate=function () return true end,
-    },
-    {
-        type = "flyable",
-        text=LM.Rules:ExpandOneCondition("flyable"),
-    },
-    {
-        type = "class",
-        text = CLASS,
-        values = function ()
-            local result = {
-                { val = "class:" .. select(2, GetClassInfo(1)) },
-                { val = "class:" .. select(2, GetClassInfo(2)) },
-                { val = "class:" .. select(2, GetClassInfo(3)) },
-                { val = "class:" .. select(2, GetClassInfo(4)) },
-                { val = "class:" .. select(2, GetClassInfo(5)) },
-                { val = "class:" .. select(2, GetClassInfo(6)) },
-                { val = "class:" .. select(2, GetClassInfo(7)) },
-                { val = "class:" .. select(2, GetClassInfo(8)) },
-                { val = "class:" .. select(2, GetClassInfo(9)) },
-                { val = "class:" .. select(2, GetClassInfo(10)) },
-                { val = "class:" .. select(2, GetClassInfo(11)) },
-                { val = "class:" .. select(2, GetClassInfo(12)) },
-            }
-            return result
-        end,
-    },
-    {
-        type = "faction",
-        text = FACTION,
-        values = {
-            { val = "faction:" .. PLAYER_FACTION_GROUP[0], text = FACTION_LABELS[0] },
-            { val = "faction:" .. PLAYER_FACTION_GROUP[1], text = FACTION_LABELS[1] },
-        },
-    },
-    {
-        type = "submerged",
-        text = LM.Rules:ExpandOneCondition("submerged"),
-    },
-    {
-        type = "mod",
-        text = "Modifer Key",
-        values = {
-            { val = "mod:alt", text = ALT_KEY },
-            { val = "mod:ctrl", text = CTRL_KEY },
-            { val = "mod:shift", text = SHIFT_KEY },
-        }
-    },
-    {
-        type = "raw",
-        text = "Raw Condition Text",
-        validate = function (txt) return LM.Conditions:Validate(txt:gsub(':.*', '')) end,
-    },
-}
-
-sort(TypeInfo, function (a,b) return a.text < b.text end)
-table.insert(TypeInfo, 1, { text=ALWAYS, type="true" })
-table.insert(TypeInfo, 1, { text=NONE:upper() })
-
-local function GetTypeInfo(type)
-    for _, info in ipairs(TypeInfo) do
-        if info.type == type then
-            return info
-        end
-    end
-end
-
 local function TypeInitialize(dropDown, level, menuList)
     if level == 1 then
         local info = UIDropDownMenu_CreateInfo()
         info.func = function (button, arg1, arg2)
             dropDown.owner:GetParent():SetType(arg1)
         end
-        for _,item in ipairs(TypeInfo) do
+        for _,item in ipairs(LM.Conditions:GetConditions()) do
             info.minWidth = dropDown.owner:GetWidth() - 25 - 10
-            info.text = item.text
-            info.arg1 = item.type
-            info.checked = dropDown.owner:GetParent():GetType() == item.type
+            info.text = item.name
+            info.arg1 = item.condition
+            info.checked = dropDown.owner:GetParent():GetType() == item.condition
             UIDropDownMenu_AddButton(info, level)
         end
     end
@@ -210,24 +98,12 @@ local function ArgButtonClick(self, mouseButton)
     dropdown.owner = self
     local argType = self:GetParent().type
 
-    local info = GetTypeInfo(argType)
-    if info then
-        UIDropDownMenu_Initialize(dropdown, ArgsInitialize, 'MENU')
-        local values
-        if type(info.values) == 'table' then
-            values = info.values
-        elseif type(info.values) == 'function' then
-            values = info.values()
-        end
-        if values then
-            for _,item in ipairs(values) do
-                item.text = item.text or LM.Rules:ExpandOneCondition(item.val):gsub('^.-: ', '')
-            end
-            table.sort(values, function (a,b) return a.text < b.text end)
-            UIDropDownMenu_SetAnchor(dropdown, 5, 0, 'TOPLEFT', self, 'BOTTOMLEFT')
-            ToggleDropDownMenu(1, nil, dropdown, nil, 0, 0, values)
-            return
-        end
+    UIDropDownMenu_Initialize(dropdown, ArgsInitialize, 'MENU')
+    local values = LM.Conditions:ArgsMenu(argType)
+    if values then
+        UIDropDownMenu_SetAnchor(dropdown, 5, 0, 'TOPLEFT', self, 'BOTTOMLEFT')
+        ToggleDropDownMenu(1, nil, dropdown, nil, 0, 0, values)
+        return
     end
 end
 
@@ -251,37 +127,32 @@ local function OnTextChanged(self, info)
 end
 
 function LiteMountRuleEditConditionMixin:Update()
-    local info = GetTypeInfo(self.type)
-    self.TypeDropDown:SetText(info.text)
+    local info = LM.Conditions:GetCondition(self.type)
+
+    if not info then
+        self.TypeDropDown:SetText(NONE:upper())
+    else
+        self.TypeDropDown:SetText(info.name)
+    end
 
     self.ArgDropDown:Hide()
     self.ArgText:Hide()
 
-    if not info then return end
-
-    if info.values then
+    if info and info.menu then
         if self.arg then
-            self.ArgDropDown:SetText(LM.Rules:ExpandOneCondition(self.arg):gsub('^.-: ', ''))
+            self.ArgDropDown:SetText(LM.Conditions:ArgsToString(self.arg))
         else
             self.ArgDropDown:SetText(nil)
         end
         self.ArgDropDown:Show()
-    elseif info.validate then
-        self.ArgText:SetText(self.arg or "")
-        self.ArgText:SetScript('OnTextChanged', function (f) OnTextChanged(f, info) end)
-        self.ArgText:Show()
     end
 end
 
 function LiteMountRuleEditConditionMixin:SetType(type)
-    local info = GetTypeInfo(type)
     if self.type ~= type then
         self.arg = nil
     end
     self.type = type
-    if not info.values and not info.validate then
-        self.arg = type
-    end
     self:Update()
 end
 
