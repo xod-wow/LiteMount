@@ -70,13 +70,8 @@ local ACTIONS = { }
 -- get the restricted list. Always returns no action.
 
 ACTIONS['Limit'] = {
-    name =
-        function (v)
-            -- XXX LOCALIZE XXX
-            if v:sub(1,1) == '-' then return 'Exclude' end
-            if v:Sub(1,1) == '+' then return 'Include' end
-            return "Limit"
-        end,
+    -- XXX LOCALIZE XXX
+    name = 'Limit',
     tostring =
         function (v)
             v = v:gsub('^[-+=]', '')
@@ -87,6 +82,26 @@ ACTIONS['Limit'] = {
             local filters = tJoin(env.filters[1], args)
             table.insert(env.filters, 1, filters)
             LM.Debug(" - new filter: " .. table.concat(env.filters[1], ' '))
+        end
+}
+
+ACTIONS['LimitInclude'] = {
+    -- XXX LOCALIZE XXX
+    name = 'Include',
+    tostring = function (v) return LM.Mount:ExpandMountFilter(v) end,
+    handler = function (args, env)
+            local plusArgs = LM.tMap(args, function (a) return '+' .. a end)
+            ACTIONS['Limit'].handler(plusArgs, env)
+        end
+}
+
+ACTIONS['LimitExclude'] = {
+    -- XXX LOCALIZE XXX
+    name = 'Exclude',
+    tostring = function (v) return LM.Mount:ExpandMountFilter(v) end,
+    handler = function (args, env)
+            local minusArgs = LM.tMap(args, function (a) return '-' .. a end)
+            ACTIONS['Limit'].handler(minusArgs, env)
         end
 }
 
@@ -446,6 +461,14 @@ ACTIONS['Use'] = {
         end
 }
 
+do
+    for a, info in pairs(ACTIONS) do
+        info.action = a
+    end
+end
+
+--[[------------------------------------------------------------------------]]--
+--
 LM.Actions = { }
 
 local function GetDruidMountForms()
@@ -504,14 +527,10 @@ function LM.Actions:IsFlowSkipped(env)
     return tContains(env.flowControl, false)
 end
 
-function LM.Actions:ToString(action, args)
+function LM.Actions:ToString(action)
     local a = ACTIONS[action]
     if a and a.name then
-        if type(a.name) == 'function' then
-            return a.name(args[1])
-        else
-            return a.name
-        end
+        return a.name
     else
         return action
     end
