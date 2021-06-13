@@ -521,8 +521,7 @@ function LM.Actions:ArgsToString(action, args)
     local a = ACTIONS[action]
     if not a then return end
     if a.tostring then
-        -- XXX FIXME XXX handle multiple
-        return a.tostring(args[1])
+        return table.concat(LM.tMap(args, a.tostring), "\n")
     else
         return table.concat(args, ' ')
     end

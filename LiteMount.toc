@@ -12,6 +12,7 @@ Localization.lua
 
 AutoEventFrame.lua
 Print.lua
+TableUtil.lua
 
 #@debug@
 Developer.lua

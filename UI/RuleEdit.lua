@@ -14,10 +14,6 @@ local L = LM.Localize
 
 local MENU_SPLIT_SIZE = 20
 
-local function tSlice(t, from, to)
-    return { unpack(t, from, to) }
-end
-
 --[[--------------------------------------------------------------------------]]--
 
 local function TypeInitialize(dropDown, level, menuList)
@@ -77,7 +73,7 @@ local function ArgsInitialize(dropDown, level, menuList)
 
         for i = 1, #menuList, stride do
             local j = math.min(#menuList, i+stride-1)
-            info.menuList = tSlice(menuList, i, j)
+            info.menuList = LM.tSlice(menuList, i, j)
             local f = info.menuList[1].text
             local t = info.menuList[#info.menuList].text
             info.text = format('%s...%s', f, t)

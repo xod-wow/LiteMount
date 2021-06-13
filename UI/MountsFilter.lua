@@ -16,12 +16,6 @@ local MENU_SPLIT_SIZE = 20
 
 --[[------------------------------------------------------------------------]]--
 
-local function tSlice(t, from, to)
-    return { unpack(t, from, to) }
-end
-
---[[------------------------------------------------------------------------]]--
-
 LiteMountFilterMixin = {}
 
 function LiteMountFilterMixin:OnLoad()
@@ -188,7 +182,7 @@ local function InitDropDownSection(template, self, level, menuList)
 
         for i = 1, #menuList, stride do
             local j = math.min(#menuList, i+stride-1)
-            info.menuList = tSlice(menuList, i, j)
+            info.menuList = LM.tSlice(menuList, i, j)
             local f = template.gettext(info.menuList[1])
             local t = template.gettext(info.menuList[#info.menuList])
             info.text = format('%s...%s', f, t)

@@ -1109,8 +1109,7 @@ function LM.Conditions:ArgsToString(text)
     if c.args then
         argText = c.tostring(unpack(values))
     else
-        -- XXX FIXME XXX handle multiple values
-        argText = c.tostring(values[1])
+        argText = table.concat(LM.tMap(values, c.tostring, values), " ")
     end
     return argText
 end
