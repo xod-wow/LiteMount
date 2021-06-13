@@ -54,6 +54,27 @@ function LM.Mount:Refresh()
     -- Nothing in base
 end
 
+function LM.Mount:ExpandMountFilter(f)
+    if not f then return end
+    if f:sub(1,1) == '~' then
+        -- XXX LOCALIZE XXX
+        return 'NOT ' .. self:ExpandMountFilter(f:sub(2))
+    elseif f:match('^id:%d+$') then
+        local _, id = string.split(':', f, 2)
+        return C_MountJournal.GetMountInfoByID(tonumber(id))
+    elseif f:match('^family:') then
+        local _, family = string.split(':', f, 2)
+        return L.LM_FAMILY .. ' : ' .. L[family]
+    elseif f:match('^mt:%d+$') then
+        local _, id = string.split(':', f, 2)
+        return TYPE .. " : " .. LM.MOUNT_TYPES[tonumber(id)]
+    elseif LM.Options:IsActiveFlag(f) then
+        return GROUP .. ' : ' .. f
+    else
+        return GetSpellInfo(f) or f
+    end
+end
+
 function LM.Mount:MatchesOneFilter(flags, f)
     if f == "NONE" then
         return false

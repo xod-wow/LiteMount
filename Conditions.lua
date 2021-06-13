@@ -350,6 +350,7 @@ CONDITIONS["floating"] = {
 }
 
 CONDITIONS["flyable"] = {
+    -- XXX LOCALIZE XXX
     name = L["Flyable area"],
     handler =
         function (cond, env)
@@ -511,6 +512,7 @@ CONDITIONS["maw"] = {
 }
 
 CONDITIONS["mod"] = {
+    -- XXX LOCALIZE XXX
     name = L["Modifier key"],
     tostring =
         function (v)

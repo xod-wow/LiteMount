@@ -156,6 +156,7 @@ function LM.Rules:ExpandOneCondition(ruleCondition)
         text = cText
     end
     if isNot then
+        -- XXX LOCALIZE XXX
         return RED_FONT_COLOR:WrapTextInColorCode('NOT ' .. text)
     else
         return GREEN_FONT_COLOR:WrapTextInColorCode(text)
@@ -171,42 +172,14 @@ function LM.Rules:ExpandConditions(rule)
     return conditions
 end
 
-local function ExpandMountFilter(actionArg)
-    if not actionArg then return end
-    if actionArg:match('^id:%d+$') then
-        local _, id = string.split(':', actionArg, 2)
-        actionArg = C_MountJournal.GetMountInfoByID(tonumber(id))
-    elseif actionArg:match('^%d+$') then
-        return GetSpellInfo(tonumbber(actionArg))
-    elseif actionArg:match('^family:') then
-        local _, family = string.split(':', actionArg, 2)
-        return L.LM_FAMILY .. ' : ' .. L[family]
-    elseif actionArg:match('^mt:%d+$') then
-        local _, id = string.split(':', actionArg, 2)
-        return TYPE .. " : " .. LM.MOUNT_TYPES[tonumber(id)]
-    elseif LM.Options:IsActiveFlag(actionArg) then
-        return GROUP .. ' : ' .. actionArg
-    end
-    return actionArg
-end
-
 local function ExpandAction(rule)
-    local action = rule.action
-    local actionArg = table.concat(rule.args, ' ')
-    if tContains({ 'Mount', 'SmartMount' }, action) then
-        if actionArg then
-            return action .. "\n" .. ExpandMountFilter(actionArg)
-        end
-    elseif action == "Limit" then
-        if actionArg:sub(1,1) == '-' then
-            return "Exclude\n" .. ExpandMountFilter(actionArg:sub(2))
-        elseif actionArg:sub(1,1) == '+' then
-            return "Include\n" .. ExpandMountFilter(actionArg:sub(2))
-        else
-            return "Limit\n" .. ExpandMountFilter(actionArg)
-        end
+    local action = LM.Actions:ToString(rule.action, rule.args)
+    local actionArg = LM.Actions:ArgsToString(rule.action, rule.args)
+    if actionArg then
+        return action .. '\n' .. actionArg
+    else
+        return action
     end
-    return action .. ' ' .. actionArg
 end
 
 function LM.Rules:UserRuleText(rule)

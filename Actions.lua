@@ -10,6 +10,8 @@
 
 local _, LM = ...
 
+local L = LM.Localize
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -68,6 +70,18 @@ local ACTIONS = { }
 -- get the restricted list. Always returns no action.
 
 ACTIONS['Limit'] = {
+    name =
+        function (v)
+            -- XXX LOCALIZE XXX
+            if v:sub(1,1) == '-' then return 'Exclude' end
+            if v:Sub(1,1) == '+' then return 'Include' end
+            return "Limit"
+        end,
+    tostring =
+        function (v)
+            v = v:gsub('^[-+=]', '')
+            return LM.Mount:ExpandMountFilter(v)
+        end,
     handler =
         function (args, env)
             local filters = tJoin(env.filters[1], args)
@@ -115,6 +129,17 @@ local function GetUsableSpell(arg)
 end
 
 ACTIONS['Spell'] = {
+    -- XXX LOCALIZE XXX
+    name = "Cast Spell",
+    tostring =
+        function (v)
+            local name, _, _, _, _, _, id = GetSpellInfo(v)
+            if name then
+                return string.format("%s (%d)", name, id)
+            else
+                return v
+            end
+        end,
     handler =
         function (args, env)
             for _, arg in ipairs(args) do
@@ -134,6 +159,9 @@ ACTIONS['Spell'] = {
 -- because for some spells (e.g., Levitate) the ID doesn't match.
 
 ACTIONS['Buff'] = {
+    -- XXX LOCALIZE XXX
+    name = "Apply Buff",
+    tostring = ACTIONS["Spell"].tostring,
     handler =
         function (args, env)
             for _, arg in ipairs(args) do
@@ -151,6 +179,10 @@ ACTIONS['Buff'] = {
 }
 
 ACTIONS['CancelAura'] = {
+    -- XXX LOCALIZE XXX
+    name = "Cancel Buff",
+    tostring = ACTIONS['Spell'].tostring,
+    handler =
         function (args, env)
             for _, arg in ipairs(args) do
                 local name, _, _, _, _, _, _, _, _, _, castable = LM.UnitAura('player', arg)
@@ -176,6 +208,7 @@ ACTIONS['LeaveVehicle'] = {
 -- things such as shapeshift forms
 
 ACTIONS['Dismount'] = {
+    name = BINDING_NAME_DISMOUNT,
     handler =
         function (args, env)
             -- Shortcut dismount from journal mounts. This has the (wanted) side
@@ -235,6 +268,10 @@ ACTIONS['ApplyRules'] = {
 }
 
 ACTIONS['SmartMount'] = {
+    -- XXX LOCALIZE XXX
+    name = "SmartMount",
+    tostring =
+        function (v) return LM.Mount:ExpandFilter(v) end,
     handler =
         function (args, env)
 
@@ -291,6 +328,9 @@ ACTIONS['SmartMount'] = {
 }
 
 ACTIONS['Mount'] = {
+    name = MOUNT,
+    tostring =
+        function (v) return LM.Mount:ExpandMountFilter(v) end,
     handler =
         function (args, env)
             local filters = ReplaceVars(tJoin(env.filters[1], args))
@@ -462,4 +502,28 @@ end
 
 function LM.Actions:IsFlowSkipped(env)
     return tContains(env.flowControl, false)
+end
+
+function LM.Actions:ToString(action, args)
+    local a = ACTIONS[action]
+    if a and a.name then
+        if type(a.name) == 'function' then
+            return a.name(args[1])
+        else
+            return a.name
+        end
+    else
+        return action
+    end
+end
+
+function LM.Actions:ArgsToString(action, args)
+    local a = ACTIONS[action]
+    if not a then return end
+    if a.tostring then
+        -- XXX FIXME XXX handle multiple
+        return a.tostring(args[1])
+    else
+        return table.concat(args, ' ')
+    end
 end
