@@ -16,41 +16,6 @@ local MENU_SPLIT_SIZE = 20
 
 --[[--------------------------------------------------------------------------]]--
 
-local function TypeInitialize(dropDown, level, menuList)
-    if level == 1 then
-        local info = UIDropDownMenu_CreateInfo()
-        info.minWidth = dropDown.owner:GetWidth() - 25 - 10
-        info.func = function (button, arg1, arg2)
-            dropDown.owner:GetParent():SetType(arg1)
-        end
-        info.text = NONE:upper()
-        info.arg1 = nil
-        UIDropDownMenu_AddButton(info, level)
-        info.text = ALWAYS:upper()
-        info.arg1 = ""
-        UIDropDownMenu_AddButton(info, level)
-        UIDropDownMenu_AddSeparator(level)
-        for _,item in ipairs(LM.Conditions:GetConditions()) do
-            info.text = item.name
-            info.arg1 = item.condition
-            info.checked = dropDown.owner:GetParent():GetType() == item.condition
-            UIDropDownMenu_AddButton(info, level)
-        end
-    end
-end
-
--- UIDropDownMenu_SetAnchor(dropdown, xOffset, yOffset, point, relativeTo, relativePoint)
--- ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset, yOffset, menuList, button, autoHideDelay)
-
-
-local function TypeButtonClick(self, mouseButton)
-    local dropdown = self:GetParent().DropDown
-    dropdown.owner = self
-    UIDropDownMenu_Initialize(dropdown, TypeInitialize, 'MENU')
-    UIDropDownMenu_SetAnchor(dropdown, 5, 5, 'TOPLEFT', self, 'BOTTOMLEFT')
-    ToggleDropDownMenu(1, nil, dropdown)
-end
-
 local function ArgsInitialize(dropDown, level, menuList)
     if not menuList then return end
 
@@ -96,23 +61,55 @@ local function ArgsInitialize(dropDown, level, menuList)
     end
 end
 
-local function ArgButtonClick(self, mouseButton)
-    local dropdown = self:GetParent().DropDown
-    dropdown.owner = self
-    local argType = self:GetParent().type
+
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountRuleEditConditionMixin = { }
+
+function ConditionTypeInitialize(dropDown, level, menuList)
+    if level == 1 then
+        local info = UIDropDownMenu_CreateInfo()
+        info.minWidth = dropDown.owner:GetWidth() - 25 - 10
+        info.func = function (button, arg1, arg2)
+            dropDown.owner:GetParent():SetType(arg1)
+        end
+        info.text = NONE:upper()
+        info.arg1 = nil
+        UIDropDownMenu_AddButton(info, level)
+        info.text = ALWAYS:upper()
+        info.arg1 = ""
+        UIDropDownMenu_AddButton(info, level)
+        UIDropDownMenu_AddSeparator(level)
+        for _,item in ipairs(LM.Conditions:GetConditions()) do
+            info.text = item.name
+            info.arg1 = item.condition
+            info.checked = dropDown.owner:GetParent():GetType() == item.condition
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end
+end
+
+function LiteMountRuleEditConditionMixin.TypeButtonClick(button, mouseButton)
+    local dropdown = button:GetParent().DropDown
+    dropdown.owner = button
+    UIDropDownMenu_Initialize(dropdown, ConditionTypeInitialize, 'MENU')
+    UIDropDownMenu_SetAnchor(dropdown, 5, 5, 'TOPLEFT', button, 'BOTTOMLEFT')
+    ToggleDropDownMenu(1, nil, dropdown)
+end
+
+function LiteMountRuleEditConditionMixin.ArgButtonClick(button, mouseButton)
+    local dropdown = button:GetParent().DropDown
+    dropdown.owner = button
+    local argType = button:GetParent().type
 
     UIDropDownMenu_Initialize(dropdown, ArgsInitialize, 'MENU')
     local values = LM.Conditions:ArgsMenu(argType)
     if values then
-        UIDropDownMenu_SetAnchor(dropdown, 5, 0, 'TOPLEFT', self, 'BOTTOMLEFT')
+        UIDropDownMenu_SetAnchor(dropdown, 5, 0, 'TOPLEFT', button, 'BOTTOMLEFT')
         ToggleDropDownMenu(1, nil, dropdown, nil, 0, 0, values)
         return
     end
 end
-
---[[------------------------------------------------------------------------]]--
-
-LiteMountRuleEditConditionMixin = { }
 
 function LiteMountRuleEditConditionMixin:GetType(arg)
     return self.type
@@ -179,10 +176,87 @@ end
 
 function LiteMountRuleEditConditionMixin:OnLoad()
     self.NumText:SetText(self:GetID())
-    self.TypeDropDown:SetScript('OnClick', TypeButtonClick)
-    self.ArgDropDown:SetScript('OnClick', ArgButtonClick)
+    self.TypeDropDown:SetScript('OnClick', self.TypeButtonClick)
+    self.ArgDropDown:SetScript('OnClick', self.ArgButtonClick)
 end
 
+
+--[[--------------------------------------------------------------------------]]--
+
+LiteMountRuleEditActionMixin = {}
+
+local TypeMenu = {
+    "Mount",
+    "SmartMount",
+    "Limit",
+    "LimitInclude",
+    "LimitExclude",
+}
+
+function ActionTypeInitialize(dropDown, level, menuList)
+    if level == 1 then
+        local info = UIDropDownMenu_CreateInfo()
+        info.minWidth = dropDown.owner:GetWidth() - 25 - 10
+        info.func = function (button, arg1, arg2)
+            dropDown.owner:GetParent():SetType(arg1)
+        end
+        for _,item in ipairs(TypeMenu) do
+            info.text = LM.Actions:ToString(item)
+            info.arg1 = item
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end
+end
+
+function LiteMountRuleEditActionMixin.TypeButtonClick(button, mouseButton)
+    local dropdown = button:GetParent().DropDown
+    dropdown.owner = button
+    UIDropDownMenu_Initialize(dropdown, ActionTypeInitialize, 'MENU')
+    UIDropDownMenu_SetAnchor(dropdown, 5, 5, 'TOPLEFT', button, 'BOTTOMLEFT')
+    ToggleDropDownMenu(1, nil, dropdown)
+end
+
+local function MountToInfo(m)
+    return { val = m.spellID, text = m.name }
+end
+
+function LiteMountRuleEditActionMixin.ArgButtonClick(button, mouseButton)
+    local dropdown = button:GetParent().DropDown
+    dropdown.owner = button
+    UIDropDownMenu_Initialize(dropdown, ArgsInitialize, 'MENU')
+    UIDropDownMenu_SetAnchor(dropdown, 5, 5, 'TOPLEFT', button, 'BOTTOMLEFT')
+    local values = LM.tMap(LM.PlayerMounts.mounts, MountToInfo)
+    table.sort(values, function (a, b) return a.text < b.text end)
+    ToggleDropDownMenu(1, nil, dropdown, nil, 0, 0, values)
+end
+
+function LiteMountRuleEditActionMixin:SetType(type)
+    if self.type ~= type then
+        self.arg = nil
+    end
+    self.type = type
+    self:Update()
+end
+
+function LiteMountRuleEditActionMixin:Update()
+    self.TypeDropDown:SetText(LM.Actions:ToString(self.type))
+
+    if not self.type then
+        self.ArgDropDown:Hide()
+    else
+        if self.arg then
+            self.ArgDropDown:SetText(LM.Conditions:ArgsToString(self.arg))
+        else
+            self.ArgDropDown:SetText("")
+        end
+        self.ArgDropDown:Show()
+    end
+end
+
+function LiteMountRuleEditActionMixin:OnLoad()
+    self.TypeDropDown:SetScript('OnClick', self.TypeButtonClick)
+    self.ArgDropDown:SetScript('OnClick', self.ArgButtonClick)
+end
 
 --[[--------------------------------------------------------------------------]]--
 
