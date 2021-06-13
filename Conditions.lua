@@ -1108,6 +1108,8 @@ function LM.Conditions:ArgsToString(text)
     local argText
     if c.args then
         argText = c.tostring(unpack(values))
+    elseif #values == 0 then
+        argText = c.tostring()
     else
         argText = table.concat(LM.tMap(values, c.tostring, values), " ")
     end

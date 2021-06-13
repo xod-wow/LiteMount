@@ -178,6 +178,7 @@ function LiteMountRuleEditConditionMixin:OnShow()
 end
 
 function LiteMountRuleEditConditionMixin:OnLoad()
+    self.NumText:SetText(self:GetID())
     self.TypeDropDown:SetScript('OnClick', TypeButtonClick)
     self.ArgDropDown:SetScript('OnClick', ArgButtonClick)
 end

@@ -11,8 +11,8 @@ Libs\embeds.xml
 Localization.lua
 
 AutoEventFrame.lua
-Print.lua
 TableUtil.lua
+Print.lua
 
 #@debug@
 Developer.lua
