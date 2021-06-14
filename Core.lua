@@ -74,7 +74,7 @@ end
 
 function LiteMount:RecompileActions()
     for _,b in ipairs(self.actions) do
-        b:CompileActions()
+        b:CompileRules()
     end
 end
 

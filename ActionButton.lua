@@ -22,37 +22,7 @@ local L = LM.Localize
 
 LM.ActionButton = { }
 
-function LM.ActionButton:Dispatch(action, env)
-
-    local isTrue = LM.Conditions:Eval(action.conditions, env)
-
-    local handler = LM.Actions:GetFlowControlHandler(action.action)
-    if handler then
-        LM.Debug("Dispatching flow control action " .. action.line)
-        handler(action.args or {}, env, isTrue)
-        return
-    end
-
-    if not isTrue or LM.Actions:IsFlowSkipped(env) then
-        return
-    end
-
-    handler = LM.Actions:GetHandler(action.action)
-    if not handler then
-        LM.WarningAndPrint(format(L.LM_ERR_BAD_ACTION, action.action))
-        return
-    end
-
-    if action.line then
-        LM.Debug("Dispatching action " .. action.line)
-    else
-        LM.Debug("Dispatching action from rule.")
-    end
-
-    return handler(action.args or {}, env)
-end
-
-function LM.ActionButton:CompileActions()
+function LM.ActionButton:CompileRules()
     local actionList = LM.Options:GetButtonAction(self.id)
     self.rules = LM.Rules:Compile(actionList)
 end
@@ -72,15 +42,13 @@ function LM.ActionButton:PreClick(mouseButton)
         self.globalEnv.randomTime = GetTime()
     end
 
-    -- New sub-environment for this run
-    local subEnv = CopyTable(self.globalEnv)
-
     -- Set up the fresh run environment for a new run.
+    local subEnv = CopyTable(self.globalEnv)
     subEnv.filters = { { } }
     subEnv.flowControl = { }
 
     for _,rule in ipairs(self.rules) do
-        local act = self:Dispatch(rule, subEnv)
+        local act = LM.Rules:Dispatch(rule, subEnv)
         if act then
             act:SetupActionButton(self)
             return
@@ -124,7 +92,7 @@ function LM.ActionButton:Create(n)
     b.globalEnv = { id = n }
 
     -- Button-fu
-    b:CompileActions()
+    b:CompileRules()
 
     b:RegisterForClicks("AnyDown")
 

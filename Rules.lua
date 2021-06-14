@@ -48,7 +48,7 @@ local function ReadWord(line)
     if token then return token, rest end
 end
 
-function LM.Rules:ParseActionLine(line)
+function LM.Rules:ParseLine(line)
     local argWords, condWords = { }, { }
 
     -- Note this is intentionally unanchored to skip leading whitespace
@@ -125,7 +125,7 @@ function LM.Rules:Compile(text)
     for line in text:gmatch('([^\r\n]+)') do
         line = line:gsub('%s*#.*', '')
         if line ~= '' then
-            tinsert(out, self:ParseActionLine(line))
+            tinsert(out, self:ParseLine(line))
         end
     end
 
@@ -184,4 +184,30 @@ end
 
 function LM.Rules:UserRuleText(rule)
     return self:ExpandConditions(rule), ExpandAction(rule)
+end
+
+function LM.Rules:Dispatch(rule, env)
+
+    local isTrue = LM.Conditions:Eval(rule.conditions, env)
+
+    local handler = LM.Actions:GetFlowControlHandler(rule.action)
+    if handler then
+        LM.Debug("Dispatching flow control action " .. rule.line)
+        handler(rule.args or {}, env, isTrue)
+        return
+    end
+
+    if not isTrue or LM.Actions:IsFlowSkipped(env) then
+        return
+    end
+
+    handler = LM.Actions:GetHandler(rule.action)
+    if not handler then
+        LM.WarningAndPrint(format(L.LM_ERR_BAD_ACTION, rule.action))
+        return
+    end
+
+    LM.Debug("Dispatching rule " .. (rule.line or rule.action))
+
+    return handler(rule.args or {}, env)
 end

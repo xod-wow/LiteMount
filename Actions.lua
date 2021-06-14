@@ -16,16 +16,6 @@ local L = LM.Localize
 if LibDebug then LibDebug() end
 --@end-debug@
 
-local function tJoin(...)
-    local out = { }
-    for _,t in ipairs({ ... }) do
-        for _,v in ipairs(t) do
-            table.insert(out, v)
-        end
-    end
-    return out
-end
-
 local function ReplaceVars(list)
     local out = {}
     for _,l in ipairs(list) do
@@ -79,7 +69,7 @@ ACTIONS['Limit'] = {
         end,
     handler =
         function (args, env)
-            local filters = tJoin(env.filters[1], args)
+            local filters = LM.tJoin(env.filters[1], args)
             table.insert(env.filters, 1, filters)
             LM.Debug(" - new filter: " .. table.concat(env.filters[1], ' '))
         end
@@ -272,7 +262,7 @@ ACTIONS['ApplyRules'] = {
             local rules = LM.Options:GetRules(env.id)
             LM.Debug(string.format(" - checking %d rules for button %d", #rules, env.id))
             for i,rule in ipairs(rules) do
-                local act = LM.ActionButton:Dispatch(rule, env)
+                local act = LM.Rules:Dispatch(rule, env)
                 if act then
                     LM.Debug(string.format(" - found matching rule %d", i))
                     return act
@@ -290,7 +280,7 @@ ACTIONS['SmartMount'] = {
     handler =
         function (args, env)
 
-            local filters = ReplaceVars(tJoin(env.filters[1], args))
+            local filters = ReplaceVars(LM.tJoin(env.filters[1], args))
             local filteredList = LM.PlayerMounts:FilterSearch("CASTABLE"):Limit(unpack(filters))
 
             LM.Debug(" - filters: " .. table.concat(filters, ' '))
@@ -348,7 +338,7 @@ ACTIONS['Mount'] = {
         function (v) return LM.Mount:ExpandMountFilter(v) end,
     handler =
         function (args, env)
-            local filters = ReplaceVars(tJoin(env.filters[1], args))
+            local filters = ReplaceVars(LM.tJoin(env.filters[1], args))
             LM.Debug(" - filters: " .. table.concat(filters, ' '))
             local mounts = LM.PlayerMounts:FilterSearch("CASTABLE"):Limit(unpack(filters))
             local m = mounts:PriorityRandom(env.random)

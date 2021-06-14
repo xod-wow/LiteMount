@@ -36,6 +36,17 @@ function LM.PairsByKeys (t, f)
     return iter
 end
 
+
+function LM.tJoin(...)
+    local out = { }
+    for _,t in ipairs({ ... }) do
+        for _,v in ipairs(t) do
+            table.insert(out, v)
+        end
+    end
+    return out
+end
+
 -- This dumper is adapted from DevTools_Dump and is a lot less
 -- capable BUT it never truncates anything, and it doesn't put
 -- color codes into the output.
