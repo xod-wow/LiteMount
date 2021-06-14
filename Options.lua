@@ -75,6 +75,7 @@ local DefaultRules = {
         -- args = { "id:1039" },
         args = { "family:Brutosaur" },
     },
+--@end-debug@
     {
         conditions = { "map:203", "submerged", op="AND" },
         action = "Mount",
@@ -105,7 +106,6 @@ local DefaultRules = {
         action = "LimitExclude",
         args = { "mt:254" }
     }
---@end-debug@
 }
 
 -- A lot of things need to be cleaned up when flags are deleted/renamed
