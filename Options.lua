@@ -97,13 +97,13 @@ local DefaultRules = {
     },
     {
         conditions = { "mod:shift", "flyable", op="AND" },
-        action = "Limit",
-        args = { "-mt:248" }
+        action = "LimitExclude",
+        args = { "mt:248" }
     },
     {
-        conditions = { "mod:shift", "submerged", "waterwalking", op="AND" },
-        action = "Limit",
-        args = { "-mt:254" }
+        conditions = { "mod:shift", "submerged", op="AND" },
+        action = "LimitExclude",
+        args = { "mt:254" }
     }
 --@end-debug@
 }

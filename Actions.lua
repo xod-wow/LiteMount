@@ -77,7 +77,7 @@ ACTIONS['Limit'] = {
 
 ACTIONS['LimitInclude'] = {
     -- XXX LOCALIZE XXX
-    name = 'Include',
+    name = 'Include Mounts',
     tostring = function (v) return LM.Mount:MountFilterToString(v) end,
     handler = function (args, env)
             local plusArgs = LM.tMap(args, function (a) return '+' .. a end)
@@ -87,7 +87,7 @@ ACTIONS['LimitInclude'] = {
 
 ACTIONS['LimitExclude'] = {
     -- XXX LOCALIZE XXX
-    name = 'Exclude',
+    name = 'Exclude Mounts',
     tostring = function (v) return LM.Mount:MountFilterToString(v) end,
     handler = function (args, env)
             local minusArgs = LM.tMap(args, function (a) return '-' .. a end)
