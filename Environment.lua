@@ -19,15 +19,6 @@ LM.Environment = LM.CreateAutoEventFrame("Frame")
 LM.Environment:RegisterEvent("PLAYER_LOGIN")
 
 function LM.Environment:Initialize()
-    self.uiMapID = -1
-    self.uiMapGroupID = -1
-    self.uiMapPath = { }
-    self.uiMapPathIDs = { }
-    self.uiMapPathGroupIDs = { }
-
-    self.instanceID = -1
-    self.zoneText = nil
-
     self.combatTravelForm = nil
 
     self:UpdateSwimTimes()
@@ -81,7 +72,7 @@ end
 
 -- A jump in place takes approximately 0.83 seconds
 
-function LM.Environment:JumpTime()
+function LM.Environment:GetJumpTime()
     local airTime = self.stoppedFalling - self.startedFalling
     if airTime > 0.73 and airTime < 0.93 then
         local timeSinceLanded = GetTime() - self.stoppedFalling
@@ -89,7 +80,7 @@ function LM.Environment:JumpTime()
     end
 end
 
-function LM.Environment:StationaryTime()
+function LM.Environment:GetStationaryTime()
     if not self.stoppedMoving then
         return 0
     else
@@ -112,47 +103,12 @@ function LM.Environment:IsMovingOrFalling()
     return (GetUnitSpeed("player") > 0 or IsFalling())
 end
 
-function LM.Environment:TheMaw()
+function LM.Environment:IsTheMaw()
     -- This is the instanced starting experience
     if self.instanceID == 2364 then return true end
 
     -- Otherwise, The Maw is just a Shadowlands zone in instance 2222
-    if LM.Environment.uiMapID == 1543 then return true end
-end
-
-function LM.Environment:Update()
-    local map = C_Map.GetBestMapForUnit("player")
-
-    -- Right after zoning this can be unknown.
-    if not map then return end
-
-    local info = C_Map.GetMapInfo(map)
-
-    self.uiMapID = map
-    self.uiMapGroupID = C_Map.GetMapGroupID(map)
-    self.uiMapName = info.name
-
-    wipe(self.uiMapPath)
-    wipe(self.uiMapPathIDs)
-    wipe(self.uiMapPathGroupIDs)
-    while info do
-        tinsert(self.uiMapPath, info.mapID)
-        self.uiMapPathIDs[info.mapID] = true
-        local groupID = C_Map.GetMapGroupID(info.mapID)
-        if groupID then
-            self.uiMapPathGroupIDs[groupID] = true
-        end
-        info = C_Map.GetMapInfo(info.parentMapID)
-    end
-
-    self.zoneText = GetZoneText()
-    self.subZoneText = GetSubZoneText()
-
-    info = { GetInstanceInfo() }
-    self.instanceName = info[1]
-    self.instanceID = info[8]
-
-    LM.Options:RecordInstance(info)
+    if C_Map.GetBestMapForUnit('player') == 1543 then return true end
 end
 
 function LM.Environment:PLAYER_LOGIN()
@@ -173,23 +129,19 @@ function LM.Environment:MOUNT_JOURNAL_USABILITY_CHANGED()
 end
 
 function LM.Environment:PLAYER_ENTERING_WORLD()
-    LM.Debug("Updating location due to PLAYER_ENTERING_WORLD.")
-    self:Update()
+    LM.Options:RecordInstance()
 end
 
 function LM.Environment:ZONE_CHANGED()
-    LM.Debug("Updating location due to ZONE_CHANGED.")
-    self:Update()
+    LM.Options:RecordInstance()
 end
 
 function LM.Environment:ZONE_CHANGED_INDOORS()
-    LM.Debug("Updating location due to ZONE_CHANGED_INDOORS.")
-    self:Update()
+    LM.Options:RecordInstance()
 end
 
 function LM.Environment:ZONE_CHANGED_NEW_AREA()
-    LM.Debug("Updating location due to ZONE_CHANGED_NEW_AREA.")
-    self:Update()
+    LM.Options:RecordInstance()
 end
 
 function LM.Environment:UPDATE_SHAPESHIFT_FORM()
@@ -201,19 +153,35 @@ function LM.Environment:UPDATE_SHAPESHIFT_FORM()
     end
 end
 
+function LM.Environment:IsCombatTravelForm()
+    return self.combatTravelForm
+end
+
 function LM.Environment:IsOnMap(mapID)
-    if mapId == self.uiMapID then return true end
-    local groupID = C_Map.GetMapGroupID(mapID)
-    if groupID and groupID == self.uiMapGroupID then return true end
+    local currentMapID = C_Map.GetBestMapForUnit('player')
+    if mapId == currentMapID then
+        return true
+    end
+    local groupID = C_Map.GetMapGroupID(currentMapID)
+    if groupID and groupID == C_Map.GetMapGroupID(currentMapID) then
+        return true
+    end
     return false
 end
 
-function LM.Environment:MapInPath(...)
-    for i = 1, select('#', ...) do
-        local id = select(i, ...)
-        if self.uiMapPathIDs[id] then return true end
-        local groupID = C_Map.GetMapGroupID(id)
-        if groupID and self.uiMapPathGroupIDs[groupID] then return true end
+function LM.Environment:GetMapPath()
+    local out = {}
+    local mapID = C_Map.GetBestMapForUnit('player')
+    while mapID and mapID > 0 do
+        table.insert(out, mapID)
+        mapID = C_Map.GetMapInfo(mapID).parentMapID
+    end
+    return out
+end
+
+function LM.Environment:IsMapInPath(mapID)
+    for _, mapID in ipairs(self:GetMapPath()) do
+        if self:IsOnMap(mapID) then return true end
     end
     return false
 end
@@ -341,14 +309,16 @@ end
 
 function LM.Environment:GetLocation()
     local path = { }
-    for _, mapID in ipairs(self.uiMapPath) do
-        tinsert(path, format("%s (%d)", C_Map.GetMapInfo(mapID).name, mapID))
+    for _, mapID in ipairs(self:GetMapPath()) do
+        local info = C_Map.GetMapInfo(mapID)
+        tinsert(path, format("%s (%d)", info.name, info.mapID))
     end
 
+    local info = { GetInstanceInfo() }
     return {
-        format("map: %s (%d)",  C_Map.GetMapInfo(self.uiMapID).name, self.uiMapID),
+        "map: " .. path[1],
         "mapPath: " .. table.concat(path, " -> "),
-        "instance: " .. self.instanceID,
+        "instance: " .. string.format("%s (%d)", info[1], info[8]),
         "zoneText: " .. GetZoneText(),
         "subZoneText: " .. GetSubZoneText(),
         "IsFlyableArea(): " .. tostring(IsFlyableArea()),
@@ -367,7 +337,7 @@ function LM.Environment:GetPlayerModel()
 end
 
 local maxMapID
-function LM.Environment:MaxMapID()
+function LM.Environment:GetMaxMapID()
     if not maxMapID then
         -- 10000 is a guess at something way over the current maximum
 
@@ -385,7 +355,7 @@ function LM.Environment:GetMaps(str)
 
     local lines = {}
 
-    for i = 1, self:MaxMapID() do
+    for i = 1, self:GetMaxMapID() do
         local info = C_Map.GetMapInfo(i)
         if info then
             local searchName = string.lower(info.name)
@@ -402,9 +372,12 @@ function LM.Environment:GetContinents(str)
 
     local lines = {}
 
-    for i = 1, self:MaxMapID() do
+    for i = 1, self:GetMaxMapID() do
         local info = C_Map.GetMapInfo(i)
-        if info and info.mapType == Enum.UIMapType.Continent then
+        if info
+            and info.mapType == Enum.UIMapType.Continent
+            and info.parentMapID > 0
+            and C_Map.IsMapValidForNavBarDropDown(i) then
             local searchName = string.lower(info.name)
             if info.mapID == tonumber(str) or searchName:find(searchStr) then
                 tinsert(lines, format("% 4d : %s", info.mapID, info.name))
@@ -418,8 +391,6 @@ function LM.Environment:GetInstances()
     return LM.Options:GetInstances()
 end
 
-local mapTree
-
 local function FillChildren(info)
     for _, child in ipairs(C_Map.GetMapChildrenInfo(info.mapID)) do
         if C_Map.IsMapValidForNavBarDropDown(child.mapID) then
@@ -429,6 +400,8 @@ local function FillChildren(info)
         end
     end
 end
+
+local mapTree
 
 function LM.Environment:GetMapTree()
     if not mapTree then

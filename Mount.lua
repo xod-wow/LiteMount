@@ -147,7 +147,7 @@ function LM.Mount:IsCastable()
     elseif LM.Options:GetInstantOnlyMoving() then
         if castTime == 0 then return false end
     end
-    if LM.Environment:TheMaw() and not self:MawUsable() then
+    if LM.Environment:IsTheMaw() and not self:MawUsable() then
         return false
     end
     return true

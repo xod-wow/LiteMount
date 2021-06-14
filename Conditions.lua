@@ -369,7 +369,7 @@ CONDITIONS["form"] = {
     handler =
         function (cond, env, v)
             if v == "slow" then
-                return LM.Environment.combatTravelForm
+                return LM.Environment:IsCombatTravelForm()
             elseif v then
                 return GetShapeshiftForm() == tonumber(v)
             else
@@ -449,7 +449,7 @@ CONDITIONS["instance"] = {
 CONDITIONS["jump"] = {
     handler =
         function (cond, env)
-            local jumpTime = LM.Environment:JumpTime()
+            local jumpTime = LM.Environment:GetJumpTime()
             return ( jumpTime and jumpTime < 2 )
         end
 }
@@ -475,8 +475,13 @@ CONDITIONS["location"] = {
         end,
     handler =
         function (cond, env, v)
-            if LM.Environment.uiMapName == v then return true end
-            if LM.Environment.instanceName == v then return true end
+            local mapID = C_Map.GetBestMapForUnit('player')
+            if C_Map.GetMapInfo(mapID).name == v then
+                return true
+            end
+            if GetInstanceInfo() == v then
+                return true
+            end
         end,
 }
 
@@ -499,7 +504,7 @@ CONDITIONS["map"] = {
             if v:sub(1,1) == '*' then
                 return LM.Environment:IsOnMap(tonumber(v:sub(2)))
             else
-                return LM.Environment:MapInPath(tonumber(v))
+                return LM.Environment:IsMapInPath(tonumber(v))
             end
         end,
 }
@@ -507,7 +512,7 @@ CONDITIONS["map"] = {
 CONDITIONS["maw"] = {
     handler =
         function (cond, env, v)
-            return LM.Environment:TheMaw()
+            return LM.Environment:IsTheMaw()
         end
 }
 
@@ -759,7 +764,7 @@ CONDITIONS["stationary"] = {
         function (cond, env, minv, maxv)
             minv = tonumber(minv)
             maxv = tonumber(maxv)
-            local stationaryTime = LM.Environment:StationaryTime()
+            local stationaryTime = LM.Environment:GetStationaryTime()
             if stationaryTime then
                 if stationaryTime < ( minv or 0 ) then
                     return false

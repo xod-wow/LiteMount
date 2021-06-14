@@ -79,7 +79,7 @@ VARS["{ROLE}"] =
 
 VARS["{MAPID}"] =
     function ()
-        return LM.Environment.uiMapID
+        return C_Map.GetBestMapForUnit('player')
     end
 
 -- this should totally be some kind of metatable but who cares
