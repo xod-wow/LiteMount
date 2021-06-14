@@ -15,34 +15,6 @@
         <Color r="0.3" g="0.5" b="1" a="0.3" />
     </HighlightTexture>
 
-    <Frames>
-        <Button parentKey="DeleteButton">
-            <Size x="20" y="20" />
-            <Anchors>
-                <Anchor point="LEFT" x="0" />
-            </Anchors>
-            <Scripts>
-                <OnClick>
-                    local f = self:GetParent().flag
-                    StaticPopup_Show("LM_OPTIONS_DELETE_FLAG", f, nil, f)
-                </OnClick>
-                <OnEnter>
-                    local f = self:GetParent().flag
-                    GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
-                    GameTooltip:AddLine(DELETE .. ' ' .. f)
-                    GameTooltip:Show()
-                </OnEnter>
-                <OnLeave>
-                    GameTooltip:Hide()
-                </OnLeave>
-            </Scripts>
-            <DisabledTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Disabled"/>
-            <NormalTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Up"/>
-            <PushedTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Down"/>
-            <HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
-        </Button>
-    </Frames>
-
     <Layers>
         <Layer level="OVERLAY">
             <Texture parentKey="SelectedTexture" hidden="true" setAllPoints="true">
@@ -60,7 +32,7 @@
         <Layer level="ARTWORK">
             <FontString parentKey="Text" inherits="GameFontNormal" justifyH="LEFT">
                 <Anchors>
-                    <Anchor point="LEFT" relativeKey="$parent.DeleteButton" relativePoint="RIGHT" x="0" />
+                    <Anchor point="LEFT" x="4" />
                     <Anchor point="RIGHT" x="-4" />
                 </Anchors>
             </FontString>
@@ -220,6 +192,18 @@
                 </Layer>
             </Layers>
         </CheckButton>
+        <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
+            <Scripts>
+                <OnClick>
+                    local f = self:GetParent().selectedFlag
+                    if f then StaticPopup_Show("LM_OPTIONS_DELETE_FLAG", f, nil, f) end
+                </OnClick>
+            </Scripts>
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="TOPRIGHT" relativeKey="$parent.MountsContainer" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
+            </Anchors>
+        </Button>
     </Frames>
 
     <Layers>
