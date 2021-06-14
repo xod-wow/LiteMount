@@ -276,7 +276,7 @@ ACTIONS['SmartMount'] = {
     -- XXX LOCALIZE XXX
     name = "SmartMount",
     tostring =
-        function (v) return LM.Mount:ExpandFilter(v) end,
+        function (v) return LM.Mount:ExpandMountFilter(v) end,
     handler =
         function (args, env)
 
