@@ -1063,10 +1063,10 @@ function LM.Conditions:GetConditions()
     return out
 end
 
-local function FillArgsTexts(t)
+local function FillMenuTexts(t)
     for _,item in ipairs(t) do
         item.text = item.text or LM.Conditions:ArgsToString(item.val)
-        FillArgsTexts(item)
+        FillMenuTexts(item)
     end
     if not t.nosort then
         table.sort(t, function (a,b) return a.text < b.text end)
@@ -1078,9 +1078,9 @@ function LM.Conditions:ArgsMenu(cond)
     local c = CONDITIONS[cond]
     if not c then return end
     if type(c.menu) == 'table' then
-        return FillArgsTexts(c.menu)
+        return FillMenuTexts(c.menu)
     elseif type(c.menu) == 'function' then
-        return FillArgsTexts(c.menu())
+        return FillMenuTexts(c.menu())
     end
 end
 

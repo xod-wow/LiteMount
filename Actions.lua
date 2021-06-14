@@ -65,7 +65,7 @@ ACTIONS['Limit'] = {
     tostring =
         function (v)
             v = v:gsub('^[-+=]', '')
-            return LM.Mount:ExpandMountFilter(v)
+            return LM.Mount:MountFilterToString(v)
         end,
     handler =
         function (args, env)
@@ -78,7 +78,7 @@ ACTIONS['Limit'] = {
 ACTIONS['LimitInclude'] = {
     -- XXX LOCALIZE XXX
     name = 'Include',
-    tostring = function (v) return LM.Mount:ExpandMountFilter(v) end,
+    tostring = function (v) return LM.Mount:MountFilterToString(v) end,
     handler = function (args, env)
             local plusArgs = LM.tMap(args, function (a) return '+' .. a end)
             ACTIONS['Limit'].handler(plusArgs, env)
@@ -88,7 +88,7 @@ ACTIONS['LimitInclude'] = {
 ACTIONS['LimitExclude'] = {
     -- XXX LOCALIZE XXX
     name = 'Exclude',
-    tostring = function (v) return LM.Mount:ExpandMountFilter(v) end,
+    tostring = function (v) return LM.Mount:MountFilterToString(v) end,
     handler = function (args, env)
             local minusArgs = LM.tMap(args, function (a) return '-' .. a end)
             ACTIONS['Limit'].handler(minusArgs, env)
@@ -276,7 +276,7 @@ ACTIONS['SmartMount'] = {
     -- XXX LOCALIZE XXX
     name = "SmartMount",
     tostring =
-        function (v) return LM.Mount:ExpandMountFilter(v) end,
+        function (v) return LM.Mount:MountFilterToString(v) end,
     handler =
         function (args, env)
 
@@ -335,7 +335,7 @@ ACTIONS['SmartMount'] = {
 ACTIONS['Mount'] = {
     name = MOUNT,
     tostring =
-        function (v) return LM.Mount:ExpandMountFilter(v) end,
+        function (v) return LM.Mount:MountFilterToString(v) end,
     handler =
         function (args, env)
             local filters = ReplaceVars(LM.tJoin(env.filters[1], args))

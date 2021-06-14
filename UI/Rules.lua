@@ -41,7 +41,7 @@ end
 function LiteMountRuleButtonMixin:Update(index, rule)
     self.index = index
     self.NumText:SetText(index)
-    local conditions, action = LM.Rules:UserRuleText(rule)
+    local conditions, action = LM.Rules:RuleToString(rule)
     self.Action:SetText(action)
     self.Condition:SetText(table.concat(conditions, '\n'))
 end

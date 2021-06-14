@@ -132,7 +132,7 @@ function LM.Rules:Compile(text)
     return out
 end
 
-function LM.Rules:ExpandOneCondition(ruleCondition)
+local function OneConditionToString(ruleCondition)
 
     local isNot
 
@@ -163,16 +163,16 @@ function LM.Rules:ExpandOneCondition(ruleCondition)
     end
 end
 
-function LM.Rules:ExpandConditions(rule)
+function LM.Rules:ConditionsToString(rule)
     local conditions = {}
     for _, ruleCondition in ipairs(rule.conditions) do
-        local text = self:ExpandOneCondition(ruleCondition)
+        local text = OneConditionToString(ruleCondition)
         table.insert(conditions, GREEN_FONT_COLOR:WrapTextInColorCode(text))
     end
     return conditions
 end
 
-local function ExpandAction(rule)
+function LM.Rules:ActionToString(rule)
     local action = LM.Actions:ToString(rule.action, rule.args)
     local actionArg = LM.Actions:ArgsToString(rule.action, rule.args)
     if actionArg then
@@ -182,8 +182,8 @@ local function ExpandAction(rule)
     end
 end
 
-function LM.Rules:UserRuleText(rule)
-    return self:ExpandConditions(rule), ExpandAction(rule)
+function LM.Rules:RuleToString(rule)
+    return self:ConditionsToString(rule), self:ActionToString(rule)
 end
 
 function LM.Rules:Dispatch(rule, env)
