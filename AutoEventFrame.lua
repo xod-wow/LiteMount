@@ -11,12 +11,14 @@
 
 local _, LM = ...
 
+local function MethodDispatch(self, event, ...)
+    if self[event] then
+        self[event](self, event, ...)
+    end
+end
+
 function LM.CreateAutoEventFrame(frameType, ...)
     local f = CreateFrame(frameType, ...)
-    f:SetScript("OnEvent", function (self, event, ...)
-                                if self[event] then
-                                    self[event](self, event, ...)
-                                end
-                            end)
+    f:SetScript("OnEvent", MethodDispatch)
     return f
 end
