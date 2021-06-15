@@ -12,16 +12,6 @@ local _, LM = ...
 
 local L = LM.Localize
 
-local NUM_FLAG_BUTTONS = 5
-
-local function tslice(t, first, last)
-    local out = { }
-    for i = first or 1, last or #t do
-        tinsert(out, t[i])
-    end
-    return out
-end
-
 --[[--------------------------------------------------------------------------]]--
 
 LiteMountPriorityMixin = {}
@@ -329,24 +319,8 @@ end
 
 LiteMountMountsPanelMixin = {}
 
-function LiteMountMountsPanelMixin:UpdateFlagPaging()
-    self.allFlags = LM.Options:GetFlags()
-
-    local label
-    for i = 1, NUM_FLAG_BUTTONS do
-        label = self["BitLabel"..i]
-        if self.allFlags[i] then
-            label:SetText(L[self.allFlags[i]])
-            label:Show()
-        else
-            label:Hide()
-        end
-    end
-end
-
 function LiteMountMountsPanelMixin:Update()
     LM.UIFilter.ClearCache()
-    self:UpdateFlagPaging()
     self.MountScroll:Update()
     self.AllPriority:Update()
 end
@@ -366,6 +340,15 @@ function LiteMountMountsPanelMixin:OnLoad()
 
     self.name = MOUNTS
 
+    self.allFlags = LM.Options:GetFlags()
+
+    local label
+    for i = 1, 4 do
+        label = self["BitLabel"..i]
+        if self.allFlags[i] then
+            label:SetText(L[self.allFlags[i]])
+        end
+    end
     -- We are using the MountScroll SetControl to do ALL the updating.
 
     LiteMountOptionsPanel_RegisterControl(self.MountScroll)
