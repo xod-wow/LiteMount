@@ -78,6 +78,8 @@ function LM.Journal:Get(id, isUsable)
         -- no flags
     elseif m.mountType == 241 then      -- AQ-only bugs
         -- no flags
+    elseif m.mountType == 242 then      -- Flyers for when dead in some zones
+        m.flags['FLY'] = true
     elseif m.mountType == 247 then      -- Red Flying Cloud
         m.flags['FLY'] = true
     elseif m.mountType == 248 then      -- Flying mounts
