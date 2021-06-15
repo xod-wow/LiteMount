@@ -98,7 +98,7 @@ COMMANDS['mounts'] =
         return true
     end
 
-COMMANDS['flags'] =
+COMMANDS['groups'] =
     function (argstr, action, arg1, arg2)
         if action == "add" and arg1 then
             LM.Options:CreateFlag(arg1)
@@ -107,13 +107,8 @@ COMMANDS['flags'] =
         elseif action == "rename" and arg1 and arg2 then
             LM.Options:RenameFlag(arg1, arg2)
         elseif action == "list" and arg1 == nil then
-            local flags = LM.Options:GetAllFlags()
-            for i = 1, #flags do
-                if LM.Options:IsPrimaryFlag(flags[i]) then
-                    flags[i] = ORANGE_FONT_COLOR:WrapTextInColorCode(flags[i])
-                end
-            end
-            LM.Print(table.concat(flags, ' '))
+            local groups = LM.Options:GetGroups()
+            LM.Print(table.concat(groups, ' '))
         end
     end
 

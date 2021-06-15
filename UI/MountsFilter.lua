@@ -65,26 +65,26 @@ local DROPDOWNS = {
     ['COLLECTED'] = {
         value = 'COLLECTED',
         text = COLLECTED,
-        checked = function () return LM.UIFilter.IsFlagChecked("COLLECTED") end,
-        set = function (v) LM.UIFilter.SetFlagFilter("COLLECTED", v) end
+        checked = function () return LM.UIFilter.IsOtherChecked("COLLECTED") end,
+        set = function (v) LM.UIFilter.SetOtherFilter("COLLECTED", v) end
     },
     ['NOT_COLLECTED'] = {
         value = 'NOT_COLLECTED',
         text = NOT_COLLECTED,
-        checked = function () return LM.UIFilter.IsFlagChecked("NOT_COLLECTED") end,
-        set = function (v) LM.UIFilter.SetFlagFilter("NOT_COLLECTED", v) end
+        checked = function () return LM.UIFilter.IsOtherChecked("NOT_COLLECTED") end,
+        set = function (v) LM.UIFilter.SetOtherFilter("NOT_COLLECTED", v) end
     },
     ['UNUSABLE'] = {
         value = 'UNUSABLE',
         text = MOUNT_JOURNAL_FILTER_UNUSABLE,
-        checked = function () return LM.UIFilter.IsFlagChecked("UNUSABLE") end,
-        set = function (v) LM.UIFilter.SetFlagFilter("UNUSABLE", v) end
+        checked = function () return LM.UIFilter.IsOtherChecked("UNUSABLE") end,
+        set = function (v) LM.UIFilter.SetOtherFilter("UNUSABLE", v) end
     },
     ['HIDDEN'] = {
         value = 'HIDDEN',
         text = L.LM_HIDDEN,
-        checked = function () return LM.UIFilter.IsFlagChecked("HIDDEN") end,
-        set = function (v) LM.UIFilter.SetFlagFilter("HIDDEN", v) end
+        checked = function () return LM.UIFilter.IsOtherChecked("HIDDEN") end,
+        set = function (v) LM.UIFilter.SetOtherFilter("HIDDEN", v) end
     },
     ['PRIORITY'] = {
         value = 'PRIORITY',
@@ -95,14 +95,23 @@ local DROPDOWNS = {
         menulist = function () return LM.UIFilter.GetPriorities() end,
         gettext = function (k) return LM.UIFilter.GetPriorityText(k) end,
     },
-    ['FLAGS'] = {
-        value = 'FLAGS',
-        text = L.LM_FLAGS,
-        checked = function (k) return LM.UIFilter.IsFlagChecked(k) end,
-        set = function (k, v) LM.UIFilter.SetFlagFilter(k, v) end,
-        setall = function (v) LM.UIFilter.SetAllFlagFilters(v) end,
-        menulist = function () return LM.UIFilter.GetFlags() end,
-        gettext = function (k) return LM.UIFilter.GetFlagText(k) end,
+    ['TYPE'] = {
+        value = 'TYPE',
+        text = TYPE,
+        checked = function (k) return LM.UIFilter.IsTypeChecked(k) end,
+        set = function (k, v) LM.UIFilter.SetTypeFilter(k, v) end,
+        setall = function (v) LM.UIFilter.SetAllTypeFilters(v) end,
+        menulist = function () return LM.UIFilter.GetTypes() end,
+        gettext = function (k) return LM.UIFilter.GetTypeText(k) end,
+    },
+    ['GROUP'] = {
+        value = 'GROUP',
+        text = GROUP,
+        checked = function (k) return LM.UIFilter.IsGroupChecked(k) end,
+        set = function (k, v) LM.UIFilter.SetGroupFilter(k, v) end,
+        setall = function (v) LM.UIFilter.SetAllGroupFilters(v) end,
+        menulist = function () return LM.UIFilter.GetGroups() end,
+        gettext = function (k) return LM.UIFilter.GetGroupText(k) end,
     },
     ['FAMILY'] = {
         value = 'FAMILY',
@@ -229,13 +238,16 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         ---- 5. PRIORITY ----
         InitDropDownSection(DROPDOWNS.PRIORITY, self, level, menuList)
 
-        ---- 6. FLAGS ----
-        InitDropDownSection(DROPDOWNS.FLAGS, self, level, menuList)
+        ---- 6. TYPE ----
+        InitDropDownSection(DROPDOWNS.TYPE, self, level, menuList)
 
-        ---- 7. FAMILY ----
+        ---- 7. GROUP ----
+        InitDropDownSection(DROPDOWNS.GROUP, self, level, menuList)
+
+        ---- 8. FAMILY ----
         InitDropDownSection(DROPDOWNS.FAMILY, self, level, menuList)
 
-        ---- 8. SOURCES ----
+        ---- 9. SOURCES ----
         InitDropDownSection(DROPDOWNS.SOURCES, self, level, menuList)
     else
         InitDropDownSection(DROPDOWNS[UIDROPDOWNMENU_MENU_VALUE], self, level, menuList)

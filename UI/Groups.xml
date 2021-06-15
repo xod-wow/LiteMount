@@ -103,9 +103,9 @@
     </KeyValues>
 
     <Scripts>
-        <OnLoad inherit="append" method="OnLoad" />
-        <OnShow inherit="append" method="OnShow" />
-        <OnHide inherit="append" method="OnHide" />
+        <OnLoad method="OnLoad" />
+        <OnShow method="OnShow" />
+        <OnHide method="OnHide" />
     </Scripts>
 
     <Layers>
@@ -146,11 +146,11 @@
                 <OnSizeChanged inherit="append" method="OnSizeChanged" />
             </Scripts>
             <Frames>
-                <Button parentKey="AddFlagButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
+                <Button parentKey="AddGroupButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
                     <Size x="96" y="22" />
                     <Scripts>
                         <OnClick>
-                            StaticPopup_Show("LM_OPTIONS_NEW_FLAG")
+                            StaticPopup_Show("LM_OPTIONS_NEW_GROUP")
                         </OnClick>
                     </Scripts>
                 </Button>
@@ -195,8 +195,8 @@
         <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
             <Scripts>
                 <OnClick>
-                    local f = self:GetParent().selectedFlag
-                    if f then StaticPopup_Show("LM_OPTIONS_DELETE_FLAG", f, nil, f) end
+                    local f = self:GetParent().selectedGroup
+                    if f then StaticPopup_Show("LM_OPTIONS_DELETE_GROUP", f, nil, f) end
                 </OnClick>
             </Scripts>
             <Size x="96" y="22" />

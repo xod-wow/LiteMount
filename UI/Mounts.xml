@@ -203,38 +203,6 @@
     </Layers>
 
     <Frames>
-        <Button parentKey="NextPageButton">
-            <Size x="26" y="26" />
-            <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.BitLabel5" relativePoint="RIGHT" x="4" />
-            </Anchors>
-            <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
-            <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
-            <DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
-            <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
-            <Scripts>
-                <OnClick>
-                    self:GetParent():NextFlagPage()
-                </OnClick>
-            </Scripts>
-        </Button>
-
-        <Button parentKey="PrevPageButton">
-            <Size x="26" y="26" />
-            <Anchors>
-                <Anchor point="RIGHT" relativeKey="$parent.BitLabel1" relativePoint="LEFT" x="-4" />
-            </Anchors>
-            <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
-            <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
-            <DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
-            <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
-            <Scripts>
-                <OnClick>
-                    self:GetParent():PrevFlagPage()
-                </OnClick>
-            </Scripts>
-        </Button>
-
         <Frame parentKey="AllPriority" inherits="LiteMountPriorityTemplate" mixin="LiteMountAllPriorityMixin">
             <Anchors>
                 <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.BitLabel1" x="-30" />

@@ -28,8 +28,8 @@ function LM.GhostWolf:IsCastable()
     return LM.Spell.IsCastable(self)
 end
 
-function LM.GhostWolf:CurrentFlags()
-    local flags = LM.Mount.CurrentFlags(self)
+function LM.GhostWolf:GetFlags()
+    local flags = LM.Mount.GetFlags(self)
 
     -- Ghost Wolf is also 100% speed if the Rehgar Earthfury bodyguard
     -- is following you around in Lost Isles (Legion). Unfortunately there's

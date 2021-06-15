@@ -43,7 +43,7 @@ The important methods are
 ```
   IsCastable()
   IsCancelable()
-  GetCurrentFlags()         - Returns the options-modified set
+  GetFlags()                - Returns the options-modified set
   GetCastAction()           - Returns a LM.SecureAction to summon this mount.
   GetCancelAction()         - Same but for dismount/cancel
 ```

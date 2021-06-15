@@ -15,10 +15,14 @@ local L = LM.Localize
 LM.UIFilter = {
         filteredMountList = LM.MountList:New(),
         searchText = nil,
-        flagFilterList =  { },
-        sourceFilterList = { },
-        familyFilterList = { },
-        priorityFilterList = { },
+        filterList = {
+            family = { },
+            group =  { },
+            other =  { },
+            priority = { },
+            source = { },
+            type =  { },
+        }
     }
 
 local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
@@ -42,28 +46,34 @@ end
 -- Clear -----------------------------------------------------------------------
 
 function LM.UIFilter.Clear()
-    table.wipe(LM.UIFilter.flagFilterList)
-    table.wipe(LM.UIFilter.familyFilterList)
-    table.wipe(LM.UIFilter.priorityFilterList)
-    table.wipe(LM.UIFilter.sourceFilterList)
-    table.wipe(LM.UIFilter.filteredMountList)
+    for _,t in pairs(LM.UIFilter.filterList) do
+        table.wipe(t)
+    end
     callbacks:Fire('OnFilterChanged')
 end
 
 function LM.UIFilter.IsFiltered()
-    if next(LM.UIFilter.sourceFilterList) ~= nil then
+    if next(LM.UIFilter.filterList.family) ~= nil then
         return true
     end
 
-    if next(LM.UIFilter.priorityFilterList) ~= nil then
+    if next(LM.UIFilter.filterList.group) ~= nil then
         return true
     end
 
-    if next(LM.UIFilter.flagFilterList) ~= nil then
+    if next(LM.UIFilter.filterList.other) ~= nil then
         return true
     end
 
-    if next(LM.UIFilter.familyFilterList) ~= nil then
+    if next(LM.UIFilter.filterList.priority) ~= nil then
+        return true
+    end
+
+    if next(LM.UIFilter.filterList.source) ~= nil then
+        return true
+    end
+
+    if next(LM.UIFilter.filterList.type) ~= nil then
         return true
     end
 
@@ -119,11 +129,11 @@ end
 function LM.UIFilter.SetAllSourceFilters(v)
     LM.UIFilter.ClearCache()
     if v then
-        table.wipe(LM.UIFilter.sourceFilterList)
+        table.wipe(LM.UIFilter.filterList.source)
     else
         for i = 1,LM.UIFilter.GetNumSources() do
             if LM.UIFilter.IsValidSourceFilter(i) then
-                LM.UIFilter.sourceFilterList[i] = true
+                LM.UIFilter.filterList.source[i] = true
             end
         end
     end
@@ -133,15 +143,15 @@ end
 function LM.UIFilter.SetSourceFilter(i, v)
     LM.UIFilter.ClearCache()
     if v then
-        LM.UIFilter.sourceFilterList[i] = nil
+        LM.UIFilter.filterList.source[i] = nil
     else
-        LM.UIFilter.sourceFilterList[i] = true
+        LM.UIFilter.filterList.source[i] = true
     end
     callbacks:Fire('OnFilterChanged')
 end
 
 function LM.UIFilter.IsSourceChecked(i)
-    return not LM.UIFilter.sourceFilterList[i]
+    return not LM.UIFilter.filterList.source[i]
 end
 
 function LM.UIFilter.IsValidSourceFilter(i)
@@ -179,10 +189,10 @@ end
 function LM.UIFilter.SetAllFamilyFilters(v)
     LM.UIFilter.ClearCache()
     if v then
-        table.wipe(LM.UIFilter.familyFilterList)
+        table.wipe(LM.UIFilter.filterList.family)
     else
         for k in pairs(LM.MOUNTFAMILY) do
-            LM.UIFilter.familyFilterList[k] = true
+            LM.UIFilter.filterList.family[k] = true
         end
     end
     callbacks:Fire('OnFilterChanged')
@@ -191,15 +201,15 @@ end
 function LM.UIFilter.SetFamilyFilter(i, v)
     LM.UIFilter.ClearCache()
     if v then
-        LM.UIFilter.familyFilterList[i] = nil
+        LM.UIFilter.filterList.family[i] = nil
     else
-        LM.UIFilter.familyFilterList[i] = true
+        LM.UIFilter.filterList.family[i] = true
     end
     callbacks:Fire('OnFilterChanged')
 end
 
 function LM.UIFilter.IsFamilyChecked(i)
-    return not LM.UIFilter.familyFilterList[i]
+    return not LM.UIFilter.filterList.family[i]
 end
 
 function LM.UIFilter.IsValidFamilyFilter(i)
@@ -211,61 +221,95 @@ function LM.UIFilter.GetFamilyText(i)
 end
 
 
--- Flags -----------------------------------------------------------------------
+-- Types -----------------------------------------------------------------------
 
-function LM.UIFilter.IsFlagChecked(f)
-    return not LM.UIFilter.flagFilterList[f]
+function LM.UIFilter.IsTypeChecked(t)
+    return not LM.UIFilter.filterList.type[t]
 end
 
-function LM.UIFilter.SetFlagFilter(f, v)
+function LM.UIFilter.SetTypeFilter(t, v)
     LM.UIFilter.ClearCache()
     if v then
-        LM.UIFilter.flagFilterList[f] = nil
+        LM.UIFilter.filterList.type[t] = nil
     else
-        LM.UIFilter.flagFilterList[f] = true
+        LM.UIFilter.filterList.type[t] = true
     end
     callbacks:Fire('OnFilterChanged')
 end
 
-function LM.UIFilter.SetAllFlagFilters(v)
+function LM.UIFilter.SetAllTypeFilters(v)
     LM.UIFilter.ClearCache()
-    for _,f in ipairs(LM.UIFilter.GetFlags()) do
+    for n in pairs(LM.MOUNT_TYPES) do
         if v then
-            LM.UIFilter.flagFilterList[f] = nil
+            LM.UIFilter.filterList.type[n] = nil
         else
-            LM.UIFilter.flagFilterList[f] = true
+            LM.UIFilter.filterList.type[n] = true
         end
     end
     callbacks:Fire('OnFilterChanged')
 end
 
-function LM.UIFilter.GetFlags()
-    return LM.Options:GetAllFlags()
+function LM.UIFilter.GetTypes()
+    local out = {}
+    for t in pairs(LM.MOUNT_TYPES) do table.insert(out, t) end
+    sort(out, function (a,b) return LM.MOUNT_TYPES[a] < LM.MOUNT_TYPES[b] end)
+    return out
 end
 
-function LM.UIFilter.GetFlagText(f)
-    if LM.Options:IsPrimaryFlag(f) then
-        return ITEM_QUALITY_COLORS[2].hex
-            .. L[f]
-            .. FONT_COLOR_CODE_CLOSE
+function LM.UIFilter.GetTypeText(t)
+    return LM.MOUNT_TYPES[t]
+end
+
+
+-- Groups ----------------------------------------------------------------------
+
+function LM.UIFilter.IsGroupChecked(g)
+    return not LM.UIFilter.filterList.group[g]
+end
+
+function LM.UIFilter.SetGroupFilter(g, v)
+    LM.UIFilter.ClearCache()
+    if v then
+        LM.UIFilter.filterList.group[g] = nil
     else
-        return f
+        LM.UIFilter.filterList.group[g] = true
     end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.SetAllGroupFilters(v)
+    LM.UIFilter.ClearCache()
+    for _,g in ipairs(LM.UIFilter.GetGroups()) do
+        if v then
+            LM.UIFilter.filterList.group[g] = nil
+        else
+            LM.UIFilter.filterList.group[g] = true
+        end
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.GetGroups()
+    return LM.Options:GetGroups()
+end
+
+function LM.UIFilter.GetGroupText(f)
+    return f
 end
 
 
 -- Priorities ------------------------------------------------------------------
 
 function LM.UIFilter.IsPriorityChecked(p)
-    return not LM.UIFilter.priorityFilterList[p]
+    return not LM.UIFilter.filterList.priority[p]
 end
 
 function LM.UIFilter.SetPriorityFilter(p, v)
     LM.UIFilter.ClearCache()
     if v then
-        LM.UIFilter.priorityFilterList[p] = nil
+        LM.UIFilter.filterList.priority[p] = nil
     else
-        LM.UIFilter.priorityFilterList[p] = true
+        LM.UIFilter.filterList.priority[p] = true
     end
     callbacks:Fire('OnFilterChanged')
 end
@@ -273,10 +317,10 @@ end
 function LM.UIFilter.SetAllPriorityFilters(v)
     LM.UIFilter.ClearCache()
     if v then
-        table.wipe(LM.UIFilter.priorityFilterList)
+        table.wipe(LM.UIFilter.filterList.priority)
     else
         for _,p in ipairs(LM.UIFilter.GetPriorities()) do
-            LM.UIFilter.priorityFilterList[p] = true
+            LM.UIFilter.filterList.priority[p] = true
         end
     end
     callbacks:Fire('OnFilterChanged')
@@ -297,6 +341,22 @@ function LM.UIFilter.GetPriorityText(p)
 end
 
 
+-- Other -----------------------------------------------------------------------
+
+function LM.UIFilter.IsOtherChecked(k)
+    return not LM.UIFilter.filterList.other[k]
+end
+
+function LM.UIFilter.SetOtherFilter(k, v)
+    LM.UIFilter.ClearCache()
+    if v then
+        LM.UIFilter.filterList.other[k] = nil
+    else
+        LM.UIFilter.filterList.other[k] = true
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
 -- Search ----------------------------------------------------------------------
 
 function LM.UIFilter.SetSearchText(t)
@@ -314,8 +374,6 @@ end
 
 function LM.UIFilter.IsFilteredMount(m)
 
-    local filters = LM.UIFilter.flagFilterList
-
     -- Source filters
 
     local source = m.sourceType
@@ -323,59 +381,60 @@ function LM.UIFilter.IsFilteredMount(m)
         source = LM.UIFilter.GetNumSources()
     end
 
-    if LM.UIFilter.sourceFilterList[source] == true then
+    if LM.UIFilter.filterList.source[source] == true then
+        return true
+    end
+
+    -- Type filters
+    if LM.UIFilter.filterList.type[m.mountType or 0] == true then
         return true
     end
 
     -- Family filters
-    if m.family and LM.UIFilter.familyFilterList[m.family] == true then
+    if m.family and LM.UIFilter.filterList.family[m.family] == true then
         return true
     end
 
-    -- Flag filters
+    -- Group filters
 
     -- Does the mount info indicate it should be hidden. This happens (for
     -- example) with some mounts that have different horde/alliance versions
     -- with the same name.
 
-    if LM.UIFilter.flagFilterList.HIDDEN and m.isFiltered then
+    if LM.UIFilter.filterList.other.HIDDEN and m.isFiltered then
         return true
     end
 
-    if LM.UIFilter.flagFilterList.COLLECTED and m.isCollected then
+    if LM.UIFilter.filterList.other.COLLECTED and m.isCollected then
         return true
     end
 
-    if LM.UIFilter.flagFilterList.NOT_COLLECTED and not m.isCollected then
+    if LM.UIFilter.filterList.other.NOT_COLLECTED and not m.isCollected then
         return true
     end
 
     -- isUsable is only set for journal mounts so nil is true
-    if LM.UIFilter.flagFilterList.UNUSABLE and m.isUsable == false then
+    if LM.UIFilter.filterList.other.UNUSABLE and m.isUsable == false then
         return true
     end
 
     -- Priority Filters
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
-        if LM.UIFilter.priorityFilterList[p] and LM.Options:GetPriority(m) == p then
+        if LM.UIFilter.filterList.priority[p] and LM.Options:GetPriority(m) == p then
             return true
         end
     end
 
-    -- This weirdness is because some mounts don't have any flags and we show them all the
-    -- time instead of never. I should check if it's easier to just look for no flags on the
-    -- mount itself. XXX FIXME XXX
-
-    local okflags = CopyTable(m:CurrentFlags())
-    local noFilters = true
-    for _,flagName in ipairs(LM.UIFilter.GetFlags()) do
-        if LM.UIFilter.flagFilterList[flagName] then
-            okflags[flagName] = nil
-            noFilters = false
+    -- If all are checked, include the mounts with no groups as well
+    if next(LM.UIFilter.filterList.group) then
+        local isFiltered = true
+        for g in pairs(m:GetGroups()) do
+            if not LM.UIFilter.filterList.group[g] then
+                isFiltered = false
+                break
+            end
         end
-    end
-    if noFilters == false and next(okflags) == nil then
-        return true
+        if isFiltered then return true end
     end
 
     -- Search text from the input box.

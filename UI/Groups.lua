@@ -10,34 +10,99 @@
 
 local _, LM = ...
 
+local L = LM.Localize
+
+--[[--------------------------------------------------------------------------]]--
+
+StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
+    -- XXX LOCALIZE XXX
+    text = format("LiteMount : %s", L.LM_NEW_GROUP),
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    hasEditBox = 1,
+    maxLetters = 24,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            local text = self.editBox:GetText()
+            LM.Options:CreateFlag(text)
+            LiteMountGroupsPanel.selectedGroup = text
+            LiteMountGroupsPanel.Groups.isDirty = true
+            LiteMountGroupsPanel:Update()
+        end,
+    EditBoxOnEnterPressed = function (self)
+            if self:GetParent().button1:IsEnabled() then
+                StaticPopup_OnClick(self:GetParent(), 1)
+            end
+        end,
+    EditBoxOnEscapePressed = function (self)
+            self:GetParent():Hide()
+        end,
+    EditBoxOnTextChanged = function (self)
+            local text = self:GetText()
+            if text ~= "" and not LM.Options:IsActiveFlag(text) then
+                self:GetParent().button1:Enable()
+            else
+                self:GetParent().button1:Disable()
+            end
+        end,
+    OnShow = function (self)
+        self.editBox:SetFocus()
+    end,
+}
+
+StaticPopupDialogs["LM_OPTIONS_DELETE_GROUP"] = {
+    -- XXX LOCALIZE XXX
+    text = format("LiteMount : %s", L.LM_DELETE_GROUP),
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            LM.Options:DeleteFlag(self.data)
+            LiteMountGroupsPanel.Groups.isDirty = true
+        end,
+    OnShow = function (self)
+            self.text:SetText(format("LiteMount : %s : %s", L.LM_DELETE_GROUP, self.data))
+    end
+}
+
+
 --[[--------------------------------------------------------------------------]]--
 
 LiteMountGroupsPanelMixin = {}
 
 function LiteMountGroupsPanelMixin:OnLoad()
     self.showAll = true
-    self.refresh = self.Update
-    self.reset = self.Update
+    LiteMountOptionsPanel_RegisterControl(self.Groups)
+    LiteMountOptionsPanel_RegisterControl(self.Mounts)
+    LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountGroupsPanelMixin:OnShow()
     LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.Mounts, 'TOPLEFT', 0, 15)
     LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "refresh")
     self:Update()
+    LiteMountOptionsPanel_OnShow(self)
 end
 
 function LiteMountGroupsPanelMixin:OnHide()
     LM.UIFilter.UnregisterAllCallbacks(self)
+    LiteMountOptionsPanel_OnHide(self)
 end
 
 function LiteMountGroupsPanelMixin:Update()
-    self.allFlags = table.wipe(self.allFlags or {})
+    self.allGroups = table.wipe(self.allGroups or {})
     for f in pairs(LM.Options:GetRawFlags()) do
-        table.insert(self.allFlags, f)
+        table.insert(self.allGroups, f)
     end
-    table.sort(self.allFlags)
-    if not tContains(self.allFlags, self.selectedFlag) then
-        self.selectedFlag = self.allFlags[1]
+    table.sort(self.allGroups)
+    if not tContains(self.allGroups, self.selectedGroup) then
+        self.selectedGroup = self.allGroups[1]
     end
     self.Groups:Update()
     self.Mounts:Update()
@@ -49,11 +114,12 @@ end
 LiteMountGroupsPanelGroupMixin = {}
 
 function LiteMountGroupsPanelGroupMixin:OnClick()
-    if self.flag then
-        LiteMountGroupsPanel.selectedFlag = self.flag
+    if self.group then
+        LiteMountGroupsPanel.selectedGroup = self.group
         LiteMountGroupsPanel:Update()
     end
 end
+
 
 --[[--------------------------------------------------------------------------]]--
 
@@ -63,40 +129,40 @@ function LiteMountGroupsPanelGroupsMixin:Update()
     if not self.buttons then return end
 
     local offset = HybridScrollFrame_GetOffset(self)
-    local allFlags = self:GetParent().allFlags
+    local allGroups = self:GetParent().allGroups
 
-    local totalHeight = (#allFlags + 1) * (self.buttons[1]:GetHeight() + 1)
+    local totalHeight = (#allGroups + 1) * (self.buttons[1]:GetHeight() + 1)
     local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
 
     local index, button
 
-    self.AddFlagButton:SetParent(nil)
-    self.AddFlagButton:Hide()
+    self.AddGroupButton:SetParent(nil)
+    self.AddGroupButton:Hide()
 
     for i = 1, #self.buttons do
         button = self.buttons[i]
         index = offset + i
-        if index <= #allFlags then
-            local flagText = allFlags[index]
-            button.Text:SetFormattedText(flagText)
+        if index <= #allGroups then
+            local groupText = allGroups[index]
+            button.Text:SetFormattedText(groupText)
             button.Text:Show()
             button:Show()
-            button.flag = allFlags[index]
-        elseif index == #allFlags + 1 then
+            button.group = allGroups[index]
+        elseif index == #allGroups + 1 then
             button.Text:Hide()
             button:Show()
-            self.AddFlagButton:SetParent(button)
-            self.AddFlagButton:ClearAllPoints()
-            self.AddFlagButton:SetPoint("CENTER")
-            self.AddFlagButton:Show()
-            button.flag = nil
+            self.AddGroupButton:SetParent(button)
+            self.AddGroupButton:ClearAllPoints()
+            self.AddGroupButton:SetPoint("CENTER")
+            self.AddGroupButton:Show()
+            button.group = nil
         else
             button:Hide()
-            button.flag = nil
+            button.group = nil
         end
         -- button:SetWidth(buttonWidth)
-        button.SelectedTexture:SetShown(button.flag and button.flag == self:GetParent().selectedFlag)
-        button.SelectedArrow:SetShown(button.flag and button.flag == self:GetParent().selectedFlag)
+        button.SelectedTexture:SetShown(button.group and button.group == self:GetParent().selectedGroup)
+        button.SelectedArrow:SetShown(button.group and button.group == self:GetParent().selectedGroup)
     end
 
 
@@ -127,17 +193,32 @@ function LiteMountGroupsPanelGroupsMixin:OnLoad()
     self.update = self.Update
 end
 
+function LiteMountGroupsPanelGroupsMixin:GetOption()
+    return LM.Options:GetRawFlags()
+end
+
+function LiteMountGroupsPanelGroupsMixin:SetOption(v)
+    LM.Options:SetRawFlags(v)
+end
+
+function LiteMountGroupsPanelGroupsMixin:SetControl(v)
+    self:Update()
+end
+
+
 --[[--------------------------------------------------------------------------]]--
 
 LiteMountGroupsPanelMountMixin = {}
 
 function LiteMountGroupsPanelMountMixin:OnClick()
-    local flag = LiteMountGroupsPanel.selectedFlag
-    if self.mount:MatchesFilters(flag) then
-        LM.Options:ClearMountFlag(self.mount, flag)
+    local group = LiteMountGroupsPanel.selectedGroup
+    if self.mount:MatchesFilters(group) then
+        LM.Options:ClearMountFlag(self.mount, group)
     else
-        LM.Options:SetMountFlag(self.mount, flag)
+        LM.Options:SetMountFlag(self.mount, group)
     end
+    LiteMountGroupsPanel.Mounts.isDirty = true
+    LiteMountGroupsPanel.Mounts:Update()
 end
 
 function LiteMountGroupsPanelMountMixin:OnEnter()
@@ -150,11 +231,11 @@ function LiteMountGroupsPanelMountMixin:OnLeave()
     LM.HideMountTooltip()
 end
 
-function LiteMountGroupsPanelMountMixin:SetMount(mount, flag)
+function LiteMountGroupsPanelMountMixin:SetMount(mount, group)
     self.mount = mount
 
     self.Name:SetText(mount.name)
-    if flag and mount:MatchesFilters(flag) then
+    if group and mount:MatchesFilters(group) then
         self.Checked:Show()
     else
         self.Checked:Hide()
@@ -167,8 +248,8 @@ function LiteMountGroupsPanelMountMixin:SetMount(mount, flag)
     else
         self.Name:SetFontObject("GameFontNormal")
     end
-
 end
+
 
 --[[--------------------------------------------------------------------------]]--
 
@@ -181,9 +262,9 @@ function LiteMountGroupsPanelMountScrollMixin:Update()
 
     local mounts = LM.UIFilter.GetFilteredMountList()
 
-    local flag = self:GetParent().selectedFlag
+    local group = self:GetParent().selectedGroup
 
-    if not flag then
+    if not group then
         for _, button in ipairs(self.buttons) do
             button:Hide()
         end
@@ -192,7 +273,7 @@ function LiteMountGroupsPanelMountScrollMixin:Update()
     end
 
     if not self:GetParent().showAll then
-        mounts = mounts:Search(function (m) return m:CurrentFlags()[flag] end)
+        mounts = mounts:Search(function (m) return m:GetFlags()[group] end)
     end
 
     for i, button in ipairs(self.buttons) do
@@ -200,10 +281,10 @@ function LiteMountGroupsPanelMountScrollMixin:Update()
         if index > #mounts then
             button:Hide()
         else
-            button.mount1:SetMount(mounts[index], flag)
+            button.mount1:SetMount(mounts[index], group)
             if button.mount1:IsMouseOver() then button.mount1:OnEnter() end
             if mounts[index+1] then
-                button.mount2:SetMount(mounts[index+1], flag)
+                button.mount2:SetMount(mounts[index+1], group)
                 button.mount2:Show()
                 if button.mount2:IsMouseOver() then button.mount2:OnEnter() end
             else
@@ -230,4 +311,20 @@ function LiteMountGroupsPanelMountScrollMixin:OnLoad()
     local track = _G[self.scrollBar:GetName().."Track"]
     track:Hide()
     self.update = self.Update
+end
+
+-- XXX FIXME
+-- XXX FIXME Why TF doesn't revert work until second click? XXX
+-- XXX FIXME
+
+function LiteMountGroupsPanelMountScrollMixin:GetOption()
+    return LM.Options:GetRawFlagChanges()
+end
+
+function LiteMountGroupsPanelMountScrollMixin:SetOption(v)
+    LM.Options:SetRawFlagChanges(v)
+end
+
+function LiteMountGroupsPanelMountScrollMixin:SetControl(v)
+    self:Update()
 end

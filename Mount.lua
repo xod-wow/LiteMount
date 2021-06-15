@@ -46,8 +46,18 @@ function LM.Mount:Get(className, ...)
     return m
 end
 
-function LM.Mount:CurrentFlags()
+function LM.Mount:GetFlags()
     return LM.Options:ApplyMountFlags(self)
+end
+
+function LM.Mount:GetGroups()
+    local flags = LM.Options:ApplyMountFlags(self)
+    for k in pairs(flags) do
+        if not LM.Options:IsCustomFlag(k) then
+            flags[k] = nil
+        end
+    end
+    return flags
 end
 
 function LM.Mount:Refresh()
@@ -80,6 +90,8 @@ function LM.Mount:MatchesOneFilter(flags, f)
         return false
     elseif f == "CASTABLE" then
         if self:IsCastable() then return true end
+    elseif f == "FAVORITES" then
+        if m.isFavorite then return true end
     elseif tonumber(f) then
         if self.spellID == tonumber(f) then return true end
     elseif f:sub(1, 3) == 'id:' then
@@ -117,7 +129,7 @@ function LM.Mount:MatchesFilter(flags, filterStr)
 end
 
 function LM.Mount:MatchesFilters(...)
-    local currentFlags = self:CurrentFlags()
+    local currentFlags = self:GetFlags()
     local f
 
     for i = 1, select('#', ...) do
@@ -196,7 +208,7 @@ function LM.Mount:Dump(prefix)
     local spellName = GetSpellInfo(self.spellID)
 
     local currentFlags, defaultFlags = {}, {}
-    for f in pairs(self:CurrentFlags()) do tinsert(currentFlags, f) end
+    for f in pairs(self:GetFlags()) do tinsert(currentFlags, f) end
     for f in pairs(self.flags) do tinsert(defaultFlags, f) end
     sort(currentFlags)
     sort(defaultFlags)

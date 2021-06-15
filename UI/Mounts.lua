@@ -156,7 +156,7 @@ function LiteMountFlagBitMixin:Update(flag, mount)
         self:Show()
     end
 
-    local cur = mount:CurrentFlags()
+    local cur = mount:GetFlags()
 
     self:SetChecked(cur[flag] or false)
 
@@ -215,7 +215,7 @@ end
 
 LiteMountMountButtonMixin = {}
 
-function LiteMountMountButtonMixin:Update(pageFlags, mount)
+function LiteMountMountButtonMixin:Update(bitFlags, mount)
     self.mount = mount
     self.Icon:SetNormalTexture(mount.icon)
     self.Name:SetText(mount.name)
@@ -226,7 +226,7 @@ function LiteMountMountButtonMixin:Update(pageFlags, mount)
 
     local i = 1
     while self["Bit"..i] do
-        self["Bit"..i]:Update(pageFlags[i], mount)
+        self["Bit"..i]:Update(bitFlags[i], mount)
         i = i + 1
     end
 
@@ -294,7 +294,7 @@ function LiteMountMountScrollMixin:Update()
         local button = self.buttons[i]
         local index = offset + i
         if index <= #mounts then
-            button:Update(LiteMountMountsPanel.pageFlags, mounts[index])
+            button:Update(LiteMountMountsPanel.allFlags, mounts[index])
             button:Show()
             if button.Icon:IsMouseOver() then button.Icon:OnEnter() end
         else
@@ -330,24 +330,13 @@ end
 LiteMountMountsPanelMixin = {}
 
 function LiteMountMountsPanelMixin:UpdateFlagPaging()
-    local allFlags = LM.Options:GetAllFlags()
-
-    self.maxFlagPages = math.ceil(#allFlags / NUM_FLAG_BUTTONS)
-
-    -- If you change profiles the new one might have fewer pages
-    self.currentFlagPage = Clamp(self.currentFlagPage, 1, self.maxFlagPages)
-
-    self.PrevPageButton:SetEnabled(self.currentFlagPage ~= 1)
-    self.NextPageButton:SetEnabled(self.currentFlagPage ~= self.maxFlagPages)
-
-    local pageOffset = (self.currentFlagPage - 1 ) * NUM_FLAG_BUTTONS + 1
-    self.pageFlags = tslice(allFlags, pageOffset, pageOffset+NUM_FLAG_BUTTONS-1)
+    self.allFlags = LM.Options:GetFlags()
 
     local label
     for i = 1, NUM_FLAG_BUTTONS do
         label = self["BitLabel"..i]
-        if self.pageFlags[i] then
-            label:SetText(L[self.pageFlags[i]])
+        if self.allFlags[i] then
+            label:SetText(L[self.allFlags[i]])
             label:Show()
         else
             label:Hide()
@@ -369,16 +358,6 @@ function LiteMountMountsPanelMixin:default()
     self.MountScroll.isDirty = true
 end
 
-function LiteMountMountsPanelMixin:NextFlagPage()
-    self.currentFlagPage = self.currentFlagPage + 1
-    LiteMountMountsPanel:Update()
-end
-
-function LiteMountMountsPanelMixin:PrevFlagPage()
-    self.currentFlagPage = self.currentFlagPage - 1
-    LiteMountMountsPanel:Update()
-end
-
 function LiteMountMountsPanelMixin:OnLoad()
 
     -- Because we're the wrong size at the moment we'll only have 1 button after
@@ -390,10 +369,6 @@ function LiteMountMountsPanelMixin:OnLoad()
     -- We are using the MountScroll SetControl to do ALL the updating.
 
     LiteMountOptionsPanel_RegisterControl(self.MountScroll)
-
-    self.currentFlagPage = 1
-    self.maxFlagPages = 1
-    self.pageFlags = { }
 
     LiteMountOptionsPanel_OnLoad(self)
 end

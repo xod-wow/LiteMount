@@ -90,13 +90,18 @@ function LM.Journal:Get(id, isUsable)
         m.flags['WALK'] = true
     elseif m.mountType == 398 then      -- Kua'fon
         -- Kua'fon can fly if achievement 13573 is completed, otherwise run
+--@debug@
+    else
+        LM.PrintError('Mount with unknown type number: ' .. m.name)
+--@end-debug@
     end
+
 
     return m
 end
 
-function LM.Journal:CurrentFlags()
-    local flags = LM.Mount.CurrentFlags(self)
+function LM.Journal:GetFlags()
+    local flags = LM.Mount.GetFlags(self)
 
     -- Dynamic Kua'fon flags
     if self.mountType == 398 then
