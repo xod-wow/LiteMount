@@ -38,10 +38,22 @@ end
 
 
 function LM.tJoin(...)
-    local out = { }
-    for _,t in ipairs({ ... }) do
+    local out = {}
+    for i = 1, select('#', ...) do
+        local t = select(i, ...)
         for _,v in ipairs(t) do
             table.insert(out, v)
+        end
+    end
+    return out
+end
+
+function LM.tUpdate(...)
+    local out = {}
+    for i = 1, select('#', ...) do
+        local t = select(i, ...)
+        for k,v in pairs(t) do
+            out[k] = v
         end
     end
     return out
