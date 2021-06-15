@@ -136,7 +136,7 @@ local function FlagDiff(a, b)
     local diff = { }
 
     for flagName in pairs(LM.tUpdate(a,b)) do
-        if LM.Options:IsPrimaryFlag(flagName) then
+        if LM.Options:IsActiveFlag(flagName) then
             if a[flagName] and not b[flagName] then
                 diff[flagName] = '-'
             elseif not a[flagName] and b[flagName] then
