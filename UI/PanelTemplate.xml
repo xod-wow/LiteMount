@@ -55,6 +55,20 @@
                 </OnClick>
             </Scripts>
         </Button>
+        <Frame parentKey="Disable" frameStrata="DIALOW" setAllPoints="true" hidden="true">
+            <Scripts>
+                <OnLoad>
+                    self:SetFrameLevel(self:GetParent():GetFrameLevel() + 4)
+                </OnLoad>
+            </Scripts>
+            <Layers>
+                <Layer level="OVERLAY">
+                    <Texture name="Disable" hidden="false" textureSubLevel="1" alphaMode="MOD">
+                        <Color r="0.3" g="0.3" b="0.3" a="1.0" />
+                    </Texture>
+                </Layer>
+            </Layers>
+        </Frame>
     </Frames>
 </Frame>
 
