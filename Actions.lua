@@ -60,8 +60,7 @@ local ACTIONS = { }
 -- get the restricted list. Always returns no action.
 
 ACTIONS['Limit'] = {
-    -- XXX LOCALIZE XXX
-    name = 'Limit',
+    name = L.LM_LIMIT_MOUNTS,
     tostring =
         function (v)
             v = v:gsub('^[-+=]', '')
@@ -76,8 +75,7 @@ ACTIONS['Limit'] = {
 }
 
 ACTIONS['LimitInclude'] = {
-    -- XXX LOCALIZE XXX
-    name = 'Include Mounts',
+    name = L.LM_INCLUDE_MOUNTS,
     tostring = function (v) return LM.Mount:MountFilterToString(v) end,
     handler = function (args, env)
             local plusArgs = LM.tMap(args, function (a) return '+' .. a end)
@@ -86,8 +84,7 @@ ACTIONS['LimitInclude'] = {
 }
 
 ACTIONS['LimitExclude'] = {
-    -- XXX LOCALIZE XXX
-    name = 'Exclude Mounts',
+    name = L.LM_EXCLUDE_MOUNTS,
     tostring = function (v) return LM.Mount:MountFilterToString(v) end,
     handler = function (args, env)
             local minusArgs = LM.tMap(args, function (a) return '-' .. a end)
@@ -134,8 +131,7 @@ local function GetUsableSpell(arg)
 end
 
 ACTIONS['Spell'] = {
-    -- XXX LOCALIZE XXX
-    name = "Cast Spell",
+    name = L.LM_CAST_SPELL,
     tostring =
         function (v)
             local name, _, _, _, _, _, id = GetSpellInfo(v)
@@ -164,8 +160,7 @@ ACTIONS['Spell'] = {
 -- because for some spells (e.g., Levitate) the ID doesn't match.
 
 ACTIONS['Buff'] = {
-    -- XXX LOCALIZE XXX
-    name = "Apply Buff",
+    name = L.LM_APPLY_BUFF,
     tostring = ACTIONS["Spell"].tostring,
     handler =
         function (args, env)
@@ -184,8 +179,7 @@ ACTIONS['Buff'] = {
 }
 
 ACTIONS['CancelAura'] = {
-    -- XXX LOCALIZE XXX
-    name = "Cancel Buff",
+    name = L.LM_CANCEL_BUFF,
     tostring = ACTIONS['Spell'].tostring,
     handler =
         function (args, env)

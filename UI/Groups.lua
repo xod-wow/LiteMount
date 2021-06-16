@@ -15,7 +15,6 @@ local L = LM.Localize
 --[[--------------------------------------------------------------------------]]--
 
 StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
-    -- XXX LOCALIZE XXX
     text = format("LiteMount : %s", L.LM_NEW_GROUP),
     button1 = ACCEPT,
     button2 = CANCEL,
@@ -54,7 +53,6 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
 }
 
 StaticPopupDialogs["LM_OPTIONS_DELETE_GROUP"] = {
-    -- XXX LOCALIZE XXX
     text = format("LiteMount : %s", L.LM_DELETE_GROUP),
     button1 = ACCEPT,
     button2 = CANCEL,
