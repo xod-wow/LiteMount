@@ -27,7 +27,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
     OnAccept = function (self)
             local text = self.editBox:GetText()
             LM.Options:CreateFlag(text)
-            LiteMountGroupsPanel.selectedGroup = text
+            LiteMountGroupsPanel.Groups.selectedGroup = text
             LiteMountGroupsPanel.Groups.isDirty = true
         end,
     EditBoxOnEnterPressed = function (self)
@@ -93,14 +93,6 @@ function LiteMountGroupsPanelMixin:OnHide()
 end
 
 function LiteMountGroupsPanelMixin:Update()
-    self.allGroups = table.wipe(self.allGroups or {})
-    for f in pairs(LM.Options:GetRawFlags()) do
-        table.insert(self.allGroups, f)
-    end
-    table.sort(self.allGroups)
-    if not tContains(self.allGroups, self.selectedGroup) then
-        self.selectedGroup = self.allGroups[1]
-    end
     self.Groups:Update()
     self.Mounts:Update()
     self.ShowAll:SetChecked(self.showAll)
@@ -112,7 +104,7 @@ LiteMountGroupsPanelGroupMixin = {}
 
 function LiteMountGroupsPanelGroupMixin:OnClick()
     if self.group then
-        LiteMountGroupsPanel.selectedGroup = self.group
+        LiteMountGroupsPanel.Groups.selectedGroup = self.group
         LiteMountGroupsPanel:Update()
     end
 end
@@ -126,7 +118,11 @@ function LiteMountGroupsPanelGroupsMixin:Update()
     if not self.buttons then return end
 
     local offset = HybridScrollFrame_GetOffset(self)
-    local allGroups = self:GetParent().allGroups
+    local allGroups = LM.Options:GetGroups()
+
+    if not tContains(allGroups, self.selectedGroup) then
+        self.selectedGroup = allGroups[1]
+    end
 
     local totalHeight = (#allGroups + 1) * (self.buttons[1]:GetHeight() + 1)
     local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
@@ -158,8 +154,8 @@ function LiteMountGroupsPanelGroupsMixin:Update()
             button.group = nil
         end
         -- button:SetWidth(buttonWidth)
-        button.SelectedTexture:SetShown(button.group and button.group == self:GetParent().selectedGroup)
-        button.SelectedArrow:SetShown(button.group and button.group == self:GetParent().selectedGroup)
+        button.SelectedTexture:SetShown(button.group and button.group == self.selectedGroup)
+        button.SelectedArrow:SetShown(button.group and button.group == self.selectedGroup)
     end
 
 
@@ -208,7 +204,7 @@ end
 LiteMountGroupsPanelMountMixin = {}
 
 function LiteMountGroupsPanelMountMixin:OnClick()
-    local group = LiteMountGroupsPanel.selectedGroup
+    local group = LiteMountGroupsPanel.Groups.selectedGroup
     if self.mount:MatchesFilters(group) then
         LM.Options:ClearMountFlag(self.mount, group)
     else
@@ -259,7 +255,7 @@ function LiteMountGroupsPanelMountScrollMixin:Update()
 
     local mounts = LM.UIFilter.GetFilteredMountList()
 
-    local group = self:GetParent().selectedGroup
+    local group = LiteMountGroupsPanel.Groups.selectedGroup
 
     if not group then
         for _, button in ipairs(self.buttons) do
