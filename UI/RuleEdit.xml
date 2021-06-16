@@ -103,7 +103,7 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="ConditionsHeader" inherits="GameFontNormalHuge" text="LM_CONDITIONS">
+            <FontString parentKey="ConditionsHeader" inherits="GameFontNormalLarge" text="LM_CONDITIONS">
                 <Anchors> <Anchor point="TOPLEFT" x="24" y="-16" /> </Anchors>
             </FontString>
         </Layer>
@@ -129,7 +129,7 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="ActionHeader" inherits="GameFontNormalHuge" text="LM_ACTION">
+            <FontString parentKey="ActionHeader" inherits="GameFontNormalLarge" text="LM_ACTION">
                 <Anchors> <Anchor point="TOPLEFT" x="24" y="-244" /> </Anchors>
             </FontString>
         </Layer>
