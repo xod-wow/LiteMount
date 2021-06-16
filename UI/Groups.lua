@@ -29,7 +29,6 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
             LM.Options:CreateFlag(text)
             LiteMountGroupsPanel.selectedGroup = text
             LiteMountGroupsPanel.Groups.isDirty = true
-            LiteMountGroupsPanel:Update()
         end,
     EditBoxOnEnterPressed = function (self)
             if self:GetParent().button1:IsEnabled() then
