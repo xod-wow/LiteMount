@@ -98,12 +98,7 @@
     <Anchors> <Anchor point="TOP" y="-160" /> </Anchors>
 
     <Scripts>
-        <OnLoad inherit="prepend">
-            for i = 2, #self.Conditions do
-                self.Conditions[i]:SetPoint('TOPLEFT', self.Conditions[i-1], 'BOTTOMLEFT', 0, -4)
-                self.Conditions[i]:SetPoint('RIGHT', self.Conditions[i-1], 'RIGHT')
-            end
-        </OnLoad>
+        <OnLoad inherit="prepend" method="OnLoad" />
     </Scripts>
 
     <Layers>
