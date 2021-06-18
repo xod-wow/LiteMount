@@ -69,6 +69,7 @@ LiteMountRuleEditConditionMixin = { }
 local function ConditionTypeInitialize(dropDown, level, menuList)
     if level == 1 then
         local info = UIDropDownMenu_CreateInfo()
+        local currentType = dropDown.owner:GetParent():GetType()
         info.minWidth = dropDown.owner:GetWidth() - 25 - 10
         info.func = function (button, arg1, arg2)
             dropDown.owner:GetParent():SetType(arg1)
@@ -80,9 +81,14 @@ local function ConditionTypeInitialize(dropDown, level, menuList)
         for _,item in ipairs(LM.Conditions:GetConditions()) do
             info.text = item.name
             info.arg1 = item.condition
-            info.checked = dropDown.owner:GetParent():GetType() == item.condition
+            info.checked = currentType == item.condition
             UIDropDownMenu_AddButton(info, level)
         end
+        UIDropDownMenu_AddSeparator(level)
+        info.text = ADVANCED_LABEL
+        info.arg1 = "false"
+        info.checked = ( currentType and LM.Conditions:GetCondition(currentType).name == nil )
+        UIDropDownMenu_AddButton(info, level)
     end
 end
 
@@ -112,14 +118,42 @@ function LiteMountRuleEditConditionMixin:GetType(arg)
     return self.type
 end
 
-local function ConditionOnTextChanged(self)
+function LiteMountRuleEditConditionMixin:IsValidCondition()
+    local info = LM.Conditions:GetCondition(self.type)
+    if not info then return false end
+    if info.menu and not self.arg then return false end
+    if info.validate and not self.arg then return false end
+    return true
+end
+
+function LiteMountRuleEditConditionMixin:SetCondition(condition)
+    if not condition then
+        self.type = nil
+        self.arg = nil
+        self.negated = nil
+        return
+    end
+
+    if type(condition) == 'table' then
+        self.nagated = true
+        condition = condition[1]
+    end
+
+    self.type = string.split(':', condition)
+    self.arg = condition
+end
+
+local function ConditionOnChar(self)
     local text = self:GetText()
     local type = self:GetParent():GetType()
     local info = LM.Conditions:GetCondition(type)
 
-    if info and info and info.validate and not info.validate(text) then
+    if info and info.validate and not info.validate(text) then
         self:SetTextColor(1,0.4,0.5)
         self:GetParent():SetArg(nil)
+    elseif not info.name then
+        self:SetTextColor(1,1,1)
+        self:GetParent():SetArg(text)
     else
         self:SetTextColor(1,1,1)
         self:GetParent():SetArg(type .. ":" .. text)
@@ -132,7 +166,7 @@ function LiteMountRuleEditConditionMixin:Update()
     if not info then
         self.TypeDropDown:SetText(NONE:upper())
     else
-        self.TypeDropDown:SetText(info.name)
+        self.TypeDropDown:SetText(info.name or ADVANCED_LABEL)
     end
 
     if info then
@@ -152,12 +186,24 @@ function LiteMountRuleEditConditionMixin:Update()
             end
             self.ArgText:Show()
             self.ArgDropDown:Hide()
+        elseif not info.name then
+            self.ArgText:SetText(self.arg or "")
+            self.ArgText:Show()
+            self.ArgDropDown:Hide()
+        else
+            self.ArgDropDown:Hide()
+            self.ArgText:Hide()
         end
     end
 end
 
 function LiteMountRuleEditConditionMixin:SetType(type)
-    if self.type ~= type then
+    local info = LM.Conditions:GetCondition(type)
+
+    -- This allows us to treat all the "Advanced" types the same since
+    -- the type attribute is essentially not used.
+
+    if info.name and self.type ~= type then
         self.arg = nil
     end
     self.type = type
@@ -173,7 +219,7 @@ function LiteMountRuleEditConditionMixin:OnLoad()
     self.NumText:SetText(self:GetID())
     self.TypeDropDown:SetScript('OnClick', ConditionTypeButtonClick)
     self.ArgDropDown:SetScript('OnClick', ConditionArgButtonClick)
-    self.ArgText:SetScript('OnTextChanged', ConditionOnTextChanged)
+    self.ArgText:SetScript('OnTextSet', ConditionOnChar)
 end
 
 
@@ -281,20 +327,12 @@ end
 
 LiteMountRuleEditMixin = {}
 
-function LiteMountRuleEditMixin:IsValidCondition(cFrame)
-    local info = LM.Conditions:GetCondition(cFrame.type)
-    if not info then return false end
-    if info.menu and not cFrame.arg then return false end
-    if info.validate and not cFrame.arg then return false end
-    return true
-end
-
 function LiteMountRuleEditMixin:IsValidRule()
     if not self.Action.arg then return false end
     local atLeastOneCondition = false
     for _, cFrame in ipairs(self.Conditions) do
         if cFrame.type then
-            if not self:IsValidCondition(cFrame) then
+            if not cFrame:IsValidCondition() then
                 return false
             else
                 atLeastOneCondition = true
@@ -346,20 +384,10 @@ function LiteMountRuleEditMixin:SetRule(rule)
         rule = LM.Options:GetRules(1)[tonumber(rule)]
     end
 
-    for i, cFrame in ipairs(self.Conditions) do
-        if rule.conditions[i] then
-            if type(rule.conditions[i]) == 'table' then
-                cFrame.type = string.split(':', rule.conditions[i][1])
-                cFrame.arg = rule.conditions[i][1]
-            else
-                cFrame.type = string.split(':', rule.conditions[i])
-                cFrame.arg = rule.conditions[i]
-            end
-        else
-            cFrame.type = nil
-            cFrame.arg = nil
-        end
+    for i,cFrame in ipairs(self.Conditions) do
+        cFrame:SetCondition(rule.conditions[i])
     end
+
     self.Action.type = rule.action
     self.Action.arg = rule.args[1]
 end
