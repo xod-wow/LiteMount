@@ -76,9 +76,6 @@ local function ConditionTypeInitialize(dropDown, level, menuList)
         info.text = NONE:upper()
         info.arg1 = nil
         UIDropDownMenu_AddButton(info, level)
-        info.text = ALWAYS:upper()
-        info.arg1 = ""
-        UIDropDownMenu_AddButton(info, level)
         UIDropDownMenu_AddSeparator(level)
         for _,item in ipairs(LM.Conditions:GetConditions()) do
             info.text = item.name
@@ -115,14 +112,17 @@ function LiteMountRuleEditConditionMixin:GetType(arg)
     return self.type
 end
 
-local function OnTextChanged(self, info)
+local function ConditionOnTextChanged(self)
     local text = self:GetText()
-    if info.validate and not info.validate(text) then
+    local type = self:GetParent():GetType()
+    local info = LM.Conditions:GetCondition(type)
+
+    if info and info and info.validate and not info.validate(text) then
         self:SetTextColor(1,0.4,0.5)
-        self:GetParent().arg = nil
+        self:GetParent():SetArg(nil)
     else
         self:SetTextColor(1,1,1)
-        self:GetParent().arg = text
+        self:GetParent():SetArg(text)
     end
 end
 
@@ -130,17 +130,10 @@ function LiteMountRuleEditConditionMixin:Update()
     local info = LM.Conditions:GetCondition(self.type)
 
     if not info then
-        if self.type == "" then
-            self.TypeDropDown:SetText(ALWAYS:upper())
-        else
-            self.TypeDropDown:SetText(NONE:upper())
-        end
+        self.TypeDropDown:SetText(NONE:upper())
     else
         self.TypeDropDown:SetText(info.name)
     end
-
-    self.ArgDropDown:Hide()
-    self.ArgText:Hide()
 
     if info then
         if info.menu then
@@ -150,9 +143,11 @@ function LiteMountRuleEditConditionMixin:Update()
                 self.ArgDropDown:SetText(nil)
             end
             self.ArgDropDown:Show()
+            self.ArgText:Hide()
         elseif info.validate then
             self.ArgText:SetText(self.arg or '')
             self.ArgText:Show()
+            self.ArgDropDown:Hide()
         end
     end
 end
@@ -162,22 +157,19 @@ function LiteMountRuleEditConditionMixin:SetType(type)
         self.arg = nil
     end
     self.type = type
-    self:Update()
+    self:GetParent():Update()
 end
 
 function LiteMountRuleEditConditionMixin:SetArg(arg)
     self.arg = arg
-    self:Update()
-end
-
-function LiteMountRuleEditConditionMixin:OnShow()
-    self:Update()
+    self:GetParent():Update()
 end
 
 function LiteMountRuleEditConditionMixin:OnLoad()
     self.NumText:SetText(self:GetID())
     self.TypeDropDown:SetScript('OnClick', ConditionTypeButtonClick)
     self.ArgDropDown:SetScript('OnClick', ConditionArgButtonClick)
+    self.ArgText:SetScript('OnTextChanged', ConditionOnTextChanged)
 end
 
 
@@ -247,9 +239,9 @@ local function ActionArgButtonClick(button, mouseButton)
     end
 end
 
-function LiteMountRuleEditActionMixin:SetType(arg)
+function LiteMountRuleEditActionMixin:SetArg(arg)
     self.arg = arg
-    self:Update()
+    self:GetParent():Update()
 end
 
 function LiteMountRuleEditActionMixin:SetType(type)
@@ -257,7 +249,7 @@ function LiteMountRuleEditActionMixin:SetType(type)
         self.arg = nil
     end
     self.type = type
-    self:Update()
+    self:GetParent():Update()
 end
 
 function LiteMountRuleEditActionMixin:Update()
@@ -267,7 +259,7 @@ function LiteMountRuleEditActionMixin:Update()
         self.ArgDropDown:Hide()
     else
         if self.arg then
-            local text = LM.Actions:ArgsToString(self.type, self.arg)
+            local text = LM.Actions:ArgsToString(self.type, { self.arg })
             self.ArgDropDown:SetText(text)
         else
             self.ArgDropDown:SetText("")
@@ -285,10 +277,81 @@ end
 
 LiteMountRuleEditMixin = {}
 
+function LiteMountRuleEditMixin:IsValidCondition(cFrame)
+    local info = LM.Conditions:GetCondition(cFrame.type)
+    if not info then return false end
+    if info.menu and not cFrame.arg then return false end
+    if info.validate and not cFrame.arg then return false end
+    return true
+end
+
+function LiteMountRuleEditMixin:IsValidRule()
+    if not self.Action.arg then return false end
+    local atLeastOneCondition = false
+    for _, cFrame in ipairs(self.Conditions) do
+        if cFrame.type then
+            if not self:IsValidCondition(cFrame) then
+                return false
+            else
+                atLeastOneCondition = true
+            end
+        end
+    end
+    return atLeastOneCondition
+end
+
+function LiteMountRuleEditMixin:MakeRuleLine()
+    if not self:IsValidRule() then return end
+
+    local ctexts = LM.tMap(self.Conditions, function (c) return c.arg or c.type end)
+
+    tDeleteItem(ctexts, 'true')
+    if #ctexts == 0 then
+        return self.Action.type .. ' ' .. self.Action.arg
+    else
+        return self.Action.type ..
+                    ' [' .. table.concat(ctexts, ',') .. '] ' ..
+                    self.Action.arg
+    end
+end
+
+function LiteMountRuleEditMixin:Cancel()
+    self:Hide()
+end
+
+function LiteMountRuleEditMixin:Okay()
+    local line = self:MakeRuleLine()
+    if line then
+        local rule = LM.Rules:ParseLine(line)
+        LoadAddOn("Blizzard_DebugTools")
+        DevTools_Dump(rule)
+    end
+    -- self:Hide()
+end
+
 function LiteMountRuleEditMixin:OnLoad()
     LiteMountOptionsPanel_AutoLocalize(self)
     for i = 2, #self.Conditions do
         self.Conditions[i]:SetPoint('TOPLEFT', self.Conditions[i-1], 'BOTTOMLEFT', 0, -4)
         self.Conditions[i]:SetPoint('RIGHT', self.Conditions[i-1], 'RIGHT')
     end
+end
+
+function LiteMountRuleEditMixin:Update()
+    self.Action:Update()
+    LM.tMap(self.Conditions, function (f) f:Update() end)
+
+    if self:IsValidRule() then
+        self.OkayButton:Enable()
+    else
+        self.OkayButton:Disable()
+    end
+end
+
+function LiteMountRuleEditMixin:OnShow()
+    self:Update()
+end
+
+function LiteMountRuleEditMixin:OnHide()
+    self.callback = nil
 end

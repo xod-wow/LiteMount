@@ -29,7 +29,6 @@
 
     <Scripts>
         <OnLoad inherit="prepend" method="OnLoad" />
-        <OnLoad inherit="prepend" method="OnShow" />
     </Scripts>
 
     <Layers>
@@ -99,6 +98,8 @@
 
     <Scripts>
         <OnLoad inherit="prepend" method="OnLoad" />
+        <OnShow inherit="prepend" method="OnShow" />
+        <OnHide inherit="prepend" method="OnHide" />
     </Scripts>
 
     <Layers>
@@ -143,6 +144,28 @@
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
         </Frame>
+        <Button parentKey="CancelButton" inherits="UIPanelButtonTemplate" text="CANCEL">
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT" x="-16" y="16" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    self:GetParent():Cancel()
+                </OnClick>
+            </Scripts>
+        </Button>
+        <Button parentKey="OkayButton" inherits="UIPanelButtonTemplate" text="OKAY">
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="RIGHT" relativeKey="$parent.CancelButton" relativePoint="LEFT" x="-4" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    self:GetParent():Okay()
+                </OnClick>
+            </Scripts>
+        </Button>
     </Frames>
 </Frame>
 

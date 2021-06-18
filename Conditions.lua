@@ -814,6 +814,7 @@ CONDITIONS["tracking"] = {
 }
 
 CONDITIONS["true"] = {
+    name = ALWAYS:upper(),
     handler =
         function (cond, env)
             return true
