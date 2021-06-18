@@ -86,8 +86,8 @@ local function ConditionTypeInitialize(dropDown, level, menuList)
         end
         UIDropDownMenu_AddSeparator(level)
         info.text = ADVANCED_LABEL
-        info.arg1 = "false"
-        info.checked = ( currentType and LM.Conditions:GetCondition(currentType).name == nil )
+        info.arg1 = "advanced"
+        info.checked = currentType == "advanced"
         UIDropDownMenu_AddButton(info, level)
     end
 end
@@ -119,11 +119,16 @@ function LiteMountRuleEditConditionMixin:GetType(arg)
 end
 
 function LiteMountRuleEditConditionMixin:IsValidCondition()
-    local info = LM.Conditions:GetCondition(self.type)
-    if not info then return false end
-    if info.menu and not self.arg then return false end
-    if info.validate and not self.arg then return false end
-    return true
+    if self.type == "advanced" then
+        if not self.arg or self.arg == "" then return false end
+        return LM.Conditions:ArgsToString(self.arg) ~= nil
+    else
+        local info = LM.Conditions:GetCondition(self.type)
+        if not info then return false end
+        if info.menu and not self.arg then return false end
+        if info.validate and not self.arg then return false end
+        return true
+    end
 end
 
 function LiteMountRuleEditConditionMixin:SetCondition(condition)
@@ -135,75 +140,59 @@ function LiteMountRuleEditConditionMixin:SetCondition(condition)
     end
 
     if type(condition) == 'table' then
-        self.nagated = true
+        self.negated = true
         condition = condition[1]
     end
 
-    self.type = string.split(':', condition)
-    self.arg = condition
+    local type = string.split(':', condition)
+
+    local info = LM.Conditions:GetCondition(type)
+    if info and info.name then
+        self.type = type
+        self.arg = condition
+    else
+        self.type = "advanced"
+        self.arg = condition
+    end
 end
 
-local function ConditionOnChar(self)
+local function ConditionOnTextChanged(self)
     local text = self:GetText()
-    local type = self:GetParent():GetType()
-    local info = LM.Conditions:GetCondition(type)
-
-    if info and info.validate and not info.validate(text) then
-        self:SetTextColor(1,0.4,0.5)
+    if text == "" then
         self:GetParent():SetArg(nil)
-    elseif not info.name then
-        self:SetTextColor(1,1,1)
-        self:GetParent():SetArg(text)
     else
-        self:SetTextColor(1,1,1)
-        self:GetParent():SetArg(type .. ":" .. text)
+        self:GetParent():SetArg(text)
     end
 end
 
 function LiteMountRuleEditConditionMixin:Update()
     local info = LM.Conditions:GetCondition(self.type)
 
-    if not info then
+    if not self.type then
         self.TypeDropDown:SetText(NONE:upper())
-    else
-        self.TypeDropDown:SetText(info.name or ADVANCED_LABEL)
-    end
-
-    if info then
-        if info.menu then
-            if self.arg then
-                self.ArgDropDown:SetText(LM.Conditions:ArgsToString(self.arg))
-            else
-                self.ArgDropDown:SetText(nil)
-            end
-            self.ArgDropDown:Show()
-            self.ArgText:Hide()
-        elseif info.validate then
-            if self.arg then
-                self.ArgText:SetText(self.arg:gsub('^.*:', ''))
-            else
-                self.ArgText:SetText("")
-            end
-            self.ArgText:Show()
-            self.ArgDropDown:Hide()
-        elseif not info.name then
-            self.ArgText:SetText(self.arg or "")
-            self.ArgText:Show()
-            self.ArgDropDown:Hide()
-        else
-            self.ArgDropDown:Hide()
-            self.ArgText:Hide()
+        self.ArgDropDown:Hide()
+        self.ArgText:Hide()
+    elseif self.type == "advanced" then
+        self.TypeDropDown:SetText(ADVANCED_LABEL)
+        self.ArgText:SetText(self.arg or "")
+        self.ArgText:Show()
+        self.ArgDropDown:Hide()
+    elseif info.menu then
+        self.TypeDropDown:SetText(info.name)
+        if self.arg then
+            self.ArgDropDown:SetText(LM.Conditions:ArgsToString(self.arg))
         end
+        self.ArgDropDown:Show()
+        self.ArgText:Hide()
+    else
+        self.TypeDropDown:SetText(info.name)
+        self.ArgDropDown:Hide()
+        self.ArgText:Hide()
     end
 end
 
 function LiteMountRuleEditConditionMixin:SetType(type)
-    local info = LM.Conditions:GetCondition(type)
-
-    -- This allows us to treat all the "Advanced" types the same since
-    -- the type attribute is essentially not used.
-
-    if info.name and self.type ~= type then
+    if self.type ~= type then
         self.arg = nil
     end
     self.type = type
@@ -219,7 +208,7 @@ function LiteMountRuleEditConditionMixin:OnLoad()
     self.NumText:SetText(self:GetID())
     self.TypeDropDown:SetScript('OnClick', ConditionTypeButtonClick)
     self.ArgDropDown:SetScript('OnClick', ConditionArgButtonClick)
-    self.ArgText:SetScript('OnTextSet', ConditionOnChar)
+    self.ArgText:SetScript('OnTextChanged', ConditionOnTextChanged)
 end
 
 
