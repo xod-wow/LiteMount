@@ -464,14 +464,10 @@ CONDITIONS["keybind"] = {
 }
 
 CONDITIONS["location"] = {
-    name = LOCATION_COLON:gsub(":", ""),
+--  name = LOCATION_COLON:gsub(":", ""),
     tostring =
         function (v)
             return v
-        end,
-    validate =
-        function (v)
-            return v and v:len() > 0
         end,
     handler =
         function (cond, env, v)
