@@ -122,7 +122,7 @@ local function ConditionOnTextChanged(self)
         self:GetParent():SetArg(nil)
     else
         self:SetTextColor(1,1,1)
-        self:GetParent():SetArg(text)
+        self:GetParent():SetArg(type .. ":" .. text)
     end
 end
 
@@ -145,7 +145,11 @@ function LiteMountRuleEditConditionMixin:Update()
             self.ArgDropDown:Show()
             self.ArgText:Hide()
         elseif info.validate then
-            self.ArgText:SetText(self.arg or '')
+            if self.arg then
+                self.ArgText:SetText(self.arg:gsub('^.*:', ''))
+            else
+                self.ArgText:SetText("")
+            end
             self.ArgText:Show()
             self.ArgDropDown:Hide()
         end
@@ -335,6 +339,29 @@ function LiteMountRuleEditMixin:OnLoad()
         self.Conditions[i]:SetPoint('TOPLEFT', self.Conditions[i-1], 'BOTTOMLEFT', 0, -4)
         self.Conditions[i]:SetPoint('RIGHT', self.Conditions[i-1], 'RIGHT')
     end
+end
+
+function LiteMountRuleEditMixin:SetRule(rule)
+    if tonumber(rule) then
+        rule = LM.Options:GetRules(1)[tonumber(rule)]
+    end
+
+    for i, cFrame in ipairs(self.Conditions) do
+        if rule.conditions[i] then
+            if type(rule.conditions[i]) == 'table' then
+                cFrame.type = string.split(':', rule.conditions[i][1])
+                cFrame.arg = rule.conditions[i][1]
+            else
+                cFrame.type = string.split(':', rule.conditions[i])
+                cFrame.arg = rule.conditions[i]
+            end
+        else
+            cFrame.type = nil
+            cFrame.arg = nil
+        end
+    end
+    self.Action.type = rule.action
+    self.Action.arg = rule.args[1]
 end
 
 function LiteMountRuleEditMixin:Update()
