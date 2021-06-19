@@ -102,8 +102,14 @@ end
 
 function LiteMountOptionsPanel_Refresh(self, trigger)
     LM.UIDebug(self, "Panel_Refresh t="..tostring(trigger))
+    local anyDirty = false
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Refresh(control, trigger)
+        LM.UIDebug(control, "isDirty = " .. tostring(control.isDirty))
+        if control.isDirty then anyDirty = true end
+    end
+    if not self.hideRevertButton then
+        self.RevertButton:SetEnabled(anyDirty)
     end
 end
 
@@ -203,13 +209,15 @@ end
 
 function LiteMountOptionsControl_Revert(self)
     LM.UIDebug(self, "Control_Revert")
-    for i = 1, (self.ntabs or 1) do
-        if self.oldValues[i] ~= nil then
-            self:SetOption(self.oldValues[i], i)
-            self.oldValues[i] = self:GetOption(i)
+    if self.isDirty then
+        self.isDirty = nil
+        for i = 1, (self.ntabs or 1) do
+            if self.oldValues[i] ~= nil then
+                self:SetOption(self.oldValues[i], i)
+                self.oldValues[i] = self:GetOption(i)
+            end
         end
     end
-    self.isDirty = nil
 end
 
 function LiteMountOptionsControl_Cancel(self)
@@ -225,6 +233,8 @@ function LiteMountOptionsControl_Default(self, onlyCurrentTab)
 
     LM.UIDebug(self, "Control_Default "..tostring(onlyCurrentTab))
 
+    self.isDirty = true
+
     if onlyCurrentTab then
         self:SetOption(self:GetOptionDefault(self.tab), self.tab)
     else
@@ -232,21 +242,20 @@ function LiteMountOptionsControl_Default(self, onlyCurrentTab)
             self:SetOption(self:GetOptionDefault(i), i)
         end
     end
-    self.isDirty = true
 end
 
 function LiteMountOptionsControl_OnChanged(self)
     LM.UIDebug(self, "Control_OnChanged")
-    self:SetOption(self:GetControl(), self.tab)
     self.isDirty = true
+    self:SetOption(self:GetControl(), self.tab)
 end
 
 function LiteMountOptionsControl_OnTextChanged(self, userInput)
+    self.isDirty = true
     if userInput == true then
         LM.UIDebug(self, "Control_OnTextChanged")
         self:SetOption(self:GetControl(), self.tab)
     end
-    self.isDirty = true
 end
 
 function LiteMountOptionsControl_SetTab(self, n)
