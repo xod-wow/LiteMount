@@ -211,3 +211,12 @@ function LM.Rules:Dispatch(rule, env)
 
     return handler(rule.args or {}, env)
 end
+
+function LM.Rules:ToLine(rule)
+    local cText = LM.Conditions:ToLine(rule.conditions)
+    if rule.args then
+        return string.format("%s %s %s", rule.action, cText, table.concat(rule.args,','))
+    else
+        return string.format("%s %s", rule.action, cText)
+    end
+end
