@@ -25,6 +25,7 @@ local function MoveRule(i, n)
     local rules = LM.Options:GetRules(scroll.tab)
     if i+n < 1 or i+n > #rules then return end
     local elt = table.remove(rules, i)
+    -- XXX FIXME XXX selected changes
     table.insert(rules, i+n, elt)
     LM.Options:SetRules(scroll.tab, rules)
 end
@@ -34,8 +35,8 @@ function LiteMountRuleButtonMixin:OnShow()
 end
 
 function LiteMountRuleButtonMixin:OnLoad()
-    self.MoveUp:SetScript('OnClick', function (self) MoveRule(self:GetParent().index, -1) end)
-    self.MoveDown:SetScript('OnClick', function (self) MoveRule(self:GetParent().index, 1) end)
+    self.MoveUp:SetScript('OnClick', function () MoveRule(self.index, -1) end)
+    self.MoveDown:SetScript('OnClick', function () MoveRule(self.index, 1) end)
 end
 
 function LiteMountRuleButtonMixin:Update(index, rule)
@@ -44,13 +45,18 @@ function LiteMountRuleButtonMixin:Update(index, rule)
     local conditions, action = LM.Rules:RuleToString(rule)
     self.Action:SetText(action)
     self.Condition:SetText(table.concat(conditions, '\n'))
+    self.Selected:SetShown(self.index == LiteMountRulesPanel.selectedIndex)
+end
+
+function LiteMountRuleButtonMixin:OnClick()
+    LiteMountRulesPanel.selectedIndex = self.index
+    LiteMountRulesPanel:refresh()
 end
 
 
 --[[--------------------------------------------------------------------------]]--
 
 LiteMountRulesScrollMixin = {}
-
 
 function LiteMountRulesScrollMixin:Update()
     if not self.buttons then return end
@@ -74,10 +80,6 @@ function LiteMountRulesScrollMixin:Update()
     end
 
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
-end
-
-function LiteMountRulesScrollMixin:OnShow()
-    self:Update()
 end
 
 function LiteMountRulesScrollMixin:SetOption(v, i)
@@ -134,8 +136,18 @@ function LiteMountRulesPanelMixin:OnSizeChanged(x, y)
     self.Scroll:Update()
 end
 
+function LiteMountRulesPanelMixin:refresh(trigger)
+    self.DeleteButton:SetEnabled(self.selectedIndex ~= nil)
+    self.EditButton:SetEnabled(self.selectedIndex ~= nil)
+    LiteMountOptionsPanel_Refresh(self, trigger)
+end
+
 function LiteMountRulesPanelMixin:OnLoad()
-    self.name = "Rules"
+--[[
+    self.AddButton:SetScript('OnClick', function () self:AddRule() end)
+    self.DeleteButton:SetScript('OnClick', function () self:DeleteRule() end)
+    self.EditButton:SetScript('OnClick', function () self:EditRule() end)
+]]
 
     LiteMountOptionsPanel_RegisterControl(self.Scroll)
 
