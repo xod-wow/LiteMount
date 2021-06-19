@@ -372,6 +372,10 @@ end
 
 -- Check -----------------------------------------------------------------------
 
+function stripcodes(str)
+    return str:gsub("|c........(.-)|r", "%1"):gsub("|T.-|t", "")
+end
+
 function LM.UIFilter.IsFilteredMount(m)
 
     -- Source filters
@@ -458,7 +462,7 @@ function LM.UIFilter.IsFilteredMount(m)
         return false
     end
 
-    if m.sourceText and searchMatch(m.sourceText, filtertext) then
+    if m.sourceText and searchMatch(stripcodes(m.sourceText), filtertext) then
         return false
     end
 
