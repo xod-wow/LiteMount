@@ -206,6 +206,7 @@ function LiteMountOptionsControl_Revert(self)
     for i = 1, (self.ntabs or 1) do
         if self.oldValues[i] ~= nil then
             self:SetOption(self.oldValues[i], i)
+            self.oldValues[i] = self:GetOption(i)
         end
     end
     self.isDirty = nil
