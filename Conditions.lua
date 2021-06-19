@@ -1116,3 +1116,25 @@ function LM.Conditions:ArgsToString(text)
     end
     return argText
 end
+
+-- I regret not turning conditions into a proper parse tree about now
+
+local function SquareBracket(txt) return '[' .. txt .. ']' end
+
+local function ToLineRecursive(c)
+    if type(c) == 'table' then
+        if c.op == 'NOT' then return 'no' .. c[1] end
+        local children = LM.tMap(c, ToLineRecursive)
+        if c.op == 'AND' then
+            return SquareBracket(table.concat(children, ','))
+        elseif c.op == 'OR' then
+            return table.concat(LM.tMap(children, SquareBracket), '')
+        end
+    else
+        return c
+    end
+end
+
+function LM.Conditions:ToLine(conditions)
+    return ToLineRecursive(conditions)
+end
