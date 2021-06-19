@@ -52,12 +52,12 @@ Macro
 local DefaultRules = {
 --@debug@
     {
-        conditions = { "location:Stormwind City" },
+        conditions = { "location:Stormwind City", op="AND" },
         action = "Mount",
         args = { "Mimiron's Head" },
     },
     {
-        conditions = { "map:1670" },
+        conditions = { "map:1670", op="AND" },
         action = "Mount",
         -- args = { "id:1039" },
         args = { "family:Brutosaur" },
