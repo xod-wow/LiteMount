@@ -20,6 +20,12 @@ function LM.tMap(t, f)
     return out
 end
 
+function LM.tCopyShallow(t)
+    local out = {}
+    for k,v in pairs(t) do out[k] = v end
+    return out
+end
+
 function LM.tSlice(t, from, to)
     return { unpack(t, from, to) }
 end

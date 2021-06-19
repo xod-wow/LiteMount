@@ -187,7 +187,7 @@ function LiteMountGroupsPanelGroupsMixin:OnLoad()
 end
 
 function LiteMountGroupsPanelGroupsMixin:GetOption()
-    return CopyTable(LM.Options:GetRawFlags())
+    return LM.Options:GetRawFlags()
 end
 
 function LiteMountGroupsPanelGroupsMixin:SetOption(v)
@@ -307,7 +307,7 @@ function LiteMountGroupsPanelMountScrollMixin:OnLoad()
 end
 
 function LiteMountGroupsPanelMountScrollMixin:GetOption()
-    return CopyTable(LM.Options:GetRawFlagChanges())
+    return LM.Options:GetRawFlagChanges()
 end
 
 function LiteMountGroupsPanelMountScrollMixin:SetOption(v)

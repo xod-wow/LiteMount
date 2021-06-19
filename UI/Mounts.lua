@@ -300,8 +300,8 @@ end
 
 function LiteMountMountScrollMixin:GetOption()
     return {
-        CopyTable(LM.Options:GetRawFlagChanges()),
-        CopyTable(LM.Options:GetRawMountPriorities())
+        LM.Options:GetRawFlagChanges(),
+        LM.Options:GetRawMountPriorities()
     }
 end
 

@@ -89,11 +89,11 @@ function LiteMountRulesScrollMixin:SetOption(v, i)
 end
 
 function LiteMountRulesScrollMixin:GetOption(i)
-    return CopyTable(LM.Options:GetRules(i))
+    return LM.Options:GetRules(i)
 end
 
 function LiteMountRulesScrollMixin:GetOptionDefault()
-    return CopyTable(LM.Options:GetRules('*'))
+    return LM.Options:GetRules('*')
 end
 
 function LiteMountRulesScrollMixin:OnLoad()

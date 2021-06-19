@@ -296,7 +296,7 @@ function LM.Options:GetAllPriorities()
 end
 
 function LM.Options:GetRawMountPriorities()
-    return self.db.profile.mountPriorities
+    return LM.tCopyShallow(self.db.profile.mountPriorities)
 end
 
 function LM.Options:SetRawMountPriorities(v)
@@ -345,7 +345,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRawFlagChanges()
-    return self.db.profile.flagChanges
+    return LM.tCopyShallow(self.db.profile.flagChanges)
 end
 
 function LM.Options:SetRawFlagChanges(v)
@@ -432,7 +432,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRawFlags()
-    return self.db.profile.customFlags
+    return LM.tCopyShallow(self.db.profile.customFlags)
 end
 
 function LM.Options:SetRawFlags(v)
@@ -519,7 +519,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRules(n)
-    return self.db.profile.rules[n]
+    return LM.tCopyShallow(self.db.profile.rules[n])
 end
 
 function LM.Options:SetRules(n, rules)
@@ -645,7 +645,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetButtonAction(i)
-    return self.db.profile.buttonActions[i]
+    return LM.tCopyShallow(self.db.profile.buttonActions[i])
 end
 
 function LM.Options:SetButtonAction(i, v)
@@ -655,7 +655,7 @@ function LM.Options:SetButtonAction(i, v)
 end
 
 function LM.Options:GetDefaultButtonAction()
-     return self.db.defaults.profile.buttonActions['*']
+     return LM.tCopyShallow(self.db.defaults.profile.buttonActions['*'])
 end
 
 
@@ -670,7 +670,7 @@ function LM.Options:RecordInstance()
 end
 
 function LM.Options:GetInstances(id)
-    return self.db.global.instances
+    return LM.tCopyShallow(self.db.global.instances)
 end
 
 function LM.Options:GetInstanceNameByID(id)
