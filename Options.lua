@@ -296,11 +296,11 @@ function LM.Options:GetAllPriorities()
 end
 
 function LM.Options:GetRawMountPriorities()
-    return CopyTable(self.db.profile.mountPriorities)
+    return self.db.profile.mountPriorities
 end
 
 function LM.Options:SetRawMountPriorities(v)
-    self.db.profile.mountPriorities = CopyTable(v)
+    self.db.profile.mountPriorities = v
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
@@ -345,11 +345,12 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRawFlagChanges()
-    return CopyTable(self.db.profile.flagChanges)
+    return self.db.profile.flagChanges
 end
 
 function LM.Options:SetRawFlagChanges(v)
-    self.db.profile.flagChanges = CopyTable(v)
+    self.db.profile.flagChanges = v
+    table.wipe(self.cachedMountFlags)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
@@ -431,7 +432,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRawFlags()
-    return CopyTable(self.db.profile.flagChanges)
+    return self.db.profile.flagChanges
 end
 
 function LM.Options:SetRawFlags(v)
@@ -518,7 +519,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRules(n)
-    return CopyTable(self.db.profile.rules[n])
+    return self.db.profile.rules[n]
 end
 
 function LM.Options:SetRules(n, rules)
@@ -669,7 +670,7 @@ function LM.Options:RecordInstance()
 end
 
 function LM.Options:GetInstances(id)
-    return CopyTable(self.db.global.instances)
+    return self.db.global.instances
 end
 
 function LM.Options:GetInstanceNameByID(id)
