@@ -201,7 +201,7 @@
             </Scripts>
             <Size x="96" y="22" />
             <Anchors>
-                <Anchor point="TOPRIGHT" relativeKey="$parent.MountsContainer" relativePoint="BOTTOMRIGHT" x="-8" y="-3" />
+                <Anchor point="TOPRIGHT" relativeKey="$parent.MountsContainer" relativePoint="BOTTOMRIGHT" x="-4" y="-8" />
             </Anchors>
         </Button>
     </Frames>
