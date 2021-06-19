@@ -89,12 +89,7 @@
     </Frames>
 </Frame>
 
-<Frame name="LiteMountRuleEdit" mixin="LiteMountRuleEditMixin" inherits="TooltipBackdropTemplate" frameStrata="DIALOG" parent="UIParent">
-
-    <Size x="623" y="568" />
-
-    <!-- XXX DEBUGGING XXX -->
-    <Anchors> <Anchor point="TOP" y="-160" /> </Anchors>
+<Frame name="LiteMountRuleEdit" mixin="LiteMountRuleEditMixin" hidden="true">
 
     <Scripts>
         <OnLoad inherit="prepend" method="OnLoad" />
@@ -103,20 +98,24 @@
     </Scripts>
 
     <Layers>
+        <Layer level="BACKGROUND">
+            <Texture setAllPoints="true">
+                <Color r="0" b="0" g="0" a="1" />
+            </Texture>
+        </Layer>
         <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormalLarge" parentKey="Title" text="LM_EDIT_RULE">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="16" y="-16" />
+                </Anchors>
+            </FontString>
             <FontString parentKey="ConditionsHeader" inherits="GameFontNormalLarge" text="LM_CONDITIONS">
-                <Anchors> <Anchor point="TOPLEFT" x="24" y="-16" /> </Anchors>
+                <Anchors> <Anchor point="TOPLEFT" x="24" y="-46" /> </Anchors>
             </FontString>
         </Layer>
     </Layers>
 
     <Frames>
-        <Button inherits="UIPanelCloseButton">
-            <Anchors>
-                <Anchor point="TOPRIGHT" x="-4" y="-4" />
-            </Anchors>
-        </Button>
-
         <Frame parentArray="Conditions" inherits="LiteMountRuleEditCondition" id="1">
             <Anchors>
                 <Anchor point="LEFT" x="16" />
@@ -131,7 +130,7 @@
     <Layers>
         <Layer level="ARTWORK">
             <FontString parentKey="ActionHeader" inherits="GameFontNormalLarge" text="LM_ACTION">
-                <Anchors> <Anchor point="TOPLEFT" x="24" y="-244" /> </Anchors>
+                <Anchors> <Anchor point="TOPLEFT" x="24" y="-284" /> </Anchors>
             </FontString>
         </Layer>
     </Layers>

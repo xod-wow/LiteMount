@@ -368,11 +368,16 @@ function LiteMountRuleEditMixin:OnLoad()
     end
 end
 
-function LiteMountRuleEditMixin:SetRule(rule)
-    if tonumber(rule) then
-        rule = LM.Options:GetRules(1)[tonumber(rule)]
-    end
+function LiteMountRuleEditMixin:PopOver(parent)
+    self:SetParent(parent)
+    self:ClearAllPoints()
+    self:SetPoint("TOPLEFT", parent, "TOPLEFT", 5, -5)
+    self:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -5, 5)
+    self:SetFrameLevel(parent:GetFrameLevel() + 4)
+    self:Show()
+end
 
+function LiteMountRuleEditMixin:SetRule(rule)
     for i,cFrame in ipairs(self.Conditions) do
         cFrame:SetCondition(rule.conditions[i])
     end

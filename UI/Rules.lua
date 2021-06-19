@@ -143,7 +143,8 @@ function LiteMountRulesPanelMixin:DeleteRule()
 end
 
 function LiteMountRulesPanelMixin:EditRule()
-    print('edit clicked')
+    LiteMountRuleEdit:SetRule(self.selectedRule)
+    LiteMountRuleEdit:PopOver(self)
 end
 
 function LiteMountRulesPanelMixin:OnSizeChanged(x, y)
