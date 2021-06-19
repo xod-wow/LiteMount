@@ -22,12 +22,12 @@ LiteMountRuleButtonMixin = {}
 
 local function MoveRule(i, n)
     local scroll = LiteMountRulesPanel.Scroll
+    scroll.isDirty = true
     local rules = LM.Options:GetRules(scroll.tab)
     if i+n < 1 or i+n > #rules then return end
     local elt = table.remove(rules, i)
     table.insert(rules, i+n, elt)
     LM.Options:SetRules(scroll.tab, rules)
-    scroll.isDirty = true
 end
 
 function LiteMountRuleButtonMixin:OnShow()
@@ -134,9 +134,9 @@ end
 function LiteMountRulesPanelMixin:DeleteRule()
     local binding = self.Scroll.tab
     if self.selectedRule then
+        self.Scroll.isDirty = true
         local rules = LM.Options:GetRules(binding)
         tDeleteItem(rules, self.selectedRule)
-        self.Scroll.isDirty = true
         LM.Options:SetRules(binding, rules)
     end
 end

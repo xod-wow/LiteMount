@@ -38,8 +38,8 @@ local function RandomPersistDropDown_Initialize(dropdown, level)
             info.checked = ( opt[1] == keepSeconds )
             info.func =
                 function (_, seconds)
-                    LM.Options:SetRandomPersistence(seconds)
                     dropdown.isDirty = true
+                    LM.Options:SetRandomPersistence(seconds)
                 end
             UIDropDownMenu_AddButton(info, level)
         end

@@ -41,8 +41,8 @@ end
 function LiteMountPriorityMixin:Set(v)
     local mount = self:GetParent().mount
     if mount then
-        LM.Options:SetPriority(mount, v or LM.Options.DEFAULT_PRIORITY)
         LiteMountMountsPanel.MountScroll.isDirty = true
+        LM.Options:SetPriority(mount, v or LM.Options.DEFAULT_PRIORITY)
     end
 end
 
@@ -81,8 +81,8 @@ LiteMountAllPriorityMixin = {}
 
 function LiteMountAllPriorityMixin:Set(v)
     local mounts = LM.UIFilter.GetFilteredMountList()
-    LM.Options:SetPriorities(mounts, v or LM.Options.DEFAULT_PRIORITY)
     LiteMountMountsPanel.MountScroll.isDirty = true
+    LM.Options:SetPriorities(mounts, v or LM.Options.DEFAULT_PRIORITY)
 end
 
 function LiteMountAllPriorityMixin:Get()
@@ -110,12 +110,12 @@ LiteMountFlagBitMixin = {}
 function LiteMountFlagBitMixin:OnClick()
     local mount = self:GetParent().mount
 
+    LiteMountMountsPanel.MountScroll.isDirty = true
     if self:GetChecked() then
         LM.Options:SetMountFlag(mount, self.flag)
     else
         LM.Options:ClearMountFlag(mount, self.flag)
     end
-    LiteMountMountsPanel.MountScroll.isDirty = true
 end
 
 function LiteMountFlagBitMixin:OnEnter()
@@ -327,9 +327,9 @@ end
 
 function LiteMountMountsPanelMixin:default()
     LM.UIDebug(self, 'Custom_Default')
+    self.MountScroll.isDirty = true
     LM.Options:ResetAllMountFlags()
     LM.Options:SetPriorities(LM.PlayerMounts.mounts, LM.Options.DEFAULT_PRIORITY)
-    self.MountScroll.isDirty = true
 end
 
 function LiteMountMountsPanelMixin:OnLoad()

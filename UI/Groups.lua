@@ -25,10 +25,10 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
+            LiteMountGroupsPanel.Groups.isDirty = true
             local text = self.editBox:GetText()
             LM.Options:CreateFlag(text)
             LiteMountGroupsPanel.Groups.selectedGroup = text
-            LiteMountGroupsPanel.Groups.isDirty = true
         end,
     EditBoxOnEnterPressed = function (self)
             if self:GetParent().button1:IsEnabled() then
@@ -60,8 +60,8 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_GROUP"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LM.Options:DeleteFlag(self.data)
             LiteMountGroupsPanel.Groups.isDirty = true
+            LM.Options:DeleteFlag(self.data)
         end,
     OnShow = function (self)
             self.text:SetText(format("LiteMount : %s : %s", L.LM_DELETE_GROUP, self.data))
@@ -204,13 +204,13 @@ end
 LiteMountGroupsPanelMountMixin = {}
 
 function LiteMountGroupsPanelMountMixin:OnClick()
+    LiteMountGroupsPanel.Mounts.isDirty = true
     local group = LiteMountGroupsPanel.Groups.selectedGroup
     if self.mount:MatchesFilters(group) then
         LM.Options:ClearMountFlag(self.mount, group)
     else
         LM.Options:SetMountFlag(self.mount, group)
     end
-    LiteMountGroupsPanel.Mounts.isDirty = true
     LiteMountGroupsPanel.Mounts:Update()
 end
 
