@@ -431,11 +431,11 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRawFlags()
-    return CopyTable(self.db.profile.customFlags)
+    return CopyTable(self.db.profile.flagChanges)
 end
 
 function LM.Options:SetRawFlags(v)
-    self.db.profile.customFlags = v
+    self.db.profile.flagChanges = v
     table.wipe(self.cachedMountFlags)
     self.db.callbacks:Fire("OnOptionsModified")
 end

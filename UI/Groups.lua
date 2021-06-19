@@ -306,10 +306,6 @@ function LiteMountGroupsPanelMountScrollMixin:OnLoad()
     self.update = self.Update
 end
 
--- XXX FIXME
--- XXX FIXME Why TF doesn't revert work until second click? XXX
--- XXX FIXME
-
 function LiteMountGroupsPanelMountScrollMixin:GetOption()
     return LM.Options:GetRawFlagChanges()
 end
