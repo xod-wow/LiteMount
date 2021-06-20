@@ -88,7 +88,7 @@ function LiteMountAdvancedEditBoxMixin:GetOption(i)
 end
 
 function LiteMountAdvancedEditBoxMixin:GetOptionDefault()
-    return LM.Options:GetButtonAction('*')
+    return LM.Options:GetButtonAction('__default__')
 end
 
 function LiteMountAdvancedEditBoxMixin:OnLoad()
