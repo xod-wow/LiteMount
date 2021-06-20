@@ -104,7 +104,7 @@
             </Texture>
         </Layer>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormalLarge" parentKey="Title" text="LM_EDIT_RULE">
+            <FontString inherits="GameFontNormalLarge" parentKey="Title">
                 <Anchors>
                     <Anchor point="TOPLEFT" x="16" y="-16" />
                 </Anchors>

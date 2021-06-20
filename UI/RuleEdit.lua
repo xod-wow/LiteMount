@@ -336,45 +336,56 @@ function LiteMountRuleEditMixin:MakeRuleLine()
 
     local ctexts = LM.tMap(self.Conditions, function (c) return c.arg or c.type end)
 
-    tDeleteItem(ctexts, 'true')
-    if #ctexts == 0 then
-        return self.Action.type .. ' ' .. self.Action.arg
-    else
-        return self.Action.type ..
-                    ' [' .. table.concat(ctexts, ',') .. '] ' ..
-                    self.Action.arg
-    end
+    return self.Action.type ..
+                ' [' .. table.concat(ctexts, ',') .. '] ' ..
+                self.Action.arg
 end
 
 function LiteMountRuleEditMixin:Cancel()
+    self.callback = nil
+    self.parent = nil
     self:Hide()
 end
 
 function LiteMountRuleEditMixin:Okay()
-    local line = self:MakeRuleLine()
-    if line then
-        local rule = LM.Rules:ParseLine(line)
-        LoadAddOn("Blizzard_DebugTools")
-        DevTools_Dump(rule)
+    if self.callback then
+        local line = self:MakeRuleLine()
+        if line then
+            local rule = LM.Rules:ParseLine(line)
+            self.callback(self.parent, rule)
+        end
+        self.callback = nil
+        self.parent = nil
     end
-    -- self:Hide()
+    self:Hide()
 end
 
 function LiteMountRuleEditMixin:OnLoad()
     LiteMountOptionsPanel_AutoLocalize(self)
+    self.Title:SetText("LiteMount : " .. L.LM_EDIT_RULE)
     for i = 2, #self.Conditions do
         self.Conditions[i]:SetPoint('TOPLEFT', self.Conditions[i-1], 'BOTTOMLEFT', 0, -4)
         self.Conditions[i]:SetPoint('RIGHT', self.Conditions[i-1], 'RIGHT')
     end
 end
 
-function LiteMountRuleEditMixin:PopOver(parent)
+function LiteMountRuleEditMixin:PopOver(parent, callback)
+    self.callback = callback
+    self.parent = parent
     self:SetParent(parent)
     self:ClearAllPoints()
     self:SetPoint("TOPLEFT", parent, "TOPLEFT", 5, -5)
     self:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -5, 5)
     self:SetFrameLevel(parent:GetFrameLevel() + 4)
     self:Show()
+end
+
+function LiteMountRuleEditMixin:Clear()
+    for _,cFrame in ipairs(self.Conditions) do
+        cFrame:SetCondition(nil)
+    end
+    self.Action.type = nil
+    self.Action.arg = nil
 end
 
 function LiteMountRuleEditMixin:SetRule(rule)
@@ -403,4 +414,5 @@ end
 
 function LiteMountRuleEditMixin:OnHide()
     self.callback = nil
+    self.parent = nil
 end
