@@ -231,8 +231,6 @@ end
 function LiteMountOptionsControl_Default(self, onlyCurrentTab)
     if not self.GetOptionDefault then return end
 
-    if true then return end
-
     LM.UIDebug(self, "Control_Default "..tostring(onlyCurrentTab))
 
     self.isDirty = true
