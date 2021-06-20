@@ -54,14 +54,18 @@ function LM.tJoin(...)
     return out
 end
 
-function LM.tUpdate(...)
-    local out = {}
+function LM.tUpdate(out, ...)
     for i = 1, select('#', ...) do
         local t = select(i, ...)
         for k,v in pairs(t) do
             out[k] = v
         end
     end
+end
+
+function LM.tMerge(...)
+    local out = {}
+    LM.tUpdate(out, ...)
     return out
 end
 

@@ -135,7 +135,7 @@ LM.Options = {
 local function FlagDiff(a, b)
     local diff = { }
 
-    for flagName in pairs(LM.tUpdate(a,b)) do
+    for flagName in pairs(LM.tMerge(a,b)) do
         if LM.Options:IsActiveFlag(flagName) then
             if a[flagName] and not b[flagName] then
                 diff[flagName] = '-'
