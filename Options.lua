@@ -645,7 +645,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetButtonAction(i)
-    return LM.tCopyShallow(self.db.profile.buttonActions[i])
+    return self.db.profile.buttonActions[i]
 end
 
 function LM.Options:SetButtonAction(i, v)
