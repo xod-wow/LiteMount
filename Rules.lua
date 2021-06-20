@@ -165,7 +165,7 @@ end
 
 function LM.Rules:ConditionsToString(rule)
     local conditions = {}
-    for _, ruleCondition in ipairs(rule.conditions) do
+    for _, ruleCondition in ipairs(rule.conditions or { }) do
         local text = OneConditionToString(ruleCondition)
         table.insert(conditions, GREEN_FONT_COLOR:WrapTextInColorCode(text))
     end
