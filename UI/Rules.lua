@@ -92,7 +92,7 @@ function LiteMountRulesScrollMixin:GetOption(i)
 end
 
 function LiteMountRulesScrollMixin:GetOptionDefault()
-    return LM.Options:GetRules('*')
+    return CopyTable(LM.Options:GetRules('*'))
 end
 
 function LiteMountRulesScrollMixin:OnLoad()
