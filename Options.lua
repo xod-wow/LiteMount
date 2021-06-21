@@ -514,6 +514,7 @@ function LM.Options:GetGroups()
     return out
 end
 
+
 --[[----------------------------------------------------------------------------
     Rules stuff.
 ----------------------------------------------------------------------------]]--
@@ -526,6 +527,7 @@ function LM.Options:SetRules(n, rules)
     self.db.profile.rules[n] = rules
     self.db.callbacks:Fire("OnOptionsModified")
 end
+
 
 --[[----------------------------------------------------------------------------
     Copy targets mount
