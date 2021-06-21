@@ -190,11 +190,12 @@ function LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountOptionsPanel_PopOver(self, f)
-    f:SetParent(self)
+    f.overFrame = self
+    f:SetParent(self:GetParent())
     f:ClearAllPoints()
-    f:SetPoint("TOPLEFT", self, "TOPLEFT", 5, -5)
-    f:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -5, 5)
-    f:SetFrameLevel(self:GetFrameLevel() + 4)
+    for i = 1, self:GetNumPoints() do
+        f:SetPoint(self:GetPoint(i))
+    end
     f:Show()
 end
 

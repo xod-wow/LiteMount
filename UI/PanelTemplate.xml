@@ -72,4 +72,17 @@
     </Frames>
 </Frame>
 
+<Frame name="LiteMountPopOverPanelTemplate" virtual="true">
+    <Scripts>
+        <OnShow inhert="prepent">
+            self:SetFrameLevel(self.overFrame:GetFrameLevel() + 4)
+            self.overFrame:SetAlpha(0)
+        </OnShow>
+        <OnHide inherit="prepend">
+            self.overFrame:SetAlpha(1)
+            self.overFrame = nil
+        </OnHide>
+    </Scripts>
+</Frame>
+
 </Ui>

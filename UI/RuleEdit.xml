@@ -89,7 +89,7 @@
     </Frames>
 </Frame>
 
-<Frame name="LiteMountRuleEdit" mixin="LiteMountRuleEditMixin" hidden="true">
+<Frame name="LiteMountRuleEdit" mixin="LiteMountRuleEditMixin" hidden="true" inherits="LiteMountPopOverPanelTemplate">
 
     <Scripts>
         <OnLoad inherit="prepend" method="OnLoad" />
@@ -98,11 +98,6 @@
     </Scripts>
 
     <Layers>
-        <Layer level="BACKGROUND">
-            <Texture setAllPoints="true">
-                <Color r="0" b="0" g="0" a="1" />
-            </Texture>
-        </Layer>
         <Layer level="ARTWORK">
             <FontString inherits="GameFontNormalLarge" parentKey="Title">
                 <Anchors>
