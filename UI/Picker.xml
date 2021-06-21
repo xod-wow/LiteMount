@@ -2,59 +2,62 @@
 
 <Script file="Picker.lua" />
 
-<Button name="LiteMountPickerButtonTemplate" virtual="true" mixin="LiteMountPickerButtonMixin" inherits="UIMenuButtonStretchTemplate">
-    <Scripts>
-        <OnClick method="OnClick" />
-    </Scripts>
-
+<Button name="LiteMountPickerMountButtonTemplate" virtual="true" inherits="LiteMountListButtonStyleTemplate">
     <Size y="22" />
+    <NormalFont style="GameFontNormal" />
+    <ButtonText justifyH="LEFT" wordWrap="false">
+        <Anchors>
+            <Anchor point="LEFT" x="8" />
+            <Anchor point="RIGHT" x="-8" />
+        </Anchors>
+    </ButtonText>
+    <HighlightTexture alphaMode="ADD">
+        <Color r="0.3" g="0.5" b="1" a="0.3" />
+    </HighlightTexture>
+</Button>
 
-    <Layers>
-        <Layer level="OVERLAY">
-            <Texture parentKey="Icon">
-                <Size x="14" y="14" />
-                <Anchors><Anchor point="LEFT" x="8" /></Anchors>
-            </Texture>
-            <FontString parentKey="Text" inherits="GameFontHighlightSmall" justifyH="LEFT" wordwrap="false">
-                <Anchors>
-                    <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Icon" x="4" />
-                    <Anchor point="RIGHT" x="-8" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-
+<Button name="LiteMountPickerButtonTemplate" virtual="true">
+    <Size y="22" />
+    <Frames>
+        <Button parentKey="mount2" inherits="LiteMountPickerMountButtonTemplate">
+            <Anchors>
+                <Anchor point="CENTER" />
+            </Anchors>
+        </Button>
+        <Button parentKey="mount1" inherits="LiteMountPickerMountButtonTemplate">
+            <Anchors>
+                <Anchor point="LEFT" x="4" />
+                <Anchor point="RIGHT" relativeKey="$parent.mount2" relativePoint="LEFT" x="-4" />
+            </Anchors>
+        </Button>
+        <Button parentKey="mount3" inherits="LiteMountPickerMountButtonTemplate">
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.mount2" relativePoint="RIGHT" x="4" />
+                <Anchor point="RIGHT" x="-4" />
+            </Anchors>
+        </Button>
+    </Frames>
 </Button>
                     
-<Frame name="LiteMountPicker" hidden="true" mixin="LiteMountPickerMixin" parent="UIParent">
+<Frame name="LiteMountPicker" mixin="LiteMountPickerMixin" parent="UIParent" inherits="LiteMountContainerStyleTemplate" hidden="true">
     <Size x="623" y="568" />
     <Anchors>
-        <Anchor point="CENTER" />
+        <Anchor point="CENTER" y="80" />
     </Anchors>
     <Scripts>
-        <OnLoad method="OnLoad" />
-        <OnShow method="OnShow" />
-        <OnSizeChanged method="OnSizeChanged" />
+        <OnLoad inherit="prepend" method="OnLoad" />
+        <OnShow inherit="prepend" method="OnShow" />
+        <OnHide inherit="prepend" method="OnHide" />
+        <OnSizeChanged inherit="prepend" method="OnSizeChanged" />
     </Scripts>
     <Frames>
         <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="MinimalHybridScrollFrameTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" x="8" y="-8" />
+                <Anchor point="TOPLEFT" x="8" y="-80" />
                 <Anchor point="BOTTOMRIGHT" x="-24" y="8" />
             </Anchors>
         </ScrollFrame>
     </Frames>
-    <Layers>
-        <Layer level="ARTWORK">
-            <Texture>
-                <Color r="0.1" g="0.1" b="0.1" />
-                <Anchors>
-                    <Anchor point="TOPLEFT" />
-                    <Anchor point="BOTTOMRIGHT" />
-                </Anchors>
-            </Texture>
-        </Layer>
-    </Layers>
 </Frame>
 
 </Ui>
