@@ -159,6 +159,7 @@
 
     <Scripts>
         <OnLoad method="OnLoad" />
+        <OnHide method="OnHide" />
         <OnSizeChanged method="OnSizeChanged" />
     </Scripts>
 </Frame>

@@ -331,31 +331,36 @@ function LiteMountRuleEditMixin:IsValidRule()
     return atLeastOneCondition
 end
 
-function LiteMountRuleEditMixin:MakeRuleLine()
+function LiteMountRuleEditMixin:MakeRule()
     if not self:IsValidRule() then return end
 
-    local ctexts = LM.tMap(self.Conditions, function (c) return c.arg or c.type end)
+    local rule = {
+        action      = self.Action.type,
+        args        = { self.Action.args },
+        conditions  = { op="AND" },
+    }
 
-    return self.Action.type ..
-                ' [' .. table.concat(ctexts, ',') .. '] ' ..
-                self.Action.arg
+    for _,cFrame in ipairs(self.Conditions) do
+        if cFrame.negated then
+            table.insert(rule.conditions, { op="NOT", cFrame.arg or cFrame.type })
+        else
+            table.insert(rule.conditions, cFrame.arg or cFrame.type)
+        end
+    end
+
+    return rule
 end
 
 function LiteMountRuleEditMixin:Cancel()
-    self.callback = nil
-    self.parent = nil
     self:Hide()
 end
 
 function LiteMountRuleEditMixin:Okay()
     if self.callback then
-        local line = self:MakeRuleLine()
-        if line then
-            local rule = LM.Rules:ParseLine(line)
-            self.callback(self.parent, rule)
+        local rule = self:MakeRule()
+        if rule then
+            self.callback(self.callbackFrame, rule)
         end
-        self.callback = nil
-        self.parent = nil
     end
     self:Hide()
 end
@@ -369,15 +374,9 @@ function LiteMountRuleEditMixin:OnLoad()
     end
 end
 
-function LiteMountRuleEditMixin:PopOver(parent, callback)
+function LiteMountRuleEditMixin:SetCallback(callback, frame)
     self.callback = callback
-    self.parent = parent
-    self:SetParent(parent)
-    self:ClearAllPoints()
-    self:SetPoint("TOPLEFT", parent, "TOPLEFT", 5, -5)
-    self:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -5, 5)
-    self:SetFrameLevel(parent:GetFrameLevel() + 4)
-    self:Show()
+    self.callbackFrame = frame
 end
 
 function LiteMountRuleEditMixin:Clear()
@@ -414,5 +413,5 @@ end
 
 function LiteMountRuleEditMixin:OnHide()
     self.callback = nil
-    self.parent = nil
+    self.callbackFrame = nil
 end

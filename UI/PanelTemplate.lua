@@ -189,6 +189,15 @@ function LiteMountOptionsPanel_OnLoad(self)
     InterfaceOptions_AddCategory(self)
 end
 
+function LiteMountOptionsPanel_PopOver(self, f)
+    f:SetParent(self)
+    f:ClearAllPoints()
+    f:SetPoint("TOPLEFT", self, "TOPLEFT", 5, -5)
+    f:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -5, 5)
+    f:SetFrameLevel(self:GetFrameLevel() + 4)
+    f:Show()
+end
+
 function LiteMountOptionsControl_Refresh(self, trigger)
     LM.UIDebug(self, "Control_Refresh t="..tostring(trigger))
     if self.oldValues == nil then

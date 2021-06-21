@@ -127,8 +127,19 @@ end
 
 LiteMountRulesPanelMixin = {}
 
+function LiteMountRulesPanelMixin:AddRuleCallback(rule)
+    local binding = self.Scroll.tab
+    local rules = LM.Options:GetRules(binding)
+    local insertPos = tIndexOf(rules, self.selectedRule) or 1
+    table.insert(rules, insertPos, rule)
+    self.selectedRule = rule
+    LM.Options:SetRules(binding, rules)
+end
+
 function LiteMountRulesPanelMixin:AddRule()
-    print('add clicked')
+    LiteMountRuleEdit:Clear()
+    LiteMountRuleEdit:SetCallback(self.AddRuleCallback, self)
+    LiteMountOptionsPanel_PopOver(self, LiteMountRuleEdit)
 end
 
 function LiteMountRulesPanelMixin:DeleteRule()
@@ -141,9 +152,21 @@ function LiteMountRulesPanelMixin:DeleteRule()
     end
 end
 
+function LiteMountRulesPanelMixin:EditRuleCallback(rule)
+    local binding = self.Scroll.tab
+    local rules = LM.Options:GetRules(binding)
+    local index = tIndexOf(rules, self.selectedRule)
+    if index then
+        rules[index] = rule
+        self.selectedRule = rule
+        LM.Options:SetRules(binding, rules)
+    end
+end
+
 function LiteMountRulesPanelMixin:EditRule()
     LiteMountRuleEdit:SetRule(self.selectedRule)
-    LiteMountRuleEdit:PopOver(self)
+    LiteMountRuleEdit:SetCallback(self.EditRuleCallback, self)
+    LiteMountOptionsPanel_PopOver(self, LiteMountRuleEdit)
 end
 
 function LiteMountRulesPanelMixin:OnSizeChanged(x, y)
@@ -173,4 +196,8 @@ function LiteMountRulesPanelMixin:OnLoad()
     UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
 
     LiteMountOptionsPanel_OnLoad(self)
+end
+
+function LiteMountRulesPanelMixin:OnHide()
+    LiteMountRuleEdit:Hide()
 end
