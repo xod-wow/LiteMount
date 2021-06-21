@@ -133,6 +133,7 @@ function LiteMountRulesPanelMixin:AddRuleCallback(rule)
     local insertPos = tIndexOf(rules, self.selectedRule) or 1
     table.insert(rules, insertPos, rule)
     self.selectedRule = rule
+    self.Scroll.isDirty = true
     LM.Options:SetRules(binding, rules)
 end
 
@@ -159,6 +160,7 @@ function LiteMountRulesPanelMixin:EditRuleCallback(rule)
     if index then
         rules[index] = rule
         self.selectedRule = rule
+        self.Scroll.isDirty = true
         LM.Options:SetRules(binding, rules)
     end
 end
