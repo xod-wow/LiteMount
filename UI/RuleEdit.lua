@@ -336,7 +336,7 @@ function LiteMountRuleEditMixin:MakeRule()
 
     local rule = {
         action      = self.Action.type,
-        args        = { self.Action.args },
+        args        = { self.Action.arg },
         conditions  = { op="AND" },
     }
 
