@@ -9,7 +9,7 @@
         <OnClick method="OnClick" />
     </Scripts>
 
-    <Size y="22" />
+    <Size y="24" />
 
     <HighlightTexture alphaMode="ADD">
         <Color r="0.3" g="0.5" b="1" a="0.3" />

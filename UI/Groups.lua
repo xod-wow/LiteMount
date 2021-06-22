@@ -170,7 +170,7 @@ function LiteMountGroupsPanelGroupsMixin:Update()
 end
 
 function LiteMountGroupsPanelGroupsMixin:OnSizeChanged()
-    HybridScrollFrame_CreateButtons(self, 'LiteMountGroupsPanelGroupTemplate', 0, -1, "TOPLEFT", "TOPLEFT", 0, -1, "TOPLEFT", "BOTTOMLEFT")
+    HybridScrollFrame_CreateButtons(self, 'LiteMountGroupsPanelGroupTemplate')
     for _, b in ipairs(self.buttons) do
         b:SetWidth(self:GetWidth())
     end
