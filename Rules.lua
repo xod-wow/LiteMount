@@ -134,12 +134,12 @@ end
 
 local function OneConditionToString(ruleCondition)
 
-    local isNot
+    local isNegated
 
     -- Only handles 'NOT' for now
     if type(ruleCondition) == 'table' then
         if ruleCondition.op == 'NOT' then
-            isNot = true
+            isNegated = true
             ruleCondition = ruleCondition[1]
         else
             return ERROR_CAPS
@@ -155,9 +155,8 @@ local function OneConditionToString(ruleCondition)
     else
         text = cText
     end
-    if isNot then
-        -- XXX LOCALIZE XXX
-        return RED_FONT_COLOR:WrapTextInColorCode('NOT ' .. text)
+    if isNegated then
+        return RED_FONT_COLOR:WrapTextInColorCode(string.format(L.LM_NOT_FORMAT, text))
     else
         return GREEN_FONT_COLOR:WrapTextInColorCode(text)
     end
@@ -210,7 +209,7 @@ function LM.Rules:Dispatch(rule, env)
         return
     end
 
-    LM.Debug("Dispatching rule " .. (rule.line or rule.action))
+    LM.Debug("Dispatching rule " .. (rule.line or self:ToLine(rule)))
 
     return handler(rule.args or {}, env)
 end
