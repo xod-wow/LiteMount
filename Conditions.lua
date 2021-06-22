@@ -810,7 +810,6 @@ CONDITIONS["tracking"] = {
 }
 
 CONDITIONS["true"] = {
-    name = ALWAYS:upper(),
     handler =
         function (cond, env)
             return true
@@ -1088,10 +1087,6 @@ end
 
 function LM.Conditions:ArgsToString(text)
     local cond, valuestr = strsplit(':', text)
-
-    if cond == "" then
-        return ALWAYS
-    end
 
     local c = CONDITIONS[cond]
     if not c then return end
