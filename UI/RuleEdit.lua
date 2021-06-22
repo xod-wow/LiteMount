@@ -204,6 +204,8 @@ function LiteMountRuleEditConditionMixin:Update()
         self.TypeDropDown:SetText(info.name)
         if self.arg then
             self.ArgDropDown:SetText(LM.Conditions:ArgsToString(self.arg))
+        else
+            self.ArgDropDown:SetText("")
         end
         self.ArgDropDown:Show()
         self.ArgText:Hide()
