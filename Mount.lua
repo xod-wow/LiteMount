@@ -67,8 +67,7 @@ end
 function LM.Mount:MountFilterToString(f)
     if not f then return end
     if f:sub(1,1) == '~' then
-        -- XXX LOCALIZE XXX
-        return 'NOT ' .. self:MountFilterToString(f:sub(2))
+        return string.format(L.LM_NOT_FORMAT, self:MountFilterToString(f:sub(2)))
     elseif f:match('^id:%d+$') then
         local _, id = string.split(':', f, 2)
         return C_MountJournal.GetMountInfoByID(tonumber(id))
