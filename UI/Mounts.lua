@@ -121,11 +121,7 @@ end
 function LiteMountFlagBitMixin:OnEnter()
     if self.flag then
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        if self.flag == "FAVORITES" then
-            GameTooltip:SetText("Blizzard " .. L[self.flag])
-        else
-            GameTooltip:SetText(L[self.flag])
-        end
+        GameTooltip:SetText(L[self.flag])
         GameTooltip:Show()
     end
 end
