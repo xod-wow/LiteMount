@@ -191,11 +191,9 @@ end
 
 function LiteMountOptionsPanel_PopOver(self, f)
     f.overFrame = self
-    f:SetParent(self:GetParent())
+    f:SetParent(self)
     f:ClearAllPoints()
-    for i = 1, self:GetNumPoints() do
-        f:SetPoint(self:GetPoint(i))
-    end
+    f:SetPoint("CENTER", self, "CENTER")
     f:Show()
 end
 
