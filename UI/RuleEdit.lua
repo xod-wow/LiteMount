@@ -16,15 +16,28 @@ local MENU_SPLIT_SIZE = 20
 
 --[[--------------------------------------------------------------------------]]--
 
+local function SetArgFunction(button, arg1, owner)
+    CloseDropDownMenus(1)
+    owner:SetArg(arg1)
+end
+
+local function SetArgFromPickerFunction(button, arg1, owner)
+    local parent = owner:GetParent()
+
+    CloseDropDownMenus(1)
+    LiteMountPicker:SetParent(parent)
+    LiteMountPicker:ClearAllPoints()
+    LiteMountPicker:SetPoint("CENTER")
+    LiteMountPicker:SetFrameLevel(parent:GetFrameLevel() + 3)
+    LiteMountPicker:SetCallback(function (self, m) owner:SetArg(m.name) end, owner)
+    LiteMountPicker:Show()
+end
+
 local function ArgsInitialize(dropDown, level, menuList)
     if not menuList then return end
 
     local info = UIDropDownMenu_CreateInfo()
     info.notCheckable = true
-    info.func = function (button, arg1, arg2)
-                    dropDown.owner:GetParent():SetArg(arg1)
-                    CloseDropDownMenus(1)
-                end
 
     if #menuList > MENU_SPLIT_SIZE * 1.5 then
         info.notCheckable = true
@@ -45,10 +58,15 @@ local function ArgsInitialize(dropDown, level, menuList)
             UIDropDownMenu_AddButton(info, level)
         end
     else
+        info.arg2 = dropDown:GetParent()
         for _,item in ipairs(menuList) do
+            if item.val == 'PICKER' then
+                info.func = SetArgFromPickerFunction
+            else
+                info.func = SetArgFunction
+            end
             info.text = item.text
             info.arg1 = item.val
-            info.arg2 = item.text
             if #item > 0 then
                 info.hasArrow = true
                 info.menuList = item
@@ -69,13 +87,14 @@ LiteMountRuleEditConditionMixin = { }
 local function ConditionTypeInitialize(dropDown, level, menuList)
     if level == 1 then
         local info = UIDropDownMenu_CreateInfo()
-        local currentType = dropDown.owner:GetParent():GetType()
-        info.minWidth = dropDown.owner:GetWidth() - 25 - 10
-        info.func = function (button, arg1, arg2)
-            dropDown.owner:GetParent():SetType(arg1)
+        local currentType = dropDown:GetParent():GetType()
+        -- info.minWidth = dropDown:GetParent():GetWidth() - 25 - 10
+        info.func = function (button, arg1, owner)
+            owner:SetType(arg1)
         end
         info.text = NONE:upper()
         info.arg1 = nil
+        info.arg2 = dropDown:GetParent()
         UIDropDownMenu_AddButton(info, level)
         UIDropDownMenu_AddSeparator(level)
         for _,item in ipairs(LM.Conditions:GetConditions()) do
@@ -94,7 +113,6 @@ end
 
 local function ConditionTypeButtonClick(button, mouseButton)
     local dropdown = button:GetParent().DropDown
-    dropdown.owner = button
     UIDropDownMenu_Initialize(dropdown, ConditionTypeInitialize, 'MENU')
     UIDropDownMenu_SetAnchor(dropdown, 5, 5, 'TOPLEFT', button, 'BOTTOMLEFT')
     ToggleDropDownMenu(1, nil, dropdown)
@@ -102,7 +120,6 @@ end
 
 local function ConditionArgButtonClick(button, mouseButton)
     local dropdown = button:GetParent().DropDown
-    dropdown.owner = button
     local argType = button:GetParent().type
 
     local values = LM.Conditions:ArgsMenu(argType)
@@ -227,13 +244,14 @@ local TypeMenu = {
 local function ActionTypeInitialize(dropDown, level, menuList)
     if level == 1 then
         local info = UIDropDownMenu_CreateInfo()
-        info.minWidth = dropDown.owner:GetWidth() - 25 - 10
-        info.func = function (button, arg1, arg2)
-            dropDown.owner:GetParent():SetType(arg1)
+        -- info.minWidth = dropDown.owner:GetWidth() - 25 - 10
+        info.func = function (button, arg1, owner)
+            owner:SetType(arg1)
         end
         for _,item in ipairs(TypeMenu) do
             info.text = LM.Actions:ToString(item)
             info.arg1 = item
+            info.arg2 = dropDown:GetParent()
             UIDropDownMenu_AddButton(info, level)
         end
     end
@@ -241,7 +259,6 @@ end
 
 local function ActionTypeButtonClick(button, mouseButton)
     local dropdown = button:GetParent().DropDown
-    dropdown.owner = button
     UIDropDownMenu_Initialize(dropdown, ActionTypeInitialize, 'MENU')
     UIDropDownMenu_SetAnchor(dropdown, 5, 5, 'TOPLEFT', button, 'BOTTOMLEFT')
     ToggleDropDownMenu(1, nil, dropdown)
@@ -262,12 +279,13 @@ local function ActionArgsMenu()
     local typeMenuList = LM.tMap(LM.UIFilter.GetTypes(), TypeToInfo)
     typeMenuList.text = TYPE
 
-    return { groupsMenuList, familyMenuList, typeMenuList }
+    local mountMenuList = { text=MOUNT, val="PICKER" }
+
+    return { groupsMenuList, familyMenuList, typeMenuList, mountMenuList }
 end
 
 local function ActionArgButtonClick(button, mouseButton)
     local dropdown = button:GetParent().DropDown
-    dropdown.owner = button
     -- local values = LM.tMap(LM.PlayerMounts.mounts, MountToInfo)
     local values = ActionArgsMenu()
     if values then
@@ -318,17 +336,14 @@ LiteMountRuleEditMixin = {}
 
 function LiteMountRuleEditMixin:IsValidRule()
     if not self.Action.arg then return false end
-    local atLeastOneCondition = false
     for _, cFrame in ipairs(self.Conditions) do
         if cFrame.type then
             if not cFrame:IsValidCondition() then
                 return false
-            else
-                atLeastOneCondition = true
             end
         end
     end
-    return atLeastOneCondition
+    return true
 end
 
 function LiteMountRuleEditMixin:MakeRule()
@@ -367,7 +382,6 @@ end
 
 function LiteMountRuleEditMixin:OnLoad()
     LiteMountOptionsPanel_AutoLocalize(self)
-    self.Title:SetText("LiteMount : " .. L.LM_EDIT_RULE)
     for i = 2, #self.Conditions do
         self.Conditions[i]:SetPoint('TOPLEFT', self.Conditions[i-1], 'BOTTOMLEFT', 0, -4)
         self.Conditions[i]:SetPoint('RIGHT', self.Conditions[i-1], 'RIGHT')
@@ -414,4 +428,5 @@ end
 function LiteMountRuleEditMixin:OnHide()
     self.callback = nil
     self.callbackFrame = nil
+    LiteMountPicker:Hide()
 end
