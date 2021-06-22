@@ -131,6 +131,10 @@ local function ConditionArgButtonClick(button, mouseButton)
     end
 end
 
+local function ConditionNegatedClick(self)
+    self:GetParent().isNegated = self:GetChecked()
+end
+
 function LiteMountRuleEditConditionMixin:GetType(arg)
     return self.type
 end
@@ -152,12 +156,12 @@ function LiteMountRuleEditConditionMixin:SetCondition(condition)
     if not condition then
         self.type = nil
         self.arg = nil
-        self.negated = nil
+        self.isNegated = nil
         return
     end
 
     if type(condition) == 'table' then
-        self.negated = true
+        self.isNegated = true
         condition = condition[1]
     end
 
@@ -184,6 +188,8 @@ end
 
 function LiteMountRuleEditConditionMixin:Update()
     local info = LM.Conditions:GetCondition(self.type)
+
+    self.Negated:SetChecked(self.isNegated)
 
     if not self.type then
         self.TypeDropDown:SetText(NONE:upper())
@@ -223,6 +229,7 @@ end
 
 function LiteMountRuleEditConditionMixin:OnLoad()
     self.NumText:SetText(self:GetID())
+    self.Negated:SetScript('OnClick', ConditionNegatedClick)
     self.TypeDropDown:SetScript('OnClick', ConditionTypeButtonClick)
     self.ArgDropDown:SetScript('OnClick', ConditionArgButtonClick)
     self.ArgText:SetScript('OnTextChanged', ConditionOnTextChanged)
@@ -356,7 +363,7 @@ function LiteMountRuleEditMixin:MakeRule()
     }
 
     for _,cFrame in ipairs(self.Conditions) do
-        if cFrame.negated then
+        if cFrame.isNegated then
             table.insert(rule.conditions, { op="NOT", cFrame.arg or cFrame.type })
         else
             table.insert(rule.conditions, cFrame.arg or cFrame.type)

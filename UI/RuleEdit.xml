@@ -42,10 +42,30 @@
         </Layer>
     </Layers>
     <Frames>
+        <CheckButton parentKey="Negated">
+            <Size x="33" y="33" />
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.NumText" relativePoint="RIGHT" x="8" />
+            </Anchors>
+            <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+            <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+            <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+            <CheckedTexture file="Interface\Addons\LiteMount\Textures\RedX" />
+            <Scripts>
+                <OnEnter>
+                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode("NOT"))
+                    GameTooltip:Show()
+                </OnEnter>
+                <OnLeave>
+                    GameTooltip:Hide()
+                </OnLeave>
+            </Scripts>
+        </CheckButton>
         <Button parentkey="TypeDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate">
             <Size x="192" y="33" />
             <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.NumText" relativePoint="RIGHT" x="8" />
+                <Anchor point="LEFT" relativeKey="$parent.Negated" relativePoint="RIGHT" x="4" />
             </Anchors>
         </Button>
         <Button parentkey="ArgDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate" hidden="true">
