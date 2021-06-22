@@ -1,10 +1,7 @@
 #!/bin/sh
 
-# Password-encrypted for git storage.
 if [ "$APIKEY" = "" ]; then
-    APIKEY=`openssl enc -d -a -A -aes-256-cbc <<_EOT
-U2FsdGVkX1/E0oDFoRjUY9WJvbGEyE9wuJksZH8BlJvhr3k3l6PFYqoH7psw69szOtGT0D8rVjohvhl/uSLFYw==
-_EOT`
+    exit 1
 fi
 
 DASHES=--------------------------------------------------------------------------------
