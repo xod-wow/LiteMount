@@ -4,10 +4,8 @@
     <Include file="ProfileDropDown.xml" />
     <Include file="ProfileImportExport.xml" />
     <Include file="MountsFilter.xml" />
-<!--@debug@-->
     <Include file="RuleEdit.xml" />
     <Include file="Picker.xml" />
-<!--@end-debug@-->
 
     <!-- Main parent settings panel -->
     <Include file="Base.xml" />
@@ -15,10 +13,8 @@
     <!-- The order of these is the order of the settings tabs -->
     <Include file="General.xml" />
     <Include file="Mounts.xml" />
-<!--@debug@-->
     <Include file="Rules.xml" />
     <Include file="Groups.xml" />
-<!--@end-debug@-->
     <Include file="Macro.xml" />
     <Include file="CombatMacro.xml" />
     <Include file="Advanced.xml" />
