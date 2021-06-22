@@ -164,6 +164,9 @@ local function OneConditionToString(ruleCondition)
 end
 
 function LM.Rules:ConditionsToString(rule)
+    if not rule.conditions or #rule.conditions == 0 then
+        return { GREEN_FONT_COLOR:WrapTextInColorCode(ALWAYS:upper()) }
+    end
     local conditions = {}
     for _, ruleCondition in ipairs(rule.conditions or { }) do
         local text = OneConditionToString(ruleCondition)
