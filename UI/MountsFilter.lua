@@ -34,6 +34,7 @@ function LiteMountFilterMixin:Attach(parent, fromPoint, frame, toPoint, xOff, yO
     self:SetParent(parent)
     self:ClearAllPoints()
     self:SetPoint(fromPoint, frame, toPoint, xOff, yOff)
+    self.Search:SetFocus()
 end
 
 --[[------------------------------------------------------------------------]]--
