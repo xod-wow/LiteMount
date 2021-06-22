@@ -88,9 +88,9 @@ function LiteMountProfileImportMixin:UpdateImportButton()
     end
 end
 
---@debug@
-
 --[[ Inspect ---------------------------------------------------------------]]--
+
+--@debug@
 
 local Serializer = LibStub("AceSerializer-3.0")
 local LibDeflate = LibStub("LibDeflate")
