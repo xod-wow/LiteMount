@@ -159,10 +159,10 @@ end
 
 function LM.Environment:IsOnMap(mapID)
     local currentMapID = C_Map.GetBestMapForUnit('player')
-    if mapId == currentMapID then
+    if mapID == currentMapID then
         return true
     end
-    local groupID = C_Map.GetMapGroupID(currentMapID)
+    local groupID = C_Map.GetMapGroupID(mapID)
     if groupID and groupID == C_Map.GetMapGroupID(currentMapID) then
         return true
     end
