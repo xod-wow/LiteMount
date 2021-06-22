@@ -28,34 +28,34 @@ local function UpdateScroll(self)
     local mounts = LM.UIFilter.GetFilteredMountList()
 
     for i, button in ipairs(self.buttons) do
-        local index = ( offset + i - 1 ) * 3 + 1
-        local m1, m2, m3 = mounts[index], mounts[index+1], mounts[index+2]
-
-        if not m1 and not m2 then
+        local index = ( offset + i - 1 ) * #button.mount + 1
+        if not mounts[index] then
             button:Hide()
         else
-            button.mount1.mount = m1
-            button.mount1:SetText(m1.name)
-            if m2 then
-                button.mount2.mount = m2
-                button.mount2:SetText(m2.name)
-                button.mount2:Show()
-            else
-                button.mount2:Hide()
-            end
-            if m3 then
-                button.mount3.mount = m3
-                button.mount3:SetText(m3.name)
-                button.mount3:Show()
-            else
-                button.mount3:Hide()
+            for i = 1, #button.mount do
+                local m = mounts[index+i-1]
+                local b = button.mount[i]
+                if m then
+                    b.mount = m
+                    b:SetText(m.name)
+                    b:Show()
+                    if not m.isCollected then
+                        b:SetNormalFontObject("GameFontDisable")
+                    else
+                        b:SetNormalFontObject("GameFontNormal")
+                    end
+                else
+                    b:Hide()
+                end
             end
             button:Show()
         end
     end
 
-    local totalHeight = math.ceil(#mounts/3) * self.buttons[1]:GetHeight()
-    local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
+    local numPerButton = #self.buttons[1].mount
+    local buttonHeight = self.buttons[1]:GetHeight()
+    local totalHeight = math.ceil(#mounts/numPerButton) * buttonHeight
+    local displayedHeight = #self.buttons * buttonHeight
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
 end
 
@@ -63,11 +63,21 @@ function LiteMountPickerMixin:Update()
     UpdateScroll(self.Scroll)
 end
 
+local function OnClick(button)
+    LiteMountPicker:RunCallback(button.mount)
+    LiteMountPicker:Hide()
+end
+
 function LiteMountPickerMixin:OnSizeChanged()
     HybridScrollFrame_CreateButtons(self.Scroll, "LiteMountPickerButtonTemplate")
     for _, b in ipairs(self.Scroll.buttons) do
         b:SetWidth(self.Scroll:GetWidth())
-        b.mount2:SetWidth( (b:GetWidth() - 16 ) / 3)
+        local subW = ( b:GetWidth() - 12 ) / #b.mount - 4
+        for i = 1, #b.mount do
+            b.mount[i]:SetWidth(subW)
+            b.mount[i]:SetPoint("LEFT", b, "LEFT", 8+(i-1)*(subW+4), 0)
+            b.mount[i]:SetScript('OnClick', OnClick)
+        end
     end
     UpdateScroll(self.Scroll)
 end
@@ -79,10 +89,23 @@ function LiteMountPickerMixin:OnShow()
 end
 
 function LiteMountPickerMixin:OnHide()
+    self.callback = nil
+    self.callbackFrame = nil
     LM.UIFilter.UnregisterAllCallbacks(self)
 end
 
 function LiteMountPickerMixin:OnLoad()
     self.Scroll.scrollBar.doNotHide = false
     self.Scroll.update = UpdateScroll
+end
+
+function LiteMountPickerMixin:SetCallback(callback, frame)
+    self.callback = callback
+    self.callbackFrame = frame
+end
+
+function LiteMountPickerMixin:RunCallback(mount)
+    if self.callback then
+        self.callback(frame, mount)
+    end
 end

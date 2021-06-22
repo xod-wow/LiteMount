@@ -19,28 +19,14 @@
 <Button name="LiteMountPickerButtonTemplate" virtual="true">
     <Size y="22" />
     <Frames>
-        <Button parentKey="mount2" inherits="LiteMountPickerMountButtonTemplate">
-            <Anchors>
-                <Anchor point="CENTER" />
-            </Anchors>
-        </Button>
-        <Button parentKey="mount1" inherits="LiteMountPickerMountButtonTemplate">
-            <Anchors>
-                <Anchor point="LEFT" x="4" />
-                <Anchor point="RIGHT" relativeKey="$parent.mount2" relativePoint="LEFT" x="-4" />
-            </Anchors>
-        </Button>
-        <Button parentKey="mount3" inherits="LiteMountPickerMountButtonTemplate">
-            <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.mount2" relativePoint="RIGHT" x="4" />
-                <Anchor point="RIGHT" x="-4" />
-            </Anchors>
-        </Button>
+        <Button parentArray="mount" inherits="LiteMountPickerMountButtonTemplate" />
+        <Button parentArray="mount" inherits="LiteMountPickerMountButtonTemplate" />
+        <Button parentArray="mount" inherits="LiteMountPickerMountButtonTemplate" />
     </Frames>
 </Button>
                     
-<Frame name="LiteMountPicker" mixin="LiteMountPickerMixin" parent="UIParent" inherits="LiteMountContainerStyleTemplate" hidden="true">
-    <Size x="623" y="568" />
+<Frame name="LiteMountPicker" mixin="LiteMountPickerMixin" inherits="LiteMountContainerStyleTemplate" hidden="true">
+    <Size x="580" y="420" />
     <Anchors>
         <Anchor point="CENTER" y="80" />
     </Anchors>
@@ -51,10 +37,15 @@
         <OnSizeChanged inherit="prepend" method="OnSizeChanged" />
     </Scripts>
     <Frames>
+        <Button inherits="UIPanelCloseButton">
+            <Anchors>
+                <Anchor point="TOPRIGHT" x="-4" y="-4" />
+            </Anchors>
+        </Button>
         <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="MinimalHybridScrollFrameTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" x="8" y="-80" />
-                <Anchor point="BOTTOMRIGHT" x="-24" y="8" />
+                <Anchor point="TOPLEFT" x="8" y="-42" />
+                <Anchor point="BOTTOMRIGHT" x="-28" y="8" />
             </Anchors>
         </ScrollFrame>
     </Frames>
