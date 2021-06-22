@@ -97,6 +97,8 @@
         <OnHide inherit="prepend" method="OnHide" />
     </Scripts>
 
+    <Size x="580" y="420" />
+
     <Layers>
         <Layer level="ARTWORK">
             <FontString inherits="GameFontNormalLarge" parentKey="Title">
