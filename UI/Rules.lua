@@ -172,12 +172,14 @@ function LiteMountRulesPanelMixin:EditRule()
     LiteMountOptionsPanel_PopOver(self, LiteMountRuleEdit)
 end
 
+-- function HybridScrollFrame_CreateButtons (self, buttonTemplate, initialOffsetX, initialOffsetY, initialPoint, initialRelative, offsetX, offsetY, point, relativePoint)
+--
 function LiteMountRulesPanelMixin:OnSizeChanged(x, y)
     HybridScrollFrame_CreateButtons(
             self.Scroll,
             "LiteMountRuleButtonTemplate",
             0, 0, "TOPLEFT", "TOPLEFT",
-            0, 0, "TOP", "BOTTOM"
+            0, -2, "TOP", "BOTTOM"
         )
     self.Scroll:Update()
 end
