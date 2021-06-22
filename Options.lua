@@ -106,7 +106,7 @@ local defaults = {
         flagChanges         = { },
         mountPriorities     = { },
         buttonActions       = { ['*'] = DefaultButtonAction },
-        rules               = { ['*'] = DefaultRules },
+        rules               = { }, -- Note: tables as * don't work
         copyTargetsMount    = true,
         excludeNewMounts    = false,
         priorityWeights     = { 1, 2, 6, 1 },
@@ -520,7 +520,8 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRules(n)
-    return LM.tCopyShallow(self.db.profile.rules[n])
+    local rules = self.db.profile.rules[n] or DefaultRules
+    return LM.tCopyShallow(rules)
 end
 
 function LM.Options:SetRules(n, rules)
