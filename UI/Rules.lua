@@ -84,6 +84,7 @@ function LiteMountRulesScrollMixin:Update()
 end
 
 function LiteMountRulesScrollMixin:SetOption(v, i)
+    self:GetParent().selectedRule = nil
     return LM.Options:SetRules(i, v)
 end
 
