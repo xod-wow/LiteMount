@@ -46,6 +46,7 @@ end
 -- Clear -----------------------------------------------------------------------
 
 function LM.UIFilter.Clear()
+    LM.UIFilter.ClearCache()
     for _,t in pairs(LM.UIFilter.filterList) do
         table.wipe(t)
     end
