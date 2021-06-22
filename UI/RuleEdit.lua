@@ -370,6 +370,10 @@ function LiteMountRuleEditMixin:MakeRule()
         end
     end
 
+    if #rule.conditions == 0 then
+        rule.conditions = nil
+    end
+
     return rule
 end
 
@@ -410,7 +414,11 @@ end
 
 function LiteMountRuleEditMixin:SetRule(rule)
     for i,cFrame in ipairs(self.Conditions) do
-        cFrame:SetCondition(rule.conditions[i])
+        if rule.conditions then
+            cFrame:SetCondition(rule.conditions[i])
+        else
+            cFrame:SetCondition(nil)
+        end
     end
 
     self.Action.type = rule.action
