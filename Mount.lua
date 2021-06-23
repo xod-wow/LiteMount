@@ -197,6 +197,7 @@ local MawUsableSpells = {
 }
 
 function LM.Mount:MawUsable()
+    -- The True Maw Walker unlocks all mounts
     if C_QuestLog.IsQuestFlaggedCompleted(353214) then
         return true
     else
