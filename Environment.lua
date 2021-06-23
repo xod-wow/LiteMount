@@ -107,8 +107,11 @@ function LM.Environment:IsTheMaw()
     -- This is the instanced starting experience
     if self.instanceID == 2364 then return true end
 
-    -- Otherwise, The Maw is just a Shadowlands zone in instance 2222
-    if C_Map.GetBestMapForUnit('player') == 1543 then return true end
+    -- Otherwise, The Maw is just zones in instance 2222
+    local currentMapID = C_Map.GetBestMapForUnit('player')
+    if currentMapID == 1543 or currentMapID == 1960 or currentMapID == 1961 then
+        return true
+    end
 end
 
 function LM.Environment:PLAYER_LOGIN()
