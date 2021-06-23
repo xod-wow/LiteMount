@@ -77,8 +77,11 @@ function LM.Mount:MountFilterToString(f)
     elseif f:match('^mt:%d+$') then
         local _, id = string.split(':', f, 2)
         return TYPE .. " : " .. LM.MOUNT_TYPES[tonumber(id)]
-    elseif LM.Options:IsActiveFlag(f) then
+    elseif LM.Options:IsCustomFlag(f) then
         return GROUP .. ' : ' .. f
+    elseif LM.Options:IsPrimaryFlag(f) then
+        -- XXX LOCALIZE XXX
+        return L.LM_FLAGS .. ' : ' .. f
     else
         return GetSpellInfo(f) or f
     end
