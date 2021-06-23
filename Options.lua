@@ -45,6 +45,8 @@ LeaveVehicle
 Dismount
 CopyTargetsMount
 ApplyRules
+Limit [mod:shift,nosubmerged,flyable] RUN/WALK,~FLY
+Limit [mod:shift,submerged] -SWIM
 SmartMount
 Macro
 ]]
@@ -83,16 +85,6 @@ local DefaultRules = {
         action = "Mount",
         args = { "id:881" }
     },
-    {
-        conditions = { "mod:shift", "flyable", op="AND" },
-        action = "LimitExclude",
-        args = { "mt:248" }
-    },
-    {
-        conditions = { "mod:shift", "submerged", op="AND" },
-        action = "LimitExclude",
-        args = { "mt:254" }
-    }
 }
 
 -- A lot of things need to be cleaned up when flags are deleted/renamed
