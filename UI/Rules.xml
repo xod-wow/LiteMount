@@ -137,6 +137,19 @@
             </Anchors>
         </Frame>
 
+        <Button parentKey="DefaultButton" inherits="UIPanelButtonTemplate" text="DEFAULT">
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.Scroll" x="-8" y="3" />
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    local parent = self:GetParent()
+                    LiteMountOptionsControl_Default(parent.Scroll, true)
+                </OnClick>
+            </Scripts>
+        </Button>
+
         <Button parentKey="AddButton" inherits="UIPanelButtonTemplate" text="ADD">
             <Size x="72" y="22" />
             <Anchors>

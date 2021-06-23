@@ -105,7 +105,6 @@ function LiteMountOptionsPanel_Refresh(self, trigger)
     local anyDirty = false
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Refresh(control, trigger)
-        LM.UIDebug(control, "isDirty = " .. tostring(control.isDirty))
         if control.isDirty then anyDirty = true end
     end
     if not self.hideRevertButton then
