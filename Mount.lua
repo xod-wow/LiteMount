@@ -81,7 +81,7 @@ function LM.Mount:MountFilterToString(f)
         return GROUP .. ' : ' .. f
     elseif LM.Options:IsPrimaryFlag(f) then
         -- XXX LOCALIZE XXX
-        return L.LM_FLAGS .. ' : ' .. f
+        return L.LM_FLAG .. ' : ' .. f
     else
         return GetSpellInfo(f) or f
     end

@@ -275,12 +275,13 @@ end
 
 local function MountToInfo(m) return { val = m.spellID, text = m.name } end
 local function GroupToInfo(v) return { val = v, text = LM.UIFilter.GetGroupText(v) } end
+local function FlagToInfo(v) return { val = v, text = LM.UIFilter.GetFlagText(v) } end
 local function FamilyToInfo(v) return { val = "family:"..v, text = LM.UIFilter.GetFamilyText(v) } end
 local function TypeToInfo(v) return { val = "mt:"..v, text = LM.UIFilter.GetTypeText(v) } end
 
 local function ActionArgsMenu()
-    local groupsMenuList = LM.tMap(LM.UIFilter.GetGroups(), GroupToInfo)
-    groupsMenuList.text = GROUP
+    local groupMenuList = LM.tMap(LM.UIFilter.GetGroups(), GroupToInfo)
+    groupMenuList.text = GROUP
 
     local familyMenuList = LM.tMap(LM.UIFilter.GetFamilies(), FamilyToInfo)
     familyMenuList.text = L.LM_FAMILY
@@ -288,9 +289,12 @@ local function ActionArgsMenu()
     local typeMenuList = LM.tMap(LM.UIFilter.GetTypes(), TypeToInfo)
     typeMenuList.text = TYPE
 
+    local flagMenuList = LM.tMap(LM.UIFilter.GetFlags(), FlagToInfo)
+    flagMenuList.text = L.LM_FLAG
+
     local mountMenuList = { text=MOUNT, val="PICKER" }
 
-    return { groupsMenuList, familyMenuList, typeMenuList, mountMenuList }
+    return { groupMenuList, flagMenuList, familyMenuList, typeMenuList, mountMenuList }
 end
 
 local function ActionArgButtonClick(button, mouseButton)

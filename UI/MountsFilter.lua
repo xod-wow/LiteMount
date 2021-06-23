@@ -114,6 +114,15 @@ local DROPDOWNS = {
         menulist = function () return LM.UIFilter.GetGroups() end,
         gettext = function (k) return LM.UIFilter.GetGroupText(k) end,
     },
+    ['FLAG'] = {
+        value = 'FLAG',
+        text = L.LM_FLAG,
+        checked = function (k) return LM.UIFilter.IsFlagChecked(k) end,
+        set = function (k, v) LM.UIFilter.SetFlagFilter(k, v) end,
+        setall = function (v) LM.UIFilter.SetAllFlagFilters(v) end,
+        menulist = function () return LM.UIFilter.GetFlags() end,
+        gettext = function (k) return LM.UIFilter.GetFlagText(k) end,
+    },
     ['FAMILY'] = {
         value = 'FAMILY',
         text = L.LM_FAMILY,
@@ -245,10 +254,13 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         ---- 7. GROUP ----
         InitDropDownSection(DROPDOWNS.GROUP, self, level, menuList)
 
-        ---- 8. FAMILY ----
+        ---- 8. FLAG ----
+        InitDropDownSection(DROPDOWNS.FLAG, self, level, menuList)
+
+        ---- 9. FAMILY ----
         InitDropDownSection(DROPDOWNS.FAMILY, self, level, menuList)
 
-        ---- 9. SOURCES ----
+        ---- 10. SOURCES ----
         InitDropDownSection(DROPDOWNS.SOURCES, self, level, menuList)
     else
         InitDropDownSection(DROPDOWNS[UIDROPDOWNMENU_MENU_VALUE], self, level, menuList)

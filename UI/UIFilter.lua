@@ -17,6 +17,7 @@ LM.UIFilter = {
         searchText = nil,
         filterList = {
             family = { },
+            flag = { },
             group =  { },
             other =  { },
             priority = { },
@@ -54,30 +55,9 @@ function LM.UIFilter.Clear()
 end
 
 function LM.UIFilter.IsFiltered()
-    if next(LM.UIFilter.filterList.family) ~= nil then
-        return true
+    for k,t in pairs(LM.UIFilter.filterList) do
+        if next(t) ~= nil then return true end
     end
-
-    if next(LM.UIFilter.filterList.group) ~= nil then
-        return true
-    end
-
-    if next(LM.UIFilter.filterList.other) ~= nil then
-        return true
-    end
-
-    if next(LM.UIFilter.filterList.priority) ~= nil then
-        return true
-    end
-
-    if next(LM.UIFilter.filterList.source) ~= nil then
-        return true
-    end
-
-    if next(LM.UIFilter.filterList.type) ~= nil then
-        return true
-    end
-
     return false
 end
 
@@ -262,6 +242,43 @@ function LM.UIFilter.GetTypeText(t)
 end
 
 
+-- Flags -----------------------------------------------------------------------
+
+function LM.UIFilter.IsFlagChecked(f)
+    return not LM.UIFilter.filterList.flag[f]
+end
+
+function LM.UIFilter.SetFlagFilter(f, v)
+    LM.UIFilter.ClearCache()
+    if v then
+        LM.UIFilter.filterList.flag[f] = nil
+    else
+        LM.UIFilter.filterList.flag[f] = true
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.SetAllFlagFilters(v)
+    LM.UIFilter.ClearCache()
+    for _,f in ipairs(LM.UIFilter.GetFlags()) do
+        if v then
+            LM.UIFilter.filterList.flag[f] = nil
+        else
+            LM.UIFilter.filterList.flag[f] = true
+        end
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.GetFlags()
+    return LM.Options:GetFlags()
+end
+
+function LM.UIFilter.GetFlagText(f)
+    return L[f]
+end
+
+
 -- Groups ----------------------------------------------------------------------
 
 function LM.UIFilter.IsGroupChecked(g)
@@ -435,6 +452,18 @@ function LM.UIFilter.IsFilteredMount(m)
         local isFiltered = true
         for g in pairs(m:GetGroups()) do
             if not LM.UIFilter.filterList.group[g] then
+                isFiltered = false
+                break
+            end
+        end
+        if isFiltered then return true end
+    end
+
+    -- Flags
+    if next(LM.UIFilter.filterList.flag) then
+        local isFiltered = true
+        for f in pairs(m:GetFlags()) do
+            if LM.Options:IsPrimaryFlag(f) and not LM.UIFilter.filterList.flag[f] then
                 isFiltered = false
                 break
             end
