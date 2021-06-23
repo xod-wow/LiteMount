@@ -338,7 +338,7 @@ ACTIONS['Mount'] = {
             local filters = ReplaceVars(LM.tJoin(env.filters[1], args))
             LM.Debug(" - filters: " .. table.concat(filters, ' '))
             local mounts = LM.PlayerMounts:FilterSearch("CASTABLE"):Limit(unpack(filters))
-            local m = mounts:PriorityRandom(env.random)
+            local m = mounts:Random(env.random)
             if m then
                 LM.Debug(format(" - setting action to mount %s", m.name))
                 return m:GetCastAction()
