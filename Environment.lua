@@ -157,16 +157,21 @@ function LM.Environment:IsCombatTravelForm()
     return self.combatTravelForm
 end
 
-function LM.Environment:IsOnMap(mapID)
-    local currentMapID = C_Map.GetBestMapForUnit('player')
-    if mapID == currentMapID then
+function LM.Environment:MapIsMap(a, b)
+    if a == b then
         return true
     end
-    local groupID = C_Map.GetMapGroupID(mapID)
-    if groupID and groupID == C_Map.GetMapGroupID(currentMapID) then
+    -- avoid nil == nil case
+    local aGroup = C_Map.GetMapGroupID(a)
+    if aGroup and aGroup == C_Map.GetMapGroupID(b) then
         return true
     end
     return false
+end
+
+function LM.Environment:IsOnMap(mapID)
+    local currentMapID = C_Map.GetBestMapForUnit('player')
+    return self:MapIsMap(currentMapID, mapID)
 end
 
 function LM.Environment:GetMapPath()
@@ -180,8 +185,8 @@ function LM.Environment:GetMapPath()
 end
 
 function LM.Environment:IsMapInPath(mapID)
-    for _, mapID in ipairs(self:GetMapPath()) do
-        if self:IsOnMap(mapID) then return true end
+    for _, pathMapID in ipairs(self:GetMapPath()) do
+        if self:MapIsMap(pathMapID, mapID) then return true end
     end
     return false
 end
