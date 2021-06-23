@@ -63,6 +63,7 @@ ACTIONS['Limit'] = {
     name = L.LM_LIMIT_MOUNTS,
     tostring =
         function (v)
+            -- XXX Doesn't support multiple args. Also wrong with -+= XXX
             v = v:gsub('^[-+=]', '')
             return LM.Mount:MountFilterToString(v)
         end,
@@ -78,6 +79,7 @@ ACTIONS['LimitInclude'] = {
     name = L.LM_INCLUDE_MOUNTS,
     tostring = function (v) return LM.Mount:MountFilterToString(v) end,
     handler = function (args, env)
+            -- XXX this multi-arg support is super sketchy/wrong XXX
             local plusArgs = LM.tMap(args, function (a) return '+' .. a end)
             ACTIONS['Limit'].handler(plusArgs, env)
         end
@@ -87,6 +89,7 @@ ACTIONS['LimitExclude'] = {
     name = L.LM_EXCLUDE_MOUNTS,
     tostring = function (v) return LM.Mount:MountFilterToString(v) end,
     handler = function (args, env)
+            -- XXX this multi-arg support is super sketchy/wrong XXX
             local minusArgs = LM.tMap(args, function (a) return '-' .. a end)
             ACTIONS['Limit'].handler(minusArgs, env)
         end
@@ -298,7 +301,7 @@ ACTIONS['SmartMount'] = {
                 m = fly:PriorityRandom(env.random)
             end
 
-            if not m and LM.Conditions:Check({"floating", "nowaterwalking"}, env) then
+            if not m and LM.Conditions:Check({"floating", { "waterwalking", op="NOT" }}, env) then
                 LM.Debug(" - trying Swimming Mount (on the surface)")
                 local swim = filteredList:FilterSearch('SWIM')
                 LM.Debug(" - found " .. #swim .. " mounts.")
