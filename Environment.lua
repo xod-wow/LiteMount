@@ -108,10 +108,7 @@ function LM.Environment:IsTheMaw()
     if self.instanceID == 2364 then return true end
 
     -- Otherwise, The Maw is just zones in instance 2222
-    local currentMapID = C_Map.GetBestMapForUnit('player')
-    if currentMapID == 1543 or currentMapID == 1960 or currentMapID == 1961 then
-        return true
-    end
+    return LM.Environment:IsMapInPath(1543)
 end
 
 function LM.Environment:PLAYER_LOGIN()
