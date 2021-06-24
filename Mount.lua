@@ -197,8 +197,11 @@ local MawUsableSpells = {
 }
 
 function LM.Mount:MawUsable()
-    -- The True Maw Walker unlocks all mounts
-    if C_QuestLog.IsQuestFlaggedCompleted(353214) then
+    -- The True Maw Walker unlocks all mounts, but the spell (353214) doesn't
+    -- seem to return true for IsSpellKnown(). The unlock is not account-wide
+    -- so the quest is good enough (for now).
+
+    if C_QuestLog.IsQuestFlaggedCompleted(63994) then
         return true
     else
         return MawUsableSpells[self.spellID]
