@@ -70,6 +70,17 @@
             </Scripts>
         </Button>
 
+        <Button parentKey="UnlockButton" inherits="UIPanelButtonTemplate" mixin="LiteMountAdvancedUnlockButtonMixin" text="UNLOCK">
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="CENTER" relativeKey="$parent.RevertButton" />
+            </Anchors>
+            <Scripts>
+                <OnShow method="OnShow" />
+                <OnClick method="OnClick" />
+            </Scripts>
+        </Button>
+
         <Frame parentkey="BindingDropDown" inherits="UIDropDownMenuTemplate">
             <Size x="93" y="22" />
             <Anchors>
@@ -106,6 +117,7 @@
 
     <Scripts>
         <OnLoad method="OnLoad" />
+        <OnShow inherit="prepend" method="OnShow" />
     </Scripts>
 </Frame>
 

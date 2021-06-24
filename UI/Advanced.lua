@@ -18,28 +18,24 @@ end
 
 --[[--------------------------------------------------------------------------]]--
 
-local RevertOverrideMixin = {}
+LiteMountAdvancedUnlockButtonMixin = {}
 
-function RevertOverrideMixin:OnShow()
+function LiteMountAdvancedUnlockButtonMixin:OnShow()
     local parent = self:GetParent()
     local editBox = parent.EditScroll.EditBox
     editBox:SetAlpha(0.5)
     editBox:Disable()
     parent.DefaultButton:Disable()
-    self:SetText(UNLOCK)
+    self:SetFrameLevel(parent.RevertButton:GetFrameLevel() + 1)
 end
 
-function RevertOverrideMixin:OnClick()
+function LiteMountAdvancedUnlockButtonMixin:OnClick()
     local parent = self:GetParent()
     local editBox = parent.EditScroll.EditBox
-    if self:GetText() == UNLOCK then
-        editBox:SetAlpha(1.0)
-        editBox:Enable()
-        parent.DefaultButton:Enable()
-        self:SetText(REVERT)
-    else
-        LiteMountOptionsControl_Revert(editBox)
-    end
+    editBox:SetAlpha(1.0)
+    editBox:Enable()
+    parent.DefaultButton:Enable()
+    self:Hide()
 end
 
 --[[--------------------------------------------------------------------------]]--
@@ -107,8 +103,9 @@ function LiteMountAdvancedPanelMixin:OnLoad()
     UIDropDownMenu_Initialize(self.BindingDropDown, BindingDropDown_Initialize)
     UIDropDownMenu_SetText(self.BindingDropDown, BindingText(1))
 
-    self.RevertButton:SetScript("OnShow", RevertOverrideMixin.OnShow)
-    self.RevertButton:SetScript("OnClick", RevertOverrideMixin.OnClick)
-
     LiteMountOptionsPanel_OnLoad(self)
+end
+
+function LiteMountAdvancedPanelMixin:OnShow()
+    self.UnlockButton:Show()
 end
