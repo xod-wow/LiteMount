@@ -161,7 +161,11 @@ local MawUsableSpells = {
 }
 
 function LM.Mount:MawUsable()
-    return MawUsableSpells[self.spellID]
+    if C_QuestLog.IsQuestFlaggedCompleted(63994) then
+        return true
+    else
+        return MawUsableSpells[self.spellID]
+    end
 end
 
 function LM.Mount:Dump(prefix)
