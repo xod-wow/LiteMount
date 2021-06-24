@@ -409,12 +409,11 @@ local function FillChildren(info)
     end
 end
 
-local mapTree
+-- IsMapValidForNavBarDropDown is dynamic somehow, so this has to be
+-- rebuilt each time even though that's inefficient.
 
 function LM.Environment:GetMapTree()
-    if not mapTree then
-        mapTree = C_Map.GetMapInfo(946)
-        FillChildren(mapTree)
-    end
+    local mapTree = C_Map.GetMapInfo(946)
+    FillChildren(mapTree)
     return mapTree
 end

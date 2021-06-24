@@ -494,7 +494,10 @@ CONDITIONS["map"] = {
             local info = C_Map.GetMapInfo(tonumber(v))
             if info then return string.format("%s (%s)", info.name, info.mapID) end
         end,
-    menu = MapTreeToMenu(LM.Environment:GetMapTree()),
+    menu =
+        function ()
+            return MapTreeToMenu(LM.Environment:GetMapTree())
+        end,
     handler =
         function (cond, env, v)
             if v:sub(1,1) == '*' then
