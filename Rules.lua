@@ -215,7 +215,7 @@ function LM.Rules:Dispatch(rule, env)
 end
 
 function LM.Rules:ToLine(rule)
-    local cText = LM.Conditions:ToLine(rule.conditions)
+    local cText = LM.Conditions:ToLine(rule.conditions) or ""
     if rule.args then
         return string.format("%s %s %s", rule.action, cText, table.concat(rule.args,','))
     else
