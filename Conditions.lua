@@ -741,6 +741,27 @@ CONDITIONS["shapeshift"] = {
 }
 
 CONDITIONS["spec"] = {
+    name = SPECIALIZATION,
+    tostring =
+        function (v)
+            local _, name, _, _, _, _, class = GetSpecializationInfoByID(v)
+            if name and name ~= "" then return class .. " : " .. name end
+        end,
+    menu =
+        function ()
+            local specs = {}
+            for classIndex = 1, GetNumClasses() do
+                local className = GetClassInfo(classIndex)
+                local classMenu = { text = GetClassInfo(classIndex) }
+                for specIndex = 1, 4 do
+                    local id, name = GetSpecializationInfoForClassID(classIndex, specIndex)
+                    if not id then break end
+                    table.insert(classMenu, { val = string.format("spec:%d", id), text = name })
+                end
+                table.insert(specs, classMenu)
+            end
+            return specs
+        end,
     handler =
         function (cond, env, v)
             if v then
