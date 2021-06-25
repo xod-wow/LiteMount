@@ -379,6 +379,7 @@ CONDITIONS["form"] = {
 }
 
 CONDITIONS["group"] = {
+    name = L.LM_PARTY_OR_RAID_GROUP,
     handler =
         function (cond, env, groupType)
             if not groupType then
@@ -713,6 +714,22 @@ CONDITIONS["sameunit"] = {
 }
 
 CONDITIONS["sex"] = {
+    name = L.LM_SEX,
+    tostring =
+        function (v)
+            v = tonumber(v)
+            if v == 2 then
+                return MALE
+            elseif v == 3 then
+                return FEMALE
+            else
+                return UNKNOWN
+            end
+        end,
+    menu = {
+        { val = "sex:2" },
+        { val = "sex:3" }
+    },
     handler =
         function (cond, env, v)
             if v then
