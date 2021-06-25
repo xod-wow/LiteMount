@@ -417,7 +417,7 @@ ACTIONS['Combat'] = {
 }
 
 ACTIONS['Stop'] = {
-    handler = 
+    handler =
         function (args, env)
             -- return true and set up to do nothing
             return LM.SecureAction:Macro("")

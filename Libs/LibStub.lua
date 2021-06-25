@@ -14,7 +14,7 @@ if not LibStub or LibStub.minor < LIBSTUB_MINOR then
 	-- LibStub:NewLibrary(major, minor)
 	-- major (string) - the major version of the library
 	-- minor (string or number ) - the minor version of the library
-	-- 
+	--
 	-- returns nil if a newer or same version of the lib is already present
 	-- returns empty library object or old library object if upgrade is needed
 	function LibStub:NewLibrary(major, minor)
@@ -41,10 +41,10 @@ if not LibStub or LibStub.minor < LIBSTUB_MINOR then
 	end
 	
 	-- LibStub:IterateLibraries()
-	-- 
+	--
 	-- Returns an iterator for the currently registered libraries
-	function LibStub:IterateLibraries() 
-		return pairs(self.libs) 
+	function LibStub:IterateLibraries()
+		return pairs(self.libs)
 	end
 	
 	setmetatable(LibStub, { __call = LibStub.GetLibrary })

@@ -37,7 +37,7 @@ print("}")
 #           namespace: "toc", //Any namespace name, comma delimited. Default: Base Namespace
 #           formatType: TableAdditions, //['GlobalStrings','TableAdditions','SimpleTable']. Default: TableAdditions
 #           missing-phrase-handling: DoNothing //['DoNothing', 'DeleteIfNoTranslations', 'DeleteIfTranslationsOnlyExistForSelectedLanguage', 'DeletePhrase']. Default: DoNothing
-#       }, 
+#       },
 #       localizations: "Localizations To Import"
 #    }
 #
