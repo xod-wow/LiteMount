@@ -605,7 +605,7 @@ CONDITIONS["pet"] = {
             if not env.unit or env.unit == "player" then
                 petunit = "pet"
             else
-                petunit = unit .. "pet"
+                petunit = env.unit .. "pet"
             end
             if v then
                 return UnitName(petunit) == v or UnitCreatureFamily(petunit) == v

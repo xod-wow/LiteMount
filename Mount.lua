@@ -93,7 +93,7 @@ function LM.Mount:MatchesOneFilter(flags, f)
     elseif f == "CASTABLE" then
         if self:IsCastable() then return true end
     elseif f == "FAVORITES" then
-        if m.isFavorite then return true end
+        if self.isFavorite then return true end
     elseif tonumber(f) then
         if self.spellID == tonumber(f) then return true end
     elseif f:sub(1, 3) == 'id:' then

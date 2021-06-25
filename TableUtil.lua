@@ -104,7 +104,7 @@ local function DumpTableContents(val, prefix, firstPrefix, context)
     local oldDepth = context.depth
     local oldKey = context.key
 
-    local iter = pairsByKeys(val)
+    local iter = LM.PairsByKeys(val)
     local nextK, nextV = iter(val, nil)
 
     while nextK do

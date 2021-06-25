@@ -390,7 +390,7 @@ end
 
 -- Check -----------------------------------------------------------------------
 
-function stripcodes(str)
+local function stripcodes(str)
     return str:gsub("|c........(.-)|r", "%1"):gsub("|T.-|t", "")
 end
 
