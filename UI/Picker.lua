@@ -106,6 +106,6 @@ end
 
 function LiteMountPickerMixin:RunCallback(mount)
     if self.callback then
-        self.callback(frame, mount)
+        self.callback(self.callbackFrame, mount)
     end
 end
