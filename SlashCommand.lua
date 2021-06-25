@@ -10,6 +10,10 @@
 
 local _, LM = ...
 
+--@debug@
+if LibDebug then LibDebug() end
+--@end-debug@
+
 local L = LM.Localize
 
 local MacroName = "LiteMount"
@@ -131,7 +135,7 @@ COMMANDS['profile'] =
 
 COMMANDS['xmog'] =
     function (argstr, slotID)
-         slotId = tonumber(slotID) or 0
+        slotID = tonumber(slotID) or 0
         local tmSlot = TRANSMOG_SLOTS[slotID*100]
         if tmSlot then
             local ok, _, _, _, id = pcall(C_Transmog.GetSlotVisualInfo, tmSlot.location)

@@ -8,6 +8,10 @@
 
 local _, LM = ...
 
+--@debug@
+if LibDebug then LibDebug() end
+--@end-debug@
+
 LM.MOUNTFAMILY = {}
 
 LM.MOUNTFAMILY["Alpaca"] = {

@@ -11,6 +11,10 @@
 
 local _, LM = ...
 
+--@debug@
+if LibDebug then LibDebug() end
+--@end-debug@
+
 local function MethodDispatch(self, event, ...)
     if self[event] then
         self[event](self, event, ...)

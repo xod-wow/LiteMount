@@ -148,7 +148,7 @@ function DumpValue(val, prefix, firstPrefix, suffix, context)
 end
 
 function LM.TableToString(val)
-    local context = { depth = 0, key = startKey, lines = {} }
+    local context = { depth = 0, lines = {} }
     DumpTableContents(val, '', '', context)
     return table.concat(context.lines, '\n') .. '\n'
 end

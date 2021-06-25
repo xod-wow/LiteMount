@@ -708,8 +708,6 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:ExportProfile(profileName)
-    local currentProfileName = self.db:GetCurrentProfile()
-
     -- remove all the defaults from the DB before export
     local savedDefaults = self.db.defaults
     self.db:RegisterDefaults(nil)

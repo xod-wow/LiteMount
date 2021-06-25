@@ -27,7 +27,6 @@ function LM.Environment:Initialize()
     self.stoppedFalling = 0
     self.stoppedMoving = GetTime()
 
-    local elapsed = 0
     self:SetScript('OnUpdate', self.OnUpdate)
 
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
