@@ -181,6 +181,26 @@ ACTIONS['Buff'] = {
         end
 }
 
+-- Set env.prebuff to a spell name to try to macro in before mounting journal
+-- mounts. I'm not sure yet whether dismount should try to cancel it.
+
+ACTIONS['PreBuff'] = {
+    tostring = ACTIONS["Spell"].tostring,
+    handler =
+        function (args, env)
+            for _, arg in ipairs(args) do
+                LM.Debug(' - checking prebuff: ' .. tostring(arg))
+                local name, id = GetUsableSpell(arg)
+                if name and not LM.UnitAura(env.unit or 'player', name) and
+                   IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
+                    LM.Debug(" - setting prebuff to spell " .. name)
+                    env.prebuff = name
+                    return
+                end
+            end
+        end
+}
+
 ACTIONS['CancelAura'] = {
     name = L.LM_CANCEL_BUFF,
     tostring = ACTIONS['Spell'].tostring,
