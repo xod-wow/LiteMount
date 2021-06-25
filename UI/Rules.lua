@@ -66,8 +66,6 @@ function LiteMountRulesScrollMixin:Update()
 
     local rules = LM.Options:GetRules(self.tab)
 
-    local totalHeight = #rules * self.buttons[1]:GetHeight()
-    local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
 
     for i = 1, #self.buttons do
         local button = self.buttons[i]
@@ -80,7 +78,8 @@ function LiteMountRulesScrollMixin:Update()
         end
     end
 
-    HybridScrollFrame_Update(self, totalHeight, displayedHeight)
+    local totalHeight = #rules * self.buttonHeight
+    HybridScrollFrame_Update(self, totalHeight, self:GetHeight())
 end
 
 function LiteMountRulesScrollMixin:SetOption(v, i)
@@ -175,12 +174,7 @@ end
 -- function HybridScrollFrame_CreateButtons (self, buttonTemplate, initialOffsetX, initialOffsetY, initialPoint, initialRelative, offsetX, offsetY, point, relativePoint)
 --
 function LiteMountRulesPanelMixin:OnSizeChanged(x, y)
-    HybridScrollFrame_CreateButtons(
-            self.Scroll,
-            "LiteMountRuleButtonTemplate",
-            0, 0, "TOPLEFT", "TOPLEFT",
-            0, -2, "TOP", "BOTTOM"
-        )
+    HybridScrollFrame_CreateButtons(self.Scroll, "LiteMountRuleButtonTemplate")
     self.Scroll:Update()
 end
 

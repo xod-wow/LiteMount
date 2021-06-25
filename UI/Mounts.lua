@@ -245,9 +245,7 @@ LiteMountMountScrollMixin = {}
 -- are size 0x0 on create and even after OnShow, we have to trap
 -- OnSizeChanged on the scrollframe to make the buttons correctly.
 function LiteMountMountScrollMixin:CreateMoreButtons()
-    HybridScrollFrame_CreateButtons(self, "LiteMountMountButtonTemplate",
-                                    0, -1, "TOPLEFT", "TOPLEFT",
-                                    0, -1, "TOP", "BOTTOM")
+    HybridScrollFrame_CreateButtons(self, "LiteMountMountButtonTemplate")
 end
 
 function LiteMountMountScrollMixin:OnLoad()
@@ -259,7 +257,6 @@ end
 function LiteMountMountScrollMixin:OnSizeChanged()
     self:CreateMoreButtons()
     self:Update()
-    self.stepSize = self.buttonHeight
 end
 
 function LiteMountMountScrollMixin:Update()
@@ -272,7 +269,6 @@ function LiteMountMountScrollMixin:Update()
     if InCombatLockdown() then return end
 
     local offset = HybridScrollFrame_GetOffset(self)
-
 
     local mounts = LM.UIFilter.GetFilteredMountList()
 
@@ -288,8 +284,8 @@ function LiteMountMountScrollMixin:Update()
         end
     end
 
-    local totalHeight = self.buttonHeight * #mounts
-    local shownHeight = self.buttonHeight * #self.buttons
+    local totalHeight = #mounts * self.buttonHeight
+    local shownHeight = self:GetHeight()
 
     HybridScrollFrame_Update(self, totalHeight, shownHeight)
 end
