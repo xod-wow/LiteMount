@@ -52,19 +52,6 @@ Macro
 ]]
 
 local DefaultRules = {
---@debug@
-    {
-        conditions = { "location:Stormwind City", op="AND" },
-        action = "Mount",
-        args = { "Mimiron's Head" },
-    },
-    {
-        conditions = { "map:1670", op="AND" },
-        action = "Mount",
-        -- args = { "id:1039" },
-        args = { "family:Brutosaur" },
-    },
---@end-debug@
     {
         conditions = { "map:203", "submerged", op="AND" },
         action = "Mount",
