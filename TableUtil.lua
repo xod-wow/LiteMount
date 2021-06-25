@@ -30,10 +30,14 @@ function LM.tSlice(t, from, to)
     return { unpack(t, from, to) }
 end
 
+local function tostringCompare(a, b)
+    return tostring(a) < tostring(b)
+end
+
 function LM.PairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
-    table.sort(a, f)
+    table.sort(a, f or tostringCompare)
     local i = 0      -- iterator variable
     local iter = function ()   -- iterator function
         i = i + 1
@@ -54,6 +58,10 @@ function LM.tJoin(...)
     return out
 end
 
+-- Really these are
+-- LM.tUpdate = Mixin
+-- LM.tMerge = CreateFromMixins
+
 function LM.tUpdate(out, ...)
     for i = 1, select('#', ...) do
         local t = select(i, ...)
@@ -61,12 +69,11 @@ function LM.tUpdate(out, ...)
             out[k] = v
         end
     end
+    return out
 end
 
 function LM.tMerge(...)
-    local out = {}
-    LM.tUpdate(out, ...)
-    return out
+    return LM.tUpdate({}, ...)
 end
 
 -- This dumper is adapted from DevTools_Dump and is a lot less
