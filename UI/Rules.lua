@@ -66,11 +66,12 @@ function LiteMountRulesScrollMixin:Update()
 
     local rules = LM.Options:GetRules(self.tab)
 
+    local isEnabled = LiteMount.actions[self.tab]:HasApplyRules()
 
     for i = 1, #self.buttons do
         local button = self.buttons[i]
         local index = offset + i
-        if index <= #rules then
+        if isEnabled and index <= #rules then
             button:Update(index, rules[index])
             button:Show()
         else
@@ -78,6 +79,17 @@ function LiteMountRulesScrollMixin:Update()
         end
     end
 
+    if isEnabled then
+        self.Inactive:Hide()
+        LiteMountRulesPanel.AddButton:Enable()
+        LiteMountRulesPanel.DefaultButton:Enable()
+    else
+        LiteMountRulesPanel.selectedRule = nil
+        LiteMountRulesPanel.AddButton:Disable()
+        LiteMountRulesPanel.DefaultButton:Disable()
+        self.Inactive:SetText(string.format(L.LM_RULES_INACTIVE, self.tab))
+        self.Inactive:Show()
+    end
     local totalHeight = #rules * self.buttonHeight
     HybridScrollFrame_Update(self, totalHeight, self:GetHeight())
 end

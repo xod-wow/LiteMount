@@ -102,3 +102,12 @@ function LM.ActionButton:Create(n)
 
     return b
 end
+
+function LM.ActionButton:HasApplyRules()
+    for _,r in ipairs(self.rules) do
+        if r.action == 'ApplyRules' then
+            return true
+        end
+    end
+    return false
+end
