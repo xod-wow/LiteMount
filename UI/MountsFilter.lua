@@ -245,23 +245,23 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         ---- 4. HIDDEN ----
         InitDropDownSection(DROPDOWNS.HIDDEN, self, level, menuList)
 
-        ---- 5. PRIORITY ----
-        InitDropDownSection(DROPDOWNS.PRIORITY, self, level, menuList)
-
-        ---- 6. TYPE ----
-        InitDropDownSection(DROPDOWNS.TYPE, self, level, menuList)
-
-        ---- 7. GROUP ----
+        ---- 5. GROUP ----
         InitDropDownSection(DROPDOWNS.GROUP, self, level, menuList)
 
-        ---- 8. FLAG ----
+        ---- 6. FLAG ----
         InitDropDownSection(DROPDOWNS.FLAG, self, level, menuList)
 
-        ---- 9. FAMILY ----
+        ---- 7. TYPE ----
+        InitDropDownSection(DROPDOWNS.TYPE, self, level, menuList)
+
+        ---- 8. FAMILY ----
         InitDropDownSection(DROPDOWNS.FAMILY, self, level, menuList)
 
-        ---- 10. SOURCES ----
+        ---- 9. SOURCES ----
         InitDropDownSection(DROPDOWNS.SOURCES, self, level, menuList)
+
+        ---- 10. PRIORITY ----
+        InitDropDownSection(DROPDOWNS.PRIORITY, self, level, menuList)
     else
         InitDropDownSection(DROPDOWNS[UIDROPDOWNMENU_MENU_VALUE], self, level, menuList)
     end

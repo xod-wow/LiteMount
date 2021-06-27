@@ -243,8 +243,8 @@ end
 LiteMountRuleEditActionMixin = {}
 
 local TypeMenu = {
-    "Mount",
     "SmartMount",
+    "Mount",
     "Limit",
     "LimitInclude",
     "LimitExclude",
@@ -295,11 +295,13 @@ local function ActionArgsMenu()
     local mountMenuList = { text=MOUNT, val="PICKER" }
 
     return {
+        nosort = true,
         mountMenuList,
         groupMenuList,
         flagMenuList,
-        familyMenuList,
         typeMenuList,
+        familyMenuList,
+        { val = "NONE", text = NONE:upper() },
     }
 end
 
@@ -308,7 +310,6 @@ local function ActionArgButtonClick(button, mouseButton)
     -- local values = LM.tMap(LM.PlayerMounts.mounts, MountToInfo)
     local values = ActionArgsMenu()
     if values then
-        table.sort(values, function (a, b) return a.text < b.text end)
         UIDropDownMenu_Initialize(dropdown, ArgsInitialize, 'MENU')
         UIDropDownMenu_SetAnchor(dropdown, 5, 5, 'TOPLEFT', button, 'BOTTOMLEFT')
         ToggleDropDownMenu(1, nil, dropdown, nil, 0, 0, values)
