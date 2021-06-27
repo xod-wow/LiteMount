@@ -294,7 +294,13 @@ local function ActionArgsMenu()
 
     local mountMenuList = { text=MOUNT, val="PICKER" }
 
-    return { groupMenuList, flagMenuList, familyMenuList, typeMenuList, mountMenuList }
+    return {
+        mountMenuList,
+        groupMenuList,
+        flagMenuList,
+        familyMenuList,
+        typeMenuList,
+    }
 end
 
 local function ActionArgButtonClick(button, mouseButton)
