@@ -117,28 +117,6 @@ LM.Options = {
     ALWAYS_PRIORITY = 4,
 }
 
-
-local function RemoveDefaults(t, defaults)
-    for k,v in pairs(defaults) do
-        if type(v) == "table" and type(t[k]) == "table" then
-            RemoveDefaults(t[k], v)
-            if next(t[k]) == nil then
-                    t[k] = nil
-            end
-        else
-            if t[k] == defaults[k] then
-                t[k] = nil
-            end
-        end
-    end
-end
-
-local function IsDefaults(t, defaults)
-    local toCheck = CopyTable(t)
-    RemoveDefaults(toCheck, defaults)
-    return next(toCheck) == nil
-end
-
 -- Note to self. In any profile except the active one, the defaults are not
 -- applied and you can't rely on them being there. This is super annoying.
 -- Any time you loop over the profiles table one profile has all the defaults
@@ -526,7 +504,7 @@ function LM.Options:GetRules(n)
 end
 
 function LM.Options:SetRules(n, rules)
-    if not rules or IsDefaults(rules, DefaultRules) then
+    if not rules or tCompare(rules, DefaultRules, 10) then
         self.db.profile.rules[n] = nil
     else
         self.db.profile.rules[n] = rules
