@@ -315,9 +315,8 @@ function LiteMountRuleEditActionMixin:SetArg(arg)
 end
 
 function LiteMountRuleEditActionMixin:SetType(type)
-    if self.type ~= type then
-        self.arg = nil
-    end
+    -- XXX reset arg if arg type is ever differen XXX
+    -- if self.type ~= type then self.arg = nil end
     self.type = type
     self:GetParent():Update()
 end
