@@ -65,8 +65,9 @@ function LM.Mount:Refresh()
 end
 
 function LM.Mount:MountFilterToString(f)
-    if not f then return end
-    if f:sub(1,1) == '~' then
+    if not f or f == "NONE" then
+        return NONE
+    elseif f:sub(1,1) == '~' then
         return string.format(L.LM_NOT_FORMAT, self:MountFilterToString(f:sub(2)))
     elseif f:match('^id:%d+$') then
         local _, id = string.split(':', f, 2)
