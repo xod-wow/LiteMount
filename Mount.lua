@@ -84,7 +84,9 @@ function LM.Mount:MountFilterToString(f)
         -- XXX LOCALIZE XXX
         return L.LM_FLAG .. ' : ' .. f
     else
-        return GetSpellInfo(f) or f
+        local n = GetSpellInfo(f)
+        if n then return n end
+        return DISABLED_FONT_COLOR:WrapTextInColorCode(f)
     end
 end
 
