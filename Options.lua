@@ -118,33 +118,25 @@ LM.Options = {
 }
 
 
-local function FlagDiff(a, b)
-    local diff = { }
-
-    for flagName in pairs(LM.tMerge(a,b)) do
-        if LM.Options:IsActiveFlag(flagName) then
-            if a[flagName] and not b[flagName] then
-                diff[flagName] = '-'
-            elseif not a[flagName] and b[flagName] then
-                diff[flagName] = '+'
+local function RemoveDefaults(t, defaults)
+    for k,v in pairs(defaults) do
+        if type(v) == "table" and type(t[k]) == "table" then
+            RemoveDefaults(t[k], v)
+            if next(t[k]) == nil then
+                    t[k] = nil
+            end
+        else
+            if t[k] == defaults[k] then
+                t[k] = nil
             end
         end
     end
-
-    diff.FAVORITES = nil
-
-    if next(diff) == nil then
-        return nil
-    end
-
-    return diff
 end
 
-function LM.Options:FlagIsUsed(f)
-    for spellID,changes in pairs(self.db.profile.flagChanges) do
-        if changes[f] then return true end
-    end
-    return false
+local function IsDefaults(t, defaults)
+    local toCheck = CopyTable(t)
+    RemoveDefaults(toCheck, defaults)
+    return next(toCheck) == nil
 end
 
 -- Note to self. In any profile except the active one, the defaults are not
@@ -330,6 +322,29 @@ end
     Mount flag overrides stuff
 ----------------------------------------------------------------------------]]--
 
+local function FlagDiff(a, b)
+    local diff = { }
+
+    for flagName in pairs(LM.tMerge(a,b)) do
+        if LM.Options:IsActiveFlag(flagName) then
+            if a[flagName] and not b[flagName] then
+                diff[flagName] = '-'
+            elseif not a[flagName] and b[flagName] then
+                diff[flagName] = '+'
+            end
+        end
+    end
+
+    diff.FAVORITES = nil
+
+    if next(diff) == nil then
+        return nil
+    end
+
+    return diff
+end
+
+
 function LM.Options:GetRawFlagChanges()
     return LM.tCopyShallow(self.db.profile.flagChanges)
 end
@@ -511,7 +526,11 @@ function LM.Options:GetRules(n)
 end
 
 function LM.Options:SetRules(n, rules)
-    self.db.profile.rules[n] = rules
+    if not rules or IsDefaults(rules, DefaultRules) then
+        self.db.profile.rules[n] = nil
+    else
+        self.db.profile.rules[n] = rules
+    end
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
