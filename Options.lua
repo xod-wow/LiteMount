@@ -72,16 +72,13 @@ local DefaultRules = {
         action = "Mount",
         args = { "id:881" }
     },
-    {   -- Aerial Unit R-21/X to avoid being shot down in Mechagon
+--[[
+    {   -- Rustbolt Resistor and Aerial Unit R-21/X avoid being shot down
         conditions = { "map:1462", "flyable", op="AND" },
         action = "Mount",
-        args = { "id:1227" }
+        args = { "MECHAGON" }
     },
-    {   -- Rustbolt Resistor to avoid being shot down in Mechagon
-        conditions = { "map:1462", "flyable", op="AND" },
-        action = "Mount",
-        args = { "id:1254" }
-    },
+]]
 }
 
 -- A lot of things need to be cleaned up when flags are deleted/renamed
