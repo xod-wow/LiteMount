@@ -77,6 +77,11 @@ local DefaultRules = {
         action = "Mount",
         args = { "id:1227" }
     },
+    {   -- Rustbolt Resistor to avoid being shot down in Mechagon
+        conditions = { "map:1462", "flyable", op="AND" },
+        action = "Mount",
+        args = { "id:1254" }
+    },
 }
 
 -- A lot of things need to be cleaned up when flags are deleted/renamed
