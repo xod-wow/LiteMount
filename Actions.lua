@@ -290,8 +290,7 @@ ACTIONS['ApplyRules'] = {
 }
 
 ACTIONS['SmartMount'] = {
-    -- XXX LOCALIZE XXX
-    name = "SmartMount",
+    name = L.LM_SMARTMOUNT_ACTION,
     tostring =
         function (v) return LM.Mount:MountFilterToString(v) end,
     handler =
@@ -350,7 +349,7 @@ ACTIONS['SmartMount'] = {
 }
 
 ACTIONS['Mount'] = {
-    name = MOUNT,
+    name = L.LM_MOUNT_ACTION,
     tostring =
         function (v) return LM.Mount:MountFilterToString(v) end,
     handler =
