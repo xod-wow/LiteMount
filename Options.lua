@@ -52,25 +52,30 @@ Macro
 ]]
 
 local DefaultRules = {
-    {
+    {   -- Vash'jir Seahorse
         conditions = { "map:203", "submerged", op="AND" },
         action = "Mount",
         args = { "mt:232" }
     },
-    {
+    {   -- Flying swimming mounts in Nazjatar with Budding Deepcoral
         conditions = { "map:1355", "flyable", "qfc:56766", op="AND" },
         action = "Mount",
         args = { "mt:254" }
     },
-    {
+    {   -- AQ Battle Tanks in the raid instance
         conditions = { "instance:531", op="AND" },
         action = "Mount",
         args = { "mt:241" }
     },
-    {
+    {   -- Arcanist's Manasaber to disguise you in Suramar
         conditions = { "extra:202477", { "submerged", op="NOT" }, op="AND" },
         action = "Mount",
         args = { "id:881" }
+    },
+    {   -- Aerial Unit R-21/X to avoid being shot down in Mechagon
+        conditions = { "map:1462", "flyable", op="AND" },
+        action = "Mount",
+        args = { "id:1227" }
     },
 }
 
