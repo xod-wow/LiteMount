@@ -186,13 +186,15 @@ local function ConditionOnTextChanged(self)
     end
 end
 
+local conditionHelp = DISABLED_FONT_COLOR:WrapTextInColorCode(NONE:upper())
+
 function LiteMountRuleEditConditionMixin:Update()
     local info = LM.Conditions:GetCondition(self.type)
 
     self.Negated:SetChecked(self.isNegated)
 
     if not self.type then
-        self.TypeDropDown:SetText(NONE:upper())
+        self.TypeDropDown:SetText(conditionHelp)
         self.ArgDropDown:Hide()
         self.ArgText:Hide()
     elseif self.type == "advanced" then
@@ -328,10 +330,13 @@ function LiteMountRuleEditActionMixin:SetType(type)
     self:GetParent():Update()
 end
 
+local actionHelp = DISABLED_FONT_COLOR:WrapTextInColorCode(LFGWIZARD_TITLE)
+
 function LiteMountRuleEditActionMixin:Update()
     self.TypeDropDown:SetText(LM.Actions:ToString(self.type))
 
     if not self.type then
+        self.TypeDropDown:SetText(actionHelp)
         self.ArgDropDown:Hide()
     else
         if self.arg then
