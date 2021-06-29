@@ -103,8 +103,10 @@ function LM.Environment:IsMovingOrFalling()
 end
 
 function LM.Environment:IsTheMaw()
+    local instanceID = select(8, GetInstanceInfo())
+
     -- This is the instanced starting experience
-    if self.instanceID == 2364 then return true end
+    if instanceID == 2364 then return true end
 
     -- Otherwise, The Maw is just zones in instance 2222
     return LM.Environment:IsMapInPath(1543)
@@ -191,9 +193,10 @@ function LM.Environment:IsMapInPath(mapID)
 end
 
 function LM.Environment:InInstance(...)
+    local currentID = select(8, GetInstanceInfo())
     for i = 1, select('#', ...) do
         local id = select(i, ...)
-        if self.instanceID == id then return true end
+        if currentID == id then return true end
     end
     return false
 end
@@ -273,13 +276,15 @@ end
 
 function LM.Environment:CanFly()
 
+    local instanceID = select(8, GetInstanceInfo())
+
     -- If you don't know how to fly, you can't fly
     if not self:KnowsFlyingSkill() then
         return false
     end
 
-    if InstanceFlyableOverride[self.instanceID] ~= nil then
-        return InstanceFlyableOverride[self.instanceID]
+    if InstanceFlyableOverride[instanceID] ~= nil then
+        return InstanceFlyableOverride[instanceID]
     end
 
     -- Battle for Azeroth Pathfinder, Part 2
