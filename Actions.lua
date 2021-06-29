@@ -191,8 +191,12 @@ ACTIONS['PreBuff'] = {
             for _, arg in ipairs(args) do
                 LM.Debug(' - checking prebuff: ' .. tostring(arg))
                 local name, id = GetUsableSpell(arg)
-                if name and not LM.UnitAura(env.unit or 'player', name) and
-                   IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
+                local castTime = select(4, GetSpellInfo(arg))
+                if name
+                   and not LM.UnitAura(env.unit or 'player', name)
+                   and IsUsableSpell(name)
+                   and GetSpellCooldown(name) == 0
+                   and castTime == 0 then
                     LM.Debug(" - setting prebuff to spell " .. name)
                     env.prebuff = name
                     return
