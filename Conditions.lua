@@ -436,9 +436,9 @@ CONDITIONS["instance"] = {
                 return IsInInstance()
             end
 
-            local _, instanceType, _, _, _, _, _, instanceID = GetInstanceInfo()
+            local instanceName, instanceType, _, _, _, _, _, instanceID = GetInstanceInfo()
 
-            if instanceID == tonumber(v) then
+            if instanceName == v or instanceID == tonumber(v) then
                 return true
             end
 

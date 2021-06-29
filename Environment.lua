@@ -276,12 +276,12 @@ end
 
 function LM.Environment:CanFly()
 
-    local instanceID = select(8, GetInstanceInfo())
-
     -- If you don't know how to fly, you can't fly
     if not self:KnowsFlyingSkill() then
         return false
     end
+
+    local instanceID = select(8, GetInstanceInfo())
 
     if InstanceFlyableOverride[instanceID] ~= nil then
         return InstanceFlyableOverride[instanceID]
