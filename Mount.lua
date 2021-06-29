@@ -178,9 +178,9 @@ end
 
 function LM.Mount:GetCastAction(env)
     local spellName = GetSpellInfo(self.spellID)
-    if env and env.prebuff then
+    if env and env.preCast then
         return LM.SecureAction:Macro(
-                "/cast [@player] " .. env.prebuff .. "\n" ..
+                "/cast [@player] !" .. env.preCast .. "\n" ..
                 "/cast " .. spellName
             )
     else

@@ -181,24 +181,21 @@ ACTIONS['Buff'] = {
         end
 }
 
--- Set env.prebuff to a spell name to try to macro in before mounting journal
--- mounts. I'm not sure yet whether dismount should try to cancel it.
+-- Set env.precast to a spell name to try to macro in before mounting journal
+-- mounts. This is a bit less strict than Spell and Buff because the macro
+-- still works even if the spell isn't usable, and has the advantage of
+-- avoiding the IsUsableSpell failures when targeting others.
 
-ACTIONS['PreBuff'] = {
+ACTIONS['PreCast'] = {
     tostring = ACTIONS["Spell"].tostring,
     handler =
         function (args, env)
             for _, arg in ipairs(args) do
-                LM.Debug(' - checking prebuff: ' .. tostring(arg))
-                local name, id = GetUsableSpell(arg)
+                local name = GetSpellInfo(arg)
                 local castTime = select(4, GetSpellInfo(arg))
-                if name
-                   and not LM.UnitAura(env.unit or 'player', name)
-                   and IsUsableSpell(name)
-                   and GetSpellCooldown(name) == 0
-                   and castTime == 0 then
-                    LM.Debug(" - setting prebuff to spell " .. name)
-                    env.prebuff = name
+                if name and castTime == 0 then
+                    LM.Debug(" - setting preCast to spell " .. name)
+                    env.preCast = name
                     return
                 end
             end
