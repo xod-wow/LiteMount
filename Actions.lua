@@ -267,7 +267,7 @@ ACTIONS['CopyTargetsMount'] = {
                 local m = LM.PlayerMounts:GetMountFromUnitAura(unit)
                 if m and m:IsCastable() then
                     LM.Debug(format(" - setting action to mount %s", m.name))
-                    return m:GetCastAction()
+                    return m:GetCastAction(env)
                 end
             end
         end
@@ -343,7 +343,7 @@ ACTIONS['SmartMount'] = {
 
             if m then
                 LM.Debug(format(" - setting action to mount %s", m.name))
-                return m:GetCastAction()
+                return m:GetCastAction(env)
             end
         end
 }
@@ -360,7 +360,7 @@ ACTIONS['Mount'] = {
             local m = mounts:Random(env.random)
             if m then
                 LM.Debug(format(" - setting action to mount %s", m.name))
-                return m:GetCastAction()
+                return m:GetCastAction(env)
             end
         end
 }

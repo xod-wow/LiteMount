@@ -176,9 +176,16 @@ end
 
 -- These should probably not be making new identical objects all tha time.
 
-function LM.Mount:GetCastAction()
+function LM.Mount:GetCastAction(env)
     local spellName = GetSpellInfo(self.spellID)
-    return LM.SecureAction:Spell(spellName)
+    if env and env.prebuff then
+        return LM.SecureAction:Macro(
+                "/cast " .. env.prebuff .. "\n" ..
+                "/cast " .. spellName
+            )
+    else
+        return LM.SecureAction:Spell(spellName)
+    end
 end
 
 function LM.Mount:GetCancelAction()

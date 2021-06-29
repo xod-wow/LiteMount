@@ -45,7 +45,7 @@ function LM.Nagrand:Refresh()
     LM.Mount.Refresh(self)
 end
 
-function LM.Nagrand:GetCastAction()
+function LM.Nagrand:GetCastAction(env)
     return LM.SecureAction:Spell(self.baseSpellName)
 end
 

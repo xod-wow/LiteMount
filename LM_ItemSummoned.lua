@@ -41,7 +41,7 @@ function LM.ItemSummoned:Refresh()
     LM.Mount.Refresh(self)
 end
 
-function LM.ItemSummoned:GetCastAction()
+function LM.ItemSummoned:GetCastAction(env)
     -- I assume that if you actually have the item, GetItemInfo() works
     local itemName = GetItemInfo(self.itemID)
     return LM.SecureAction:Item(itemName)
