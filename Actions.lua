@@ -191,9 +191,8 @@ ACTIONS['PreCast'] = {
     handler =
         function (args, env)
             for _, arg in ipairs(args) do
-                local name = GetSpellInfo(arg)
-                local castTime = select(4, GetSpellInfo(arg))
-                if name and castTime == 0 then
+                local name, _, _, castTime, _, _, id = GetSpellInfo(arg)
+                if name and IsPlayerSpell(id) and castTime == 0 then
                     LM.Debug(" - setting preCast to spell " .. name)
                     env.preCast = name
                     return
