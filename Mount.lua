@@ -180,7 +180,7 @@ function LM.Mount:GetCastAction(env)
     local spellName = GetSpellInfo(self.spellID)
     if env and env.prebuff then
         return LM.SecureAction:Macro(
-                "/cast " .. env.prebuff .. "\n" ..
+                "/cast [@player] " .. env.prebuff .. "\n" ..
                 "/cast " .. spellName
             )
     else
