@@ -96,7 +96,6 @@ function LM.Journal:Get(id, isUsable)
 --@end-debug@
     end
 
-
     return m
 end
 
@@ -134,6 +133,18 @@ function LM.Journal:IsCastable()
         return false
     end
     return LM.Mount.IsCastable(self)
+end
+
+function LM.Journal:GetCastAction(env)
+    local spellName = GetSpellInfo(self.spellID)
+    if env and env.preCast then
+        return LM.SecureAction:Macro(
+                "/cast [@player] !" .. env.preCast .. "\n" ..
+                "/cast " .. spellName
+            )
+    else
+        return LM.Mount.GetCastAction(self, env)
+    end
 end
 
 function LM.Journal:Dump(prefix)
