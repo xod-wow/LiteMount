@@ -16,11 +16,6 @@ LM.MOUNTFAMILY["Alpaca"] = {
     [316802] = true, -- Springfur Alpaca
 }
 
-LM.MOUNTFAMILY["Animite"] = {
-    [312776] = true, -- Chittering Animite
-    [332905] = true, -- Endmire Flyer
-}
-
 LM.MOUNTFAMILY["Aqir Drone"] = {
     [316337] = true, -- Malevolent Drone
     [316339] = true, -- Shadowbarb Drone
@@ -271,6 +266,15 @@ LM.MOUNTFAMILY["Deathroc"] = {
     [336045] = true, -- Predatory Plagueroc
 }
 
+LM.MOUNTFAMILY["Devourer"] = {
+    [312776] = true, -- Chittering Animite
+    [332905] = true, -- Endmire Flyer
+    [333027] = true, -- Loyal Gorger
+    [356501] = true, -- Rampaging Mauler
+    [347536] = true, -- Tamed Mauler
+    [344659] = true, -- Voracious Gorger
+}
+
 LM.MOUNTFAMILY["Direhorn"] = {
     [138424] = true, -- Amber Primordial Direhorn
     [297560] = true, -- Child of Torcali
@@ -476,11 +480,6 @@ LM.MOUNTFAMILY["Goat"] = {
     [130138] = true, -- Black Riding Goat
     [130086] = true, -- Brown Riding Goat
     [130137] = true, -- White Riding Goat
-}
-
-LM.MOUNTFAMILY["Gorger"] = {
-    [333027] = true, -- Loyal Gorger
-    [344659] = true, -- Voracious Gorger
 }
 
 LM.MOUNTFAMILY["Gorm"] = {
@@ -728,12 +727,6 @@ LM.MOUNTFAMILY["Mana Ray"] = {
     [344575] = true, -- Pestilent Necroray
     [253109] = true, -- Scintillating Mana Ray
     [253106] = true, -- Vibrant Mana Ray
-}
-
--- Devourer Mauler? But then would it be Devourer Animite and Gorgon?
-LM.MOUNTFAMILY["Mauler"] = {
-    [356501] = true, -- Rampaging Mauler
-    [347536] = true, -- Tamed Mauler
 }
 
 LM.MOUNTFAMILY["Mechanical"] = {
