@@ -285,11 +285,11 @@ local function ActionArgsMenu()
     local groupMenuList = LM.tMap(LM.UIFilter.GetGroups(), GroupToInfo)
     groupMenuList.text = GROUP
 
-    local familyMenuList = LM.tMap(LM.UIFilter.GetFamilies(), FamilyToInfo)
-    familyMenuList.text = L.LM_FAMILY
+--  local familyMenuList = LM.tMap(LM.UIFilter.GetFamilies(), FamilyToInfo)
+--  familyMenuList.text = L.LM_FAMILY
 
-    local typeMenuList = LM.tMap(LM.UIFilter.GetTypes(), TypeToInfo)
-    typeMenuList.text = TYPE
+--  local typeMenuList = LM.tMap(LM.UIFilter.GetTypes(), TypeToInfo)
+--  typeMenuList.text = TYPE
 
     local flagMenuList = LM.tMap(LM.UIFilter.GetFlags(), FlagToInfo)
     flagMenuList.text = L.LM_FLAG
@@ -301,8 +301,8 @@ local function ActionArgsMenu()
         mountMenuList,
         groupMenuList,
         flagMenuList,
-        typeMenuList,
-        familyMenuList,
+--      typeMenuList,
+--      familyMenuList,
         { val = "NONE", text = NONE:upper() },
     }
 end
