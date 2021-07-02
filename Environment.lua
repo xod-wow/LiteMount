@@ -435,3 +435,50 @@ function LM.Environment:GetMapTree()
     FillChildren(mapTree)
     return mapTree
 end
+
+-- It's possible to pull the GetInstanceInfo() instance number from the
+-- encounter journal, but it's buried down in the encounter info and not
+-- in the actual instance info return which is annoying.
+-- This really FUBARs the Encounter journal, but I'm not sure if it's
+-- taint-safe to put it back. Wah!
+
+function LM.Environment:GetEJInstances()
+    LoadAddOn("Blizzard_EncounterJournal")
+
+    -- Save EJ state
+    EncounterJournal:UnregisterEvent("EJ_DIFFICULTY_UPDATE")
+    local originalTier = EJ_GetCurrentTier()
+    local origInstanceID = EncounterJournal.instanceID
+
+    local out = {}
+
+    for tier = 1, EJ_GetNumTiers() do
+        EJ_SelectTier(tier)
+        for _, isRaid in ipairs({ true, false }) do
+            local index = 1
+            while true do
+                local id, name, _, _, _, _, _, _, showDifficulty  = EJ_GetInstanceByIndex(index, isRaid)
+                if not name or not showDifficulty then break end
+                EJ_SelectInstance(id)
+                local i = 1
+                while true do
+                    local n, _, _, _, _, _, _, instanceID = EJ_GetEncounterInfoByIndex(i)
+                    if not n then break end
+                    if instanceID then
+                        out[instanceID] = name
+                        break
+                    end
+                    i = i + 1
+                end
+                index = index + 1
+            end
+        end
+    end
+
+    -- Restore EJ state
+    EJ_SelectTier(originalTier)
+    if origInstanceID then EJ_SelectInstance(origInstanceID) end
+    EncounterJournal:RegisterEvent("EJ_DIFFICULTY_UPDATE")
+
+    return out
+end
