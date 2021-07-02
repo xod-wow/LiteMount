@@ -930,19 +930,20 @@ local function IsTransmogSetActive(setID)
     return true
 end
 
+-- This makes me want to kill myself instantly.
+-- See WardrobeOutfitDropDownMixin:IsOutfitDressed()
+
 local function IsTransmogOutfitActive(outfitID)
-    local sourceIDs = C_TransmogCollection.GetOutfitSources(outfitID)
-    if not sourceIDs then
-        return false
-    end
-    for key, slotInfo in pairs(TRANSMOG_SLOTS) do
-        if not slotInfo.location:IsSecondary() then
-            local sourceID = sourceIDs[slotInfo.location.slotID]
-            if sourceID ~= NO_TRANSMOG_SOURCE_ID then
-                local activeSourceID = GetTransmogLocationSourceID(slotInfo.location)
-                if activeSourceID ~= sourceID then
-                    return false
-                end
+    local outfitInfoList = C_TransmogCollection.GetOutfitItemTransmogInfoList(outfitID)
+    if not outfitInfoList then return end
+
+    local currentInfoList = LM.Environment:GetPlayerTransmogInfo()
+    if not currentInfoList then return end
+
+    for slotID, info in ipairs(currentInfoList) do
+        if info.appearanceID ~= Constants.Transmog.NoTransmogID then
+            if not info:IsEqual(outfitInfoList[slotID]) then
+                return false
             end
         end
     end
