@@ -950,11 +950,55 @@ local function IsTransmogOutfitActive(outfitID)
     return true
 end
 
+local function GetTransmogOutfitsMenu()
+    local outfits = { text = L.LM_OUTFITS }
+    for _, id in ipairs(C_TransmogCollection.GetOutfits()) do
+        local name = C_TransmogCollection.GetOutfitInfo(id)
+        table.insert(outfits, { val = "xmog:"..name, text = name })
+    end
+    return outfits
+end
+
+local function GetTransmogSetsMenu()
+    LoadAddOn("Blizzard_EncounterJournal")
+    local byExpansion = { }
+    for _,info in ipairs(C_TransmogSets.GetUsableSets()) do
+        local expansion = info.expansionID + 1
+        if not byExpansion[expansion] then
+            local name = EJ_GetTierInfo(expansion) or NONE
+            byExpansion[expansion] = { text = name }
+        end
+        table.insert(byExpansion[expansion], { val = "xmog:"..info.setID, text = info.name })
+    end
+    local sets = { nosort = true, text = WARDROBE_SETS }
+    for _,t in LM.PairsByKeys(byExpansion) do
+        table.insert(sets, t)
+    end
+    return sets
+end
+
 -- The args version of this takes slotid/appearanceid and really should be junked
--- now that the other form works.
+-- now that the other form works. Well, if it reliably did. :(
 
 CONDITIONS["xmog"] = {
     args = true,
+    tostring =
+        function (v)
+            if tonumber(v) then
+                local info = C_TransmogSets.GetSetInfo(v)
+                if info then return
+                    info.name
+                else
+                    return v
+                end
+            else
+                return v
+            end
+        end,
+    menu =
+        function ()
+            return { GetTransmogOutfitsMenu(), GetTransmogSetsMenu() }
+        end,
     handler =
         function (cond, env, arg1, arg2)
             if arg2 then
