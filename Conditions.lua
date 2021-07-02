@@ -905,9 +905,9 @@ end
 
 local function GetTransmogOutfitIDByName(name)
     local outfits = C_TransmogCollection.GetOutfits()
-    for id, info in ipairs(outfits) do
-        if info.name == name then
-            return info.outfitID
+    for _, id in ipairs(C_TransmogCollection.GetOutfits()) do
+        if name == C_TransmogCollection.GetOutfitInfo(id) then
+            return id
         end
     end
 end
