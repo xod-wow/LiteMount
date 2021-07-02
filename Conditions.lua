@@ -887,7 +887,7 @@ CONDITIONS["waterwalking"] = {
 
 local function GetTransmogLocationSourceID(location)
     local baseSourceID, _, appliedSourceID = C_Transmog.GetSlotVisualInfo(location)
-    if appliedSourceID == 0 then
+    if appliedSourceID == Constants.Transmog.NoTransmogID then
         return baseSourceID
     else
         return appliedSourceID
@@ -917,7 +917,7 @@ local function IsTransmogSetActive(setID)
         return false
     end
     for key, slotInfo in pairs(TRANSMOG_SLOTS) do
-        if slotInfo.location:IsAppearance() then
+        if not slotInfo.location:IsSecondary() then
             local sourceIDs = C_TransmogSets.GetSourceIDsForSlot(setID, slotInfo.location.slotID)
             if #sourceIDs > 0 then
                 local activeSourceID = GetTransmogLocationSourceID(slotInfo.location)
@@ -936,7 +936,7 @@ local function IsTransmogOutfitActive(outfitID)
         return false
     end
     for key, slotInfo in pairs(TRANSMOG_SLOTS) do
-        if slotInfo.location:IsAppearance() then
+        if not slotInfo.location:IsSecondary() then
             local sourceID = sourceIDs[slotInfo.location.slotID]
             if sourceID ~= NO_TRANSMOG_SOURCE_ID then
                 local activeSourceID = GetTransmogLocationSourceID(slotInfo.location)
