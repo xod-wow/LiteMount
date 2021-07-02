@@ -345,6 +345,23 @@ function LM.Environment:GetPlayerModel()
     return id
 end
 
+-- The level of black magic shenanigans here is off the charts. What on earth
+-- is ModelSceneID 290? I don't know but it's what DressUpFrame uses so ...
+-- This used in conditions to check if we're wearing a transmog outfit.
+
+local ModelSceneScanFrame = CreateFrame('ModelScene')
+Mixin(ModelSceneScanFrame, ModelSceneMixin)
+ModelSceneScanFrame:OnLoad()
+
+function LM.Environment:GetPlayerTransmogInfo()
+    ModelSceneScanFrame:Show()
+    ModelSceneScanFrame:TransitionToModelSceneID(290, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, true)
+    local actor = ModelSceneScanFrame:GetPlayerActor()
+    local infoList = actor:GetItemTransmogInfoList()
+    ModelSceneScanFrame:Hide()
+    return infoList
+end
+
 local maxMapID
 function LM.Environment:GetMaxMapID()
     if not maxMapID then
