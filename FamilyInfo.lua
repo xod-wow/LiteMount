@@ -862,6 +862,7 @@ LM.MOUNTFAMILY["Phoenix"] = {
     [ 88990] = true, -- Dark Phoenix
     [347813] = true, -- Fireplume Phoenix
     [132118] = true, -- Emerald Pandaren Phoenix
+    [347812] = true, -- Sapphire Skyblazer
     [132119] = true, -- Violet Pandaren Phoenix
 }
 
