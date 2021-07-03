@@ -376,17 +376,38 @@ function LM.Environment:GetMaxMapID()
     return maxMapID
 end
 
+local function ValidDisplayMap(info, group, seenGroups)
+    if not info then
+        return false
+    end
+
+    if info.mapType <= Enum.UIMapType.Zone then
+        return C_Map.IsMapValidForNavBarDropDown(info.mapID)
+    end
+
+    if group then
+        if seenGroups[group] then
+            return false
+        else
+            seenGroups[group] = true
+        end
+    end
+    return true
+end
+
 function LM.Environment:GetMaps(str)
     local searchStr = string.lower(str or "")
 
     local lines = {}
+    local seenGroups = {}
 
     for i = 1, self:GetMaxMapID() do
         local info = C_Map.GetMapInfo(i)
-        if info then
+        local group = C_Map.GetMapGroupID(i)
+        if ValidDisplayMap(info, group, seenGroups) then
             local searchName = string.lower(info.name)
             if info.mapID == tonumber(str) or searchName:find(searchStr) then
-                tinsert(lines, format("% 4d : %s (parent %d)", info.mapID, info.name, info.parentMapID or 0))
+                tinsert(lines, string.format("% 4d : %s (parent %d)", info.mapID, info.name, info.parentMapID or 0))
             end
         end
     end
