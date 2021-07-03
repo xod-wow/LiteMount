@@ -122,9 +122,8 @@
         <OnLoad>
             local translators = {
                 "deDE - Bullseify, Selthi, staratnight, wiggelator, pas06, Salty",
-                "esMX - ",
                 "esES - TradOrtiz, valdesca",
-                "frFR - Joured, lastdans, Khis_wow",
+                "frFR - Joured, lastdans, Khis_wow, Lightuky",
                 "itIT - ",
                 "koKR - yuk6196u, zzipsa22",
                 "ptBR - Kalx_, felipe_shaman",
