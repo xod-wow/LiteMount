@@ -84,6 +84,7 @@ rules that are attempted when it is clicked.
 ```
   LM.ActionButton
     Create(n)               - Buttons are named LM_B{n} and use LM.Options.db.buttonActions[n]
+    CompileRules()          - Parse the options action list for this keybind
 ```
 
 ### Rules.lua
@@ -92,14 +93,13 @@ LM.Rules is a parser for the action lists rule lines. It doesn't really understa
 anything, it just assumes various things in various positions on the lines
 are actions, various things are tests and various things are arguments.
 
-The only method is
+There is only LM.Rules, there is no class for an individual rule, it's just a table.
 
 ```
-  LM.Rules:Compile(text)
+  LM.Rules
+    Compile(text)
+    Dispatch(rule, env)
 ```
-
-which returns a list of (action, args, conditions) tuples in a format that
-LM.ActionButton knows how to dispatch.
 
 ### Actions.lua
 
@@ -123,6 +123,14 @@ The intermediary between handlers and the action buttons.
 
 ```
   LM.SecureAction
+    New(attr)
+    SetupActionButton(button, n)
+    Macro(macroText, unit)
+    Spell(spellName, unit)
+    CancelAura(spellName, unit)
+    Item(useArg, unit)
+    LeaveVehicle()
+    Click(clickButton)
     SetupActionButton(button)
 ```
 
@@ -133,7 +141,8 @@ a heap of WoW API calls to do tests.
 
 ```
   LM.Conditions
-    Eval(connditions, unit)
+    Eval(conditions, env, vars)
+    Check(conditions, env)
 ```
 
 ### Vars.lua
@@ -156,7 +165,7 @@ So here's what happens, tying it all together:
 1. the keybinding triggers a click on the matching LM.ActionButton
 1. if we're not in combat:
     1. the preclick handler on the button runs:
-       - evaluates each line in its action list in turn
+       - evaluates each rule in its action list in turn
        - once one returns a SecureAction, sets up the button's secure attributes
 1. the blizzard secure click handler uses the attributes to perform
    the mount action
@@ -198,16 +207,21 @@ The table InstanceFlyableOverride is really the only interesting part.
 ```
   LM.Environment
     CanFly()
-    CantBreath()
+    CantBreathe()
+    GetJumpTime()
+    GetMaxMapID()
     GetPlayerModel()
-    InInstance(instanceID, [instanceID, ...])
+    GetPlayerTransmogInfo()
+    GetStationaryTime()
+    InInstance(...)
+    IsCombatTravelForm()
     IsFalling()
     IsFloating()
+    IsMapInPath(mapID)
     IsMovingOrFalling()
-    JumpTime()
+    IsOnMap(mapID)
+    IsTheMaw()
     KnowsFlyingSkill()
-    MapInPath(mapID, [mapID, ...])
-    StationaryTime()
 ```
 
 ### Print.lua
