@@ -222,7 +222,7 @@ function LM.MountList:Limit(...)
         elseif f:sub(1,1) == '-' then
             mounts:Reduce(self:FilterSearch(f:sub(2)))
         elseif f:sub(1,1) == '=' then
-            mounts = self:FilterSearch(f)
+            mounts = self:FilterSearch(f:sub(2))
         else
             mounts = mounts:FilterSearch(f)
         end
