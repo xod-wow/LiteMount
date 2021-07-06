@@ -560,6 +560,15 @@ CONDITIONS["mounted"] = {
         end
 }
 
+CONDITIONS["click"] = {
+    handler =
+        function (cond, env, v)
+            if v and env.clickArg == v then
+                return true
+            end
+        end
+}
+
 CONDITIONS["moving"] = {
     handler =
         function (cond, env)

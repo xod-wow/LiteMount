@@ -27,6 +27,10 @@ function LM.ActionButton:CompileRules()
     self.rules = LM.Rules:Compile(actionList)
 end
 
+-- mouseButton here is not real, because only LeftButton comes through the
+-- keybinding interface. But, you can pass arbitrary text as this argument
+-- with the /click slash command. E.g., /click LM_B1 blah
+
 function LM.ActionButton:PreClick(mouseButton)
 
     if InCombatLockdown() then return end
@@ -46,6 +50,7 @@ function LM.ActionButton:PreClick(mouseButton)
     local subEnv = CopyTable(self.globalEnv)
     subEnv.filters = { { } }
     subEnv.flowControl = { }
+    subEnv.clickArg = mouseButton
 
     for _,rule in ipairs(self.rules) do
         local act = LM.Rules:Dispatch(rule, subEnv)
