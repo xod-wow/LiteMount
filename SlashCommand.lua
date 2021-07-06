@@ -102,7 +102,7 @@ COMMANDS['mounts'] =
         return true
     end
 
-COMMANDS['groups'] =
+COMMANDS['group'] =
     function (argstr, action, arg1, arg2)
         if action == "add" and arg1 then
             LM.Options:CreateFlag(arg1)
@@ -190,15 +190,16 @@ COMMANDS['pi'] =
 
 local function PrintUsage()
     LM.Print(GAMEMENU_HELP .. ":")
-    LM.Print("  /litemount priority <0-3>")
+    LM.Print("  /litemount priority <0-4>")
     LM.Print("  /litemount mounts [<substring>]")
     LM.Print("  /litemount maps [<substring>]")
     LM.Print("  /litemount continents [<substring>]")
     LM.Print("  /litemount location")
     LM.Print("  /litemount macro")
-    LM.Print("  /litemount flags add <flagname>")
-    LM.Print("  /litemount flags del <flagname>")
-    LM.Print("  /litemount flags rename <oldname> <newname>")
+    LM.Print("  /litemount group add <name>")
+    LM.Print("  /litemount group del <name>")
+    LM.Print("  /litemount group list")
+    LM.Print("  /litemount group rename <oldname> <newname>")
     LM.Print("  /litemount playermodel")
     LM.Print("  /litemount profile <profilename>")
     LM.Print("  /litemount xmog <slotnumber>")
