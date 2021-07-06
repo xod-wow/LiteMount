@@ -247,7 +247,7 @@ LiteMountRuleEditActionMixin = {}
 local TypeMenu = {
     "SmartMount",
     "Mount",
-    "Limit",
+    "LimitSet",
     "LimitInclude",
     "LimitExclude",
 }

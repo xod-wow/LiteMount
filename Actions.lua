@@ -60,18 +60,29 @@ local ACTIONS = { }
 -- get the restricted list. Always returns no action.
 
 ACTIONS['Limit'] = {
-    name = L.LM_LIMIT_MOUNTS,
-    tostring =
-        function (v)
-            -- XXX Doesn't support multiple args. Also wrong with -+= XXX
-            v = v:gsub('^[-+=]', '')
-            return LM.Mount:MountFilterToString(v)
-        end,
     handler =
         function (args, env)
             local filters = LM.tJoin(env.filters[1], args)
             table.insert(env.filters, 1, filters)
             LM.Debug(" - new filter: " .. table.concat(env.filters[1], ' '))
+        end
+}
+
+-- These ones are really just for user rules.
+
+ACTIONS['LimitSet'] = {
+    name = L.LM_LIMIT_MOUNTS,
+    tostring =
+        function (v)
+            -- XXX Doesn't support multiple args XXX
+            return LM.Mount:MountFilterToString(v)
+        end,
+    handler = function (args, env)
+            -- There's no point of multi-arg, just use the last
+            if #args > 0 then
+                local setArgs = { '=' .. args[#args] }
+                ACTIONS['Limit'].handler(setArgs, env)
+            end
         end
 }
 
