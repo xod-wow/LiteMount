@@ -108,6 +108,9 @@ function LM.Environment:IsTheMaw()
     -- This is the instanced starting experience
     if instanceID == 2364 then return true end
 
+    -- This is the instanced post-Maldraxxus questing
+    if instanceID == 2456 then return true end
+
     -- Otherwise, The Maw is just zones in instance 2222
     return LM.Environment:IsMapInPath(1543)
 end
