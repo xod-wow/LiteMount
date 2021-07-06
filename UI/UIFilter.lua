@@ -275,7 +275,8 @@ function LM.UIFilter.GetFlags()
 end
 
 function LM.UIFilter.GetFlagText(f)
-    return L[f]
+    -- "FAVORITES -> _G.FAVORITES
+    return _G[f] or L[f]
 end
 
 

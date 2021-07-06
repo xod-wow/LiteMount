@@ -146,16 +146,10 @@ function LiteMountFlagBitMixin:Update(flag, mount)
 
     self:SetChecked(cur[flag] or false)
 
-    if flag == "FAVORITES" then
-        self.Modified:Show()
-        self.Modified:SetDesaturated(true)
-        self:Disable()
-    else
-        -- If we changed this from the default then color the background
-        self.Modified:SetShown(mount.flags[flag] ~= cur[flag])
-        self.Modified:SetDesaturated(false)
-        self:Enable()
-    end
+    -- If we changed this from the default then color the background
+    self.Modified:SetShown(mount.flags[flag] ~= cur[flag])
+    self.Modified:SetDesaturated(false)
+    self:Enable()
 end
 
 --[[--------------------------------------------------------------------------]]--
@@ -334,9 +328,9 @@ function LiteMountMountsPanelMixin:OnLoad()
 
     self.allFlags = LM.Options:GetFlags()
 
-    local label
+    -- Note, explicitly not FAVORITES (#5)
     for i = 1, 4 do
-        label = self["BitLabel"..i]
+        local label = self["BitLabel"..i]
         if self.allFlags[i] then
             label:SetText(L[self.allFlags[i]])
         end

@@ -423,7 +423,7 @@ end
 function LM.Options:IsPrimaryFlag(f)
     -- These are pseudo-flags used in Mount:MatchesOneFilter and we don't
     -- let custom flags have the name.
-    if f == "NONE" or f == "CASTABLE" then
+    if f == "NONE" or f == "CASTABLE" or f == "FAVORITES" then
         return true
     else
         return LM.FLAG[f] ~= nil
