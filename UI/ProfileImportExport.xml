@@ -4,7 +4,7 @@
 
 <Script file="ProfileImportExport.lua" />
 
-<Frame name="LiteMountProfileExport" parent="UIParent" hidden="true" inherits="TooltipBackdropTemplate" mixin="LiteMountProfileExportMixin" frameStrata="DIALOG" toplevel="true">
+<Frame name="LiteMountProfileExport" parent="UIParent" hidden="true" inherits="TooltipBackdropTemplate" mixin="LiteMountProfileExportMixin" frameStrata="DIALOG" toplevel="true" clampedToScreen="true">
     <KeyValues>
         <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" TYpe="global" />
         <KeyValue key="backdropColorAlpha" value="0.8" TYpe="number" />
