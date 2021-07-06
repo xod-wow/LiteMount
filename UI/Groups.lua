@@ -27,8 +27,8 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
     OnAccept = function (self)
             LiteMountGroupsPanel.Groups.isDirty = true
             local text = self.editBox:GetText()
-            LM.Options:CreateFlag(text)
             LiteMountGroupsPanel.Groups.selectedGroup = text
+            LM.Options:CreateFlag(text)
         end,
     EditBoxOnEnterPressed = function (self)
             if self:GetParent().button1:IsEnabled() then
@@ -41,6 +41,43 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
             if text ~= "" and not LM.Options:IsActiveFlag(text) then
+                self:GetParent().button1:Enable()
+            else
+                self:GetParent().button1:Disable()
+            end
+        end,
+    OnShow = function (self)
+        self.editBox:SetFocus()
+    end,
+}
+
+StaticPopupDialogs["LM_OPTIONS_RENAME_GROUP"] = {
+    text = format("LiteMount : %s", L.LM_RENAME_GROUP),
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    hasEditBox = 1,
+    maxLetters = 24,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            LiteMountGroupsPanel.Groups.isDirty = true
+            local text = self.editBox:GetText()
+            LiteMountGroupsPanel.Groups.selectedGroup = text
+            LM.Options:RenameFlag(self.data, text)
+        end,
+    EditBoxOnEnterPressed = function (self)
+            if self:GetParent().button1:IsEnabled() then
+                StaticPopup_OnClick(self:GetParent(), 1)
+            end
+        end,
+    EditBoxOnEscapePressed = function (self)
+            self:GetParent():Hide()
+        end,
+    EditBoxOnTextChanged = function (self)
+            local text = self:GetText()
+            if text ~= "" and text ~= self.data and not LM.Options:IsActiveFlag(text) then
                 self:GetParent().button1:Enable()
             else
                 self:GetParent().button1:Disable()

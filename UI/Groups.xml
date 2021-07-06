@@ -204,6 +204,18 @@
                 <Anchor point="TOPRIGHT" relativeKey="$parent.MountsContainer" relativePoint="BOTTOMRIGHT" x="-4" y="-8" />
             </Anchors>
         </Button>
+        <Button parentKey="RenameButton" inherits="UIPanelButtonTemplate" text="PET_RENAME">
+            <Scripts>
+                <OnClick>
+                    local f = LiteMountGroupsPanel.Groups.selectedGroup
+                    if f then StaticPopup_Show("LM_OPTIONS_RENAME_GROUP", f, nil, f) end
+                </OnClick>
+            </Scripts>
+            <Size x="96" y="22" />
+            <Anchors>
+                <Anchor point="RIGHT" relativeKey="$parent.DeleteButton" relativePoint="LEFT" x="-4" />
+            </Anchors>
+        </Button>
     </Frames>
 
     <Layers>
