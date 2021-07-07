@@ -107,7 +107,7 @@ local DROPDOWNS = {
     },
     ['GROUP'] = {
         value = 'GROUP',
-        text = GROUP,
+        text = L.LM_GROUP,
         checked = function (k) return LM.UIFilter.IsGroupChecked(k) end,
         set = function (k, v) LM.UIFilter.SetGroupFilter(k, v) end,
         setall = function (v) LM.UIFilter.SetAllGroupFilters(v) end,

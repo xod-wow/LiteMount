@@ -224,7 +224,12 @@ local function DropDown_Initialize(self, level)
 end
 
 local function UpdateProfileCallback()
-    LiteMountProfileButton:SetText(LM.Options.db:GetCurrentProfile())
+    local currentProfile = LM.Options.db:GetCurrentProfile()
+    if currentProfile == 'Default' then
+        LiteMountProfileButton:SetText(DEFAULT)
+    else
+        LiteMountProfileButton:SetText(currentProfile)
+    end
 end
 
 
@@ -242,7 +247,7 @@ function LiteMountProfileButtonMixin:Attach(parent)
 end
 
 function LiteMountProfileButtonMixin:OnShow()
-    self:SetText(LM.Options.db:GetCurrentProfile())
+    UpdateProfileCallback()
     LM.Options.db.RegisterCallback(self, "OnProfileCopied", UpdateProfileCallback)
     LM.Options.db.RegisterCallback(self, "OnProfileChanged", UpdateProfileCallback)
     LM.Options.db.RegisterCallback(self, "OnProfileReset", UpdateProfileCallback)

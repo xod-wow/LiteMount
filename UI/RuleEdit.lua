@@ -283,7 +283,7 @@ local function TypeToInfo(v) return { val = "mt:"..v, text = LM.UIFilter.GetType
 
 local function ActionArgsMenu()
     local groupMenuList = LM.tMap(LM.UIFilter.GetGroups(), GroupToInfo)
-    groupMenuList.text = GROUP
+    groupMenuList.text = L.LM_GROUP
 
 --  local familyMenuList = LM.tMap(LM.UIFilter.GetFamilies(), FamilyToInfo)
 --  familyMenuList.text = L.LM_FAMILY

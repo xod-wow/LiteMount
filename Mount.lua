@@ -79,7 +79,7 @@ function LM.Mount:MountFilterToString(f)
         local _, id = string.split(':', f, 2)
         return TYPE .. " : " .. LM.MOUNT_TYPES[tonumber(id)]
     elseif LM.Options:IsCustomFlag(f) then
-        return GROUP .. ' : ' .. f
+        return L.LM_GROUP .. ' : ' .. f
     elseif LM.Options:IsPrimaryFlag(f) then
         -- XXX LOCALIZE XXX
         return L.LM_FLAG .. ' : ' .. f

@@ -166,7 +166,7 @@ function LiteMountOptionsPanel_OnLoad(self)
 
     if self ~= LiteMountOptions then
         self.parent = LiteMountOptions.name
-        self.name = _G[self.name] or self.name
+        self.name = _G[self.name] or L[self.name] or self.name
         self.Title:SetText("LiteMount : " .. self.name)
     else
         self.name = "LiteMount"

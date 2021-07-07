@@ -99,7 +99,7 @@
 
 <Frame name="LiteMountGroupsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountGroupsPanelMixin">
     <KeyValues>
-        <KeyValue key="name" value="GROUPS" type="global" />
+        <KeyValue key="name" value="LM_GROUPS" type="string" />
     </KeyValues>
 
     <Scripts>
