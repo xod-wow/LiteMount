@@ -111,6 +111,10 @@
 
 <Frame name="LiteMountRuleEdit" mixin="LiteMountRuleEditMixin" hidden="true" inherits="LiteMountPopOverPanelTemplate">
 
+    <KeyValues>
+        <KeyValue key="name" value="LM_EDIT_RULE" type="string" />
+    </KeyValues>
+
     <Scripts>
         <OnLoad inherit="prepend" method="OnLoad" />
         <OnShow inherit="prepend" method="OnShow" />
@@ -121,11 +125,6 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormalLarge" parentKey="Title" text="LM_EDIT_RULE">
-                <Anchors>
-                    <Anchor point="TOP" y="-16" />
-                </Anchors>
-            </FontString>
             <FontString parentKey="ConditionsHeader" inherits="GameFontNormalLarge" text="LM_CONDITIONS">
                 <Anchors> <Anchor point="TOPLEFT" x="24" y="-46" /> </Anchors>
             </FontString>

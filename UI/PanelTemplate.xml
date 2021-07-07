@@ -78,18 +78,19 @@
 
 <Frame name="LiteMountPopOverPanelTemplate" virtual="true" inherits="LiteMountContainerStyleTemplate">
     <Scripts>
-        <OnShow inhert="prepend">
-            self:SetFrameLevel(self.overFrame:GetFrameLevel() + 4)
-            self.overFrame.Disable:Show()
-        </OnShow>
-        <!-- OnHide gets called when parent is hidden, force hide self before reparent -->
-        <OnHide inherit="prepend">
-            self.overFrame.Disable:Hide()
-            self.overFrame = nil
-            self:Hide()
-            self:SetParent(nil)
-        </OnHide>
+        <OnLoad inherit="prepend" function="LiteMountPopOverPanel_OnLoad" />
+        <OnShow inherit="prepend" function="LiteMountPopOverPanel_OnShow" />
+        <OnHide inherit="prepend" function="LiteMountPopOverPanel_OnHide" />
     </Scripts>
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormalLarge" parentKey="Title" text="LM_EDIT_RULE">
+                <Anchors>
+                    <Anchor point="TOP" y="-16" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
 </Frame>
 
 </Ui>

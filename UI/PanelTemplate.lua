@@ -305,3 +305,20 @@ function LiteMountOptionsPanel_RegisterControl(control, parent)
     parent.controls = parent.controls or { }
     tinsert(parent.controls, control)
 end
+
+function LiteMountPopOverPanel_OnLoad(self)
+    self.name = _G[self.name] or L[self.name] or self.name
+    self.Title:SetText(self.name)
+end
+
+function LiteMountPopOverPanel_OnShow(self)
+    self:SetFrameLevel(self.overFrame:GetFrameLevel() + 4)
+    self.overFrame.Disable:Show()
+end
+
+function LiteMountPopOverPanel_OnHide(self)
+    self.overFrame.Disable:Hide()
+    self.overFrame = nil
+    self:Hide()
+    self:SetParent(nil)
+end
