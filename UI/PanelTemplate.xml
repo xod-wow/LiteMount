@@ -82,9 +82,12 @@
             self:SetFrameLevel(self.overFrame:GetFrameLevel() + 4)
             self.overFrame.Disable:Show()
         </OnShow>
+        <!-- OnHide gets called when parent is hidden, force hide self before reparent -->
         <OnHide inherit="prepend">
             self.overFrame.Disable:Hide()
             self.overFrame = nil
+            self:Hide()
+            self:SetParent(nil)
         </OnHide>
     </Scripts>
 </Frame>
