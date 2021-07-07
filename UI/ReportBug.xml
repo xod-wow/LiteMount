@@ -4,25 +4,16 @@
 
 <Script file="ReportBug.lua" />
 
-<Frame name="LiteMountReportBug" parent="UIParent" hidden="true"
-       inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountReportBugMixin"
-       frameStrata="DIALOG" toplevel="true" movable="true">
+<Frame name="LiteMountReportBugPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountReportBugMixin">
     <KeyValues>
         <KeyValue key="hideRevertButton" value="true" type="boolean" />
         <KeyValue key="hideProfileButton" value="true" type="boolean" />
-        <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" type="global" />
-        <KeyValue key="backdropColorAlpha" value="0.8" TYpe="number" />
     </KeyValues>
     <Scripts>
         <OnLoad inherit="append" method="OnLoad" />
         <OnShow inherit="append" method="OnShow" />
         <OnSizeChanged inherit="append" method="OnSizeChanged" />
     </Scripts>
-    <Size x="480" y="640" />
-    <Anchors>
-        <Anchor point="CENTER" />
-    </Anchors>
-
     <Layers>
         <Layer level="ARTWORK">
             <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_REPORT_BUG_EXP">
@@ -34,7 +25,6 @@
             </FontString>
         </Layer>
     </Layers>
-
     <Frames>
         <EditBox parentKey="CreateIssueURL" autoFocus="false" ignoreArrows="true">
             <Size y="16" />
