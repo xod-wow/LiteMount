@@ -17,7 +17,7 @@
         <Anchor point="CENTER" />
     </Anchors>
     <Frames>
-        <ScrollFrame parentKey="Scroll" inherits="InputScrollFrameTemplate">
+        <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="InputScrollFrameTemplate">
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
             </KeyValues>
@@ -188,7 +188,7 @@
                 <OnEscapePressed> self:GetParent():Hide() </OnEscapePressed>
             </Scripts>
         </EditBox>
-        <ScrollFrame parentKey="Scroll" inherits="InputScrollFrameTemplate">
+        <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="InputScrollFrameTemplate">
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
             </KeyValues>

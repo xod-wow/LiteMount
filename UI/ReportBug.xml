@@ -56,7 +56,7 @@
                 <OnEscapePressed function="EditBox_ClearFocus" />
             </Scripts>
         </EditBox>
-        <ScrollFrame parentKey="Scroll" inherits="InputScrollFrameTemplate">
+        <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="InputScrollFrameTemplate">
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
             </KeyValues>
