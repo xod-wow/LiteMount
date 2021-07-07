@@ -14,6 +14,21 @@ local L = LM.Localize
 
 --[[--------------------------------------------------------------------------]]--
 
+-- Group names can't match anything that LM.Mount:MatchesOneFilter will parse
+-- as something other than a group. Don't care about mount names though that
+-- should be obvious to people as something that won't work.
+
+local function IsValidGroupName(text)
+    if not text or text == "" then return false end
+    if LM.Options:IsActiveFlag(text) then return false end
+    if tonumber(text) then return false end
+    if text:sub(1, 3) == 'id:' then return false end
+    if text:sub(1, 3) == 'mt:' then return false end
+    if text:sub(1, 7) == 'family:' then return false end
+    if text:sub(1, 1) == '~' then return false end
+    return true
+end
+
 StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
     text = format("LiteMount : %s", L.LM_NEW_GROUP),
     button1 = ACCEPT,
@@ -40,11 +55,8 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
         end,
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
-            if text ~= "" and not LM.Options:IsActiveFlag(text) then
-                self:GetParent().button1:Enable()
-            else
-                self:GetParent().button1:Disable()
-            end
+            local valid = IsValidGroupName(text)
+            self:GetParent().button1:SetEnabled(valid)
         end,
     OnShow = function (self)
         self.editBox:SetFocus()
@@ -77,11 +89,8 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_GROUP"] = {
         end,
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
-            if text ~= "" and text ~= self.data and not LM.Options:IsActiveFlag(text) then
-                self:GetParent().button1:Enable()
-            else
-                self:GetParent().button1:Disable()
-            end
+            local valid = text ~= self.data and IsValidGroupName(text)
+            self:GetParent().button1:SetEnabled(valid)
         end,
     OnShow = function (self)
         self.editBox:SetFocus()
