@@ -78,6 +78,14 @@ StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
         end,
 }
 
+local function GetProfileNameText(p)
+    if p == "Default" then
+        return DEFAULT
+    else
+        return p
+    end
+end
+
 local function ClickSetProfile(self, arg1, arg2, checked)
     LM.Options.db:SetProfile(self.value)
     UIDropDownMenu_RefreshAll(LiteMountProfileButton.DropDown, true)
@@ -129,16 +137,12 @@ local function DropDown_Initialize(self, level)
 
         UIDropDownMenu_AddSeparator(level)
 
-        for _,v in ipairs(dbProfiles) do
+        for _,p in ipairs(dbProfiles) do
             info = UIDropDownMenu_CreateInfo()
-            if v == "Default" then
-                info.text = DEFAULT -- localized by Blizzard
-            else
-                info.text = v
-            end
-            info.value = v
+            info.text = GetProfileNameText(p)
+            info.value = p
             info.checked = function ()
-                    return (v == LM.Options.db:GetCurrentProfile())
+                    return (p == LM.Options.db:GetCurrentProfile())
                 end
             info.keepShownOnClick = 1
             info.func = ClickSetProfile
@@ -191,7 +195,7 @@ local function DropDown_Initialize(self, level)
 
             for _, p in ipairs(dbProfiles) do
                 info = UIDropDownMenu_CreateInfo()
-                info.text = p
+                info.text = GetProfileNameText(p)
                 info.arg1 = p
                 info.notCheckable = 1
                 info.func = ClickDeleteProfile
@@ -213,7 +217,7 @@ local function DropDown_Initialize(self, level)
         elseif UIDROPDOWNMENU_MENU_VALUE == 'EXPORT' then
             for _, p in ipairs(dbProfiles) do
                 info = UIDropDownMenu_CreateInfo()
-                info.text = p
+                info.text = GetProfileNameText(p)
                 info.arg1 = p
                 info.notCheckable = 1
                 info.func = ClickExportProfile
@@ -225,11 +229,7 @@ end
 
 local function UpdateProfileCallback()
     local currentProfile = LM.Options.db:GetCurrentProfile()
-    if currentProfile == 'Default' then
-        LiteMountProfileButton:SetText(DEFAULT)
-    else
-        LiteMountProfileButton:SetText(currentProfile)
-    end
+    LiteMountProfileButton:SetText(GetProfileNameText(currentProfile))
 end
 
 
