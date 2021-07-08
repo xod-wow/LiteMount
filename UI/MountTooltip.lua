@@ -56,7 +56,7 @@ function LM.ShowMountTooltip(self, m, canMount)
     GameTooltip:AddLine("|cffffffff"..STAT_CATEGORY_SPELL..":|r "..tostring(m.spellID))
 
     if m.family then
-        GameTooltip:AddLine("|cffffffff"..L.LM_FAMILY..":|r "..m.family)
+        GameTooltip:AddLine("|cffffffff"..L.LM_FAMILY..":|r "..L[m.family])
     end
 
     if m.description then
