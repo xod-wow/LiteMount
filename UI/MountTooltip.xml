@@ -10,15 +10,14 @@
         <Anchor point="TOPLEFT" relativeTo="GameTooltip" relativePoint="TOPRIGHT" x="4" />
     </Anchors>
     <Frames>
-       <PlayerModel parentKey="Model">
+        <ModelScene parentKey="ModelScene" inherits="NonInteractableModelSceneMixinTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" x="8" y="-8" />
                 <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
             </Anchors>
-        </PlayerModel>
+        </ModelScene>
     </Frames>
     <Scripts>
-        <OnLoad inherit="append" method="OnLoad" />
         <OnShow inherit="append" method="OnShow" />
     </Scripts>
 </Frame>

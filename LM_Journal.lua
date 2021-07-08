@@ -39,7 +39,7 @@ LM.Journal.__index = LM.Journal
 
 function LM.Journal:Get(id, isUsable)
     local name, spellID, icon, _, _, sourceType, isFavorite, _, faction, isFiltered, isCollected, mountID = C_MountJournal.GetMountInfoByID(id)
-    local modelID, descriptionText, sourceText, isSelfMount, mountType = C_MountJournal.GetMountInfoExtraByID(mountID)
+    local modelID, descriptionText, sourceText, isSelfMount, mountType, sceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
     if not name then
         LM.Debug(format("LM.Mount: Failed GetMountInfo for ID = #%d", id))
@@ -49,6 +49,7 @@ function LM.Journal:Get(id, isUsable)
     local m = LM.Mount.new(self)
 
     m.modelID       = modelID
+    m.sceneID       = sceneID
     m.name          = name
     m.spellID       = spellID
     m.mountID       = mountID

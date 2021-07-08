@@ -15,24 +15,18 @@ local L = LM.Localize
 LiteMountPreviewMixin = {}
 
 function LiteMountPreviewMixin:SetMount(m)
-    if m.modelID then
-        self.Model:SetDisplayInfo(m.modelID)
-        if m.isSelfMount then
-            LiteMountPreview.Model:SetDoBlend(false)
-            LiteMountPreview.Model:SetAnimation(618, -1)
-        end
+    if m.sceneID and m.modelID then
+        self.ModelScene:SetFromModelSceneID(m.sceneID)
+        local actor = self.ModelScene:GetActorByTag("unwrapped")
+        actor:SetModelByCreatureDisplayID(m.modelID)
         self:Show()
     else
         self:Hide()
     end
 end
 
-function LiteMountPreviewMixin:OnLoad()
-    self.Model:SetRotation(MODELFRAME_DEFAULT_ROTATION)
-end
-
 function LiteMountPreviewMixin:OnShow()
-    self:SetSize(200, 200)
+    self:SetSize(200, 300)
 end
 
 --[[--------------------------------------------------------------------------]]--
