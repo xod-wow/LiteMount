@@ -53,12 +53,12 @@
             <CheckedTexture file="Interface\Addons\LiteMount\Textures\RedX" />
             <Scripts>
                 <OnEnter>
-                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                    GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode("NOT"))
-                    GameTooltip:Show()
+                    LiteMountTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    LiteMountTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode("NOT"))
+                    LiteMountTooltip:Show()
                 </OnEnter>
                 <OnLeave>
-                    GameTooltip:Hide()
+                    LiteMountTooltip:Hide()
                 </OnLeave>
             </Scripts>
         </CheckButton>

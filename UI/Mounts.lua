@@ -61,18 +61,18 @@ function LiteMountPriorityMixin:Decrement()
 end
 
 function LiteMountPriorityMixin:OnEnter()
-    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-    GameTooltip:ClearLines()
-    GameTooltip:AddLine(L.LM_PRIORITY)
+    LiteMountTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    LiteMountTooltip:ClearLines()
+    LiteMountTooltip:AddLine(L.LM_PRIORITY)
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
         local t, d = LM.UIFilter.GetPriorityText(p)
-        GameTooltip:AddLine(t .. ' - ' .. d)
+        LiteMountTooltip:AddLine(t .. ' - ' .. d)
     end
-    GameTooltip:Show()
+    LiteMountTooltip:Show()
 end
 
 function LiteMountPriorityMixin:OnLeave()
-    GameTooltip:Hide()
+    LiteMountTooltip:Hide()
 end
 
 --[[--------------------------------------------------------------------------]]--
@@ -120,15 +120,15 @@ end
 
 function LiteMountFlagBitMixin:OnEnter()
     if self.flag then
-        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:SetText(L[self.flag])
-        GameTooltip:Show()
+        LiteMountTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        LiteMountTooltip:SetText(L[self.flag])
+        LiteMountTooltip:Show()
     end
 end
 
 function LiteMountFlagBitMixin:OnLeave()
-    if GameTooltip:GetOwner() == self then
-        GameTooltip:Hide()
+    if LiteMountTooltip:GetOwner() == self then
+        LiteMountTooltip:Hide()
     end
 end
 
@@ -158,13 +158,14 @@ LiteMountMountIconMixin = {}
 
 function LiteMountMountIconMixin:OnEnter()
     local m = self:GetParent().mount
-    LM.ShowMountTooltip(self, m, true)
+    LiteMountTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
+    LM.SetMountTooltip(LiteMountTooltip, m, true)
 end
 
 function LiteMountMountIconMixin:OnLeave()
     LM.HideMountTooltip()
     LiteMountPreview:Hide()
-    GameTooltip:Hide()
+    LiteMountTooltip:Hide()
 end
 
 function LiteMountMountIconMixin:PreClick(mouseButton)

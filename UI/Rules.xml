@@ -52,12 +52,12 @@
         <Button parentKey="MoveUp">
             <Scripts>
                 <OnEnter inherit="prepend">
-                    GameTooltip:SetOwner(self, "ANCHOR_CURSOR_RIGHT")
-                    GameTooltip:AddLine(TRACKER_SORT_MANUAL_UP)
-                    GameTooltip:Show()
+                    LiteMountTooltip:SetOwner(self, "ANCHOR_CURSOR_RIGHT")
+                    LiteMountTooltip:AddLine(TRACKER_SORT_MANUAL_UP)
+                    LiteMountTooltip:Show()
                 </OnEnter>
                 <OnLeave inherit="prepend">
-                    GameTooltip:Hide()
+                    LiteMountTooltip:Hide()
                 </OnLeave>
             </Scripts>
             <Anchors>
@@ -71,12 +71,12 @@
         <Button parentKey="MoveDown">
             <Scripts>
                 <OnEnter inherit="prepend">
-                    GameTooltip:SetOwner(self, "ANCHOR_CURSOR_RIGHT")
-                    GameTooltip:AddLine(TRACKER_SORT_MANUAL_DOWN)
-                    GameTooltip:Show()
+                    LiteMountTooltip:SetOwner(self, "ANCHOR_CURSOR_RIGHT")
+                    LiteMountTooltip:AddLine(TRACKER_SORT_MANUAL_DOWN)
+                    LiteMountTooltip:Show()
                 </OnEnter>
                 <OnLeave inherit="prepend">
-                    GameTooltip:Hide()
+                    LiteMountTooltip:Hide()
                 </OnLeave>
             </Scripts>
             <Anchors>

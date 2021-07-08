@@ -262,7 +262,9 @@ end
 
 function LiteMountGroupsPanelMountMixin:OnEnter()
     if self.mount then
-        LM.ShowMountTooltip(self, self.mount)
+        -- GameTooltip_SetDefaultAnchor(LiteMountTooltip, UIParent)
+        LiteMountTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        LM.SetMountTooltip(LiteMountTooltip, self.mount)
     end
 end
 

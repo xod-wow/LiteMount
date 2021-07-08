@@ -6,6 +6,9 @@
     <Include file="MountsFilter.xml" />
     <Include file="RuleEdit.xml" />
     <Include file="Picker.xml" />
+<!--@debug@-->
+    <Include file="PriorityImport.xml" />
+<!--@end-debug@-->
 
     <!-- Main parent settings panel -->
     <Include file="Base.xml" />
