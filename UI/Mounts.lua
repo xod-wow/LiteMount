@@ -159,12 +159,10 @@ LiteMountMountIconMixin = {}
 function LiteMountMountIconMixin:OnEnter()
     local m = self:GetParent().mount
     LiteMountTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
-    LM.SetMountTooltip(LiteMountTooltip, m, true)
+    LiteMountTooltip:SetMount(m, true)
 end
 
 function LiteMountMountIconMixin:OnLeave()
-    LM.HideMountTooltip()
-    LiteMountPreview:Hide()
     LiteMountTooltip:Hide()
 end
 
