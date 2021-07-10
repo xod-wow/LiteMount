@@ -23,6 +23,7 @@ dofile("Mock/C_Scenario.lua")
 dofile("Mock/C_Transmog.lua")
 dofile("Mock/C_ZoneAbility.lua")
 dofile("Mock/GlobalFrames.lua")
+dofile("Mock/ModelScene.lua")
 
 dofile("Mock/MockState.lua")
 

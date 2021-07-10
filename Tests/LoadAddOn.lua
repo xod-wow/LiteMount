@@ -12,7 +12,6 @@ local f = io.open("../LiteMount.toc", "r")
 for line in io.lines("../LiteMount.toc") do
     if not line:match("^#") and line:match('%.lua$') then
         table.insert(tocFiles, line)
-        print(line)
     end
 end
 
