@@ -81,6 +81,20 @@
             </Scripts>
         </Button>
 
+<!--
+        <Button parentKey="PriorityImport" inherits="UIPanelButtonTemplate" text="Import Priorities">
+            <Scripts>
+                <OnClick>
+                    LiteMountOptionsPanel_PopOver(self:GetParent(), LiteMountPriorityImport)
+                </OnClick>
+            </Scripts>
+            <Size x="192" y="22" />
+            <Anchors>
+                <Anchor point="TOPRIGHT" relativeKey="$parent.EditBoxContainer" relativePoint="BOTTOMRIGHT" x="-8" y="-4" />
+            </Anchors>
+        </Button>
+-->
+
         <Frame parentkey="BindingDropDown" inherits="UIDropDownMenuTemplate">
             <Size x="93" y="22" />
             <Anchors>
