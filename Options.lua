@@ -121,7 +121,7 @@ LM.Options = {
 -- applied and you can't rely on them being there. This is super annoying.
 -- Any time you loop over the profiles table one profile has all the defaults
 -- jammed into it and all the other don't. You can't assume the profile has
--- any valeus in it at all.
+-- any values in it at all.
 
 -- Version 3 moved flag stuff global, and now version 4 is putting them
 -- back into profile. I hope I'm not making the same mistakes all over
@@ -194,6 +194,19 @@ function LM.Options:VersionUpgrade5()
     self.db.char.configVersion = 5
 end
 
+-- This fixes a stupid typo I made in the code at one point
+
+function LM.Options:VersionUpgrade6()
+    LM.Debug('VersionUpgrade: 6')
+    if self.db.char.unvailableMacro then
+        self.db.char.unavailableMacro = self.db.char.unvailableMacro
+        self.db.char.unvailableMacro = nil
+    end
+    self.db.char.configVersion = 6
+    for n,p in pairs(self.db.profiles) do p.configVersion = 6 end
+    self.db.global.configVersion = 6
+end
+
 function LM.Options:VersionUpgrade()
     local savedDefaults = self.db.defaults
     self.db:RegisterDefaults(nil)
@@ -201,6 +214,8 @@ function LM.Options:VersionUpgrade()
     self:VersionUpgrade4()
 
     self:VersionUpgrade5()
+
+    self:VersionUpgrade6()
 
     self.db:RegisterDefaults(savedDefaults)
 end
@@ -572,7 +587,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetUnavailableMacro()
-    return self.db.char.unvailableMacro
+    return self.db.char.unavailableMacro
 end
 
 function LM.Options:GetUseUnavailableMacro()
@@ -580,7 +595,7 @@ function LM.Options:GetUseUnavailableMacro()
 end
 
 function LM.Options:SetUnavailableMacro(v)
-    self.db.char.unvailableMacro = v
+    self.db.char.unavailableMacro = v
     self.db.char.useUnavailableMacro = (v ~= "")
     self.db.callbacks:Fire("OnOptionsModified")
 end
