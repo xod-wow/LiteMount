@@ -441,11 +441,17 @@ local function IsCastableItem(item)
 
     local itemID = GetItemInfoInstant(item)
 
-    if not itemID or not IsUsableItem(itemID) then
+    if not itemID then
         return false
     end
 
-    if IsEquippableItem(itemID) and not IsEquippedItem(itemID) then
+    if PlayerHasToy(itemID) then
+        if not C_ToyBox.IsToyUsable(itemID) then
+            return false
+        end
+    elseif not IsUsableItem(itemID) then
+        return false
+    elseif IsEquippableItem(itemID) and not IsEquippedItem(itemID) then
         return false
     end
 
