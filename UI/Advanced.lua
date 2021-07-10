@@ -16,7 +16,7 @@ local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountAdvancedUnlockButtonMixin = {}
 
@@ -38,7 +38,7 @@ function LiteMountAdvancedUnlockButtonMixin:OnClick()
     self:Hide()
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 local function BindingDropDown_Initialize(dropDown, level)
     local info = UIDropDownMenu_CreateInfo()
@@ -58,7 +58,7 @@ local function BindingDropDown_Initialize(dropDown, level)
     end
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountAdvancedEditScrollMixin = {}
 
@@ -71,7 +71,7 @@ function LiteMountAdvancedEditScrollMixin:OnShow()
     self.EditBox:SetWidth(self:GetWidth() - 18)
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountAdvancedEditBoxMixin = {}
 
@@ -91,7 +91,7 @@ function LiteMountAdvancedEditBoxMixin:OnLoad()
     self.ntabs = 4
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountAdvancedPanelMixin = {}
 
