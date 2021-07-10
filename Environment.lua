@@ -441,9 +441,13 @@ function LM.Environment:GetInstances()
     return LM.Options:GetInstances()
 end
 
+local ShowMapOverride = {
+    [407] = true,   -- Darkmoon Island (mapType Orphan)
+}
+
 local function FillChildren(info)
     for _, child in ipairs(C_Map.GetMapChildrenInfo(info.mapID)) do
-        if C_Map.IsMapValidForNavBarDropDown(child.mapID) then
+        if ShowMapOverride[child.mapID] or C_Map.IsMapValidForNavBarDropDown(child.mapID) then
             FillChildren(child)
             table.insert(info, child)
             table.sort(info, function (a,b) return a.name < b.name end)
