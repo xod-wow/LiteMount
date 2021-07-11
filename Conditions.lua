@@ -144,15 +144,20 @@ CONDITIONS["combat"] = {
 }
 
 CONDITIONS["covenant"] = {
-    -- name = L["Covenant"],
+    name = L.LM_COVENANT,
     tostring =
         function (v)
-            local info = C_Covenants.GetCovenantData(tonumber(v))
-            if info then return info.name end
+            local id = tonumber(v)
+            if id then
+                if id == 0 then return NONE end
+                local info = C_Covenants.GetCovenantData(id)
+                if info then return info.name end
+            end
+            return v
         end,
     menu =
         function ()
-            local out = {}
+            local out = { nosort=true, { val = "covenant:0" } }
             for _,id in ipairs(C_Covenants.GetCovenantIDs()) do
                 table.insert(out, { val = "covenant:" .. id })
             end
