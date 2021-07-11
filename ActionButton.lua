@@ -53,6 +53,7 @@ function LM.ActionButton:PreClick(mouseButton)
     subEnv.clickArg = mouseButton
 
     for _,rule in ipairs(self.rules) do
+        subEnv.unit = nil
         local act = LM.Rules:Dispatch(rule, subEnv)
         if act then
             act:SetupActionButton(self)
