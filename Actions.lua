@@ -382,7 +382,7 @@ ACTIONS['Macro'] = {
             if LM.Options:GetUseUnavailableMacro() then
                 LM.Debug(" - using unavailable macro")
                 local macrotext = LM.Options:GetUnavailableMacro()
-                return LM.SecureAction:Macro(macrotext, env.unit)
+                return LM.SecureAction:Macro(macrotext)
             end
         end
 }
@@ -393,7 +393,7 @@ ACTIONS['Script'] = {
             local macroText = table.concat(args, ' ')
             if SecureCmdOptionParse(macroText) then
                 LM.Debug(" - running script line: " .. macroText)
-                return LM.SecureAction:Macro(macroText, env.unit)
+                return LM.SecureAction:Macro(macroText)
             end
         end
 }
