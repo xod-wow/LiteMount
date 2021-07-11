@@ -161,11 +161,11 @@ CONDITIONS["covenant"] = {
     handler =
         function (cond, env, v)
             if not C_Covenants or not v then return end
-            local id = C_Covenants.GetActiveCovenantID()
+            local id = C_Covenants.GetActiveCovenantID() -- 0 for none
             if not id then return end
             if tonumber(v) == id then return true end
             local data = C_Covenants.GetCovenantData(id)
-            if data.name == v then return true end
+            if data and data.name == v then return true end
         end
 }
 
