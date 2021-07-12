@@ -187,6 +187,11 @@ function LM.PlayerMounts:GetMountBySpell(id)
     return self.mounts:Find(match)
 end
 
+function LM.PlayerMounts:GetMountByID(id)
+    local function match(m) return m.mountID == id end
+    return self.mounts:Find(match)
+end
+
 -- For some reason GetShapeshiftFormInfo doesn't work on Ghost Wolf.
 function LM.PlayerMounts:GetMountByShapeshiftForm(i)
     if not i then
