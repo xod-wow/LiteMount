@@ -463,18 +463,45 @@ local function IsCastableItem(item)
     return false
 end
 
+-- A derpy version of SecureCmdItemParse that doesn't support bags but does
+-- support item IDs as well as slot names.
+
+local function UseActionItemParse(arg)
+    local name, itemID, slotNum
+
+    local slotOrID = tonumber(arg)
+    if slotOrID then
+        if slotOrID <= INVSLOT_LAST_EQUIPPED then
+            slotNum = slotOrID
+        else
+            itemID = slotOrID
+            name = GetItemInfo(slotOrID)
+        end
+    else
+        local slotName = "INVSLOT_"..arg:upper()
+        if _G[slotName] then
+            slotNum = _G[slotName]
+        else
+            name = arg
+        end
+    end
+
+    return name, itemID, slotNum
+end
+
 ACTIONS['Use'] = {
     handler =
         function (args, env)
             for _, arg in ipairs(args) do
-                local name, bag, slot = SecureCmdItemParse(arg)
-                if slot then
-                    local s, d, e = GetInventoryItemCooldown('player', slot)
+                local name, itemID, slotNum = UseActionItemParse(arg)
+                if slotNum then
+                    local s, d, e = GetInventoryItemCooldown('player', slotNum)
                     if s == 0 and e == 1 then
-                        LM.Debug(' - Setting action to use slot ' .. slot)
-                        return LM.SecureAction:Item(slot, env.unit)
+                        LM.Debug(' - Setting action to use slot ' .. slotNum)
+                        return LM.SecureAction:Item(slotNum, env.unit)
                     end
-                elseif name then
+                    return
+                else
                     if IsCastableItem(name) then
                         LM.Debug(' - setting action to use item ' .. name)
                         return LM.SecureAction:Item(name, env.unit)
