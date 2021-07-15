@@ -469,6 +469,20 @@ CONDITIONS["keybind"] = {
         end
 }
 
+-- GetMaxLevelForLatestExpansion()
+CONDITIONS["level"] = {
+    args = true,
+    handler =
+        function (cond, env, l1, l2)
+            local level = UnitLevel('player')
+            if l1 and not l2 then
+                return level == tonumber(l1)
+            elseif l1 and l2 then
+                return level >= tonumber(l1) and level <= tonumber(l2)
+            end
+        end
+}
+
 CONDITIONS["location"] = {
 --  name = LOCATION_COLON:gsub(":", ""),
     tostring =
