@@ -434,13 +434,7 @@ ACTIONS['Stop'] = {
         end
 }
 
-local function IsCastableItem(item)
-    if not item then
-        return false
-    end
-
-    local itemID = GetItemInfoInstant(item)
-
+local function IsCastableItem(itemID)
     if not itemID then
         return false
     end
@@ -464,25 +458,25 @@ local function IsCastableItem(item)
 end
 
 -- A derpy version of SecureCmdItemParse that doesn't support bags but does
--- support item IDs as well as slot names.
+-- support item IDs as well as slot names. The assumption is that if you have
+-- the item then GetItemInfo will always return values immediately.
 
-local function UseActionItemParse(arg)
+local function UsableItemParse(arg)
     local name, itemID, slotNum
 
     local slotOrID = tonumber(arg)
-    if slotOrID then
-        if slotOrID <= INVSLOT_LAST_EQUIPPED then
-            slotNum = slotOrID
-        else
-            itemID = slotOrID
-            name = GetItemInfo(slotOrID)
-        end
+    if slotOrID and slotOrID <= INVSLOT_LAST_EQUIPPED then
+        slotNum = slotOrID
+    elseif slotOrID then
+        name = GetItemInfo(slotOrID)
+        itemID = slotOrID
     else
         local slotName = "INVSLOT_"..arg:upper()
         if _G[slotName] then
             slotNum = _G[slotName]
         else
             name = arg
+            itemID = GetItemInfoInstant(arg)
         end
     end
 
@@ -493,7 +487,7 @@ ACTIONS['Use'] = {
     handler =
         function (args, env)
             for _, arg in ipairs(args) do
-                local name, itemID, slotNum = UseActionItemParse(arg)
+                local name, itemID, slotNum = UsableItemParse(arg)
                 if slotNum then
                     local s, d, e = GetInventoryItemCooldown('player', slotNum)
                     if s == 0 and e == 1 then
@@ -502,7 +496,7 @@ ACTIONS['Use'] = {
                     end
                     return
                 else
-                    if IsCastableItem(name) then
+                    if name and IsCastableItem(itemID) then
                         LM.Debug(' - setting action to use item ' .. name)
                         return LM.SecureAction:Item(name, env.unit)
                     end
