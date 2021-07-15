@@ -41,6 +41,8 @@ customFlags is a table of flag names, with data about them (currently none)
 local DefaultButtonAction = [[
 # Slow Fall, Levitate, Zen Flight, Glide, Flap
 Spell [falling] 130, 1706, 125883, 131347, 164862
+# Hearty Dragon Plume, Rocfeather Skyhorn Kite
+Use [falling] 182729, 131811
 LeaveVehicle
 Dismount
 CopyTargetsMount
