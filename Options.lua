@@ -339,7 +339,6 @@ local function FlagDiff(a, b)
     return diff
 end
 
-
 function LM.Options:GetRawFlagChanges()
     return LM.tCopyShallow(self.db.profile.flagChanges)
 end
@@ -509,6 +508,20 @@ function LM.Options:RenameGroup(g, newG)
 
     table.wipe(self.cachedMountFlags)
     self.db.callbacks:Fire("OnOptionsModified")
+end
+
+function LM.Options:IsMountInGroup(m, g)
+    if not self:IsGroup(g) then return false end
+    local flags = self:ApplyMountFlags(m)
+    return flags[g] ~= nil
+end
+
+function LM.Options:MountAddGroup(m, g)
+    self:SetMountFlag(m, g)
+end
+
+function LM.Options:MountRemoveGroup(m, g)
+    self:ClearMountFlag(m, g)
 end
 
 

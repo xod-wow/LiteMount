@@ -253,10 +253,10 @@ LiteMountGroupsPanelMountMixin = {}
 function LiteMountGroupsPanelMountMixin:OnClick()
     LiteMountGroupsPanel.Mounts.isDirty = true
     local group = LiteMountGroupsPanel.Groups.selectedGroup
-    if self.mount:MatchesFilters(group) then
-        LM.Options:ClearMountFlag(self.mount, group)
+    if LM.Options:IsMountInGroup(self.mount, group) then
+        LM.Options:MountRemoveGroup(self.mount, group)
     else
-        LM.Options:SetMountFlag(self.mount, group)
+        LM.Options:MountAddGroup(self.mount, group)
     end
     LiteMountGroupsPanel.Mounts:Update()
 end
@@ -277,7 +277,7 @@ function LiteMountGroupsPanelMountMixin:SetMount(mount, group)
     self.mount = mount
 
     self.Name:SetText(mount.name)
-    if group and mount:MatchesFilters(group) then
+    if group and LM.Options:IsMountInGroup(self.mount, group) then
         self.Checked:Show()
     else
         self.Checked:Hide()
@@ -315,7 +315,7 @@ function LiteMountGroupsPanelMountScrollMixin:Update()
     end
 
     if not self:GetParent().showAll then
-        mounts = mounts:Search(function (m) return m:GetFlags()[group] end)
+        mounts = mounts:Search(function (m) return LM.Options:IsMountInGroup(m, group) end)
     end
 
     for i, button in ipairs(self.buttons) do
