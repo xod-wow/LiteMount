@@ -51,13 +51,7 @@ function LM.Mount:GetFlags()
 end
 
 function LM.Mount:GetGroups()
-    local flags = LM.Options:ApplyMountFlags(self)
-    for k in pairs(flags) do
-        if not LM.Options:IsGroup(k) then
-            flags[k] = nil
-        end
-    end
-    return flags
+    return LM.Options:GetMountGroups(self)
 end
 
 function LM.Mount:Refresh()
@@ -90,7 +84,7 @@ function LM.Mount:MountFilterToString(f)
     end
 end
 
-function LM.Mount:MatchesOneFilter(flags, f)
+function LM.Mount:MatchesOneFilter(flags, groups, f)
     if f == "NONE" then
         return false
     elseif f == "CASTABLE" then
@@ -109,12 +103,14 @@ function LM.Mount:MatchesOneFilter(flags, f)
         end
     elseif f:sub(1, 1) == '~' then
         if not self:MatchesOneFilter(flags, f:sub(2)) then return true end
-    else
-        if flags[f] ~= nil then return true end
+    elseif flags[f] ~= nil then
+        return true
+    elseif groups[f] ~= nil then
+        return true
     end
 end
 
-function LM.Mount:MatchesFilter(flags, filterStr)
+function LM.Mount:MatchesFilter(flags, groups, filterStr)
 
     if self.name == filterStr then
         return true
@@ -125,7 +121,7 @@ function LM.Mount:MatchesFilter(flags, filterStr)
     -- These are all ORed so return true as soon as one is true
 
     for _, f in ipairs(filters) do
-        if self:MatchesOneFilter(flags, f) then
+        if self:MatchesOneFilter(flags, groups, f) then
             return true
         end
     end
@@ -135,11 +131,12 @@ end
 
 function LM.Mount:MatchesFilters(...)
     local currentFlags = self:GetFlags()
+    local currentGroups = self:GetGroups()
     local f
 
     for i = 1, select('#', ...) do
         f = select(i, ...)
-        if not self:MatchesFilter(currentFlags, f) then
+        if not self:MatchesFilter(currentFlags, currentGroups, f) then
             return false
         end
     end

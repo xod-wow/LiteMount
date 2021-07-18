@@ -241,6 +241,7 @@ end
 function LM.Options:OnProfile()
     self:PruneDeletedFlags()
     table.wipe(self.cachedMountFlags)
+    table.wipe(self.cachedMountGroups)
     self:InitializePriorities()
     LiteMount:RecompileActions()
     self.db.callbacks:Fire("OnOptionsProfile")
@@ -254,6 +255,7 @@ end
 function LM.Options:Initialize()
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
     self.cachedMountFlags = {}
+    self.cachedMountGroups = {}
     self:VersionUpgrade()
     self.db.RegisterCallback(self, "OnProfileChanged", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileCopied", "OnProfile")
@@ -346,6 +348,7 @@ end
 function LM.Options:SetRawFlagChanges(v)
     self.db.profile.flagChanges = v
     table.wipe(self.cachedMountFlags)
+    table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
@@ -367,11 +370,7 @@ function LM.Options:ApplyMountFlags(m)
         end
     end
 
-    local flags = CopyTable(self.cachedMountFlags[m.spellID])
-    if m.isFavorite then
-        flags.FAVORITES = true
-    end
-    return flags
+    return CopyTable(self.cachedMountFlags[m.spellID])
 end
 
 function LM.Options:SetMountFlag(m, setFlag)
@@ -433,6 +432,7 @@ end
 function LM.Options:SetRawFlags(v)
     self.db.profile.customFlags = v
     table.wipe(self.cachedMountFlags)
+    table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
@@ -479,13 +479,13 @@ end
 function LM.Options:CreateGroup(g)
     if self:IsGroup(g) or self:IsFlag(g) then return end
     self.db.profile.customFlags[g] = { }
-    table.wipe(self.cachedMountFlags)
+    table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:DeleteGroup(g)
     self.db.profile.customFlags[g] = nil
-    table.wipe(self.cachedMountFlags)
+    table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
@@ -506,22 +506,44 @@ function LM.Options:RenameGroup(g, newG)
     self.db.profile.customFlags[g] = nil
     self.db.profile.customFlags[newG] = tmp
 
-    table.wipe(self.cachedMountFlags)
+    table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
+function LM.Options:GetMountGroups(m)
+    if not self.cachedMountGroups[m.spellID] then
+        self.cachedMountGroups[m.spellID] = {}
+        local changes = self.db.profile.flagChanges[m.spellID] or {}
+        for g,c in pairs(changes) do
+            if self:IsGroup(g) and c == '+' then
+                self.cachedMountGroups[m.spellID][g] = true
+            end
+        end
+    end
+    return CopyTable(self.cachedMountGroups[m.spellID])
+end
+
 function LM.Options:IsMountInGroup(m, g)
-    if not self:IsGroup(g) then return false end
-    local flags = self:ApplyMountFlags(m)
-    return flags[g] ~= nil
+    return self:GetMountGroups(m)[g]
 end
 
 function LM.Options:MountAddGroup(m, g)
-    self:SetMountFlag(m, g)
+    if not self.db.profile.flagChanges[m.spellID] then
+        self.db.profile.flagChanges[m.spellID] = { [g] = '+' }
+    else
+        self.db.profile.flagChanges[m.spellID][g] = '+'
+    end
+    self.cachedMountGroups[m.spellID] = nil
 end
 
 function LM.Options:MountRemoveGroup(m, g)
-    self:ClearMountFlag(m, g)
+    if self.db.profile.flagChanges[m.spellID] then
+        self.db.profile.flagChanges[m.spellID][g] = nil
+        if next(self.db.profile.flagChanges[m.spellID]) == nil then
+            self.db.profile.flagChanges[m.spellID] = nil
+        end
+    end
+    self.cachedMountGroups[m.spellID] = nil
 end
 
 
