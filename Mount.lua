@@ -47,7 +47,7 @@ function LM.Mount:Get(className, ...)
 end
 
 function LM.Mount:GetFlags()
-    return LM.Options:ApplyMountFlags(self)
+    return LM.Options:GetMountFlags(self)
 end
 
 function LM.Mount:GetGroups()

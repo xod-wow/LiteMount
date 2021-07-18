@@ -29,9 +29,9 @@ flagChanges is a table of spellIDs with flags to set (+) and clear (-).
         ...
     }
 
-customFlags is a table of flag names, with data about them (currently none)
-    customFlags = {
-        ["PASSENGER"] = { }
+groups is a table of flag names, with mount spell IDs as members
+    groups = {
+        ["PASSENGER"] = { [123456] = true }
     }
 
 ----------------------------------------------------------------------------]]--
@@ -90,10 +90,10 @@ local defaults = {
         instances = { },
     },
     profile = {
-        customFlags         = { },
         flagChanges         = { },
         mountPriorities     = { },
         buttonActions       = { ['*'] = DefaultButtonAction },
+        groups              = { },
         rules               = { }, -- Note: tables as * don't work
         copyTargetsMount    = true,
         excludeNewMounts    = false,
@@ -125,17 +125,23 @@ LM.Options = {
 -- jammed into it and all the other don't. You can't assume the profile has
 -- any values in it at all.
 
+function LM.Options:UpdateVersion(n)
+    for _,c in pairs(self.db.sv.char) do
+        c.configVersion = math.max(c.configVersion or 0, n)
+    end
+    for _,p in pairs(self.db.profiles) do
+        p.configVersion = math.max(p.configVersion or 0, n)
+    end
+    self.db.global.configVersion = max(self.db.global.configVersion or 0, n)
+end
+
 -- Version 3 moved flag stuff global, and now version 4 is putting them
 -- back into profile. I hope I'm not making the same mistakes all over
 -- again. "Those who cannot remember the past are condemned to repeat it."
 function LM.Options:VersionUpgrade4()
-    if (self.db.global.configVersion or 4) >= 4 then
-        return
-    end
-
     LM.Debug('VersionUpgrade: 4')
 
-    if self.db.global.flagChanges then
+    if (self.db.global.configVersion or 4) < 4 then
         LM.Debug(' - migrating global.flagChanges')
         for n, p in pairs(self.db.profiles) do
             LM.Debug('   - into profile: ' .. n)
@@ -144,30 +150,24 @@ function LM.Options:VersionUpgrade4()
                 p.flagChanges[spellID] = Mixin(p.flagChanges[spellID] or {}, changes)
             end
         end
-    end
-
-    if self.db.global.customFlags then
         LM.Debug(' - migrating global.customFlags')
         for n, p in pairs(self.db.profiles) do
             LM.Debug('   - into profile: ' .. n)
             p.customFlags = p.customFlags or {}
             Mixin(p.customFlags, self.db.global.customFlags)
         end
+        self.db.global.customFlags = nil
+        self.db.global.flagChanges = nil
     end
 
-    self.db.global.customFlags = nil
-    self.db.global.flagChanges = nil
-
-    for _, p in pairs(self.db.profiles) do p.configVersion = 4 end
-    self.db.global.configVersion = 4
+    self:UpdateVersion(4)
 end
 
 function LM.Options:VersionUpgrade5()
     LM.Debug('VersionUpgrade: 5')
 
-    for n, p in pairs(self.db.profiles) do
-        LM.Debug(' - checking profile: ' .. n)
-        if (p.configVersion or 5) < 5 then
+    for n,p in pairs(self.db.profiles) do
+        if (p.configVersion or 5) < 5 and p.excludedSpells then
             LM.Debug('   - upgrading profile: ' .. n)
             p.mountPriorities = p.mountPriorities or {}
             local nTotal, nExcluded, nIncluded = 0, 0, 0
@@ -181,65 +181,91 @@ function LM.Options:VersionUpgrade5()
                     p.mountPriorities[spellID] = self.DEFAULT_PRIORITY
                 end
             end
-            -- p.excludedSpells = nil
+            p.excludedSpells = nil
             p.uiMountFilterList = nil
             p.enableTwoPress = nil
             LM.Debug(string.format('   - finished: total=%d, p0=%d, p1=%d', nTotal, nExcluded, nIncluded))
         end
-        p.uiMountFilterList = nil
-        p.enableTwoPress = nil
-        p.configVersion = 5
     end
 
-    for _, p in pairs(self.db.profiles) do p.configVersion = 5 end
-    self.db.global.configVersion = 5
-    self.db.char.configVersion = 5
+    self:UpdateVersion(5)
 end
 
 -- This fixes a stupid typo I made in the code at one point
 
 function LM.Options:VersionUpgrade6()
     LM.Debug('VersionUpgrade: 6')
-    if self.db.char.unvailableMacro then
-        self.db.char.unavailableMacro = self.db.char.unvailableMacro
-        self.db.char.unvailableMacro = nil
+    for _,c in pairs(self.db.sv.char) do
+        if (c.configVersion or 6) < 6 then
+            if c.unvailableMacro then
+                c.unavailableMacro = c.unvailableMacro
+                c.unvailableMacro = nil
+            end
+        end
     end
-    self.db.char.configVersion = 6
-    for n,p in pairs(self.db.profiles) do p.configVersion = 6 end
-    self.db.global.configVersion = 6
+    self:UpdateVersion(6)
+end
+
+-- From 7 onwards flagChanges is only the base flags, groups are stored
+-- in the groups attribute, renamed from customFlags and having the spellID
+-- members as keys with true as value.
+
+function LM.Options:VersionUpgrade7()
+    LM.Debug('VersionUpgrade: 7')
+
+    for n, p in pairs(self.db.profiles) do
+        LM.Debug(' - checking profile: ' .. n)
+        if (p.configVersion or 7) < 7 and p.flagChanges then
+            LM.Debug('   - upgrading profile: ' .. n)
+            p.groups = p.customFlags or {}
+            p.customFlags = nil
+            for spellID,changes in pairs(p.flagChanges) do
+                for g,c in pairs(changes) do
+                    if not LM.FLAG[g] then
+                        p.groups[g][spellID] = true
+                        changes[g] = nil
+                    end
+                    if next(changes) == nil then
+                        p.flagChanges[spellID] = nil
+                    end
+                end
+            end
+        end
+    end
+    self:UpdateVersion(7)
+end
+
+function LM.Options:CleanDatabase()
+    for n,c in pairs(self.db.sv.char) do
+        for k in pairs(c) do
+            if k ~= "configVersion" and defaults.char[k] == nil then
+                c[k] = nil
+            end
+        end
+    end
+    for n,p in pairs(self.db.profiles) do
+        for k in pairs(p) do
+            if k ~= "configVersion" and defaults.profile[k] == nil then
+                p[k] = nil
+            end
+        end
+    end
+    for k in pairs(self.db.global) do
+        if k ~= "configVersion" and defaults.global[k] == nil then
+            self.db.global[k] = nil
+        end
+    end
 end
 
 function LM.Options:VersionUpgrade()
-    local savedDefaults = self.db.defaults
-    self.db:RegisterDefaults(nil)
-
     self:VersionUpgrade4()
-
     self:VersionUpgrade5()
-
     self:VersionUpgrade6()
-
-    self.db:RegisterDefaults(savedDefaults)
-end
-
--- We don't delete flags from the profile flagChanges on delete, because
--- that lets us undo the flag delete by just putting it back.
-
-function LM.Options:PruneDeletedFlags()
-    for spellID,changes in pairs(self.db.profile.flagChanges) do
-        for f in pairs(changes) do
-            if f == 'FAVORITES' or not self:IsFlagOrGroup(f) then
-                changes[f] = nil
-            end
-        end
-        if next(changes) == nil then
-            self.db.profile.flagChanges[spellID] = nil
-        end
-    end
+    self:VersionUpgrade7()
+    self:CleanDatabase()
 end
 
 function LM.Options:OnProfile()
-    self:PruneDeletedFlags()
     table.wipe(self.cachedMountFlags)
     table.wipe(self.cachedMountGroups)
     self:InitializePriorities()
@@ -323,12 +349,10 @@ local function FlagDiff(a, b)
     local diff = { }
 
     for flagName in pairs(LM.tMerge(a,b)) do
-        if LM.Options:IsFlagOrGroup(flagName) then
-            if a[flagName] and not b[flagName] then
-                diff[flagName] = '-'
-            elseif not a[flagName] and b[flagName] then
-                diff[flagName] = '+'
-            end
+        if a[flagName] and not b[flagName] then
+            diff[flagName] = '-'
+        elseif not a[flagName] and b[flagName] then
+            diff[flagName] = '+'
         end
     end
 
@@ -348,11 +372,10 @@ end
 function LM.Options:SetRawFlagChanges(v)
     self.db.profile.flagChanges = v
     table.wipe(self.cachedMountFlags)
-    table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
-function LM.Options:ApplyMountFlags(m)
+function LM.Options:GetMountFlags(m)
 
     if not self.cachedMountFlags[m.spellID] then
         local changes = self.db.profile.flagChanges[m.spellID]
@@ -360,12 +383,10 @@ function LM.Options:ApplyMountFlags(m)
         self.cachedMountFlags[m.spellID] = CopyTable(m.flags)
 
         for flagName, change in pairs(changes or {}) do
-            if self:IsFlagOrGroup(flagName) then
-                if change == '+' then
-                    self.cachedMountFlags[m.spellID][flagName] = true
-                elseif change == '-' then
-                    self.cachedMountFlags[m.spellID][flagName] = nil
-                end
+            if change == '+' then
+                self.cachedMountFlags[m.spellID][flagName] = true
+            elseif change == '-' then
+                self.cachedMountFlags[m.spellID][flagName] = nil
             end
         end
     end
@@ -377,16 +398,10 @@ function LM.Options:SetMountFlag(m, setFlag)
     LM.Debug(format("Setting flag %s for spell %s (%d).",
                     setFlag, m.name, m.spellID))
 
-    if setFlag == "FAVORITES" or setFlag == "NONE" or setFlag == "CASTABLE" then
-        -- This needs to fire to reset the UI, because something went wrong
-        self.db.callbacks:Fire("OnOptionsModified")
-        return
-    end
-
     -- Note this is the actual cached copy, we can only change it here
     -- (and below in ClearMountFlag) because we are invalidating the cache
     -- straight after.
-    local flags = self:ApplyMountFlags(m)
+    local flags = self:GetMountFlags(m)
     flags[setFlag] = true
     self:SetMountFlags(m, flags)
 end
@@ -396,7 +411,7 @@ function LM.Options:ClearMountFlag(m, clearFlag)
                      clearFlag, m.name, m.spellID))
 
     -- See note above
-    local flags = self:ApplyMountFlags(m)
+    local flags = self:GetMountFlags(m)
     flags[clearFlag] = nil
     self:SetMountFlags(m, flags)
 end
@@ -425,17 +440,6 @@ end
     Flags
 ----------------------------------------------------------------------------]]--
 
-function LM.Options:GetRawFlags()
-    return LM.tCopyShallow(self.db.profile.customFlags)
-end
-
-function LM.Options:SetRawFlags(v)
-    self.db.profile.customFlags = v
-    table.wipe(self.cachedMountFlags)
-    table.wipe(self.cachedMountGroups)
-    self.db.callbacks:Fire("OnOptionsModified")
-end
-
 -- These are pseudo-flags used in Mount:MatchesOneFilter and we don't
 -- let custom flags have the name.
 local PseudoFlags = { "CASTABLE", "FAVORITES", FAVORITES, "NONE", NONE }
@@ -446,10 +450,6 @@ function LM.Options:IsFlag(f)
     else
         return LM.FLAG[f] ~= nil
     end
-end
-
-function LM.Options:IsFlagOrGroup(f)
-    return self:IsFlag(f) or self:IsGroup(f)
 end
 
 function LM.Options:GetFlags()
@@ -463,48 +463,48 @@ end
     Group stuff.
 ----------------------------------------------------------------------------]]--
 
+function LM.Options:GetRawGroups()
+    return CopyTable(self.db.profile.groups)
+end
+
+function LM.Options:SetRawGroups(v)
+    self.db.profile.groups = v
+    table.wipe(self.cachedMountGroups)
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
 function LM.Options:GetGroups()
     local out = {}
-    for f in pairs(self.db.profile.customFlags) do
-        table.insert(out, f)
-    end
+    for f in pairs(self.db.profile.groups) do table.insert(out, f) end
     table.sort(out)
     return out
 end
 
-function LM.Options:IsGroup(f)
-    return self.db.profile.customFlags[f] ~= nil
+function LM.Options:IsGroup(g)
+    return self.db.profile.groups[g] ~= nil
 end
 
 function LM.Options:CreateGroup(g)
     if self:IsGroup(g) or self:IsFlag(g) then return end
-    self.db.profile.customFlags[g] = { }
+    self.db.profile.groups[g] = { }
     table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:DeleteGroup(g)
-    self.db.profile.customFlags[g] = nil
+    self.db.profile.groups[g] = nil
     table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:RenameGroup(g, newG)
-    if self:IsFlag(g) then return end
+    if self:IsFlag(newG) then return end
     if g == newG then return end
 
     -- all this "tmp" stuff is to deal with f == newG, just in case
-    local tmp
-
-    for _,c in pairs(self.db.profile.flagChanges) do
-        tmp = c[g]
-        c[g] = nil
-        c[newG] = tmp
-    end
-
-    tmp = self.db.profile.customFlags[g]
-    self.db.profile.customFlags[g] = nil
-    self.db.profile.customFlags[newG] = tmp
+    local tmp = self.db.profile.groups[g]
+    self.db.profile.groups[g] = nil
+    self.db.profile.groups[newG] = tmp
 
     table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
@@ -513,9 +513,8 @@ end
 function LM.Options:GetMountGroups(m)
     if not self.cachedMountGroups[m.spellID] then
         self.cachedMountGroups[m.spellID] = {}
-        local changes = self.db.profile.flagChanges[m.spellID] or {}
-        for g,c in pairs(changes) do
-            if self:IsGroup(g) and c == '+' then
+        for g, members in pairs(self.db.profile.groups) do
+            if members[m.spellID] then
                 self.cachedMountGroups[m.spellID][g] = true
             end
         end
@@ -524,26 +523,25 @@ function LM.Options:GetMountGroups(m)
 end
 
 function LM.Options:IsMountInGroup(m, g)
-    return self:GetMountGroups(m)[g]
+    if self.db.profile.groups[g] then
+        return self.db.profile.groups[g][m.spellID]
+    end
 end
 
-function LM.Options:MountAddGroup(m, g)
-    if not self.db.profile.flagChanges[m.spellID] then
-        self.db.profile.flagChanges[m.spellID] = { [g] = '+' }
-    else
-        self.db.profile.flagChanges[m.spellID][g] = '+'
+function LM.Options:SetMountGroup(m, g)
+    if self.db.profile.groups[g] then
+        self.db.profile.groups[g][m.spellID] = true
+        self.cachedMountGroups[m.spellID] = nil
+        self.db.callbacks:Fire("OnOptionsModified")
     end
-    self.cachedMountGroups[m.spellID] = nil
 end
 
-function LM.Options:MountRemoveGroup(m, g)
-    if self.db.profile.flagChanges[m.spellID] then
-        self.db.profile.flagChanges[m.spellID][g] = nil
-        if next(self.db.profile.flagChanges[m.spellID]) == nil then
-            self.db.profile.flagChanges[m.spellID] = nil
-        end
+function LM.Options:ClearMountGroup(m, g)
+    if self.db.profile.groups[g] then
+        self.db.profile.groups[g][m.spellID] = nil
+        self.cachedMountGroups[m.spellID] = nil
+        self.db.callbacks:Fire("OnOptionsModified")
     end
-    self.cachedMountGroups[m.spellID] = nil
 end
 
 

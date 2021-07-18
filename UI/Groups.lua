@@ -234,11 +234,11 @@ function LiteMountGroupsPanelGroupsMixin:OnLoad()
 end
 
 function LiteMountGroupsPanelGroupsMixin:GetOption()
-    return LM.Options:GetRawFlags()
+    return LM.Options:GetRawGroups()
 end
 
 function LiteMountGroupsPanelGroupsMixin:SetOption(v)
-    LM.Options:SetRawFlags(v)
+    LM.Options:SetRawGroups(v)
 end
 
 function LiteMountGroupsPanelGroupsMixin:SetControl(v)
@@ -254,9 +254,9 @@ function LiteMountGroupsPanelMountMixin:OnClick()
     LiteMountGroupsPanel.Mounts.isDirty = true
     local group = LiteMountGroupsPanel.Groups.selectedGroup
     if LM.Options:IsMountInGroup(self.mount, group) then
-        LM.Options:MountRemoveGroup(self.mount, group)
+        LM.Options:ClearMountGroup(self.mount, group)
     else
-        LM.Options:MountAddGroup(self.mount, group)
+        LM.Options:SetMountGroup(self.mount, group)
     end
     LiteMountGroupsPanel.Mounts:Update()
 end
@@ -353,14 +353,6 @@ function LiteMountGroupsPanelMountScrollMixin:OnLoad()
     local track = _G[self.scrollBar:GetName().."Track"]
     track:Hide()
     self.update = self.Update
-end
-
-function LiteMountGroupsPanelMountScrollMixin:GetOption()
-    return LM.Options:GetRawFlagChanges()
-end
-
-function LiteMountGroupsPanelMountScrollMixin:SetOption(v)
-    LM.Options:SetRawFlagChanges(v)
 end
 
 function LiteMountGroupsPanelMountScrollMixin:SetControl(v)
