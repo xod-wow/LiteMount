@@ -53,7 +53,7 @@ end
 function LM.Mount:GetGroups()
     local flags = LM.Options:ApplyMountFlags(self)
     for k in pairs(flags) do
-        if not LM.Options:IsCustomFlag(k) then
+        if not LM.Options:IsGroup(k) then
             flags[k] = nil
         end
     end
@@ -78,9 +78,9 @@ function LM.Mount:MountFilterToString(f)
     elseif f:match('^mt:%d+$') then
         local _, id = string.split(':', f, 2)
         return TYPE .. " : " .. LM.MOUNT_TYPES[tonumber(id)]
-    elseif LM.Options:IsCustomFlag(f) then
+    elseif LM.Options:IsGroup(f) then
         return L.LM_GROUP .. ' : ' .. f
-    elseif LM.Options:IsPrimaryFlag(f) then
+    elseif LM.Options:IsFlag(f) then
         -- XXX LOCALIZE XXX
         return L.LM_FLAG .. ' : ' .. f
     else

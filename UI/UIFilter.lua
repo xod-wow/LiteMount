@@ -464,7 +464,7 @@ function LM.UIFilter.IsFilteredMount(m)
     if next(LM.UIFilter.filterList.flag) then
         local isFiltered = true
         for f in pairs(m:GetFlags()) do
-            if LM.Options:IsPrimaryFlag(f) and not LM.UIFilter.filterList.flag[f] then
+            if LM.Options:IsFlag(f) and not LM.UIFilter.filterList.flag[f] then
                 isFiltered = false
                 break
             end

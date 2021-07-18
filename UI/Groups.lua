@@ -20,7 +20,8 @@ local L = LM.Localize
 
 local function IsValidGroupName(text)
     if not text or text == "" then return false end
-    if LM.Options:IsActiveFlag(text) then return false end
+    if LM.Options:IsFlag(text) then return false end
+    if LM.Options:IsGroup(text) then return false end
     if tonumber(text) then return false end
     if text:sub(1, 3) == 'id:' then return false end
     if text:sub(1, 3) == 'mt:' then return false end
@@ -43,7 +44,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
             LiteMountGroupsPanel.Groups.isDirty = true
             local text = self.editBox:GetText()
             LiteMountGroupsPanel.Groups.selectedGroup = text
-            LM.Options:CreateFlag(text)
+            LM.Options:CreateGroup(text)
         end,
     EditBoxOnEnterPressed = function (self)
             if self:GetParent().button1:IsEnabled() then
@@ -77,7 +78,7 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_GROUP"] = {
             LiteMountGroupsPanel.Groups.isDirty = true
             local text = self.editBox:GetText()
             LiteMountGroupsPanel.Groups.selectedGroup = text
-            LM.Options:RenameFlag(self.data, text)
+            LM.Options:RenameGroup(self.data, text)
         end,
     EditBoxOnEnterPressed = function (self)
             if self:GetParent().button1:IsEnabled() then
@@ -107,7 +108,7 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_GROUP"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             LiteMountGroupsPanel.Groups.isDirty = true
-            LM.Options:DeleteFlag(self.data)
+            LM.Options:DeleteGroup(self.data)
         end,
     OnShow = function (self)
             self.text:SetText(format("LiteMount : %s : %s", L.LM_DELETE_GROUP, self.data))

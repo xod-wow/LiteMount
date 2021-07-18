@@ -228,7 +228,7 @@ end
 function LM.Options:PruneDeletedFlags()
     for spellID,changes in pairs(self.db.profile.flagChanges) do
         for f in pairs(changes) do
-            if f == 'FAVORITES' or not self:IsActiveFlag(f) then
+            if f == 'FAVORITES' or not self:IsFlagOrGroup(f) then
                 changes[f] = nil
             end
         end
@@ -321,7 +321,7 @@ local function FlagDiff(a, b)
     local diff = { }
 
     for flagName in pairs(LM.tMerge(a,b)) do
-        if LM.Options:IsActiveFlag(flagName) then
+        if LM.Options:IsFlagOrGroup(flagName) then
             if a[flagName] and not b[flagName] then
                 diff[flagName] = '-'
             elseif not a[flagName] and b[flagName] then
@@ -358,7 +358,7 @@ function LM.Options:ApplyMountFlags(m)
         self.cachedMountFlags[m.spellID] = CopyTable(m.flags)
 
         for flagName, change in pairs(changes or {}) do
-            if self:IsActiveFlag(flagName) then
+            if self:IsFlagOrGroup(flagName) then
                 if change == '+' then
                     self.cachedMountFlags[m.spellID][flagName] = true
                 elseif change == '-' then
@@ -424,7 +424,7 @@ end
 
 
 --[[----------------------------------------------------------------------------
-    Custom flags
+    Flags
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRawFlags()
@@ -437,57 +437,20 @@ function LM.Options:SetRawFlags(v)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
-function LM.Options:IsPrimaryFlag(f)
-    -- These are pseudo-flags used in Mount:MatchesOneFilter and we don't
-    -- let custom flags have the name.
-    if f == "NONE" or f == "CASTABLE" or f == "FAVORITES" then
+-- These are pseudo-flags used in Mount:MatchesOneFilter and we don't
+-- let custom flags have the name.
+local PseudoFlags = { "CASTABLE", "FAVORITES", FAVORITES, "NONE", NONE }
+
+function LM.Options:IsFlag(f)
+    if tContains(PseudoFlags, f) then
         return true
     else
         return LM.FLAG[f] ~= nil
     end
 end
 
-function LM.Options:IsCustomFlag(f)
-    return self.db.profile.customFlags[f] ~= nil
-end
-
-function LM.Options:IsActiveFlag(f)
-    return self:IsPrimaryFlag(f) or self:IsCustomFlag(f)
-end
-
-function LM.Options:CreateFlag(f)
-    if self.db.profile.customFlags[f] then return end
-    if self:IsPrimaryFlag(f) then return end
-    self.db.profile.customFlags[f] = { }
-    table.wipe(self.cachedMountFlags)
-    self.db.callbacks:Fire("OnOptionsModified")
-end
-
-function LM.Options:DeleteFlag(f)
-    self.db.profile.customFlags[f] = nil
-    table.wipe(self.cachedMountFlags)
-    self.db.callbacks:Fire("OnOptionsModified")
-end
-
-function LM.Options:RenameFlag(f, newF)
-    if self:IsPrimaryFlag(f) then return end
-    if f == newF then return end
-
-    -- all this "tmp" stuff is to deal with f == newF, just in case
-    local tmp
-
-    for _,c in pairs(self.db.profile.flagChanges) do
-        tmp = c[f]
-        c[f] = nil
-        c[newF] = tmp
-    end
-
-    tmp = self.db.profile.customFlags[f]
-    self.db.profile.customFlags[f] = nil
-    self.db.profile.customFlags[newF] = tmp
-
-    table.wipe(self.cachedMountFlags)
-    self.db.callbacks:Fire("OnOptionsModified")
+function LM.Options:IsFlagOrGroup(f)
+    return self:IsFlag(f) or self:IsGroup(f)
 end
 
 function LM.Options:GetFlags()
@@ -508,6 +471,44 @@ function LM.Options:GetGroups()
     end
     table.sort(out)
     return out
+end
+
+function LM.Options:IsGroup(f)
+    return self.db.profile.customFlags[f] ~= nil
+end
+
+function LM.Options:CreateGroup(g)
+    if self:IsGroup(g) or self:IsFlag(g) then return end
+    self.db.profile.customFlags[g] = { }
+    table.wipe(self.cachedMountFlags)
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
+function LM.Options:DeleteGroup(g)
+    self.db.profile.customFlags[g] = nil
+    table.wipe(self.cachedMountFlags)
+    self.db.callbacks:Fire("OnOptionsModified")
+end
+
+function LM.Options:RenameGroup(g, newG)
+    if self:IsFlag(g) then return end
+    if g == newG then return end
+
+    -- all this "tmp" stuff is to deal with f == newG, just in case
+    local tmp
+
+    for _,c in pairs(self.db.profile.flagChanges) do
+        tmp = c[g]
+        c[g] = nil
+        c[newG] = tmp
+    end
+
+    tmp = self.db.profile.customFlags[g]
+    self.db.profile.customFlags[g] = nil
+    self.db.profile.customFlags[newG] = tmp
+
+    table.wipe(self.cachedMountFlags)
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 
