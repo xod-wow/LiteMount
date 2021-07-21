@@ -125,6 +125,15 @@ CONDITIONS["class"] = {
         end,
 }
 
+CONDITIONS["click"] = {
+    handler =
+        function (cond, env, v)
+            if v and env.clickArg == v then
+                return true
+            end
+        end
+}
+
 -- This can never work, but included for completeness.
 CONDITIONS["combat"] = {
     -- name = GARRISON_LANDING_STATUS_MISSION_COMBAT,
@@ -576,15 +585,6 @@ CONDITIONS["mounted"] = {
     handler =
         function (cond, env)
             return IsMounted()
-        end
-}
-
-CONDITIONS["click"] = {
-    handler =
-        function (cond, env, v)
-            if v and env.clickArg == v then
-                return true
-            end
         end
 }
 
