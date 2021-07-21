@@ -330,7 +330,7 @@ function LM.Environment:GetLocation()
 
     local info = { GetInstanceInfo() }
     return {
-        "map: " .. path[1] or '',
+        "map: " .. ( path[1] or "" ),
         "mapPath: " .. table.concat(path, " -> "),
         "instance: " .. string.format("%s (%d)", info[1], info[8]),
         "zoneText: " .. GetZoneText(),
