@@ -79,7 +79,7 @@ VARS["{ROLE}"] =
 
 VARS["{MAPID}"] =
     function ()
-        return C_Map.GetBestMapForUnit('player')
+        return C_Map.GetBestMapForUnit('player') or ''
     end
 
 -- this should totally be some kind of metatable but who cares

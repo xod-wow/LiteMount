@@ -501,7 +501,7 @@ CONDITIONS["location"] = {
     handler =
         function (cond, env, v)
             local mapID = C_Map.GetBestMapForUnit('player')
-            if C_Map.GetMapInfo(mapID).name == v then
+            if mapID and C_Map.GetMapInfo(mapID).name == v then
                 return true
             end
             if GetInstanceInfo() == v then

@@ -175,7 +175,9 @@ end
 
 function LM.Environment:IsOnMap(mapID)
     local currentMapID = C_Map.GetBestMapForUnit('player')
-    return self:MapIsMap(currentMapID, mapID)
+    if currentMapID then
+        return self:MapIsMap(currentMapID, mapID)
+    end
 end
 
 function LM.Environment:GetMapPath()
@@ -328,7 +330,7 @@ function LM.Environment:GetLocation()
 
     local info = { GetInstanceInfo() }
     return {
-        "map: " .. path[1],
+        "map: " .. path[1] or '',
         "mapPath: " .. table.concat(path, " -> "),
         "instance: " .. string.format("%s (%d)", info[1], info[8]),
         "zoneText: " .. GetZoneText(),
