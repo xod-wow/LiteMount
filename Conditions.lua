@@ -604,6 +604,24 @@ CONDITIONS["name"] = {
         end
 }
 
+CONDITIONS["option"] = {
+    args = true,
+    handler =
+        function (cond, env, setting, ...)
+            if not setting then return end
+            setting = setting:lower()
+            if setting == "copytargetsmount" then
+                return LM.Options:GetCopyTargetsMount()
+            elseif setting == "instantonlymoving" then
+                return LM.Options:GetInstantOnlyMoving()
+            elseif setting == "debug" then
+                return LM.Options:GetDebug(v)
+            elseif setting == "uidebug" then
+                return LM.Options:GetUIDebug()
+            end
+        end
+}
+
 CONDITIONS["outdoors"] = {
     handler =
         function (cond, env)
