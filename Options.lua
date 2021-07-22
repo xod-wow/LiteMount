@@ -132,7 +132,7 @@ function LM.Options:UpdateVersion(n)
     for _,p in pairs(self.db.profiles) do
         p.configVersion = math.max(p.configVersion or 0, n)
     end
-    self.db.global.configVersion = max(self.db.global.configVersion or 0, n)
+    self.db.global.configVersion = math.max(self.db.global.configVersion or 0, n)
 end
 
 -- Version 3 moved flag stuff global, and now version 4 is putting them
