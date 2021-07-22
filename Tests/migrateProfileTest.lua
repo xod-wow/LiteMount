@@ -1,15 +1,20 @@
-dofile("mock/WoWAPI.lua")
+dofile("Mock/WoWAPI.lua")
 dofile("LoadAddOn.lua")
 
 SendEvent('ADDON_LOADED', 'LiteMount')
 
 local svFile = arg[1] or "SavedVariables/LiteMount.lua"
+
+print("================================================================================")
+print("Checking " .. svFile)
+print("")
 dofile(svFile)
 
 local originalDB = CopyTable(LiteMountDB)
 
 -- force debugging
 local charKey = string.format('%s - %s', UnitFullName('player'))
+LiteMountDB.char = LiteMountDB.char or {}
 LiteMountDB.char[charKey] = LiteMountDB.char[charKey] or {}
 LiteMountDB.char[charKey].debugEnabled = true
 
@@ -18,13 +23,13 @@ SendEvent('PLAYER_LOGIN')
 SendEvent('PLAYER_ENTERING_WORLD')
 
 local function FlagTableMatches(a, b)
-    for k in pairs(a) do
-        if k ~= 'FAVORITES' then
+    for k in pairs(a or {}) do
+        if LM.FLAG[k] and k ~= 'FAVORITES' then
             if a[k] ~= b[k] then return false end
         end
     end
-    for k in pairs(b) do
-        if k ~= 'FAVORITES' then
+    for k in pairs(b or {}) do
+        if LM.FLAG[k] and k ~= 'FAVORITES' then
             if a[k] ~= b[k] then return false end
         end
     end
@@ -84,6 +89,28 @@ function CheckProfile(profileName)
             print(">>>  Error: buttonActions difference: " .. i .. " <<<")
             print("  old = " .. oldAction)
             print("  new = " .. newAction)
+        end
+    end
+
+    print("  Checking flagChanges -> group")
+    if oldp.flagChanges then
+        for spellID,changes in pairs(oldp.flagChanges) do
+            for group,c in ipairs(changes) do
+                if newp.flagChanges[spellID] and newp.flagChanges[spellID][group] then
+                    print(">>> Error: still exists in flagchanges: " .. group .. " <<<")
+                elseif not newp.groups or not newp.groups[group] or not newp.groups[group][spellID] then
+                    print(">>> Error: not migrated to group <<<")
+                    print("  group = " .. group)
+                    print("  spellID = " .. spellID)
+                end
+            end
+        end
+    end
+    for spellID,changes in pairs(newp.flagChanges) do
+        for k,c in ipairs(changes) do
+            if not LM.FLAG[k] then
+                print(">>> Error: group left as flag: " .. k .. " <<<")
+            end
         end
     end
 end

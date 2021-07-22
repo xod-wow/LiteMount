@@ -1,4 +1,4 @@
-dofile("mock/WoWAPI.lua")
+dofile("Mock/WoWAPI.lua")
 dofile("LoadAddOn.lua")
 
 local Serializer = LibStub("AceSerializer-3.0")

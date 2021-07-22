@@ -79,7 +79,6 @@ function CreateFrame(frameType, ...)
     if class then
         return class:New(...)
     else
-        print('CreateFrame', frameType)
         return mockFrame:New(...)
     end
 end

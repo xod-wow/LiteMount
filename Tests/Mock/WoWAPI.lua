@@ -1,5 +1,5 @@
 socket = require "socket"
-math.randomseed(socket.gettime())
+math.randomseed(math.floor(socket.gettime()))
 
 dofile("Mock/ClassData.lua")
 dofile("Mock/ItemData.lua")

@@ -1,4 +1,3 @@
-CreateFrame	ModelScene
 LiteMountDB = {
     char = {
         ["Aydriana - Cenarius"] = {
@@ -6299,4 +6298,3 @@ Mount [filter=93326]"
         }
     }
 }
-
