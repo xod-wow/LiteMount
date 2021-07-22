@@ -166,8 +166,11 @@ end
 function LM.Options:VersionUpgrade5()
     LM.Debug('VersionUpgrade: 5')
 
+    -- Because I stuffeds up downgrading versiom numbers, don't check for 5
+    -- just look for excludedSpells with no mountPriorities
+
     for n,p in pairs(self.db.profiles) do
-        if (p.configVersion or 5) < 5 and p.excludedSpells then
+        if p.excludedSpells and not p.mountPriorities then
             LM.Debug('   - upgrading profile: ' .. n)
             p.mountPriorities = p.mountPriorities or {}
             local nTotal, nExcluded, nIncluded = 0, 0, 0
@@ -181,10 +184,10 @@ function LM.Options:VersionUpgrade5()
                     p.mountPriorities[spellID] = self.DEFAULT_PRIORITY
                 end
             end
+            LM.Debug(string.format('   - finished: total=%d, p0=%d, p1=%d', nTotal, nExcluded, nIncluded))
             p.excludedSpells = nil
             p.uiMountFilterList = nil
             p.enableTwoPress = nil
-            LM.Debug(string.format('   - finished: total=%d, p0=%d, p1=%d', nTotal, nExcluded, nIncluded))
         end
     end
 
