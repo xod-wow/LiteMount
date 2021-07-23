@@ -3,33 +3,45 @@
 dofile("Mock/WoWAPI.lua")
 dofile("LoadAddOn.lua")
 
-SendEvent('ADDON_LOADED', 'LiteMount')
+function CheckFile(svFile)
+    _ENV = setmetatable({}, { __index = _G })
 
-local svFile = arg[1] or "SavedVariables/LiteMount.lua"
-dofile(svFile)
+    SendEvent('ADDON_LOADED', 'LiteMount')
 
-SendEvent('VARIABLES_LOADED')
-SendEvent('PLAYER_LOGIN')
-SendEvent('PLAYER_ENTERING_WORLD')
+    dofile(svFile)
 
--- print('LiteMountDB = ' .. DumpTable(LiteMountDB, 1))
+    SendEvent('VARIABLES_LOADED')
+    SendEvent('PLAYER_LOGIN')
+    SendEvent('PLAYER_ENTERING_WORLD')
 
--- MockState.extraActionButton = 202477
--- MockState.keyDown.shift = true
--- MockState.inCombat = true
--- MockState.moving = true
+    -- print('LiteMountDB = ' .. DumpTable(LiteMountDB, 1))
 
-for i = 1, 10000 do
-    MockStateRandomize()
-    -- local n = math.random(4)
-    -- LiteMount.actions[n]:Click()
-    if MockState.inCombat == false then
-        MockStatePrint()
-        LiteMount.actions[1]:Click()
+    -- MockState.extraActionButton = 202477
+    -- MockState.keyDown.shift = true
+    -- MockState.inCombat = true
+    -- MockState.moving = true
+
+    for i = 1, 10000 do
+        MockStateRandomize()
+        -- local n = math.random(4)
+        -- LiteMount.actions[n]:Click()
+        if MockState.inCombat == false then
+            MockStatePrint()
+            LiteMount.actions[1]:Click()
+        end
     end
+
+    SendEvent('PLAYER_LOGOUT')
+
+    print('\nCompleted and exiting.\n')
 end
 
-SendEvent('PLAYER_LOGOUT')
+if #arg == 0 then
+    table.insert(arg, "SavedVariables/LiteMount.lua")
+end
 
-print('\nCompleted and exiting.\n')
+for _,svFile in ipairs(arg) do
+    CheckFile(svFile)
+end
+
 os.exit(0)
