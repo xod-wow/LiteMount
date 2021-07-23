@@ -102,7 +102,7 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
             return true
         end
     elseif f:sub(1, 1) == '~' then
-        if not self:MatchesOneFilter(flags, f:sub(2)) then return true end
+        if not self:MatchesOneFilter(flags, groups, f:sub(2)) then return true end
     elseif flags[f] ~= nil then
         return true
     elseif groups[f] ~= nil then
