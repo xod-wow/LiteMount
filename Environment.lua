@@ -269,6 +269,7 @@ local InstanceFlyableOverride = {
     [2296] = false,         -- Castle Nathria
     [2363] = false,         -- Queen's Winter Conservatory
     [2364] = false,         -- The Maw (Starting Experience)
+    [2464] = false,         -- Battle of Ardenweald (9.1)
 }
 
 function LM.Environment:ForceFlyable(instanceID)
