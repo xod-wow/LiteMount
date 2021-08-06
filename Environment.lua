@@ -37,6 +37,7 @@ function LM.Environment:Initialize()
     self:RegisterEvent("PLAYER_STARTED_MOVING")
     self:RegisterEvent("PLAYER_STOPPED_MOVING")
     self:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
+    self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 end
 
 -- I hate OnUpdate handlers but there are just no good events for determining
@@ -146,6 +147,29 @@ end
 
 function LM.Environment:ZONE_CHANGED_NEW_AREA()
     LM.Options:RecordInstance()
+end
+
+local herbSpellName = GetSpellInfo(2366)
+local mineSpellName = GetSpellInfo(2575)
+-- local mineSpellName2 = GetSpellInfo(195122)
+
+function LM.Environment:UNIT_SPELLCAST_SUCCEEDED(ev, unit, guid, spellID)
+    if unit == 'player' then
+        local spellName = GetSpellInfo(spellID)
+        if spellName == herbSpellName then
+            self.lastHerbTime = GetTime()
+        elseif spellName == mineSpellName then
+            self.lastMineTime = GetTime()
+        end
+    end
+end
+
+function LM.Environment:GetHerbTime()
+    return self.lastHerbTime or 0
+end
+
+function LM.Environment:GetMineTime()
+    return self.lastMineTime or 0
 end
 
 function LM.Environment:UPDATE_SHAPESHIFT_FORM()

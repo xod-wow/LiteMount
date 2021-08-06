@@ -392,6 +392,18 @@ CONDITIONS["form"] = {
         end
 }
 
+CONDITIONS["gather"] = {
+    args = true,
+    handler =
+        function (cond, env, what, n)
+            if what == "herb" then
+                return GetTime() - LM.Environment:GetHerbTime() < (n or 5)
+            elseif what == "ore" then
+                return GetTime() - LM.Environment:GetMineTime() < (n or 5)
+            end
+        end
+}
+
 CONDITIONS["group"] = {
     name = L.LM_PARTY_OR_RAID_GROUP,
     handler =
