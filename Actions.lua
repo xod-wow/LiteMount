@@ -181,10 +181,7 @@ ACTIONS['Buff'] = {
             for _, arg in ipairs(args) do
                 LM.Debug(' - trying buff: ' .. tostring(arg))
                 local name, id = GetUsableSpell(arg)
-                -- Glide won't cast while mounted
-                if id == 131347 and IsMounted() then return end
-                if name and not LM.UnitAura(env.unit or 'player', name) and
-                   IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
+                if name and not LM.UnitAura(env.unit or 'player', name) then
                     LM.Debug(" - setting action to spell " .. name)
                     return LM.SecureAction:Spell(name, env.unit)
                 end
