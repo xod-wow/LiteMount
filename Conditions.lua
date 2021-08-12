@@ -230,6 +230,7 @@ CONDITIONS["difficulty"] = {
 
 -- Persistent "deck of cards" draw randomness
 
+--[[
 CONDITIONS["draw"] = {
     handler =
         function (cond, env, x, y)
@@ -269,6 +270,7 @@ CONDITIONS["elapsed"] = {
             end
         end
 }
+]]
 
 CONDITIONS["equipped"] = {
     handler =
