@@ -404,8 +404,8 @@ CONDITIONS["gather"] = {
                 return sinceHerb < (n or 5)
             elseif what == "ore" then
                 return sinceMine < (n or 5)
-            elseif tonumber(what) and n == nil then
-                return math.min(sinceHerb, sinceMine) < tonumber(what)
+            elseif what == nil or what == "any" then
+                return math.min(sinceHerb, sinceMine) < (n or 5)
             end
         end
 }
