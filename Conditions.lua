@@ -398,10 +398,14 @@ CONDITIONS["gather"] = {
     args = true,
     handler =
         function (cond, env, what, n)
+            local sinceHerb = GetTime() - LM.Environment:GetHerbTime()
+            local sinceMine = GetTime() - LM.Environment:GetMineTime()
             if what == "herb" then
-                return GetTime() - LM.Environment:GetHerbTime() < (n or 5)
+                return sinceHerb < (n or 5)
             elseif what == "ore" then
-                return GetTime() - LM.Environment:GetMineTime() < (n or 5)
+                return sinceMine < (n or 5)
+            elseif tonumber(what) and n == nil then
+                return math.min(sinceHerb, sinceMine) < tonumber(what)
             end
         end
 }
