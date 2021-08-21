@@ -124,15 +124,11 @@ function LM.Rules:ParseLine(line)
     }
 end
 
-function LM.Rules:Compile(text)
+function LM.Rules:Compile(lines)
     local out = { }
-    for line in text:gmatch('([^\r\n]+)') do
-        line = line:gsub('%s*#.*', '')
-        if line ~= '' then
-            tinsert(out, self:ParseLine(line))
-        end
+    for _,line in ipairs(lines) do
+        tinsert(out, self:ParseLine(line))
     end
-
     return out
 end
 

@@ -84,7 +84,7 @@ rules that are attempted when it is clicked.
 ```
   LM.ActionButton
     Create(n)               - Buttons are named LM_B{n} and use LM.Options.db.buttonActions[n]
-    CompileRules()          - Parse the options action list for this keybind
+    CompileActionList()     - Parse the options action list for this keybind
 ```
 
 ### Rules.lua

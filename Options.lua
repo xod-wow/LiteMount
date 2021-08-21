@@ -690,7 +690,7 @@ end
 
 function LM.Options:SetButtonAction(i, v)
     self.db.profile.buttonActions[i] = v
-    LiteMount.actions[i]:CompileRules()
+    LiteMount.actions[i]:CompileActionList()
     self.db.callbacks:Fire("OnOptionsModified")
 end
 

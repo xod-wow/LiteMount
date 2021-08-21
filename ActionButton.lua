@@ -22,9 +22,18 @@ local L = LM.Localize
 
 LM.ActionButton = { }
 
-function LM.ActionButton:CompileRules()
+function LM.ActionButton:CompileActionList()
     local actionList = LM.Options:GetButtonAction(self.id)
-    self.rules = LM.Rules:Compile(actionList)
+
+    local lines = { }
+    for line in actionList:gmatch('([^\r\n]+)') do
+        line = line:gsub('%s*#.*', '')
+        if line ~= '' then
+            tinsert(lines, line)
+        end
+    end
+
+    self.rules = LM.Rules:Compile(lines)
 end
 
 -- mouseButton here is not real, because only LeftButton comes through the
@@ -51,6 +60,7 @@ function LM.ActionButton:PreClick(mouseButton)
     subEnv.filters = { { } }
     subEnv.flowControl = { }
     subEnv.clickArg = mouseButton
+    subEnv.userRules = self.userRules
 
     for _,rule in ipairs(self.rules) do
         subEnv.unit = nil
@@ -98,7 +108,7 @@ function LM.ActionButton:Create(n)
     b.globalEnv = { id = n }
 
     -- Button-fu
-    b:CompileRules()
+    b:CompileActionList()
 
     b:RegisterForClicks("AnyDown")
 
