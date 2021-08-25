@@ -284,14 +284,12 @@ ACTIONS['CopyTargetsMount'] = {
 ACTIONS['ApplyRules'] = {
     handler =
         function (args, env)
-            local rules = LM.Options:GetRules(env.id)
-            LM.Debug(string.format(" - checking %d rules for button %d", #rules, env.id))
-            for i,rule in ipairs(rules) do
-                local act = LM.Rules:Dispatch(rule, env)
-                if act then
-                    LM.Debug(string.format(" - found matching rule %d", i))
-                    return act
-                end
+            local ruleSet = LM.Options:GetCompiledRuleSet(env.id)
+            LM.Debug(string.format(" - checking %d rules for button %d", #ruleSet, env.id))
+            local act, n = ruleSet:Run(env)
+            if act then
+                LM.Debug(string.format(" - found matching rule %d", n))
+                return act
             end
             LM.Debug(" - no rules matched")
         end
@@ -314,21 +312,21 @@ ACTIONS['SmartMount'] = {
 
             local m
 
-            if not m and LM.Conditions:Check({"submerged"}, env) then
+            if not m and LM.Conditions:Check("[submerged]", env) then
                 LM.Debug(" - trying Swimming Mount (underwater)")
                 local swim = filteredList:FilterSearch('SWIM')
                 LM.Debug(" - found " .. #swim .. " mounts.")
                 m = swim:PriorityRandom(env.random)
             end
 
-            if not m and LM.Conditions:Check({"flyable"}, env) then
+            if not m and LM.Conditions:Check("[flyable]", env) then
                 LM.Debug(" - trying Flying Mount")
                 local fly = filteredList:FilterSearch('FLY')
                 LM.Debug(" - found " .. #fly .. " mounts.")
                 m = fly:PriorityRandom(env.random)
             end
 
-            if not m and LM.Conditions:Check({"floating", { "waterwalking", op="NOT" }}, env) then
+            if not m and LM.Conditions:Check("[floating][nowaterwalking]", env) then
                 LM.Debug(" - trying Swimming Mount (on the surface)")
                 local swim = filteredList:FilterSearch('SWIM')
                 LM.Debug(" - found " .. #swim .. " mounts.")

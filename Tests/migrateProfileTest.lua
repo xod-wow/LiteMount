@@ -106,7 +106,7 @@ function CheckProfile(profileName)
             end
         end
     end
-    for spellID,changes in pairs(newp.flagChanges) do
+    for spellID,changes in pairs(newp.flagChanges or {}) do
         for k,c in ipairs(changes) do
             if not LM.FLAG[k] then
                 print(">>> Error: group left as flag: " .. k .. " <<<")
@@ -127,3 +127,5 @@ for _, profileName in ipairs(profileNames) do
 end
 
 SendEvent('PLAYER_LOGOUT')
+
+print(LM.TableToString(LiteMountDB))

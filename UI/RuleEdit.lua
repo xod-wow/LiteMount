@@ -160,20 +160,20 @@ function LiteMountRuleEditConditionMixin:SetCondition(condition)
         return
     end
 
-    if type(condition) == 'table' then
+    if condition.op == 'NOT' then
         self.isNegated = true
-        condition = condition[1]
+        condition = condition.conditions[1]
+    else
+        self.isNegated = nil
     end
 
-    local type = string.split(':', condition)
-
-    local info = LM.Conditions:GetCondition(type)
+    local info = LM.Conditions:GetCondition(condition.condition)
     if info and info.name then
-        self.type = type
-        self.arg = condition
+        self.type = condition.condition
+        self.arg = condition:ToString():sub(2,-2)
     else
         self.type = "advanced"
-        self.arg = condition
+        self.arg = condition:ToString():sub(2,-2)
     end
 end
 
@@ -373,25 +373,26 @@ end
 function LiteMountRuleEditMixin:MakeRule()
     if not self:IsValidRule() then return end
 
-    local rule = {
-        action      = self.Action.type,
-        args        = { self.Action.arg },
-        conditions  = { op="AND" },
-    }
+    local ruleTexts = { self.Action.type }
 
+    local cTexts =  {}
     for _,cFrame in ipairs(self.Conditions) do
-        if cFrame.isNegated then
-            table.insert(rule.conditions, { op="NOT", cFrame.arg or cFrame.type })
-        else
-            table.insert(rule.conditions, cFrame.arg or cFrame.type)
+        if cFrame.type then
+            if cFrame.isNegated then
+                table.insert(cTexts, "no" .. (cFrame.arg or cFrame.type))
+            else
+                table.insert(cTexts, cFrame.arg or cFrame.type)
+            end
         end
     end
 
-    if #rule.conditions == 0 then
-        rule.conditions = nil
+    if #cTexts > 0 then
+        table.insert(ruleTexts, '[' .. table.concat(cTexts, ',') .. ']')
     end
 
-    return rule
+    table.insert(ruleTexts, self.Action.arg)
+
+    return table.concat(ruleTexts, ' ')
 end
 
 function LiteMountRuleEditMixin:Cancel()
@@ -429,10 +430,14 @@ function LiteMountRuleEditMixin:Clear()
     self.Action.arg = nil
 end
 
-function LiteMountRuleEditMixin:SetRule(rule)
+function LiteMountRuleEditMixin:SetRule(ruletext)
+    local rule = LM.Rule:ParseLine(ruletext)
+
+    local conditions = rule.conditions:GetSimpleConditions()
+
     for i,cFrame in ipairs(self.Conditions) do
-        if rule.conditions then
-            cFrame:SetCondition(rule.conditions[i])
+        if conditions[i] then
+            cFrame:SetCondition(conditions[i])
         else
             cFrame:SetCondition(nil)
         end

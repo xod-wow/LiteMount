@@ -22,20 +22,6 @@ local L = LM.Localize
 
 LM.ActionButton = { }
 
-function LM.ActionButton:CompileActionList()
-    local actionList = LM.Options:GetButtonAction(self.id)
-
-    local lines = { }
-    for line in actionList:gmatch('([^\r\n]+)') do
-        line = line:gsub('%s*#.*', '')
-        if line ~= '' then
-            tinsert(lines, line)
-        end
-    end
-
-    self.rules = LM.Rules:Compile(lines)
-end
-
 -- mouseButton here is not real, because only LeftButton comes through the
 -- keybinding interface. But, you can pass arbitrary text as this argument
 -- with the /click slash command. E.g., /click LM_B1 blah
@@ -60,15 +46,13 @@ function LM.ActionButton:PreClick(mouseButton)
     subEnv.filters = { { } }
     subEnv.flowControl = { }
     subEnv.clickArg = mouseButton
-    subEnv.userRules = self.userRules
 
-    for _,rule in ipairs(self.rules) do
-        subEnv.unit = nil
-        local act = LM.Rules:Dispatch(rule, subEnv)
-        if act then
-            act:SetupActionButton(self)
-            return
-        end
+    local ruleSet = LM.Options:GetCompiledButtonRuleSet(self.id)
+
+    local act = ruleSet:Run(subEnv)
+    if act then
+        act:SetupActionButton(self)
+        return
     end
 
     local handler = LM.Actions:GetHandler('CantMount')
@@ -107,9 +91,6 @@ function LM.ActionButton:Create(n)
     -- Global environment
     b.globalEnv = { id = n }
 
-    -- Button-fu
-    b:CompileActionList()
-
     b:RegisterForClicks("AnyDown")
 
     -- SecureActionButton setup
@@ -117,13 +98,4 @@ function LM.ActionButton:Create(n)
     b:SetScript("PostClick", self.PostClick)
 
     return b
-end
-
-function LM.ActionButton:HasApplyRules()
-    for _,r in ipairs(self.rules) do
-        if r.action == 'ApplyRules' then
-            return true
-        end
-    end
-    return false
 end

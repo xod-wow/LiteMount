@@ -230,11 +230,12 @@ CONDITIONS["difficulty"] = {
 
 -- Persistent "deck of cards" draw randomness
 
---[[
 CONDITIONS["draw"] = {
+    args = true,
     handler =
         function (cond, env, x, y)
             x, y = tonumber(x), tonumber(y)
+            if not x or not y then return end
             if not cond.deck then
                 if y > 52 then
                     x, y = math.ceil(52 * x/y), 52
@@ -259,6 +260,7 @@ CONDITIONS["draw"] = {
 }
 
 CONDITIONS["elapsed"] = {
+    args = true,
     handler =
         function (cond, env, v)
             v = tonumber(v)
@@ -270,7 +272,6 @@ CONDITIONS["elapsed"] = {
             end
         end
 }
-]]
 
 CONDITIONS["equipped"] = {
     handler =
@@ -1091,105 +1092,13 @@ do
     end
 end
 
---[[--------------------------------------------------------------------------]]--
-
-local function any(f, cond, env, ...)
-    local n = select('#', ...)
-    for i = 1, n do
-        local v = select(i, ...)
-        if f(cond, env, v) then return true end
-    end
-    return false
-end
-
+--[[------------------------------------------------------------------------]]--
 
 LM.Conditions = { }
 
-function LM.Conditions:IsTrue(condition, env, vars)
-    if vars then
-        condition = LM.Vars:StrSubVars(condition)
-    end
-
-    local newunit = condition:match('^@(.+)')
-    if newunit then
-        env.unit = newunit
-        return true
-    end
-
-    local cond, valuestr = strsplit(':', condition)
-
-    -- Empty condition [] is true
-    if cond == "" then return true end
-
-    local values
-    if valuestr then
-        values = { strsplit('/', valuestr) }
-    else
-        values = { }
-    end
-
-    local c = CONDITIONS[cond]
-    if not c then
-        LM.WarningAndPrint(format(L.LM_ERR_BAD_CONDITION, cond))
-        return false
-    end
-
-    if c.args then
-        return c.handler(condition, env, unpack(values))
-    elseif #values == 0 then
-        return c.handler(condition, env)
-    else
-        return any(c.handler, condition, env, unpack(values))
-    end
-end
-
-function LM.Conditions:EvalNot(conditions, env, vars)
-    local v = self:Eval(conditions[1], env, vars)
-    return not v
-end
-
--- the ANDed sections carry the unit between them
-function LM.Conditions:EvalAnd(conditions, env, vars)
-    for _,e in ipairs(conditions) do
-        local v = self:Eval(e, env, vars)
-        if not v then return false end
-    end
-    return true
-end
-
--- Note: deliberately resets the unit on false
-function LM.Conditions:EvalOr(conditions, env, vars)
-    for _,e in ipairs(conditions) do
-        local v = self:Eval(e, env, vars)
-        if v then return v end
-        env.unit = nil
-    end
-    return false
-end
-
--- outer grouping is ORed together
-function LM.Conditions:Eval(conditions, env, vars)
-    if not conditions then return true end
-
-    if type(conditions) == 'table' then
-        if conditions.op == "NOT" then
-            return self:EvalNot(conditions, env, vars)
-        elseif conditions.op == "AND" then
-            return self:EvalAnd(conditions, env, vars)
-        else
-            return self:EvalOr(conditions, env, vars)
-        end
-    else
-        return self:IsTrue(conditions, env, vars)
-    end
-end
-
-function LM.Conditions:Check(checks, env)
-    local conditions = { op = "AND" }
-    for _, check in ipairs(checks) do
-        table.insert(conditions, { check })
-    end
-    return self:Eval(conditions, env or {})
+function LM.Conditions:Check(conditions, env)
+    local rule = LM.Rule:ParseLine("DUMMY " .. conditions)
+    return rule.conditions:Eval(env or {})
 end
 
 function LM.Conditions:GetCondition(cond)
@@ -1260,26 +1169,4 @@ function LM.Conditions:ArgsToString(text)
         argText = table.concat(LM.tMap(values, c.tostring, values), " ")
     end
     return argText
-end
-
--- I regret not turning conditions into a proper parse tree about now
-
-local function SquareBracket(txt) return '[' .. txt .. ']' end
-
-local function ToLineRecursive(c)
-    if type(c) == 'table' then
-        if c.op == 'NOT' then return 'no' .. c[1] end
-        local children = LM.tMap(c, ToLineRecursive)
-        if c.op == 'AND' then
-            return SquareBracket(table.concat(children, ','))
-        elseif c.op == 'OR' then
-            return table.concat(LM.tMap(children, SquareBracket), '')
-        end
-    else
-        return c
-    end
-end
-
-function LM.Conditions:ToLine(conditions)
-    return ToLineRecursive(conditions)
 end

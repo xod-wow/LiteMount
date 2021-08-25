@@ -38,7 +38,9 @@ SlashCommand.lua
 Conditions.lua
 Vars.lua
 Actions.lua
-Rules.lua
+RuleBoolean.lua
+Rule.lua
+RuleSet.lua
 ActionButton.lua
 Core.lua
 

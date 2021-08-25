@@ -16,7 +16,7 @@ local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountRuleButtonMixin = {}
 
@@ -39,11 +39,11 @@ function LiteMountRuleButtonMixin:OnLoad()
     self.MoveDown:SetScript('OnClick', function () MoveRule(self.index, 1) end)
 end
 
-function LiteMountRuleButtonMixin:Update(index, rule)
+function LiteMountRuleButtonMixin:Update(index, rule, ruleSetRule)
     self.index = index
     self.rule = rule
     self.NumText:SetText(index)
-    local conditions, action = LM.Rules:RuleToString(rule)
+    local conditions, action = ruleSetRule:ToDisplay()
     self.Action:SetText(action)
     self.Condition:SetText(table.concat(conditions, '\n'))
     self.Selected:SetShown(self.rule == LiteMountRulesPanel.selectedRule)
@@ -55,7 +55,7 @@ function LiteMountRuleButtonMixin:OnClick()
 end
 
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountRulesScrollMixin = {}
 
@@ -65,14 +65,16 @@ function LiteMountRulesScrollMixin:Update()
     local offset = HybridScrollFrame_GetOffset(self)
 
     local rules = LM.Options:GetRules(self.tab)
+    local ruleSet = LM.Options:GetCompiledRuleSet(self.tab)
 
-    local isEnabled = LiteMount.actions[self.tab]:HasApplyRules()
+    local buttonRuleSet = LM.Options:GetCompiledButtonRuleSet(self.tab)
+    local isEnabled = buttonRuleSet:HasApplyRules()
 
     for i = 1, #self.buttons do
         local button = self.buttons[i]
         local index = offset + i
-        if isEnabled and index <= #rules then
-            button:Update(index, rules[index])
+        if isEnabled and index <= #ruleSet then
+            button:Update(index, rules[index], ruleSet[index])
             button:Show()
         else
             button:Hide()
@@ -90,7 +92,7 @@ function LiteMountRulesScrollMixin:Update()
         self.Inactive:SetText(string.format(L.LM_RULES_INACTIVE, self.tab))
         self.Inactive:Show()
     end
-    local totalHeight = #rules * self.buttonHeight
+    local totalHeight = #ruleSet* self.buttonHeight
     HybridScrollFrame_Update(self, totalHeight, self:GetHeight())
 end
 
@@ -115,7 +117,7 @@ function LiteMountRulesScrollMixin:OnLoad()
     self.SetControl = self.Update
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 local function BindingDropDown_Initialize(dropDown, level)
     local info = UIDropDownMenu_CreateInfo()
@@ -135,7 +137,7 @@ local function BindingDropDown_Initialize(dropDown, level)
     end
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountRulesPanelMixin = {}
 

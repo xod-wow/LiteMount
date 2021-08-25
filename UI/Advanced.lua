@@ -76,15 +76,15 @@ end
 LiteMountAdvancedEditBoxMixin = {}
 
 function LiteMountAdvancedEditBoxMixin:SetOption(v, i)
-    LM.Options:SetButtonAction(i, v)
+    LM.Options:SetButtonRuleSet(i, v)
 end
 
 function LiteMountAdvancedEditBoxMixin:GetOption(i)
-    return LM.Options:GetButtonAction(i)
+    return LM.Options:GetButtonRuleSet(i)
 end
 
 function LiteMountAdvancedEditBoxMixin:GetOptionDefault()
-    return LM.Options:GetButtonAction('__default__')
+    return LM.Options:GetButtonRuleSet('__default__')
 end
 
 function LiteMountAdvancedEditBoxMixin:OnLoad()

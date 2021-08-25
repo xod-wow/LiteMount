@@ -72,12 +72,6 @@ function LiteMount:Initialize()
     end
 end
 
-function LiteMount:RecompileActions()
-    for _,b in ipairs(self.actions) do
-        b:CompileActionList()
-    end
-end
-
 function LiteMount:Refresh()
     LM.Debug("Refresh")
 

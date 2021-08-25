@@ -253,6 +253,10 @@ function Mixin(dst, ...)
     return dst
 end
 
+function CreateFromMixins(...)
+    return Mixin({}, ...)
+end
+
 function CopyTable(src)
     local dst = {}
     for k,v in pairs(src) do

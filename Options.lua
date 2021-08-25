@@ -54,33 +54,16 @@ Macro
 ]]
 
 local DefaultRules = {
-    {   -- Vash'jir Seahorse
-        conditions = { "map:203", "submerged", op="AND" },
-        action = "Mount",
-        args = { "mt:232" }
-    },
-    {   -- Flying swimming mounts in Nazjatar with Budding Deepcoral
-        conditions = { "map:1355", "flyable", "qfc:56766", op="AND" },
-        action = "Mount",
-        args = { "mt:254" }
-    },
-    {   -- AQ Battle Tanks in the raid instance
-        conditions = { "instance:531", op="AND" },
-        action = "Mount",
-        args = { "mt:241" }
-    },
-    {   -- Arcanist's Manasaber to disguise you in Suramar
-        conditions = { "extra:202477", { "submerged", op="NOT" }, op="AND" },
-        action = "Mount",
-        args = { "id:881" }
-    },
---[[
-    {   -- Rustbolt Resistor and Aerial Unit R-21/X avoid being shot down
-        conditions = { "map:1462", "flyable", op="AND" },
-        action = "Mount",
-        args = { "MECHAGON" }
-    },
-]]
+    -- Vash'jir Seahorse
+    "Mount [map:203,submerged] mt:232",
+    -- Flying swimming mounts in Nazjatar with Budding Deepcoral
+    "Mount [map:1355,flyable,qfc:56766] mt:254",
+    -- AQ Battle Tanks in the raid instance
+    "Mount [instance:531] mt:241",
+    -- Arcanist's Manasaber to disguise you in Suramar
+    "Mount [extra:202477,nosubmerged] id:881",
+    -- Rustbolt Resistor and Aerial Unit R-21/X avoid being shot down
+    -- "Mount [map:1462,flyable] MECHAGON"
 }
 
 -- A lot of things need to be cleaned up when flags are deleted/renamed
@@ -238,6 +221,28 @@ function LM.Options:VersionUpgrade7()
     self:UpdateVersion(7)
 end
 
+-- Version 8 moves to storing the user rules as action lines and compiling
+-- them rather than trying to store them as raw rules, which caused all
+-- sorts of grief.
+
+function LM.Options:VersionUpgrade8()
+    LM.Debug('VersionUpgrade: 8')
+
+    for n, p in pairs(self.db.profiles) do
+        LM.Debug(' - checking profile: ' .. n)
+        if (p.configVersion or 8) < 8 and p.flagChanges then
+            LM.Debug('   - upgrading profile: ' .. n)
+            for k, ruleset in pairs(p.rules or {}) do
+                LM.Debug('   - ruleset ' .. k)
+                for i, rule in ipairs(ruleset) do
+                    ruleset[i] = LM.Rule:MigrateFromTable(rule)
+                end
+            end
+        end
+    end
+    self:UpdateVersion(8)
+end
+
 function LM.Options:CleanDatabase()
     for n,c in pairs(self.db.sv.char) do
         for k in pairs(c) do
@@ -265,26 +270,26 @@ function LM.Options:VersionUpgrade()
     self:VersionUpgrade5()
     self:VersionUpgrade6()
     self:VersionUpgrade7()
+    self:VersionUpgrade8()
     self:CleanDatabase()
 end
 
 function LM.Options:OnProfile()
     table.wipe(self.cachedMountFlags)
     table.wipe(self.cachedMountGroups)
+    table.wipe(self.cachedRuleSets)
     self:InitializePriorities()
-    LiteMount:RecompileActions()
     self.db.callbacks:Fire("OnOptionsProfile")
 end
 
 -- This is split into two because I want to load it early in the
--- setup process to get access to the debugging settings, but it can't
--- run OnProfile() until the action buttons are set up as RecompileActions
--- won't work yet.
+-- setup process to get access to the debugging settings.
 
 function LM.Options:Initialize()
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
     self.cachedMountFlags = {}
     self.cachedMountGroups = {}
+    self.cachedRuleSets = {}
     self:VersionUpgrade()
     self.db.RegisterCallback(self, "OnProfileChanged", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileCopied", "OnProfile")
@@ -557,12 +562,20 @@ function LM.Options:GetRules(n)
     return LM.tCopyShallow(rules)
 end
 
+function LM.Options:GetCompiledRuleSet(n)
+    if not self.cachedRuleSets['user'..n] then
+        self.cachedRuleSets['user'..n] = LM.RuleSet:Compile(self:GetRules(n))
+    end
+    return self.cachedRuleSets['user'..n]
+end
+
 function LM.Options:SetRules(n, rules)
     if not rules or tCompare(rules, DefaultRules, 10) then
         self.db.profile.rules[n] = nil
     else
         self.db.profile.rules[n] = rules
     end
+    self.cachedRuleSets['user'..n] = nil
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
@@ -684,18 +697,21 @@ end
     Button action lists
 ----------------------------------------------------------------------------]]--
 
-function LM.Options:GetButtonAction(i)
-    return self.db.profile.buttonActions[i]
+function LM.Options:GetButtonRuleSet(n)
+    return self.db.profile.buttonActions[n]
 end
 
-function LM.Options:SetButtonAction(i, v)
-    self.db.profile.buttonActions[i] = v
-    LiteMount.actions[i]:CompileActionList()
+function LM.Options:GetCompiledButtonRuleSet(n)
+    if not self.cachedRuleSets['button'..n] then
+        self.cachedRuleSets['button'..n] = LM.RuleSet:Compile(self:GetButtonRuleSet(n))
+    end
+    return self.cachedRuleSets['button'..n]
+end
+
+function LM.Options:SetButtonRuleSet(n, v)
+    self.db.profile.buttonActions[n] = v
+    self.cachedRuleSets['button'..n] = nil
     self.db.callbacks:Fire("OnOptionsModified")
-end
-
-function LM.Options:GetDefaultButtonAction()
-     return LM.tCopyShallow(self.db.defaults.profile.buttonActions['*'])
 end
 
 
