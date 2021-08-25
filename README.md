@@ -78,27 +78,53 @@ summoning - it's not a visible button, just a Frame that is clicked by the
 keybindings. The magic is all done in a PreClick handler, which (out of
 combat) can modify what the button will do immediately before it does it.
 
-Each ActionButton has an array of rules assigned to it with the list of
+Each ActionButton has a RuleSet assigned to it with the list of
 rules that are attempted when it is clicked.
 
 ```
   LM.ActionButton
     Create(n)               - Buttons are named LM_B{n} and use LM.Options.db.buttonActions[n]
-    CompileActionList()     - Parse the options action list for this keybind
 ```
 
-### Rules.lua
+### Rule.lua
 
-LM.Rules is a parser for the action lists rule lines. It doesn't really understand
-anything, it just assumes various things in various positions on the lines
+LM.Rule represents one action line rule, including a parser to read it
+from a text line, and a ToString to turn it back. The parser is not very
+good, it just assumes various things in various positions on the lines
 are actions, various things are tests and various things are arguments.
 
-There is only LM.Rules, there is no class for an individual rule, it's just a table.
+```
+  LM.Rule
+    ParseLine(text)
+    Dispatch()
+    ToString()
+```
+
+### RuleBoolean.lua
+
+LM.RuleBoolean is a boolean parse tree for the condition logic. It's used
+as the .conditions attribute in a rule. It doesn't have a parser, it relies
+on LM.Rule doing the parsing for it.
 
 ```
-  LM.Rules
-    Compile(text)
-    Dispatch(rule, env)
+  LM.RuleBoolean
+    Leaf(text)
+    And(node, ...)
+    Or(node, ...)
+    Not(node)
+    Eval()
+    ToString()
+```
+    
+### RuleSet.lua
+
+LM.RuleSet is a list of rules. Compile takes a text blob of rules or a
+table of rule text lines.
+
+```
+  LM.RuleSet
+    Compile(textOrLines)
+    Run()
 ```
 
 ### Actions.lua
@@ -141,8 +167,7 @@ a heap of WoW API calls to do tests.
 
 ```
   LM.Conditions
-    Eval(conditions, env, vars)
-    Check(conditions, env)
+    GetCondition(name)
 ```
 
 ### Vars.lua
