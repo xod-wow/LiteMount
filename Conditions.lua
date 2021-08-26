@@ -396,17 +396,34 @@ CONDITIONS["form"] = {
 }
 
 CONDITIONS["gather"] = {
+    name = L.LM_GATHERED_RECENTLY,
+    tostring =
+        function (v)
+            if not v or v == "any" then
+                return CLUB_FINDER_ANY_FLAG
+            elseif v == "ore" then
+                return L.LM_ORE
+            elseif v == "herb" then
+                return L.LM_HERB
+            end
+        end,
+    menu = {
+        { val = "gather:any" },
+        { val = "gather:herb" },
+        { val = "gather:ore" },
+    },
     args = true,
     handler =
         function (cond, env, what, n)
             local sinceHerb = GetTime() - LM.Environment:GetHerbTime()
             local sinceMine = GetTime() - LM.Environment:GetMineTime()
+            n = tonumber(n) or 30
             if what == "herb" then
-                return sinceHerb < (n or 5)
+                return sinceHerb < n
             elseif what == "ore" then
-                return sinceMine < (n or 5)
+                return sinceMine < n
             elseif what == nil or what == "any" then
-                return math.min(sinceHerb, sinceMine) < (n or 5)
+                return math.min(sinceHerb, sinceMine) < n
             end
         end
 }
@@ -499,13 +516,16 @@ CONDITIONS["keybind"] = {
 
 -- GetMaxLevelForLatestExpansion()
 CONDITIONS["level"] = {
+    name = string.format(UNIT_LEVEL_TEMPLATE, GetMaxLevelForLatestExpansion()),
     args = true,
     handler =
         function (cond, env, l1, l2)
             local level = UnitLevel('player')
-            if l1 and not l2 then
+            if not l1 then
+                return level == GetMaxLevelForLatestExpansion()
+            elseif not l2 then
                 return level == tonumber(l1)
-            elseif l1 and l2 then
+            elseif l2 then
                 return level >= tonumber(l1) and level <= tonumber(l2)
             end
         end
