@@ -1116,9 +1116,15 @@ end
 
 LM.Conditions = { }
 
+local CheckConditionCache = {}
+
 function LM.Conditions:Check(conditions, env)
-    local rule = LM.Rule:ParseLine("DUMMY " .. conditions)
-    return rule.conditions:Eval(env or {})
+    local line = "DUMMY " .. conditions
+    if not CheckConditionCache[line] then
+        local rule = LM.Rule:ParseLine(line)
+        CheckConditionCache[line] = rule.conditions
+    end
+    return CheckConditionCache[line]:Eval(env or {})
 end
 
 function LM.Conditions:GetCondition(cond)
