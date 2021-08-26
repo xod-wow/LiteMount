@@ -326,7 +326,7 @@ ACTIONS['SmartMount'] = {
                 m = fly:PriorityRandom(env.random)
             end
 
-            if not m and LM.Conditions:Check("[floating][nowaterwalking]", env) then
+            if not m and LM.Conditions:Check("[floating,nowaterwalking]", env) then
                 LM.Debug(" - trying Swimming Mount (on the surface)")
                 local swim = filteredList:FilterSearch('SWIM')
                 LM.Debug(" - found " .. #swim .. " mounts.")
