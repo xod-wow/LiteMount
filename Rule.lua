@@ -175,6 +175,32 @@ function LM.Rule:ToDisplay()
     return self.conditions:ToDisplay(), self:ActionToDisplay()
 end
 
+-- Simple rules can be used in the user rules UI. They must have:
+--   * action one of Mount/SmartMount/LimitSet/LimitInclude/LimitExclude
+--   * maximum 3 ANDed conditions, no ORed conditions
+--   * exactly one action argument
+
+local SimpleActions = {
+    "Mount",
+    "SmartMount",
+    "LimitSet",
+    "LimitInclude",
+    "LimitExclude",
+}
+
+function LM.Rule:IsSimpleRule()
+    if not tContains(SimpleActions, self.action) then
+        return false
+    end
+    if #self.args ~= 1 then
+        return false
+    end
+    if not self.conditions:IsSimpleCondition() then
+        return false
+    end
+    return true
+end
+
 -- This is a converter from the original storage format, used only
 -- by LM.Options:VersionUpgrade8
 --

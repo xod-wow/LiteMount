@@ -156,6 +156,17 @@ function LM.RuleBoolean:Eval(env)
     end
 end
 
+-- 3 or fewer ANDed conditions
+function LM.RuleBoolean:IsSimpleCondition()
+    if #self.conditions ~= 1 then
+        return false
+    end
+    if #self.conditions[1].conditions > 3 then
+        return false
+    end
+    return true
+end
+
 function LM.RuleBoolean:GetSimpleConditions()
     return self.conditions[1].conditions
 end
