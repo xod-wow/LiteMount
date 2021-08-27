@@ -497,6 +497,7 @@ LM.MOUNTFAMILY["Gorm"] = {
 }
 
 LM.MOUNTFAMILY["Gravewing"] = {
+    [215545] = true, -- Mastercraft Gravewing
     [353866] = true, -- Obsidian Gravewing
     [353873] = true, -- Pale Gravewing
     [353872] = true, -- Sinfall Gravewing
