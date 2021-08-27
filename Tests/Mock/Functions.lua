@@ -38,6 +38,8 @@ function GetProfessions() return end
 
 function GetNumTrackingTypes() return 0 end
 
+function GetMaxLevelForLatestExpansion() return 60 end
+
 function GetAddOnMetadata(name, attr)
     if attr == "Title" then
         return "LiteMount"

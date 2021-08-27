@@ -7,7 +7,7 @@ function GetSpellInfo(id)
             if info[1] == id then return unpack(info) end
         end
     end
-    print("GetSpellInfo", tostring(id))
+    -- print("GetSpellInfo", tostring(id))
 end
 
 -- Assume that all spells put a buff on you with the same id

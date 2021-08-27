@@ -14,4 +14,6 @@ SLASH_DISMOUNT1 = "/dismount"
 
 SPELL_FAILED_NO_MOUNTS_ALLOWED = "You can't mount here."
 
+UNIT_LEVEL_TEMPLATE = "Level %d"
+
 SlashCmdList = {}
