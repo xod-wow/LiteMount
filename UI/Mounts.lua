@@ -61,18 +61,18 @@ function LiteMountPriorityMixin:Decrement()
 end
 
 function LiteMountPriorityMixin:OnEnter()
-    LiteMountTooltip:SetOwner(self, "ANCHOR_RIGHT")
-    LiteMountTooltip:ClearLines()
-    LiteMountTooltip:AddLine(L.LM_PRIORITY)
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    GameTooltip:ClearLines()
+    GameTooltip:AddLine(L.LM_PRIORITY)
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
         local t, d = LM.UIFilter.GetPriorityText(p)
-        LiteMountTooltip:AddLine(t .. ' - ' .. d)
+        GameTooltip:AddLine(t .. ' - ' .. d)
     end
-    LiteMountTooltip:Show()
+    GameTooltip:Show()
 end
 
 function LiteMountPriorityMixin:OnLeave()
-    LiteMountTooltip:Hide()
+    GameTooltip:Hide()
 end
 
 --[[--------------------------------------------------------------------------]]--
@@ -120,15 +120,15 @@ end
 
 function LiteMountFlagBitMixin:OnEnter()
     if self.flag then
-        LiteMountTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        LiteMountTooltip:SetText(L[self.flag])
-        LiteMountTooltip:Show()
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:SetText(L[self.flag])
+        GameTooltip:Show()
     end
 end
 
 function LiteMountFlagBitMixin:OnLeave()
-    if LiteMountTooltip:GetOwner() == self then
-        LiteMountTooltip:Hide()
+    if GameTooltip:GetOwner() == self then
+        GameTooltip:Hide()
     end
 end
 
