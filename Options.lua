@@ -29,7 +29,7 @@ flagChanges is a table of spellIDs with flags to set (+) and clear (-).
         ...
     }
 
-groups is a table of flag names, with mount spell IDs as members
+groups is a table of group names, with mount spell IDs as members
     groups = {
         ["PASSENGER"] = { [123456] = true }
     }
