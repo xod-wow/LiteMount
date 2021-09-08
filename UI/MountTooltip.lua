@@ -47,6 +47,9 @@ end
 
 function LiteMountTooltipMixin:SetupPreview(m)
     if m.modelID and m.sceneID then
+        -- Need width/height for ModelScene not to div/0
+        self:AttachPreview()
+
         self.Preview.ModelScene:SetFromModelSceneID(m.sceneID)
 
         local mountActor = self.Preview.ModelScene:GetActorByTag("unwrapped")
@@ -64,7 +67,6 @@ function LiteMountTooltipMixin:SetupPreview(m)
         -- camera is wrong for some mounts without this. I think?
         local playerActor = self.Preview.ModelScene:GetActorByTag("player-rider")
         if playerActor then playerActor:ClearModel() end
-        self:AttachPreview()
         self.Preview:Show()
     else
         self.Preview:Hide()
