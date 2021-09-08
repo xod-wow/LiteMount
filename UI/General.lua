@@ -46,7 +46,7 @@ local function RandomPersistDropDown_Initialize(dropdown, level)
     end
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountGeneralPanelMixin = {}
 

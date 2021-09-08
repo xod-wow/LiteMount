@@ -29,7 +29,7 @@ function LiteMountMacroEditBoxMixin:SetOption(v)
     LM.Options:SetUnavailableMacro(v)
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountMacroPanelMixin = {}
 

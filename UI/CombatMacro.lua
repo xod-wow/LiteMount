@@ -34,7 +34,7 @@ end
 function LiteMountCombatMacroEditBoxMixin:OnLoad()
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountCombatMacroEnableButtonMixin = {}
 
@@ -51,7 +51,7 @@ function LiteMountCombatMacroEnableButtonMixin:SetOption(v)
     LiteMount:Refresh()
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountCombatMacroPanelMixin = {}
 

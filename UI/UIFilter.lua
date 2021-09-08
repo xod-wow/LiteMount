@@ -309,7 +309,7 @@ function LM.UIFilter.SetAllGroupFilters(v)
 end
 
 function LM.UIFilter.GetGroups()
-    return LM.Options:GetGroups()
+    return LM.Options:GetGroupNames()
 end
 
 function LM.UIFilter.GetGroupText(f)

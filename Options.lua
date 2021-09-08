@@ -70,7 +70,8 @@ local DefaultRules = {
 
 local defaults = {
     global = {
-        instances = { },
+        groups              = { },
+        instances           = { },
     },
     profile = {
         flagChanges         = { },
@@ -472,35 +473,57 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRawGroups()
-    return CopyTable(self.db.profile.groups)
+    return CopyTable(self.db.profile.groups), CopyTable(self.db.global.groups)
 end
 
-function LM.Options:SetRawGroups(v)
-    self.db.profile.groups = v
+function LM.Options:SetRawGroups(profileGroups, globalGroups)
+    self.db.profile.groups = profileGroups or self.db.profile.groups
+    self.db.global.groups = globalGroups or self.db.global.groups
     table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
-function LM.Options:GetGroups()
+function LM.Options:GetGroupNames()
     local out = {}
-    for f in pairs(self.db.profile.groups) do table.insert(out, f) end
+    for g,v in pairs(self.db.global.groups) do
+        if v then table.insert(out, g) end
+    end
+    for g,v in pairs(self.db.profile.groups) do
+        if v then table.insert(out, g) end
+    end
     table.sort(out)
     return out
 end
 
-function LM.Options:IsGroup(g)
+function LM.Options:IsGlobalGroup(g)
+    return self.db.global.groups[g] ~= nil
+end
+
+function LM.Options:IsProfileGroup(g)
     return self.db.profile.groups[g] ~= nil
 end
 
-function LM.Options:CreateGroup(g)
+function LM.Options:IsGroup(g)
+    return self:IsGlobalGroup(g) or self:IsProfileGroup(g)
+end
+
+function LM.Options:CreateGroup(g, isGlobal)
     if self:IsGroup(g) or self:IsFlag(g) then return end
-    self.db.profile.groups[g] = { }
+    if isGlobal then
+        self.db.global.groups[g] = { }
+    else
+        self.db.profile.groups[g] = { }
+    end
     table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:DeleteGroup(g)
-    self.db.profile.groups[g] = nil
+    if self.db.profile.groups[g] then
+        self.db.profile.groups[g] = nil
+    elseif self.db.global.groups[g] then
+        self.db.global.groups[g] = nil
+    end
     table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
@@ -510,10 +533,15 @@ function LM.Options:RenameGroup(g, newG)
     if g == newG then return end
 
     -- all this "tmp" stuff is to deal with f == newG, just in case
-    local tmp = self.db.profile.groups[g]
-    self.db.profile.groups[g] = nil
-    self.db.profile.groups[newG] = tmp
-
+    if self.db.profile.groups[g] then
+        local tmp = self.db.profile.groups[g]
+        self.db.profile.groups[g] = nil
+        self.db.profile.groups[newG] = tmp
+    elseif self.db.global.groups[g] then
+        local tmp = self.db.global.groups[g]
+        self.db.global.groups[g] = nil
+        self.db.global.groups[newG] = tmp
+    end
     table.wipe(self.cachedMountGroups)
     self.db.callbacks:Fire("OnOptionsModified")
 end
@@ -521,8 +549,8 @@ end
 function LM.Options:GetMountGroups(m)
     if not self.cachedMountGroups[m.spellID] then
         self.cachedMountGroups[m.spellID] = {}
-        for g, members in pairs(self.db.profile.groups) do
-            if members[m.spellID] then
+        for _, g in ipairs(self:GetGroupNames()) do
+            if self:IsMountInGroup(m, g) then
                 self.cachedMountGroups[m.spellID][g] = true
             end
         end
@@ -533,23 +561,29 @@ end
 function LM.Options:IsMountInGroup(m, g)
     if self.db.profile.groups[g] then
         return self.db.profile.groups[g][m.spellID]
+    elseif self.db.global.groups[g] then
+        return self.db.global.groups[g][m.spellID]
     end
 end
 
 function LM.Options:SetMountGroup(m, g)
     if self.db.profile.groups[g] then
         self.db.profile.groups[g][m.spellID] = true
-        self.cachedMountGroups[m.spellID] = nil
-        self.db.callbacks:Fire("OnOptionsModified")
+    elseif self.db.global.groups[g] then
+        self.db.global.groups[g][m.spellID] = true
     end
+    self.cachedMountGroups[m.spellID] = nil
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:ClearMountGroup(m, g)
     if self.db.profile.groups[g] then
         self.db.profile.groups[g][m.spellID] = nil
-        self.cachedMountGroups[m.spellID] = nil
-        self.db.callbacks:Fire("OnOptionsModified")
+    elseif self.db.global.groups[g] then
+        self.db.global.groups[g][m.spellID] = nil
     end
+    self.cachedMountGroups[m.spellID] = nil
+    self.db.callbacks:Fire("OnOptionsModified")
 end
 
 

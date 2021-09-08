@@ -14,7 +14,7 @@ local L = LM.Localize
 
 local MENU_SPLIT_SIZE = 20
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 local function SetArgFunction(button, arg1, owner)
     CloseDropDownMenus(1)
@@ -80,7 +80,7 @@ local function ArgsInitialize(dropDown, level, menuList)
 end
 
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountRuleEditConditionMixin = { }
 
@@ -240,7 +240,7 @@ function LiteMountRuleEditConditionMixin:OnLoad()
 end
 
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountRuleEditActionMixin = {}
 
@@ -354,7 +354,7 @@ function LiteMountRuleEditActionMixin:OnLoad()
     self.ArgDropDown:SetScript('OnClick', ActionArgButtonClick)
 end
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountRuleEditMixin = {}
 
