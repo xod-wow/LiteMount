@@ -149,6 +149,8 @@ function LiteMountOptionsPanel_OnShow(self)
         LiteMountProfileButton:Attach(self)
     end
 
+    self:refresh()
+
     LM.Options.db.RegisterCallback(self, "OnOptionsModified", "refresh")
     LM.Options.db.RegisterCallback(self, "OnOptionsProfile", "reset")
 end

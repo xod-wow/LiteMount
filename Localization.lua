@@ -112,6 +112,7 @@ L.Unknown               = UNKNOWN
     L["LM_SMARTMOUNT_ACTION"] = "Smart Priority Mount"
     L["LM_TRANSLATORS"] = "Translators"
     L["LM_USABLE"] = "Usable"
+    L["LM_SET_DEFAULT_MOUNT_PRIORITY_TO"] = "Set default mount priority to %d (%s) instead of %d (%s)."
     L["LM_WARN_REPLACE_COND"] = "The [%s] action list condition has been replaced by [%s] due to Blizzard changes."
     L["RUN"] = "Run"
     L["SWIM"] = "Swim"

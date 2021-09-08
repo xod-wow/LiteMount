@@ -314,7 +314,7 @@ function LiteMountMountsPanelMixin:default()
     LM.UIDebug(self, 'Custom_Default')
     self.MountScroll.isDirty = true
     LM.Options:ResetAllMountFlags()
-    LM.Options:SetPriorities(LM.PlayerMounts.mounts, LM.Options.DEFAULT_PRIORITY)
+    LM.Options:SetPriorities(LM.PlayerMounts.mounts, nil)
 end
 
 function LiteMountMountsPanelMixin:OnLoad()

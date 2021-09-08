@@ -54,6 +54,7 @@ function LiteMountGeneralPanelMixin:OnLoad()
 
     -- CopyTargetsMount --
 
+    self.CopyTargetsMount.Text:SetWidth(500)
     self.CopyTargetsMount.Text:SetText(L.LM_COPY_TARGETS_MOUNT)
     self.CopyTargetsMount.SetOption =
         function (self, setting)
@@ -69,25 +70,36 @@ function LiteMountGeneralPanelMixin:OnLoad()
         function (self) return true end
     LiteMountOptionsPanel_RegisterControl(self.CopyTargetsMount)
 
-    -- ExcludeNewMounts --
+    -- DefaultPriority --
 
-    self.ExcludeNewMounts.Text:SetText(L.LM_DISABLE_NEW_MOUNTS)
-    self.ExcludeNewMounts.SetOption =
+    self.DefaultPriority.Text:SetWidth(500)
+    self.DefaultPriority.Text:SetText(
+        string.format(L.LM_SET_DEFAULT_MOUNT_PRIORITY_TO,
+                        LM.Options.DISABLED_PRIORITY,
+                        L.LM_PRIORITY_DESC0,
+                        LM.Options.DEFAULT_PRIORITY,
+                        L.LM_PRIORITY_DESC1
+                        )
+        )
+    self.DefaultPriority.SetOption =
         function (self, setting)
             if not setting or setting == "0" then
-                LM.Options:SetExcludeNewMounts(false)
+                LM.Options:SetDefaultPriority(1)
             else
-                LM.Options:SetExcludeNewMounts(true)
+                LM.Options:SetDefaultPriority(0)
             end
         end
-    self.ExcludeNewMounts.GetOptionDefault =
-        function (self) return false end
-    self.ExcludeNewMounts.GetOption =
-        function (self) return LM.Options:GetExcludeNewMounts() end
-    LiteMountOptionsPanel_RegisterControl(self.ExcludeNewMounts)
+    self.DefaultPriority.GetOptionDefault =
+        function (self) return 1 end
+    self.DefaultPriority.GetOption =
+        function (self) return LM.Options:GetDefaultPriority() end
+    self.DefaultPriority.SetControl =
+        function (self, v) self:SetChecked(v == 0) end
+    LiteMountOptionsPanel_RegisterControl(self.DefaultPriority)
 
     -- InstantOnlyMoving --
 
+    self.InstantOnlyMoving.Text:SetWidth(500)
     self.InstantOnlyMoving.Text:SetText(L.LM_INSTANT_ONLY_MOVING)
     self.InstantOnlyMoving.SetOption =
         function (self, setting)

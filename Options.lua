@@ -80,7 +80,7 @@ local defaults = {
         groups              = { },
         rules               = { }, -- Note: tables as * don't work
         copyTargetsMount    = true,
-        excludeNewMounts    = false,
+        defaultPriority     = 1,
         priorityWeights     = { 1, 2, 6, 1 },
         randomKeepSeconds   = 0,
         instantOnlyMoving   = false,
@@ -150,7 +150,7 @@ end
 function LM.Options:VersionUpgrade5()
     LM.Debug('VersionUpgrade: 5')
 
-    -- Because I stuffeds up downgrading versiom numbers, don't check for 5
+    -- Because I stuffed up downgrading version numbers, don't check for 5
     -- just look for excludedSpells with no mountPriorities
 
     for n,p in pairs(self.db.profiles) do
@@ -244,6 +244,23 @@ function LM.Options:VersionUpgrade8()
     self:UpdateVersion(8)
 end
 
+-- Version 9 changes excludeNewMounts (true/false) to defaultPriority
+
+function LM.Options:VersionUpgrade9()
+    LM.Debug('VersionUpgrade: 8')
+
+    for n, p in pairs(self.db.profiles) do
+        LM.Debug(' - checking profile: ' .. n)
+        if (p.configVersion or 9) < 9 then
+            if p.excludeNewMounts then
+                p.defaultPriority = 0
+                p.excludeNewMounts = nil
+            end
+        end
+    end
+    self:UpdateVersion(9)
+end
+
 function LM.Options:CleanDatabase()
     for n,c in pairs(self.db.sv.char) do
         for k in pairs(c) do
@@ -272,6 +289,7 @@ function LM.Options:VersionUpgrade()
     self:VersionUpgrade6()
     self:VersionUpgrade7()
     self:VersionUpgrade8()
+    self:VersionUpgrade9()
     self:CleanDatabase()
 end
 
@@ -279,7 +297,6 @@ function LM.Options:OnProfile()
     table.wipe(self.cachedMountFlags)
     table.wipe(self.cachedMountGroups)
     table.wipe(self.cachedRuleSets)
-    self:InitializePriorities()
     self.db.callbacks:Fire("OnOptionsProfile")
 end
 
@@ -315,25 +332,15 @@ function LM.Options:SetRawMountPriorities(v)
 end
 
 function LM.Options:GetPriority(m)
-    local p = self.db.profile.mountPriorities[m.spellID]
+    local p = self.db.profile.mountPriorities[m.spellID] or self.db.profile.defaultPriority
     return p, (self.db.profile.priorityWeights[p] or 0)
 end
 
-function LM.Options:InitializePriorities()
-    for _,m in ipairs(LM.PlayerMounts.mounts) do
-        if not self.db.profile.mountPriorities[m.spellID] then
-            if self.db.profile.excludeNewMounts then
-                self.db.profile.mountPriorities[m.spellID] = self.DISABLED_PRIORITY
-            else
-                self.db.profile.mountPriorities[m.spellID] = self.DEFAULT_PRIORITY
-            end
-        end
-    end
-end
-
 function LM.Options:SetPriority(m, v)
-    LM.Debug(format("Setting mount %s (%d) to priority %d", m.name, m.spellID, v))
-    v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
+    LM.Debug(format("Setting mount %s (%d) to priority %s", m.name, m.spellID, tostring(v)))
+    if v then
+        v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
+    end
     self.db.profile.mountPriorities[m.spellID] = v
     self.db.callbacks:Fire("OnOptionsModified")
 end
@@ -342,8 +349,10 @@ end
 -- with hundreds of unnecessary callback refreshes.
 
 function LM.Options:SetPriorities(mountlist, v)
-    LM.Debug(format("Setting %d mounts to priority %d", #mountlist, v))
-    v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
+    LM.Debug(format("Setting %d mounts to priority %s", #mountlist, tostring(v)))
+    if v then
+        v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
+    end
     for _,m in ipairs(mountlist) do
         self.db.profile.mountPriorities[m.spellID] = v
     end
@@ -654,16 +663,12 @@ end
     Exclude new mounts
 ----------------------------------------------------------------------------]]--
 
-function LM.Options:GetExcludeNewMounts()
-    return self.db.profile.excludeNewMounts
+function LM.Options:GetDefaultPriority()
+    return self.db.profile.defaultPriority
 end
 
-function LM.Options:SetExcludeNewMounts(v)
-    if v then
-        self.db.profile.excludeNewMounts = true
-    else
-        self.db.profile.excludeNewMounts = false
-    end
+function LM.Options:SetDefaultPriority(v)
+    self.db.profile.defaultPriority = ( tonumber(v) or self.DEFAULT_PRIORITY )
     self.db.callbacks:Fire("OnOptionsModified")
 end
 
