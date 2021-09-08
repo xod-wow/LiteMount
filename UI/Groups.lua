@@ -246,12 +246,12 @@ function LiteMountGroupsPanelGroupsMixin:SetControl(v)
 end
 
 
---[[--------------------------------------------------------------------------]]--
+--[[------------------------------------------------------------------------]]--
 
 LiteMountGroupsPanelMountMixin = {}
 
 function LiteMountGroupsPanelMountMixin:OnClick()
-    LiteMountGroupsPanel.Mounts.isDirty = true
+    LiteMountGroupsPanel.Groups.isDirty = true
     local group = LiteMountGroupsPanel.Groups.selectedGroup
     if LM.Options:IsMountInGroup(self.mount, group) then
         LM.Options:ClearMountGroup(self.mount, group)
