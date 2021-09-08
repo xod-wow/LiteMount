@@ -84,6 +84,9 @@ local defaults = {
         priorityWeights     = { 1, 2, 6, 1 },
         randomKeepSeconds   = 0,
         instantOnlyMoving   = false,
+        -- Paranoia, for now. Later delete these and let the cleanup work
+        oldRules            = { },
+        oldFlagChanges      = { },
     },
     char = {
         unavailableMacro    = "",
@@ -204,6 +207,7 @@ function LM.Options:VersionUpgrade7()
         LM.Debug(' - checking profile: ' .. n)
         if (p.configVersion or 7) < 7 and p.flagChanges then
             LM.Debug('   - upgrading profile: ' .. n)
+            p.oldFlagChanges = CopyTable(p.flagChanges)
             p.groups = p.customFlags or {}
             p.customFlags = nil
             for spellID,changes in pairs(p.flagChanges) do
@@ -231,9 +235,10 @@ function LM.Options:VersionUpgrade8()
 
     for n, p in pairs(self.db.profiles) do
         LM.Debug(' - checking profile: ' .. n)
-        if (p.configVersion or 8) < 8 and p.flagChanges then
+        if (p.configVersion or 8) < 8 and p.rules then
             LM.Debug('   - upgrading profile: ' .. n)
-            for k, ruleset in pairs(p.rules or {}) do
+            p.oldRules = CopyTable(p.rules)
+            for k, ruleset in pairs(p.rules) do
                 LM.Debug('   - ruleset ' .. k)
                 for i, rule in ipairs(ruleset) do
                     ruleset[i] = LM.Rule:MigrateFromTable(rule)
