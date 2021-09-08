@@ -313,7 +313,7 @@ ACTIONS['SmartMount'] = {
             local m
 
             if not m and LM.Conditions:Check("[submerged]", env) then
-                LM.Debug(" - trying Swimming Mount (underwater)")
+                LM.Debug(" - trying Aquatic Mount (underwater)")
                 local swim = filteredList:FilterSearch('SWIM')
                 LM.Debug(" - found " .. #swim .. " mounts.")
                 m = swim:PriorityRandom(env.random)
@@ -327,22 +327,22 @@ ACTIONS['SmartMount'] = {
             end
 
             if not m and LM.Conditions:Check("[floating,nowaterwalking]", env) then
-                LM.Debug(" - trying Swimming Mount (on the surface)")
+                LM.Debug(" - trying Aquatic Mount (on the surface)")
                 local swim = filteredList:FilterSearch('SWIM')
                 LM.Debug(" - found " .. #swim .. " mounts.")
                 m = swim:PriorityRandom(env.random)
             end
 
             if not m then
-                LM.Debug(" - trying Running Mount")
-                local run = filteredList:FilterSearch('RUN')
+                LM.Debug(" - trying Ground Mount")
+                local run = filteredList:FilterSearch('RUN', '~SLOW')
                 LM.Debug(" - found " .. #run .. " mounts.")
                 m = run:PriorityRandom(env.random)
             end
 
             if not m then
-                LM.Debug(" - trying Walking Mount")
-                local walk = filteredList:FilterSearch('WALK')
+                LM.Debug(" - trying Slow Ground Mount")
+                local walk = filteredList:FilterSearch('RUN', 'SLOW')
                 LM.Debug(" - found " .. #walk .. " mounts.")
                 m = walk:PriorityRandom(env.random)
             end

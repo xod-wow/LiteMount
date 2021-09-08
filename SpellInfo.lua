@@ -21,8 +21,6 @@ LM.FLAG = { }
 LM.FLAG.SWIM        = 1
 LM.FLAG.FLY         = 2
 LM.FLAG.RUN         = 3
-LM.FLAG.WALK        = 4
-LM.FLAG.FAVORITES   = 5 -- Must be last
 
 LM.SPELL = { }
 LM.SPELL.TRAVEL_FORM = 783

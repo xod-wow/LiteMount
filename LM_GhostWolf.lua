@@ -35,13 +35,12 @@ function LM.GhostWolf:GetFlags()
     -- is following you around in Lost Isles (Legion). Unfortunately there's
     -- no way to detect him as far as I can tell.
 
-    if flags.WALK then
+    if flags.SLOW then
         local hasAura
         hasAura = LM.UnitAura('player', TABLET_OF_GHOST_WOLF_AURA)
         if hasAura then
             flags = CopyTable(flags)
-            flags.WALK = nil
-            flags.RUN = true
+            flags.SLOW = nil
         end
     end
 

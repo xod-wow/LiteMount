@@ -327,8 +327,7 @@ function LiteMountMountsPanelMixin:OnLoad()
 
     self.allFlags = LM.Options:GetFlags()
 
-    -- Note, explicitly not FAVORITES (#5)
-    for i = 1, 4 do
+    for i = 1, 3 do
         local label = self["BitLabel"..i]
         if self.allFlags[i] then
             label:SetText(L[self.allFlags[i]])

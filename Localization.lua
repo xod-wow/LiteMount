@@ -36,7 +36,7 @@ L.Unknown               = UNKNOWN
 -- enUS / enGB / Default -------------------------------------------------------
 
     L = L or {}
-    L["FLY"] = "Fly"
+    L["FLY"] = "Flying"
     L["LM_ACTION"] = "Action"
     L["LM_ADVANCED_EXP"] = "These settings allow you to customize the actions run by each of the LiteMount key bindings. Please read the documentation at the URL below before changing anything."
     L["LM_AUTHOR"] = "Author"
@@ -114,8 +114,8 @@ L.Unknown               = UNKNOWN
     L["LM_USABLE"] = "Usable"
     L["LM_SET_DEFAULT_MOUNT_PRIORITY_TO"] = "Set default mount priority to %d (%s) instead of %d (%s)."
     L["LM_WARN_REPLACE_COND"] = "The [%s] action list condition has been replaced by [%s] due to Blizzard changes."
-    L["RUN"] = "Run"
-    L["SWIM"] = "Swim"
+    L["RUN"] = "Ground"
+    L["SWIM"] = "Aquatic"
     L["WALK"] = "Walk"
 
     -- Family
