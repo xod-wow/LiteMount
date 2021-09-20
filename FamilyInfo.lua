@@ -320,7 +320,6 @@ LM.MOUNTFAMILY["Dragonhawk"] = {
     [ 96503] = true, -- Amani Dragonhawk
     [142478] = true, -- Armored Blue Dragonhawk
     [142266] = true, -- Armored Red Dragonhawk
-    [ 62048] = true, -- Black Dragonhawk Mount
     [ 61996] = true, -- Blue Dragonhawk
     [194464] = true, -- Eclipse Dragonhawk
     [ 62048] = true, -- Illidari Doomhawk
