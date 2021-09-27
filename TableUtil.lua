@@ -105,13 +105,21 @@ local function prepSimpleKey(val)
     end
 end
 
+local function keyComp(a, b)
+    if type(a) == type(b) then
+        return a < b
+    else
+        return tostring(a) < tostring(b)
+    end
+end
+
 local DumpValue
 
 local function DumpTableContents(val, prefix, firstPrefix, context)
     local oldDepth = context.depth
     local oldKey = context.key
 
-    local iter = LM.PairsByKeys(val)
+    local iter = LM.PairsByKeys(val, keyComp)
     local nextK, nextV = iter(val, nil)
 
     while nextK do
