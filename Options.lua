@@ -212,7 +212,7 @@ function LM.Options:VersionUpgrade7()
             p.customFlags = nil
             for spellID,changes in pairs(p.flagChanges) do
                 for g,c in pairs(changes) do
-                    if not LM.FLAG[g] then
+                    if p.groups[g] then
                         p.groups[g][spellID] = true
                         changes[g] = nil
                     end
