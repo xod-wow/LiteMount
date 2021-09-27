@@ -73,6 +73,8 @@ function LiteMountGeneralPanelMixin:OnLoad()
     -- DefaultPriority --
 
     self.DefaultPriority.Text:SetWidth(500)
+    self.DefaultPriority.Text:SetText(L.LM_DISABLE_NEW_MOUNTS)
+--[[
     self.DefaultPriority.Text:SetText(
         string.format(L.LM_SET_DEFAULT_MOUNT_PRIORITY_TO,
                         LM.Options.DISABLED_PRIORITY,
@@ -81,6 +83,7 @@ function LiteMountGeneralPanelMixin:OnLoad()
                         L.LM_PRIORITY_DESC1
                         )
         )
+]]
     self.DefaultPriority.SetOption =
         function (self, setting)
             if not setting or setting == "0" then

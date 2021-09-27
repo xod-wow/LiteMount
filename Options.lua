@@ -302,6 +302,7 @@ function LM.Options:OnProfile()
     table.wipe(self.cachedMountFlags)
     table.wipe(self.cachedMountGroups)
     table.wipe(self.cachedRuleSets)
+    self:InitializePriorities()
     self.db.callbacks:Fire("OnOptionsProfile")
 end
 
@@ -339,6 +340,14 @@ end
 function LM.Options:GetPriority(m)
     local p = self.db.profile.mountPriorities[m.spellID] or self.db.profile.defaultPriority
     return p, (self.db.profile.priorityWeights[p] or 0)
+end
+
+function LM.Options:InitializePriorities()
+    for _,m in ipairs(LM.PlayerMounts.mounts) do
+        if not self.db.profile.mountPriorities[m.spellID] then
+            self.db.profile.mountPriorities[m.spellID] = self.db.profile.defaultPriority
+        end
+    end
 end
 
 function LM.Options:SetPriority(m, v)
