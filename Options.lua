@@ -47,7 +47,7 @@ LeaveVehicle
 Dismount
 CopyTargetsMount
 ApplyRules
-Limit [mod:shift,nosubmerged,flyable] RUN/WALK,~FLY
+Limit [mod:shift,nosubmerged,flyable] RUN,~FLY
 Limit [mod:shift,submerged] -SWIM
 SmartMount
 Macro

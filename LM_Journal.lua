@@ -88,7 +88,8 @@ function LM.Journal:Get(id, isUsable)
     elseif m.mountType == 254 then      -- Swimming only mounts
         m.flags['SWIM'] = true
     elseif m.mountType == 284 then      -- Chauffeured Mekgineer's Chopper
-        m.flags['WALK'] = true
+        m.flags['RUN'] = true
+        m.flags['SLOW'] = true
     elseif m.mountType == 398 then      -- Kua'fon
         -- Kua'fon can fly if achievement 13573 is completed, otherwise run
 --@debug@
