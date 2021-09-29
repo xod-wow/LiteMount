@@ -572,6 +572,7 @@ LM.MOUNTFAMILY["Hippogryph"] = {
     [ 66087] = true, -- Silver Covenant Hippogryph
     [239363] = true, -- Swift Spectral Hippogryph
     [274610] = true, -- Teldrassil Hippogryph
+    [359013] = true, -- Val'sharah Hippogryph
 }
 
 LM.MOUNTFAMILY["Hivemind"] = {
@@ -702,6 +703,7 @@ LM.MOUNTFAMILY["Magic"] = {
     [ 42667] = true, -- Flying Broom
     [ 47977] = true, -- Magic Broom
     [130092] = true, -- Red Flying Cloud
+    [359318] = true, -- Soaring Spelltome
     [334352] = true, -- Wildseed Cradle
 }
 
@@ -953,6 +955,7 @@ LM.MOUNTFAMILY["Raptor"] = {
 LM.MOUNTFAMILY["Ratstallion"] = {
     [215558] = true, -- Ratstallion
     [220123] = true, -- Ratstallion Harness
+    [356488] = true, -- Sarge's Tale
     [342780] = true, -- Mawrat Harness
 }
 
