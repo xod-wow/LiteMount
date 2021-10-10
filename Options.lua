@@ -799,7 +799,7 @@ end
     Debug settings
 ----------------------------------------------------------------------------]]--
 
-function LM.Options:GetDebug(v)
+function LM.Options:GetDebug()
     return self.db.char.debugEnabled
 end
 

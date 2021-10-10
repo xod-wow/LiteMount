@@ -654,7 +654,7 @@ CONDITIONS["option"] = {
             elseif setting == "instantonlymoving" then
                 return LM.Options:GetInstantOnlyMoving()
             elseif setting == "debug" then
-                return LM.Options:GetDebug(v)
+                return LM.Options:GetDebug()
             elseif setting == "uidebug" then
                 return LM.Options:GetUIDebug()
             end
