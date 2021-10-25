@@ -139,19 +139,6 @@ function LiteMountRuleEditConditionMixin:GetType(arg)
     return self.type
 end
 
-function LiteMountRuleEditConditionMixin:IsValidCondition()
-    if self.type == "advanced" then
-        if not self.arg or self.arg == "" then return false end
-        return LM.Conditions:ArgsToString(self.arg) ~= nil
-    else
-        local info = LM.Conditions:GetCondition(self.type)
-        if not info then return false end
-        if info.menu and not self.arg then return false end
-        if info.validate and not self.arg then return false end
-        return true
-    end
-end
-
 function LiteMountRuleEditConditionMixin:SetCondition(condition)
     if not condition then
         self.type = nil
@@ -205,7 +192,8 @@ function LiteMountRuleEditConditionMixin:Update()
     elseif info.menu then
         self.TypeDropDown:SetText(info.name)
         if self.arg then
-            self.ArgDropDown:SetText(LM.Conditions:ArgsToString(self.arg))
+            local text = select(2, LM.Conditions:ToDisplay(self.arg))
+            self.ArgDropDown:SetText(text)
         else
             self.ArgDropDown:SetText("")
         end
@@ -260,7 +248,7 @@ local function ActionTypeInitialize(dropDown, level, menuList)
             owner:SetType(arg1)
         end
         for _,item in ipairs(TypeMenu) do
-            info.text = LM.Actions:ToString(item)
+            info.text = LM.Actions:ToDisplay(item)
             info.arg1 = item
             info.arg2 = dropDown:GetParent()
             UIDropDownMenu_AddButton(info, level)
@@ -333,20 +321,22 @@ end
 local actionHelp = DISABLED_FONT_COLOR:WrapTextInColorCode(LFGWIZARD_TITLE)
 
 function LiteMountRuleEditActionMixin:Update()
-    self.TypeDropDown:SetText(LM.Actions:ToString(self.type))
-
     if not self.type then
         self.TypeDropDown:SetText(actionHelp)
         self.ArgDropDown:Hide()
-    else
-        if self.arg then
-            local text = LM.Actions:ArgsToString(self.type, { self.arg })
-            self.ArgDropDown:SetText(text)
-        else
-            self.ArgDropDown:SetText("")
-        end
-        self.ArgDropDown:Show()
+        return
     end
+
+    local actionText, argText
+    if self.arg then
+        actionText, argText = LM.Actions:ToDisplay(self.type, { self.arg })
+    else
+        actionText = LM.Actions:ToDisplay(self.type)
+    end
+
+    self.TypeDropDown:SetText(actionText)
+    self.ArgDropDown:SetText(argText or "")
+    self.ArgDropDown:Show()
 end
 
 function LiteMountRuleEditActionMixin:OnLoad()
@@ -362,7 +352,7 @@ function LiteMountRuleEditMixin:IsValidRule()
     if not self.Action.arg then return false end
     for _, cFrame in ipairs(self.Conditions) do
         if cFrame.type then
-            if not cFrame:IsValidCondition() then
+            if not LM.Conditions:IsValidCondition(cFrame.arg) then
                 return false
             end
         end

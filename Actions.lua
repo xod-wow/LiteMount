@@ -566,21 +566,14 @@ function LM.Actions:IsFlowSkipped(env)
     return tContains(env.flowControl, false)
 end
 
-function LM.Actions:ToString(action)
+function LM.Actions:ToDisplay(action, args)
     local a = ACTIONS[action]
-    if a and a.name then
-        return a.name
+    local name = a.name or action
+    if not args then
+        return name
+    elseif a.toDisplay then
+        return name, table.concat(LM.tMap(args, a.toDisplay), "\n")
     else
-        return action
-    end
-end
-
-function LM.Actions:ArgsToString(action, args)
-    local a = ACTIONS[action]
-    if not a then return end
-    if a.toDisplay then
-        return table.concat(LM.tMap(args, a.toDisplay), "\n")
-    else
-        return table.concat(args, ' ')
+        return name, table.concat(args, ' ')
     end
 end

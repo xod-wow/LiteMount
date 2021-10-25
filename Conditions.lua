@@ -1143,10 +1143,12 @@ function LM.Conditions:GetConditions()
     return out
 end
 
-local function FillMenuTexts(t)
+local function FillMenuTextsRecursive(t)
     for _,item in ipairs(t) do
-        item.text = item.text or LM.Conditions:ArgsToString(item.val)
-        FillMenuTexts(item)
+        if not item.text then
+            item.text = select(2, LM.Conditions:ToDisplay(item.val))
+        end
+        FillMenuTextsRecursive(item)
     end
     if not t.nosort then
         table.sort(t, function (a,b) return a.text < b.text end)
@@ -1158,26 +1160,32 @@ function LM.Conditions:ArgsMenu(cond)
     local c = CONDITIONS[cond]
     if not c then return end
     if type(c.menu) == 'table' then
-        return FillMenuTexts(c.menu)
+        return FillMenuTextsRecursive(c.menu)
     elseif type(c.menu) == 'function' then
-        return FillMenuTexts(c.menu())
+        return FillMenuTextsRecursive(c.menu())
     end
 end
 
-function LM.Conditions:ToString(text)
-    local cond, valuestr = strsplit(':', text)
-    local c = CONDITIONS[cond]
-    if c then return c.name or ADVANCED_LABEL end
+function LM.Conditions:IsValidCondition(text)
+    if text then
+        local cond, valuestr = strsplit(':', text)
+        if cond and CONDITIONS[cond] then
+            return true
+        end
+    end
 end
 
-function LM.Conditions:ArgsToString(text)
+function LM.Conditions:ToDisplay(text)
     local cond, valuestr = strsplit(':', text)
 
     local c = CONDITIONS[cond]
     if not c then return end
 
-    if not c.name then return text end
-    if not c.toDisplay then return end
+    local name = c.name or ADVANCED_LABEL
+
+    if not c.toDisplay then
+        return name, nil
+    end
 
     local values
     if valuestr then
@@ -1194,5 +1202,5 @@ function LM.Conditions:ArgsToString(text)
     else
         argText = table.concat(LM.tMap(values, c.toDisplay, values), " ")
     end
-    return argText
+    return name, argText
 end

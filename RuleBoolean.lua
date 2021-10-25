@@ -219,7 +219,7 @@ function LM.RuleBoolean:ToDisplay()
         return string.format(L.LM_NOT_FORMAT, text)
     elseif self.op == 'LEAF' then
         local s = UnBracket(self:ToString())
-        local c, a = LM.Conditions:ToString(s), LM.Conditions:ArgsToString(s)
+        local c, a = LM.Conditions:ToDisplay(s)
         if a then
             return string.format('%s : %s', c, a)
         else

@@ -133,7 +133,7 @@ function LM.Rule:Dispatch(env)
 
     local handler = LM.Actions:GetFlowControlHandler(self.action)
     if handler then
-        LM.Debug("Dispatching flow control action " .. self.line)
+        LM.Debug("Dispatching flow control action " .. (self.line or self:ToString()))
         handler(self.args or {}, env, isTrue)
         return
     end
@@ -148,7 +148,7 @@ function LM.Rule:Dispatch(env)
         return
     end
 
-    LM.Debug("Dispatching rule " .. (self.line or self:ToLine(self)))
+    LM.Debug("Dispatching rule " .. (self.line or self:ToString()))
 
     return handler(self.args or {}, env)
 end
@@ -161,18 +161,14 @@ function LM.Rule:ToString()
     return table.concat(out, ' ')
 end
 
-function LM.Rule:ActionToDisplay()
-    local action = LM.Actions:ToString(self.action, self.args)
-    local actionArg = LM.Actions:ArgsToString(self.action, self.args)
-    if actionArg then
-        return action .. '\n' .. actionArg
-    else
-        return action
-    end
-end
-
 function LM.Rule:ToDisplay()
-    return self.conditions:ToDisplay(), self:ActionToDisplay()
+    local conditionText = self.conditions:ToDisplay()
+    local actionText, argText = LM.Actions:ToDisplay(self.action, self.args)
+    if argText then
+        return conditionText, actionText .. "\n" .. argText
+    else
+        return conditionText, actionText
+    end
 end
 
 -- Simple rules can be used in the user rules UI. They must have:
@@ -236,4 +232,3 @@ function LM.Rule:MigrateFromTable(tableRule)
     end
     return table.concat(textParts, ' ')
 end
-
