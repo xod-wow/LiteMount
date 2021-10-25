@@ -75,7 +75,7 @@ ACTIONS['LimitSet'] = {
     toDisplay =
         function (v)
             -- XXX Doesn't support multiple args XXX
-            return LM.Mount:MountFilterToString(v)
+            return LM.Mount:FilterToDisplay(v)
         end,
     handler = function (args, env)
             -- There's no point of multi-arg, just use the last
@@ -88,7 +88,7 @@ ACTIONS['LimitSet'] = {
 
 ACTIONS['LimitInclude'] = {
     name = L.LM_INCLUDE_MOUNTS,
-    toDisplay = function (v) return LM.Mount:MountFilterToString(v) end,
+    toDisplay = function (v) return LM.Mount:FilterToDisplay(v) end,
     handler = function (args, env)
             -- XXX this multi-arg support is super sketchy/wrong XXX
             local plusArgs = LM.tMap(args, function (a) return '+' .. a end)
@@ -98,7 +98,7 @@ ACTIONS['LimitInclude'] = {
 
 ACTIONS['LimitExclude'] = {
     name = L.LM_EXCLUDE_MOUNTS,
-    toDisplay = function (v) return LM.Mount:MountFilterToString(v) end,
+    toDisplay = function (v) return LM.Mount:FilterToDisplay(v) end,
     handler = function (args, env)
             -- XXX this multi-arg support is super sketchy/wrong XXX
             local minusArgs = LM.tMap(args, function (a) return '-' .. a end)
@@ -298,7 +298,7 @@ ACTIONS['ApplyRules'] = {
 ACTIONS['SmartMount'] = {
     name = L.LM_SMARTMOUNT_ACTION,
     toDisplay =
-        function (v) return LM.Mount:MountFilterToString(v) end,
+        function (v) return LM.Mount:FilterToDisplay(v) end,
     handler =
         function (args, env)
 
@@ -357,7 +357,7 @@ ACTIONS['SmartMount'] = {
 ACTIONS['Mount'] = {
     name = L.LM_MOUNT_ACTION,
     toDisplay =
-        function (v) return LM.Mount:MountFilterToString(v) end,
+        function (v) return LM.Mount:FilterToDisplay(v) end,
     handler =
         function (args, env)
             local filters = ReplaceVars(LM.tJoin(env.filters[1], args))

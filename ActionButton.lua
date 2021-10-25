@@ -42,9 +42,7 @@ function LM.ActionButton:PreClick(mouseButton)
     end
 
     -- Set up the fresh run environment for a new run.
-    local subEnv = CopyTable(self.globalEnv)
-    subEnv.filters = { { } }
-    subEnv.flowControl = { }
+    local subEnv = self.globalEnv:Clone()
     subEnv.clickArg = mouseButton
 
     local ruleSet = LM.Options:GetCompiledButtonRuleSet(self.id)
@@ -89,7 +87,7 @@ function LM.ActionButton:Create(n)
     b.id = n
 
     -- Global environment
-    b.globalEnv = { id = n }
+    b.globalEnv = LM.RuleContext:New({ id = n })
 
     b:RegisterForClicks("AnyDown")
 

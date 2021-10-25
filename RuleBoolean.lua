@@ -136,10 +136,11 @@ function LM.RuleBoolean:EvalOr(env)
     if #self.conditions == 0 then
         return true
     end
+    local origUnit = env.unit
     for _,c in ipairs(self.conditions) do
         local v = c:Eval(env)
         if v then return v end
-        env.unit = nil
+        env.unit = origUnit
     end
     return false
 end

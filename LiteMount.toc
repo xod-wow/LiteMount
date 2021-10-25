@@ -39,6 +39,7 @@ Conditions.lua
 Vars.lua
 Actions.lua
 RuleBoolean.lua
+RuleContext.lua
 Rule.lua
 RuleSet.lua
 ActionButton.lua
