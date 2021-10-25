@@ -97,7 +97,7 @@ CONDITIONS["channeling"] = {
 
 CONDITIONS["class"] = {
     name = CLASS,
-    tostring =
+    toDisplay =
         function (v)
             if v then
                 return LOCALIZED_CLASS_NAMES_FEMALE[v]
@@ -154,7 +154,7 @@ CONDITIONS["combat"] = {
 
 CONDITIONS["covenant"] = {
     name = L.LM_COVENANT,
-    tostring =
+    toDisplay =
         function (v)
             local id = tonumber(v)
             if id then
@@ -196,7 +196,7 @@ CONDITIONS["dead"] = {
 CONDITIONS["difficulty"] = {
     --[[
     name = DUNGEON_DIFFICULTY,
-    tostring =
+    toDisplay =
         function (v)
             if tonumber(v) then
                 return DifficultyUtil.GetDifficultyName(tonumber(v))
@@ -322,7 +322,7 @@ CONDITIONS["extra"] = {
 
 CONDITIONS["faction"] = {
     name = FACTION,
-    tostring =
+    toDisplay =
         function (v)
             if v and PLAYER_FACTION_GROUP[v] then
                 return FACTION_LABELS[PLAYER_FACTION_GROUP[v]]
@@ -397,7 +397,7 @@ CONDITIONS["form"] = {
 
 CONDITIONS["gather"] = {
     name = L.LM_GATHERED_RECENTLY,
-    tostring =
+    toDisplay =
         function (v)
             if not v or v == "any" then
                 return CLUB_FINDER_ANY_FLAG
@@ -465,7 +465,7 @@ CONDITIONS["indoors"] = {
 
 CONDITIONS["instance"] = {
     name = INSTANCE,
-    tostring =
+    toDisplay =
         function (v)
             local n = LM.Options:GetInstanceNameByID(tonumber(v))
             if n then
@@ -533,7 +533,7 @@ CONDITIONS["level"] = {
 
 CONDITIONS["location"] = {
 --  name = LOCATION_COLON:gsub(":", ""),
-    tostring =
+    toDisplay =
         function (v)
             return v
         end,
@@ -557,7 +557,7 @@ end
 
 CONDITIONS["map"] = {
     name = WORLD_MAP,
-    tostring =
+    toDisplay =
         function (v)
             local info = C_Map.GetMapInfo(tonumber(v))
             if info then return string.format("%s (%s)", info.name, info.mapID) end
@@ -585,7 +585,7 @@ CONDITIONS["maw"] = {
 
 CONDITIONS["mod"] = {
     name = L.LM_MODIFIER_KEY,
-    tostring =
+    toDisplay =
         function (v)
             if v == "alt" then
                 return ALT_KEY_TEXT
@@ -800,7 +800,7 @@ CONDITIONS["sameunit"] = {
 
 CONDITIONS["sex"] = {
     name = L.LM_SEX,
-    tostring =
+    toDisplay =
         function (v)
             v = tonumber(v)
             if v == 2 then
@@ -844,7 +844,7 @@ CONDITIONS["shapeshift"] = {
 
 CONDITIONS["spec"] = {
     name = SPECIALIZATION,
-    tostring =
+    toDisplay =
         function (v)
             local _, name, _, _, _, _, class = GetSpecializationInfoByID(v)
             if name and name ~= "" then return class .. " : " .. name end
@@ -1067,7 +1067,7 @@ end
 
 CONDITIONS["xmog"] = {
     args = true,
-    tostring =
+    toDisplay =
         function (v)
             if tonumber(v) then
                 local info = C_TransmogSets.GetSetInfo(v)
@@ -1177,7 +1177,7 @@ function LM.Conditions:ArgsToString(text)
     if not c then return end
 
     if not c.name then return text end
-    if not c.tostring then return end
+    if not c.toDisplay then return end
 
     local values
     if valuestr then
@@ -1188,11 +1188,11 @@ function LM.Conditions:ArgsToString(text)
 
     local argText
     if c.args then
-        argText = c.tostring(unpack(values))
+        argText = c.toDisplay(unpack(values))
     elseif #values == 0 then
-        argText = c.tostring()
+        argText = c.toDisplay()
     else
-        argText = table.concat(LM.tMap(values, c.tostring, values), " ")
+        argText = table.concat(LM.tMap(values, c.toDisplay, values), " ")
     end
     return argText
 end

@@ -72,7 +72,7 @@ ACTIONS['Limit'] = {
 
 ACTIONS['LimitSet'] = {
     name = L.LM_LIMIT_MOUNTS,
-    tostring =
+    toDisplay =
         function (v)
             -- XXX Doesn't support multiple args XXX
             return LM.Mount:MountFilterToString(v)
@@ -88,7 +88,7 @@ ACTIONS['LimitSet'] = {
 
 ACTIONS['LimitInclude'] = {
     name = L.LM_INCLUDE_MOUNTS,
-    tostring = function (v) return LM.Mount:MountFilterToString(v) end,
+    toDisplay = function (v) return LM.Mount:MountFilterToString(v) end,
     handler = function (args, env)
             -- XXX this multi-arg support is super sketchy/wrong XXX
             local plusArgs = LM.tMap(args, function (a) return '+' .. a end)
@@ -98,7 +98,7 @@ ACTIONS['LimitInclude'] = {
 
 ACTIONS['LimitExclude'] = {
     name = L.LM_EXCLUDE_MOUNTS,
-    tostring = function (v) return LM.Mount:MountFilterToString(v) end,
+    toDisplay = function (v) return LM.Mount:MountFilterToString(v) end,
     handler = function (args, env)
             -- XXX this multi-arg support is super sketchy/wrong XXX
             local minusArgs = LM.tMap(args, function (a) return '-' .. a end)
@@ -146,7 +146,7 @@ end
 
 ACTIONS['Spell'] = {
     name = L.LM_CAST_SPELL,
-    tostring =
+    toDisplay =
         function (v)
             local name, _, _, _, _, _, id = GetSpellInfo(v)
             if name then
@@ -175,7 +175,7 @@ ACTIONS['Spell'] = {
 
 ACTIONS['Buff'] = {
     name = L.LM_APPLY_BUFF,
-    tostring = ACTIONS["Spell"].tostring,
+    toDisplay = ACTIONS["Spell"].toDisplay,
     handler =
         function (args, env)
             for _, arg in ipairs(args) do
@@ -195,7 +195,7 @@ ACTIONS['Buff'] = {
 -- avoiding the IsUsableSpell failures when targeting others.
 
 ACTIONS['PreCast'] = {
-    tostring = ACTIONS["Spell"].tostring,
+    toDisplay = ACTIONS["Spell"].toDisplay,
     handler =
         function (args, env)
             for _, arg in ipairs(args) do
@@ -211,7 +211,7 @@ ACTIONS['PreCast'] = {
 
 ACTIONS['CancelAura'] = {
     name = L.LM_CANCEL_BUFF,
-    tostring = ACTIONS['Spell'].tostring,
+    toDisplay = ACTIONS['Spell'].toDisplay,
     handler =
         function (args, env)
             for _, arg in ipairs(args) do
@@ -297,7 +297,7 @@ ACTIONS['ApplyRules'] = {
 
 ACTIONS['SmartMount'] = {
     name = L.LM_SMARTMOUNT_ACTION,
-    tostring =
+    toDisplay =
         function (v) return LM.Mount:MountFilterToString(v) end,
     handler =
         function (args, env)
@@ -356,7 +356,7 @@ ACTIONS['SmartMount'] = {
 
 ACTIONS['Mount'] = {
     name = L.LM_MOUNT_ACTION,
-    tostring =
+    toDisplay =
         function (v) return LM.Mount:MountFilterToString(v) end,
     handler =
         function (args, env)
@@ -578,8 +578,8 @@ end
 function LM.Actions:ArgsToString(action, args)
     local a = ACTIONS[action]
     if not a then return end
-    if a.tostring then
-        return table.concat(LM.tMap(args, a.tostring), "\n")
+    if a.toDisplay then
+        return table.concat(LM.tMap(args, a.toDisplay), "\n")
     else
         return table.concat(args, ' ')
     end
