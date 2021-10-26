@@ -39,11 +39,11 @@ local L = LM.Localize
 
 ]]
 
-local function any(f, cond, env, ...)
+local function any(f, cond, context, ...)
     local n = select('#', ...)
     for i = 1, n do
         local v = select(i, ...)
-        if f(cond, env, v) then return true end
+        if f(cond, context, v) then return true end
     end
     return false
 end
@@ -92,14 +92,14 @@ function LM.RuleBoolean:Not(cond)
     return c
 end
 
-function LM.RuleBoolean:EvalLeaf(env)
+function LM.RuleBoolean:EvalLeaf(context)
     local condition = LM.Vars:StrSubVars(self.condition)
 
     -- Empty condition [] is true
     if condition == "" then return true end
 
     if condition:sub(1,1) == '@' then
-        env.unit = condition:sub(2)
+        context.unit = condition:sub(2)
         return true
     end
 
@@ -110,50 +110,50 @@ function LM.RuleBoolean:EvalLeaf(env)
     end
 
     if c.args then
-        return c.handler(self, env, unpack(self.args))
+        return c.handler(self, context, unpack(self.args))
     elseif #self.args == 0 then
-        return c.handler(self, env)
+        return c.handler(self, context)
     else
-        return any(c.handler, self, env, unpack(self.args))
+        return any(c.handler, self, context, unpack(self.args))
     end
 end
 
-function LM.RuleBoolean:EvalNot(env)
-    return not self.conditions[1]:Eval(env)
+function LM.RuleBoolean:EvalNot(context)
+    return not self.conditions[1]:Eval(context)
 end
 
 -- the ANDed sections carry the unit between them
-function LM.RuleBoolean:EvalAnd(env)
+function LM.RuleBoolean:EvalAnd(context)
     for _,c in ipairs(self.conditions) do
-        local v = c:Eval(env)
+        local v = c:Eval(context)
         if not v then return false end
     end
     return true
 end
 
 -- Note: deliberately resets the unit on false
-function LM.RuleBoolean:EvalOr(env)
+function LM.RuleBoolean:EvalOr(context)
     if #self.conditions == 0 then
         return true
     end
-    local origUnit = env.unit
+    local origUnit = context.unit
     for _,c in ipairs(self.conditions) do
-        local v = c:Eval(env)
+        local v = c:Eval(context)
         if v then return v end
-        env.unit = origUnit
+        context.unit = origUnit
     end
     return false
 end
 
-function LM.RuleBoolean:Eval(env)
+function LM.RuleBoolean:Eval(context)
     if self.op == 'LEAF' then
-        return self:EvalLeaf(env)
+        return self:EvalLeaf(context)
     elseif self.op == 'NOT' then
-        return self:EvalNot(env)
+        return self:EvalNot(context)
     elseif self.op == 'AND' then
-        return self:EvalAnd(env)
+        return self:EvalAnd(context)
     elseif self.op == 'OR' then
-        return self:EvalOr(env)
+        return self:EvalOr(context)
     end
 end
 

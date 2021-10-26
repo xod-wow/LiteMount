@@ -127,18 +127,18 @@ function LM.Rule:ParseLine(line)
     return r
 end
 
-function LM.Rule:Dispatch(env)
+function LM.Rule:Dispatch(context)
 
-    local isTrue = self.conditions:Eval(env)
+    local isTrue = self.conditions:Eval(context)
 
     local handler = LM.Actions:GetFlowControlHandler(self.action)
     if handler then
         LM.Debug("Dispatching flow control action " .. (self.line or self:ToString()))
-        handler(self.args or {}, env, isTrue)
+        handler(self.args or {}, context, isTrue)
         return
     end
 
-    if not isTrue or LM.Actions:IsFlowSkipped(env) then
+    if not isTrue or LM.Actions:IsFlowSkipped(context) then
         return
     end
 
@@ -150,7 +150,7 @@ function LM.Rule:Dispatch(env)
 
     LM.Debug("Dispatching rule " .. (self.line or self:ToString()))
 
-    return handler(self.args or {}, env)
+    return handler(self.args or {}, context)
 end
 
 function LM.Rule:ToString()

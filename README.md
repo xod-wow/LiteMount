@@ -134,10 +134,10 @@ actions.
 
 ```
   fcHandler = LM.Actions:GetFlowControlHandler(action)
-  fcHandler(args, env)
+  fcHandler(args, context)
 
   handler = LM.Actions:GetHandler(action)
-  secureAction = handler(args, env)
+  secureAction = handler(args, context)
 ```
 
 Handlers return a LM.SecureAction object if they were successful, which is

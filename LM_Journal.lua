@@ -137,15 +137,15 @@ function LM.Journal:IsCastable()
     return LM.Mount.IsCastable(self)
 end
 
-function LM.Journal:GetCastAction(env)
+function LM.Journal:GetCastAction(context)
     local spellName = GetSpellInfo(self.spellID)
-    if env and env.preCast then
+    if context and context.preCast then
         return LM.SecureAction:Macro(
-                "/cast [@player] !" .. env.preCast .. "\n" ..
+                "/cast [@player] !" .. context.preCast .. "\n" ..
                 "/cast " .. spellName
             )
     else
-        return LM.Mount.GetCastAction(self, env)
+        return LM.Mount.GetCastAction(self, context)
     end
 end
 

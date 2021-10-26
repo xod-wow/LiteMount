@@ -49,7 +49,7 @@ local CONDITIONS = { }
 CONDITIONS["achievement"] = {
     -- name = BATTLE_PET_SOURCE_6,
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             return select(4, GetAchievementInfo(tonumber(v or 0)))
         end
 }
@@ -57,8 +57,8 @@ CONDITIONS["achievement"] = {
 CONDITIONS["aura"] = {
     -- name = L["Aura"],
     handler =
-        function (cond, env, v)
-            local unit = env.unit or "player"
+        function (cond, context, v)
+            local unit = context.unit or "player"
             if LM.UnitAura(unit, v) or LM.UnitAura(unit, v, "HARMFUL") then
                 return true
             end
@@ -67,7 +67,7 @@ CONDITIONS["aura"] = {
 
 CONDITIONS["breathbar"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             local name, _, _, rate = GetMirrorTimerInfo(2)
             return (name == "BREATH" and rate < 0)
         end
@@ -75,7 +75,7 @@ CONDITIONS["breathbar"] = {
 
 CONDITIONS["canexitvehicle"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             return CanExitVehicle()
         end
 }
@@ -83,8 +83,8 @@ CONDITIONS["canexitvehicle"] = {
 CONDITIONS["channeling"] = {
     -- name = CHANNELING,
     handler =
-        function (cond, env, v)
-            local unit = env.unit or "player"
+        function (cond, context, v)
+            local unit = context.unit or "player"
             if not v then
                 return UnitChannelInfo(unit) ~= nil
             elseif tonumber(v) then
@@ -118,17 +118,17 @@ CONDITIONS["class"] = {
         { val = "class:" .. select(2, GetClassInfo(12)) },
     },
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
-                return tContains({ UnitClass(env.unit or "player") }, v)
+                return tContains({ UnitClass(context.unit or "player") }, v)
             end
         end,
 }
 
 CONDITIONS["click"] = {
     handler =
-        function (cond, env, v)
-            if v and env.clickArg == v then
+        function (cond, context, v)
+            if v and context.clickArg == v then
                 return true
             end
         end
@@ -138,15 +138,15 @@ CONDITIONS["click"] = {
 CONDITIONS["combat"] = {
     -- name = GARRISON_LANDING_STATUS_MISSION_COMBAT,
     handler =
-        function (cond, env)
+        function (cond, context)
             local unit, petunit
-            if not env.unit then
+            if not context.unit then
                 unit, petunit = "player", "pet"
-            elseif env.unit == "player" then
+            elseif context.unit == "player" then
                 petunit = "pet"
             else
-                unit = env.unit
-                petunit = env.unit .. "pet"
+                unit = context.unit
+                petunit = context.unit .. "pet"
             end
             return UnitAffectingCombat(unit) or UnitAffectingCombat(petunit)
         end
@@ -173,7 +173,7 @@ CONDITIONS["covenant"] = {
             return out
         end,
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if not C_Covenants or not v then return end
             local id = C_Covenants.GetActiveCovenantID() -- 0 for none
             if not id then return end
@@ -187,8 +187,8 @@ CONDITIONS["covenant"] = {
 CONDITIONS["dead"] = {
     -- name = DEAD,
     handler =
-        function (cond, env)
-            return UnitIsDead(env.unit or "player")
+        function (cond, context)
+            return UnitIsDead(context.unit or "player")
         end
 }
 
@@ -218,7 +218,7 @@ CONDITIONS["difficulty"] = {
         end,
     ]]
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
                 local id, name = select(3, GetInstanceInfo())
                 if id == tonumber(v) or name == v then
@@ -233,7 +233,7 @@ CONDITIONS["difficulty"] = {
 CONDITIONS["draw"] = {
     args = true,
     handler =
-        function (cond, env, x, y)
+        function (cond, context, x, y)
             x, y = tonumber(x), tonumber(y)
             if not x or not y then return end
             if not cond.deck then
@@ -262,7 +262,7 @@ CONDITIONS["draw"] = {
 CONDITIONS["elapsed"] = {
     args = true,
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             v = tonumber(v)
             if v then
                 if time() - (cond.elapsed or 0) >= v then
@@ -275,7 +275,7 @@ CONDITIONS["elapsed"] = {
 
 CONDITIONS["equipped"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if not v then
                 return false
             end
@@ -298,15 +298,15 @@ CONDITIONS["equipped"] = {
 
 CONDITIONS["exists"] = {
     handler =
-        function (cond, env)
-            return UnitExists(env.unit or "target")
+        function (cond, context)
+            return UnitExists(context.unit or "target")
         end
 }
 
 -- Check for an extraactionbutton, optionally with a specific spell
 CONDITIONS["extra"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if HasExtraActionBar() and HasAction(169) then
                 if v then
                     local aType, aID = GetActionInfo(169)
@@ -336,9 +336,9 @@ CONDITIONS["faction"] = {
             }
         end,
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
-                return tContains({ UnitFactionGroup(env.unit or "player") }, v)
+                return tContains({ UnitFactionGroup(context.unit or "player") }, v)
             end
         end,
 }
@@ -346,7 +346,7 @@ CONDITIONS["faction"] = {
 CONDITIONS["falling"] = {
     -- name = STRING_ENVIRONMENTAL_DAMAGE_FALLING,
     handler =
-        function (cond, env)
+        function (cond, context)
             return LM.Environment:IsFalling()
         end
 }
@@ -354,14 +354,14 @@ CONDITIONS["falling"] = {
 CONDITIONS["false"] = {
     -- name = NEVER,
     handler =
-        function (cond, env)
+        function (cond, context)
             return false
         end
 }
 
 CONDITIONS["floating"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             return LM.Environment:IsFloating()
         end
 }
@@ -370,21 +370,21 @@ CONDITIONS["flyable"] = {
     L.LM_FLYABLE_AREA,
     name = L["Flyable area"],
     handler =
-        function (cond, env)
+        function (cond, context)
             return LM.Environment:CanFly()
         end,
 }
 
 CONDITIONS["flying"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             return IsFlying()
         end
 }
 
 CONDITIONS["form"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v == "slow" then
                 return LM.Environment:IsCombatTravelForm()
             elseif v then
@@ -414,7 +414,7 @@ CONDITIONS["gather"] = {
     },
     args = true,
     handler =
-        function (cond, env, what, n)
+        function (cond, context, what, n)
             local sinceHerb = GetTime() - LM.Environment:GetHerbTime()
             local sinceMine = GetTime() - LM.Environment:GetMineTime()
             n = tonumber(n) or 30
@@ -431,7 +431,7 @@ CONDITIONS["gather"] = {
 CONDITIONS["group"] = {
     name = L.LM_PARTY_OR_RAID_GROUP,
     handler =
-        function (cond, env, groupType)
+        function (cond, context, groupType)
             if not groupType then
                 return IsInGroup() or IsInRaid()
             elseif groupType == "raid" then
@@ -444,21 +444,21 @@ CONDITIONS["group"] = {
 
 CONDITIONS["harm"] = {
     handler =
-        function (cond, env)
-            return not UnitIsFriend("player", env.unit or "target")
+        function (cond, context)
+            return not UnitIsFriend("player", context.unit or "target")
         end
 }
 
 CONDITIONS["help"] = {
     handler =
-        function (cond, env)
-            return UnitIsFriend("player", env.unit or "target")
+        function (cond, context)
+            return UnitIsFriend("player", context.unit or "target")
         end
 }
 
 CONDITIONS["indoors"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             return IsIndoors()
         end
 }
@@ -481,7 +481,7 @@ CONDITIONS["instance"] = {
             return out
         end,
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if not v then
                 return IsInInstance()
             end
@@ -499,7 +499,7 @@ CONDITIONS["instance"] = {
 
 CONDITIONS["jump"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             local jumpTime = LM.Environment:GetJumpTime()
             return ( jumpTime and jumpTime < 2 )
         end
@@ -507,9 +507,9 @@ CONDITIONS["jump"] = {
 
 CONDITIONS["keybind"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
-                return env.id == tonumber(v)
+                return context.id == tonumber(v)
             end
         end
 }
@@ -519,7 +519,7 @@ CONDITIONS["level"] = {
     name = string.format(UNIT_LEVEL_TEMPLATE, GetMaxLevelForLatestExpansion()),
     args = true,
     handler =
-        function (cond, env, l1, l2)
+        function (cond, context, l1, l2)
             local level = UnitLevel('player')
             if not l1 then
                 return level == GetMaxLevelForLatestExpansion()
@@ -538,7 +538,7 @@ CONDITIONS["location"] = {
             return v
         end,
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             local mapID = C_Map.GetBestMapForUnit('player')
             if mapID and C_Map.GetMapInfo(mapID).name == v then
                 return true
@@ -567,7 +567,7 @@ CONDITIONS["map"] = {
             return MapTreeToMenu(LM.Environment:GetMapTree())
         end,
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v:sub(1,1) == '*' then
                 return LM.Environment:IsOnMap(tonumber(v:sub(2)))
             else
@@ -578,7 +578,7 @@ CONDITIONS["map"] = {
 
 CONDITIONS["maw"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             return LM.Environment:IsTheMaw()
         end
 }
@@ -605,7 +605,7 @@ CONDITIONS["mod"] = {
         { val = "mod:shift" },
     },
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if not v then
                 return IsModifierKeyDown()
             elseif v == "alt" then
@@ -622,23 +622,23 @@ CONDITIONS["mod"] = {
 
 CONDITIONS["mounted"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             return IsMounted()
         end
 }
 
 CONDITIONS["moving"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             return LM.Environment:IsMovingOrFalling()
         end
 }
 
 CONDITIONS["name"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
-                return UnitName(env.unit or "player") == v
+                return UnitName(context.unit or "player") == v
             end
         end
 }
@@ -646,7 +646,7 @@ CONDITIONS["name"] = {
 CONDITIONS["option"] = {
     args = true,
     handler =
-        function (cond, env, setting, ...)
+        function (cond, context, setting, ...)
             if not setting then return end
             setting = setting:lower()
             if setting == "copytargetsmount" then
@@ -663,14 +663,14 @@ CONDITIONS["option"] = {
 
 CONDITIONS["outdoors"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             return IsOutdoors()
         end
 }
 
 CONDITIONS["playermodel"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
                 return LM.Environment:GetPlayerModel() == tonumber(v)
             end
@@ -679,19 +679,19 @@ CONDITIONS["playermodel"] = {
 
 CONDITIONS["party"] = {
     handler =
-        function (cond, env)
-            return UnitPlayerOrPetInParty(env.unit or "target")
+        function (cond, context)
+            return UnitPlayerOrPetInParty(context.unit or "target")
         end
 }
 
 CONDITIONS["pet"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             local petunit
-            if not env.unit or env.unit == "player" then
+            if not context.unit or context.unit == "player" then
                 petunit = "pet"
             else
-                petunit = env.unit .. "pet"
+                petunit = context.unit .. "pet"
             end
             if v then
                 return UnitName(petunit) == v or UnitCreatureFamily(petunit) == v
@@ -703,7 +703,7 @@ CONDITIONS["pet"] = {
 
 CONDITIONS["profession"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if not v then return end
             local professions = { GetProfessions() }
             local n = tonumber(v)
@@ -722,9 +722,9 @@ CONDITIONS["profession"] = {
 CONDITIONS["pvp"] = {
     name = PVP,
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if not v then
-                return UnitIsPVP(env.unit or "player")
+                return UnitIsPVP(context.unit or "player")
             else
                 return GetZonePVPInfo() == v
             end
@@ -733,7 +733,7 @@ CONDITIONS["pvp"] = {
 
 CONDITIONS["qfc"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
                 v = tonumber(v)
                 return v and C_QuestLog.IsQuestFlaggedCompleted(v)
@@ -743,29 +743,29 @@ CONDITIONS["qfc"] = {
 
 CONDITIONS["race"] = {
     handler =
-        function (cond, env, v)
-            local race, raceEN, raceID = UnitRace(env.unit or "player")
+        function (cond, context, v)
+            local race, raceEN, raceID = UnitRace(context.unit or "player")
             return ( race == v or raceEN == v or raceID == tonumber(v) )
         end
 }
 
 CONDITIONS["raid"] = {
     handler =
-        function (cond, env)
-            return UnitPlayerOrPetInRaid(env.unit or "target")
+        function (cond, context)
+            return UnitPlayerOrPetInRaid(context.unit or "target")
         end
 }
 
 CONDITIONS["random"] = {
     handler =
-        function (cond, env, n)
+        function (cond, context, n)
             return math.random(100) <= tonumber(n)
         end
 }
 
 CONDITIONS["realm"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
                 return GetRealmName() == v
             end
@@ -775,25 +775,25 @@ CONDITIONS["realm"] = {
 CONDITIONS["resting"] = {
     name = TUTORIAL_TITLE30,
     handler =
-        function (cond, env)
+        function (cond, context)
             return IsResting()
         end
 }
 
 CONDITIONS["role"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
-                return UnitGroupRolesAssigned(env.unit or "player") == v
+                return UnitGroupRolesAssigned(context.unit or "player") == v
             end
         end
 }
 
 CONDITIONS["sameunit"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
-                return UnitIsUnit(v, env.unit or "player")
+                return UnitIsUnit(v, context.unit or "player")
             end
         end
 }
@@ -816,9 +816,9 @@ CONDITIONS["sex"] = {
         { val = "sex:3" }
     },
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
-                return UnitSex(env.unit or "player") == tonumber(v)
+                return UnitSex(context.unit or "player") == tonumber(v)
             end
         end
 }
@@ -830,14 +830,14 @@ CONDITIONS["sex"] = {
 
 CONDITIONS["swimming"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             return IsSubmerged()
         end
 }
 
 CONDITIONS["shapeshift"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             return HasTempShapeshiftActionBar()
         end
 }
@@ -865,7 +865,7 @@ CONDITIONS["spec"] = {
             return specs
         end,
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             if v then
                 local index = GetSpecialization()
                 if tonumber(v) ~= nil then
@@ -882,7 +882,7 @@ CONDITIONS["spec"] = {
 CONDITIONS["stationary"] = {
     args = true,
     handler =
-        function (cond, env, minv, maxv)
+        function (cond, context, minv, maxv)
             minv = tonumber(minv)
             maxv = tonumber(maxv)
             local stationaryTime = LM.Environment:GetStationaryTime()
@@ -900,7 +900,7 @@ CONDITIONS["stationary"] = {
 
 CONDITIONS["stealthed"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             return IsStealthed()
         end
 }
@@ -908,7 +908,7 @@ CONDITIONS["stealthed"] = {
 CONDITIONS["submerged"] = {
     name = TUTORIAL_TITLE28,
     handler =
-        function (cond, env)
+        function (cond, context)
             return (IsSubmerged() and not LM.Environment:IsFloating())
         end,
 }
@@ -916,14 +916,14 @@ CONDITIONS["submerged"] = {
 CONDITIONS["talent"] = {
     args = true,
     handler =
-        function (cond, env, tier, talent)
+        function (cond, context, tier, talent)
             return select(2, GetTalentTierInfo(tier, 1)) == tonumber(talent)
         end
 }
 
 CONDITIONS["tracking"] = {
     handler =
-        function (cond, env, v)
+        function (cond, context, v)
             local name, active, _
             for i = 1, GetNumTrackingTypes() do
                 name, _, active = GetTrackingInfo(i)
@@ -937,14 +937,14 @@ CONDITIONS["tracking"] = {
 
 CONDITIONS["true"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             return true
         end
 }
 
 CONDITIONS["waterwalking"] = {
     handler =
-        function (cond, env)
+        function (cond, context)
             -- Anglers Waters Striders (168416) or Inflatable Mount Shoes (168417)
             if not C_MountJournal.AreMountEquipmentEffectsSuppressed() then
                 local id = C_MountJournal.GetAppliedMountEquipmentID()
@@ -1085,7 +1085,7 @@ CONDITIONS["xmog"] = {
             return { GetTransmogOutfitsMenu(), GetTransmogSetsMenu() }
         end,
     handler =
-        function (cond, env, arg1, arg2)
+        function (cond, context, arg1, arg2)
             if arg2 then
                 local slotID, appearanceID = tonumber(arg1), tonumber(arg2)
                 local tmSlot = TRANSMOG_SLOTS[(slotID or 0) * 100]
@@ -1118,13 +1118,13 @@ LM.Conditions = { }
 
 local CheckConditionCache = {}
 
-function LM.Conditions:Check(conditions, env)
+function LM.Conditions:Check(conditions, context)
     local line = "DUMMY " .. conditions
     if not CheckConditionCache[line] then
         local rule = LM.Rule:ParseLine(line)
         CheckConditionCache[line] = rule.conditions
     end
-    return CheckConditionCache[line]:Eval(env or {})
+    return CheckConditionCache[line]:Eval(context or {})
 end
 
 function LM.Conditions:GetCondition(cond)

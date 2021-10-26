@@ -36,18 +36,18 @@ function LM.ActionButton:PreClick(mouseButton)
 
     -- Re-randomize if it's time
     local keepRandomForSeconds = LM.Options:GetRandomPersistence()
-    if GetTime() - (self.globalEnv.randomTime or 0) > keepRandomForSeconds then
-        self.globalEnv.random = math.random()
-        self.globalEnv.randomTime = GetTime()
+    if GetTime() - (self.context.randomTime or 0) > keepRandomForSeconds then
+        self.context.random = math.random()
+        self.context.randomTime = GetTime()
     end
 
-    -- Set up the fresh run environment for a new run.
-    local subEnv = self.globalEnv:Clone()
-    subEnv.clickArg = mouseButton
+    -- Set up the fresh run context for a new run.
+    local context = self.context:Clone()
+    context.clickArg = mouseButton
 
     local ruleSet = LM.Options:GetCompiledButtonRuleSet(self.id)
 
-    local act = ruleSet:Run(subEnv)
+    local act = ruleSet:Run(context)
     if act then
         act:SetupActionButton(self)
         return
@@ -86,8 +86,8 @@ function LM.ActionButton:Create(n)
     -- So we can look up action lists in LM.Options
     b.id = n
 
-    -- Global environment
-    b.globalEnv = LM.RuleContext:New({ id = n })
+    -- Global context
+    b.context = LM.RuleContext:New({ id = n })
 
     b:RegisterForClicks("AnyDown")
 

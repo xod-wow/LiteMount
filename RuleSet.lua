@@ -36,10 +36,10 @@ function LM.RuleSet:Compile(lines)
     return ruleset
 end
 
-function LM.RuleSet:Run(env)
+function LM.RuleSet:Run(context)
     for n,rule in ipairs(self) do
-        env.unit = nil
-        local act = rule:Dispatch(env)
+        context.unit = nil
+        local act = rule:Dispatch(context)
         if act then return act, n end
     end
 end

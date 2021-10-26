@@ -177,7 +177,7 @@ end
 
 -- These should probably not be making new identical objects all tha time.
 
-function LM.Mount:GetCastAction(env)
+function LM.Mount:GetCastAction(context)
     local spellName = GetSpellInfo(self.spellID)
     return LM.SecureAction:Spell(spellName)
 end

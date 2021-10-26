@@ -42,7 +42,7 @@ function LM.Tarecgosa:InProgress()
     end
 end
 
-function LM.Tarecgosa:GetCastAction(env)
+function LM.Tarecgosa:GetCastAction(context)
     if self:InProgress() then
         return { ['type'] = "macro", ['macrotext'] = "" }
     end
