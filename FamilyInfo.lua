@@ -157,6 +157,7 @@ LM.MOUNTFAMILY["Cat"] = {
     [ 66847] = true, -- Striped Dawnsaber
     [  8394] = true, -- Striped Frostsaber
     [ 10793] = true, -- Striped Nightsaber
+    [317177] = true, -- Sunwarmed Furline
     [ 23221] = true, -- Swift Frostsaber
     [ 23219] = true, -- Swift Mistsaber
     [ 65638] = true, -- Swift Moonsaber
