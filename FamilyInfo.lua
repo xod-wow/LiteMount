@@ -1151,6 +1151,7 @@ LM.MOUNTFAMILY["Talbuk"] = {
     [ 34896] = true, -- Cobalt War Talbuk
     [ 39316] = true, -- Dark Riding Talbuk
     [ 34790] = true, -- Dark War Talbuk
+    [363613] = true, -- Lightforged Ruinstrider
     [253058] = true, -- Maddened Chaosrunner
     [171833] = true, -- Pale Thorngrazer
     [253006] = true, -- Russet Ruinstrider
