@@ -98,6 +98,8 @@ are actions, various things are tests and various things are arguments.
     ParseLine(text)
     Dispatch()
     ToString()
+    ToDisplay()
+    IsSimpleRule()
 ```
 
 ### RuleBoolean.lua
@@ -114,6 +116,8 @@ on LM.Rule doing the parsing for it.
     Not(node)
     Eval()
     ToString()
+    ToDisplay()
+    IsSimpleCondition()
 ```
     
 ### RuleSet.lua
@@ -124,7 +128,7 @@ table of rule text lines.
 ```
   LM.RuleSet
     Compile(textOrLines)
-    Run()
+    Run(context)
 ```
 
 ### Actions.lua
@@ -168,6 +172,8 @@ a heap of WoW API calls to do tests.
 ```
   LM.Conditions
     GetCondition(name)
+    IsValidCondition(text)
+    ToDisplay(text)
 ```
 
 ### Vars.lua
