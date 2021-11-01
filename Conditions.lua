@@ -1181,10 +1181,12 @@ function LM.Conditions:ToDisplay(text)
     local c = CONDITIONS[cond]
     if not c then return end
 
-    local name = c.name or ADVANCED_LABEL
+    if not c.name then
+        return ADVANCED_LABEL, text
+    end
 
     if not c.toDisplay then
-        return name, nil
+        return c.name, nil
     end
 
     local values
@@ -1202,5 +1204,5 @@ function LM.Conditions:ToDisplay(text)
     else
         argText = table.concat(LM.tMap(values, c.toDisplay, values), " ")
     end
-    return name, argText
+    return c.name, argText
 end
