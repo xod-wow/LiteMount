@@ -133,7 +133,7 @@ function LM.Options:VersionUpgrade4()
         for n, p in pairs(self.db.profiles) do
             LM.Debug('   - into profile: ' .. n)
             p.flagChanges = p.flagChanges or {}
-            for spellID,changes in pairs(self.db.global.flagChanges) do
+            for spellID,changes in pairs(self.db.global.flagChanges or {}) do
                 p.flagChanges[spellID] = Mixin(p.flagChanges[spellID] or {}, changes)
             end
         end
