@@ -46,14 +46,26 @@
 
 ----------------------------------------------------------------------------]]--
 
+LM_TOOLTIP_BACKDROP_INFO = {
+    bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+    edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+    tile = true,
+    tileEdge = true,
+    tileSize = 16,
+    edgeSize = 16,
+    insets = { left = 4, right = 4, top = 4, bottom = 4 },
+    backdropColor = BLACK_FONT_COLOR,
+    backdropBorderColor = DARKGRAY_COLOR,
+}
+
 LM_LISTBUTTON_BACKDROP_INFO = {
     bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
     tile = true,
     tileSize = 8,
     insets = { left = 1, right = 1, top = 1, bottom = 1 },
+    backdropColor = GRAY_FONT_COLOR,
+    backdropColorAlpha = 0.5,
 }
-
-LM_NEARLYBLACK_COLOR = CreateColor(0.2, 0.2, 0.2)
 
 ----------------------------------------------------------------------------]]--
 
