@@ -311,26 +311,27 @@ end
 
 LiteMountGroupsPanelMountScrollMixin = {}
 
+function LiteMountGroupsPanelMountScrollMixin:GetDisplayedMountList(group)
+    if not group then
+        return LM.MountList:New()
+    end
+
+    local mounts = LM.UIFilter.GetFilteredMountList()
+
+    if not LiteMountGroupsPanel.showAll then
+        return mounts:Search(function (m) return LM.Options:IsMountInGroup(m, group) end)
+    else
+        return mounts
+    end
+end
+
 function LiteMountGroupsPanelMountScrollMixin:Update()
     if not self.buttons then return end
 
     local offset = HybridScrollFrame_GetOffset(self)
 
-    local mounts = LM.UIFilter.GetFilteredMountList()
-
     local group = LiteMountGroupsPanel.Groups.selectedGroup
-
-    if not group then
-        for _, button in ipairs(self.buttons) do
-            button:Hide()
-        end
-        HybridScrollFrame_Update(self, 0, 0)
-        return
-    end
-
-    if not self:GetParent().showAll then
-        mounts = mounts:Search(function (m) return LM.Options:IsMountInGroup(m, group) end)
-    end
+    local mounts = self:GetDisplayedMountList(group)
 
     for i, button in ipairs(self.buttons) do
         local index = ( offset + i - 1 ) * 2 + 1
