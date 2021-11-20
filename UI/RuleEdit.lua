@@ -352,8 +352,13 @@ function LiteMountRuleEditMixin:IsValidRule()
     if not self.Action.arg then return false end
     for _, cFrame in ipairs(self.Conditions) do
         if cFrame.type then
-            if not LM.Conditions:IsValidCondition(cFrame.arg) then
+            local info = LM.Conditions:GetCondition(cFrame.type)
+            if not info then
                 return false
+            elseif info.menu then
+                if not LM.Conditions:IsValidCondition(cFrame.arg) then
+                    return false
+                end
             end
         end
     end
