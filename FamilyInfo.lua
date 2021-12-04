@@ -417,9 +417,12 @@ LM.MOUNTFAMILY["Elemental"] = {
     [340068] = true, -- Sintouched Deathwalker
     [358319] = true, -- Soultwisted Deathwalker
     [348162] = true, -- Wandering Ancient
+    [359407] = true, -- Wastewarped Deathwalker
 }
 
 LM.MOUNTFAMILY["Fathom Dweller"] = {
+    [359381] = true, -- Cryptic Aurelid
+    [342680] = true, -- Deepstar Aurelid
     [223018] = true, -- Fathom Dweller
     [308814] = true, -- Ny'alotha Allseer
     [253711] = true, -- Pond Nettle
@@ -478,6 +481,13 @@ LM.MOUNTFAMILY["Gargon"] = {
     [333023] = true, -- Silessa
     [332927] = true, -- Sinfall Gargon
     [312754] = true, -- Vrednic
+}
+
+LM.MOUNTFAMILY["Gastropod"] = {
+    [359376] = true, -- Bronze Gastropod
+    [346719] = true, -- Serenade
+    [359378] = true, -- Stabilized Gastropod
+    [359377] = true, -- Unsuccessful Prototype Fleetpod
 }
 
 LM.MOUNTFAMILY["Goat"] = {
@@ -545,8 +555,11 @@ LM.MOUNTFAMILY["Hand"] = {
 LM.MOUNTFAMILY["Hawkstrider"] = {
     [ 35022] = true, -- Black Hawkstrider
     [ 35020] = true, -- Blue Hawkstrider
+    [342668] = true, -- Desertwing Hunter
     [230401] = true, -- Ivory Hawkstrider
+    [359372] = true, -- Mawdapted Raptora
     [ 35018] = true, -- Purple Hawkstrider
+    [359373] = true, -- Raptora Swooper
     [ 34795] = true, -- Red Hawkstrider
     [ 63642] = true, -- Silvermoon Hawkstrider
     [259202] = true, -- Starcursed Voidstrider
@@ -737,6 +750,7 @@ LM.MOUNTFAMILY["Mana Ray"] = {
 }
 
 LM.MOUNTFAMILY["Mechanical"] = {
+    [359545] = true, -- Carcinized Zerethsteed (but not)
     [290718] = true, -- Aerial Unit R-21/X
     [ 71342] = true, -- Big Love Rocket
     [171846] = true, -- Champion's Treadblade
@@ -954,6 +968,9 @@ LM.MOUNTFAMILY["Raptor"] = {
 }
 
 LM.MOUNTFAMILY["Ratstallion"] = {
+    [363136] = true, -- Colossal Ebonclaw Mawrat
+    [363297] = true, -- Colossal Soulshredder Mawrat
+    [363178] = true, -- Colossal Umbrahide Mawrat
     [215558] = true, -- Ratstallion
     [220123] = true, -- Ratstallion Harness
     [356488] = true, -- Sarge's Tale
@@ -1101,6 +1118,9 @@ LM.MOUNTFAMILY["Snapdragon"] = {
 
 LM.MOUNTFAMILY["Spider"] = {
     [213115] = true, -- Bloodfang Widow
+    [359401] = true, -- Genesis Crawler
+    [359403] = true, -- Ineffable Skitterer
+    [359402] = true, -- Tarachnid Creeper
     [327408] = true, -- Vicious War Spider
     [327407] = true, -- Vicious War Spider
 }
@@ -1143,6 +1163,7 @@ LM.MOUNTFAMILY["Storm Dragon"] = {
 
 LM.MOUNTFAMILY["Talbuk"] = {
     [253004] = true, -- Amethyst Ruinstrider
+    [359276] = true, -- Anointed Protostag
     [253005] = true, -- Beryl Ruinstrider
     [254260] = true, -- Bleakhoof Ruinstrider
     [171832] = true, -- Breezestrider Stallion
@@ -1151,14 +1172,26 @@ LM.MOUNTFAMILY["Talbuk"] = {
     [ 34896] = true, -- Cobalt War Talbuk
     [ 39316] = true, -- Dark Riding Talbuk
     [ 34790] = true, -- Dark War Talbuk
+    [359278] = true, -- Deathrunner
+    [356802] = true, -- Holy Lightstrider
     [363613] = true, -- Lightforged Ruinstrider
     [253058] = true, -- Maddened Chaosrunner
     [171833] = true, -- Pale Thorngrazer
+    [342671] = true, -- Pale Regak Cervid
     [253006] = true, -- Russet Ruinstrider
     [242305] = true, -- Sable Ruinstrider
     [171829] = true, -- Shadowmane Charger
     [ 39317] = true, -- Silver Riding Talbuk
     [ 34898] = true, -- Silver War Talbuk
+    [359277] = true, -- Sundered Zerethsteed
+    [253006] = true, -- Russet Ruinstrider
+    [242305] = true, -- Sable Ruinstrider
+    [171829] = true, -- Shadowmane Charger
+    [ 39317] = true, -- Silver Riding Talbuk
+    [ 34898] = true, -- Silver War Talbuk
+    [171830] = true, -- Swift Breezestrider
+    [ 39318] = true, -- Tan Riding Talbuk
+    [ 34899] = true, -- Tan War Talbuk
     [171830] = true, -- Swift Breezestrider
     [ 39318] = true, -- Tan Riding Talbuk
     [ 34899] = true, -- Tan War Talbuk
@@ -1191,7 +1224,13 @@ LM.MOUNTFAMILY["Toad"] = {
     [339632] = true, -- Arboreal Gulper
     [288587] = true, -- Blue Marsh Hopper
     [259740] = true, -- Green Marsh Hopper
+    [359413] = true, -- Goldplate Bufonid
+    [363701] = true, -- Patient Bufonid
+    [363703] = true, -- Prototype Leaper
+    [363706] = true, -- Russet Bufonid
     [288589] = true, -- Yellow Marsh Hopper
+    [347255] = true, -- Vicious War Croaker (Horde)
+    [347256] = true, -- Vicious War Croaker (Alliance)
 }
 
 LM.MOUNTFAMILY["Turtle"] = {
@@ -1206,11 +1245,25 @@ LM.MOUNTFAMILY["Ur'zul"] = {
     [243651] = true, -- Shackled Ur'zul
 }
 
+LM.MOUNTFAMILY["Vespoid"] = {
+    [359364] = true, -- Bronzewing Vespoid
+    [359366] = true, -- Buzz
+    [359367] = true, -- Forged Spiteflyer
+    [342678] = true, -- Vespoid Flutterer
+}
+
 LM.MOUNTFAMILY["Vile Fiend"] = {
     [253662] = true, -- Acid Belcher
     [253660] = true, -- Biletooth Gnasher
     [253661] = true, -- Crimson Slavermaw
     [243652] = true, -- Vile Fiend
+}
+
+LM.MOUNTFAMILY["Vombata"] = {
+    [359232] = true, -- Adorned Vombata
+    [359230] = true, -- Curious Crystalsniffer
+    [359231] = true, -- Darkened Vombata
+    [359229] = true, -- Heartlight Vombata
 }
 
 LM.MOUNTFAMILY["Warp Stalker"] = {
@@ -1289,6 +1342,9 @@ LM.MOUNTFAMILY["Wolf"] = {
     [ 23251] = true, -- Swift Timber Wolf
     [   580] = true, -- Timber Wolf
     [171841] = true, -- Trained Snarler
+    [349823] = true, -- Vicious Warstalker (Alliance)
+    [349824] = true, -- Vicious Warstalker (Horde)
+    [100333] = true, -- Vicious War Wolf
     [100333] = true, -- Vicious War Wolf
     [171837] = true, -- Warsong Direfang
     [   581] = true, -- Winter Wolf
@@ -1302,6 +1358,7 @@ LM.MOUNTFAMILY["Wolfhawk"] = {
 
 LM.MOUNTFAMILY["Wyrm"] = {
     [ 72808] = true, -- Bloodbathed Frostbrood Vanquisher
+    [365559] = true, -- Cosmic Gladiator's Soul Eater
     [ 64927] = true, -- Deadly Gladiator's Frost Wyrm
     [ 65439] = true, -- Furious Gladiator's Frost Wyrm
     [ 72807] = true, -- Icebound Frostbrood Vanquisher
