@@ -39,10 +39,6 @@ groups is a table of group names, with mount spell IDs as members
 -- Don't use names here, it will break in other locales
 
 local DefaultButtonAction = [[
-# Slow Fall, Levitate, Zen Flight, Glide, Flap
-Spell [falling] 130, 1706, 125883, 131347, 164862
-# Hearty Dragon Plume, Rocfeather Skyhorn Kite
-Use [falling] 182729, 131811
 LeaveVehicle
 Dismount
 CopyTargetsMount
@@ -50,6 +46,10 @@ ApplyRules
 Limit [mod:shift,nosubmerged,flyable] RUN,~FLY
 Limit [mod:shift,submerged] -SWIM
 SmartMount
+# Slow Fall, Levitate, Zen Flight, Glide, Flap
+Spell [falling] 130, 1706, 125883, 131347, 164862
+# Hearty Dragon Plume, Rocfeather Skyhorn Kite
+Use [falling] 182729, 131811
 Macro
 ]]
 
