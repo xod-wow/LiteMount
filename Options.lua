@@ -40,16 +40,20 @@ groups is a table of group names, with mount spell IDs as members
 
 local DefaultButtonAction = [[
 LeaveVehicle
-Dismount
+Dismount [nofalling]
 CopyTargetsMount
 ApplyRules
 Limit [mod:shift,nosubmerged,flyable] RUN,~FLY
 Limit [mod:shift,submerged] -SWIM
 SmartMount
-# Slow Fall, Levitate, Zen Flight, Glide, Flap
-Spell [falling] 130, 1706, 125883, 131347, 164862
-# Hearty Dragon Plume, Rocfeather Skyhorn Kite
-Use [falling] 182729, 131811
+IF [falling]
+  # Slow Fall, Levitate, Zen Flight, Glide, Flap
+  Spell 130, 1706, 125883, 131347, 164862
+  # Hearty Dragon Plume, Rocfeather Skyhorn Kite
+  Use 182729, 131811
+  # Last resort dismount even if falling
+  Dismount
+END
 Macro
 ]]
 
