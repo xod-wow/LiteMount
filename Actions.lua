@@ -484,13 +484,14 @@ ACTIONS['Use'] = {
             for _, arg in ipairs(args) do
                 local name, itemID, slotNum = UsableItemParse(arg)
                 if slotNum then
+                    LM.Debug(' - trying slot ' .. tostring(slotNum))
                     local s, d, e = GetInventoryItemCooldown('player', slotNum)
                     if s == 0 and e == 1 then
                         LM.Debug(' - Setting action to use slot ' .. slotNum)
                         return LM.SecureAction:Item(slotNum, context.unit)
                     end
-                    return
                 else
+                    LM.Debug(' - trying item ' .. tostring(name))
                     if name and IsCastableItem(itemID) then
                         LM.Debug(' - setting action to use item ' .. name)
                         return LM.SecureAction:Item(name, context.unit)
