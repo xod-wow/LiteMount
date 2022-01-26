@@ -362,8 +362,59 @@ function LiteMountMountsPanelMixin:OnShow()
     LiteMountOptionsPanel_OnShow(self)
 end
 
+function LiteMountMountsPanelMixin:OnCopyJournalFavoritesClicked()
+
+    StaticPopup_Show("LM_COPY_JOURNAL_FAVORITES")
+end
+
+function LiteMountMountsPanelMixin:CopyJournalFavorites()
+
+    local favoriteMounts = {}
+    local nonFavoriteMounts = {}
+
+    for _, mountID in ipairs(C_MountJournal.GetMountIDs()) do
+        local m = LM.PlayerMounts:GetMountByID(mountID)
+        local mountPriority = LM.Options:GetPriority(m)
+
+        if mountPriority > 1 then
+            -- Skip this mount
+        elseif m.isFavorite then
+            tinsert(favoriteMounts, m)
+        else
+            tinsert(nonFavoriteMounts, m)
+        end
+    end
+
+    LM.Options:SetPriorities(favoriteMounts, 1)
+    LM.Options:SetPriorities(nonFavoriteMounts, 0)
+end
+
+function LiteMountMountsPanelMixin:OnEnter()
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    GameTooltip:SetText(L["LM_COPY_JOURNAL_FAVORITES_DESC"])
+    GameTooltip:Show()
+end
+
+function LiteMountMountsPanelMixin:OnLeave()
+    if GameTooltip:GetOwner() == self then
+        GameTooltip:Hide()
+    end
+end
+
+StaticPopupDialogs["LM_COPY_JOURNAL_FAVORITES"] = {
+    text = format("LiteMount : %s", L.LM_COPY_JOURNAL_FAVORITES_DIALOG),
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    timeout = 0,
+    exclusive = 1,
+    whileDead = 1,
+    hideOnEscape = 1,
+    OnAccept = function (self)
+            LiteMountMountsPanelMixin:CopyJournalFavorites()
+        end,
+}
+
 function LiteMountMountsPanelMixin:OnHide()
     LM.UIFilter.UnregisterAllCallbacks(self)
     LiteMountOptionsPanel_OnHide(self)
 end
-
