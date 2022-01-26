@@ -348,19 +348,28 @@ end
 
 LiteMountRuleEditMixin = {}
 
+function LiteMountRuleEditMixin:IsValidCondition(n)
+    local cFrame = self.Conditions[n]
+    if not cFrame.type then
+        return true
+    end
+    if cFrame.arg then
+        return LM.Conditions:IsValidCondition(cFrame.arg)
+    end
+    local info = LM.Conditions:GetCondition(cFrame.type)
+    if not info then
+        return false
+    elseif info.menu and not cFrame.arg then
+        return false
+    else
+        return true
+    end
+end
+
 function LiteMountRuleEditMixin:IsValidRule()
     if not self.Action.arg then return false end
-    for _, cFrame in ipairs(self.Conditions) do
-        if cFrame.type then
-            local info = LM.Conditions:GetCondition(cFrame.type)
-            if not info then
-                return false
-            elseif info.menu then
-                if not LM.Conditions:IsValidCondition(cFrame.arg) then
-                    return false
-                end
-            end
-        end
+    for i = 1, #self.Conditions do
+        if not self:IsValidCondition(i) then return false end
     end
     return true
 end
