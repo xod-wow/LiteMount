@@ -169,7 +169,11 @@ function LM.RuleBoolean:IsSimpleCondition()
 end
 
 function LM.RuleBoolean:GetSimpleConditions()
-    return self.conditions[1].conditions
+    if self.conditions[1] then
+        return self.conditions[1].conditions
+    else
+        return {}
+    end
 end
 
 local function UnBracket(txt) return txt:sub(2,-2) end
