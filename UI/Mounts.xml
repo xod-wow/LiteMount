@@ -176,6 +176,18 @@
     </Layers>
 
     <Frames>
+        <Button parentKey="CopyJournalFavoritesButton" inherits="UIPanelButtonTemplate" text="Copy journal favorites"  mixin="LiteMountMountsPanelMixin">
+            <Size x="140" y="22" />
+            <Anchors>
+                <Anchor point="RIGHT" relativePoint="TOPRIGHT" x="-32" y="-49" />
+            </Anchors>
+            <Scripts>
+                <OnEnter method="OnEnter" />
+                <OnLeave method="OnLeave" />
+                <OnClick method="OnCopyJournalFavoritesClicked" />
+            </Scripts>
+        </Button>
+
         <Frame parentKey="AllPriority" inherits="LiteMountPriorityTemplate" mixin="LiteMountAllPriorityMixin">
             <Anchors>
                 <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.BitLabel1" x="-17" />
