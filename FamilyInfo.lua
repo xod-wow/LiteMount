@@ -483,13 +483,6 @@ LM.MOUNTFAMILY["Gargon"] = {
     [312754] = true, -- Vrednic
 }
 
-LM.MOUNTFAMILY["Gastropod"] = {
-    [359376] = true, -- Bronze Gastropod
-    [346719] = true, -- Serenade
-    [359378] = true, -- Stabilized Gastropod
-    [359377] = true, -- Unsuccessful Prototype Fleetpod
-}
-
 LM.MOUNTFAMILY["Goat"] = {
     [130138] = true, -- Black Riding Goat
     [130086] = true, -- Brown Riding Goat
@@ -571,6 +564,13 @@ LM.MOUNTFAMILY["Hawkstrider"] = {
     [ 35028] = true, -- Swift Warstrider
     [ 46628] = true, -- Swift White Hawkstrider
     [223363] = true, -- Vicious Warstrider
+}
+
+LM.MOUNTFAMILY["Helicid"] = {
+    [359376] = true, -- Bronze Helicid
+    [346719] = true, -- Serenade
+    [359378] = true, -- Scarlet Helicid
+    [359377] = true, -- Unsuccessful Prototype Fleetpod
 }
 
 LM.MOUNTFAMILY["Hippogryph"] = {
@@ -792,6 +792,7 @@ LM.MOUNTFAMILY["Mechanical"] = {
     [ 75973] = true, -- X-53 Touring Rocket
     [294143] = true, -- X-995 Mechanocat
     [256123] = true, -- Xiwyllag ATV
+    [368158] = true, -- Zereth Overseer
 }
 
 LM.MOUNTFAMILY["Mechanostrider"] = {
@@ -969,8 +970,10 @@ LM.MOUNTFAMILY["Raptor"] = {
 
 LM.MOUNTFAMILY["Ratstallion"] = {
     [363136] = true, -- Colossal Ebonclaw Mawrat
+    [368105] = true, -- Colossal Plaguespew Mawrat
     [363297] = true, -- Colossal Soulshredder Mawrat
     [363178] = true, -- Colossal Umbrahide Mawrat
+    [368128] = true, -- Colossal Wraithbound Mawrat
     [215558] = true, -- Ratstallion
     [220123] = true, -- Ratstallion Harness
     [356488] = true, -- Sarge's Tale
@@ -1068,6 +1071,7 @@ LM.MOUNTFAMILY["Serpent"] = {
 LM.MOUNTFAMILY["Shapeshift"] = {
     [165962] = true, -- Flight Form
     [  2645] = true, -- Ghost Wolf
+    [367673] = true, -- Heartbond Lupine
     [210053] = true, -- Mount Form
     [ 87840] = true, -- Running Wild
     [310143] = true, -- Soulshape
