@@ -95,6 +95,9 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
         if self.mountType then return true end
     elseif f == "FAVORITES" then
         if self.isFavorite then return true end
+    elseif f == "ZONEMATCH" then
+        local zone = GetZoneText()
+        if self:IsFromZone(zone) then return true end
     elseif tonumber(f) then
         if self.spellID == tonumber(f) then return true end
     elseif f:sub(1, 3) == 'id:' then
@@ -173,6 +176,16 @@ end
 
 function LM.Mount:IsCancelable()
     return true
+end
+
+function LM.Mount:IsFromZone(zone)
+    if self.sourceText then
+        zone = zone:gsub('%-', '%%-')
+        local source = self.sourceText:gsub("|c........(.-)|r", "%1")
+        local zt = ZONE_COLON .. '[^|]+' .. zone
+        local lt = LOCATION_COLON .. '[^|]+' .. zone
+        return source:find(zt, 1) ~= nil or source:find(lt, 1) ~= nil
+    end
 end
 
 -- These should probably not be making new identical objects all tha time.
