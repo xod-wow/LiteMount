@@ -96,7 +96,6 @@ function LM.Journal:Get(id, isUsable)
         m.flags['FLY'] = true
         m.flags['SWIM'] = true
         m.flags['RUN'] = true
-        m.flags['SLOW'] = true
     elseif m.mountType == 408 then      -- Unsuccessful Prototype Fleetpod
         m.flags['RUN'] = true
         -- m.flags['SLOW'] = true          -- irony?
