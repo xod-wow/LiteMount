@@ -426,6 +426,7 @@ LM.MOUNTFAMILY["Fathom Dweller"] = {
     [223018] = true, -- Fathom Dweller
     [308814] = true, -- Ny'alotha Allseer
     [253711] = true, -- Pond Nettle
+    [359379] = true, -- Shimmering Aurelid
     [278979] = true, -- Surf Jelly
 }
 
