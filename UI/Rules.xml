@@ -141,7 +141,7 @@
             </Layers>
         </ScrollFrame>
 
-        <Frame name="$parentBindingDropDown" parentkey="BindingDropDown" inherits="UIDropDownMenuTemplate">
+        <Frame name="$parentBindingDropDown" parentkey="BindingDropDown">
             <Size x="93" y="22" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.Scroll" x="-8" />
