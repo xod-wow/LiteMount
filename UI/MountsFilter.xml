@@ -52,8 +52,7 @@
                         <OnClick method="OnClick" />
                     </Scripts>
                 </Button>
-                <Frame parentKey="FilterDropDown" inherits="UIDropDownMenuTemplate">
-                </Frame>
+                <Frame parentKey="FilterDropDown" />
             </Frames>
         </Button>
     </Frames>
