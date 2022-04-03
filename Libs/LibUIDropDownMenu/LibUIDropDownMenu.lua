@@ -17,7 +17,7 @@ local CloseMenus, ShowUIPanel = _G.CloseMenus, _G.ShowUIPanel
 local GameTooltip_SetTitle, GameTooltip_AddInstructionLine, GameTooltip_AddNormalLine, GameTooltip_AddColoredLine = _G.GameTooltip_SetTitle, _G.GameTooltip_AddInstructionLine, _G.GameTooltip_AddNormalLine, _G.GameTooltip_AddColoredLine
 
 -- ----------------------------------------------------------------------------
-local MAJOR_VERSION = "LibUIDropDownMenu-4.0"
+local MAJOR_VERSION = "LibUIDropDownMenu-LM-4.0"
 local MINOR_VERSION = 90000 + tonumber(("$Rev: 96 $"):match("%d+"))
 
 
@@ -1693,10 +1693,12 @@ function lib:CloseDropDownMenus(level)
 	for i=level, L_UIDROPDOWNMENU_MAXLEVELS do
 		_G["L_DropDownList"..i]:Hide();
 	end
+--[[
 	-- yes, we also want to close the menus which created by built-in UIDropDownMenus
 	for i=level, UIDROPDOWNMENU_MAXLEVELS do
 		_G["DropDownList"..i]:Hide();
 	end
+]]
 end
 
 local function containsMouse()
@@ -1708,13 +1710,14 @@ local function containsMouse()
 			result = true;
 		end
 	end
+--[[
 	for i = 1, UIDROPDOWNMENU_MAXLEVELS do
 		local dropdown = _G["DropDownList"..i];
 		if dropdown:IsShown() and dropdown:IsMouseOver() then
 			result = true;
 		end
 	end
-
+]]
 
 	return result;
 end

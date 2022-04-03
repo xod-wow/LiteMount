@@ -8,7 +8,7 @@
 
 local _, LM = ...
 
-local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-LM-4.0")
 
 local L = LM.Localize
 
