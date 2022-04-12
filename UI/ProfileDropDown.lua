@@ -10,8 +10,6 @@
 
 local _, LM = ...
 
-local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-LM-4.0")
-
 local L = LM.Localize
 
 StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
@@ -90,32 +88,32 @@ end
 
 local function ClickSetProfile(self, arg1, arg2, checked)
     LM.Options.db:SetProfile(self.value)
-    LibDD:UIDropDownMenu_RefreshAll(LiteMountProfileButton.DropDown, true)
+    UIDropDownMenu_RefreshAll(LiteMountProfileButton.DropDown, true)
 end
 
 local function ClickNewProfile(self, arg1, arg2, check)
-    LibDD:CloseDropDownMenus()
+    CloseDropDownMenus()
     StaticPopup_Show("LM_OPTIONS_NEW_PROFILE", arg1, nil, arg1)
 end
 
 local function ClickDeleteProfile(self, arg1, arg2, check)
-    LibDD:CloseDropDownMenus()
+    CloseDropDownMenus()
     StaticPopup_Show("LM_OPTIONS_DELETE_PROFILE", arg1, nil, arg1)
 end
 
 local function ClickResetProfile(self)
     local arg1 = LM.Options.db:GetCurrentProfile()
-    LibDD:CloseDropDownMenus()
+    CloseDropDownMenus()
     StaticPopup_Show("LM_OPTIONS_RESET_PROFILE", arg1, nil, arg1)
 end
 
 local function ClickExportProfile(self, arg1, arg2, check)
-    LibDD:CloseDropDownMenus()
+    CloseDropDownMenus()
     LiteMountProfileExport:ExportProfile(arg1)
 end
 
 local function ClickImportProfile(self, arg1, arg2, check)
-    LibDD:CloseDropDownMenus()
+    CloseDropDownMenus()
     LiteMountProfileImport:Show()
 end
 
@@ -131,16 +129,16 @@ local function DropDown_Initialize(self, level)
     tinsert(dbProfiles, 1, "Default")
 
     if level == 1 then
-        info = LibDD:UIDropDownMenu_CreateInfo()
+        info = UIDropDownMenu_CreateInfo()
         info.text = L.LM_PROFILES
         info.isTitle = 1
         info.notCheckable = 1
-        LibDD:UIDropDownMenu_AddButton(info, level)
+        UIDropDownMenu_AddButton(info, level)
 
-        LibDD:UIDropDownMenu_AddSeparator(level)
+        UIDropDownMenu_AddSeparator(level)
 
         for _,p in ipairs(dbProfiles) do
-            info = LibDD:UIDropDownMenu_CreateInfo()
+            info = UIDropDownMenu_CreateInfo()
             info.text = GetProfileNameText(p)
             info.value = p
             info.checked = function ()
@@ -149,81 +147,81 @@ local function DropDown_Initialize(self, level)
             info.keepShownOnClick = 1
             info.func = ClickSetProfile
 
-            LibDD:UIDropDownMenu_AddButton(info, level)
+            UIDropDownMenu_AddButton(info, level)
         end
 
-        LibDD:UIDropDownMenu_AddSeparator(level)
+        UIDropDownMenu_AddSeparator(level)
 
-        info = LibDD:UIDropDownMenu_CreateInfo()
+        info = UIDropDownMenu_CreateInfo()
         info.text = L.LM_RESET_PROFILE
         info.notCheckable = 1
         info.func = ClickResetProfile
-        LibDD:UIDropDownMenu_AddButton(info, level)
+        UIDropDownMenu_AddButton(info, level)
 
-        info = LibDD:UIDropDownMenu_CreateInfo()
+        info = UIDropDownMenu_CreateInfo()
         info.text = L.LM_NEW_PROFILE
         info.value = 'NEW'
         info.notCheckable = 1
         info.hasArrow = 1
-        LibDD:UIDropDownMenu_AddButton(info, level)
+        UIDropDownMenu_AddButton(info, level)
 
-        info = LibDD:UIDropDownMenu_CreateInfo()
+        info = UIDropDownMenu_CreateInfo()
         info.text = L.LM_DELETE_PROFILE
         info.value = 'DELETE'
         info.notCheckable = 1
         info.hasArrow = 1
-        LibDD:UIDropDownMenu_AddButton(info, level)
+        UIDropDownMenu_AddButton(info, level)
 
-        LibDD:UIDropDownMenu_AddSeparator(level)
+        UIDropDownMenu_AddSeparator(level)
 
-        info = LibDD:UIDropDownMenu_CreateInfo()
+        info = UIDropDownMenu_CreateInfo()
         info.text = L.LM_EXPORT_PROFILE
         info.value = 'EXPORT'
         info.notCheckable = 1
         info.hasArrow = 1
-        LibDD:UIDropDownMenu_AddButton(info, level)
+        UIDropDownMenu_AddButton(info, level)
 
-        info = LibDD:UIDropDownMenu_CreateInfo()
+        info = UIDropDownMenu_CreateInfo()
         info.text = L.LM_IMPORT_PROFILE
         info.value = 'IMPORT'
         info.notCheckable = 1
         info.func = ClickImportProfile
-        LibDD:UIDropDownMenu_AddButton(info, level)
+        UIDropDownMenu_AddButton(info, level)
 
     elseif level == 2 then
-        if L_UIDROPDOWNMENU_MENU_VALUE == 'DELETE' then
+        if UIDROPDOWNMENU_MENU_VALUE == 'DELETE' then
             tDeleteItem(dbProfiles, "Default")
             tDeleteItem(dbProfiles, currentProfile)
 
             for _, p in ipairs(dbProfiles) do
-                info = LibDD:UIDropDownMenu_CreateInfo()
+                info = UIDropDownMenu_CreateInfo()
                 info.text = GetProfileNameText(p)
                 info.arg1 = p
                 info.notCheckable = 1
                 info.func = ClickDeleteProfile
-                LibDD:UIDropDownMenu_AddButton(info, level)
+                UIDropDownMenu_AddButton(info, level)
             end
-        elseif L_UIDROPDOWNMENU_MENU_VALUE == 'NEW' then
-            info = LibDD:UIDropDownMenu_CreateInfo()
+        elseif UIDROPDOWNMENU_MENU_VALUE == 'NEW' then
+            info = UIDropDownMenu_CreateInfo()
             info.text = L.LM_CURRENT_SETTINGS
             info.notCheckable = 1
             info.arg1 = currentProfile
             info.func = ClickNewProfile
-            LibDD:UIDropDownMenu_AddButton(info, level)
+            UIDropDownMenu_AddButton(info, level)
 
-            info = LibDD:UIDropDownMenu_CreateInfo()
+            info = UIDropDownMenu_CreateInfo()
             info.text = L.LM_DEFAULT_SETTINGS
             info.notCheckable = 1
             info.func = ClickNewProfile
-            LibDD:UIDropDownMenu_AddButton(info, level)
-        elseif L_UIDROPDOWNMENU_MENU_VALUE == 'EXPORT' then
+            UIDropDownMenu_AddButton(info, level)
+        elseif UIDROPDOWNMENU_MENU_VALUE == 'EXPORT' then
             for _, p in ipairs(dbProfiles) do
-                info = LibDD:UIDropDownMenu_CreateInfo()
+                info = UIDropDownMenu_CreateInfo()
                 info.text = GetProfileNameText(p)
                 info.arg1 = p
                 info.notCheckable = 1
                 info.func = ClickExportProfile
-                LibDD:UIDropDownMenu_AddButton(info, level)
+                UIDropDownMenu_AddButton(info, level)
             end
         end
     end
@@ -238,7 +236,7 @@ end
 LiteMountProfileButtonMixin = {}
 
 function LiteMountProfileButtonMixin:OnClick()
-    LibDD:ToggleDropDownMenu(1, nil, self.DropDown, self, 74, 15)
+    ToggleDropDownMenu(1, nil, self.DropDown, self, 74, 15)
 end
 
 function LiteMountProfileButtonMixin:Attach(parent)
@@ -249,6 +247,7 @@ function LiteMountProfileButtonMixin:Attach(parent)
 end
 
 function LiteMountProfileButtonMixin:OnShow()
+    UIDropDownMenu_Initialize(self.DropDown, DropDown_Initialize, "MENU")
     UpdateProfileCallback()
     LM.Options.db.RegisterCallback(self, "OnProfileCopied", UpdateProfileCallback)
     LM.Options.db.RegisterCallback(self, "OnProfileChanged", UpdateProfileCallback)
@@ -260,7 +259,5 @@ function LiteMountProfileButtonMixin:OnHide()
 end
 
 function LiteMountProfileButtonMixin:OnLoad()
-    LibDD:Create_UIDropDownMenu(self.DropDown)
-    LibDD:UIDropDownMenu_Initialize(self.DropDown, DropDown_Initialize, "MENU")
 end
 

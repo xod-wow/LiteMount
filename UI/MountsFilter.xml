@@ -5,7 +5,7 @@
 <Script file="UIFilter.lua" />
 <Script file="MountsFilter.lua" />
 
-<Frame name="LiteMountFilter" mixin="LiteMountFilterMixin">
+<Frame name="LiteMountFilter" mixin="LiteMountFilterMixin" hidden="true">
     <Scripts>
         <OnLoad method="OnLoad" />
     </Scripts>
@@ -38,7 +38,7 @@
             </Layers>
             <Scripts>
                 <OnClick method="OnClick" />
-                <OnLoad method="OnLoad" />
+                <OnShow method="OnShow" inherit="prepend" />
             </Scripts>
 
             <Frames>
@@ -52,7 +52,8 @@
                         <OnClick method="OnClick" />
                     </Scripts>
                 </Button>
-                <Frame parentKey="FilterDropDown" />
+                <Frame parentKey="FilterDropDown" inherits="UIDropDownMenuTemplate">
+                </Frame>
             </Frames>
         </Button>
     </Frames>

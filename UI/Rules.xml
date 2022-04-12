@@ -141,7 +141,7 @@
             </Layers>
         </ScrollFrame>
 
-        <Frame name="$parentBindingDropDown" parentkey="BindingDropDown">
+        <Frame name="$parentBindingDropDown" parentkey="BindingDropDown" inherits="UIDropDownMenuTemplate">
             <Size x="93" y="22" />
             <Anchors>
                 <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.Scroll" x="-8" />
@@ -183,6 +183,7 @@
 
     <Scripts>
         <OnLoad method="OnLoad" />
+        <OnShow method="OnShow" inherit="prepend" />
         <OnHide method="OnHide" />
         <OnSizeChanged method="OnSizeChanged" />
     </Scripts>

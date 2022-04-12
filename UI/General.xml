@@ -12,6 +12,7 @@
 
     <Scripts>
         <OnLoad method="OnLoad" />
+        <OnShow method="OnShow" inherit="prepend" />
     </Scripts>
 
     <Frames>
@@ -51,7 +52,7 @@
         </Layer>
     </Layers>
     <Frames>
-        <Frame parentKey="RandomPersistDropDown">
+        <Frame parentKey="RandomPersistDropDown" inherits="UIDropDownMenuTemplate">
             <Size x="93" y="22" />
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" y="-8" />
