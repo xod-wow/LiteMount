@@ -78,13 +78,13 @@ local autoLocalized = {}
 -- Recurse all children finding any FontStrings and replacing their texts
 -- with localized copies.
 function LiteMountOptionsPanel_AutoLocalize(f)
-    if true then return end
     if not L then return end
 
     local regions = { f:GetRegions() }
     for _,r in ipairs(regions) do
         if r and r:IsObjectType("FontString") and not autoLocalized[r] then
-            r:SetText(L[r:GetText()])
+            local text = r:GetText()
+            if text ~= L[text] then r:SetText(L[text]) end
             autoLocalized[r] = true
         end
     end
