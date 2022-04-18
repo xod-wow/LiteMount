@@ -853,7 +853,6 @@ CONDITIONS["spec"] = {
         function ()
             local specs = {}
             for classIndex = 1, GetNumClasses() do
-                local className = GetClassInfo(classIndex)
                 local classMenu = { text = GetClassInfo(classIndex) }
                 for specIndex = 1, 4 do
                     local id, name = GetSpecializationInfoForClassID(classIndex, specIndex)
@@ -989,7 +988,6 @@ local function GetTransmogSetIDByName(name)
 end
 
 local function GetTransmogOutfitIDByName(name)
-    local outfits = C_TransmogCollection.GetOutfits()
     for _, id in ipairs(C_TransmogCollection.GetOutfits()) do
         if name == C_TransmogCollection.GetOutfitInfo(id) then
             return id

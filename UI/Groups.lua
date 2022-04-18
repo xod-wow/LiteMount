@@ -221,7 +221,7 @@ function LiteMountGroupsPanelGroupsMixin:Update()
 
 
     HybridScrollFrame_Update(self, totalHeight, displayedHeight)
-    for i, button in ipairs(self.buttons) do
+    for _, button in ipairs(self.buttons) do
         if self.scrollBar:IsVisible() then
             button:SetWidth(self:GetWidth() - 22)
         else
