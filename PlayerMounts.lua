@@ -14,6 +14,8 @@ local _, LM = ...
 if LibDebug then LibDebug() end
 --@end-debug@
 
+local IndexAttributes = { 'mountID', 'name', 'spellID' }
+
 LM.PlayerMounts = CreateFrame("Frame", nil, UIParent)
 
 -- Type, type class create args
@@ -57,16 +59,19 @@ local MOUNT_SPELLS = {
 local RefreshEvents = {
     -- Companion change. Don't add COMPANION_UPDATE to this as it fires
     -- for units other than "player" and triggers constantly.
-    "COMPANION_LEARNED", "COMPANION_UNLEARNED",
+    ["COMPANION_LEARNED"] = true,
+    ["COMPANION_UNLEARNED"] = true,
     -- This fires when something is favorited or unfavorited
-    "MOUNT_JOURNAL_SEARCH_UPDATED",
+    ["MOUNT_JOURNAL_SEARCH_UPDATED"] = true,
     -- Talents (might have mount abilities). Glyphs that teach spells
     -- fire PLAYER_TALENT_UPDATE too, don't need to watch GLYPH_ events.
-    "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_LEVEL_UP", "PLAYER_TALENT_UPDATE",
+    ["ACTIVE_TALENT_GROUP_CHANGED"] = true,
+    ["PLAYER_LEVEL_UP"] = true,
+    ["PLAYER_TALENT_UPDATE"] = true,
     -- You might have received a mount item (e.g., Magic Broom).
-    "BAG_UPDATE",
+    ["BAG_UPDATE_DELAYED"] = true,
     -- Draenor flying is an achievement
-    "ACHIEVEMENT_EARNED",
+    ["ACHIEVEMENT_EARNED"] = true,
 }
 
 function LM.PlayerMounts:Initialize()
@@ -76,17 +81,39 @@ function LM.PlayerMounts:Initialize()
     self:AddSpellMounts()
     self:AddJournalMounts()
 
+    self:BuildIndexes()
+
     -- Refresh event setup
     self:SetScript("OnEvent",
             function (self, event, ...)
-                LM.Debug("Got refresh event "..event)
-                self.needRefresh = true
+                if RefreshEvents[event] then
+                    LM.Debug("Got refresh event "..event)
+                    self.needRefresh = true
+                elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
+                    local unit, _, spellID = ...
+                    local m = self.indexes.spellID[spellID]
+                    if unit == 'player' and m then
+                        m:IncrementSummonCount()
+                    end
+                end
             end)
 
-    for _,ev in ipairs(RefreshEvents) do
+    for ev in pairs(RefreshEvents) do
         self:RegisterEvent(ev)
     end
+    self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player")
+end
 
+function LM.PlayerMounts:BuildIndexes()
+    self.indexes = { }
+    for _, index in ipairs(IndexAttributes) do
+        self.indexes[index] = {}
+        for _, m in ipairs(self.mounts) do
+            if m[index] then
+                self.indexes[index][m[index]] = m
+            end
+        end
+    end
 end
 
 function LM.PlayerMounts:AddMount(m)

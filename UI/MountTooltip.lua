@@ -93,6 +93,8 @@ function LiteMountTooltipMixin:SetMount(m, canMount)
 
     self:AddLine("|cffffffff"..STAT_CATEGORY_SPELL..":|r "..tostring(m.spellID))
 
+    self:AddLine("|cffffffff"..SUMMONS..":|r "..tostring(m:GetSummonCount()))
+
     if m.family then
         self:AddLine("|cffffffff"..L.LM_FAMILY..":|r "..L[m.family])
     end

@@ -76,6 +76,7 @@ local defaults = {
     global = {
         groups              = { },
         instances           = { },
+        summonCounts        = { },
     },
     profile = {
         flagChanges         = { },
@@ -796,6 +797,24 @@ function LM.Options:GetInstanceNameByID(id)
     if id == 531 then
         return C_Map.GetMapInfo(319).name
     end
+end
+
+
+--[[----------------------------------------------------------------------------
+    Summon counts
+----------------------------------------------------------------------------]]--
+
+function LM.Options:IncrementSummonCount(m)
+    self.db.global.summonCounts[m.spellID] =
+        (self.db.global.summonCounts[m.spellID] or 0) + 1
+end
+
+function LM.Options:GetSummonCount(m)
+    return self.db.global.summonCounts[m.spellID] or 0
+end
+
+function LM.Options:ResetSummonCount(m)
+    self.db.global.summonCounts[m.spellID] = 0
 end
 
 

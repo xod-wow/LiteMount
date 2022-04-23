@@ -200,6 +200,14 @@ function LM.Mount:GetCancelAction()
     return LM.SecureAction:CancelAura(spellName)
 end
 
+function LM.Mount:IncrementSummonCount()
+    LM.Options:IncrementSummonCount(self)
+end
+
+function LM.Mount:GetSummonCount()
+    return LM.Options:GetSummonCount(self)
+end
+
 -- This is gross
 
 local MawUsableSpells = {
