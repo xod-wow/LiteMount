@@ -87,6 +87,15 @@
 <Button name="LiteMountMountIconTemplate" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true" mixin="LiteMountMountIconMixin" virtual="true">
     <Size x="36" y="36" />
     <HighlightTexture parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString inherits="NumberFontNormal" justifyH="RIGHT" hidden="true" parentKey="Count">
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT" x="-5" y="2" />
+            </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
     <Scripts>
         <OnLoad method="OnLoad" />
         <OnEnter method="OnEnter" />

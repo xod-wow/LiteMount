@@ -199,6 +199,14 @@ function LiteMountMountButtonMixin:Update(bitFlags, mount)
     self.Icon:SetNormalTexture(mount.icon)
     self.Name:SetText(mount.name)
 
+    local count = mount:GetSummonCount()
+    if count > 0 then
+        self.Icon.Count:SetText(count)
+        self.Icon.Count:Show()
+    else
+        self.Icon.Count:Hide()
+    end
+
     if not InCombatLockdown() then
         mount:GetCastAction():SetupActionButton(self.Icon, 2)
     end
