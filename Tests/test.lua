@@ -3,7 +3,7 @@
 dofile("Mock/WoWAPI.lua")
 dofile("LoadAddOn.lua")
 
-function CheckFile(svFile)
+local function CheckFile(svFile)
     _ENV = setmetatable({}, { __index = _G })
 
     SendEvent('ADDON_LOADED', 'LiteMount')

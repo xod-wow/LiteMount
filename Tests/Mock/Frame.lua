@@ -15,6 +15,10 @@ function mockFrame:New(frameName, frameParent, ...)
     return f
 end
 
+function mockFrame:RegisterUnitEvent(ev, unit)
+    self:RegisterEvent(ev)
+end
+
 function mockFrame:RegisterEvent(ev)
     self.__frameEventRegistry[ev] = self.__frameEventRegistry[ev] or {}
     self.__frameEventRegistry[ev][self] = true

@@ -6,6 +6,9 @@ end
 function C_MountJournal.SetAllSourceFilters()
 end
 
+function C_MountJournal.SetAllTypeFilters()
+end
+
 function C_MountJournal.SetSearch(text)
 end
 
