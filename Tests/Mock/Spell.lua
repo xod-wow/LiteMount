@@ -17,8 +17,6 @@ function CastSpell(id)
 end
 
 function CastSpellByName(name)
-    print(name)
-    print(GetSpellInfo(name))
     local id = select(7, GetSpellInfo(name))
     if id then CastSpell(id) end
 end
