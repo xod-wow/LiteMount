@@ -78,6 +78,7 @@ function LM.PlayerMounts:Initialize()
 
     self.mounts = LM.MountList:New()
 
+    -- These are in this order so custom stuff is prioritized
     self:AddSpellMounts()
     self:AddJournalMounts()
 
@@ -116,8 +117,26 @@ function LM.PlayerMounts:BuildIndexes()
     end
 end
 
+-- All This dumbassery is to deal with the fact that two item-summoned mounts
+-- (Blue/Red Qiraji War Tank) are in the journal but are actually summoned by
+-- items. It copies across enough that the tooltip looks like LM.Journal
+-- version (including preview) but the actions are all still LM.ItemSummoned.
+
+local CopyAttributesFromJournal = {
+    'modelID', 'sceneID', 'mountID', 'isSelfMount', 'description',
+    'sourceType', 'sourceText'
+}
+
 function LM.PlayerMounts:AddMount(m)
-    tinsert(self.mounts, m)
+    local existing = self:GetMountBySpell(m.spellID)
+
+    if existing then
+        for _, attr in ipairs(CopyAttributesFromJournal) do
+            existing[attr] = existing[attr] or m[attr]
+        end
+    else
+        tinsert(self.mounts, m)
+    end
 end
 
 function LM.PlayerMounts:AddJournalMounts()
