@@ -2,7 +2,6 @@
 
 <!-- Copyright 2011-2021 Mike Battersby -->
 
-<Script file="MountsFilter.lua" />
 <Script file="Mounts.lua" />
 
 <!--
