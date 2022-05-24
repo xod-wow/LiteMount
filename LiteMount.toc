@@ -5,6 +5,8 @@
 ## Email: mib@post.com
 ## OptionalDependencies: LibDebug
 ## SavedVariables: LiteMountDB
+## X-Curse-Project-ID: 30359
+## X-WoWI-ID: 26329
 
 Libs\embeds.xml
 
