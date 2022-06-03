@@ -30,5 +30,7 @@ local worgenPlayerModels = {
 
 function LM.RunningWild:IsCastable()
     local id = LM.Environment:GetPlayerModel()
-    return worgenPlayerModels[id] and LM.Spell.IsCastable(self)
+    return worgenPlayerModels[id]
+        and LM.Environment:KnowsRidingSkill()
+        and LM.Spell.IsCastable(self)
 end
