@@ -350,6 +350,7 @@ LM.MOUNTFAMILY["Drake"] = {
     [326390] = true, -- Steamscale Incinerator
     [290132] = true, -- Sylverian Dreamer
     [101641] = true, -- Tarecgosa's Visage
+    [359843] = true, -- Tangled Dreamweaver
     [279466] = true, -- Twilight Avenger
     [ 59571] = true, -- Twilight Drake
     [107844] = true, -- Twilight Harbinger

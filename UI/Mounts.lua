@@ -285,6 +285,11 @@ function LiteMountMountScrollMixin:Update()
         end
     end
 
+    -- It's really not clear exactly what these should be, and as far as I can
+    -- tell even the Blizzard usages are not consistent. I think it should probably
+    -- include the inter-button gaps from HybridScrollFrame_CreateButtons, so in
+    -- the end it was easier not to have gaps so this was right either way.
+
     local totalHeight = #mounts * self.buttonHeight
     local shownHeight = self:GetHeight()
 
