@@ -89,6 +89,10 @@ local defaults = {
         priorityWeights     = { 1, 2, 6, 1 },
         randomKeepSeconds   = 0,
         instantOnlyMoving   = false,
+        announceViaChat     = false,
+        announceViaNotice   = false,
+        announceWithCount   = false,
+
         -- Paranoia, for now. Later delete these and let the cleanup work
         oldRules            = { },
         oldFlagChanges      = { },
@@ -801,12 +805,36 @@ end
 
 
 --[[----------------------------------------------------------------------------
+    Announcing
+----------------------------------------------------------------------------]]--
+
+function LM.Options:GetAnnounce()
+    return
+        self.db.profile.announceViaChat,
+        self.db.profile.announceViaNotice,
+        self.db.profile.announceWithCount
+end
+
+function LM.Options:SetAnnounce(viaChat, viaNotice, withCount)
+    if viaChat ~= nil then
+        self.db.profile.announceViaChat = (viaChat == true)
+    end
+    if viaNotice ~= nil then
+        self.db.profile.announceViaNotice = (viaNotice == true)
+    end
+    if withCount ~= nil then
+        self.db.profile.announceWithCount = (withCount == true)
+    end
+end
+
+--[[----------------------------------------------------------------------------
     Summon counts
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:IncrementSummonCount(m)
     self.db.global.summonCounts[m.spellID] =
         (self.db.global.summonCounts[m.spellID] or 0) + 1
+    return self.db.global.summonCounts[m.spellID]
 end
 
 function LM.Options:GetSummonCount(m)
@@ -814,7 +842,7 @@ function LM.Options:GetSummonCount(m)
 end
 
 function LM.Options:ResetSummonCount(m)
-    self.db.global.summonCounts[m.spellID] = 0
+    self.db.global.summonCounts[m.spellID] = nil
 end
 
 

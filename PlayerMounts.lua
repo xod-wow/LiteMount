@@ -91,10 +91,10 @@ function LM.PlayerMounts:Initialize()
                     LM.Debug("Got refresh event "..event)
                     self.needRefresh = true
                 elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
-                    local unit, _, spellID = ...
+                    local _, _, spellID = ...
                     local m = self.indexes.spellID[spellID]
-                    if unit == 'player' and m then
-                        m:IncrementSummonCount()
+                    if m then
+                        m:OnSummon()
                     end
                 end
             end)

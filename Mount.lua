@@ -200,8 +200,21 @@ function LM.Mount:GetCancelAction()
     return LM.SecureAction:CancelAura(spellName)
 end
 
-function LM.Mount:IncrementSummonCount()
-    LM.Options:IncrementSummonCount(self)
+function LM.Mount:OnSummon()
+    local n = LM.Options:IncrementSummonCount(self)
+    local viaChat, viaNotice, withCount = LM.Options:GetAnnounce()
+    local msg
+    if withCount then
+        msg = string.format('%s (%d)', self.name, n)
+    else
+        msg = self.name
+    end
+    if viaChat then
+        LM.Print(SUMMON .. ': ' .. msg)
+    end
+    if viaNotice then
+        RaidNotice_AddMessage(RaidWarningFrame, msg, ChatTypeInfo.SYSTEM, 5)
+    end
 end
 
 function LM.Mount:GetSummonCount()
