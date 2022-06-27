@@ -14,9 +14,12 @@ local _, LM = ...
 if LibDebug then LibDebug() end
 --@end-debug@
 
+local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
+
 local IndexAttributes = { 'mountID', 'name', 'spellID' }
 
 LM.PlayerMounts = CreateFrame("Frame", nil, UIParent)
+LM.PlayerMounts.callbacks = CallbackHandler:New(LM.PlayerMounts)
 
 -- Type, type class create args
 local MOUNT_SPELLS = {
@@ -95,6 +98,7 @@ function LM.PlayerMounts:Initialize()
                     local m = self.indexes.spellID[spellID]
                     if m then
                         m:OnSummon()
+                        self.callbacks:Fire("OnMountSummoned", m)
                     end
                 end
             end)

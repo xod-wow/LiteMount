@@ -90,8 +90,7 @@ local defaults = {
         randomKeepSeconds   = 0,
         instantOnlyMoving   = false,
         announceViaChat     = false,
-        announceViaNotice   = false,
-        announceWithCount   = false,
+        announceViaUI       = false,
 
         -- Paranoia, for now. Later delete these and let the cleanup work
         oldRules            = { },
@@ -811,19 +810,21 @@ end
 function LM.Options:GetAnnounce()
     return
         self.db.profile.announceViaChat,
-        self.db.profile.announceViaNotice,
-        self.db.profile.announceWithCount
+        self.db.profile.announceViaUI
 end
 
-function LM.Options:SetAnnounce(viaChat, viaNotice, withCount)
+function LM.Options:SetAnnounce(viaChat, viaUI)
+    local changed
     if viaChat ~= nil then
         self.db.profile.announceViaChat = (viaChat == true)
+        changed = true
     end
-    if viaNotice ~= nil then
-        self.db.profile.announceViaNotice = (viaNotice == true)
+    if viaUI ~= nil then
+        self.db.profile.announceViaUI = (viaUI == true)
+        changed = true
     end
-    if withCount ~= nil then
-        self.db.profile.announceWithCount = (withCount == true)
+    if changed then
+        self.db.callbacks:Fire("OnOptionsModified")
     end
 end
 

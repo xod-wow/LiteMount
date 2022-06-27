@@ -1,0 +1,26 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011-2021 Mike Battersby -->
+
+<Script file="AnnounceFrame.lua" />
+
+<Frame name="LiteMountAnnounceFrame" parent="UIParent" frameStrata="LOW" toplevel="true" mixin="LiteMountAnnounceFrameMixin">
+    <Anchors>
+        <Anchor point="TOP" x="0" y="-128" />
+    </Anchors>
+    <Size x="128" y="128" />
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="Text" inherits="Game36Font_Shadow2">
+                <Anchors> <Anchor point="CENTER" /> </Anchors>
+                <Color r="1.0" g="1.0" b="0.25" />
+            </FontString>
+        </Layer>
+    </Layers>
+    <Scripts>
+        <OnLoad method="OnLoad" />
+        <OnUpdate function="FadingFrame_OnUpdate" />
+    </Scripts>
+</Frame>
+
+</Ui>

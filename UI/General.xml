@@ -44,9 +44,36 @@
     </Frames>
     <Layers>
         <Layer level="OVERLAY">
+            <FontString parentKey="AnnounceMount" text="LM_ANNOUNCE_MOUNTS" inherits="GameFontHighlight">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.InstantOnlyMoving" relativePoint="BOTTOMLEFT" y="-32" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Frames>
+        <CheckButton parentKey="AnnounceChat" inherits="InterfaceOptionsCheckButtonTemplate">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceMount" relativePoint="BOTTOMLEFT" x="16" y="-8" />
+            </Anchors>
+            <Scripts>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
+            </Scripts>
+        </CheckButton>
+        <CheckButton parentKey="AnnounceUI" inherits="InterfaceOptionsCheckButtonTemplate">
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.AnnounceChat" relativePoint="RIGHT" x="140" y="0" />
+            </Anchors>
+            <Scripts>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
+            </Scripts>
+        </CheckButton>
+    </Frames>
+    <Layers>
+        <Layer level="OVERLAY">
             <FontString parentKey="RandomPersist" text="LM_RANDOM_PERSISTENCE" inherits="GameFontHighlight">
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.InstantOnlyMoving" relativePoint="BOTTOMLEFT" y="-12" />
+                    <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceMount" relativePoint="BOTTOMLEFT" y="-64" />
                 </Anchors>
             </FontString>
         </Layer>

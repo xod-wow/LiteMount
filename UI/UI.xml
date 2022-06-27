@@ -1,4 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Include file="AnnounceFrame.xml" />
     <Include file="PanelTemplate.xml" />
     <Include file="MountTooltip.xml" />
     <Include file="ProfileDropDown.xml" />

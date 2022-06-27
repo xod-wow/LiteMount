@@ -104,6 +104,38 @@ function LiteMountGeneralPanelMixin:OnLoad()
         function (self, v) self:SetChecked(v == 0) end
     LiteMountOptionsPanel_RegisterControl(self.DefaultPriority)
 
+    -- AnnounceChat --
+    self.AnnounceChat.Text:SetText(CHAT)
+    self.AnnounceChat.SetOption =
+        function (self, setting)
+            if not setting or setting == "0" then
+                LM.Options:SetAnnounce(false)
+            else
+                LM.Options:SetAnnounce(true)
+            end
+        end
+    self.AnnounceChat.GetOption =
+        function (self) return LM.Options:GetAnnounce() end
+    self.AnnounceChat.GetOptionDefault =
+        function (self) return false end
+    LiteMountOptionsPanel_RegisterControl(self.AnnounceChat)
+
+    -- AnnounceUI --
+    self.AnnounceUI.Text:SetText(L.LM_ON_SCREEN_DISPLAY)
+    self.AnnounceUI.SetOption =
+        function (self, setting)
+            if not setting or setting == "0" then
+                LM.Options:SetAnnounce(nil, false)
+            else
+                LM.Options:SetAnnounce(nil, true)
+            end
+        end
+    self.AnnounceUI.GetOption =
+        function (self) return select(2, LM.Options:GetAnnounce()) end
+    self.AnnounceUI.GetOptionDefault =
+        function (self) return false end
+    LiteMountOptionsPanel_RegisterControl(self.AnnounceUI)
+
     -- InstantOnlyMoving --
 
     self.InstantOnlyMoving.Text:SetWidth(500)
