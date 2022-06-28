@@ -252,7 +252,7 @@ ACTIONS['Dismount'] = {
 
             -- Otherwise we look for the mount from its buff and return the cancel
             -- actions.
-            local m = LM.PlayerMounts:GetActiveMount()
+            local m = LM.MountRegistry:GetActiveMount()
             if m and m:IsCancelable() then
                 LM.Debug(" - setting action to cancel " .. m.name)
                 return m:GetCancelAction()
@@ -272,7 +272,7 @@ ACTIONS['CopyTargetsMount'] = {
             local unit = context.unit or "target"
             if LM.Options:GetCopyTargetsMount() and UnitIsPlayer(unit) then
                 LM.Debug(string.format(" - trying to clone %s's mount", unit))
-                local m = LM.PlayerMounts:GetMountFromUnitAura(unit)
+                local m = LM.MountRegistry:GetMountFromUnitAura(unit)
                 if m and m:IsCastable() then
                     LM.Debug(format(" - setting action to mount %s", m.name))
                     return m:GetCastAction(context)
@@ -303,7 +303,7 @@ ACTIONS['SmartMount'] = {
         function (args, context)
 
             local filters = ReplaceVars(LM.tJoin(context.filters[1], args))
-            local filteredList = LM.PlayerMounts:FilterSearch("CASTABLE"):Limit(unpack(filters))
+            local filteredList = LM.MountRegistry:FilterSearch("CASTABLE"):Limit(unpack(filters))
 
             LM.Debug(" - filters: " .. table.concat(filters, ' '))
             LM.Debug(" - filtered list contains " .. #filteredList .. " mounts")
@@ -362,7 +362,7 @@ ACTIONS['Mount'] = {
         function (args, context)
             local filters = ReplaceVars(LM.tJoin(context.filters[1], args))
             LM.Debug(" - filters: " .. table.concat(filters, ' '))
-            local mounts = LM.PlayerMounts:FilterSearch("CASTABLE"):Limit(unpack(filters))
+            local mounts = LM.MountRegistry:FilterSearch("CASTABLE"):Limit(unpack(filters))
             local m = mounts:Random(context.random)
             if m then
                 LM.Debug(format(" - setting action to mount %s", m.name))
@@ -535,13 +535,13 @@ function LM.Actions:DefaultCombatMacro()
 
     if playerClass ==  "DRUID" then
         local forms = GetDruidMountForms()
-        local mount = LM.PlayerMounts:GetMountBySpell(LM.SPELL.TRAVEL_FORM)
+        local mount = LM.MountRegistry:GetMountBySpell(LM.SPELL.TRAVEL_FORM)
         if mount and LM.Options:GetPriority(mount) > 0 then
             mt = mt .. format("/cast [noform:%s] %s\n", forms, mount.name)
             mt = mt .. format("/cancelform [form:%s]\n", forms)
         end
     elseif playerClass == "SHAMAN" then
-        local mount = LM.PlayerMounts:GetMountBySpell(LM.SPELL.GHOST_WOLF)
+        local mount = LM.MountRegistry:GetMountBySpell(LM.SPELL.GHOST_WOLF)
         if mount and LM.Options:GetPriority(mount) > 0 then
             local s = GetSpellInfo(LM.SPELL.GHOST_WOLF)
             mt = mt .. "/cast [noform] " .. s .. "\n"

@@ -19,7 +19,7 @@ LiteMountPickerMixin = {}
 local function UpdateScroll(self)
     if not self.buttons then return end
 
-    if not LM.PlayerMounts.mounts then
+    if not LM.MountRegistry.mounts then
         HybridScrollFrame_Update(self, 0, 0)
         return
     end

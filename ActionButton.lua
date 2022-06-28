@@ -32,7 +32,7 @@ function LM.ActionButton:PreClick(mouseButton)
 
     LM.Debug("PreClick handler called on " .. self:GetName())
 
-    LM.PlayerMounts:RefreshMounts()
+    LM.MountRegistry:RefreshMounts()
 
     -- Re-randomize if it's time
     local keepRandomForSeconds = LM.Options:GetRandomPersistence()

@@ -71,7 +71,7 @@ local function FilterSort(a, b)
 end
 
 function LM.UIFilter.UpdateCache()
-    for _,m in ipairs(LM.PlayerMounts.mounts) do
+    for _,m in ipairs(LM.MountRegistry.mounts) do
         if not LM.UIFilter.IsFilteredMount(m) then
             tinsert(LM.UIFilter.filteredMountList, m)
         end

@@ -297,7 +297,7 @@ end
 
 local function ActionArgButtonClick(button, mouseButton)
     local dropdown = button:GetParent().DropDown
-    -- local values = LM.tMap(LM.PlayerMounts.mounts, MountToInfo)
+    -- local values = LM.tMap(LM.MountRegistry.mounts, MountToInfo)
     local values = ActionArgsMenu()
     if values then
         UIDropDownMenu_Initialize(dropdown, ArgsInitialize, 'MENU')

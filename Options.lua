@@ -351,7 +351,7 @@ function LM.Options:GetPriority(m)
 end
 
 function LM.Options:InitializePriorities()
-    for _,m in ipairs(LM.PlayerMounts.mounts) do
+    for _,m in ipairs(LM.MountRegistry.mounts) do
         if not self.db.profile.mountPriorities[m.spellID] then
             self.db.profile.mountPriorities[m.spellID] = self.db.profile.defaultPriority
         end

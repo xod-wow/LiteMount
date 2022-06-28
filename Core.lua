@@ -43,7 +43,7 @@ function LiteMount:Initialize()
 
     LM.Debug(format("Initializing LiteMount v%s, debugging enabled.", version))
 
-    LM.PlayerMounts:Initialize()
+    LM.MountRegistry:Initialize()
 
     SlashCmdList["LiteMount"] = LM.SlashCommandFunc
     _G.SLASH_LiteMount1 = "/litemount"

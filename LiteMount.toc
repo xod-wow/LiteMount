@@ -35,7 +35,7 @@ LM_RunningWild.lua
 LM_TravelForm.lua
 #LM_Soulshape.lua
 MountList.lua
-PlayerMounts.lua
+MountRegistry.lua
 SlashCommand.lua
 Conditions.lua
 Vars.lua

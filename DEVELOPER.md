@@ -60,11 +60,10 @@ The important methods are
     Sort()
 ```
 
-### PlayerMounts.lua
+### MountRegistry.lua
 
-LM.PlayerMounts is a singleton that contains all of the mounts that we
-know about.  The naming is historical, because before the mount journal
-you couldn't query for mounts you hadn't learned.
+LM.MountRegistry is a singleton that contains all of the mounts that we
+know about.
 
 The code looks up the journal, various items, class spells, etc and adds
 them all into a MountList. Some mounts come and go depending on specs

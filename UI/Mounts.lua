@@ -327,7 +327,7 @@ function LiteMountMountsPanelMixin:default()
     LM.UIDebug(self, 'Custom_Default')
     self.MountScroll.isDirty = true
     LM.Options:ResetAllMountFlags()
-    LM.Options:SetPriorities(LM.PlayerMounts.mounts, nil)
+    LM.Options:SetPriorities(LM.MountRegistry.mounts, nil)
 end
 
 function LiteMountMountsPanelMixin:OnLoad()
@@ -356,10 +356,10 @@ end
 function LiteMountMountsPanelMixin:OnShow()
     LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.MountScroll, 'TOPLEFT', 0, 15)
     LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "refresh")
-    LM.PlayerMounts:RefreshMounts()
+    LM.MountRegistry:RefreshMounts()
 
     -- Update the counts, Journal-only
-    local counts = LM.PlayerMounts:GetJournalTotals()
+    local counts = LM.MountRegistry:GetJournalTotals()
     self.Counts:SetText(
             string.format(
                 '%s: %s %s: %s %s: %s',

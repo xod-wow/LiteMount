@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/PlayerMounts.lua
+  LiteMount/MountRegistry.lua
 
   Information on all your mounts.
 
@@ -18,8 +18,8 @@ local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
 
 local IndexAttributes = { 'mountID', 'name', 'spellID' }
 
-LM.PlayerMounts = CreateFrame("Frame", nil, UIParent)
-LM.PlayerMounts.callbacks = CallbackHandler:New(LM.PlayerMounts)
+LM.MountRegistry = CreateFrame("Frame", nil, UIParent)
+LM.MountRegistry.callbacks = CallbackHandler:New(LM.MountRegistry)
 
 -- Type, type class create args
 local MOUNT_SPELLS = {
@@ -77,7 +77,7 @@ local RefreshEvents = {
     ["ACHIEVEMENT_EARNED"] = true,
 }
 
-function LM.PlayerMounts:Initialize()
+function LM.MountRegistry:Initialize()
 
     self.mounts = LM.MountList:New()
 
@@ -109,7 +109,7 @@ function LM.PlayerMounts:Initialize()
     self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player")
 end
 
-function LM.PlayerMounts:BuildIndexes()
+function LM.MountRegistry:BuildIndexes()
     self.indexes = { }
     for _, index in ipairs(IndexAttributes) do
         self.indexes[index] = {}
@@ -131,7 +131,7 @@ local CopyAttributesFromJournal = {
     'sourceType', 'sourceText'
 }
 
-function LM.PlayerMounts:AddMount(m)
+function LM.MountRegistry:AddMount(m)
     local existing = self:GetMountBySpell(m.spellID)
 
     if existing then
@@ -143,7 +143,7 @@ function LM.PlayerMounts:AddMount(m)
     end
 end
 
-function LM.PlayerMounts:AddJournalMounts()
+function LM.MountRegistry:AddJournalMounts()
     -- This is horrible but I can't find any other way to get the "unusable" flag
     local usableMounts = {}
 
@@ -167,14 +167,14 @@ end
 
 -- The unpack function turns a table into a list. I.e.,
 --      unpack({ a, b, c }) == a, b, c
-function LM.PlayerMounts:AddSpellMounts()
+function LM.MountRegistry:AddSpellMounts()
     for _,typeAndArgs in ipairs(MOUNT_SPELLS) do
         local m = LM.Mount:Get(unpack(typeAndArgs))
         self:AddMount(m)
     end
 end
 
-function LM.PlayerMounts:RefreshMounts()
+function LM.MountRegistry:RefreshMounts()
     if self.needRefresh then
         LM.Debug("Refreshing status of all mounts.")
 
@@ -185,13 +185,13 @@ function LM.PlayerMounts:RefreshMounts()
     end
 end
 
-function LM.PlayerMounts:FilterSearch(...)
+function LM.MountRegistry:FilterSearch(...)
     return self.mounts:FilterSearch(...)
 end
 
 -- Limits can be filter (no prefix), set (=), reduce (-) or extend (+).
 
-function LM.PlayerMounts:Limit(...)
+function LM.MountRegistry:Limit(...)
     return self.mounts:Limit(...)
 end
 
@@ -200,7 +200,7 @@ end
 -- spell ID because there are some horde/alliance mounts with
 -- the same name but different spells.
 
-function LM.PlayerMounts:GetMountFromUnitAura(unitid)
+function LM.MountRegistry:GetMountFromUnitAura(unitid)
     local buffs = { }
     local i = 1
     while true do
@@ -211,7 +211,7 @@ function LM.PlayerMounts:GetMountFromUnitAura(unitid)
     return self.mounts:Find(function (m) return buffs[m.name] end)
 end
 
-function LM.PlayerMounts:GetActiveMount()
+function LM.MountRegistry:GetActiveMount()
     local buffIDs = { }
     local i = 1
     while true do
@@ -226,23 +226,23 @@ function LM.PlayerMounts:GetActiveMount()
     end
 end
 
-function LM.PlayerMounts:GetMountByName(name)
+function LM.MountRegistry:GetMountByName(name)
     local function match(m) return m.name == name end
     return self.mounts:Find(match)
 end
 
-function LM.PlayerMounts:GetMountBySpell(id)
+function LM.MountRegistry:GetMountBySpell(id)
     local function match(m) return m.spellID == id end
     return self.mounts:Find(match)
 end
 
-function LM.PlayerMounts:GetMountByID(id)
+function LM.MountRegistry:GetMountByID(id)
     local function match(m) return m.mountID == id end
     return self.mounts:Find(match)
 end
 
 -- For some reason GetShapeshiftFormInfo doesn't work on Ghost Wolf.
-function LM.PlayerMounts:GetMountByShapeshiftForm(i)
+function LM.MountRegistry:GetMountByShapeshiftForm(i)
     if not i then
         return
     elseif i == 1 and select(2, UnitClass("player")) == "SHAMAN" then
@@ -290,7 +290,7 @@ local function IsCounted(info)
     end
 end
 
-function LM.PlayerMounts:GetJournalTotals()
+function LM.MountRegistry:GetJournalTotals()
     local c = { total=0, collected=0, usable=0 }
 
     for _,id in ipairs(C_MountJournal.GetMountIDs()) do

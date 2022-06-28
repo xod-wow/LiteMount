@@ -56,7 +56,7 @@ COMMANDS['macro'] =
 
 COMMANDS['priority'] =
     function (argstr, priority)
-        local mount = LM.PlayerMounts:GetActiveMount()
+        local mount = LM.MountRegistry:GetActiveMount()
         priority = tonumber(priority)
         if mount and priority then
             LM.Options:SetPriority(mount, priority)
@@ -90,11 +90,11 @@ COMMANDS['continents'] =
 COMMANDS['mounts'] =
     function (argstr, ...)
         if select('#', ...) == 0 then
-            local m = LM.PlayerMounts:GetActiveMount()
+            local m = LM.MountRegistry:GetActiveMount()
             if m then m:Dump() end
         else
             local n = string.lower(table.concat({ ... }, ' '))
-            local mounts = LM.PlayerMounts.mounts:Search(function (m) return string.match(strlower(m.name), n) end)
+            local mounts = LM.MountRegistry.mounts:Search(function (m) return string.match(strlower(m.name), n) end)
             for _,m in ipairs(mounts) do
                 m:Dump()
             end
