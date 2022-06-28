@@ -19,7 +19,7 @@ function LiteMountAnnounceFrameMixin:OnLoad()
     FadingFrame_SetFadeInTime(self, 0.5)
     FadingFrame_SetHoldTime(self, 1)
     FadingFrame_SetFadeOutTime(self, 2)
-    LM.PlayerMounts.RegisterCallback(self, "OnMountSummoned", "OnCallback")
+    LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "OnCallback")
 end
 
 function LiteMountAnnounceFrameMixin:OnCallback(callbackName, mount)
