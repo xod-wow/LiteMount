@@ -14,7 +14,7 @@ header () {
 }
 
 fetch () {
-    curl -s -H "X-Api-Token: $APIKEY" "https://wow.curseforge.com/api/projects/30359/localization/export?export-type=TableAdditions&lang=$1&namespaces=Base+Namespace,Family&concatenate-subnamespaces=true&unlocalized=Ignore" | sed -e 's/^..*$/    &/'
+    curl -s -H "X-Api-Token: $APIKEY" "https://wow.curseforge.com/api/projects/30359/localization/export?export-type=TableAdditions&lang=$1&namespaces=Base+Namespace,Family&concatenate-subnamespaces=true&unlocalized=Ignore" | sed -e 's/..*/    &/'
 }
 
 header "enUS / enGB / Default"
