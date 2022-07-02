@@ -367,8 +367,7 @@ CONDITIONS["floating"] = {
 }
 
 CONDITIONS["flyable"] = {
-    L.LM_FLYABLE_AREA,
-    name = L["Flyable area"],
+    name = L.LM_FLYABLE_AREA,
     handler =
         function (cond, context)
             return LM.Environment:CanFly()
