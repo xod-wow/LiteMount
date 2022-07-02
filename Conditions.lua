@@ -428,8 +428,42 @@ CONDITIONS["gather"] = {
         end
 }
 
+local function IsInCrossFactionGroup()
+    local myFaction = UnitFactionGroup('player')
+    local unit, numMembers
+    if IsInRaid() then
+        unit, numMembers = 'raid', GetNumGroupMembers()
+    else
+        unit, numMembers = 'party', GetNumSubgroupMembers()
+    end
+    for i = 1, numMembers do
+        if UnitFactionGroup(unit..i) ~= myFaction then
+            return true
+        end
+    end
+end
+
 CONDITIONS["group"] = {
     name = L.LM_PARTY_OR_RAID_GROUP,
+    toDisplay =
+        function (v)
+            if v == "party" then
+                return PARTY
+            elseif v == "raid" then
+                return RAID
+            elseif v == "crossfaction" then
+                return L.LM_CROSS_FACTION
+            elseif not v then
+                return CLUB_FINDER_ANY_FLAG
+            end
+        end,
+    menu = {
+        nosort = true,
+        { val = "group" },
+        { val = "group:party" },
+        { val = "group:raid" },
+        { val = "group:crossfaction" },
+    },
     handler =
         function (cond, context, groupType)
             if not groupType then
@@ -438,6 +472,8 @@ CONDITIONS["group"] = {
                 return IsInRaid()
             elseif groupType == "party" then
                 return IsInGroup()
+            elseif groupType == "crossfaction" then
+                return IsInCrossFactionGroup()
             end
         end
 }

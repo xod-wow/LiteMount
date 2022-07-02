@@ -47,6 +47,7 @@ L.Unknown               = UNKNOWN
     L["LM_COVENANT"] = "Covenant"
     L["LM_CREATE_GLOBAL_GROUP"] = "Global"
     L["LM_CREATE_PROFILE_GROUP"] = "Profile"
+    L["LM_CROSS_FACTION"] = "Cross-Faction"
     L["LM_CURRENT_SETTINGS"] = "Current Settings"
     L["LM_DEBUGGING_DISABLED"] = "Debugging disabled."
     L["LM_DEBUGGING_ENABLED"] = "Debugging enabled."
