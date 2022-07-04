@@ -451,7 +451,7 @@ CONDITIONS["group"] = {
             elseif v == "raid" then
                 return RAID
             elseif v == "crossfaction" then
-                return L.LM_CROSS_FACTION
+                return CROSS_FACTION_CLUB_FINDER_SEARCH_OPTION
             elseif not v then
                 return CLUB_FINDER_ANY_FLAG
             end
