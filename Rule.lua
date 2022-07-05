@@ -116,7 +116,7 @@ function LM.Rule:ParseLine(line)
     for _, word in ipairs(argWords) do
         word = word:gsub('{.-}', replaceConstant)
         if word:match('^".+"$') then
-            tinsert(args, word:sub(2, -2))
+            tinsert(r.args, word:sub(2, -2))
         else
             for w in word:gmatch('[^,]+') do
                 tinsert(r.args, w)
