@@ -394,7 +394,15 @@ function LiteMountRuleEditMixin:MakeRule()
         table.insert(ruleTexts, '[' .. table.concat(cTexts, ',') .. ']')
     end
 
-    table.insert(ruleTexts, self.Action.arg)
+    -- This is super ugly. Support mounts with commas in the name. Note
+    -- that there is no way for a mount to have a double quote in the
+    -- name (neither here nor in the rule parsing).
+
+    if self.Action.arg:find(',') then
+        table.insert(ruleTexts, '"' .. self.Action.arg .. '"')
+    else
+        table.insert(ruleTexts, self.Action.arg)
+    end
 
     return table.concat(ruleTexts, ' ')
 end
