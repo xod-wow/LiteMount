@@ -91,6 +91,7 @@ local defaults = {
         instantOnlyMoving   = false,
         announceViaChat     = false,
         announceViaUI       = false,
+        announceColors      = false,
 
         -- Paranoia, for now. Later delete these and let the cleanup work
         oldRules            = { },
@@ -810,10 +811,11 @@ end
 function LM.Options:GetAnnounce()
     return
         self.db.profile.announceViaChat,
-        self.db.profile.announceViaUI
+        self.db.profile.announceViaUI,
+        self.db.profile.announceColors
 end
 
-function LM.Options:SetAnnounce(viaChat, viaUI)
+function LM.Options:SetAnnounce(viaChat, viaUI, colors)
     local changed
     if viaChat ~= nil then
         self.db.profile.announceViaChat = (viaChat == true)
@@ -821,6 +823,10 @@ function LM.Options:SetAnnounce(viaChat, viaUI)
     end
     if viaUI ~= nil then
         self.db.profile.announceViaUI = (viaUI == true)
+        changed = true
+    end
+    if colors ~= nil then
+        self.db.profile.announceColors = (colors == true)
         changed = true
     end
     if changed then

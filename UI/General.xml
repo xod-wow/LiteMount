@@ -68,6 +68,14 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
+        <CheckButton parentKey="AnnounceColors" inherits="InterfaceOptionsCheckButtonTemplate">
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.AnnounceUI" relativePoint="RIGHT" x="140" y="0" />
+            </Anchors>
+            <Scripts>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
+            </Scripts>
+        </CheckButton>
     </Frames>
     <Layers>
         <Layer level="OVERLAY">

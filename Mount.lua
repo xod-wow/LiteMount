@@ -211,6 +211,10 @@ function LM.Mount:GetSummonCount()
     return LM.Options:GetSummonCount(self)
 end
 
+function LM.Mount:GetPriority()
+    return LM.Options:GetPriority(self)
+end
+
 -- This is gross
 
 local MawUsableSpells = {
@@ -261,6 +265,6 @@ function LM.Mount:Dump(prefix)
     LM.Print(prefix .. " isCollected: " .. tostring(self.isCollected))
     LM.Print(prefix .. " isFavorite: " .. tostring(self.isFavorite))
     LM.Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))
-    LM.Print(prefix .. " priority: " .. tostring(LM.Options:GetPriority(self)))
+    LM.Print(prefix .. " priority: " .. tostring(self:GetPriority()))
     LM.Print(prefix .. " castable: " .. tostring(self:IsCastable()) .. " (spell " .. tostring(IsUsableSpell(self.spellID)) .. ")")
 end

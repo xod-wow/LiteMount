@@ -13,7 +13,11 @@
         <Layer level="ARTWORK">
             <FontString parentKey="Text" inherits="Game36Font_Shadow2">
                 <Anchors> <Anchor point="CENTER" /> </Anchors>
-                <Color r="1.0" g="1.0" b="0.25" />
+            </FontString>
+            <FontString parentKey="SubText" inherits="SystemFont_Shadow_Large2">
+                <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOM" relativeKey="$parent.Text" y="-8" />
+                </Anchors>
             </FontString>
         </Layer>
     </Layers>

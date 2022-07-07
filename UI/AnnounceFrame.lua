@@ -23,9 +23,16 @@ function LiteMountAnnounceFrameMixin:OnLoad()
 end
 
 function LiteMountAnnounceFrameMixin:OnCallback(callbackName, mount)
-    local _, viaUI = LM.Options:GetAnnounce()
+    local _, viaUI, colors = LM.Options:GetAnnounce()
     if viaUI then
-        self.Text:SetText(mount.name)
+        if colors then
+            local p = mount:GetPriority()
+            local c = LM.UIFilter.GetPriorityColor(p)
+            self.Text:SetText(c:WrapTextInColorCode(mount.name))
+        else
+            self.Text:SetText(mount.name)
+            self.Text:SetTextColor(1, 1, 0.25)
+        end
         FadingFrame_Show(self)
     end
 end

@@ -34,7 +34,7 @@ end
 function LiteMountPriorityMixin:Get()
     local mount = self:GetParent().mount
     if mount then
-        return LM.Options:GetPriority(mount)
+        return mount:GetPriority()
     end
 end
 
@@ -91,7 +91,7 @@ function LiteMountAllPriorityMixin:Get()
     local allValue
 
     for _,mount in ipairs(mounts) do
-        local v = LM.Options:GetPriority(mount)
+        local v = mount:GetPriority()
         if (allValue or v) ~= v then
             allValue = nil
             break

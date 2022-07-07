@@ -136,6 +136,22 @@ function LiteMountGeneralPanelMixin:OnLoad()
         function (self) return false end
     LiteMountOptionsPanel_RegisterControl(self.AnnounceUI)
 
+    -- AnnounceColors --
+    self.AnnounceColors.Text:SetText(L.LM_COLOR_BY_PRIORITY)
+    self.AnnounceColors.SetOption =
+        function (self, setting)
+            if not setting or setting == "0" then
+                LM.Options:SetAnnounce(nil, nil, false)
+            else
+                LM.Options:SetAnnounce(nil, nil, true)
+            end
+        end
+    self.AnnounceColors.GetOption =
+        function (self) return select(3, LM.Options:GetAnnounce()) end
+    self.AnnounceColors.GetOptionDefault =
+        function (self) return false end
+    LiteMountOptionsPanel_RegisterControl(self.AnnounceColors)
+
     -- InstantOnlyMoving --
 
     self.InstantOnlyMoving.Text:SetWidth(500)

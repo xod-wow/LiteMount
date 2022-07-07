@@ -536,13 +536,13 @@ function LM.Actions:DefaultCombatMacro()
     if playerClass ==  "DRUID" then
         local forms = GetDruidMountForms()
         local mount = LM.MountRegistry:GetMountBySpell(LM.SPELL.TRAVEL_FORM)
-        if mount and LM.Options:GetPriority(mount) > 0 then
+        if mount and mount:GetPriority() > 0 then
             mt = mt .. format("/cast [noform:%s] %s\n", forms, mount.name)
             mt = mt .. format("/cancelform [form:%s]\n", forms)
         end
     elseif playerClass == "SHAMAN" then
         local mount = LM.MountRegistry:GetMountBySpell(LM.SPELL.GHOST_WOLF)
-        if mount and LM.Options:GetPriority(mount) > 0 then
+        if mount and mount:GetPriority() > 0 then
             local s = GetSpellInfo(LM.SPELL.GHOST_WOLF)
             mt = mt .. "/cast [noform] " .. s .. "\n"
             mt = mt .. "/cancelform [form]\n"
