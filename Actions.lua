@@ -349,7 +349,7 @@ ACTIONS['SmartMount'] = {
 
             if m then
                 LM.Debug(format(" - setting action to mount %s", m.name))
-                return m:GetCastAction(context)
+                return m:GetCastAction(context), m
             end
         end
 }
@@ -366,7 +366,7 @@ ACTIONS['Mount'] = {
             local m = mounts:Random(context.random)
             if m then
                 LM.Debug(format(" - setting action to mount %s", m.name))
-                return m:GetCastAction(context)
+                return m:GetCastAction(context), m
             end
         end
 }
