@@ -203,7 +203,9 @@ end
 function LM.Mount:OnSummon()
     local n = LM.Options:IncrementSummonCount(self)
     if LM.Options:GetAnnounce() then
-        LM.Print(SUMMON .. ': ' .. self.name)
+        LM.Print(string.format(
+                    L.LM_SUMMON_CHAT_MESSAGE,
+                    self.name, self:GetPriority(), n))
     end
 end
 
