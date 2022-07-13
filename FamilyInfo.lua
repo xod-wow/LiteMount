@@ -1067,6 +1067,7 @@ LM.MOUNTFAMILY["Serpent"] = {
     [307932] = true, -- Ensorcelled Everwyrm
     [315987] = true, -- Mail Muncher
     [275623] = true, -- Nazjatar Blood Serpent
+    [367676] = true, -- Nether-Gorged Greatwyrm
     [243025] = true, -- Riddler's Mind-Worm
     [346141] = true, -- Slime Serpent
     [316343] = true, -- Wriggling Parasite
