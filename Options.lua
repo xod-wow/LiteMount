@@ -483,7 +483,7 @@ end
 
 -- These are pseudo-flags used in Mount:MatchesOneFilter and we don't
 -- let custom flags have the name.
-local PseudoFlags = { "CASTABLE", "SLOW", "FAVORITES", FAVORITES, "NONE", NONE }
+local PseudoFlags = { "CASTABLE", "SLOW", "MAWUSABLE", "FAVORITES", FAVORITES, "NONE", NONE }
 
 function LM.Options:IsFlag(f)
     if tContains(PseudoFlags, f) then

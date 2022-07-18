@@ -303,6 +303,11 @@ ACTIONS['SmartMount'] = {
         function (args, context)
 
             local filters = ReplaceVars(LM.tJoin(context.filters[1], args))
+
+            if LM.Conditions:Check("[maw]", context) then
+                table.insert(filters, "MAWUSABLE")
+            end
+
             local filteredList = LM.MountRegistry:FilterSearch("CASTABLE"):Limit(unpack(filters))
 
             LM.Debug(" - filters: " .. table.concat(filters, ' '))
@@ -361,6 +366,9 @@ ACTIONS['Mount'] = {
     handler =
         function (args, context)
             local filters = ReplaceVars(LM.tJoin(context.filters[1], args))
+            if LM.Conditions:Check("[maw]", context) then
+                table.insert(filters, "MAWUSABLE")
+            end
             LM.Debug(" - filters: " .. table.concat(filters, ' '))
             local mounts = LM.MountRegistry:FilterSearch("CASTABLE"):Limit(unpack(filters))
             local m = mounts:Random(context.random)

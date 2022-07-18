@@ -91,6 +91,8 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
         return false
     elseif f == "CASTABLE" then
         if self:IsCastable() then return true end
+    elseif f == "MAWUSABLE" then
+        if self:MawUsable() then return true end
     elseif f == "JOURNAL" then
         if self.mountType then return true end
     elseif f == "FAVORITES" then
@@ -168,9 +170,6 @@ function LM.Mount:IsCastable()
     elseif LM.Options:GetInstantOnlyMoving() then
         if castTime == 0 then return false end
     end
-    if LM.Environment:IsTheMaw() and not self:MawUsable() then
-        return false
-    end
     return true
 end
 
@@ -188,9 +187,9 @@ function LM.Mount:IsFromZone(zone)
     end
 end
 
--- These should probably not be making new identical objects all tha time.
+-- These should probably not be making new identical objects all the time.
 
-function LM.Mount:GetCastAction(context)
+function LM.Mount:GetCastAction()
     local spellName = GetSpellInfo(self.spellID)
     return LM.SecureAction:Spell(spellName)
 end

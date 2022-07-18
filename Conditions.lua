@@ -606,7 +606,7 @@ CONDITIONS["map"] = {
             if v:sub(1,1) == '*' then
                 return LM.Environment:IsOnMap(tonumber(v:sub(2)))
             else
-                return LM.Environment:IsMapInPath(tonumber(v))
+                return LM.Environment:IsMapInPath(tonumber(v), context.mapPath)
             end
         end,
 }
@@ -614,7 +614,7 @@ CONDITIONS["map"] = {
 CONDITIONS["maw"] = {
     handler =
         function (cond, context, v)
-            return LM.Environment:IsTheMaw()
+            return LM.Environment:IsTheMaw(context.mapPath)
         end
 }
 

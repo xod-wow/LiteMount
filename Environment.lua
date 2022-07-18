@@ -103,7 +103,7 @@ function LM.Environment:IsMovingOrFalling()
     return (GetUnitSpeed("player") > 0 or IsFalling())
 end
 
-function LM.Environment:IsTheMaw()
+function LM.Environment:IsTheMaw(mapPath)
     local instanceID = select(8, GetInstanceInfo())
 
     -- This is the instanced starting experience
@@ -113,7 +113,7 @@ function LM.Environment:IsTheMaw()
     if instanceID == 2456 then return true end
 
     -- Otherwise, The Maw is just zones in instance 2222
-    return LM.Environment:IsMapInPath(1543)
+    return LM.Environment:IsMapInPath(1543, mapPath)
 end
 
 function LM.Environment:PLAYER_LOGIN()
@@ -214,8 +214,12 @@ function LM.Environment:GetMapPath()
     return out
 end
 
-function LM.Environment:IsMapInPath(mapID)
-    for _, pathMapID in ipairs(self:GetMapPath()) do
+-- C_Map.GetMapInfo use a terrific amount of (garbage collected) memory, which
+-- is why this takes a mapPath optional argument so we can save the mapPath in
+-- the context for actions.
+
+function LM.Environment:IsMapInPath(mapID, mapPath)
+    for _, pathMapID in ipairs(mapPath or self:GetMapPath()) do
         if self:MapIsMap(pathMapID, mapID) then return true end
     end
     return false
