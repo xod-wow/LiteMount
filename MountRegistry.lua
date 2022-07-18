@@ -201,15 +201,19 @@ end
 -- the same name but different spells.
 
 function LM.MountRegistry:GetMountFromUnitAura(unitid)
-    local buffs = { }
+    local buffNames = { }
     local i = 1
     while true do
         local aura = UnitAura(unitid, i)
-        if aura then buffs[aura] = true else break end
+        if aura then buffNames[aura] = true else break end
         i = i + 1
     end
-    return self.mounts:Find(function (m) return buffs[m.name] end)
+    return self.mounts:Find(function (m) return buffNames[m.name] end)
 end
+
+-- This is not self:GetMountFromUnitAura('player') because it matches
+-- by ID and not by name, making sure you get the right version of
+-- mounts with one for each faction.
 
 function LM.MountRegistry:GetActiveMount()
     local buffIDs = { }
@@ -219,11 +223,7 @@ function LM.MountRegistry:GetActiveMount()
         if id then buffIDs[id] = true else break end
         i = i + 1
     end
-    for _,m in pairs(self.mounts) do
-        if m:IsActive(buffIDs) then
-            return m
-        end
-    end
+    return self.mounts:Find(function (m) return m:IsActive(buffIDs) end)
 end
 
 function LM.MountRegistry:GetMountByName(name)
