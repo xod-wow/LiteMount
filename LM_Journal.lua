@@ -98,7 +98,7 @@ function LM.Journal:Get(id, isUsable)
         m.flags['RUN'] = true
     elseif m.mountType == 408 then      -- Unsuccessful Prototype Fleetpod
         m.flags['RUN'] = true
-        -- m.flags['SLOW'] = true          -- irony?
+        m.flags['SLOW'] = true
 --@debug@
     else
         LM.PrintError(string.format('Mount with unknown type number: %s = %d', m.name, m.mountType))
