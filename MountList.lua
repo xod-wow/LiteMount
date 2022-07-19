@@ -194,8 +194,22 @@ local function filterMatch(m, ...)
     return m:MatchesFilters(...)
 end
 
+local function filterSplitOr(s)
+    local out = { strsplit('/', s) }
+    if #out == 1 then
+        return out[1]
+    else
+        return out
+    end
+end
+
 function LM.MountList:FilterSearch(...)
-    return self:Search(filterMatch, ...)
+    -- This looks like a terrible idea but it's actually way faster and memory
+    -- efficient to do all this here once rather than strsplit for every mount
+    -- in the list
+
+    local filters = LM.tMap({ ... }, filterSplitOr)
+    return self:Search(filterMatch, unpack(filters))
 end
 
 -- Limits can be filter (no prefix), set (=), reduce (-) or extend (+).

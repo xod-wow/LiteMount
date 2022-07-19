@@ -30,6 +30,8 @@ function LM.ActionButton:PreClick(mouseButton)
 
     if InCombatLockdown() then return end
 
+    local startTime = debugprofilestop()
+
     LM.Debug("PreClick handler called on " .. self:GetName())
 
     LM.MountRegistry:RefreshMounts()
@@ -53,12 +55,14 @@ function LM.ActionButton:PreClick(mouseButton)
     local act = ruleSet:Run(context)
     if act then
         act:SetupActionButton(self)
+        LM.Debug("PreClick ok time " .. (debugprofilestop() - startTime))
         return
     end
 
     local handler = LM.Actions:GetHandler('CantMount')
     local act = handler()
     act:SetupActionButton(self)
+    LM.Debug("PreClick fail time " .. (debugprofilestop() - startTime))
 end
 
 function LM.ActionButton:PostClick()

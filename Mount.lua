@@ -85,7 +85,7 @@ function LM.Mount:FilterToDisplay(f)
 end
 
 function LM.Mount:MatchesOneFilter(flags, groups, f)
-    if f == "" then
+    if f == "" or f == self.name then
         return true
     elseif f == "NONE" then
         return false
@@ -119,37 +119,38 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
     end
 end
 
-function LM.Mount:MatchesFilter(flags, groups, filterStr)
-
-    if self.name == filterStr then
-        return true
-    end
-
-    local filters = { strsplit('/', filterStr) }
-
-    -- These are all ORed so return true as soon as one is true
-
-    for _, f in ipairs(filters) do
+function LM.Mount:MatchesFilterOr(flags, groups, ...)
+    local f
+    for i = 1, select('#', ...) do
+        f = select(i, ...)
         if self:MatchesOneFilter(flags, groups, f) then
             return true
         end
     end
-
     return false
+end
+
+function LM.Mount:MatchesFilterAnd(flags, groups, ...)
+    local f
+    for i = 1, select('#', ...) do
+        f = select(i, ...)
+        if type(f) == 'table' then
+            if not self:MatchesFilterOr(flags, groups, unpack(f)) then
+                return false
+            end
+        else
+            if not self:MatchesFilterOr(flags, groups, f) then
+                return false
+            end
+        end
+    end
+    return true
 end
 
 function LM.Mount:MatchesFilters(...)
     local currentFlags = self:GetFlags()
     local currentGroups = self:GetGroups()
-    local f
-
-    for i = 1, select('#', ...) do
-        f = select(i, ...)
-        if not self:MatchesFilter(currentFlags, currentGroups, f) then
-            return false
-        end
-    end
-    return true
+    return self:MatchesFilterAnd(currentFlags, currentGroups, ...)
 end
 
 function LM.Mount:FlagsSet(checkFlags)

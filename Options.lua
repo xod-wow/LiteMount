@@ -432,7 +432,7 @@ function LM.Options:GetMountFlags(m)
         end
     end
 
-    return CopyTable(self.cachedMountFlags[m.spellID])
+    return self.cachedMountFlags[m.spellID]
 end
 
 function LM.Options:SetMountFlag(m, setFlag)
@@ -505,7 +505,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRawGroups()
-    return CopyTable(self.db.profile.groups), CopyTable(self.db.global.groups)
+    return self.db.profile.groups, self.db.global.groups
 end
 
 function LM.Options:SetRawGroups(profileGroups, globalGroups)
@@ -587,7 +587,7 @@ function LM.Options:GetMountGroups(m)
             end
         end
     end
-    return CopyTable(self.cachedMountGroups[m.spellID])
+    return self.cachedMountGroups[m.spellID]
 end
 
 function LM.Options:IsMountInGroup(m, g)
