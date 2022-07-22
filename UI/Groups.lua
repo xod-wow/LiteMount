@@ -248,7 +248,8 @@ function LiteMountGroupsPanelGroupsMixin:OnLoad()
 end
 
 function LiteMountGroupsPanelGroupsMixin:GetOption()
-    return { LM.Options:GetRawGroups() }
+    local profile, global = LM.Options:GetRawGroups()
+    return { CopyTable(profile), CopyTable(global) }
 end
 
 function LiteMountGroupsPanelGroupsMixin:SetOption(v)

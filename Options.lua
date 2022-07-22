@@ -338,7 +338,7 @@ function LM.Options:GetAllPriorities()
 end
 
 function LM.Options:GetRawMountPriorities()
-    return LM.tCopyShallow(self.db.profile.mountPriorities)
+    return self.db.profile.mountPriorities
 end
 
 function LM.Options:SetRawMountPriorities(v)
@@ -407,7 +407,7 @@ local function FlagDiff(a, b)
 end
 
 function LM.Options:GetRawFlagChanges()
-    return LM.tCopyShallow(self.db.profile.flagChanges)
+    return self.db.profile.flagChanges
 end
 
 function LM.Options:SetRawFlagChanges(v)
