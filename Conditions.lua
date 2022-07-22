@@ -551,7 +551,7 @@ CONDITIONS["keybind"] = {
 
 -- GetMaxLevelForLatestExpansion()
 CONDITIONS["level"] = {
-    name = string.format(UNIT_LEVEL_TEMPLATE, GetMaxLevelForLatestExpansion()),
+    name = GUILD_RECRUITMENT_MAXLEVEL,
     args = true,
     handler =
         function (cond, context, l1, l2)
