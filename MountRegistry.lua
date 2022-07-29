@@ -200,6 +200,12 @@ end
 -- spell ID because there are some horde/alliance mounts with
 -- the same name but different spells.
 
+local function MatchMountToBuff(m, buffNames)
+    if buffNames[m.name] then return true end
+    local spellName = GetSpellInfo(m.spellID)
+    if spellName and buffNames[spellName] then return true end
+end
+
 function LM.MountRegistry:GetMountFromUnitAura(unitid)
     local buffNames = { }
     local i = 1
@@ -208,7 +214,7 @@ function LM.MountRegistry:GetMountFromUnitAura(unitid)
         if aura then buffNames[aura] = true else break end
         i = i + 1
     end
-    return self.mounts:Find(function (m) return buffNames[m.name] end)
+    return self.mounts:Find(MatchMountToBuff, buffNames)
 end
 
 -- This is not self:GetMountFromUnitAura('player') because it matches
