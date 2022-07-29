@@ -26,9 +26,10 @@ LM.Journal.__index = LM.Journal
 --  [7] isFavorite,
 --  [8] isFactionSpecific,
 --  [9] faction,
--- [10] shouldHideOnChar,
+-- [10] isFiltered,
 -- [11] isCollected,
--- [12] mountID = C_MountJournal.GetMountInfoByID(mountID)
+-- [12] mountID,
+-- [13] isForDragonRiding = C_MountJournal.GetMountInfoByID(mountID)
 
 --  [1] creatureDisplayInfoID,
 --  [2] description,
@@ -38,7 +39,7 @@ LM.Journal.__index = LM.Journal
 --  [6] uiModelSceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
 function LM.Journal:Get(id, isUsable)
-    local name, spellID, icon, _, _, sourceType, isFavorite, _, faction, isFiltered, isCollected, mountID = C_MountJournal.GetMountInfoByID(id)
+    local name, spellID, icon, _, _, sourceType, isFavorite, _, faction, isFiltered, isCollected, mountID, dragonRiding = C_MountJournal.GetMountInfoByID(id)
     local modelID, descriptionText, sourceText, isSelfMount, mountType, sceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
     if not name then
@@ -63,6 +64,7 @@ function LM.Journal:Get(id, isUsable)
     m.isFiltered    = isFiltered
     m.isCollected   = isCollected
     m.isUsable      = isFiltered == false and isUsable == true
+    m.dragonRiding  = dragonRiding
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
     m.flags         = { }
 

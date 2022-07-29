@@ -309,6 +309,10 @@ function LM.Environment:ForceFlyable(instanceID)
     InstanceFlyableOverride[instanceID] = true
 end
 
+function LM.Environment:CanDragonRide(mapPath)
+    return false
+end
+
 -- Can't fly if you haven't learned a flying skill. Various expansion
 -- continents from Draenor onwards need achievement unlocks to be able to fly.
 

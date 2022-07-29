@@ -228,6 +228,14 @@ CONDITIONS["difficulty"] = {
         end
 }
 
+CONDITIONS["dragonriding"] = {
+    name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+    handler =
+        function (cond, context)
+            return LM.Environment:CanDragonRide(context.mapPath)
+        end,
+}
+
 -- Persistent "deck of cards" draw randomness
 
 CONDITIONS["draw"] = {

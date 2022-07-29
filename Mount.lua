@@ -97,6 +97,8 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
         if self.mountType then return true end
     elseif f == "FAVORITES" then
         if self.isFavorite then return true end
+    elseif f == "DRAGONRIDING" then
+        if self.dragonRiding then return true end
     elseif f == "ZONEMATCH" then
         local zone = GetZoneText()
         if self:IsFromZone(zone) then return true end
@@ -264,6 +266,7 @@ function LM.Mount:Dump(prefix)
             )
     LM.Print(prefix .. " mountID: " .. tostring(self.mountID))
     LM.Print(prefix .. " family: " .. tostring(self.family))
+    LM.Print(prefix .. " dragonRiding: " .. tostring(self.dragonRiding))
     LM.Print(prefix .. " isCollected: " .. tostring(self.isCollected))
     LM.Print(prefix .. " isFavorite: " .. tostring(self.isFavorite))
     LM.Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))
