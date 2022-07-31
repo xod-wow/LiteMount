@@ -144,6 +144,7 @@ LM.MOUNTFAMILY["Cat"] = {
     [200175] = true, -- Felsaber
     [ 90621] = true, -- Golden King
     [129932] = true, -- Green Shado-Pan Riding Tiger
+    [366791] = true, -- Jigglesworth Sr.
     [288505] = true, -- Kaldorei Nightsaber
     [180545] = true, -- Mystic Runesaber
     [258845] = true, -- Nightborne Manasaber
