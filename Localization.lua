@@ -795,6 +795,7 @@ if locale == "frFR" then
     L["LM_RESET_PROFILE"] = "Réinitialiser le profil"
     L["LM_RULES_EXP"] = "Règles de monte. Chaque règle comporte jusqu'à 3 conditions et une action. Les règles sont vérifiées dans l'ordre, et si toutes les conditions correspondent, l'action est appliquée."
     L["LM_RULES_INACTIVE"] = "Les règles pour la liaison des touches %d sont inactives car votre liste d'actions personnalisées (dans les Options Avancées) ne contient pas l'action \"ApplyRules\"."
+    L["LM_SET_DEFAULT_MOUNT_PRIORITY_TO"] = "Définir la priorité de la monture par défaut à %d (%s) au lieu de %d (%s)."
     L["LM_SETTINGS_TAGLINE"] = "Invocation simple et fiable de monture aléatoire."
     L["LM_SEX"] = "Sexe"
     L["LM_SHOW_ALL_MOUNTS"] = "Afficher toutes les montures "
