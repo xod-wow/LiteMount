@@ -482,6 +482,7 @@ end
 
 local ShowMapOverride = {
     [407] = true,   -- Darkmoon Island (mapType Orphan)
+    [647] = true,   -- Acherus: The Ebon Hold (mapType Micro)
 }
 
 local function FillChildren(info)
@@ -489,9 +490,9 @@ local function FillChildren(info)
         if ShowMapOverride[child.mapID] or C_Map.IsMapValidForNavBarDropDown(child.mapID) then
             FillChildren(child)
             table.insert(info, child)
-            table.sort(info, function (a,b) return a.name < b.name end)
         end
     end
+    table.sort(info, function (a,b) return a.name < b.name end)
 end
 
 -- IsMapValidForNavBarDropDown is dynamic somehow, so this has to be
