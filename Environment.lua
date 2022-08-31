@@ -336,8 +336,10 @@ function LM.Environment:CanFly()
     end
 
     -- Memories of Sunless Skies / Shadowlands Flying
+    -- It seems like flying in Shadowlands is also unlocked by completing the
+    -- Zereth Mortis Flying unlock even if you never did MoSS.
     if self:InInstance(2222) then
-        if not C_QuestLog.IsQuestFlaggedCompleted(63893) then
+        if not (C_QuestLog.IsQuestFlaggedCompleted(63893) or IsSpellKnown(366736)) then
             return false
         end
     end
