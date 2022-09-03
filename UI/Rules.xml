@@ -7,7 +7,7 @@
 <Frame name="LiteMountRulePartTemplate" virtual="true">
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="Text" name="$parentText" inherits="GameFontNormal" spacing="5" justifyH="LEFT" multiLine="true">
+            <FontString parentKey="Text" name="$parentText" inherits="GameFontNormal" spacing="5" justifyH="LEFT">
                 <Anchors>
                     <Anchor point="LEFT" />
                     <Anchor point="RIGHT" />

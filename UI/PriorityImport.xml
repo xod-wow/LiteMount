@@ -22,13 +22,13 @@
         <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="InputScrollFrameTemplate">
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
+                <KeyValue key="maxLetters" value="0" type="number" />
             </KeyValues>
             <Anchors>
                 <Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" y="-16" />
                 <Anchor point="LEFT" x="16" />
                 <Anchor point="BOTTOMRIGHT" x="-16" y="64" />
             </Anchors>
-            <FontString inherts="ChatFontNormal" />
         </ScrollFrame>
         <Button parentKey="CancelButton" inherits="UIPanelButtonTemplate" text="CANCEL">
             <Size x="96" y="22" />

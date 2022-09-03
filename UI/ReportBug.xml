@@ -49,6 +49,7 @@
         <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="InputScrollFrameTemplate">
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
+                <KeyValue key="maxLetters" value="0" type="number" />
             </KeyValues>
             <Anchors>
                 <Anchor point="TOP" relativeKey="$parent.CreateIssueURL" relativePoint="BOTTOM" y="-16" />

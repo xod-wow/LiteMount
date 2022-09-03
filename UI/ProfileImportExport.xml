@@ -20,6 +20,7 @@
         <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="InputScrollFrameTemplate">
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
+                <KeyValue key="maxLetters" value="0" type="number" />
             </KeyValues>
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-88" />
@@ -86,7 +87,7 @@
         </Layer>
     </Layers>
     <Frames>
-        <EditBox parentKey="ProfileName" inherits="InputBoxTemplate" autoFocus="true">
+        <EditBox parentKey="ProfileName" inherits="InputBoxTemplate" letters="24" autoFocus="true">
             <Size y="30" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.ProfileNameText" relativePoint="RIGHT" x="12" />
@@ -191,10 +192,11 @@
         <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="InputScrollFrameTemplate">
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
+                <KeyValue key="maxLetters" value="0" type="number" />
             </KeyValues>
             <Scripts>
                 <OnLoad inherit="append">
-                self.EditBox:SetFont("fonts\\2002.ttf", 14)
+                self.EditBox:SetFont("fonts\\2002.ttf", 14, "")
                 </OnLoad>
             </Scripts>
             <Anchors>
