@@ -12,18 +12,20 @@ local _, LM = ...
 
 local L = LM.Localize
 
+local DefaultFilterList = {
+    family = { },
+    flag = { },
+    group = { },
+    other = { HIDDEN=true, UNUSABLE=true },
+    priority = { },
+    source = { },
+    type = { },
+}
+
 LM.UIFilter = {
         filteredMountList = LM.MountList:New(),
         searchText = nil,
-        filterList = {
-            family = { },
-            flag = { },
-            group =  { },
-            other =  { },
-            priority = { },
-            source = { },
-            type =  { },
-        }
+        filterList = CopyTable(DefaultFilterList),
     }
 
 local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
@@ -48,17 +50,12 @@ end
 
 function LM.UIFilter.Clear()
     LM.UIFilter.ClearCache()
-    for _,t in pairs(LM.UIFilter.filterList) do
-        table.wipe(t)
-    end
+    LM.UIFilter.filterList = CopyTable(DefaultFilterList)
     callbacks:Fire('OnFilterChanged')
 end
 
 function LM.UIFilter.IsFiltered()
-    for k,t in pairs(LM.UIFilter.filterList) do
-        if next(t) ~= nil then return true end
-    end
-    return false
+    return not tCompare(LM.UIFilter.filterList, DefaultFilterList, 2)
 end
 
 -- Fetch -----------------------------------------------------------------------
