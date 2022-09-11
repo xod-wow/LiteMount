@@ -103,8 +103,12 @@ function LiteMountOptionsPanel_Open()
     if not f.CurrentOptionsPanel then
         f.CurrentOptionsPanel = LiteMountMountsPanel
     end
-    InterfaceOptionsFrame:Show()
-    InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)
+    if Settings then
+        Settings.OpenToCategory("LiteMount")
+    else
+        InterfaceOptionsFrame:Show()
+        InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)
+    end
 end
 
 function LiteMountOptionsPanel_Reset(self, trigger)

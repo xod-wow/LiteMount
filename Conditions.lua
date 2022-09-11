@@ -228,7 +228,7 @@ CONDITIONS["difficulty"] = {
         end
 }
 
-CONDITIONS["dragonriding"] = {
+CONDITIONS["dragonridable"] = {
     name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
     handler =
         function (cond, context)

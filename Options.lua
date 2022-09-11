@@ -44,6 +44,7 @@ Dismount [nofalling]
 CopyTargetsMount
 ApplyRules
 Limit [mod:shift,nosubmerged,flyable] RUN,~FLY
+Limit [mod:shift,nosubmerged,dragonridable] RUN,~DRAGONRIDING
 Limit [mod:shift,submerged] -SWIM
 SmartMount
 IF [falling]

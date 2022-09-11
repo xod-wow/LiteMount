@@ -94,6 +94,8 @@ function LM.Journal:Get(id, isUsable)
         m.flags['SLOW'] = true
     elseif m.mountType == 398 then      -- Kua'fon
         -- Kua'fon can fly if achievement 13573 is completed, otherwise run
+    elseif m.mountType == 402 then      -- Dragonriding
+        m.flags['DRAGONRIDING'] = true
     elseif m.mountType == 407 then      -- Aurelid
         m.flags['FLY'] = true
         m.flags['SWIM'] = true

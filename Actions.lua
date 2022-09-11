@@ -324,7 +324,7 @@ ACTIONS['SmartMount'] = {
                 m = swim:PriorityRandom(context.random)
             end
 
-            if not m and LM.Conditions:Check("[dragonriding]", context) then
+            if not m and LM.Conditions:Check("[dragonridable]", context) then
                 LM.Debug(" - trying Dragon Riding Mount")
                 local fly = filteredList:FilterSearch('DRAGONRIDING')
                 LM.Debug(" - found " .. #fly .. " mounts.")
