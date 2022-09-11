@@ -105,7 +105,7 @@ function LM.RuleBoolean:EvalLeaf(context)
 
     local c = LM.Conditions:GetCondition(self.condition)
     if not c then
-        LM.WarningAndPrint(format(L.LM_ERR_BAD_CONDITION, cond))
+        LM.WarningAndPrint(format(L.LM_ERR_BAD_CONDITION, condition))
         return false
     end
 
