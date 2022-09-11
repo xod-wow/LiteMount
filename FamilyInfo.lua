@@ -859,6 +859,7 @@ LM.MOUNTFAMILY["Pandaren Kite"] = {
     [133023] = true, -- Jade Pandaren Kite
     [130985] = true, -- Pandaren Kite
     [118737] = true, -- Pandaren Kite
+    [370770] = true, -- Tuskarr Shoreglider
 }
 
 LM.MOUNTFAMILY["Panthara"] = {
@@ -895,6 +896,7 @@ LM.MOUNTFAMILY["Proto-Drake"] = {
     [ 59996] = true, -- Blue Proto-Drake
     [262027] = true, -- Corrupted Gladiator's Proto-Drake
     [262022] = true, -- Dread Gladiator's Proto-Drake
+    [386452] = true, -- Frostbrood Proto-Wyrm
     [ 61294] = true, -- Green Proto-Drake
     [ 63956] = true, -- Ironbound Proto-Drake
     [262024] = true, -- Notorious Gladiator's Proto-Drake

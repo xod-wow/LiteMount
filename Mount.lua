@@ -39,7 +39,7 @@ function LM.Mount:Get(className, ...)
         m.family = UNKNOWN
         LM.MOUNTFAMILY["Unknown"][m.spellID] = true
 --@debug@
-        LM.PrintError('Mount with no family: ' .. m.name)
+        LM.PrintError(format('No family: %s (%d)', m.name, m.spellID))
 --@end-debug@
     end
 
