@@ -323,7 +323,7 @@ function LiteMountMountsPanelMixin:Update()
     self.AllPriority:Update()
 end
 
-function LiteMountMountsPanelMixin:default()
+function LiteMountMountsPanelMixin:OnDefault()
     LM.UIDebug(self, 'Custom_Default')
     self.MountScroll.isDirty = true
     LM.Options:ResetAllMountFlags()
@@ -355,7 +355,7 @@ end
 
 function LiteMountMountsPanelMixin:OnShow()
     LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.MountScroll, 'TOPLEFT', 0, 15)
-    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "refresh")
+    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "OnRefresh")
     LM.MountRegistry:RefreshMounts()
 
     -- Update the counts, Journal-only

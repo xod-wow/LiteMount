@@ -175,7 +175,7 @@
                 <OnClick>
                     local parent = self:GetParent()
                     parent.showAll = self:GetChecked() or nil
-                    parent:refresh()
+                    parent:OnRefresh()
                 </OnClick>
             </Scripts>
             <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>

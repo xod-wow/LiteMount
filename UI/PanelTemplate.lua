@@ -103,27 +103,23 @@ function LiteMountOptionsPanel_Open()
     if not f.CurrentOptionsPanel then
         f.CurrentOptionsPanel = LiteMountMountsPanel
     end
-    if Settings then
-        Settings.OpenToCategory("LiteMount")
-    else
-        InterfaceOptionsFrame:Show()
-        InterfaceOptionsFrame_OpenToCategory(f.CurrentOptionsPanel)
-    end
+    SettingsPanel:Open()
+    SettingsPanel:SelectCategory(f.CurrentOptionsPanel.category, true)
 end
 
-function LiteMountOptionsPanel_Reset(self, trigger)
-    LM.UIDebug(self, "Panel_Reset t="..tostring(trigger))
+function LiteMountOptionsPanel_OnReset(self, trigger)
+    LM.UIDebug(self, "Panel_OnReset t="..tostring(trigger))
     for _,control in ipairs(self.controls or {}) do
-        LiteMountOptionsControl_Okay(control, trigger)
-        LiteMountOptionsControl_Refresh(control, trigger)
+        LiteMountOptionsControl_OnCommit(control, trigger)
+        LiteMountOptionsControl_OnRefresh(control, trigger)
     end
 end
 
-function LiteMountOptionsPanel_Refresh(self, trigger)
-    LM.UIDebug(self, "Panel_Refresh t="..tostring(trigger))
+function LiteMountOptionsPanel_OnRefresh(self, trigger)
+    LM.UIDebug(self, "Panel_OnRefresh t="..tostring(trigger))
     local anyDirty = false
     for _,control in ipairs(self.controls or {}) do
-        LiteMountOptionsControl_Refresh(control, trigger)
+        LiteMountOptionsControl_OnRefresh(control, trigger)
         if control.isDirty then anyDirty = true end
     end
     if not self.hideRevertButton then
@@ -131,17 +127,17 @@ function LiteMountOptionsPanel_Refresh(self, trigger)
     end
 end
 
-function LiteMountOptionsPanel_Default(self)
-    LM.UIDebug(self, "Panel_Default")
+function LiteMountOptionsPanel_OnDefault(self)
+    LM.UIDebug(self, "Panel_OnDefault")
     for _,control in ipairs(self.controls or {}) do
-        LiteMountOptionsControl_Default(control)
+        LiteMountOptionsControl_OnDefault(control)
     end
 end
 
-function LiteMountOptionsPanel_Okay(self)
-    LM.UIDebug(self, "Panel_Okay")
+function LiteMountOptionsPanel_OnCommit(self)
+    LM.UIDebug(self, "Panel_OnCommit")
     for _,control in ipairs(self.controls or {}) do
-        LiteMountOptionsControl_Okay(control)
+        LiteMountOptionsControl_OnCommit(control)
     end
 end
 
@@ -168,45 +164,47 @@ function LiteMountOptionsPanel_OnShow(self)
         LiteMountProfileButton:Attach(self)
     end
 
-    self:refresh()
+    self:OnRefresh()
 
-    LM.Options.db.RegisterCallback(self, "OnOptionsModified", "refresh")
-    LM.Options.db.RegisterCallback(self, "OnOptionsProfile", "reset")
+    LM.Options.db.RegisterCallback(self, "OnOptionsModified", "OnRefresh")
+    LM.Options.db.RegisterCallback(self, "OnOptionsProfile", "OnReset")
 end
 
 function LiteMountOptionsPanel_OnHide(self)
     LM.UIDebug(self, "Panel_OnHide")
     LM.Options.db.UnregisterAllCallbacks(self)
 
-    -- Seems like the InterfacePanel calls all the Okay or Cancel for
+    -- Seems like the InterfacePanel calls all the OnCommit for
     -- anything that's been opened when the appropriate button is clicked
-    -- LiteMountOptionsPanel_Okay(self)
+    -- LiteMountOptionsPanel_OnCommit(self)
 end
 
 function LiteMountOptionsPanel_OnLoad(self)
 
     if self ~= LiteMountOptions then
-        self.parent = LiteMountOptions.name
         self.name = _G[self.name] or L[self.name] or self.name
         self.Title:SetText("LiteMount : " .. self.name)
+        local topCategory = LiteMountOptions.category
+        self.category = Settings.RegisterCanvasLayoutSubcategory(topCategory, self, self.name)
     else
         self.name = "LiteMount"
         self.Title:SetText("LiteMount")
+        self.category = Settings.RegisterCanvasLayoutCategory(self, "LiteMount")
+        Settings.RegisterAddOnCategory(self.category);
     end
 
     if self.hideRevertButton then
         self.RevertButton:Hide()
     end
 
-    self.okay = self.okay or LiteMountOptionsPanel_Okay
-    self.cancel = self.cancel or LiteMountOptionsPanel_Cancel
-    self.default = self.default or LiteMountOptionsPanel_Default
-    self.refresh = self.refresh or LiteMountOptionsPanel_Refresh
-    self.reset = self.reset or LiteMountOptionsPanel_Reset
+    self.OnCommit = self.OnCommit or LiteMountOptionsPanel_OnCommit
+    self.OnDefault = self.OnDefault or LiteMountOptionsPanel_OnDefault
+    self.OnRefresh = self.OnRefresh or LiteMountOptionsPanel_OnRefresh
+    -- Note blizzard removed the cancel button in DF this is unused
+    self.OnCancel = self.OnCancel or LiteMountOptionsPanel_OnCancel
+    self.OnReset = self.OnReset or LiteMountOptionsPanel_OnReset
 
     LiteMountOptionsPanel_AutoLocalize(self)
-
-    InterfaceOptions_AddCategory(self)
 end
 
 function LiteMountOptionsPanel_PopOver(self, f)
@@ -217,8 +215,8 @@ function LiteMountOptionsPanel_PopOver(self, f)
     f:Show()
 end
 
-function LiteMountOptionsControl_Refresh(self, trigger)
-    LM.UIDebug(self, "Control_Refresh t="..tostring(trigger))
+function LiteMountOptionsControl_OnRefresh(self, trigger)
+    LM.UIDebug(self, "Control_OnRefresh t="..tostring(trigger))
     if self.oldValues == nil then
         self.oldValues = {}
         for i = 1, (self.ntabs or 1) do
@@ -229,8 +227,8 @@ function LiteMountOptionsControl_Refresh(self, trigger)
     self:SetControl(self:GetOption(self.tab), self.tab)
 end
 
-function LiteMountOptionsControl_Okay(self)
-    LM.UIDebug(self, "Control_Okay")
+function LiteMountOptionsControl_OnCommit(self)
+    LM.UIDebug(self, "Control_OnCommit")
     self.oldValues = nil
     self.isDirty = nil
 end
@@ -256,10 +254,10 @@ function LiteMountOptionsControl_Cancel(self)
     self.oldValues = nil
 end
 
-function LiteMountOptionsControl_Default(self, onlyCurrentTab)
+function LiteMountOptionsControl_OnDefault(self, onlyCurrentTab)
     if not self.GetOptionDefault then return end
 
-    LM.UIDebug(self, "Control_Default "..tostring(onlyCurrentTab))
+    LM.UIDebug(self, "Control_OnDefault "..tostring(onlyCurrentTab))
 
     self.isDirty = true
 
@@ -312,7 +310,7 @@ function LiteMountOptionsControl_SetControl(self, v)
 end
 
 -- Note we don't set an OnShow per control, the panel handler takes care of
--- running the refresh for all the controls in its OnShow
+-- running the OnRefresh for all the controls in its OnShow
 
 function LiteMountOptionsPanel_RegisterControl(control, parent)
     control.GetOption = control.GetOption or function (control) end
