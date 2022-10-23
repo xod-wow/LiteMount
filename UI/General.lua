@@ -58,7 +58,6 @@ function LiteMountGeneralPanelMixin:OnLoad()
 
     -- CopyTargetsMount --
 
-    self.CopyTargetsMount.Text:SetWidth(500)
     self.CopyTargetsMount.Text:SetText(L.LM_COPY_TARGETS_MOUNT)
     self.CopyTargetsMount.SetOption =
         function (self, setting)
@@ -76,7 +75,6 @@ function LiteMountGeneralPanelMixin:OnLoad()
 
     -- DefaultPriority --
 
-    self.DefaultPriority.Text:SetWidth(500)
     self.DefaultPriority.Text:SetText(L.LM_DISABLE_NEW_MOUNTS)
 --[[
     self.DefaultPriority.Text:SetText(
@@ -154,7 +152,6 @@ function LiteMountGeneralPanelMixin:OnLoad()
 
     -- InstantOnlyMoving --
 
-    self.InstantOnlyMoving.Text:SetWidth(500)
     self.InstantOnlyMoving.Text:SetText(L.LM_INSTANT_ONLY_MOVING)
     self.InstantOnlyMoving.SetOption =
         function (self, setting)

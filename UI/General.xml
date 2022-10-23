@@ -16,7 +16,7 @@
     </Scripts>
 
     <Frames>
-        <CheckButton parentKey="CopyTargetsMount" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton parentKey="CopyTargetsMount" inherits="LiteMountOptionsCheckButtonTemplate">
             <Anchors>
                 <Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" y="-24" />
                 <Anchor point="LEFT" x="24" />
@@ -25,7 +25,7 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
-        <CheckButton parentKey="DefaultPriority" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton parentKey="DefaultPriority" inherits="LiteMountOptionsCheckButtonTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.CopyTargetsMount" relativePoint="BOTTOMLEFT" x="0" y="-8" />
             </Anchors>
@@ -33,7 +33,7 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
-        <CheckButton parentKey="InstantOnlyMoving" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton parentKey="InstantOnlyMoving" inherits="LiteMountOptionsCheckButtonTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.DefaultPriority" relativePoint="BOTTOMLEFT" x="0" y="-8" />
             </Anchors>
@@ -52,7 +52,7 @@
         </Layer>
     </Layers>
     <Frames>
-        <CheckButton parentKey="AnnounceChat" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton parentKey="AnnounceChat" inherits="LiteMountOptionsCheckButtonTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceMount" relativePoint="BOTTOMLEFT" x="16" y="-8" />
             </Anchors>
@@ -60,7 +60,7 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
-        <CheckButton parentKey="AnnounceUI" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton parentKey="AnnounceUI" inherits="LiteMountOptionsCheckButtonTemplate">
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.AnnounceChat" relativePoint="RIGHT" x="140" y="0" />
             </Anchors>
@@ -68,7 +68,7 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
-        <CheckButton parentKey="AnnounceColors" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton parentKey="AnnounceColors" inherits="LiteMountOptionsCheckButtonTemplate">
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.AnnounceUI" relativePoint="RIGHT" x="140" y="0" />
             </Anchors>
@@ -93,7 +93,7 @@
                 <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" y="-8" />
             </Anchors>
         </Frame>
-        <CheckButton parentKey="Debugging" inherits="InterfaceOptionsCheckButtonTemplate">
+        <CheckButton parentKey="Debugging" inherits="LiteMountOptionsCheckButtonTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" x="0" y="-72" />
             </Anchors>
