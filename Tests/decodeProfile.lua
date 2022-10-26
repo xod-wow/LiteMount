@@ -11,7 +11,7 @@ local f = io.open(arg[1], 'r')
 while true do
     local line = f:read()
     if not line then break end
-    str = str .. line
+    str = str .. line:gsub("\r", "")
 end
 
 f:close()
