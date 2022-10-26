@@ -319,6 +319,10 @@ function DumpTable(o, indent)
     end
 end
 
+function debugprofilestop()
+    return socket.gettime()
+end
+
 -- aliases
 
 strmatch = string.match
