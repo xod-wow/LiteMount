@@ -175,7 +175,7 @@ end
 
 function LiteMountMountIconMixin:OnLoad()
     self:SetAttribute("unit", "player")
-    self:RegisterForClicks("AnyUp")
+    self:RegisterForClicks("AnyUp", "AnyDown")
     self:RegisterForDrag("LeftButton")
     self:SetScript('PreClick', self.PreClick)
 end
