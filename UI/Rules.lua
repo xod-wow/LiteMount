@@ -195,7 +195,7 @@ end
 function LiteMountRulesPanelMixin:refresh(trigger)
     self.DeleteButton:SetEnabled(self.selectedRule ~= nil)
     self.EditButton:SetEnabled(self.selectedRule ~= nil)
-    LiteMountOptionsPanel_Refresh(self, trigger)
+    LiteMountOptionsPanel_OnRefresh(self, trigger)
 end
 
 function LiteMountRulesPanelMixin:OnShow()
