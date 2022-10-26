@@ -103,20 +103,13 @@ CONDITIONS["class"] = {
                 return LOCALIZED_CLASS_NAMES_FEMALE[v]
             end
         end,
-    menu = {
-        { val = "class:" .. select(2, GetClassInfo(1)) },
-        { val = "class:" .. select(2, GetClassInfo(2)) },
-        { val = "class:" .. select(2, GetClassInfo(3)) },
-        { val = "class:" .. select(2, GetClassInfo(4)) },
-        { val = "class:" .. select(2, GetClassInfo(5)) },
-        { val = "class:" .. select(2, GetClassInfo(6)) },
-        { val = "class:" .. select(2, GetClassInfo(7)) },
-        { val = "class:" .. select(2, GetClassInfo(8)) },
-        { val = "class:" .. select(2, GetClassInfo(9)) },
-        { val = "class:" .. select(2, GetClassInfo(10)) },
-        { val = "class:" .. select(2, GetClassInfo(11)) },
-        { val = "class:" .. select(2, GetClassInfo(12)) },
-    },
+    menu = function ()
+        local out = { }
+        for _, v in ipairs(CLASS_SORT_ORDER) do
+            table.insert(out, { val = "class:" .. v})
+        end
+        return out
+    end,
     handler =
         function (cond, context, v)
             if v then
@@ -967,8 +960,8 @@ CONDITIONS["tracking"] = {
     handler =
         function (cond, context, v)
             local name, active, _
-            for i = 1, GetNumTrackingTypes() do
-                name, _, active = GetTrackingInfo(i)
+            for i = 1, C_Minimap.GetNumTrackingTypes() do
+                name, _, active = C_Minimap.GetTrackingInfo(i)
                 if active and (not v or strlower(name) == strlower(v) or i == tonumber(v)) then
                     return true
                 end
