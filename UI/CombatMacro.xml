@@ -58,7 +58,7 @@
             <Size x="96" y="22" />
             <Scripts>
                 <OnClick>
-                    LiteMountOptionsControl_Default(self:GetParent().EditBox)
+                    LiteMountOptionsControl_OnDefault(self:GetParent().EditBox)
                 </OnClick>
             </Scripts>
             <Anchors>

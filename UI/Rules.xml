@@ -156,7 +156,7 @@
             <Scripts>
                 <OnClick>
                     local parent = self:GetParent()
-                    LiteMountOptionsControl_Default(parent.Scroll, true)
+                    LiteMountOptionsControl_OnDefault(parent.Scroll, true)
                 </OnClick>
             </Scripts>
         </Button>

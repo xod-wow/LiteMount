@@ -65,7 +65,7 @@
             <Scripts>
                 <OnClick>
                     local parent = self:GetParent()
-                    LiteMountOptionsControl_Default(parent.EditScroll.EditBox, true)
+                    LiteMountOptionsControl_OnDefault(parent.EditScroll.EditBox, true)
                 </OnClick>
             </Scripts>
         </Button>
