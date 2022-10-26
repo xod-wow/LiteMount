@@ -26,7 +26,22 @@ LM.ActionButton = { }
 -- keybinding interface. But, you can pass arbitrary text as this argument
 -- with the /click slash command. E.g., /click LM_B1 blah
 
-function LM.ActionButton:PreClick(mouseButton)
+function LM.ActionButton:PreClick(mouseButton, isDown)
+
+    -- SecureActionButtonTemplate in 10.0 only fires the secure actions when
+    -- isDown matches the setting of ActionButtonUseKeyDown, even though it
+    -- fires PreClick and PostClick for both. Due to poor code for for
+    -- handling press-and-hold and the interns doing all the programming.
+    --
+    -- So our buttons are RegisterForClicks("AnyDown", "AnyUp"), this (and
+    -- PostClick) get called twice and we only handle it if we match when
+    -- Blizzard will call the actions.
+    --
+    -- Hilarously the Blizzard code has a comment saying "but we do want to
+    -- allow AddOns to function as they did before"... and then they don't.
+    -- Epic fail Blizzard!
+
+    if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
 
     if InCombatLockdown() then return end
 
@@ -65,7 +80,10 @@ function LM.ActionButton:PreClick(mouseButton)
     LM.Debug("PreClick fail time " .. (debugprofilestop() - startTime))
 end
 
-function LM.ActionButton:PostClick()
+function LM.ActionButton:PostClick(mouseButton, isDown)
+
+    if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
+
     if InCombatLockdown() then return end
 
     LM.Debug("PostClick handler called on " .. self:GetName())
@@ -96,7 +114,7 @@ function LM.ActionButton:Create(n)
     -- Global context
     b.context = LM.RuleContext:New({ id = n })
 
-    b:RegisterForClicks("AnyDown")
+    b:RegisterForClicks("AnyDown", "AnyUp")
 
     -- SecureActionButton setup
     b:SetScript("PreClick", self.PreClick)
