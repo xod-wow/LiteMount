@@ -68,7 +68,8 @@ function LiteMount:Initialize()
 
     -- Set all the buttons to the default combat action
     for i = 1, 4 do
-        self.actions[i]:PostClick()
+        local isDown = GetCVarBool("ActionButtonUseKeyDown")
+        self.actions[i]:PostClick("LeftButton", isDown)
     end
 end
 
@@ -76,7 +77,8 @@ function LiteMount:Refresh()
     LM.Debug("Refresh")
 
     for _,actionButton in ipairs(self.actions) do
-        actionButton:PostClick()
+        local isDown = GetCVarBool("ActionButtonUseKeyDown")
+        actionButton:PostClick("LeftButton", isDown)
     end
 end
 
