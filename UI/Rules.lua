@@ -51,7 +51,7 @@ end
 
 function LiteMountRuleButtonMixin:OnClick()
     LiteMountRulesPanel.selectedRule = self.rule
-    LiteMountRulesPanel:refresh()
+    LiteMountRulesPanel:OnRefresh()
 end
 
 
@@ -192,7 +192,7 @@ function LiteMountRulesPanelMixin:OnSizeChanged(x, y)
     self.Scroll:Update()
 end
 
-function LiteMountRulesPanelMixin:refresh(trigger)
+function LiteMountRulesPanelMixin:OnRefresh(trigger)
     self.DeleteButton:SetEnabled(self.selectedRule ~= nil)
     self.EditButton:SetEnabled(self.selectedRule ~= nil)
     LiteMountOptionsPanel_OnRefresh(self, trigger)
