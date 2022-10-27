@@ -18,9 +18,10 @@ local L = LM.Localize
 
 -- The values are sort order
 LM.FLAG = { }
-LM.FLAG.SWIM        = 1
-LM.FLAG.FLY         = 2
-LM.FLAG.RUN         = 3
+LM.FLAG.RUN             = 0
+LM.FLAG.FLY             = 1
+LM.FLAG.SWIM            = 2
+LM.FLAG.DRAGONRIDING    = 3
 
 LM.SPELL = { }
 LM.SPELL.TRAVEL_FORM = 783
