@@ -262,7 +262,7 @@ end
 -- Version 9 changes excludeNewMounts (true/false) to defaultPriority
 
 function LM.Options:VersionUpgrade9()
-    LM.Debug('VersionUpgrade: 8')
+    LM.Debug('VersionUpgrade: 9')
 
     for n, p in pairs(self.db.profiles) do
         LM.Debug(' - checking profile: ' .. n)
