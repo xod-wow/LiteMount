@@ -12,6 +12,8 @@ local _, LM = ...
 
 local L = LM.Localize
 
+local LibDD = LibStub("LibUIDropDownMenu-4.0")
+
 local MENU_SPLIT_SIZE = 20
 
 --[[------------------------------------------------------------------------]]--
@@ -60,7 +62,7 @@ end
 LiteMountFilterButtonMixin = {}
 
 function LiteMountFilterButtonMixin:OnClick()
-    ToggleDropDownMenu(1, nil, self.FilterDropDown, self, 74, 15)
+    LibDD:ToggleDropDownMenu(1, nil, self.FilterDropDown, self, 74, 15)
 end
 
 local DROPDOWNS = {
@@ -146,7 +148,7 @@ local DROPDOWNS = {
 
 local function InitDropDownSection(template, self, level, menuList)
 
-    local info = UIDropDownMenu_CreateInfo()
+    local info = LibDD:UIDropDownMenu_CreateInfo()
     info.keepShownOnClick = true
     info.isNotRadio = true
 
@@ -155,14 +157,14 @@ local function InitDropDownSection(template, self, level, menuList)
             info.text = template.text
             info.func = function (_, _, _, v) template.set(v) end
             info.checked = function () return template.checked() end
-            UIDropDownMenu_AddButton(info, level)
+            LibDD:UIDropDownMenu_AddButton(info, level)
         else
             info.hasArrow = true
             info.notCheckable = true
             info.text = template.text
             info.value = template.value
             info.menuList = template.menulist()
-            UIDropDownMenu_AddButton(info, level)
+            LibDD:UIDropDownMenu_AddButton(info, level)
         end
         return
     end
@@ -172,16 +174,16 @@ local function InitDropDownSection(template, self, level, menuList)
         info.text = CHECK_ALL
         info.func = function ()
                 template.setall(true)
-                UIDropDownMenu_Refresh(self, nil, level)
+                LibDD:UIDropDownMenu_Refresh(self, nil, level)
             end
-        UIDropDownMenu_AddButton(info, level)
+        LibDD:UIDropDownMenu_AddButton(info, level)
 
         info.text = UNCHECK_ALL
         info.func = function ()
                 template.setall(false)
-                UIDropDownMenu_Refresh(self, nil, level)
+                LibDD:UIDropDownMenu_Refresh(self, nil, level)
             end
-        UIDropDownMenu_AddButton(info, level)
+        LibDD:UIDropDownMenu_AddButton(info, level)
 
         -- UIDropDownMenu_AddSeparator(level)
     end
@@ -207,7 +209,7 @@ local function InitDropDownSection(template, self, level, menuList)
             local t = template.gettext(info.menuList[#info.menuList])
             info.text = format('%s...%s', f, t)
             info.value = template.value
-            UIDropDownMenu_AddButton(info, level)
+            LibDD:UIDropDownMenu_AddButton(info, level)
         end
     else
         for _, k in ipairs(menuList) do
@@ -220,12 +222,12 @@ local function InitDropDownSection(template, self, level, menuList)
                     else
                         template.set(k, v)
                     end
-                    UIDropDownMenu_Refresh(self, nil, level)
+                    LibDD:UIDropDownMenu_Refresh(self, nil, level)
                 end
             info.checked = function ()
                     return template.checked(k)
                 end
-            UIDropDownMenu_AddButton(info, level)
+            LibDD:UIDropDownMenu_AddButton(info, level)
         end
     end
 end
@@ -264,10 +266,14 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         ---- 10. PRIORITY ----
         InitDropDownSection(DROPDOWNS.PRIORITY, self, level, menuList)
     else
-        InitDropDownSection(DROPDOWNS[UIDROPDOWNMENU_MENU_VALUE], self, level, menuList)
+        InitDropDownSection(DROPDOWNS[L_UIDROPDOWNMENU_MENU_VALUE], self, level, menuList)
     end
 end
 
 function LiteMountFilterButtonMixin:OnShow()
-    UIDropDownMenu_Initialize(self.FilterDropDown, self.Initialize, "MENU")
+    LibDD:UIDropDownMenu_Initialize(self.FilterDropDown, self.Initialize, "MENU")
+end
+
+function LiteMountFilterButtonMixin:OnLoad()
+    LibDD:Create_UIDropDownMenu(self.FilterDropDown)
 end

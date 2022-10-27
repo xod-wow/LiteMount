@@ -14,7 +14,7 @@
     </Scripts>
 
     <Frames>
-        <Frame parentKey="DropDown" inherits="UIDropDownMenuTemplate">
+        <Frame parentKey="DropDown">
         </Frame>
     </Frames>
 

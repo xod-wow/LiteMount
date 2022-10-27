@@ -39,6 +39,7 @@
             <Scripts>
                 <OnClick method="OnClick" />
                 <OnShow method="OnShow" inherit="prepend" />
+                <OnLoad method="OnLoad" inherit="prepend" />
             </Scripts>
 
             <Frames>
@@ -52,7 +53,7 @@
                         <OnClick method="OnClick" />
                     </Scripts>
                 </Button>
-                <Frame parentKey="FilterDropDown" inherits="UIDropDownMenuTemplate">
+                <Frame parentKey="FilterDropDown">
                 </Frame>
             </Frames>
         </Button>

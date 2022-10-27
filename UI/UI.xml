@@ -23,4 +23,5 @@
     <Include file="CombatMacro.xml" />
     <Include file="Advanced.xml" />
     <Include file="ReportBug.xml" />
+-->
 </Ui>

@@ -82,7 +82,7 @@
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
         </EditBox>
-        <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate" />
+        <Frame name="$parentDropDown" parentKey="DropDown" />
     </Frames>
 </Frame>
 
@@ -105,7 +105,7 @@
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
         </Button>
-        <Frame name="$parentDropDown" parentKey="DropDown" inherits="UIDropDownMenuTemplate" />
+        <Frame name="$parentDropDown" parentKey="DropDown" />
     </Frames>
 </Frame>
 

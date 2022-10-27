@@ -10,6 +10,8 @@ local _, LM = ...
 
 local L = LM.Localize
 
+local LibDD = LibStub("LibUIDropDownMenu-4.0")
+
 local persistOptions = {
     { 0,    L.LM_EVERY_TIME },
     { 30,   format(L.LM_EVERY_D_SECONDS, 30) },
@@ -21,15 +23,15 @@ local persistOptions = {
 local function RandomPersistDropDown_UpdateText(dropdown, keepSeconds)
     for _,opt in ipairs(persistOptions) do
         if opt[1] == keepSeconds then
-            UIDropDownMenu_SetText(dropdown, opt[2])
+            LibDD:UIDropDownMenu_SetText(dropdown, opt[2])
             return
         end
     end
-    UIDropDownMenu_SetText(dropdown, '????')
+    LibDD:UIDropDownMenu_SetText(dropdown, '????')
 end
 
 local function RandomPersistDropDown_Initialize(dropdown, level)
-    local info = UIDropDownMenu_CreateInfo()
+    local info = LibDD:UIDropDownMenu_CreateInfo()
     if level == 1 then
         local keepSeconds = LM.Options:GetRandomPersistence()
         for _,opt in ipairs(persistOptions) do
@@ -41,7 +43,7 @@ local function RandomPersistDropDown_Initialize(dropdown, level)
                     dropdown.isDirty = true
                     LM.Options:SetRandomPersistence(seconds)
                 end
-            UIDropDownMenu_AddButton(info, level)
+            LibDD:UIDropDownMenu_AddButton(info, level)
         end
     end
 end
@@ -51,10 +53,12 @@ end
 LiteMountGeneralPanelMixin = {}
 
 function LiteMountGeneralPanelMixin:OnShow()
-    UIDropDownMenu_Initialize(self.RandomPersistDropDown, RandomPersistDropDown_Initialize)
+    LibDD:UIDropDownMenu_Initialize(self.RandomPersistDropDown, RandomPersistDropDown_Initialize)
 end
 
 function LiteMountGeneralPanelMixin:OnLoad()
+
+    LibDD:Create_UIDropDownMenu(self.RandomPersistDropDown)
 
     -- CopyTargetsMount --
 

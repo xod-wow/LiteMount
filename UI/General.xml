@@ -87,7 +87,7 @@
         </Layer>
     </Layers>
     <Frames>
-        <Frame parentKey="RandomPersistDropDown" inherits="UIDropDownMenuTemplate">
+        <Frame parentKey="RandomPersistDropDown">
             <Size x="93" y="22" />
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" y="-8" />
