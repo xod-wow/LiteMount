@@ -77,6 +77,9 @@ LM.MOUNT_TYPES = {
     [254] = L.SWIM,
     [284] = HEIRLOOMS,
     [398] = C_MountJournal.GetMountInfoByID(1043), -- Kua'fon
+    [402] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+    [407] = L.FLY .. ' + ' .. L.SWIM,
+    [408] = C_MountJournal.GetMountInfoByID(1539), -- Unsuccessful Prototype Fleetpod
 }
 
 function LM.UnitAura(unit, aura, filter)
