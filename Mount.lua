@@ -76,7 +76,7 @@ function LM.Mount:FilterToDisplay(f)
         return L.LM_GROUP .. ' : ' .. f
     elseif LM.Options:IsFlag(f) then
         -- XXX LOCALIZE XXX
-        return L.LM_FLAG .. ' : ' .. f
+        return TYPE .. ' : ' .. L[f]
     else
         local n = GetSpellInfo(f)
         if n then return n end

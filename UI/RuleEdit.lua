@@ -283,7 +283,7 @@ local function ActionArgsMenu()
 --  typeMenuList.text = TYPE
 
     local flagMenuList = LM.tMap(LM.UIFilter.GetFlags(), FlagToInfo)
-    flagMenuList.text = L.LM_FLAG
+    flagMenuList.text = TYPE
 
     local mountMenuList = { text=MOUNT, val="PICKER" }
 
