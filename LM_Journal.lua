@@ -40,7 +40,7 @@ LM.Journal.__index = LM.Journal
 
 function LM.Journal:Get(id, isUsable)
     local name, spellID, icon, _, _, sourceType, isFavorite, _, faction, isFiltered, isCollected, mountID, dragonRiding = C_MountJournal.GetMountInfoByID(id)
-    local modelID, descriptionText, sourceText, isSelfMount, mountType, sceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
+    local modelID, descriptionText, sourceText, isSelfMount, mountTypeID, sceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
     if not name then
         LM.Debug(format("LM.Mount: Failed GetMountInfo for ID = #%d", id))
@@ -56,7 +56,7 @@ function LM.Journal:Get(id, isUsable)
     m.mountID       = mountID
     m.icon          = icon
     m.isSelfMount   = isSelfMount
-    m.mountType     = mountType
+    m.mountTypeID   = mountTypeID
     m.description   = descriptionText
     m.sourceType    = sourceType
     m.sourceText    = sourceText
@@ -68,7 +68,7 @@ function LM.Journal:Get(id, isUsable)
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
     m.flags         = { }
 
-    -- LM.Debug("LM.Mount: mount type of "..m.name.." is "..m.mountType)
+    -- LM.Debug("LM.Mount: mount type of "..m.name.." is "..m.mountTypeID)
 
     -- This list is could be added to in the future by Blizzard. See:
     --   http://wowpedia.org/API_C_MountJournal.GetMountInfoExtraByID
@@ -76,39 +76,39 @@ function LM.Journal:Get(id, isUsable)
     -- Numbers also need to be given names in SpellInfo.lua when new
     -- ones are added.
 
-    if m.mountType == 230 then          -- ground mount
+    if m.mountTypeID == 230 then          -- ground mount
         m.flags['RUN'] = true
-    elseif m.mountType == 231 then      -- riding/sea turtle
+    elseif m.mountTypeID == 231 then      -- riding/sea turtle
         m.flags['SWIM'] = true
-    elseif m.mountType == 232 then      -- Vashj'ir Seahorse
+    elseif m.mountTypeID == 232 then      -- Vashj'ir Seahorse
         -- no flags
-    elseif m.mountType == 241 then      -- AQ-only bugs
+    elseif m.mountTypeID == 241 then      -- AQ-only bugs
         -- no flags
-    elseif m.mountType == 242 then      -- Flyers for when dead in some zones
+    elseif m.mountTypeID == 242 then      -- Flyers for when dead in some zones
         m.flags['FLY'] = true
-    elseif m.mountType == 247 then      -- Red Flying Cloud
+    elseif m.mountTypeID == 247 then      -- Red Flying Cloud
         m.flags['FLY'] = true
-    elseif m.mountType == 248 then      -- Flying mounts
+    elseif m.mountTypeID == 248 then      -- Flying mounts
         m.flags['FLY'] = true
-    elseif m.mountType == 254 then      -- Swimming only mounts
+    elseif m.mountTypeID == 254 then      -- Swimming only mounts
         m.flags['SWIM'] = true
-    elseif m.mountType == 284 then      -- Chauffeured Mekgineer's Chopper
+    elseif m.mountTypeID == 284 then      -- Chauffeured Mekgineer's Chopper
         m.flags['RUN'] = true
         m.flags['SLOW'] = true
-    elseif m.mountType == 398 then      -- Kua'fon
+    elseif m.mountTypeID == 398 then      -- Kua'fon
         -- Kua'fon can fly if achievement 13573 is completed, otherwise run
-    elseif m.mountType == 402 then      -- Dragonriding
+    elseif m.mountTypeID == 402 then      -- Dragonriding
         m.flags['DRAGONRIDING'] = true
-    elseif m.mountType == 407 then      -- Aurelid
+    elseif m.mountTypeID == 407 then      -- Aurelid
         m.flags['FLY'] = true
         m.flags['SWIM'] = true
         m.flags['RUN'] = true
-    elseif m.mountType == 408 then      -- Unsuccessful Prototype Fleetpod
+    elseif m.mountTypeID == 408 then      -- Unsuccessful Prototype Fleetpod
         m.flags['RUN'] = true
         m.flags['SLOW'] = true
 --@debug@
     else
-        LM.PrintError(string.format('Mount with unknown type number: %s = %d', m.name, m.mountType))
+        LM.PrintError(string.format('Mount with unknown type number: %s = %d', m.name, m.mountTypeID))
 --@end-debug@
     end
 
@@ -119,7 +119,7 @@ function LM.Journal:GetFlags()
     local flags = LM.Mount.GetFlags(self)
 
     -- Dynamic Kua'fon flags
-    if self.mountType == 398 then
+    if self.mountTypeID == 398 then
         flags = CopyTable(flags)
         -- It seems like Alliance don't show the achievement as done but
         -- do flag the quest as completed.
@@ -168,6 +168,6 @@ function LM.Journal:Dump(prefix)
     prefix = prefix or ""
     LM.Mount.Dump(self, prefix)
     LM.Print(prefix .. " isUsable: " .. tostring(self.isUsable))
-    LM.Print(prefix .. " mountType: " .. tostring(self.mountType))
+    LM.Print(prefix .. " mountTypeID: " .. tostring(self.mountTypeID))
     LM.Print(prefix .. " sourceType: " .. tostring(self.sourceType))
 end

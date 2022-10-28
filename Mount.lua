@@ -94,7 +94,7 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
     elseif f == "MAWUSABLE" then
         if self:MawUsable() then return true end
     elseif f == "JOURNAL" then
-        if self.mountType then return true end
+        if self.mountTypeID then return true end
     elseif f == "FAVORITES" then
         if self.isFavorite then return true end
     elseif f == "DRAGONRIDING" then
@@ -107,7 +107,7 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
     elseif f:sub(1, 3) == 'id:' then
         if self.mountID == tonumber(f:sub(4)) then return true end
     elseif f:sub(1, 3) == 'mt:' then
-        if self.mountType == tonumber(f:sub(4)) then return true end
+        if self.mountTypeID == tonumber(f:sub(4)) then return true end
     elseif f:sub(1, 7) == 'family:' then
         if self.family == f:sub(8) or L[self.family] == f:sub(8) then
             return true

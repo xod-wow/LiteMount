@@ -99,14 +99,14 @@ local DROPDOWNS = {
         menulist = function () return LM.UIFilter.GetPriorities() end,
         gettext = function (k) return LM.UIFilter.GetPriorityText(k) end,
     },
-    ['TYPE'] = {
-        value = 'TYPE',
-        text = TYPE,
-        checked = function (k) return LM.UIFilter.IsTypeChecked(k) end,
-        set = function (k, v) LM.UIFilter.SetTypeFilter(k, v) end,
-        setall = function (v) LM.UIFilter.SetAllTypeFilters(v) end,
-        menulist = function () return LM.UIFilter.GetTypes() end,
-        gettext = function (k) return LM.UIFilter.GetTypeText(k) end,
+    ['TYPEID'] = {
+        value = 'TYPEID',
+        text = string.format('%s (%s)', TYPE, ID),
+        checked = function (k) return LM.UIFilter.IsTypeIDChecked(k) end,
+        set = function (k, v) LM.UIFilter.SetTypeIDFilter(k, v) end,
+        setall = function (v) LM.UIFilter.SetAllTypeIDFilters(v) end,
+        menulist = function () return LM.UIFilter.GetTypeIDs() end,
+        gettext = function (k) return LM.UIFilter.GetTypeIDText(k) end,
     },
     ['GROUP'] = {
         value = 'GROUP',
@@ -254,8 +254,8 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         ---- 6. FLAG ----
         InitDropDownSection(DROPDOWNS.FLAG, self, level, menuList)
 
-        ---- 7. TYPE ----
-        InitDropDownSection(DROPDOWNS.TYPE, self, level, menuList)
+        ---- 7. TYPEID ----
+        InitDropDownSection(DROPDOWNS.TYPEID, self, level, menuList)
 
         ---- 8. FAMILY ----
         InitDropDownSection(DROPDOWNS.FAMILY, self, level, menuList)
