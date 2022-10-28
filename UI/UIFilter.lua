@@ -241,7 +241,7 @@ function LM.UIFilter.GetTypeIDText(t)
 end
 
 
--- Flags -----------------------------------------------------------------------
+-- Flags ("Type" now) ----------------------------------------------------------
 
 function LM.UIFilter.IsFlagChecked(f)
     return not LM.UIFilter.filterList.flag[f]
@@ -471,7 +471,7 @@ function LM.UIFilter.IsFilteredMount(m)
     if next(LM.UIFilter.filterList.flag) then
         local isFiltered = true
         for f in pairs(m:GetFlags()) do
-            if LM.Options:IsFlag(f) and not LM.UIFilter.filterList.flag[f] then
+            if LM.FLAG[f] ~= nil and not LM.UIFilter.filterList.flag[f] then
                 isFiltered = false
                 break
             end

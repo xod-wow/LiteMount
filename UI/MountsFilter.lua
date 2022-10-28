@@ -119,7 +119,7 @@ local DROPDOWNS = {
     },
     ['FLAG'] = {
         value = 'FLAG',
-        text = L.LM_FLAG,
+        text = TYPE,
         checked = function (k) return LM.UIFilter.IsFlagChecked(k) end,
         set = function (k, v) LM.UIFilter.SetFlagFilter(k, v) end,
         setall = function (v) LM.UIFilter.SetAllFlagFilters(v) end,
