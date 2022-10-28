@@ -72,6 +72,9 @@ function LM.Journal:Get(id, isUsable)
 
     -- This list is could be added to in the future by Blizzard. See:
     --   http://wowpedia.org/API_C_MountJournal.GetMountInfoExtraByID
+    --
+    -- Numbers also need to be given names in SpellInfo.lua when new
+    -- ones are added.
 
     if m.mountType == 230 then          -- ground mount
         m.flags['RUN'] = true
