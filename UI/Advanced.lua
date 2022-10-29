@@ -27,7 +27,7 @@ function LiteMountAdvancedUnlockButtonMixin:OnShow()
     local editBox = parent.EditScroll.EditBox
     editBox:SetAlpha(0.5)
     editBox:Disable()
-    parent.DefaultButton:Disable()
+    parent.DefaultsButton:Disable()
     self:SetFrameLevel(parent.RevertButton:GetFrameLevel() + 1)
 end
 
@@ -36,7 +36,7 @@ function LiteMountAdvancedUnlockButtonMixin:OnClick()
     local editBox = parent.EditScroll.EditBox
     editBox:SetAlpha(1.0)
     editBox:Enable()
-    parent.DefaultButton:Enable()
+    parent.DefaultsButton:Enable()
     self:Hide()
 end
 
