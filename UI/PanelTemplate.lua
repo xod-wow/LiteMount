@@ -109,7 +109,8 @@ end
 function LiteMountOptionsPanel_Open()
     local f = LiteMountOptions
     if not f.CurrentOptionsPanel then
-        f.CurrentOptionsPanel = LiteMountMountsPanel
+        f.CurrentOptionsPanel = LiteMountOptions
+        f.CurrentOptionsPanel.category.expanded = true
     end
     SettingsPanel:Open()
     SettingsPanel:SelectCategory(f.CurrentOptionsPanel.category, true)
@@ -129,9 +130,6 @@ function LiteMountOptionsPanel_OnRefresh(self, trigger)
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_OnRefresh(control, trigger)
         if control.isDirty then anyDirty = true end
-    end
-    if not self.hideRevertButton then
-        self.RevertButton:SetEnabled(anyDirty)
     end
 end
 
@@ -168,10 +166,6 @@ function LiteMountOptionsPanel_OnShow(self)
     LM.UIDebug(self, "Panel_OnShow")
     LiteMountOptions.CurrentOptionsPanel = self
 
-    if not self.hideProfileButton then
-        LiteMountProfileButton:Attach(self)
-    end
-
     self:OnRefresh()
 
     LM.Options.db.RegisterCallback(self, "OnOptionsModified", "OnRefresh")
@@ -199,6 +193,10 @@ function LiteMountOptionsPanel_OnLoad(self)
         self.Title:SetText("LiteMount")
         self.category = Settings.RegisterCanvasLayoutCategory(self, "LiteMount")
         Settings.RegisterAddOnCategory(self.category);
+    end
+
+    if self.hideDefaultsButton then
+        self.DefaultsButton:Hide()
     end
 
     if self.hideRevertButton then

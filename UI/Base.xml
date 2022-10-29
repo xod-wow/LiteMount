@@ -5,7 +5,7 @@
 <Frame name="LiteMountOptions" hidden="true" inherits="LiteMountOptionsPanelTemplate">
     <KeyValues>
         <KeyValue key="hideRevertButton" value="true" type="boolean" />
-        <KeyValue key="hideProfileButton" value="true" type="boolean" />
+        <KeyValue key="hideDefaultsButton" value="true" type="boolean" />
     </KeyValues>
 
     <Layers>

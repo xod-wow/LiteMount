@@ -6,10 +6,6 @@
 
 <Frame name="LiteMountCombatMacroPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountCombatMacroPanelMixin">
 
-    <KeyValues>
-        <KeyValue key="hideProfileButton" value="true" type="boolean" />
-    </KeyValues>
-
     <Scripts>
         <OnLoad method="OnLoad" />
     </Scripts>
@@ -52,17 +48,6 @@
             </Scripts>
             <Anchors>
                 <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="-3" />
-            </Anchors>
-        </Button>
-        <Button parentKey="DefaultButton" inherits="UIPanelButtonTemplate" text="DEFAULT">
-            <Size x="96" y="22" />
-            <Scripts>
-                <OnClick>
-                    LiteMountOptionsControl_OnDefault(self:GetParent().EditBox)
-                </OnClick>
-            </Scripts>
-            <Anchors>
-                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="3" />
             </Anchors>
         </Button>
     </Frames>

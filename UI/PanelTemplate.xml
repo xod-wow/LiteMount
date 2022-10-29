@@ -69,7 +69,7 @@
         <Button parentKey="DefaultsButton" inherits="UIPanelButtonTemplate" text="SETTINGS_DEFAULTS">
             <Size x="96" y="22"/>
             <Anchors>
-                <Anchor point="BOTTOMLEFT" x="8" y="8"/>
+                <Anchor point="TOPRIGHT" x="-36" y="-16"/>
             </Anchors>
             <Scripts>
                 <OnClick>
@@ -80,7 +80,7 @@
         <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="REVERT">
             <Size x="96" y="22" />
             <Anchors>
-                <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.DefaultsButton" x="8" />
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.DefaultsButton" x="-8" />
             </Anchors>
             <Scripts>
                 <OnClick>

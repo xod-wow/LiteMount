@@ -244,7 +244,7 @@ end
 function LiteMountProfileButtonMixin:Attach(parent)
     self:SetParent(parent)
     self:ClearAllPoints()
-    self:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -32, -12)
+    self:SetPoint("CENTER", parent, "CENTER")
     self:Show()
 end
 

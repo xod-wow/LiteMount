@@ -7,7 +7,7 @@
 <Frame name="LiteMountReportBugPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountReportBugMixin">
     <KeyValues>
         <KeyValue key="hideRevertButton" value="true" type="boolean" />
-        <KeyValue key="hideProfileButton" value="true" type="boolean" />
+        <KeyValue key="hideDefaultsButton" value="true" type="boolean" />
     </KeyValues>
     <Scripts>
         <OnLoad inherit="append" method="OnLoad" />

@@ -6,10 +6,6 @@
 
 <Frame name="LiteMountMacroPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMacroPanelMixin">
 
-    <KeyValues>
-        <KeyValue key="hideProfileButton" value="true" type="boolean" />
-    </KeyValues>
-
     <Scripts>
         <OnLoad method="OnLoad" />
     </Scripts>
