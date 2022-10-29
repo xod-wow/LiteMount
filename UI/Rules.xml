@@ -111,9 +111,9 @@
         <Layer level="ARTWORK">
             <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_RULES_EXP">
                 <Anchors>
-                    <Anchor point="TOP" y="-48" />
-                    <Anchor point="LEFT" x="48" />
-                    <Anchor point="RIGHT" x="-48" />
+                    <Anchor point="TOP" y="-60" />
+                    <Anchor point="LEFT" x="24" />
+                    <Anchor point="RIGHT" x="-24" />
                 </Anchors>
             </FontString>
         </Layer>
@@ -122,8 +122,8 @@
     <Frames>
         <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountRulesScrollMixin">
             <Anchors>
-                <Anchor point="TOPLEFT" x="16" y="-120" />
-                <Anchor point="BOTTOMRIGHT" x="-34" y="48" />
+                <Anchor point="TOPLEFT" x="16" y="-132" />
+                <Anchor point="BOTTOMRIGHT" x="-34" y="40" />
             </Anchors>
             <Scripts>
                 <OnLoad method="OnLoad" />
@@ -147,19 +147,6 @@
                 <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.Scroll" x="-8" />
             </Anchors>
         </Frame>
-
-        <Button parentKey="DefaultButton" inherits="UIPanelButtonTemplate" text="DEFAULT">
-            <Size x="96" y="22" />
-            <Anchors>
-                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.Scroll" x="-8" y="3" />
-            </Anchors>
-            <Scripts>
-                <OnClick>
-                    local parent = self:GetParent()
-                    LiteMountOptionsControl_OnDefault(parent.Scroll, true)
-                </OnClick>
-            </Scripts>
-        </Button>
 
         <Button parentKey="AddButton" inherits="UIPanelButtonTemplate" text="ADD">
             <Size x="72" y="22" />

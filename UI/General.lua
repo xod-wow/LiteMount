@@ -90,6 +90,7 @@ function LiteMountGeneralPanelMixin:OnLoad()
                         )
         )
 ]]
+    --- XXX FIXME XXX somethings is wrong with revert here
     self.DefaultPriority.SetOption =
         function (self, setting)
             if not setting or setting == "0" then

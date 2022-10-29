@@ -12,14 +12,15 @@
         <Layer level="ARTWORK">
             <FontString parentKey="Tagline" inherits="GameFontHighlight" justifyH="LEFT" text="LM_SETTINGS_TAGLINE">
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.Title" y="-16" x="16" />
+                    <Anchor point="TOP" y="-60" />
+                    <Anchor point="LEFT" relativePoint="LEFT" relativeKey="$parent.Title" x="16" />
                     <Anchor point="RIGHT" />
                 </Anchors>
             </FontString>
 
             <FontString parentKey="VersionText" inherits="GameFontNormal" justifyH="RIGHT" text="GAME_VERSION_LABEL">
                 <Anchors>
-                    <Anchor point="TOPLEFT" x="72" y="-72" />
+                    <Anchor point="TOPLEFT" x="72" y="-84" />
                 </Anchors>
             </FontString>
 

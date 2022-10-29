@@ -54,18 +54,34 @@
     </Scripts>
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormalLarge" parentKey="Title">
+            <FontString parentKey="Title" inherits="GameFontHighlightHuge" justifyH="LEFT">
                 <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-16" />
+                    <Anchor point="TOPLEFT" x="7" y="-22" />
                 </Anchors>
             </FontString>
+            <Texture atlas="Options_HorizontalDivider" useAtlasSize="true">
+                <Anchors>
+                    <Anchor point="TOP" y="-50"/>
+                </Anchors>
+            </Texture>
         </Layer>
     </Layers>
     <Frames>
+        <Button parentKey="DefaultsButton" inherits="UIPanelButtonTemplate" text="SETTINGS_DEFAULTS">
+            <Size x="96" y="22"/>
+            <Anchors>
+                <Anchor point="BOTTOMLEFT" x="8" y="8"/>
+            </Anchors>
+            <Scripts>
+                <OnClick>
+                    LiteMountOptionsPanel_OnDefault(self:GetParent())
+                </OnClick>
+            </Scripts>
+        </Button>
         <Button parentKey="RevertButton" inherits="UIPanelButtonTemplate" text="REVERT">
             <Size x="96" y="22" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" x="16" y="16" />
+                <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.DefaultsButton" x="8" />
             </Anchors>
             <Scripts>
                 <OnClick>

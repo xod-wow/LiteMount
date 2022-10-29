@@ -86,11 +86,11 @@ function LiteMountRulesScrollMixin:Update()
     if isEnabled then
         self.Inactive:Hide()
         LiteMountRulesPanel.AddButton:Enable()
-        LiteMountRulesPanel.DefaultButton:Enable()
+        LiteMountRulesPanel.DefaultsButton:Enable()
     else
         LiteMountRulesPanel.selectedRule = nil
         LiteMountRulesPanel.AddButton:Disable()
-        LiteMountRulesPanel.DefaultButton:Disable()
+        LiteMountRulesPanel.DefaultsButton:Disable()
         self.Inactive:SetText(string.format(L.LM_RULES_INACTIVE, self.tab))
         self.Inactive:Show()
     end

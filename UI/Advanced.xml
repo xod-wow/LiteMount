@@ -11,9 +11,9 @@
         <Layer level="ARTWORK">
             <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_ADVANCED_EXP">
                 <Anchors>
-                    <Anchor point="TOP" y="-48" />
-                    <Anchor point="LEFT" x="48" />
-                    <Anchor point="RIGHT" x="-48" />
+                    <Anchor point="TOP" y="-60" />
+                    <Anchor point="LEFT" x="24" />
+                    <Anchor point="RIGHT" x="-24" />
                 </Anchors>
             </FontString>
         </Layer>
@@ -120,6 +120,9 @@
                     self:SetText(self.url)
                     self:HighlightText()
                 </OnTextChanged>
+                <OnEditFocusLost>
+                    self:HighlightText()
+                </OnEditFocusLost>
                 <OnEditFocusGained>
                     self:HighlightText()
                 </OnEditFocusGained>

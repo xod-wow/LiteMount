@@ -112,9 +112,9 @@
         <Layer level="ARTWORK">
             <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_GROUPS_EXP">
                 <Anchors>
-                    <Anchor point="TOP" y="-48" />
-                    <Anchor point="LEFT" x="48" />
-                    <Anchor point="RIGHT" x="-48" />
+                    <Anchor point="TOP" y="-60" />
+                    <Anchor point="LEFT" x="24" />
+                    <Anchor point="RIGHT" x="-24" />
                 </Anchors>
             </FontString>
         </Layer>
@@ -124,8 +124,8 @@
         <Frame parentKey="GroupsContainer" inherits="LiteMountContainerStyleTemplate" frameStrata="LOW">
             <Size x="150" />
             <Anchors>
-                <Anchor point="TOPLEFT" x="16" y="-120" />
-                <Anchor point="BOTTOM" y="53" />
+                <Anchor point="TOPLEFT" x="16" y="-132" />
+                <Anchor point="BOTTOM" y="40" />
             </Anchors>
         </Frame>
         <Frame parentKey="MountsContainer" inherits="LiteMountContainerStyleTemplate" frameStrata="LOW">
