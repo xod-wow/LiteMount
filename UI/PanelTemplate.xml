@@ -6,24 +6,23 @@
 
 <Frame name="LiteMountContainerStyleTemplate" virtual="true" inherits="BackdropTemplate">
     <KeyValues>
-        <KeyValue key="backdropInfo" value="LM_TOOLTIP_BACKDROP_INFO" type="global"/>
-        <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
+        <KeyValue key="backdropInfo" value="LM_CONTAINER_BACKDROP_INFO" type="global"/>
         <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropColor" value="VERY_DARK_GRAY_COLOR" type="global"/>
     </KeyValues>
 </Frame>
 
 <Button name="LiteMountListButtonStyleTemplate" virtual="true" inherits="BackdropTemplate">
     <KeyValues>
         <KeyValue key="backdropInfo" value="LM_LISTBUTTON_BACKDROP_INFO" type="global" />
-        <KeyValue key="backdropColor" value="GRAY_FONT_COLOR" type="global"/>
-        <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
+        <KeyValue key="backdropBorderColor" value="BLACK_FONT_COLOR" type="global"/>
     </KeyValues>
 </Button>
 
 <Button name="LiteMountButtonStyleTemplate" virtual="true" inherits="BackdropTemplate">
     <KeyValues>
-        <KeyValue key="backdropInfo" value="LM_TOOLTIP_BACKDROP_INFO" type="global"/>
-        <KeyValue key="backdropColor" value="BLACK_FONT_COLOR" type="global"/>
+        <KeyValue key="backdropInfo" value="LM_BUTTON_BACKDROP_INFO" type="global"/>
+        <KeyValue key="backdropColor" value="VERY_DARK_GRAY_COLOR" type="global"/>
         <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
     </KeyValues>
 </Button>
