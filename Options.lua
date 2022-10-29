@@ -328,6 +328,10 @@ function LM.Options:Initialize()
     self.db.RegisterCallback(self, "OnProfileChanged", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileCopied", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileReset", "OnProfile")
+
+    --@debug@
+    LiteMountDB.data = nil
+    --@end-debug@
 end
 
 --[[----------------------------------------------------------------------------
