@@ -64,6 +64,7 @@ function LiteMountReportBugMixin:OnShow()
         "--- General ---\n" ..
         "\n" ..
         string.format("date: %s\n", date()) ..
+        string.format("build: %s\n", strjoin(' | ', GetBuildInfo())) ..
         string.format("version: %s\n", GetAddOnMetadata('LiteMount', 'version')) ..
         string.format("locale: %s\n", GetLocale()) ..
         string.format("current profile: %s\n", LM.Options.db:GetCurrentProfile()) ..
