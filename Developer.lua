@@ -92,3 +92,69 @@ function LM.Developer:Profile(n)
         self.profileCount = self.profileCount + n
     end
 end
+
+function LM.Developer:ExportMockData()
+    LiteMountDB.data = table.wipe(LiteMountDB.data or {})
+    local data = LiteMountDB.data
+
+    data.GetMountInfoByID = {}
+    data.GetMountInfoExtraByID = {}
+    data.GetSpellInfo = {}
+
+    for name, spellID in pairs(LM.SPELL) do
+        local info = { GetSpellInfo(spellID) }
+        if info[1] then
+            data.GetSpellInfo[spellID] = info
+        end
+    end
+
+    for _,mountID in ipairs(C_MountJournal.GetMountIDs()) do
+        data.GetMountInfoByID[mountID] = { C_MountJournal.GetMountInfoByID(mountID) }
+        data.GetMountInfoExtraByID[mountID] = { C_MountJournal.GetMountInfoExtraByID(mountID) }
+        local spellID = select(2, C_MountJournal.GetMountInfoByID(mountID))
+        data.GetSpellInfo[spellID] =  { GetSpellInfo(spellID) }
+    end
+
+    data.GetItemInfo = {}
+    data.GetItemSpell = {}
+
+    for name, itemID in pairs(LM.ITEM) do
+        local info = { GetItemInfo(itemID) }
+        if info[1] then
+            data.GetItemInfo[itemID] = info
+        end
+        info = { GetItemSpell(itemID) }
+        if info[1] then
+            data.GetItemSpell[itemID] = info
+            data.GetSpellInfo[info[2]] = { GetSpellInfo(info[2]) }
+        end
+    end
+
+    data.GetMapInfo = {}
+    data.GetMapGroupID = {}
+    data.IsMapValidForNavBarDropDown = {}
+
+    for i = 1, 10000 do
+        local info = C_Map.GetMapInfo(i)
+        if info then
+            data.GetMapInfo[i] = info
+            data.GetMapGroupID[i] = C_Map.GetMapGroupID(i)
+            if C_Map.IsMapValidForNavBarDropDown(i) then
+                data.IsMapValidForNavBarDropDown[i] = true
+            end
+        end
+    end
+
+    data.GetClassInfo = {}
+
+    local i = 1
+    while true do
+        local info = { GetClassInfo(i) }
+        if info[1] then
+            data.GetClassInfo[i] = info
+            i = i + 1
+        else
+            break
+        end
+    end
+end
