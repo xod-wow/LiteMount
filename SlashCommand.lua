@@ -210,6 +210,13 @@ COMMANDS['pi'] =
     function ()
         LiteMountProfileInspect:Show()
     end
+
+COMMANDS['mockdata'] =
+    function ()
+        LM.Developer:ExportMockData()
+        ReloadUI()
+    end
+
 --@end-debug@
 
 local function PrintUsage()
