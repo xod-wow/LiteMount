@@ -121,7 +121,7 @@ CONDITIONS["class"] = {
 CONDITIONS["click"] = {
     handler =
         function (cond, context, v)
-            if v and context.clickArg == v then
+            if v and context.inputButton == v then
                 return true
             end
         end

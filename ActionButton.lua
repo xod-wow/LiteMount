@@ -22,11 +22,11 @@ local L = LM.Localize
 
 LM.ActionButton = { }
 
--- mouseButton here is not real, because only LeftButton comes through the
+-- inputButton here is not real, because only LeftButton comes through the
 -- keybinding interface. But, you can pass arbitrary text as this argument
 -- with the /click slash command. E.g., /click LM_B1 blah
 
-function LM.ActionButton:PreClick(mouseButton, isDown)
+function LM.ActionButton:PreClick(inputButton, isDown)
 
     -- SecureActionButtonTemplate in 10.0 only fires the secure actions when
     -- isDown matches the setting of ActionButtonUseKeyDown, even though it
@@ -47,7 +47,8 @@ function LM.ActionButton:PreClick(mouseButton, isDown)
 
     local startTime = debugprofilestop()
 
-    LM.Debug("PreClick handler called on " .. self:GetName())
+    LM.Debug(format("PreClick handler called on %s (inputButton=%s, isDown=%s)",
+                self:GetName(), tostring(inputButton), tostring(isDown)))
 
     LM.MountRegistry:RefreshMounts()
 
@@ -60,7 +61,7 @@ function LM.ActionButton:PreClick(mouseButton, isDown)
 
     -- Set up the fresh run context for a new run.
     local context = self.context:Clone()
-    context.clickArg = mouseButton
+    context.inputButton = inputButton
 
     -- This uses a crazy amount of memory so just save it once
     context.mapPath = LM.Environment:GetMapPath()
@@ -80,13 +81,14 @@ function LM.ActionButton:PreClick(mouseButton, isDown)
     LM.Debug("PreClick fail time " .. (debugprofilestop() - startTime))
 end
 
-function LM.ActionButton:PostClick(mouseButton, isDown)
+function LM.ActionButton:PostClick(inputButton, isDown)
 
     if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
 
     if InCombatLockdown() then return end
 
-    LM.Debug("PostClick handler called on " .. self:GetName())
+    LM.Debug(format("PostClick handler called on %s (inputButton=%s, isDown=%s)",
+                self:GetName(), tostring(inputButton), tostring(isDown)))
 
     -- We'd like to set the macro to undo whatever we did, but
     -- tests like IsMounted() and CanExitVehicle() will still
