@@ -131,6 +131,9 @@ function LiteMountOptionsPanel_OnRefresh(self, trigger)
         LiteMountOptionsControl_OnRefresh(control, trigger)
         if control.isDirty then anyDirty = true end
     end
+    if not self.hideRevertButton then
+        self.RevertButton:SetEnabled(anyDirty)
+    end
 end
 
 function LiteMountOptionsPanel_OnDefault(self)
