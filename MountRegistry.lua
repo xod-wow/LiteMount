@@ -36,8 +36,6 @@ local MOUNT_SPELLS = {
     { "ItemSummoned",
         LM.ITEM.LOANED_WIND_RIDER_REINS, LM.SPELL.LOANED_WIND_RIDER, 'FLY' },
     { "ItemSummoned",
-        LM.ITEM.FLYING_BROOM, LM.SPELL.FLYING_BROOM, 'FLY', },
-    { "ItemSummoned",
         LM.ITEM.MAGIC_BROOM, LM.SPELL.MAGIC_BROOM, 'RUN', 'FLY', },
     { "ItemSummoned",
         LM.ITEM.SHIMMERING_MOONSTONE, LM.SPELL.MOONFANG, 'RUN', },
