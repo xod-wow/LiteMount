@@ -1,11 +1,9 @@
 function GetSpellInfo(id)
     local info
     if type(id) == 'number' then
-        if data.GetSpellInfo[id] then return unpack(data.GetSpellInfo[id]) end
+        return MockGetFromData(data.GetSpellInfo, id)
     elseif type(id) == 'string' then
-        for _,info in pairs(data.GetSpellInfo) do
-            if info[1] == id then return unpack(info) end
-        end
+        return MockGetFromData(data.GetSpellInfo, id, 1)
     end
     -- print("GetSpellInfo", tostring(id))
 end

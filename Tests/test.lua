@@ -27,7 +27,8 @@ local function CheckFile(svFile)
         -- LiteMount.actions[n]:Click()
         if MockState.inCombat == false then
             MockStatePrint()
-            LiteMount.actions[1]:Click()
+            LiteMount.actions[1]:Click("LeftButton", true)
+            LiteMount.actions[1]:Click("LeftButton", false)
         end
     end
 

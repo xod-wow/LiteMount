@@ -22,10 +22,10 @@ end
 
 function C_MountJournal.GetDisplayedMountInfo(idx)
     local i = 0
-    for _,info in pairs(data.GetMountInfoByID) do
+    for id,info in pairs(data.GetMountInfoByID) do
         i = i + 1
         if i == idx then
-            return unpack(info)
+            return MockGetFromData(data.GetMountInfoByID, id)
         end
     end
 end
@@ -35,17 +35,16 @@ function C_MountJournal.GetMountIDs()
     for id in pairs(data.GetMountInfoByID) do
         ids[#ids+1] = id
     end
+    sort(ids)
     return ids
 end
 
 function C_MountJournal.GetMountInfoByID(id)
-    local info = data.GetMountInfoByID[id]
-    if id then return unpack(info) end
+    return MockGetFromData(data.GetMountInfoByID, id)
 end
 
 function C_MountJournal.GetMountInfoExtraByID(id)
-    local info = data.GetMountInfoExtraByID[id]
-    if id then return unpack(info) end
+    return MockGetFromData(data.GetMountInfoExtraByID, id)
 end
 
 function C_MountJournal.AreMountEquipmentEffectsSuppressed()

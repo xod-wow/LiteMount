@@ -21,6 +21,7 @@ local StateInfo = {
     playerKnowsFlying = true,
     flyableArea = true,
     moving = false,
+    cvar_actionbuttonusekeydown = true,
 }
 
 local function Randomize(tbl)

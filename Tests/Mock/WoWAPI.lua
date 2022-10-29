@@ -1,11 +1,29 @@
 socket = require "socket"
 math.randomseed(math.floor(socket.gettime()))
 
-dofile("Mock/ClassData.lua")
-dofile("Mock/ItemData.lua")
-dofile("Mock/MapData.lua")
-dofile("Mock/MountData.lua")
-dofile("Mock/SpellData.lua")
+function MockGetKVFromData(mTable, mKey, mIndex)
+    for k, v in pairs(mTable) do
+        if v[mIndex] == mKey then
+            return k, v
+        end
+    end
+end
+
+function MockGetFromData(mTable, mKey, mIndex)
+    local _, info
+    if mIndex then
+        mKey = MockGetKVFromData(mTable, mKey, mIndex)
+        if not mKey then return end
+    end
+    info = mTable[mKey]
+    if type(info) == "table" then
+        return unpack(info, 1, table.maxn(info))
+    else
+        return info
+    end
+end
+
+dofile("Mock/Data.lua")
 
 dofile("Mock/Constants.lua")
 dofile("Mock/Functions.lua")

@@ -22,7 +22,7 @@ function C_Map.GetMapGroupID(map)
 end
 
 function C_Map.IsMapValidForNavBarDropDown(map)
-    return true
+    return data.IsMapValidForNavBarDropDown[map] or false
 end
 
 function GetZoneText()

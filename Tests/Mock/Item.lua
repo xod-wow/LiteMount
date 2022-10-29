@@ -1,6 +1,15 @@
+-- GetItemInfo() return doesn't have the itemID in it so
+-- we need a looker-upper
+
+local function GetIDByName(name)
+    local id = MockGetKVFromData(data.GetItemInfo, name, 1)
+    return id
+end
+
 function UseItemByName(itemName)
     print(">>> UseItem " .. itemName)
     local spellName, spellID = GetItemSpell(itemName)
+    print(">>> ", spellName, spellID)
     CastSpell(spellID)
 end
 
@@ -22,12 +31,10 @@ end
 
 function GetItemInfo(id)
     if type(id) == 'number' then
-        local info = data.GetItemInfo[id]
-        if info then return unpack(info) end
+        return MockGetFromData(data.GetItemInfo, id)
     else
-        for _, info in pairs(data.GetItemInfo) do
-            if info[1] == id then return unpack(info) end
-        end
+        print(id, MockGetFromData(data.GetItemInfo, id, 1))
+        return MockGetFromData(data.GetItemInfo, id, 1)
     end
 end
 
@@ -45,14 +52,8 @@ function GetItemCooldown(id)
 end
 
 function GetItemSpell(id)
-    if type(id) == 'number' then
-        local info = data.GetItemSpell[id]
-        if info then return unpack(info) end
-    else
-        for itemID, info in pairs(data.GetItemInfo) do
-            if info[1] == id then
-                return unpack(data.GetItemSpell[itemID] or {})
-            end
-        end
+    if type(id) ~= 'number' then
+        id = GetIDByName(id)
     end
+    return MockGetFromData(data.GetItemSpell, id)
 end

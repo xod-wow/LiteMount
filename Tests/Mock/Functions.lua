@@ -1,3 +1,22 @@
+function SetCVar(k, v)
+    k = k:lower()
+    MockState["cvar_"..k] = (not not v)
+end
+
+function GetCVar(k)
+    k = k:lower()
+    if MockState["cvar_"..k] then
+        return "1"
+    else
+        return "0"
+    end
+end
+
+function GetCVarBool(k)
+    k = k:lower()
+    return MockState["cvar_"..k]
+end
+
 function GetRealmName() return MockState.realmName end
 
 function UnitName() return MockState.playerName end
@@ -221,23 +240,8 @@ function GetAchievementInfo(id)
     end
 end
 
-local CLASSINFO = {
-    { "Warrior", "WARRIOR", 1 },
-    { "Paladin", "PALADIN", 2 },
-    { "Hunter", "HUNTER", 3 },
-    { "Rogue", "ROGUE", 4 },
-    { "Priest", "PRIEST", 5 },
-    { "Death Knight", "DEATHKNIGHT", 6 },
-    { "Shaman", "SHAMAN", 7 },
-    { "Mage", "MAGE", 8 },
-    { "Warlock", "WARLOCK", 9 },
-    { "Monk", "MONK", 10 },
-    { "Druid", "DRUID", 11 },
-    { "Demon Hunter", "DEMONHUNTER", 12 },
-}
-
 function GetClassInfo(index)
-    return unpack(data.GetClassInfo[index])
+    return MockGetFromData(data.GetClassInfo, index)
 end
 
 function table.wipe(tbl)
