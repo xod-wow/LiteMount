@@ -57,19 +57,6 @@
             </ScrollChild>
         </ScrollFrame>
 
-        <Button parentKey="DefaultButton" inherits="UIPanelButtonTemplate" text="DEFAULT">
-            <Size x="96" y="22" />
-            <Anchors>
-                <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="3" />
-            </Anchors>
-            <Scripts>
-                <OnClick>
-                    local parent = self:GetParent()
-                    LiteMountOptionsControl_OnDefault(parent.EditScroll.EditBox, true)
-                </OnClick>
-            </Scripts>
-        </Button>
-
         <Button parentKey="UnlockButton" inherits="UIPanelButtonTemplate" mixin="LiteMountAdvancedUnlockButtonMixin" text="UNLOCK">
             <Size x="96" y="22" />
             <Anchors>
