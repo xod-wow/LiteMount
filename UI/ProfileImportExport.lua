@@ -14,29 +14,17 @@ local L = LM.Localize
 
 --[[ Export  ---------------------------------------------------------------]]--
 
-local function PositionAtCursor(frame)
-    local x, y = GetCursorPosition()
-    frame:ClearAllPoints()
-    x = x / frame:GetEffectiveScale()
-    y = y / frame:GetEffectiveScale()
-
-    -- Try to position so the bottom right button is under the cursor
-    frame:SetPoint("BOTTOMRIGHT", nil, "BOTTOMLEFT", x+64, y-16)
-    frame:Raise()
-end
-
 LiteMountProfileExportMixin = {}
 
-function LiteMountProfileExportMixin:ExportProfile(profileName)
-    profileName = profileName or 'Default'
-    self.Title:SetText('LiteMount : Export Profile : ' .. profileName)
+function LiteMountProfileExportMixin:SetProfile(profileName)
+    self.profileName = profileName
+end
 
-    local text = LM.Options:ExportProfile(profileName)
+function LiteMountProfileExportMixin:OnShow()
+    local text = LM.Options:ExportProfile(self.profileName or 'Default')
     self.Scroll.EditBox:SetText(text)
     self.Scroll.EditBox:HighlightText()
-
-    self:Show()
-    PositionAtCursor(self)
+    self.profileName = nil
 end
 
 function LiteMountProfileExportMixin:OnLoad()
@@ -61,14 +49,12 @@ function LiteMountProfileImportMixin:ImportProfile()
 end
 
 function LiteMountProfileImportMixin:OnShow()
-    PositionAtCursor(self)
     self.ProfileName:SetText("")
     self.ProfileData:SetText("")
 end
 
 function LiteMountProfileImportMixin:OnLoad()
     LiteMountOptionsPanel_AutoLocalize(self)
-    self.Title:SetText("LiteMount : " .. L.LM_IMPORT_PROFILE)
     self.ImportButton:Disable()
     self.ProfileName:SetMaxLetters(24)
     self.ProfileName.nextEditBox = self.ProfileData

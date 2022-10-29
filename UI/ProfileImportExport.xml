@@ -4,13 +4,13 @@
 
 <Script file="ProfileImportExport.lua" />
 
-<Frame name="LiteMountProfileExport" parent="UIParent" hidden="true" inherits="TooltipBackdropTemplate" mixin="LiteMountProfileExportMixin" frameStrata="DIALOG" toplevel="true" clampedToScreen="true">
+<Frame name="LiteMountProfileExport" hidden="true" inherits="LiteMountPopOverPanelTemplate" mixin="LiteMountProfileExportMixin">
     <KeyValues>
-        <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" TYpe="global" />
-        <KeyValue key="backdropColorAlpha" value="0.8" TYpe="number" />
+        <KeyValue key="name" value="LM_EXPORT_PROFILE" type="string" />
     </KeyValues>
     <Scripts>
         <OnLoad inherit="append" method="OnLoad" />
+        <OnShow inherit="append" method="OnShow" />
     </Scripts>
     <Size x="480" y="360" />
     <Anchors>
@@ -36,11 +36,6 @@
     </Frames>
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormalLarge" parentKey="Title">
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-16" />
-                </Anchors>
-            </FontString>
             <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_EXPORT_PROFILE_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-40" />
@@ -52,26 +47,20 @@
     </Layers>
 </Frame>
 
-<Frame name="LiteMountProfileImport" parent="UIParent" hidden="true" inherits="TooltipBackdropTemplate" mixin="LiteMountProfileImportMixin" frameStrata="DIALOG" toplevel="true">
+<Frame name="LiteMountProfileImport" hidden="true" inherits="LiteMountPopOverPanelTemplate" mixin="LiteMountProfileImportMixin">
     <KeyValues>
-        <KeyValue key="backdropBorderColor" value="GRAY_FONT_COLOR" TYpe="global" />
-        <KeyValue key="backdropColorAlpha" value="0.8" TYpe="number" />
+        <KeyValue key="name" value="LM_IMPORT_PROFILE" type="string" />
     </KeyValues>
     <Scripts>
         <OnLoad inherit="append" method="OnLoad" />
         <OnShow inherit="append" method="OnShow" />
     </Scripts>
-    <Size x="280" y="180" />
+    <Size x="480" y="180" />
     <Anchors>
         <Anchor point="CENTER" />
     </Anchors>
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormalLarge" parentKey="Title" Text="LM_IMPORT_PROFILE">
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="16" y="-16" />
-                </Anchors>
-            </FontString>
             <FontString inherits="GameFontNormal" parentKey="ProfileNameText" justifyH="RIGHT" text="NAME">
                 <Anchors>
                     <Anchor point="TOPLEFT" x="24" y="-88" />

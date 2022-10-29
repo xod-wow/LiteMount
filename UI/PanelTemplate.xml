@@ -27,6 +27,26 @@
     </KeyValues>
 </Button>
 
+<Button name="LiteMountUIButtonTemplate" virtual="true">
+    <Size x="192" y="36" />
+    <NormalTexture parentKey="NormalTexture" atlas="charactercreate-customize-dropdownbox" />
+    <HighlightTexture parentKey="HighlightTexture" atlas="charactercreate-customize-dropdownbox-open" alphaMode="ADD" alpha="0.2" />
+    <ButtonText inherits="GameFontNormal" parentKey="Text" />
+</Button>
+
+<Button name="LiteMountUISelectButtonTemplate" inherits="LiteMountUIButtonTemplate" virtual="true">
+    <Scripts>
+        <OnEnter>
+            self.HighlightTexture:SetAlpha(0)
+            self.NormalTexture:SetAtlas("charactercreate-customize-dropdownbox-hover");
+        </OnEnter>
+        <OnLeave>
+            self.HighlightTexture:SetAlpha(0.2)
+            self.NormalTexture:SetAtlas("charactercreate-customize-dropdownbox");
+        </OnLeave>
+    </Scripts>
+</Button>
+
 <CheckButton name="LiteMountOptionsCheckButtonTemplate" virtual="true">
     <Size x="32" y="32" />
     <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
@@ -117,7 +137,7 @@
     </Scripts>
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormalLarge" parentKey="Title" text="LM_EDIT_RULE">
+            <FontString inherits="GameFontHighlightLarge" parentKey="Title">
                 <Anchors>
                     <Anchor point="TOP" y="-16" />
                 </Anchors>

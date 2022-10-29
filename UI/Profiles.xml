@@ -13,6 +13,8 @@
 
     <Scripts>
         <OnLoad method="OnLoad" />
+        <OnShow method="OnShow" />
+        <OnHide method="OnHide" />
     </Scripts>
 
     <Layers>
@@ -24,10 +26,61 @@
                     <Anchor point="RIGHT" x="-24" />
                 </Anchors>
             </FontString>
+            <FontString parentKey="CurrentProfileLabel" inherits="GameFontNormalHuge" justifyH="RIGHT">
+                <Anchors>
+                    <Anchor point="TOP" relativeKey="$parent.ExplainText" relativePoint="BOTTOM" y="-32" />
+                    <Anchor point="LEFT" x="24" />
+                </Anchors>
+            </FontString>
+            <FontString parentKey="CurrentProfile" inherits="GameFontHighlightHuge" justifyH="LEFT">
+                <Color r="0.3" b="1" g="0.5" />
+                <Anchors>
+                    <Anchor point="LEFT" relativePOint="RIGHT" relativeKey="$parent.CurrentProfileLabel" x="8" />
+                </Anchors>
+            </FontString>
         </Layer>
     </Layers>
 
     <Frames>
+        <Frame parentKey="DropDown" name="$parentDropDown" />
+
+        <Button parentKey="ChangeProfile" inherits="LiteMountUISelectButtonTemplate" text="LM_CHANGE_PROFILE">
+            <Anchors>
+                <Anchor point="TOP" relativePoint="BOTTOM" relativeKey="$parent.CurrentProfile" y="-48" />
+                <Anchor point="LEFT" x="48" />
+            </Anchors>
+        </Button>
+
+        <Button parentKey="NewProfile" inherits="LiteMountUISelectButtonTemplate" text="LM_NEW_PROFILE">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.ChangeProfile" y="-16" />
+            </Anchors>
+        </Button>
+
+        <Button parentKey="ResetProfile" inherits="LiteMountUIButtonTemplate" text="LM_RESET_PROFILE">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.NewProfile" y="-16" />
+            </Anchors>
+        </Button>
+
+        <Button parentKey="DeleteProfile" inherits="LiteMountUISelectButtonTemplate" text="LM_DELETE_PROFILE">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.ResetProfile" y="-16" />
+            </Anchors>
+        </Button>
+
+        <Button parentKey="ExportProfile" inherits="LiteMountUISelectButtonTemplate" text="LM_EXPORT_PROFILE">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.DeleteProfile" y="-16" />
+            </Anchors>
+        </Button>
+
+        <Button parentKey="ImportProfile" inherits="LiteMountUIButtonTemplate" text="LM_IMPORT_PROFILE">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.ExportProfile" y="-16" />
+            </Anchors>
+        </Button>
+
     </Frames>
 </Frame>
 

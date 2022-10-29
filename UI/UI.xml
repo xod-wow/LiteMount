@@ -2,7 +2,6 @@
     <Include file="AnnounceFrame.xml" />
     <Include file="PanelTemplate.xml" />
     <Include file="MountTooltip.xml" />
-    <Include file="ProfileDropDown.xml" />
     <Include file="ProfileImportExport.xml" />
     <Include file="MountsFilter.xml" />
     <Include file="RuleEdit.xml" />
