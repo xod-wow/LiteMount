@@ -341,6 +341,7 @@ LM.MOUNTFAMILY["Drake"] = {
     [175700] = true, -- Emerald Drake
     [110039] = true, -- Experiment 12-B
     [113120] = true, -- Feldrake
+    [360954] = true, -- Highland Drake
     [201098] = true, -- Infinite Timereaver
     [107845] = true, -- Life-Binder's Handmaiden
     [ 93623] = true, -- Mottled Drake
@@ -826,6 +827,10 @@ LM.MOUNTFAMILY["Moth"] = {
     [342667] = true, -- Vibrant Flutterwing
 }
 
+LM.MOUNTFAMILY["Murloc"] = {
+    [315132] = true, -- Gargantuan Grrloc
+}
+
 LM.MOUNTFAMILY["Mushan Beast"] = {
     [148428] = true, -- Ashhide Mushan Beast
     [142641] = true, -- Brawler's Burly Mushan Beast
@@ -853,6 +858,11 @@ LM.MOUNTFAMILY["Nether Ray"] = {
     [ 39801] = true, -- Purple Riding Nether Ray
     [ 39800] = true, -- Red Riding Nether Ray
     [ 39802] = true, -- Silver Riding Nether Ray
+}
+
+LM.MOUNTFAMILY["Ottuk"] = {
+    [376912] = true, -- Otherworldly Ottuk Carrier
+    [376875] = true, -- Brown Ottuk
 }
 
 LM.MOUNTFAMILY["Pandaren Kite"] = {
@@ -902,6 +912,7 @@ LM.MOUNTFAMILY["Proto-Drake"] = {
     [262024] = true, -- Notorious Gladiator's Proto-Drake
     [ 60021] = true, -- Plagued Proto-Drake
     [ 59961] = true, -- Red Proto-Drake
+    [368896] = true, -- Renewed Proto-Drake
     [ 63963] = true, -- Rusted Proto-Drake
     [262023] = true, -- Sinister Gladiator's Proto-Drake
     [148392] = true, -- Spawn of Galakras
@@ -918,6 +929,7 @@ LM.MOUNTFAMILY["Pterrordax"] = {
     [244712] = true, -- Spectral Pterrorwing
     [302797] = true, -- Swift Spectral Pterrordax
     [275840] = true, -- Voldunai Dunescraper
+    [368899] = true, -- Windborn Velocidrake
 }
 
 LM.MOUNTFAMILY["Ram"] = {
@@ -1115,6 +1127,12 @@ LM.MOUNTFAMILY["Skeletal Horse"] = {
     [ 65645] = true, -- White Skeletal Warhorse
 }
 
+LM.MOUNTFAMILY["Skitterfly"] = {
+    [374034] = true, -- Azure Skitterfly
+    [374032] = true, -- Tamed Skitterfly
+    [374048] = true, -- Verdant Skitterfly
+}
+
 LM.MOUNTFAMILY["Skullboar"] = {
     [332482] = true, -- Bonecleaver's Skullboar
     [332480] = true, -- Gorespine
@@ -1224,6 +1242,10 @@ LM.MOUNTFAMILY["Tallstrider"] = {
     [102349] = true, -- Swift Springstrider
 }
 
+LM.MOUNTFAMILY["Thunderspine"] = {
+    [374247] = true, -- Lizi, Thunderspine Tramper
+}
+
 LM.MOUNTFAMILY["Toad"] = {
     [339632] = true, -- Arboreal Gulper
     [288587] = true, -- Blue Marsh Hopper
@@ -1268,6 +1290,16 @@ LM.MOUNTFAMILY["Vombata"] = {
     [359230] = true, -- Curious Crystalsniffer
     [359231] = true, -- Darkened Vombata
     [359229] = true, -- Heartlight Vombata
+}
+
+LM.MOUNTFAMILY["Vorquin"] = {
+    [385131] = true, -- Armored Vorquin Leystrider
+    [394219] = true, -- Bronze Vorquin
+    [394216] = true, -- Crimson Vorquin
+    [385115] = true, -- Majestic Armored Vorquin
+    [394220] = true, -- Obsidian Vorquin
+    [394218] = true, -- Sapphire Vorquin
+    [385134] = true, -- Swift Armored Vorquin
 }
 
 LM.MOUNTFAMILY["Warp Stalker"] = {
