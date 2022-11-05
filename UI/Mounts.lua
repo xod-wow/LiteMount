@@ -142,6 +142,7 @@ function LiteMountFlagBitMixin:Update(flag, mount)
         self:Show()
     end
 
+
     local cur = mount:GetFlags()
 
     self:SetChecked(cur[flag] or false)
@@ -149,7 +150,9 @@ function LiteMountFlagBitMixin:Update(flag, mount)
     -- If we changed this from the default then color the background
     self.Modified:SetShown(mount.flags[flag] ~= cur[flag])
     self.Modified:SetDesaturated(false)
-    self:Enable()
+
+    -- Look, don't adjust the Dragonriding flag, no good can come of it
+    self:SetEnabled(flag ~= "DRAGONRIDING")
 end
 
 --[[------------------------------------------------------------------------]]--
@@ -346,6 +349,7 @@ function LiteMountMountsPanelMixin:OnLoad()
             label:SetText(L[self.allFlags[i]])
         end
     end
+
     -- We are using the MountScroll SetControl to do ALL the updating.
 
     LiteMountOptionsPanel_RegisterControl(self.MountScroll)

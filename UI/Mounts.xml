@@ -8,7 +8,7 @@
     See OptionsBaseCheckButtonTemplate in FrameXML/OptionsPanelTemplates.xml
     We don't use it directly because of the hitrect crap we don't want.
  -->
-<CheckButton name="LiteMountFlagBitTemplate" virtual="true" mixin="LiteMountFlagBitMixin">
+<CheckButton name="LiteMountFlagBitTemplate" virtual="true" mixin="LiteMountFlagBitMixin" motionScriptsWhileDisabled="true">
     <Size x="26" y="26" />
     <Scripts>
         <OnClick method="OnClick" />
