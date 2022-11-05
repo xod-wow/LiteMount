@@ -105,6 +105,9 @@ function LM.Journal:Get(id, isUsable)
     elseif m.mountTypeID == 408 then      -- Unsuccessful Prototype Fleetpod
         m.flags['RUN'] = true
         m.flags['SLOW'] = true
+    elseif m.mountTypeID == 412 then      -- Ground + Aquatic (Ottuk etc.)
+        m.flags['RUN'] = true
+        m.flags['SWIM'] = true
 --@debug@
     else
         LM.PrintError(string.format('Mount with unknown type number: %s = %d', m.name, m.mountTypeID))
