@@ -377,6 +377,7 @@ function LiteMountMountsPanelMixin:OnShow()
     LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.MountScroll, 'TOPLEFT', 0, 15)
     LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "OnRefresh")
     LM.MountRegistry:RefreshMounts()
+    LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "OnRefresh")
 
     -- Update the counts, Journal-only
     local counts = LM.MountRegistry:GetJournalTotals()
@@ -397,6 +398,7 @@ end
 
 function LiteMountMountsPanelMixin:OnHide()
     LM.UIFilter.UnregisterAllCallbacks(self)
+    LM.MountRegistry.UnregisterAllCallbacks(self)
     LiteMountOptionsPanel_OnHide(self)
 end
 
