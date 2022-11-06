@@ -129,9 +129,7 @@
         </CheckButton>
 
         <Frame parentKey="Priority" inherits="LiteMountPriorityTemplate">
-            <Anchors>
-                <Anchor point="CENTER" relativeKey="$parent.Bit1" x="-82" />
-            </Anchors>
+            <Anchors> <Anchor point="CENTER" relativePoint="RIGHT" x="-276" /> </Anchors>
         </Frame>
     </Frames>
 
@@ -140,8 +138,13 @@
             <FontString inherits="GameFontNormal" justifyH="LEFT" parentKey="Name">
                 <Anchors>
                     <Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT" x="8" />
-                    <Anchor point="TOP" y="-2" />
-                    <Anchor point="BOTTOMRIGHT" x="-2" y="2" />
+                    <Anchor point="BOTTOM" relativePoint="CENTER" y="2" />
+                </Anchors>
+            </FontString>
+            <FontString inherits="GameFontWhiteTiny" justifyH="LEFT" parentKey="Types">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT" x="8" />
+                    <Anchor point="TOP" relativePoint="CENTER" y="-2" />
                 </Anchors>
             </FontString>
         </Layer>
@@ -193,7 +196,7 @@
     <Frames>
         <Frame parentKey="AllPriority" inherits="LiteMountPriorityTemplate" mixin="LiteMountAllPriorityMixin">
             <Anchors>
-                <Anchor point="CENTER" relativeKey="$parent.BitLabel1" x="-82" />
+                <Anchor point="CENTER" relativeKey="$parent.MountScroll" relativePoint="TOPRIGHT" x="-276" y="22" />
             </Anchors>
         </Frame>
 

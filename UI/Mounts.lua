@@ -220,6 +220,15 @@ function LiteMountMountButtonMixin:Update(bitFlags, mount)
         i = i + 1
     end
 
+    local flagTexts = { }
+
+    for _, flag in ipairs(LM.Options:GetFlags()) do
+        if mount.flags[flag] then
+            table.insert(flagTexts, L[flag])
+        end
+        self.Types:SetText(strjoin(' ', unpack(flagTexts)))
+    end
+
     if not mount.isCollected then
         self.Name:SetFontObject("GameFontDisable")
         self.Icon:GetNormalTexture():SetVertexColor(1, 1, 1)
