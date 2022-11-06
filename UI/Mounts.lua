@@ -135,24 +135,31 @@ end
 function LiteMountFlagBitMixin:Update(flag, mount)
     self.flag = flag
 
-    if not flag then
-        self:Hide()
-        return
-    else
-        self:Show()
-    end
-
-
     local cur = mount:GetFlags()
 
     self:SetChecked(cur[flag] or false)
 
     -- If we changed this from the default then color the background
     self.Modified:SetShown(mount.flags[flag] ~= cur[flag])
-    self.Modified:SetDesaturated(false)
 
-    -- Look, don't adjust the Dragonriding flag, no good can come of it
-    self:SetEnabled(flag ~= "DRAGONRIDING")
+    -- You can turn off any flag, but the only ones you can turn on when they
+    -- were originally off are RUN for flying and dragonriding mounts and
+    -- SWIM for any mount.
+
+    if cur[flag] or mount.flags[flag] then
+        self:Enable()
+        self:Show()
+    elseif flag == "SWIM" then
+        self:Enable()
+        self:Show()
+    elseif flag == "RUN" and ( mount.flags.FLY or mount.flags.DRAGONRIDING ) then
+        self:Enable()
+        self:Show()
+    else
+        self:Hide()
+        self:Disable()
+    end
+
 end
 
 --[[------------------------------------------------------------------------]]--
