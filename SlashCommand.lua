@@ -20,7 +20,8 @@ local MacroName = "LiteMount"
 local MacroText = [[
 # Auto-created by LiteMount addon, it is safe to delete or edit this macro.
 # To re-create it run "/litemount macro"
-/click LM_B1 LeftButton
+/click LM_B1 LeftButton 1
+/click LM_B1 LeftButton 0
 ]]
 
 local function CreateOrUpdateMacro()
@@ -173,30 +174,6 @@ COMMANDS['uidebug'] =
 COMMANDS['forcefly'] =
     function ()
         LM.Environment:ForceFlyable()
-    end
-
-COMMANDS['mount'] =
-    function (argstr, ...)
-        local h = LM.Actions:GetHandler('Mount')
-        local ctx = LM.RuleContext:New()
-        local args = { ... }
-        table.insert(args, 1, 'JOURNAL')
-        local ca, m = h(args, ctx)
-        if m and m.mountID then
-            C_MountJournal.SummonByID(m.mountID)
-        end
-    end
-
-COMMANDS['smartmount'] =
-    function (argstr, ...)
-        local h = LM.Actions:GetHandler('SmartMount')
-        local ctx = LM.RuleContext:New()
-        local args = { ... }
-        table.insert(args, 1, 'JOURNAL')
-        local ca, m = h(args, ctx)
-        if m and m.mountID then
-            C_MountJournal.SummonByID(m.mountID)
-        end
     end
 
 --@debug@
