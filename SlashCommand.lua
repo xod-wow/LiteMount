@@ -208,10 +208,8 @@ local function PrintUsage()
     LM.Print("  /litemount group del <name>")
     LM.Print("  /litemount group list")
     LM.Print("  /litemount group rename <oldname> <newname>")
-    LM.Print("  /litemount mount [<group>]")
     LM.Print("  /litemount playermodel")
     LM.Print("  /litemount profile <profilename>")
-    LM.Print("  /litemount smartmount [<group>]")
     LM.Print("  /litemount xmog <slotnumber>")
 end
 
