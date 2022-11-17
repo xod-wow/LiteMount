@@ -1323,6 +1323,7 @@ LM.MOUNTFAMILY["Vorquin"] = {
     [385131] = true, -- Armored Vorquin Leystrider
     [394219] = true, -- Bronze Vorquin
     [394216] = true, -- Crimson Vorquin
+    [384963] = true, -- Guardian Vorquin
     [385115] = true, -- Majestic Armored Vorquin
     [394220] = true, -- Obsidian Vorquin
     [394218] = true, -- Sapphire Vorquin
