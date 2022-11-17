@@ -166,6 +166,7 @@ local NewProfileMixin = {}
 
 function NewProfileMixin.Initialize(dropDown, level)
     if level == 1 then
+        local currentProfile = LM.Options.db:GetCurrentProfile()
         local info = LibDD:UIDropDownMenu_CreateInfo()
         info.text = L.LM_CURRENT_SETTINGS
         info.notCheckable = 1
