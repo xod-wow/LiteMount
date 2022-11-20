@@ -165,6 +165,7 @@ function LiteMountRulesPanelMixin:DeleteRule()
         self.Scroll.isDirty = true
         local rules = LM.Options:GetRules(binding)
         tDeleteItem(rules, self.selectedRule)
+        self.selectedRule = nil
         LM.Options:SetRules(binding, rules)
     end
 end
