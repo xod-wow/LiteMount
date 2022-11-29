@@ -311,7 +311,8 @@ end
 
 function LM.Environment:CanDragonRide(mapPath)
     if IsSpellKnown(376777) then
-        return select(8, GetInstanceInfo()) == 2444
+        return IsUsableSpell(368896) == true
+        -- return select(8, GetInstanceInfo()) == 2444
     else
         return false
     end
