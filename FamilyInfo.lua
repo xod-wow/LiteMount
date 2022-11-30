@@ -91,6 +91,10 @@ LM.MOUNTFAMILY["Bee"] = {
     [259741] = true, -- Honeyback Harvester
 }
 
+LM.MOUNTFAMILY["Beetle"] = {
+    [381529] = true, -- Telix the Stormhorn
+}
+
 LM.MOUNTFAMILY["Bird"] = {
     [231524] = true, -- Shadowblade's Baneful Omen
     [231525] = true, -- Shadowblade's Crimson Omen
@@ -586,6 +590,8 @@ LM.MOUNTFAMILY["Helicid"] = {
     [359376] = true, -- Bronze Helicid
     [350219] = true, -- Magmashell
     [346719] = true, -- Serenade
+    [374162] = true, -- Scrappy Worldsnail
+    [374155] = true, -- Shellack
     [359378] = true, -- Scarlet Helicid
     [359377] = true, -- Unsuccessful Prototype Fleetpod
 }
@@ -752,6 +758,7 @@ LM.MOUNTFAMILY["Mammoth"] = {
     [ 59799] = true, -- Ice Mammoth
     [373859] = true, -- Loyal Magmammoth
     [374196] = true, -- Plainswalker Bearer
+    [374275] = true, -- Raging Magmammoth
     [ 61447] = true, -- Traveler's Tundra Mammoth
     [ 61425] = true, -- Traveler's Tundra Mammoth
     [ 59791] = true, -- Wooly Mammoth
@@ -879,8 +886,11 @@ LM.MOUNTFAMILY["Ottuk"] = {
     [359409] = true, -- Iskaara Trader's Ottuk
     [376879] = true, -- Ivory Trader's Ottuk
     [376875] = true, -- Brown Ottuk
+    [376910] = true, -- Brown War Ottuk
     [376912] = true, -- Otherworldly Ottuk Carrier
     [376873] = true, -- Otto
+    [376880] = true, -- Yellow Scouting Ottuk
+    [376913] = true, -- Yellow War Ottuk
 }
 
 LM.MOUNTFAMILY["Pandaren Kite"] = {
@@ -1165,6 +1175,7 @@ LM.MOUNTFAMILY["Skullboar"] = {
 
 LM.MOUNTFAMILY["Sylvern"] = {
     [359622] = true, -- Liberated Slyvern
+    [385738] = true, -- Temperamental Skyclaw
 }
 
 LM.MOUNTFAMILY["Snapdragon"] = {
