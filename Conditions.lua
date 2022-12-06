@@ -222,10 +222,19 @@ CONDITIONS["difficulty"] = {
 }
 
 CONDITIONS["dragonridable"] = {
-    name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+    name = L.LM_DRAGONRIDING_AREA,
     handler =
         function (cond, context)
             return LM.Environment:CanDragonRide(context.mapPath)
+        end,
+}
+
+CONDITIONS["dragonriding"] = {
+    -- name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+    handler =
+        function (cond, context)
+            local m = LM.MountRegistry:GetActiveMount()
+            return m and m.dragonRiding == true
         end,
 }
 
