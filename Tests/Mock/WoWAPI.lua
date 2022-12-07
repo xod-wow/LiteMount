@@ -9,6 +9,16 @@ function MockGetKVFromData(mTable, mKey, mIndex)
     end
 end
 
+local function maxn(t)
+    local n = 0
+    for k in pairs(t) do
+        if type(k) == 'number' then
+            n = math.max(k, n)
+        end
+    end
+    return n
+end
+
 function MockGetFromData(mTable, mKey, mIndex)
     local _, info
     if mIndex then
@@ -17,7 +27,7 @@ function MockGetFromData(mTable, mKey, mIndex)
     end
     info = mTable[mKey]
     if type(info) == "table" then
-        return unpack(info, 1, table.maxn(info))
+        return unpack(info, 1, maxn(info))
     else
         return info
     end
