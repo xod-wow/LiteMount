@@ -211,7 +211,7 @@ function LM.RuleBoolean:ToDisplay()
     elseif self.op == 'AND' then
         local out = { }
         for _,c in ipairs(self.conditions) do
-            local text = c:ToDisplay()
+            local text = c:ToDisplay() or UNKNOWN
             if c.op == 'NOT' then
                 table.insert(out, RED_FONT_COLOR:WrapTextInColorCode(text))
             else

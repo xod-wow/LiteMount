@@ -559,6 +559,17 @@ CONDITIONS["keybind"] = {
         end
 }
 
+CONDITIONS["known"] = {
+    handler =
+        function (cond, context, v)
+            if v then
+                if tonumber(v) ~= nil then
+                else
+                end
+            end
+        end
+}
+
 -- GetMaxLevelForLatestExpansion()
 CONDITIONS["level"] = {
     name = GUILD_RECRUITMENT_MAXLEVEL,
@@ -576,6 +587,36 @@ CONDITIONS["level"] = {
         end
 }
 
+CONDITIONS["loadout"] = {
+    name = L["Talent loadout"],
+    toDisplay =
+        function (v)
+            return v
+        end,
+    menu =
+        function ()
+            local loadoutMenu = {}
+            local _, _, classIndex = UnitClass('player')
+            for specIndex = 1, 4 do
+                local specID = GetSpecializationInfoForClassID(classIndex, specIndex)
+                if not specID then break end
+                local configIDs = C_ClassTalents.GetConfigIDsBySpecID(specID)
+                for _, id in ipairs(configIDs) do
+                    local info = C_Traits.GetConfigInfo(id)
+                    table.insert(loadoutMenu, { val = "loadout:"..info.name, text = info.name })
+                end
+            end
+            return loadoutMenu
+        end,
+    handler =
+        function (cond, context, v)
+            if v then
+                local id = C_ClassTalents.GetActiveConfigID()
+                local info = C_Traits.GetConfigInfo(id)
+                return info and info.name == v
+            end
+        end
+}
 CONDITIONS["location"] = {
 --  name = LOCATION_COLON:gsub(":", ""),
     toDisplay =
@@ -955,14 +996,6 @@ CONDITIONS["submerged"] = {
         function (cond, context)
             return (IsSubmerged() and not LM.Environment:IsFloating())
         end,
-}
-
-CONDITIONS["talent"] = {
-    args = true,
-    handler =
-        function (cond, context, tier, talent)
-            return select(2, GetTalentTierInfo(tier, 1)) == tonumber(talent)
-        end
 }
 
 CONDITIONS["tracking"] = {
