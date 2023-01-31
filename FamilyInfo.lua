@@ -96,6 +96,7 @@ LM.MOUNTFAMILY["Beetle"] = {
 }
 
 LM.MOUNTFAMILY["Bird"] = {
+    [366790] = true, -- Quawks
     [231524] = true, -- Shadowblade's Baneful Omen
     [231525] = true, -- Shadowblade's Crimson Omen
     [231523] = true, -- Shadowblade's Lethal Omen
@@ -142,8 +143,9 @@ LM.MOUNTFAMILY["Camel"] = {
 }
 
 LM.MOUNTFAMILY["Cat"] = {
-    [ 16056] = true, -- Ancient Frostsaber
+    [366962] = true, -- Ash'adar, Harbinger of Dawn
     [230987] = true, -- Arcanist's Manasaber
+    [ 16056] = true, -- Ancient Frostsaber
     [229385] = true, -- Ban-Lu, Grandmaster's Companion
     [ 16055] = true, -- Black Nightsaber
     [ 22723] = true, -- Black War Tiger
@@ -212,6 +214,7 @@ LM.MOUNTFAMILY["Cloud Serpent"] = {
     [127158] = true, -- Heavenly Onyx Cloud Serpent
     [315014] = true, -- Ivory Cloud Serpent
     [113199] = true, -- Jade Cloud Serpent
+    [366647] = true, -- Magenta Cloud Serpent
     [139407] = true, -- Malevolent Gladiator's Cloud Serpent
     [127154] = true, -- Onyx Cloud Serpent
     [148620] = true, -- Prideful Gladiator's Cloud Serpent
@@ -260,6 +263,7 @@ LM.MOUNTFAMILY["Courser"] = {
 }
 
 LM.MOUNTFAMILY["Crab"] = {
+    [366789] = true, -- Crusty Crawler
     [294039] = true, -- Snapback Scuttler
 }
 
@@ -323,6 +327,7 @@ LM.MOUNTFAMILY["Dragon Turtle"] = {
     [120395] = true, -- Green Dragon Turtle
     [127289] = true, -- Purple Dragon Turtle
     [127290] = true, -- Red Dragon Turtle
+    [367826] = true, -- Savage Green Battle Turtle
     [232525] = true, -- Vicious War Turtle
     [232523] = true, -- Vicious War Turtle
 }
@@ -451,6 +456,7 @@ LM.MOUNTFAMILY["Fathom Dweller"] = {
 LM.MOUNTFAMILY["Fathom Ray"] = {
     [292407] = true, -- Ankoan Waveray
     [292419] = true, -- Azshari Bloatray
+    [367620] = true, -- Coral-Stalker Waveray
     [300149] = true, -- Silent Glider
     [302794] = true, -- Swift Spectral Fathom Ray
     [291538] = true, -- Unshackled Waveray
@@ -519,6 +525,7 @@ LM.MOUNTFAMILY["Gorm"] = {
 }
 
 LM.MOUNTFAMILY["Gravewing"] = {
+    [369476] = true, -- Amalgam of Rage
     [215545] = true, -- Mastercraft Gravewing
     [353866] = true, -- Obsidian Gravewing
     [353873] = true, -- Pale Gravewing
@@ -701,6 +708,7 @@ LM.MOUNTFAMILY["Infernal"] = {
 }
 
 LM.MOUNTFAMILY["Kodo"] = {
+    [367875] = true, -- Armored Siege Kodo
     [ 22718] = true, -- Black War Kodo
     [ 49378] = true, -- Brewfest Riding Kodo
     [ 18990] = true, -- Brown Kodo
@@ -949,6 +957,7 @@ LM.MOUNTFAMILY["Proto-Drake"] = {
 }
 
 LM.MOUNTFAMILY["Pterrordax"] = {
+    [368126] = true, -- Armored Golden Pterrordax
     [136400] = true, -- Armored Skyscreamer
     [275838] = true, -- Captured Swampstalker
     [275837] = true, -- Cobalt Pterrordax
@@ -1274,6 +1283,7 @@ LM.MOUNTFAMILY["Tauralus"] = {
 }
 
 LM.MOUNTFAMILY["Tallstrider"] = {
+    [352926] = true, -- Skyskin Hornstrider
     [102346] = true, -- Swift Forest Strider
     [102350] = true, -- Swift Lovebird
     [101573] = true, -- Swift Shorestrider
@@ -1287,6 +1297,7 @@ LM.MOUNTFAMILY["Thunderspine"] = {
 LM.MOUNTFAMILY["Toad"] = {
     [339632] = true, -- Arboreal Gulper
     [288587] = true, -- Blue Marsh Hopper
+    [369480] = true, -- Cerulean Marsh Hopper
     [259740] = true, -- Green Marsh Hopper
     [359413] = true, -- Goldplate Bufonid
     [363701] = true, -- Patient Bufonid
@@ -1465,6 +1476,7 @@ LM.MOUNTFAMILY["Yeti"] = {
 
 LM.MOUNTFAMILY["Zodiac"] = {
     [290134] = true, -- Hogrus, Swine of Good Fortune
+    [369451] = true, -- Jade, Bright Foreseer
     [308087] = true, -- Lucky Yun
     [259395] = true, -- Shu-Zen, the Divine Sentinel
     [308078] = true, -- Squeakers, the Trickster
