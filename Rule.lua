@@ -76,9 +76,7 @@ function LM.Rule:ParseLine(line)
         local word
         word, rest = ReadWord(rest)
         if word then
-            if word:match('^%[filter=.-%]$') then
-                tinsert(argWords, word:sub(9, -2))
-            elseif word:match('^%[.-%]$') then
+            if word:match('^%[.-%]$') then
                 tinsert(condWords, word:sub(2, -2))
             else
                 tinsert(argWords, word)
