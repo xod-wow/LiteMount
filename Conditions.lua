@@ -708,8 +708,17 @@ CONDITIONS["mod"] = {
 
 CONDITIONS["mounted"] = {
     handler =
-        function (cond, context)
-            return IsMounted()
+        function (cond, context, v)
+            if not v then
+                return IsMounted()
+            else
+                local m = LM.MountRegistry:GetActiveMount()
+                if tonumber(v) then
+                    return m.spellID == tonumber(v)
+                else
+                    return m.name == v
+                end
+            end
         end
 }
 
