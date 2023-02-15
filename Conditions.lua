@@ -54,6 +54,13 @@ CONDITIONS["achievement"] = {
         end
 }
 
+CONDITIONS["advflyable"] = {
+    handler =
+        function (cond, context)
+            return IsAdvancedFlyableArea()
+        end,
+}
+
 CONDITIONS["aura"] = {
     -- name = L["Aura"],
     handler =
@@ -760,6 +767,24 @@ CONDITIONS["outdoors"] = {
     handler =
         function (cond, context)
             return IsOutdoors()
+        end
+}
+
+CONDITIONS["pcall"] = {
+    handler =
+        function (cond, context, text)
+            if text then
+                -- In theory someone could make a complex function and decide
+                -- which part to return but I sure hope they don't.
+                if not text:find("return ") then
+                    text = "return " .. text
+                end
+                local f, err = loadstring(text)
+                if f and err == nil then
+                    local ok, rc = pcall(f)
+                    return ok and rc
+                end
+            end
         end
 }
 
