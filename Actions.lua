@@ -516,6 +516,19 @@ ACTIONS['Use'] = {
         end
 }
 
+ACTIONS['PreUse'] = {
+    toDisplay = ACTIONS['Use'].toDisplay,
+    handler =
+        function (args, context)
+            local action = ACTIONS['Use'].handler(args, context)
+            if action and action.item then
+                LM.Debug(" - setting preCast to item " .. action.item)
+                context.preCast = action.item
+                return
+            end
+        end
+}
+
 do
     for a, info in pairs(ACTIONS) do
         info.action = a
