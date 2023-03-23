@@ -334,12 +334,6 @@ function LM.Environment:CanFly()
         return InstanceFlyableOverride[instanceID]
     end
 
-    -- Battle for Azeroth Pathfinder, Part 2
-    -- Zan'dalar (1642), Kul'tiras (1643) and Nazjatar (1718)
-    if self:InInstance(1642, 1643, 1718) then
-        if not IsSpellKnown(278833) then return false end
-    end
-
     -- Memories of Sunless Skies / Shadowlands Flying (63893)
     -- It seems like flying in Shadowlands is also unlocked by completing the
     -- Zereth Mortis Flying (65539) unlock even if you never did MoSS.
