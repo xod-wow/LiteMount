@@ -116,6 +116,22 @@ function LM.Journal:Get(id, isUsable)
 --@end-debug@
     end
 
+    -- Aquatic Shades for Otto. This should probably be moved off somewhere
+    -- else and made more generic.
+    if m.mountID == 1656 then
+        m.castActions = {}
+        local item = Item:CreateFromItemID(202042)
+        item:ContinueOnItemLoad(
+            function ()
+                m.castActions[1] = "/use " .. item:GetItemName()
+            end)
+        local spell = Spell:CreateFromSpellID(m.spellID)
+        spell:ContinueOnSpellLoad(
+            function ()
+                m.castActions[2] = "/cast " .. spell:GetSpellName()
+            end)
+    end
+
     return m
 end
 
@@ -157,12 +173,19 @@ function LM.Journal:IsCastable()
 end
 
 function LM.Journal:GetCastAction(context)
-    local spellName = GetSpellInfo(self.spellID)
+    local castActions
+
+    if self.castActions then
+        castActions = CopyTable(self.castActions)
+    end
+
     if context and context.preCast then
-        return LM.SecureAction:Macro(
-                "/cast [@player] !" .. context.preCast .. "\n" ..
-                "/cast " .. spellName
-            )
+        castActions = castActions or { "/cast " .. GetSpellInfo(self.spellID) }
+        table.insert(castActions, 1, "/cast [@player] !" .. context.preCast)
+    end
+
+    if castActions then
+        return LM.SecureAction:Macro(table.concat(castActions, "\n"))
     else
         return LM.Mount.GetCastAction(self, context)
     end
