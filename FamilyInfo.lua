@@ -130,6 +130,10 @@ LM.MOUNTFAMILY["Boar"] = {
     [171633] = true, -- Wild Goretusk
 }
 
+LM.MOUNTFAMILY["Bruffalon"] = {
+    [349935] = true, -- Noble Bruffalon
+}
+
 LM.MOUNTFAMILY["Brutosaur"] = {
     [264058] = true, -- Mighty Caravan Brutosaur
 }
@@ -595,6 +599,7 @@ LM.MOUNTFAMILY["Hawkstrider"] = {
 
 LM.MOUNTFAMILY["Helicid"] = {
     [359376] = true, -- Bronze Helicid
+    [374157] = true, -- Gooey Snailemental
     [350219] = true, -- Magmashell
     [346719] = true, -- Serenade
     [374162] = true, -- Scrappy Worldsnail
@@ -765,6 +770,7 @@ LM.MOUNTFAMILY["Mammoth"] = {
     [ 59797] = true, -- Ice Mammoth
     [ 59799] = true, -- Ice Mammoth
     [373859] = true, -- Loyal Magmammoth
+    [374194] = true, -- Mossy Mammoth
     [374196] = true, -- Plainswalker Bearer
     [374275] = true, -- Raging Magmammoth
     [ 61447] = true, -- Traveler's Tundra Mammoth
@@ -811,6 +817,7 @@ LM.MOUNTFAMILY["Mechanical"] = {
     [ 60424] = true, -- Mekgineer's Chopper
     [ 63796] = true, -- Mimiron's Head
     [245725] = true, -- Orgrimmar Interceptor
+    [400733] = true, -- Rocket Shredder 9001
     [299170] = true, -- Rustbolt Resistor
     [291492] = true, -- Rusty Mechanocrawler
     [299159] = true, -- Scrapforged Mechaspider
@@ -1098,6 +1105,7 @@ LM.MOUNTFAMILY["Rylak"] = {
 }
 
 LM.MOUNTFAMILY["Salamanther"] = {
+    [374090] = true, -- Ancient Salamanther
     [374098] = true, -- Stormhide Salamanther
 }
 
