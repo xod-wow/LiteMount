@@ -234,19 +234,28 @@ function LM.Environment:InInstance(...)
     return false
 end
 
--- apprenticeRiding = IsSpellKnown(33388)
--- expertRiding = IsSpellKnown(34090)
--- artisanRiding = IsSpellKnown(34091)
--- masterRiding = IsSpellKnown(90265)
+-- Apprentice Riding  (60% ground) = IsSpellKnown(33388)
+-- Journeyman Riding (100% ground) = IsSpellKnown(33391)
+-- Expert Riding     (150% flying) = IsSpellKnown(34090)
+-- Artisan Riding    (280% flying) = IsSpellKnown(34091) - removed but characters can still have it
+-- Master Riding     (320% flying) = IsSpellKnown(90265)
 
 -- These are in this order because it's more likely you are high level and
--- know the most advanced one.
+-- know the most advanced one. Non-obviously you forget the earlier ones when
+-- you learn a later one.
+
 function LM.Environment:KnowsRidingSkill()
-    return IsSpellKnown(90265) or IsSpellKnown(34091) or IsSpellKnown(34090) or IsSpellKnown(33388)
+    return IsSpellKnown(90265)
+        or IsSpellKnown(34091)
+        or IsSpellKnown(34090)
+        or IsSpellKnown(33391)
+        or IsSpellKnown(33388)
 end
 
 function LM.Environment:KnowsFlyingSkill()
-    return IsSpellKnown(90265) or IsSpellKnown(34091) or IsSpellKnown(34090)
+    return IsSpellKnown(90265)
+        or IsSpellKnown(34091)
+        or IsSpellKnown(34090)
 end
 
 local InstanceFlyableOverride = {
