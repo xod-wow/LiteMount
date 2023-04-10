@@ -58,12 +58,13 @@ local MOUNT_SPELLS = {
 }
 
 local RefreshEvents = {
+    ["NEW_MOUNT_ADDED"] = true,
     -- Companion change. Don't add COMPANION_UPDATE to this as it fires
     -- for units other than "player" and triggers constantly.
     ["COMPANION_LEARNED"] = true,
     ["COMPANION_UNLEARNED"] = true,
     -- This fires when something is favorited or unfavorited
-    ["MOUNT_JOURNAL_SEARCH_UPDATED"] = true,
+    -- ["MOUNT_JOURNAL_SEARCH_UPDATED"] = true,
     -- Talents (might have mount abilities). Glyphs that teach spells
     -- fire PLAYER_TALENT_UPDATE too, don't need to watch GLYPH_ events.
     ["ACTIVE_TALENT_GROUP_CHANGED"] = true,
@@ -71,7 +72,7 @@ local RefreshEvents = {
     ["PLAYER_TALENT_UPDATE"] = true,
     -- You might have received a mount item (e.g., Magic Broom).
     ["BAG_UPDATE_DELAYED"] = true,
-    -- Draenor flying is an achievement
+    -- Some flying unlocks are an achievement
     ["ACHIEVEMENT_EARNED"] = true,
 }
 
