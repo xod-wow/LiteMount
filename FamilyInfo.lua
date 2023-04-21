@@ -49,6 +49,7 @@ LM.MOUNTFAMILY["Aquilon"] = {
 
 LM.MOUNTFAMILY["Armoredon"] = {
     [387231] = true, -- Hailstorm Armoredon
+    [406637] = true, -- Inferno Armoredon
 }
 
 LM.MOUNTFAMILY["Basilisk"] = {
@@ -598,6 +599,7 @@ LM.MOUNTFAMILY["Hawkstrider"] = {
 }
 
 LM.MOUNTFAMILY["Helicid"] = {
+    [408313] = true, -- Big Slick in the City
     [359376] = true, -- Bronze Helicid
     [374157] = true, -- Gooey Snailemental
     [350219] = true, -- Magmashell
@@ -606,6 +608,8 @@ LM.MOUNTFAMILY["Helicid"] = {
     [374155] = true, -- Shellack
     [359378] = true, -- Scarlet Helicid
     [359377] = true, -- Unsuccessful Prototype Fleetpod
+    [409032] = true, -- Vicious War Snail
+    [409034] = true, -- Vicious War Snail
 }
 
 LM.MOUNTFAMILY["Hippogryph"] = {
@@ -1111,6 +1115,7 @@ LM.MOUNTFAMILY["Salamanther"] = {
 
 LM.MOUNTFAMILY["Scorpid"] = {
     [123886] = true, -- Amber Scorpion
+    [411565] = true, -- Felcrystal Scorpion
     [ 93644] = true, -- Kor'kron Annihilator
     [148417] = true, -- Kor'kron Juggernaut
     [230988] = true, -- Vicious War Scorpion
@@ -1136,6 +1141,15 @@ LM.MOUNTFAMILY["Serpent"] = {
     [243025] = true, -- Riddler's Mind-Worm
     [346141] = true, -- Slime Serpent
     [316343] = true, -- Wriggling Parasite
+}
+
+LM.MOUNTFAMILY["Shalewing"] = {
+    [408627] = true, -- Igneous Shalewing
+    [408647] = true, -- Cobalt Shalewing
+    [408649] = true, -- Shadowflame Shalewing
+    [408651] = true, -- Catalogued Shalewing
+    [408653] = true, -- Boulder Hauler
+    [408655] = true, -- Morsel Sniffer
 }
 
 LM.MOUNTFAMILY["Shapeshift"] = {
@@ -1188,6 +1202,15 @@ LM.MOUNTFAMILY["Skullboar"] = {
     [332480] = true, -- Gorespine
     [332484] = true, -- Lurid Bloodtusk
     [332478] = true, -- Umbral Bloodtusk
+}
+
+LM.MOUNTFAMILY["Slitherdrake"] = {
+    [368893] = true, -- Winding Slitherdrake
+    [408977] = true, -- Obsidian Gladiator's Slitherdrake
+}
+
+LM.MOUNTFAMILY["Slug"] = {
+    [374138] = true, -- Seething Slug
 }
 
 LM.MOUNTFAMILY["Sylvern"] = {
