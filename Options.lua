@@ -214,9 +214,8 @@ function LM.Options:VersionUpgrade7()
     LM.Debug('VersionUpgrade: 7')
 
     for n, p in pairs(self.db.profiles) do
-        LM.Debug(' - checking profile: ' .. n)
         if (p.configVersion or 7) < 7 and p.flagChanges then
-            LM.Debug('   - upgrading profile: ' .. n)
+            LM.Debug(' - upgrading profile: ' .. n)
             p.oldFlagChanges = CopyTable(p.flagChanges)
             p.groups = p.customFlags or {}
             p.customFlags = nil
@@ -244,7 +243,6 @@ function LM.Options:VersionUpgrade8()
     LM.Debug('VersionUpgrade: 8')
 
     for n, p in pairs(self.db.profiles) do
-        LM.Debug(' - checking profile: ' .. n)
         if (p.configVersion or 8) < 8 and p.rules then
             LM.Debug('   - upgrading profile: ' .. n)
             p.oldRules = CopyTable(p.rules)
@@ -265,8 +263,8 @@ function LM.Options:VersionUpgrade9()
     LM.Debug('VersionUpgrade: 9')
 
     for n, p in pairs(self.db.profiles) do
-        LM.Debug(' - checking profile: ' .. n)
         if (p.configVersion or 9) < 9 then
+            LM.Debug(' - upgrading profile: ' .. n)
             if p.excludeNewMounts then
                 p.defaultPriority = 0
                 p.excludeNewMounts = nil
