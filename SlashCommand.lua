@@ -16,12 +16,12 @@ if LibDebug then LibDebug() end
 
 local L = LM.Localize
 
+-- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
 local MacroName = "LiteMount"
 local MacroText = [[
 # Auto-created by LiteMount addon, it is safe to delete or edit this macro.
 # To re-create it run "/litemount macro"
-/click LM_B1 LeftButton 1
-/click LM_B1 LeftButton 0
+/click LM_B1
 ]]
 
 local function CreateOrUpdateMacro()

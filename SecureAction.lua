@@ -35,6 +35,9 @@ function LM.SecureAction:SetupActionButton(button, n)
         end
         button:SetAttribute(k, v)
     end
+    -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
+    button:SetAttribute("pressAndHoldAction", true)
+    button:SetAttribute("typerelease", self.type)
 end
 
 function LM.SecureAction:Macro(macroText, unit)

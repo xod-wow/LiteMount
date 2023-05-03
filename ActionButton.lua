@@ -41,7 +41,8 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     -- allow AddOns to function as they did before"... and then they don't.
     -- Epic fail Blizzard!
 
-    if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
+    -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
+    -- if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
 
     if InCombatLockdown() then return end
 
@@ -83,7 +84,8 @@ end
 
 function LM.ActionButton:PostClick(inputButton, isDown)
 
-    if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
+    -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
+    -- if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
 
     if InCombatLockdown() then return end
 
@@ -116,7 +118,9 @@ function LM.ActionButton:Create(n)
     -- Global context
     b.context = LM.RuleContext:New({ id = n })
 
-    b:RegisterForClicks("AnyDown", "AnyUp")
+    -- b:RegisterForClicks("AnyDown", "AnyUp")
+    -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
+    b:RegisterForClicks("AnyDown")
 
     -- SecureActionButton setup
     b:SetScript("PreClick", self.PreClick)
