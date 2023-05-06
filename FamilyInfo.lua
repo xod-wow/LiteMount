@@ -777,6 +777,7 @@ LM.MOUNTFAMILY["Mammoth"] = {
     [374194] = true, -- Mossy Mammoth
     [374196] = true, -- Plainswalker Bearer
     [374275] = true, -- Raging Magmammoth
+    [371176] = true, -- Subterranean Magmammoth
     [ 61447] = true, -- Traveler's Tundra Mammoth
     [ 61425] = true, -- Traveler's Tundra Mammoth
     [ 59791] = true, -- Wooly Mammoth
