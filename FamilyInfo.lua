@@ -332,7 +332,6 @@ LM.MOUNTFAMILY["Dragon Turtle"] = {
     [120395] = true, -- Green Dragon Turtle
     [127289] = true, -- Purple Dragon Turtle
     [127290] = true, -- Red Dragon Turtle
-    [367826] = true, -- Savage Green Battle Turtle
     [232525] = true, -- Vicious War Turtle
     [232523] = true, -- Vicious War Turtle
 }
@@ -1342,6 +1341,7 @@ LM.MOUNTFAMILY["Toad"] = {
 
 LM.MOUNTFAMILY["Turtle"] = {
     [ 30174] = true, -- Riding Turtle
+    [367826] = true, -- Savage Green Battle Turtle
     [ 64731] = true, -- Sea Turtle
 }
 
