@@ -23,6 +23,7 @@ LM.MOUNTFAMILY["Alpaca"] = {
 LM.MOUNTFAMILY["Aqir Drone"] = {
     [316337] = true, -- Malevolent Drone
     [316339] = true, -- Shadowbarb Drone
+    [414986] = true, -- Royal Swarmer
     [316340] = true, -- Wicked Swarmer
 }
 
