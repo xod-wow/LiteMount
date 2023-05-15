@@ -23,9 +23,7 @@ local function IsValidGroupName(text)
     if LM.Options:IsFlag(text) then return false end
     if LM.Options:IsGroup(text) then return false end
     if tonumber(text) then return false end
-    if text:sub(1, 3) == 'id:' then return false end
-    if text:sub(1, 3) == 'mt:' then return false end
-    if text:sub(1, 7) == 'family:' then return false end
+    if text:find(':') then return false end
     if text:sub(1, 1) == '~' then return false end
     return true
 end

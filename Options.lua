@@ -528,19 +528,24 @@ function LM.Options:SetRawGroups(profileGroups, globalGroups)
 end
 
 function LM.Options:GetGroupNames()
-    local out = {}
+    -- It's possible (annoyingly) to have a global and profile group with
+    -- the same name, by making a group in a profile then switching to a
+    -- different profile and making the global group.
+
+    local groupNames = {}
     for g,v in pairs(self.db.global.groups) do
-        if v then table.insert(out, g) end
+        if v then groupNames[g] = true end
     end
     for g,v in pairs(self.db.profile.groups) do
-        if v then table.insert(out, g) end
+        if v then groupNames[g] = true end
     end
+    local out = GetKeysArray(groupNames)
     table.sort(out)
     return out
 end
 
 function LM.Options:IsGlobalGroup(g)
-    return self.db.global.groups[g] ~= nil
+    return self.db.profile.groups[g] == nil and self.db.global.groups[g] ~= nil
 end
 
 function LM.Options:IsProfileGroup(g)
