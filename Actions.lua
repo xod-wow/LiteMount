@@ -557,7 +557,7 @@ end
 
 function LM.Actions:DefaultCombatMacro()
 
-    local mt = "/dismount [mounted]\n"
+    local mt = "/dismount [mounted]\n/stopmacro [mounted]\n"
 
     local _, playerClass = UnitClass("player")
 
