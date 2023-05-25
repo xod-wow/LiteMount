@@ -918,6 +918,42 @@ CONDITIONS["sameunit"] = {
         end
 }
 
+CONDITIONS["season"] = {
+    name = L.LM_SEASON,
+    toDisplay =
+        function (v)
+            if v == "spring" then
+                return L.LM_SEASON_SPRING
+            elseif v == "summer" then
+                return L.LM_SEASON_SUMMER
+            elseif v == "autumn" or v == "fall" then
+                return L.LM_SEASON_FALL
+            elseif v == "winter" then
+                return L.LM_SEASON_WINTER
+            end
+        end,
+    menu = {
+        { val = "season:spring" },
+        { val = "season:summer" },
+        { val = "season:fall" },
+        { val = "season:winter" },
+    },
+    handler =
+        function (cond, context, v)
+            -- From the mount Wandering Ancient's model, as it changes
+            local modelID = C_MountJournal.GetMountInfoExtraByID(1458)
+            if v == "spring" then
+                return modelID == 100463
+            elseif v == "summer" then
+                return modelID == 100464
+            elseif v == "autumn" or v == "fall" then
+                return modelID == 100465
+            elseif v == "winter" then
+                return modelID == 100466
+            end
+        end
+}
+
 CONDITIONS["sex"] = {
     name = L.LM_SEX,
     toDisplay =
