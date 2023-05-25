@@ -23,18 +23,6 @@ if LibDebug then LibDebug() end
 LM.TravelForm = setmetatable({ }, LM.Spell)
 LM.TravelForm.__index = LM.TravelForm
 
--- Only cancel forms that we will activate (mount-style ones).
--- See: https://wow.gamepedia.com/API_GetShapeshiftFormID
--- Form IDs that you put here must be cancelled automatically on
--- mounting.
-
-local savedFormName = nil
-
-local restoreFormIDs = {
-    [1] = true,     -- Cat Form
-    [5] = true,     -- Bear Form
-    [31] = true,    -- Moonkin Form
-}
 
 -- Druid forms don't reliably have a corresponding player buff, so we need
 -- to check the spell from GetShapeshiftFormInfo.
@@ -55,44 +43,7 @@ function LM.TravelForm:IsCastable()
     return LM.Spell.IsCastable(self)
 end
 
--- Work around a Blizzard bug with calling shapeshift forms in macros in 8.0
--- Breaks after you respec unless you include (Shapeshift) after it.
-
-local function GetFormNameWithSubtext()
-    local idx = GetShapeshiftForm()
-    local spellID = select(4, GetShapeshiftFormInfo(idx))
-    local n = GetSpellInfo(spellID)
-    local s = GetSpellSubtext(spellID) or ''
-    return format('%s(%s)', n, s)
-end
-
--- You can cast Travel Form using the SpellID (unlike the journal mounts
--- where you can't), which bypasses a bug. This takes care of saving the
--- current form name as well.
---
--- Takes care of saving the current form in case we need to restore it
-
-function LM.TravelForm:GetCastAction()
-    local currentFormID = GetShapeshiftFormID()
-
-    if currentFormID and restoreFormIDs[currentFormID] then
-        savedFormName = GetFormNameWithSubtext()
-        LM.Debug(" - saving current form " .. tostring(savedFormName))
-    end
-
-    return LM.SecureAction:Spell(self.spellID)
-end
-
 function LM.TravelForm:GetCancelAction()
-    if savedFormName then
-        -- Without the /cancelform the "Auto Dismount in Flight" setting stops
-        -- this from working.
-        local macroText = string.format("/cancelform\n/cast %s", savedFormName)
-        local act = LM.SecureAction:Macro(macroText)
-        savedFormName = nil
-        return act
-    else
-        -- Is there any good reason to use /cancelform instead?
-        return LM.SecureAction:CancelAura(self.name)
-    end
+    -- Is there any good reason to use /cancelform instead?
+    return LM.SecureAction:CancelAura(self.name)
 end

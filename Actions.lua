@@ -16,6 +16,24 @@ local L = LM.Localize
 if LibDebug then LibDebug() end
 --@end-debug@
 
+--
+-- This is the support for saving and restoring druid forms which is all done
+-- in the Dismount action. Form IDs that you put here must be cancelled
+-- automatically on mounting (otherwise trying to restore them when you are
+-- already in them will cancel them).
+--
+-- See: https://wow.gamepedia.com/API_GetShapeshiftFormID
+--
+
+local savedFormName = nil
+
+local restoreFormIDs = {
+    [1] = true,     -- Cat Form
+    [5] = true,     -- Bear Form
+    [31] = true,    -- Moonkin Form
+    [36] = true,    -- Treant Form
+}
+
 local function ReplaceVars(list)
     local out = {}
     for _,l in ipairs(list) do
@@ -241,6 +259,14 @@ ACTIONS['Dismount'] = {
     name = BINDING_NAME_DISMOUNT,
     handler =
         function (args, context)
+            if savedFormName then
+                -- Without the /cancelform the "Auto Dismount in Flight" setting stops
+                -- this from working.
+                local macroText = string.format("/cancelform\n/cast %s", savedFormName)
+                savedFormName = nil
+                return LM.SecureAction:Macro(macroText)
+            end
+
             -- Shortcut dismount from journal mounts. This has the (wanted) side
             -- effect of dismounting you even from mounts that aren't enabled,
             -- and the (wanted) side effect of dismounting while in moonkin form
@@ -256,6 +282,14 @@ ACTIONS['Dismount'] = {
             if m and m:IsCancelable() then
                 LM.Debug(" - setting action to cancel " .. m.name)
                 return m:GetCancelAction()
+            end
+
+            -- Not mounted, so save the shapeshift form in case we need to restore it
+            local currentFormID = GetShapeshiftFormID()
+
+            if currentFormID and restoreFormIDs[currentFormID] then
+                savedFormName = LM.Environment:GetFormNameWithSubtext()
+                LM.Debug(" - saving current form " .. tostring(savedFormName))
             end
         end
 }

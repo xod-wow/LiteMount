@@ -195,6 +195,16 @@ function LM.Environment:IsCantSummonForm()
     end
 end
 
+ function LM.Environment:GetFormNameWithSubtext()
+    local idx = GetShapeshiftForm()
+    if idx and idx > 0 then
+        local spellID = select(4, GetShapeshiftFormInfo(idx))
+        local n = GetSpellInfo(spellID)
+        local s = GetSpellSubtext(spellID) or ''
+        return format('%s(%s)', n, s)
+    end
+end
+
 function LM.Environment:MapIsMap(a, b)
     if a == b then
         return true
