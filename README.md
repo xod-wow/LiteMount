@@ -3,7 +3,7 @@
 Customizable random mount summoning, since 2011.
 
 LiteMount supports journal mounts, Travel Form, Ghost Wolf, Running
-Wild, Tarecgosa, Moonfang, Flying Broom, and other item-summoned
+Wild, Moonfang, Flying Broom, and other item-summoned
 mounts. LiteMount excludes flying mounts in areas where you can't fly.
 
 With LiteMount you can set rules to customize which mounts are summoned
