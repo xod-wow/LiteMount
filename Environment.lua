@@ -185,6 +185,16 @@ function LM.Environment:IsCombatTravelForm()
     return self.combatTravelForm
 end
 
+function LM.Environment:IsCantSummonForm()
+    local formID = GetShapeshiftFormID()
+    -- cat, bear, treant druid forms can't be mounted from with SummonByID
+    if formID == 1 or formID == 5 or formID == 36 then
+        return true
+    else
+        return false
+    end
+end
+
 function LM.Environment:MapIsMap(a, b)
     if a == b then
         return true

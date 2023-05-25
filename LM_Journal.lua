@@ -116,15 +116,19 @@ function LM.Journal:Get(id, isUsable)
 --@end-debug@
     end
 
-    m.castActions = { format("/run C_MountJournal.SummonByID(%d)", m.mountID) }
-
     -- Aquatic Shades for Otto. This should probably be moved off somewhere
     -- else and made more generic.
     if m.mountID == 1656 then
-        local item = Item:CreateFromItemID(202042)
-        item:ContinueOnItemLoad(
+        m.castActions = {}
+         local item = Item:CreateFromItemID(202042)
+         item:ContinueOnItemLoad(
             function ()
-                table.insert(m.castActions, 1, "/use " .. item:GetItemName())
+                m.castActions[1] = "/use " .. item:GetItemName()
+            end)
+        local spell = Spell:CreateFromSpellID(m.spellID)
+        spell:ContinueOnSpellLoad(
+            function ()
+                m.castActions[2] = "/cast " .. spell:GetSpellName()
             end)
     end
 
@@ -169,14 +173,28 @@ function LM.Journal:IsCastable()
 end
 
 function LM.Journal:GetCastAction(context)
-    if context and context.preCast then
-        local castActions = CopyTable(self.castActions)
-        table.insert(castActions, 1, "/cast [@player] !" .. context.preCast)
-        return LM.SecureAction:Macro(table.concat(castActions, "\n"))
-    else
-        return LM.SecureAction:Macro(table.concat(self.castActions, "\n"))
+    local castActions
+
+    if self.castActions then
+        castActions = CopyTable(self.castActions)
+    elseif self.mountID == 1727 then
+        -- You can't cast Tarecgosa's Visage by name. But you also can't always SummonByID
+        castActions = { format("/run C_MountJournal.SummonByID(%d)", self.mountID) }
+        if LM.Environment:IsCantSummonForm() then
+            table.insert(castActions, 1, "/cancelform")
+        end
     end
 
+    if context and context.preCast then
+        castActions = castActions or { "/cast " .. GetSpellInfo(self.spellID) }
+        table.insert(castActions, 1, "/cast [@player] !" .. context.preCast)
+    end
+
+    if castActions then
+        return LM.SecureAction:Macro(table.concat(castActions, "\n"))
+    else
+        return LM.Mount.GetCastAction(self, context)
+    end
 end
 
 function LM.Journal:Dump(prefix)
