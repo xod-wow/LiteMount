@@ -31,6 +31,7 @@ local restoreFormIDs = {
     [1] = true,     -- Cat Form
     [5] = true,     -- Bear Form
     [31] = true,    -- Moonkin Form
+    [35] = true,    -- Moonkin Form
     [36] = true,    -- Treant Form
 }
 
@@ -252,44 +253,61 @@ ACTIONS['LeaveVehicle'] = {
         end
 }
 
+local function GetFormNameWithSubtext()
+    local idx = GetShapeshiftForm()
+    if idx and idx > 0 then
+        local spellID = select(4, GetShapeshiftFormInfo(idx))
+        local n = GetSpellInfo(spellID)
+        local s = GetSpellSubtext(spellID) or ''
+        return format('%s(%s)', n, s)
+    end
+end
+
 -- This includes dismounting from mounts and also canceling other mount-like
--- things such as shapeshift forms
+-- things such as shapeshift forms. The logic here is torturous.
 
 ACTIONS['Dismount'] = {
     name = BINDING_NAME_DISMOUNT,
     handler =
         function (args, context)
-            if savedFormName then
-                -- Without the /cancelform the "Auto Dismount in Flight" setting stops
-                -- this from working.
-                local macroText = string.format("/cancelform\n/cast %s", savedFormName)
-                savedFormName = nil
-                return LM.SecureAction:Macro(macroText)
-            end
+            local action
 
             -- Shortcut dismount from journal mounts. This has the (wanted) side
             -- effect of dismounting you even from mounts that aren't enabled,
             -- and the (wanted) side effect of dismounting while in moonkin form
             -- without cancelling it.
+
             if IsMounted() then
                 LM.Debug(" - setting action to dismount")
-                return LM.SecureAction:Macro(SLASH_DISMOUNT1)
+                action = LM.SecureAction:Macro(SLASH_DISMOUNT1)
+            else
+                -- Otherwise we look for the mount from its buff and return the cancel
+                -- actions.
+                local m = LM.MountRegistry:GetActiveMount()
+                if m and m:IsCancelable() then
+                    LM.Debug(" - setting action to cancel " .. m.name)
+                    action = m:GetCancelAction()
+                end
             end
 
-            -- Otherwise we look for the mount from its buff and return the cancel
-            -- actions.
-            local m = LM.MountRegistry:GetActiveMount()
-            if m and m:IsCancelable() then
-                LM.Debug(" - setting action to cancel " .. m.name)
-                return m:GetCancelAction()
+            if action and savedFormName then
+                -- Without the /cancelform the "Auto Dismount in Flight" setting stops
+                -- this from working.
+                LM.Debug(" - override action to restore form: " .. savedFormName)
+                local macroText = string.format("/cancelform\n/cast %s", savedFormName)
+                action = LM.SecureAction:Macro(macroText)
             end
 
-            -- Not mounted, so save the shapeshift form in case we need to restore it
-            local currentFormID = GetShapeshiftFormID()
-
-            if currentFormID and restoreFormIDs[currentFormID] then
-                savedFormName = LM.Environment:GetFormNameWithSubtext()
-                LM.Debug(" - saving current form " .. tostring(savedFormName))
+            if action then
+                savedFormName = nil
+                return action
+            else
+                -- Save current form, if any
+                local currentFormID = GetShapeshiftFormID()
+                if currentFormID and restoreFormIDs[currentFormID] then
+                    savedFormName = GetFormNameWithSubtext()
+                    LM.Debug(" - saving current form " .. savedFormName)
+                end
             end
         end
 }
