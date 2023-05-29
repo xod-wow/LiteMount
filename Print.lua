@@ -42,7 +42,7 @@ function LM.Debug(msg)
     debugLines[debugLinePos] = msg
     debugLinePos = ( debugLinePos + 1 ) % (maxDebugLines + 1)
 
-    if LM.Options:GetDebug() then
+    if LM.Options:GetOption('debugEnabled') then
         LM.Print(msg)
     end
 end
@@ -74,7 +74,7 @@ local function GetFrameName(frame)
 end
 
 function LM.UIDebug(frame, msg)
-    if LM.Options:GetUIDebug() then
+    if LM.Options:GetOption('uiDebugEnabled') then
         local name = GetFrameName(frame)
         LM.Print(ORANGE_FONT_COLOR:WrapTextInColorCode(name) .. ' : ' .. msg)
     end

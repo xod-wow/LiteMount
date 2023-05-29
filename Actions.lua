@@ -301,7 +301,7 @@ ACTIONS['Dismount'] = {
             if action then
                 savedFormName = nil
                 return action
-            else
+            elseif LM.Options:GetOption('restoreForms') then
                 -- Save current form, if any
                 local currentFormID = GetShapeshiftFormID()
                 if currentFormID and restoreFormIDs[currentFormID] then
@@ -322,7 +322,7 @@ ACTIONS['CopyTargetsMount'] = {
     handler =
         function (args, context)
             local unit = context.unit or "target"
-            if LM.Options:GetCopyTargetsMount() and UnitIsPlayer(unit) then
+            if LM.Options:GetOption('copyTargetsMount') and UnitIsPlayer(unit) then
                 LM.Debug(string.format(" - trying to clone %s's mount", unit))
                 local m = LM.MountRegistry:GetMountFromUnitAura(unit)
                 if m and m:IsCastable() then
@@ -441,9 +441,9 @@ ACTIONS['Mount'] = {
 ACTIONS['Macro'] = {
     handler =
         function (args, context)
-            if LM.Options:GetUseUnavailableMacro() then
+            local macrotext = LM.Options:GetOption('unavailableMacro')
+            if macrotext ~= "" then
                 LM.Debug(" - using unavailable macro")
-                local macrotext = LM.Options:GetUnavailableMacro()
                 return LM.SecureAction:Macro(macrotext)
             end
         end
@@ -479,8 +479,8 @@ ACTIONS['Combat'] = {
             LM.Debug(" - setting action to in-combat action")
 
             local macrotext
-            if LM.Options:GetUseCombatMacro() then
-                macrotext = LM.Options:GetCombatMacro()
+            if LM.Options:GetOption('useCombatMacro') then
+                macrotext = LM.Options:GetOption('combatMacro')
             else
                 macrotext = LM.Actions:DefaultCombatMacro()
             end

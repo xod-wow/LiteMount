@@ -19,7 +19,7 @@ function LiteMountCombatMacroEditBoxMixin:OnTextChanged(userInput)
 end
 
 function LiteMountCombatMacroEditBoxMixin:GetOption()
-    return LM.Options:GetCombatMacro() or ""
+    return LM.Options:GetOption('combatMacro') or ""
 end
 
 function LiteMountCombatMacroEditBoxMixin:GetOptionDefault()
@@ -27,7 +27,7 @@ function LiteMountCombatMacroEditBoxMixin:GetOptionDefault()
 end
 
 function LiteMountCombatMacroEditBoxMixin:SetOption(v)
-    LM.Options:SetCombatMacro(v)
+    LM.Options:SetOption('combatMacro', v)
     LiteMount:Refresh()
 end
 
@@ -39,15 +39,15 @@ end
 LiteMountCombatMacroEnableButtonMixin = {}
 
 function LiteMountCombatMacroEnableButtonMixin:GetOption()
-    return LM.Options:GetUseCombatMacro()
+    return LM.Options:GetOption('useCombatMacro')
 end
 
 function LiteMountCombatMacroEnableButtonMixin:GetOptionDefault()
-    return false
+    return LM.Options:GetOptionDefault('useCombatMacro')
 end
 
 function LiteMountCombatMacroEnableButtonMixin:SetOption(v)
-    LM.Options:SetUseCombatMacro(v or false)
+    LM.Options:SetOption('useCombatMacro', v and true or false)
     LiteMount:Refresh()
 end
 

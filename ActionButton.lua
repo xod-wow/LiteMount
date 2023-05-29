@@ -54,7 +54,7 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     LM.MountRegistry:RefreshMounts()
 
     -- Re-randomize if it's time
-    local keepRandomForSeconds = LM.Options:GetRandomPersistence()
+    local keepRandomForSeconds = LM.Options:GetOption('randomKeepSeconds')
     if GetTime() - (self.context.randomTime or 0) > keepRandomForSeconds then
         self.context.random = math.random()
         self.context.randomTime = GetTime()

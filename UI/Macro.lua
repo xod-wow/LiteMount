@@ -19,14 +19,14 @@ function LiteMountMacroEditBoxMixin:OnTextChanged(userInput)
 end
 
 function LiteMountMacroEditBoxMixin:GetOption()
-    return LM.Options:GetUnavailableMacro() or ""
+    return LM.Options:GetOption('unavailableMacro') or ""
 end
 function LiteMountMacroEditBoxMixin:GetOptionDefault()
-    return ""
+    return LM.Options:GetOptionDefault('unavailableMacro')
 end
 
 function LiteMountMacroEditBoxMixin:SetOption(v)
-    LM.Options:SetUnavailableMacro(v)
+    LM.Options:SetOption('unavailableMacro', v)
 end
 
 --[[------------------------------------------------------------------------]]--

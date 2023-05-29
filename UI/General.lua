@@ -33,7 +33,7 @@ end
 local function RandomPersistDropDown_Initialize(dropdown, level)
     local info = LibDD:UIDropDownMenu_CreateInfo()
     if level == 1 then
-        local keepSeconds = LM.Options:GetRandomPersistence()
+        local keepSeconds = LM.Options:GetOption('randomKeepSeconds')
         for _,opt in ipairs(persistOptions) do
             info.arg1 = opt[1]
             info.text = opt[2]
@@ -41,7 +41,7 @@ local function RandomPersistDropDown_Initialize(dropdown, level)
             info.func =
                 function (_, seconds)
                     dropdown.isDirty = true
-                    LM.Options:SetRandomPersistence(seconds)
+                    LM.Options:SetOption('randomKeepSeconds', seconds)
                 end
             LibDD:UIDropDownMenu_AddButton(info, level)
         end
@@ -66,20 +66,20 @@ function LiteMountGeneralPanelMixin:OnLoad()
     self.CopyTargetsMount.SetOption =
         function (self, setting)
             if not setting or setting == "0" then
-                LM.Options:SetCopyTargetsMount(false)
+                LM.Options:SetOption('copyTargetsMount', false)
             else
-                LM.Options:SetCopyTargetsMount(true)
+                LM.Options:SetOption('copyTargetsMount', true)
             end
         end
     self.CopyTargetsMount.GetOption =
-        function (self) return LM.Options:GetCopyTargetsMount() end
+        function (self) return LM.Options:GetOption('copyTargetsMount') end
     self.CopyTargetsMount.GetOptionDefault =
         function (self) return true end
     LiteMountOptionsPanel_RegisterControl(self.CopyTargetsMount)
 
     -- DefaultPriority --
 
-    self.DefaultPriority.Text:SetText(L.LM_DISABLE_NEW_MOUNTS)
+    self.DefaultPriority.Text:SetText(L.LM_ADD_MOUNTS_AT_PRIORITY_0)
 --[[
     self.DefaultPriority.Text:SetText(
         string.format(L.LM_SET_DEFAULT_MOUNT_PRIORITY_TO,
@@ -90,19 +90,18 @@ function LiteMountGeneralPanelMixin:OnLoad()
                         )
         )
 ]]
-    --- XXX FIXME XXX somethings is wrong with revert here
     self.DefaultPriority.SetOption =
         function (self, setting)
             if not setting or setting == "0" then
-                LM.Options:SetDefaultPriority(1)
+                LM.Options:SetOption('defaultPriority', 1)
             else
-                LM.Options:SetDefaultPriority(0)
+                LM.Options:SetOption('defaultPriority', 0)
             end
         end
     self.DefaultPriority.GetOptionDefault =
-        function (self) return 1 end
+        function (self) return LM.Options:GetOptionDefault('defaultPriority') == 0 end
     self.DefaultPriority.GetOption =
-        function (self) return LM.Options:GetDefaultPriority() end
+        function (self) return LM.Options:GetOption('defaultPriority') == 0 end
     self.DefaultPriority.SetControl =
         function (self, v) self:SetChecked(v == 0) end
     LiteMountOptionsPanel_RegisterControl(self.DefaultPriority)
@@ -161,25 +160,42 @@ function LiteMountGeneralPanelMixin:OnLoad()
     self.InstantOnlyMoving.SetOption =
         function (self, setting)
             if not setting or setting == "0" then
-                LM.Options:SetInstantOnlyMoving(false)
+                LM.Options:SetOption('instantOnlyMoving', false)
             else
-                LM.Options:SetInstantOnlyMoving(true)
+                LM.Options:SetOption('instantOnlyMoving', true)
             end
         end
     self.InstantOnlyMoving.GetOptionDefault =
-        function (self) return false end
+        function (self) return LM.Options:GetOptionDefault('instantOnlyMoving') end
     self.InstantOnlyMoving.GetOption =
-        function (self) return LM.Options:GetInstantOnlyMoving() end
+        function (self) return LM.Options:GetOption('instantOnlyMoving') end
     LiteMountOptionsPanel_RegisterControl(self.InstantOnlyMoving)
+
+    -- RestoreForms --
+
+    self.RestoreForms.Text:SetText(L.LM_RESTORE_FORMS)
+    self.RestoreForms.SetOption =
+        function (self, setting)
+            if not setting or setting == "0" then
+                LM.Options:SetOption('restoreForms', false)
+            else
+                LM.Options:SetOption('restoreForms', true)
+            end
+        end
+    self.RestoreForms.GetOptionDefault =
+        function (self) return LM.Options:GetOptionDefault('restoreForms') end
+    self.RestoreForms.GetOption =
+        function (self) return LM.Options:GetOption('restoreForms') end
+    LiteMountOptionsPanel_RegisterControl(self.RestoreForms)
 
     -- RandomPersistDropDown --
 
     self.RandomPersistDropDown.GetOption =
-        function () return LM.Options:GetRandomPersistence() end
+        function () return LM.Options:GetOption('randomKeepSeconds') end
     self.RandomPersistDropDown.GetOptionDefault =
-        function () return 0 end
+        function () return LM.Options:GetOptionDefault('randomKeepSeconds') end
     self.RandomPersistDropDown.SetOption =
-        function (self, v) LM.Options:SetRandomPersistence(v) end
+        function (self, v) LM.Options:SetOption('randomKeepSeconds', v) end
     self.RandomPersistDropDown.SetControl = RandomPersistDropDown_UpdateText
     LiteMountOptionsPanel_RegisterControl(self.RandomPersistDropDown)
 
@@ -189,15 +205,15 @@ function LiteMountGeneralPanelMixin:OnLoad()
     self.Debugging.SetOption =
         function (self, setting)
             if not setting or setting == "0" then
-                LM.Options:SetDebug(false)
+                LM.Options:SetOption('debugEnabled', false)
             else
-                LM.Options:SetDebug(true)
+                LM.Options:SetOption('debugEnabled', true)
             end
         end
     self.Debugging.GetOptionDefault =
         function (self) return false end
     self.Debugging.GetOption =
-        function (self) return LM.Options:GetDebug() end
+        function (self) return LM.Options:GetOption('debugEnabled') end
     LiteMountOptionsPanel_RegisterControl(self.Debugging)
 
     LiteMountOptionsPanel_OnLoad(self)

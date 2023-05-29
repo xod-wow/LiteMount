@@ -752,13 +752,13 @@ CONDITIONS["option"] = {
             if not setting then return end
             setting = setting:lower()
             if setting == "copytargetsmount" then
-                return LM.Options:GetCopyTargetsMount()
+                return LM.Options:GetOption('copyTargetsMount')
             elseif setting == "instantonlymoving" then
-                return LM.Options:GetInstantOnlyMoving()
+                return LM.Options:GetOption('instantOnlyMoving')
             elseif setting == "debug" then
-                return LM.Options:GetDebug()
+                return LM.Options:GetOption('debugEnabled')
             elseif setting == "uidebug" then
-                return LM.Options:GetUIDebug()
+                return LM.Options:GetOption('uiDebugEnabled')
             end
         end
 }

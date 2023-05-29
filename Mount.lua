@@ -170,7 +170,7 @@ function LM.Mount:IsCastable()
     local castTime = select(4, GetSpellInfo(self.spellID))
     if LM.Environment:IsMovingOrFalling() then
         if castTime > 0 then return false end
-    elseif LM.Options:GetInstantOnlyMoving() then
+    elseif LM.Options:GetOption('instantOnlyMoving') then
         if castTime == 0 then return false end
     end
     return true

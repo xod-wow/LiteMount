@@ -90,6 +90,7 @@ local defaults = {
         priorityWeights     = { 1, 2, 6, 1 },
         randomKeepSeconds   = 0,
         instantOnlyMoving   = false,
+        restoreForms        = false,
         announceViaChat     = false,
         announceViaUI       = false,
         announceColors      = false,
@@ -662,111 +663,40 @@ end
 
 
 --[[----------------------------------------------------------------------------
-    Copy targets mount
+   Generic Get/Set Option
 ----------------------------------------------------------------------------]]--
 
-function LM.Options:GetCopyTargetsMount()
-    return self.db.profile.copyTargetsMount
-end
-
-function LM.Options:SetCopyTargetsMount(v)
-    if v then
-        self.db.profile.copyTargetsMount = true
-    else
-        self.db.profile.copyTargetsMount = false
+function LM.Options:GetOption(name)
+    for _, k in ipairs({ 'char', 'profile', 'global' }) do
+        if defaults[k][name] ~= nil then
+            return self.db[k][name]
+        end
     end
-    self.db.callbacks:Fire("OnOptionsModified")
 end
 
-
---[[----------------------------------------------------------------------------
-    Only use instant cast mounts when moving
-----------------------------------------------------------------------------]]--
-
-function LM.Options:GetInstantOnlyMoving()
-    return self.db.profile.instantOnlyMoving
-end
-
-function LM.Options:SetInstantOnlyMoving(v)
-    if v then
-        self.db.profile.instantOnlyMoving = true
-    else
-        self.db.profile.instantOnlyMoving = false
+function LM.Options:GetOptionDefault(name)
+    for _, k in ipairs({ 'char', 'profile', 'global' }) do
+        if defaults[k][name] then
+            return defaults[k][name]
+        end
     end
-    self.db.callbacks:Fire("OnOptionsModified")
 end
 
-
---[[----------------------------------------------------------------------------
-    Exclude new mounts
-----------------------------------------------------------------------------]]--
-
-function LM.Options:GetDefaultPriority()
-    return self.db.profile.defaultPriority
-end
-
-function LM.Options:SetDefaultPriority(v)
-    self.db.profile.defaultPriority = ( tonumber(v) or self.DEFAULT_PRIORITY )
-    self.db.callbacks:Fire("OnOptionsModified")
-end
-
-
---[[----------------------------------------------------------------------------
-    Unavailable macro
-----------------------------------------------------------------------------]]--
-
-function LM.Options:GetUnavailableMacro()
-    return self.db.char.unavailableMacro
-end
-
-function LM.Options:GetUseUnavailableMacro()
-    return self.db.char.useUnavailableMacro
-end
-
-function LM.Options:SetUnavailableMacro(v)
-    self.db.char.unavailableMacro = v
-    self.db.char.useUnavailableMacro = (v ~= "")
-    self.db.callbacks:Fire("OnOptionsModified")
-end
-
-
---[[----------------------------------------------------------------------------
-    Combat macro
-----------------------------------------------------------------------------]]--
-
-function LM.Options:GetCombatMacro()
-    return self.db.char.combatMacro
-end
-
-function LM.Options:SetCombatMacro(v)
-    self.db.char.combatMacro = v
-    self.db.callbacks:Fire("OnOptionsModified")
-end
-
-function LM.Options:GetUseCombatMacro()
-    return self.db.char.useCombatMacro
-end
-
-function LM.Options:SetUseCombatMacro(v)
-    self.db.char.useCombatMacro = v
-    self.db.callbacks:Fire("OnOptionsModified")
-end
-
-
---[[----------------------------------------------------------------------------
-    Random persistence
-----------------------------------------------------------------------------]]--
-
-function LM.Options:GetRandomPersistence()
-    return self.db.profile.randomKeepSeconds
-end
-
-function LM.Options:SetRandomPersistence(v)
-    v = tonumber(v) or 0
-    if v then
-        self.db.profile.randomKeepSeconds = math.max(0, v)
+function LM.Options:SetOption(name, val)
+    for _, k in ipairs({ 'char', 'profile', 'global' }) do
+        if defaults[k][name] ~= nil then
+            if val == nil then val = defaults[k][name] end
+            local valType, expectedType = type(val), type(defaults[k][name])
+            if valType ~= expectedType then
+                LM.PrintError(string.format("Bad option type : %s=%s (expected %s)", name, valType, expectedType))
+            else
+                self.db[k][name] = val
+                self.db.callbacks:Fire("OnOptionsModified")
+            end
+            return
+        end
     end
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.PrintError(string.format("Bad option: %s", name))
 end
 
 
@@ -849,6 +779,7 @@ function LM.Options:SetAnnounce(viaChat, viaUI, colors)
     end
 end
 
+
 --[[----------------------------------------------------------------------------
     Summon counts
 ----------------------------------------------------------------------------]]--
@@ -867,28 +798,6 @@ function LM.Options:ResetSummonCount(m)
     self.db.global.summonCounts[m.spellID] = nil
 end
 
-
---[[----------------------------------------------------------------------------
-    Debug settings
-----------------------------------------------------------------------------]]--
-
-function LM.Options:GetDebug()
-    return self.db.char.debugEnabled
-end
-
-function LM.Options:SetDebug(v)
-    self.db.char.debugEnabled = not not v
-    self.db.callbacks:Fire("OnOptionsModified")
-end
-
-function LM.Options:GetUIDebug()
-    return self.db.char.uiDebugEnabled
-end
-
-function LM.Options:SetUIDebug(v)
-    self.db.char.uiDebugEnabled = not not v
-    self.db.callbacks:Fire("OnOptionsModified")
-end
 
 --[[----------------------------------------------------------------------------
     Import/Export Profile
@@ -955,4 +864,3 @@ function LM.Options:ImportProfile(profileName, str)
 
     return true
 end
-
