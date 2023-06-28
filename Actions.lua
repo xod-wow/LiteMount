@@ -135,18 +135,19 @@ ACTIONS['Endlimit'] = {
 }
 
 local function GetUsableSpell(arg)
-    local spellID, name, _
-
     -- You can look up any spell from any class by number so we have to
     -- test numbers to see if we know them
-    spellID = tonumber(arg)
-    if spellID and not IsSpellKnown(spellID) then
+    local argN = tonumber(arg)
+    if argN and not IsSpellKnown(argN) then
         return
     end
 
     -- For names, GetSpellInfo returns nil if it's not in your spellbook
     -- so we don't need to call IsSpellKnown
-    name, _, _, _, _, _, spellID = GetSpellInfo(arg)
+    local name, _, _, _, _, _, spellID = GetSpellInfo(argN or arg)
+    if not name then
+        return
+    end
 
     -- Glide won't cast while mounted
     if spellID == 131347 and IsMounted() then
@@ -158,8 +159,17 @@ local function GetUsableSpell(arg)
         return
     end
 
+    -- Some spells share names (e.g., Surge Forward is both an Evoker ability
+    -- and a Dragonriding ability). If the spell has a subtext it can be
+    -- distinguished by bracketing it after the name. This only works if you
+    -- pass the spell in by ID since otherwise you'll get whichever one
+    -- GetSpellInfo(name) decides to return.
+
+    local subtext = GetSpellSubtext(argN or arg)
+    local nameWithSubtext = string.format('%s(%s)', name, subtext or "")
+
     if name and IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
-        return name, spellID
+        return name, spellID, nameWithSubtext
     end
 end
 
@@ -178,10 +188,10 @@ ACTIONS['Spell'] = {
         function (args, context)
             for _, arg in ipairs(args) do
                 LM.Debug(' - trying spell: ' .. tostring(arg))
-                local name, id = GetUsableSpell(arg)
-                if name then
-                    LM.Debug(" - setting action to spell " .. name)
-                    return LM.SecureAction:Spell(name, context.unit)
+                local name, id, nameWithSubtext = GetUsableSpell(arg)
+                if nameWithSubtext then
+                    LM.Debug(" - setting action to spell " .. nameWithSubtext)
+                    return LM.SecureAction:Spell(nameWithSubtext, context.unit)
                 end
             end
         end
@@ -199,10 +209,10 @@ ACTIONS['Buff'] = {
         function (args, context)
             for _, arg in ipairs(args) do
                 LM.Debug(' - trying buff: ' .. tostring(arg))
-                local name, id = GetUsableSpell(arg)
+                local name, id, nameWithSubtext = GetUsableSpell(arg)
                 if name and not LM.UnitAura(context.unit or 'player', name) then
-                    LM.Debug(" - setting action to spell " .. name)
-                    return LM.SecureAction:Spell(name, context.unit)
+                    LM.Debug(" - setting action to spell " .. nameWithSubtext)
+                    return LM.SecureAction:Spell(nameWithSubtext, context.unit)
                 end
             end
         end
