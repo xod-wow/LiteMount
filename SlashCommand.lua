@@ -152,10 +152,10 @@ COMMANDS['debug'] =
     function (argstr, arg1)
         if IsTrue(arg1) then
             LM.Print(L.LM_DEBUGGING_ENABLED)
-            LM.Options:SetDebug(true)
+            LM.Options:SetOption('debugEnabled', true)
         else
             LM.Print(L.LM_DEBUGGING_DISABLED)
-            LM.Options:SetDebug(false)
+            LM.Options:SetOption('debugEnabled', false)
         end
     end
 
@@ -164,10 +164,10 @@ COMMANDS['uidebug'] =
     function (argstr, arg1)
         if IsTrue(arg1) then
             LM.Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_ENABLED)
-            LM.Options:SetUIDebug(true)
+            LM.Options:SetOption('uiDebugEnabled', true)
         else
             LM.Print(BUG_CATEGORY5 .. ' ' .. L.LM_DEBUGGING_DISABLED)
-            LM.Options:SetUIDebug(false)
+            LM.Options:SetOption('uiDebugEnabled', false)
         end
     end
 
