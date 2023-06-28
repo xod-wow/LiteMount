@@ -190,7 +190,6 @@ function LM.Journal:GetCastAction(context)
         table.insert(castActions, 1, "/cast [@player] " .. context.preCast)
     end
 
-    DevTools_Dump(castActions)
     if castActions then
         return LM.SecureAction:Macro(table.concat(castActions, "\n"))
     else
