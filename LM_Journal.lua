@@ -187,9 +187,10 @@ function LM.Journal:GetCastAction(context)
 
     if context and context.preCast then
         castActions = castActions or { "/cast " .. GetSpellInfo(self.spellID) }
-        table.insert(castActions, 1, "/cast [@player] !" .. context.preCast)
+        table.insert(castActions, 1, "/cast [@player] " .. context.preCast)
     end
 
+    DevTools_Dump(castActions)
     if castActions then
         return LM.SecureAction:Macro(table.concat(castActions, "\n"))
     else
