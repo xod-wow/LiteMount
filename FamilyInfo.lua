@@ -883,6 +883,7 @@ LM.MOUNTFAMILY["Nether Drake"] = {
     [ 41514] = true, -- Azure Netherwing Drake
     [ 58615] = true, -- Brutal Nether Drake
     [ 41515] = true, -- Cobalt Netherwing Drake
+    [412088] = true, -- Grotto Netherwing Drake
     [ 44317] = true, -- Merciless Nether Drake
     [ 44744] = true, -- Merciless Nether Drake
     [ 28828] = true, -- Nether Drake
