@@ -160,7 +160,7 @@ function LM.MountRegistry:AddJournalMounts()
 
     for _, mountID in ipairs(C_MountJournal.GetMountIDs()) do
         local m = LM.Mount:Get("Journal", mountID, usableMounts[mountID])
-        self:AddMount(m)
+        if m then self:AddMount(m) end
     end
 end
 
