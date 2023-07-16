@@ -99,9 +99,9 @@ function LiteMountGeneralPanelMixin:OnLoad()
             end
         end
     self.DefaultPriority.GetOptionDefault =
-        function (self) return LM.Options:GetOptionDefault('defaultPriority') == 0 end
+        function (self) return LM.Options:GetOptionDefault('defaultPriority') end
     self.DefaultPriority.GetOption =
-        function (self) return LM.Options:GetOption('defaultPriority') == 0 end
+        function (self) return LM.Options:GetOption('defaultPriority') end
     self.DefaultPriority.SetControl =
         function (self, v) self:SetChecked(v == 0) end
     LiteMountOptionsPanel_RegisterControl(self.DefaultPriority)
