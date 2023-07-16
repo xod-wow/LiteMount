@@ -17,6 +17,7 @@ LM.MOUNTFAMILY = {}
 LM.MOUNTFAMILY["Alpaca"] = {
     [316493] = true, -- Elusive Quickhoof
     [298367] = true, -- Mollie
+    [418078] = true, -- Pattie
     [316802] = true, -- Springfur Alpaca
 }
 
@@ -98,6 +99,7 @@ LM.MOUNTFAMILY["Beetle"] = {
 }
 
 LM.MOUNTFAMILY["Bird"] = {
+    [414324] = true, -- Gold-Toed Albatross
     [366790] = true, -- Quawks
     [231524] = true, -- Shadowblade's Baneful Omen
     [231525] = true, -- Shadowblade's Crimson Omen
@@ -238,6 +240,7 @@ LM.MOUNTFAMILY["Core Hound"] = {
     [170347] = true, -- Core Hound
     [271646] = true, -- Dark Iron Core Hound
     [213209] = true, -- Steelbound Devourer
+    [414327] = true, -- Sulfur Hound
 }
 
 LM.MOUNTFAMILY["Corpsefly"] = {
@@ -398,6 +401,7 @@ LM.MOUNTFAMILY["Dreadsteed"] = {
     [238454] = true, -- Netherlord's Accursed Wrathsteed
     [238452] = true, -- Netherlord's Brimstone Wrathsteed
     [232412] = true, -- Netherlord's Chaotic Wrathsteed
+    [413922] = true, -- Valiance
 }
 
 LM.MOUNTFAMILY["Eagle"] = {
@@ -485,6 +489,7 @@ LM.MOUNTFAMILY["Fire Hawk"] = {
 
 LM.MOUNTFAMILY["Fish"] = {
     [214791] = true, -- Brinedeep Bottom-Feeder
+    [397406] = true, -- Wonderous Wavewhisker
 }
 
 LM.MOUNTFAMILY["Flying Carpet"] = {
@@ -555,9 +560,11 @@ LM.MOUNTFAMILY["Gryphon"] = {
     [ 32235] = true, -- Golden Gryphon
     [135416] = true, -- Grand Armored Gryphon
     [136163] = true, -- Grand Gryphon
+    [413827] = true, -- Harbor Gryphon
     [229377] = true, -- High Priest's Lightsworn Seeker
     [ 64749] = true, -- Loaned Gryphon
     [275868] = true, -- Proudmoore Sea Scout
+    [414323] = true, -- Ravenous Black Gryphon
     [ 32240] = true, -- Snowy Gryphon
     [107516] = true, -- Spectral Gryphon
     [275866] = true, -- Stormsong Coastwatcher
@@ -712,7 +719,9 @@ LM.MOUNTFAMILY["Hyena"] = {
 }
 
 LM.MOUNTFAMILY["Infernal"] = {
+    [171840] = true, -- Coldflame Infernal
     [213134] = true, -- Felblaze Infernal
+    [213349] = true, -- Flarecore Infernal
     [213350] = true, -- Frostshard Infernal
     [171827] = true, -- Hellfire Infernal
 }
@@ -977,6 +986,7 @@ LM.MOUNTFAMILY["Pterrordax"] = {
     [275837] = true, -- Cobalt Pterrordax
     [289101] = true, -- Dazar'alor Windreaver
     [267270] = true, -- Kua'fon
+    [413825] = true, -- Scarlet Pterrordax
     [244712] = true, -- Spectral Pterrorwing
     [302797] = true, -- Swift Spectral Pterrordax
     [275840] = true, -- Voldunai Dunescraper
@@ -1121,6 +1131,7 @@ LM.MOUNTFAMILY["Scorpid"] = {
     [411565] = true, -- Felcrystal Scorpion
     [ 93644] = true, -- Kor'kron Annihilator
     [148417] = true, -- Kor'kron Juggernaut
+    [414328] = true, -- Perfected Juggernaut
     [230988] = true, -- Vicious War Scorpion
 }
 
@@ -1265,6 +1276,7 @@ LM.MOUNTFAMILY["Storm Dragon"] = {
     [243201] = true, -- Demonic Gladiator's Storm Dragon
     [227995] = true, -- Dominant Gladiator's Storm Dragon
     [227988] = true, -- Fearless Gladiator's Storm Dragon
+    [414326] = true, -- Felstorm Dragon
     [227991] = true, -- Ferocious Gladiator's Storm Dragon
     [227994] = true, -- Fierce Gladiator's Storm Dragon
     [288721] = true, -- Island Thunderscale
@@ -1467,6 +1479,7 @@ LM.MOUNTFAMILY["Wolf"] = {
     [349824] = true, -- Vicious Warstalker (Horde)
     [100333] = true, -- Vicious War Wolf
     [171837] = true, -- Warsong Direfang
+    [414316] = true, -- White War Wolf
     [   581] = true, -- Winter Wolf
 }
 
@@ -1488,6 +1501,7 @@ LM.MOUNTFAMILY["Wyrm"] = {
     [ 65439] = true, -- Furious Gladiator's Frost Wyrm
     [ 72807] = true, -- Icebound Frostbrood Vanquisher
     [ 67336] = true, -- Relentless Gladiator's Frost Wyrm
+    [414334] = true, -- Scourgebound Vanquisher
     [332400] = true, -- Sinful Gladiator's Soul Eater
     [231428] = true, -- Smoldering Ember Wyrm
     [353036] = true, -- Unchained Gladiator's Soul Eater
