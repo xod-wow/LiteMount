@@ -112,12 +112,15 @@ function LM.Journal:Get(id, isUsable)
         m.flags['SWIM'] = true
     elseif m.mountTypeID == 424 then      -- Flying + Dragonriding Drake
         m.flags['FLY'] = true
+        m.mountTypeID = 248
     elseif m.mountTypeID == 426 then      -- Dragonriding copies for Azeroth comp: ABORT
         return
     elseif m.mountTypeID == 428 then      -- Flying + Dragonriding Protodrake
         m.flags['FLY'] = true
+        m.mountTypeID = 248
     elseif m.mountTypeID == 429 then      -- Flying + Dragonriding Roc/Pterrodax
         m.flags['FLY'] = true
+        m.mountTypeID = 248
     elseif m.mountTypeID == 430 then      -- Literally only "Temp" right now: ABORT
         return
 --@debug@
