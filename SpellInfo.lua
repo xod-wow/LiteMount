@@ -65,20 +65,23 @@ LM.ITEM.MAW_SEEKER_HARNESS = 170499
 
 LM.MOUNT_TYPES = {
     [0]   = OTHER,
-    [230] = L.LM_GROUND,
+    [230] = MOUNT_JOURNAL_FILTER_GROUND,
     [231] = GetSpellInfo(64731), -- Sea Turtle
     [232] = C_Map.GetMapInfo(203).name, -- Vashj'ir
     [241] = C_Map.GetMapInfo(319).name, -- Anh'Qiraj
     [242] = DEAD,
     [247] = C_MountJournal.GetMountInfoByID(509), -- Red Flying Cloud
-    [248] = L.FLY,
-    [254] = L.SWIM,
+    [248] = MOUNT_JOURNAL_FILTER_FLYING,
+    [254] = MOUNT_JOURNAL_FILTER_AQUATIC,
     [284] = HEIRLOOMS,
     [398] = C_MountJournal.GetMountInfoByID(1043), -- Kua'fon
     [402] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
-    [407] = L.FLY .. ' + ' .. L.SWIM,
+    [407] = MOUNT_JOURNAL_FILTER_FLYING .. ' + ' .. MOUNT_JOURNAL_FILTER_AQUATIC,
     [408] = C_MountJournal.GetMountInfoByID(1539), -- Unsuccessful Prototype Fleetpod
-    [412] = L.RUN .. ' + ' .. L.SWIM,
+    [412] = MOUNT_JOURNAL_FILTER_GROUND .. ' + ' .. MOUNT_JOURNAL_FILTER_AQUATIC,
+--  [424] = 248,
+--  [428] = 248,
+--  [429] = 248,
 }
 
 function LM.UnitAura(unit, aura, filter)
