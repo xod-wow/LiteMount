@@ -200,6 +200,7 @@ LM.MOUNTFAMILY["Charhound"] = {
 }
 
 LM.MOUNTFAMILY["Clefthoof"] = {
+    [417245] = true, -- Ancestral Clefthoof
     [171620] = true, -- Bloodhoof Bull
     [171621] = true, -- Ironhoof Destroyer
     [171617] = true, -- Trained Icehoof
