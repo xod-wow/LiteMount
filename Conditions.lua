@@ -579,8 +579,23 @@ CONDITIONS["known"] = {
 
 -- GetMaxLevelForLatestExpansion()
 CONDITIONS["level"] = {
-    name = GUILD_RECRUITMENT_MAXLEVEL,
+    name = LEVEL,
     args = true,
+    menu = {
+        nosort = true,
+        { val = "level" },
+    },
+    toDisplay =
+        function (l1, l2)
+            local maxLevel = GetMaxLevelForLatestExpansion()
+            if l1 == nil then
+                return string.format('%s (%d)', GUILD_RECRUITMENT_MAXLEVEL, maxLevel)
+            elseif l2 == nil then
+                return l1
+            else
+                return string.format("%d - %d", l1, l2)
+            end
+        end,
     handler =
         function (cond, context, l1, l2)
             local level = UnitLevel('player')
