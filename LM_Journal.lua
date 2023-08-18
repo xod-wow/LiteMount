@@ -29,7 +29,7 @@ LM.Journal.__index = LM.Journal
 -- [10] isFiltered,
 -- [11] isCollected,
 -- [12] mountID,
--- [13] isForDragonRiding = C_MountJournal.GetMountInfoByID(mountID)
+-- [13] isForDragonriding = C_MountJournal.GetMountInfoByID(mountID)
 
 --  [1] creatureDisplayInfoID,
 --  [2] description,

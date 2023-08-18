@@ -232,26 +232,15 @@ CONDITIONS["dragonridable"] = {
     name = L.LM_DRAGONRIDING_AREA,
     handler =
         function (cond, context)
-            return LM.Environment:CanDragonRide(context.mapPath)
+            return LM.Environment:CanDragonride(context.mapPath)
         end,
 }
-
--- Now that we have to ignore some mounts that are duplicates for the Kalimdor
--- cup but still trigger the condition, do this the old fashioned way iterating
--- over the mount journal. Assumption is that you can't summon a dragonriding
--- mount in a non-dragonriding area.
 
 CONDITIONS["dragonriding"] = {
     -- name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
     handler =
         function (cond, context)
-            local mountIDs = C_MountJournal.GetMountIDs()
-            for _, id in ipairs(mountIDs) do
-                local _, _, _, isActive, _, _, _, _, _, _, _, _, isForDragonriding = C_MountJournal.GetMountInfoByID(id)
-                if isActive then
-                    return isForDragonriding
-                end
-            end
+            return LM.Environment:IsDragonriding()
         end,
 }
 

@@ -116,6 +116,21 @@ function LM.Environment:IsTheMaw(mapPath)
     return LM.Environment:IsMapInPath(1543, mapPath)
 end
 
+-- Now that we have to ignore some mounts that are duplicates for the Kalimdor
+-- cup but still trigger the condition, do this the old fashioned way iterating
+-- over the mount journal. Assumption is that you can't summon a dragonriding
+-- mount in a non-dragonriding area.
+
+function LM.Environment:IsDragonriding()
+    local mountIDs = C_MountJournal.GetMountIDs()
+    for _, id in ipairs(mountIDs) do
+        local _, _, _, isActive, _, _, _, _, _, _, _, _, isForDragonriding = C_MountJournal.GetMountInfoByID(id)
+        if isActive then
+            return isForDragonriding
+        end
+    end
+end
+
 function LM.Environment:PLAYER_LOGIN()
     self:Initialize()
 end
@@ -328,7 +343,7 @@ function LM.Environment:ForceFlyable(instanceID)
     InstanceFlyableOverride[instanceID] = true
 end
 
-function LM.Environment:CanDragonRide(mapPath)
+function LM.Environment:CanDragonride(mapPath)
     if IsSpellKnown(376777) then
         return IsUsableSpell(368896) == true
         -- return select(8, GetInstanceInfo()) == 2444
