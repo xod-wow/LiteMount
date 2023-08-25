@@ -356,6 +356,7 @@ LM.MOUNTFAMILY["Dragonhawk"] = {
 LM.MOUNTFAMILY["Drake"] = {
     [ 60025] = true, -- Albino Drake
     [ 59567] = true, -- Azure Drake
+    [420097] = true, -- Azure Worldchiller
     [ 59650] = true, -- Black Drake
     [107842] = true, -- Blazing Drake
     [ 59568] = true, -- Blue Drake
@@ -765,11 +766,12 @@ LM.MOUNTFAMILY["Larion"] = {
 LM.MOUNTFAMILY["Magic"] = {
     [229376] = true, -- Archmage's Prismatic Disc
     [353263] = true, -- Cartel Master's Gearglider
-    [346554] = true, -- Tazavesh Gearglider
+    [419345] = true, -- Eve's Ghastly Rider
     [ 42667] = true, -- Flying Broom
     [ 47977] = true, -- Magic Broom
     [130092] = true, -- Red Flying Cloud
     [359318] = true, -- Soaring Spelltome
+    [346554] = true, -- Tazavesh Gearglider
     [334352] = true, -- Wildseed Cradle
 }
 
@@ -881,6 +883,7 @@ LM.MOUNTFAMILY["Moth"] = {
 
 LM.MOUNTFAMILY["Murloc"] = {
     [315132] = true, -- Gargantuan Grrloc
+    [419567] = true, -- Ginormous Grrloc
 }
 
 LM.MOUNTFAMILY["Mushan Beast"] = {
@@ -1160,11 +1163,12 @@ LM.MOUNTFAMILY["Serpent"] = {
 
 LM.MOUNTFAMILY["Shalewing"] = {
     [408627] = true, -- Igneous Shalewing
-    [408647] = true, -- Cobalt Shalewing
-    [408649] = true, -- Shadowflame Shalewing
     [408651] = true, -- Catalogued Shalewing
+    [408647] = true, -- Cobalt Shalewing
     [408653] = true, -- Boulder Hauler
     [408655] = true, -- Morsel Sniffer
+    [408654] = true, -- Sandy Shalewing
+    [408649] = true, -- Shadowflame Shalewing
 }
 
 LM.MOUNTFAMILY["Shapeshift"] = {
