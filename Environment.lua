@@ -313,6 +313,7 @@ local InstanceFlyableOverride = {
     [1604] = false,         -- Niskara, priest legion campaign
     [1669] = false,         -- Argus
     [1688] = false,         -- The Deadmines (Pet Battle)
+    [1750] = false,         -- Azuremyst Isle (Legion Scenario?)
     [1760] = false,         -- Ruins of Lordaeron BfA opening
     [1763] = false,         -- Atal'Dazar instance
     [1803] = false,         -- Battleground: Seething Shore
