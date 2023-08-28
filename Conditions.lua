@@ -1164,11 +1164,9 @@ local function IsTransmogSetActive(setID)
     for key, slotInfo in pairs(TRANSMOG_SLOTS) do
         if not slotInfo.location:IsSecondary() then
             local sourceIDs = C_TransmogSets.GetSourceIDsForSlot(setID, slotInfo.location.slotID)
-            if #sourceIDs > 0 then
-                local activeSourceID = GetTransmogLocationSourceID(slotInfo.location)
-                if not tContains(sourceIDs, activeSourceID) then
-                    return false
-                end
+            local activeSourceID = GetTransmogLocationSourceID(slotInfo.location)
+            if not tContains(sourceIDs, activeSourceID) then
+                return false
             end
         end
     end
