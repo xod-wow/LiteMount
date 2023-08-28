@@ -1242,6 +1242,7 @@ CONDITIONS["xmog"] = {
                     else
                         return info.name
                     end
+                end
             end
             return v
         end,
