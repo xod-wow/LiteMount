@@ -1196,7 +1196,7 @@ local function IsTransmogOutfitActive(outfitID)
 end
 
 local function GetTransmogOutfitsMenu()
-    local outfits = { text = L.LM_OUTFITS }
+    local outfits = { text = TRANSMOG_OUTFIT_HYPERLINK_TEXT:match("|t(.*)") }
     for _, id in ipairs(C_TransmogCollection.GetOutfits()) do
         local name = C_TransmogCollection.GetOutfitInfo(id)
         table.insert(outfits, { val = "xmog:"..name, text = name })
@@ -1213,7 +1213,11 @@ local function GetTransmogSetsMenu()
             local name = EJ_GetTierInfo(expansion) or NONE
             byExpansion[expansion] = { text = name }
         end
-        table.insert(byExpansion[expansion], { val = "xmog:"..info.setID, text = info.name })
+        local text = info.name
+        if info.description then
+            text = text .. " (" .. info.description .. ")"
+        end
+        table.insert(byExpansion[expansion], { val = "xmog:"..info.setID, text = text })
     end
     local sets = { nosort = true, text = WARDROBE_SETS }
     for _,t in LM.PairsByKeys(byExpansion) do
@@ -1227,18 +1231,19 @@ end
 
 CONDITIONS["xmog"] = {
     args = true,
+    name = PERKS_VENDOR_CATEGORY_TRANSMOG,
     toDisplay =
         function (v)
             if tonumber(v) then
                 local info = C_TransmogSets.GetSetInfo(v)
-                if info then return
-                    info.name
-                else
-                    return v
-                end
-            else
-                return v
+                if info then
+                    if info.description then
+                        return string.format("%s (%s)", info.name, info.description)
+                    else
+                        return info.name
+                    end
             end
+            return v
         end,
     menu =
         function ()
