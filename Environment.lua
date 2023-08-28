@@ -437,6 +437,7 @@ function LM.Environment:GetPlayerTransmogInfo()
     ModelSceneScanFrame:Show()
     ModelSceneScanFrame:TransitionToModelSceneID(290, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, true)
     local actor = ModelSceneScanFrame:GetPlayerActor()
+    actor:SetModelByUnit("player")
     local infoList = actor:GetItemTransmogInfoList()
     ModelSceneScanFrame:Hide()
     return infoList
