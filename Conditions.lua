@@ -1176,6 +1176,10 @@ end
 -- This makes me want to kill myself instantly.
 -- See WardrobeOutfitDropDownMixin:IsOutfitDressed()
 
+local ExcludeOutfitSlot = {
+    [INVSLOT_MAINHAND] = true, [INVSLOT_OFFHAND] = true, [INVSLOT_RANGED] = true,
+}
+
 local function IsTransmogOutfitActive(outfitID)
     local outfitInfoList = C_TransmogCollection.GetOutfitItemTransmogInfoList(outfitID)
     if not outfitInfoList then return end
@@ -1185,7 +1189,7 @@ local function IsTransmogOutfitActive(outfitID)
 
     for slotID, info in ipairs(currentInfoList) do
         if info.appearanceID ~= Constants.Transmog.NoTransmogID then
-            if not info:IsEqual(outfitInfoList[slotID]) then
+            if not ExcludeOutfitSlot[slotID] and not info:IsEqual(outfitInfoList[slotID]) then
                 return false
             end
         end
