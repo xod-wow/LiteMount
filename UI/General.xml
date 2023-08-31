@@ -7,7 +7,7 @@
 <Frame name="LiteMountGeneralPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountGeneralPanelMixin">
 
     <KeyValues>
-        <KeyValue key="name" value="GENERAL" type="string" />
+        <KeyValue key="name" value="GENERAL" type="global" />
     </KeyValues>
 
     <Scripts>

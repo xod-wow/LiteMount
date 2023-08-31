@@ -187,7 +187,7 @@ end
 function LiteMountOptionsPanel_OnLoad(self)
 
     if self ~= LiteMountOptions then
-        self.name = _G[self.name] or L[self.name] or self.name
+        self.name = L[self.name] or self.name
         self.Title:SetText("LiteMount : " .. self.name)
         local topCategory = LiteMountOptions.category
         self.category = Settings.RegisterCanvasLayoutSubcategory(topCategory, self, self.name)
@@ -335,7 +335,7 @@ function LiteMountOptionsPanel_RegisterControl(control, parent)
 end
 
 function LiteMountPopOverPanel_OnLoad(self)
-    self.name = _G[self.name] or L[self.name] or self.name
+    self.name = L[self.name] or self.name
     self.Title:SetText(self.name)
 end
 
