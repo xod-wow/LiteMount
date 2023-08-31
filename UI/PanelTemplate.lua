@@ -136,10 +136,10 @@ function LiteMountOptionsPanel_OnRefresh(self, trigger)
     end
 end
 
-function LiteMountOptionsPanel_OnDefault(self)
+function LiteMountOptionsPanel_OnDefault(self, onlyCurrentTab)
     LM.UIDebug(self, "Panel_OnDefault")
     for _,control in ipairs(self.controls or {}) do
-        LiteMountOptionsControl_OnDefault(control)
+        LiteMountOptionsControl_OnDefault(control, onlyCurrentTab)
     end
 end
 

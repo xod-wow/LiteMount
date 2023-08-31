@@ -93,7 +93,7 @@
             </Anchors>
             <Scripts>
                 <OnClick>
-                    LiteMountOptionsPanel_OnDefault(self:GetParent())
+                    LiteMountOptionsPanel_OnDefault(self:GetParent(), true)
                 </OnClick>
             </Scripts>
         </Button>
