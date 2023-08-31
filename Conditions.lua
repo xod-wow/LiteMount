@@ -639,6 +639,7 @@ CONDITIONS["loadout"] = {
             end
         end
 }
+
 CONDITIONS["location"] = {
 --  name = LOCATION_COLON:gsub(":", ""),
     toDisplay =
