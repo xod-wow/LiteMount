@@ -569,8 +569,9 @@ CONDITIONS["known"] = {
     handler =
         function (cond, context, v)
             if v then
-                if tonumber(v) ~= nil then
-                else
+                local spellID = select(7, GetSpellInfo(v))
+                if spellID then
+                    return IsSpellKnown(spellID) or IsPlayerSpell(spellID)
                 end
             end
         end
