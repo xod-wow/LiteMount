@@ -190,6 +190,17 @@ function LM.MountList:PriorityRandom(r)
     end
 end
 
+function LM.MountList:RarityRandom(r)
+end
+
+function LM.MountList:SmartRandom(context)
+    if context.randomStyle == 'Rarity' then
+        return self:RarityRandom(r)
+    else
+        return self:PriorityRandom(r)
+    end
+end
+
 local function filterMatch(m, ...)
     return m:MatchesFilters(...)
 end
