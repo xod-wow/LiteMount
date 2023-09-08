@@ -195,7 +195,7 @@ end
 
 function LM.MountList:Random(r, style)
     if style == 'Priority' then
-        return self:SimpleRandom(r)
+        return self:PriorityRandom(r)
     elseif style == 'Rarity' then
         return self:RarityRandom(r)
     else
