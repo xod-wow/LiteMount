@@ -407,6 +407,7 @@ LM.MOUNTFAMILY["Dreadsteed"] = {
 }
 
 LM.MOUNTFAMILY["Eagle"] = {
+    [385262] = true, -- Duskwing Ohuna
     [395644] = true, -- Divine Kiss of Ohn'ahra
 }
 
@@ -790,6 +791,7 @@ LM.MOUNTFAMILY["Mammoth"] = {
     [374194] = true, -- Mossy Mammoth
     [374196] = true, -- Plainswalker Bearer
     [374275] = true, -- Raging Magmammoth
+    [374278] = true, -- Renewed Magmammoth
     [371176] = true, -- Subterranean Magmammoth
     [ 61447] = true, -- Traveler's Tundra Mammoth
     [ 61425] = true, -- Traveler's Tundra Mammoth
@@ -834,6 +836,7 @@ LM.MOUNTFAMILY["Mechanical"] = {
     [ 55531] = true, -- Mechano-Hog
     [ 60424] = true, -- Mekgineer's Chopper
     [ 63796] = true, -- Mimiron's Head
+    [424082] = true, -- Mimiron's Jumpjets
     [245725] = true, -- Orgrimmar Interceptor
     [400733] = true, -- Rocket Shredder 9001
     [299170] = true, -- Rustbolt Resistor
