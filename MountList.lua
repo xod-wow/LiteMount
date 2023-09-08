@@ -142,7 +142,7 @@ function LM.MountList:Shuffle()
     end
 end
 
-function LM.MountList:Random(r)
+function LM.MountList:SimpleRandom(r)
     if #self > 0 then
         if r then
             r = math.ceil(r * #self)
@@ -193,11 +193,13 @@ end
 function LM.MountList:RarityRandom(r)
 end
 
-function LM.MountList:SmartRandom(context)
-    if context.randomStyle == 'Rarity' then
+function LM.MountList:Random(r, style)
+    if style == 'Priority' then
+        return self:SimpleRandom(r)
+    elseif style == 'Rarity' then
         return self:RarityRandom(r)
     else
-        return self:PriorityRandom(r)
+        return self:SimpleRandom(r)
     end
 end
 

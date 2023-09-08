@@ -377,48 +377,50 @@ ACTIONS['SmartMount'] = {
 
             if next(filteredList) == nil then return end
 
+            local randomStyle = context.randomStyle or 'Priority'
+
             local m
 
             if not m and LM.Conditions:Check("[submerged]", context) then
                 LM.Debug(" - trying Aquatic Mount (underwater)")
                 local swim = filteredList:FilterSearch('SWIM')
                 LM.Debug(" - found " .. #swim .. " mounts.")
-                m = swim:SmartRandom(context)
+                m = swim:Random(context.random, randomStyle)
             end
 
             if not m and LM.Conditions:Check("[dragonridable]", context) then
                 LM.Debug(" - trying Dragon Riding Mount")
                 local fly = filteredList:FilterSearch('DRAGONRIDING')
                 LM.Debug(" - found " .. #fly .. " mounts.")
-                m = fly:SmartRandom(context)
+                m = fly:Random(context.random, randomStyle)
             end
 
             if not m and LM.Conditions:Check("[flyable]", context) then
                 LM.Debug(" - trying Flying Mount")
                 local fly = filteredList:FilterSearch('FLY')
                 LM.Debug(" - found " .. #fly .. " mounts.")
-                m = fly:SmartRandom(context)
+                m = fly:Random(context.random, randomStyle)
             end
 
             if not m and LM.Conditions:Check("[floating,nowaterwalking]", context) then
                 LM.Debug(" - trying Aquatic Mount (on the surface)")
                 local swim = filteredList:FilterSearch('SWIM')
                 LM.Debug(" - found " .. #swim .. " mounts.")
-                m = swim:SmartRandom(context)
+                m = swim:Random(context.random, randomStyle)
             end
 
             if not m then
                 LM.Debug(" - trying Ground Mount")
                 local run = filteredList:FilterSearch('RUN', '~SLOW')
                 LM.Debug(" - found " .. #run .. " mounts.")
-                m = run:SmartRandom(context)
+                m = run:Random(context.random, randomStyle)
             end
 
             if not m then
                 LM.Debug(" - trying Slow Ground Mount")
                 local walk = filteredList:FilterSearch('RUN', 'SLOW')
                 LM.Debug(" - found " .. #walk .. " mounts.")
-                m = walk:SmartRandom(context)
+                m = walk:Random(context.random, randomStyle)
             end
 
             if m then
