@@ -202,6 +202,10 @@ function LM.MountList:RarityRandom(r)
 
     for _, m in ipairs(self) do
         local rarity = MountsRarityAddon.MountsRarity[tostring(m.mountID)]
+        if not rarity then
+            LM.Debug(format(" - Missing rarity data for mountID %d", m.mountID) .. " (" .. m.name .. ")")
+            rarity = 50.0 -- for unknown mounts
+        end
         local invertedRarity = ( 1 / rarity )
 
         mountsRarity[m.mountID] = invertedRarity
