@@ -191,6 +191,33 @@ function LM.MountList:PriorityRandom(r)
 end
 
 function LM.MountList:RarityRandom(r)
+    if #self == 0 then return end
+    if not MountsRarityAddon or not MountsRarityAddon.MountsRarity then
+        LM.Debug(" - RarityRandom: MountsRarity not loaded. Defaulting to SimpleRandom.")
+        return self:SimpleRandom(r)
+    end
+
+    local mountsRarity = {}
+    local totalWeight = 0
+
+    for _, m in ipairs(self) do
+        local rarity = MountsRarityAddon.MountsRarity[tostring(m.mountID)]
+        local invertedRarity = ( 1 / rarity )
+
+        mountsRarity[m.mountID] = invertedRarity
+        totalWeight = totalWeight + invertedRarity
+    end
+
+    local cutoff = math.random() * totalWeight
+
+    local searchWeight = 0
+    for _, m in ipairs(self) do
+        searchWeight = searchWeight + mountsRarity[m.mountID]
+        if searchWeight > cutoff then
+            LM.Debug(format(' - RarityRandom n=%d, t=%0.3f, c=%0.3f, chance=%0.3f, rarity=%0.3f', #self, totalWeight, cutoff, ( mountsRarity[m.mountID] / totalWeight * 100 ), ( 1 / mountsRarity[m.mountID] )))
+            return m
+        end
+    end
 end
 
 function LM.MountList:Random(r, style)
