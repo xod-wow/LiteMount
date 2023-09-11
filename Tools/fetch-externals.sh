@@ -67,7 +67,7 @@ update_repo () {
 
     case $repotype in
     git)
-        (cd $dir && git pull)
+        (cd $dir && git pull && git reset --hard)
         ;;
     svn)
         (cd $dir && svn up)

@@ -12,6 +12,10 @@ ignore:
   - Libs/LibDeflate/*.toc
   - Libs/LibDeflate/*.md
   - Libs/Libstub/tests
+  - Libs/MountsRarity-2.0/Libs
+  - Libs/MountsRarity-2.0/scripts
+  - Libs/MountsRarity-2.0/embeds.xml
+  - Libs/MountsRarity-2.0/MountsRarity.toc
 
 externals:
   Libs/AceDB-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceDB-3.0
@@ -20,5 +24,6 @@ externals:
   Libs/CallbackHandler-1.0: https://repos.curseforge.com/wow/callbackhandler/trunk/CallbackHandler-1.0
   Libs/LibStub: https://repos.curseforge.com/wow/libstub/trunk
   Libs/LibUIDropDownMenu: https://repos.wowace.com/wow/libuidropdownmenu/trunk/LibUIDropDownMenu
+  Libs/MountsRarity-2.0: https://github.com/sgade/MountsRarity
 
 enable-nolib-creation: no

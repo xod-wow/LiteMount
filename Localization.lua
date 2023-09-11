@@ -109,6 +109,10 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
     L["LM_PROFILES"] = "Profiles"
     L["LM_PROFILES_EXP"] = "Profiles are different configurations that you can switch between. Each of your characters has its own selected profile. All settings except the Combat and Unavailable macros are saved in the profile and change when switching profiles."
     L["LM_RANDOM_PERSISTENCE"] = "How often to select a new random mount"
+    L["LM_RARITY_DATA_INFO"] = "Rarity data (how many accounts have collected each mount) is provided by DataForAzeroth and updated each time a LiteMount version is released. For more frequently updated data please also install the MountsRarity addon."
+    L["LM_RARITY_DISABLES_PRIORITY"] = "Priorities other than 0 (disabled) are inactive because summon by rarity has been enabled in the General settings."
+    L["LM_RARITY_FORMAT"] = "%0.1f%%"
+    L["LM_RARITY_FORMAT_LONG"] = "Collected by %0.1f%% of WoW accounts."
     L["LM_RENAME_FLAG"] = "Rename Flag"
     L["LM_RENAME_GROUP"] = "Rename Group"
     L["LM_REPORT_BUG"] = "Report Bug"
@@ -128,8 +132,10 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
     L["LM_SHOW_ALL_MOUNTS"] = "Show all mounts"
     L["LM_SMARTMOUNT_ACTION"] = "Smart Priority Mount"
     L["LM_SUMMON_CHAT_MESSAGE"] = "%s (Priority: %d, Summons: %d)"
+    L["LM_SUMMON_CHAT_MESSAGE_RARITY"] = "%s (Rarity: %s, Summons: %d)"
     L["LM_TRANSLATORS"] = "Translators"
     L["LM_USABLE"] = "Usable"
+    L["LM_USE_RARITY_WEIGHTS"] = "Summon mounts more or less often based on their rarity (instead of priority)."
     L["LM_WARN_REPLACE_COND"] = "The [%s] action list condition has been replaced by [%s] due to Blizzard changes."
 
     -- Family
@@ -288,6 +294,7 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
 if locale == "deDE" then
     L = L or {}
     L["LM_ACTION"] = "Aktion"
+    L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "Setze die Priorität auf 0 (deaktiviert), wenn Blizzard ein neues Reittier hinzufügt."
     L["LM_ADVANCED_EXP"] = "Mit diesen Einstellungen können Sie die Aktionen anpassen, die von den einzelnen LiteMount-Tastenbindungen ausgeführt werden. Bitte lesen Sie die Dokumentation unter der folgenden URL, bevor Sie etwas ändern."
     L["LM_ANNOUNCE_MOUNTS"] = "Kündigen Sie beschworene Reittiere an:"
     L["LM_AUTHOR"] = "Autor"
@@ -360,6 +367,7 @@ if locale == "deDE" then
     L["LM_REPORT_BUG"] = "Bug melden"
     L["LM_REPORT_BUG_EXP"] = "Um einen Fehler in LiteMount zu melden, beschreiben Sie den Fehler und kopieren Sie den gesamten Text und fügen Sie ihn in das Formular \"Neues Problem\" ein:"
     L["LM_RESET_PROFILE"] = "Profil zurücksetzen"
+    L["LM_RESTORE_FORMS"] = "Versuche, Gestaltwandlungen vom Druiden beim Absitzen wiederherzustellen."
     L["LM_RULES_EXP"] = "Regeln fürs Aufsitzen. Jede Regel hat bis zu 3 Bedingungen und eine Aktion. Die Regeln werden der Reihe nach überprüft und falls alle Bedingungen zutreffen, wird die Aktion ausgeführt. "
     L["LM_RULES_INACTIVE"] = "Regeln für Tastenbelegung %d sind inaktiv, da deine benutzerdefinierte Aktionsliste (in den erweiterten Optionen) nicht die Aktion \"ApplyRules\" beinhaltet. "
     L["LM_SEASON"] = "Jahreszeit"
@@ -373,6 +381,7 @@ if locale == "deDE" then
     L["LM_SHOW_ALL_MOUNTS"] = "Alle Reittiere anzeigen"
     L["LM_SMARTMOUNT_ACTION"] = "Intelligente Prioritätreittier"
     L["LM_SUMMON_CHAT_MESSAGE"] = "%s (Priorität: %d, Aufgerufen: %d)"
+    L["LM_SUMMON_CHAT_MESSAGE_RARITY"] = "%s (Seltenheit: %0.1f%%, Beschwörungen: %d)"
     L["LM_TRANSLATORS"] = "Übersetzer"
     L["LM_USABLE"] = "Benutzbare"
     L["LM_WARN_REPLACE_COND"] = "Die Bedingung der [%s] -Aktionsliste wurde aufgrund von Blizzard-Änderungen durch [%s] ersetzt."

@@ -86,6 +86,7 @@ local defaults = {
         groups              = { },
         rules               = { }, -- Note: tables as * don't work
         copyTargetsMount    = true,
+        randomWeightStyle   = 'Priority',
         defaultPriority     = 1,
         priorityWeights     = { 1, 2, 6, 1 },
         randomKeepSeconds   = 0,
@@ -745,37 +746,6 @@ function LM.Options:GetInstanceNameByID(id)
     -- name but it's close enough.
     if id == 531 then
         return C_Map.GetMapInfo(319).name
-    end
-end
-
-
---[[----------------------------------------------------------------------------
-    Announcing
-----------------------------------------------------------------------------]]--
-
-function LM.Options:GetAnnounce()
-    return
-        self.db.profile.announceViaChat,
-        self.db.profile.announceViaUI,
-        self.db.profile.announceColors
-end
-
-function LM.Options:SetAnnounce(viaChat, viaUI, colors)
-    local changed
-    if viaChat ~= nil then
-        self.db.profile.announceViaChat = (viaChat == true)
-        changed = true
-    end
-    if viaUI ~= nil then
-        self.db.profile.announceViaUI = (viaUI == true)
-        changed = true
-    end
-    if colors ~= nil then
-        self.db.profile.announceColors = (colors == true)
-        changed = true
-    end
-    if changed then
-        self.db.callbacks:Fire("OnOptionsModified")
     end
 end
 

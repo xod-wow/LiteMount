@@ -12,6 +12,10 @@ local _, LM = ...
 
 local L = LM.Localize
 
+-- Rarity data repackaged daily from DataForAzeroth by Sören Gade
+--  https://github.com/sgade/MountsRarity
+local MountsRarity = LibStub("MountsRarity-2.0")
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -204,7 +208,14 @@ end
 
 function LM.Mount:OnSummon()
     local n = LM.Options:IncrementSummonCount(self)
-    if LM.Options:GetAnnounce() then
+
+    if not LM.Options:GetOption('announceViaChat') then return end
+
+    if LM.Options:GetOption('randomWeightStyle') == 'Rarity' then
+        local rarity = self:GetRarity()
+        rarity = string.format(L.LM_RARITY_FORMAT, rarity or 0)
+        LM.Print(string.format(L.LM_SUMMON_CHAT_MESSAGE_RARITY, self.name, rarity, n))
+    else
         LM.Print(string.format(
                     L.LM_SUMMON_CHAT_MESSAGE,
                     self.name, self:GetPriority(), n))
@@ -217,6 +228,12 @@ end
 
 function LM.Mount:GetPriority()
     return LM.Options:GetPriority(self)
+end
+
+function LM.Mount:GetRarity()
+    if self.mountID then
+        return MountsRarity:GetRarityByID(self.mountID) or 0
+    end
 end
 
 -- This is gross

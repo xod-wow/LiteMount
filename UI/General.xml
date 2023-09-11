@@ -49,12 +49,20 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
+        <CheckButton parentKey="UseRarityWeight" inherits="LiteMountOptionsCheckButtonTemplate">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.RestoreForms" relativePoint="BOTTOMLEFT" x="0" y="-8" />
+            </Anchors>
+            <Scripts>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
+            </Scripts>
+        </CheckButton>
     </Frames>
     <Layers>
         <Layer level="OVERLAY">
             <FontString parentKey="AnnounceMount" text="LM_ANNOUNCE_MOUNTS" inherits="GameFontHighlight">
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.RestoreForms" relativePoint="BOTTOMLEFT" y="-32" />
+                    <Anchor point="TOPLEFT" relativeKey="$parent.UseRarityWeight" relativePoint="BOTTOMLEFT" y="-32" />
                 </Anchors>
             </FontString>
         </Layer>
