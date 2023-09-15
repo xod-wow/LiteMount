@@ -1,5 +1,24 @@
 ignore:
-    - README.md
-    - DEVELOPER_NOTES.md
-    - Tests
-    - Tools
+  - README.md
+  - DEVELOPER_NOTES.md
+  - Tests
+  - Tools
+  - Libs/LibDeflate/dev_docs
+  - Libs/LibDeflate/docs
+  - Libs/LibDeflate/examples
+  - Libs/LibDeflate/rockspecs
+  - Libs/LibDeflate/tests
+  - Libs/LibDeflate/tools
+  - Libs/LibDeflate/*.toc
+  - Libs/LibDeflate/*.md
+  - Libs/Libstub/tests
+
+externals:
+  Libs/AceDB-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceDB-3.0
+  Libs/AceSerializer-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceSerializer-3.0
+  Libs/LibDeflate: https://github.com/SafeteeWoW/LibDeflate
+  Libs/CallbackHandler-1.0: https://repos.curseforge.com/wow/callbackhandler/trunk/CallbackHandler-1.0
+  Libs/LibStub: https://repos.curseforge.com/wow/libstub/trunk
+  Libs/LibUIDropDownMenu: https://repos.wowace.com/wow/libuidropdownmenu/trunk/LibUIDropDownMenu
+
+enable-nolib-creation: no

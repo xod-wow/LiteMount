@@ -1,6 +1,6 @@
 --$Id: LibEasyMenu.lua 64 2020-11-18 13:13:15Z arithmandar $
 -- //////////////////////////////////////////////////////////////
--- Notes:
+-- Notes: 
 --      Functions have been moved to under LibUIDropDownMenu.lua
 --      New function calls are as below:
 --
