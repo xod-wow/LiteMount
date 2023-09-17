@@ -1,6 +1,6 @@
 LM = {}
 
-loadfile("../Libs/LibStub.lua")()
+loadfile("../Libs/LibStub/LibStub.lua")()
 loadfile("../Libs/CallbackHandler-1.0/CallbackHandler-1.0.lua")()
 loadfile("../Libs/AceDB-3.0/AceDB-3.0.lua")()
 loadfile("../Libs/AceSerializer-3.0/AceSerializer-3.0.lua")()

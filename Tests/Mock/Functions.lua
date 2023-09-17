@@ -275,6 +275,18 @@ function CopyTable(src)
     return dst
 end
 
+function GetKeysArray(t)
+    local out = { }
+    for k in pairs(t) do table.insert(out, k) end
+    return out
+end
+
+function GetValuesArray(t)
+    local out = { }
+    for _,v in pairs(t) do table.insert(out, v) end
+    return out
+end
+
 function strsplit(sep, str)
    local sep, fields = sep or ":", {}
    local pattern = string.format("([^%s]+)", sep)
