@@ -1,0 +1,9 @@
+## Interface: 100107
+## Title: MountsRarity
+## Notes: Provides rarity data of mounts among the playerbase
+## Author: Kiaro-Frostwolf
+## Version: 2.1.0
+## X-Website: https://github.com/sgade/MountsRarity
+## X-Category: Library
+
+embeds.xml

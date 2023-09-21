@@ -4,7 +4,7 @@
 ## Author: Xodiv-Nagrand
 ## Email: mib@post.com
 ## IconTexture: 132247
-## OptionalDependencies: LibDebug, MountsRarity
+## OptionalDependencies: LibDebug
 ## SavedVariables: LiteMountDB
 ## X-Curse-Project-ID: 30359
 ## X-WoWI-ID: 26329
