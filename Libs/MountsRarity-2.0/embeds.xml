@@ -1,0 +1,4 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Include file="Libs\LibStub\LibStub.lua" />
+    <Include file="MountsRarity-2.0.xml" />
+</Ui>
