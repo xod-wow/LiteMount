@@ -195,28 +195,30 @@ end
 function LM.MountList:RarityRandom(r)
     if #self == 0 then return end
 
-    local mountsRarity = {}
-    local totalWeight = 0
+    local weights, totalWeight = {}, 0
 
-    for _, m in ipairs(self) do
-        local rarity = MountsRarity:GetRarityByID(m.mountID) or 50
-        local invertedRarity = ( 1 / rarity )
-
-        if m:GetPriority() == LM.Options.DISABLED_PRIORITY then
-            mountsRarity[m.mountID] = 0
+    for i, m in ipairs(self) do
+        local p = m:GetPriority()
+        if p == LM.Options.DISABLED_PRIORITY then
+            weights[i] = 0
+        else
+            local rarity = MountsRarity:GetRarityByID(m.mountID) or 50
+            -- The weight is the mount's inverted rarity (rarer mounts are more likely)
+            weights[i] = ( 1 / rarity )
         end
-        mountsRarity[m.mountID] = invertedRarity
-        totalWeight = totalWeight + invertedRarity
+        totalWeight = totalWeight + weights[i]
     end
 
     local cutoff = (r or math.random()) * totalWeight
 
-    local searchWeight = 0
-    for _, m in ipairs(self) do
-        searchWeight = searchWeight + mountsRarity[m.mountID]
-        if searchWeight > cutoff then
-            LM.Debug(format(' - RarityRandom n=%d, t=%0.3f, c=%0.3f, chance=%0.3f, rarity=%0.3f', #self, totalWeight, cutoff, ( mountsRarity[m.mountID] / totalWeight * 100 ), ( 1 / mountsRarity[m.mountID] )))
-            return m
+    LM.Debug(format(' - RarityRandom n=%d, t=%0.3f, c=%0.3f', #self, totalWeight, cutoff))
+
+    local t = 0
+    for i = 1, #self do
+        t = t + weights[i]
+        if t > cutoff then
+            LM.Debug(format(" - RarityRandom chance=%0.3f, rarity=%0.3f", ( weights[i] / totalWeight * 100 ), ( 1 / weights[i] )))
+            return self[i]
         end
     end
 end
