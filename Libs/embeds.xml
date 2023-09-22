@@ -1,8 +1,0 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
-    <Include file="LibStub\LibStub.lua" />
-    <Include file="CallbackHandler-1.0\CallbackHandler-1.0.xml" />
-    <Include file="AceDB-3.0\AceDB-3.0.xml" />
-    <Include file="AceSerializer-3.0\AceSerializer-3.0.xml" />
-    <Include file="LibDeflate\LibDeflate.lua" />
-    <Include file="LibUIDropDownMenu\LibUIDropDownMenu.lua" />
-</Ui>
