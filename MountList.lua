@@ -10,6 +10,8 @@
 
 local _, LM = ...
 
+local MountsRarity = LibStub("MountsRarity-2.0")
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -192,27 +194,22 @@ end
 
 function LM.MountList:RarityRandom(r)
     if #self == 0 then return end
-    if not MountsRarityAddon or not MountsRarityAddon.MountsRarity then
-        LM.Debug(" - RarityRandom: MountsRarity not loaded. Defaulting to SimpleRandom.")
-        return self:SimpleRandom(r)
-    end
 
     local mountsRarity = {}
     local totalWeight = 0
 
     for _, m in ipairs(self) do
-        local rarity = MountsRarityAddon.MountsRarity[tostring(m.mountID)]
-        if not rarity then
-            LM.Debug(format(" - Missing rarity data for mountID %d", m.mountID) .. " (" .. m.name .. ")")
-            rarity = 50.0 -- for unknown mounts
-        end
+        local rarity = MountsRarity:GetRarityByID(m.mountID) or 50
         local invertedRarity = ( 1 / rarity )
 
+        if m:GetPriority() == LM.Options.DISABLED_PRIORITY then
+            mountsRarity[m.mountID] = 0
+        end
         mountsRarity[m.mountID] = invertedRarity
         totalWeight = totalWeight + invertedRarity
     end
 
-    local cutoff = math.random() * totalWeight
+    local cutoff = (r or math.random()) * totalWeight
 
     local searchWeight = 0
     for _, m in ipairs(self) do
