@@ -12,6 +12,10 @@ ignore:
   - Libs/LibDeflate/*.toc
   - Libs/LibDeflate/*.md
   - Libs/Libstub/tests
+  - Libs/MountsRarity-2.0/Libs
+  - Libs/MountsRarity-2.0/scripts
+  - Libs/MountsRarity-2.0/embeds.xml
+  - Libs/MountsRarity-2.0/MountsRarity.toc
 
 externals:
   Libs/AceDB-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceDB-3.0
