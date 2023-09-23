@@ -128,6 +128,7 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
     L["LM_SHOW_ALL_MOUNTS"] = "Show all mounts"
     L["LM_SMARTMOUNT_ACTION"] = "Smart Priority Mount"
     L["LM_SUMMON_CHAT_MESSAGE"] = "%s (Priority: %d, Summons: %d)"
+    L["LM_SUMMON_CHAT_MESSAGE_RARITY"] = "%s (Rarity: %0.1f%%, Summons: %d)"
     L["LM_TRANSLATORS"] = "Translators"
     L["LM_USABLE"] = "Usable"
     L["LM_WARN_REPLACE_COND"] = "The [%s] action list condition has been replaced by [%s] due to Blizzard changes."

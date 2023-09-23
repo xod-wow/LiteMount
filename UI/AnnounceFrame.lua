@@ -22,13 +22,22 @@ function LiteMountAnnounceFrameMixin:OnLoad()
     LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "OnCallback")
 end
 
+local function GetColorText(mount)
+    if LM.Options:GetOption('randomWeightStyle') == 'Rarity' then
+        local r = mount:GetRarity()
+        local c = LM.UIFilter.GetRarityColor(r)
+        return c:WrapTextInColorCode(mount.name)
+    else
+        local p = mount:GetPriority()
+        local c = LM.UIFilter.GetPriorityColor(p)
+        return c:WrapTextInColorCode(mount.name)
+    end
+end
+
 function LiteMountAnnounceFrameMixin:OnCallback(callbackName, mount)
-    local _, viaUI, colors = LM.Options:GetAnnounce()
-    if viaUI then
-        if colors then
-            local p = mount:GetPriority()
-            local c = LM.UIFilter.GetPriorityColor(p)
-            self.Text:SetText(c:WrapTextInColorCode(mount.name))
+    if LM.Options:GetOption('announceViaUI') then
+        if LM.Options:GetOption('announceColors') then
+            self.Text:SetText(GetColorText(mount))
         else
             self.Text:SetText(mount.name)
             self.Text:SetTextColor(1, 1, 0.25)

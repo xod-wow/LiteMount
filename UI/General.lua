@@ -111,15 +111,15 @@ function LiteMountGeneralPanelMixin:OnLoad()
     self.AnnounceChat.SetOption =
         function (self, setting)
             if not setting or setting == "0" then
-                LM.Options:SetAnnounce(false)
+                LM.Options:SetOption('announceViaChat', false)
             else
-                LM.Options:SetAnnounce(true)
+                LM.Options:SetOption('announceViaChat', true)
             end
         end
     self.AnnounceChat.GetOption =
-        function (self) return LM.Options:GetAnnounce() end
+        function (self) return LM.Options:GetOption('announceViaChat') end
     self.AnnounceChat.GetOptionDefault =
-        function (self) return false end
+        function (self) return LM.Options:GetOptionDefault('announceViaChat') end
     LiteMountOptionsPanel_RegisterControl(self.AnnounceChat)
 
     -- AnnounceUI --
@@ -127,15 +127,15 @@ function LiteMountGeneralPanelMixin:OnLoad()
     self.AnnounceUI.SetOption =
         function (self, setting)
             if not setting or setting == "0" then
-                LM.Options:SetAnnounce(nil, false)
+                LM.Options:SetOption('announceViaUI', false)
             else
-                LM.Options:SetAnnounce(nil, true)
+                LM.Options:SetOption('announceViaUI', true)
             end
         end
     self.AnnounceUI.GetOption =
-        function (self) return select(2, LM.Options:GetAnnounce()) end
+        function (self) return LM.Options:GetOption('announceViaUI') end
     self.AnnounceUI.GetOptionDefault =
-        function (self) return false end
+        function (self) return LM.Options:GetOptionDefault('announceViaUI') end
     LiteMountOptionsPanel_RegisterControl(self.AnnounceUI)
 
     -- AnnounceColors --
@@ -143,15 +143,15 @@ function LiteMountGeneralPanelMixin:OnLoad()
     self.AnnounceColors.SetOption =
         function (self, setting)
             if not setting or setting == "0" then
-                LM.Options:SetAnnounce(nil, nil, false)
+                LM.Options:SetOption('announceColors', false)
             else
-                LM.Options:SetAnnounce(nil, nil, true)
+                LM.Options:SetOption('announceColors', true)
             end
         end
     self.AnnounceColors.GetOption =
-        function (self) return select(3, LM.Options:GetAnnounce()) end
+        function (self) return LM.Options:GetOption('announceColors') end
     self.AnnounceColors.GetOptionDefault =
-        function (self) return false end
+        function (self) return LM.Options:GetOptionDefault('announceColors') end
     LiteMountOptionsPanel_RegisterControl(self.AnnounceColors)
 
     -- InstantOnlyMoving --

@@ -377,7 +377,7 @@ ACTIONS['SmartMount'] = {
 
             if next(filteredList) == nil then return end
 
-            local randomStyle = context.randomStyle or 'Priority'
+            local randomStyle = LM.Options:GetOption('randomWeightStyle')
 
             local m
 

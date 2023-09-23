@@ -371,6 +371,24 @@ function LM.UIFilter.GetPriorityText(p)
 end
 
 
+-- Rarities --------------------------------------------------------------------
+
+-- 0 <= r <= 1
+
+function LM.UIFilter.GetRarityColor(r)
+    if r <= 1 then
+        return PriorityColors[4]
+    elseif r <= 5 then
+        return PriorityColors[3]
+    elseif r <= 20 then
+        return PriorityColors[2]
+    elseif r <= 50 then
+        return PriorityColors[1]
+    else
+        return PriorityColors['']
+    end
+end
+
 -- Other -----------------------------------------------------------------------
 
 function LM.UIFilter.IsOtherChecked(k)

@@ -10,8 +10,6 @@
 
 local _, LM = ...
 
-local MountsRarity = LibStub("MountsRarity-2.0")
-
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -198,11 +196,10 @@ function LM.MountList:RarityRandom(r)
     local weights, totalWeight = {}, 0
 
     for i, m in ipairs(self) do
-        local p = m:GetPriority()
-        if p == LM.Options.DISABLED_PRIORITY then
+        if m:GetPriority() == LM.Options.DISABLED_PRIORITY then
             weights[i] = 0
         else
-            local rarity = MountsRarity:GetRarityByID(m.mountID) or 50
+            local rarity = m:GetRarity() or 50
             -- The weight is the mount's inverted rarity (rarer mounts are more likely)
             weights[i] = ( 1 / rarity )
         end
