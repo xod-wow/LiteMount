@@ -188,6 +188,23 @@ function LiteMountGeneralPanelMixin:OnLoad()
         function (self) return LM.Options:GetOption('restoreForms') end
     LiteMountOptionsPanel_RegisterControl(self.RestoreForms)
 
+    -- UseRarityWeight --
+
+    self.UseRarityWeight.Text:SetText('XXX FIXME XXX enable rarity')
+    self.UseRarityWeight.SetOption =
+        function (self, setting)
+            if not setting or setting == "0" then
+                LM.Options:SetOption('randomWeightStyle', 'Priority')
+            else
+                LM.Options:SetOption('randomWeightStyle', 'Rarity')
+            end
+        end
+    self.UseRarityWeight.GetOptionDefault =
+        function (self) return LM.Options:GetOptionDefault('randomWeightStyle') == 'Rarity' end
+    self.UseRarityWeight.GetOption =
+        function (self) return LM.Options:GetOption('randomWeightStyle') == 'Rarity' end
+    LiteMountOptionsPanel_RegisterControl(self.UseRarityWeight)
+
     -- RandomPersistDropDown --
 
     self.RandomPersistDropDown.GetOption =

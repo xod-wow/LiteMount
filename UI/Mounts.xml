@@ -147,6 +147,12 @@
                     <Anchor point="TOP" relativePoint="CENTER" y="-2" />
                 </Anchors>
             </FontString>
+            <FontString inherits="GameFontWhiteTiny" justifyH="RIGHT" parentKey="Rarity">
+                <Anchors>
+                    <Anchor point="RIGHT" relativeKey="$parent.Priority" relativePoint="LEFT" x="-8" />
+                    <Anchor point="TOP" relativePoint="CENTER" y="-2" />
+                </Anchors>
+            </FontString>
         </Layer>
     </Layers>
 

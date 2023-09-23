@@ -27,8 +27,13 @@ function LiteMountPriorityMixin:Update()
         self.Plus:Show()
         self.Priority:SetText('')
     end
-    local r, g, b = LM.UIFilter.GetPriorityColor(value):GetRGB()
-    self.Background:SetColorTexture(r, g, b, 0.33)
+    if LM.Options:GetOption('randomWeightStyle') == 'Rarity' and value ~= 0 then
+        local r, g, b = LM.UIFilter.GetPriorityColor(''):GetRGB()
+        self.Background:SetColorTexture(r, g, b, 0.33)
+    else
+        local r, g, b = LM.UIFilter.GetPriorityColor(value):GetRGB()
+        self.Background:SetColorTexture(r, g, b, 0.33)
+    end
 end
 
 function LiteMountPriorityMixin:Get()
@@ -64,6 +69,13 @@ function LiteMountPriorityMixin:OnEnter()
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     GameTooltip:ClearLines()
     GameTooltip:AddLine(L.LM_PRIORITY)
+
+    if LM.Options:GetOption('randomWeightStyle') == 'Rarity' then
+        GameTooltip:AddLine(' ')
+        GameTooltip:AddLine('XXX FIXME XXX rarity enabled priority disabled', 1, 1, 1)
+        GameTooltip:AddLine(' ')
+    end
+        
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
         local t, d = LM.UIFilter.GetPriorityText(p)
         GameTooltip:AddLine(t .. ' - ' .. d)
@@ -234,6 +246,13 @@ function LiteMountMountButtonMixin:Update(bitFlags, mount)
             table.insert(flagTexts, L[flag])
         end
         self.Types:SetText(strjoin(' ', unpack(flagTexts)))
+    end
+
+    local rarity = mount:GetRarity()
+    if rarity then
+        self.Rarity:SetFormattedText("%0.1f%%", rarity)
+    else
+        self.Rarity:SetText('')
     end
 
     if not mount.isCollected then
