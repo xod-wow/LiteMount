@@ -153,10 +153,10 @@ function LM.MountList:SimpleRandom(r)
     end
 end
 
-function LM.MountList:PriorityRandom(r)
+-- This is not a basic weight by priority. The ratios of how often you get a mount of
+-- each priority remain the same regardless of how many you have.
 
-    if #self == 0 then return end
-
+function LM.MountList:PriorityWeights()
     local priorityCounts = { }
 
     for _,m in ipairs(self) do
@@ -164,9 +164,9 @@ function LM.MountList:PriorityRandom(r)
         priorityCounts[p] = ( priorityCounts[p] or 0 ) + 1
     end
 
-    local weights, totalWeight = {}, 0
+    local weights = { total=0 }
 
-    for i,m in ipairs(self) do
+    for i, m in ipairs(self) do
         local p, w  = m:GetPriority()
         -- Handle the "always" priority by setting all the others to weight 0
         if priorityCounts[LM.Options.ALWAYS_PRIORITY] and p ~= LM.Options.ALWAYS_PRIORITY then
@@ -174,26 +174,14 @@ function LM.MountList:PriorityRandom(r)
         else
             weights[i] = w / ( priorityCounts[p] + 1 )
         end
-        totalWeight = totalWeight + weights[i]
+        weights.total = weights.total + weights[i]
     end
 
-    local cutoff = (r or math.random()) * totalWeight
-
-    LM.Debug(format(' - PriorityRandom n=%d, t=%0.3f, c=%0.3f', #self, totalWeight, cutoff))
-
-    local t = 0
-    for i = 1, #self do
-        t = t + weights[i]
-        if t > cutoff then
-            return self[i]
-        end
-    end
+    return weights
 end
 
-function LM.MountList:RarityRandom(r)
-    if #self == 0 then return end
-
-    local weights, totalWeight = {}, 0
+function LM.MountList:RarityWeights()
+    local weights = { total=0 }
 
     for i, m in ipairs(self) do
         if m:GetPriority() == LM.Options.DISABLED_PRIORITY then
@@ -201,30 +189,43 @@ function LM.MountList:RarityRandom(r)
         else
             local rarity = m:GetRarity() or 50
             -- The weight is the mount's inverted rarity (rarer mounts are more likely)
-            weights[i] = ( 1 / rarity )
+            weights[i] = 1 / rarity
         end
-        totalWeight = totalWeight + weights[i]
+        weights.total = weights.total + weights[i]
     end
 
-    local cutoff = (r or math.random()) * totalWeight
+    return weights
+end
 
-    LM.Debug(format(' - RarityRandom n=%d, t=%0.3f, c=%0.3f', #self, totalWeight, cutoff))
+function LM.MountList:WeightedRandom(weights, r)
+    if weights.total == 0 then
+        LM.Debug(format(' - WeightedRandom n=%d all weights 0'))
+        return
+    end
+
+    local cutoff = (r or math.random()) * weights.total
 
     local t = 0
     for i = 1, #self do
         t = t + weights[i]
         if t > cutoff then
-            LM.Debug(format(" - RarityRandom chance=%0.3f, rarity=%0.3f", ( weights[i] / totalWeight * 100 ), ( 1 / weights[i] )))
+            LM.Debug(format(' - WeightedRandom n=%d, t=%0.3f, c=%0.3f, w=%0.3f, p=%0.3f',
+                                #self, weights.total, cutoff,
+                                weights[i],
+                                weights[i] / weights.total))
             return self[i]
         end
     end
 end
 
 function LM.MountList:Random(r, style)
+    if #self == 0 then return end
     if style == 'Priority' then
-        return self:PriorityRandom(r)
+        local weights = self:PriorityWeights()
+        return self:WeightedRandom(weights, r)
     elseif style == 'Rarity' then
-        return self:RarityRandom(r)
+        local weights = self:RarityWeights()
+        return self:WeightedRandom(weights, r)
     else
         return self:SimpleRandom(r)
     end
