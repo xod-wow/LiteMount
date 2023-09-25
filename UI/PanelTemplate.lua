@@ -169,7 +169,8 @@ function LiteMountOptionsPanel_OnShow(self)
     LM.UIDebug(self, "Panel_OnShow")
     LiteMountOptions.CurrentOptionsPanel = self
 
-    self:OnRefresh()
+    -- Blizzard SettingsPanel takes care of calling OnRefresh now
+    -- self:OnRefresh('Panel_OnShow')
 
     LM.Options.db.RegisterCallback(self, "OnOptionsModified", "OnRefresh")
     LM.Options.db.RegisterCallback(self, "OnOptionsProfile", "OnReset")
