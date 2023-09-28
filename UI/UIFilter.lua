@@ -376,6 +376,7 @@ end
 -- 0 <= r <= 1
 
 function LM.UIFilter.GetRarityColor(r)
+    r = r or 50
     if r <= 1 then
         return PriorityColors[4]
     elseif r <= 5 then
