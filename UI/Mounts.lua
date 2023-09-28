@@ -72,7 +72,7 @@ function LiteMountPriorityMixin:OnEnter()
 
     if LM.Options:GetOption('randomWeightStyle') == 'Rarity' then
         GameTooltip:AddLine(' ')
-        GameTooltip:AddLine('XXX FIXME XXX rarity enabled priority disabled', 1, 1, 1)
+        GameTooltip:AddLine(L.LM_RARITY_DISABLES_PRIORITY, 1, 1, 1, true)
         GameTooltip:AddLine(' ')
     end
         
@@ -250,9 +250,11 @@ function LiteMountMountButtonMixin:Update(bitFlags, mount)
 
     local rarity = mount:GetRarity()
     if rarity then
-        self.Rarity:SetFormattedText("%0.1f%%", rarity)
+        self.Rarity:SetFormattedText(L.LM_RARITY_FORMAT, rarity)
+        self.Rarity.toolTip = format(L.LM_RARITY_FORMAT_LONG, rarity)
     else
         self.Rarity:SetText('')
+        self.Rarity.toolTip = nil
     end
 
     if not mount.isCollected then

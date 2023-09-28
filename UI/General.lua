@@ -190,7 +190,7 @@ function LiteMountGeneralPanelMixin:OnLoad()
 
     -- UseRarityWeight --
 
-    self.UseRarityWeight.Text:SetText('XXX FIXME XXX enable rarity')
+    self.UseRarityWeight.Text:SetText(L.LM_USE_RARITY_WEIGHTS)
     self.UseRarityWeight.SetOption =
         function (self, setting)
             if not setting or setting == "0" then
@@ -199,6 +199,16 @@ function LiteMountGeneralPanelMixin:OnLoad()
                 LM.Options:SetOption('randomWeightStyle', 'Rarity')
             end
         end
+    if not IsAddOnLoaded('MountsRarity') then
+        self.UseRarityWeight.Text:SetScript('OnEnter',
+                function (self)
+                    GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+                    GameTooltip:AddLine(L.LM_RARITY_DATA_INFO, 1, 1, 1, true)
+                    GameTooltip:Show()
+                end)
+        self.UseRarityWeight.Text:SetScript('OnLeave', GameTooltip_Hide)
+        self.UseRarityWeight.Text:EnableMouse(true)
+    end
     self.UseRarityWeight.GetOptionDefault =
         function (self) return LM.Options:GetOptionDefault('randomWeightStyle') == 'Rarity' end
     self.UseRarityWeight.GetOption =

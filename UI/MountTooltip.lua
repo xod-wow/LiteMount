@@ -101,7 +101,7 @@ function LiteMountTooltipMixin:SetMount(m, canMount)
 
     local r = m:GetRarity()
     if r then
-        self:AddLine("|cffffffff"..RARITY..":|r "..string.format("%.1f%%", r))
+        self:AddLine("|cffffffff"..RARITY..":|r "..string.format(L.LM_RARITY_FORMAT, r))
     end
 
     if m.description then
