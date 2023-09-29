@@ -213,10 +213,8 @@ function LM.Mount:OnSummon()
 
     if LM.Options:GetOption('randomWeightStyle') == 'Rarity' then
         local rarity = self:GetRarity()
-        rarity = rarity and string.format("%0.1f", rarity) or 0
-        LM.Print(string.format(
-                    L.LM_SUMMON_CHAT_MESSAGE_RARITY,
-                    self.name, rarity, n))
+        rarity = string.format(L.LM_RARITY_FORMAT, rarity or 0)
+        LM.Print(string.format(L.LM_SUMMON_CHAT_MESSAGE_RARITY, self.name, rarity, n))
     else
         LM.Print(string.format(
                     L.LM_SUMMON_CHAT_MESSAGE,
