@@ -52,6 +52,10 @@ LM.MOUNTFAMILY["Aquilon"] = {
 LM.MOUNTFAMILY["Armoredon"] = {
     [387231] = true, -- Hailstorm Armoredon
     [406637] = true, -- Inferno Armoredon
+    [422486] = true, -- Verdant Armoredon
+}
+
+LM.MOUNTFAMILY["Bakar"] = {
 }
 
 LM.MOUNTFAMILY["Basilisk"] = {
@@ -406,6 +410,28 @@ LM.MOUNTFAMILY["Dreadsteed"] = {
     [413922] = true, -- Valiance
 }
 
+LM.MOUNTFAMILY["Dreamsaber"] = {
+    [424479] = true, -- Evening Sun Dreamsaber
+    [424482] = true, -- Mourning Flourish Dreamsaber
+    [424474] = true, -- Shadow Dusk Dreamsaber
+    [424476] = true, -- Winter Night Dreamsaber
+}
+
+LM.MOUNTFAMILY["Dreamstag"] = {
+    [423871] = true, -- Blossoming Dreamstag
+    [423891] = true, -- Lunar Dreamstag
+    [423877] = true, -- Rekindled Dreamstag
+    [427226] = true, -- Stargrazer
+    [423873] = true, -- Suntouched Dreamstag
+}
+
+LM.MOUNTFAMILY["Dreamtalon"] = {
+    [427041] = true, -- Ochre Dreamtalon
+    [427043] = true, -- Snowfluff Dreamtalon
+    [426955] = true, -- Springtide Dreamtalon
+    [427224] = true, -- Talont
+}
+
 LM.MOUNTFAMILY["Eagle"] = {
     [385262] = true, -- Duskwing Ohuna
     [395644] = true, -- Divine Kiss of Ohn'ahra
@@ -482,6 +508,7 @@ LM.MOUNTFAMILY["Felbat"] = {
 
 LM.MOUNTFAMILY["Fey Dragon"] = {
     [142878] = true, -- Enchanted Fey Dragon
+    [425338] = true, -- Flourishing Whimsydrake
 }
 
 LM.MOUNTFAMILY["Fire Hawk"] = {
@@ -504,6 +531,7 @@ LM.MOUNTFAMILY["Flying Carpet"] = {
 }
 
 LM.MOUNTFAMILY["Fox"] = {
+    [427435] = true, -- Crimson Glimmerfur
     [171850] = true, -- Llothien Prowler
     [242897] = true, -- Vicious War Fox
     [242896] = true, -- Vicious War Fox
@@ -788,6 +816,7 @@ LM.MOUNTFAMILY["Mammoth"] = {
     [ 59797] = true, -- Ice Mammoth
     [ 59799] = true, -- Ice Mammoth
     [373859] = true, -- Loyal Magmammoth
+    [427546] = true, -- Mammyth
     [374194] = true, -- Mossy Mammoth
     [374196] = true, -- Plainswalker Bearer
     [374275] = true, -- Raging Magmammoth
@@ -877,6 +906,11 @@ LM.MOUNTFAMILY["Mechanostrider"] = {
     [ 15779] = true, -- White Mechanostrider Mod B
 }
 
+LM.MOUNTFAMILY["Moonbeast"] = {
+    [424534] = true, -- Vicious Moonbeast (Alliance)
+    [424535] = true, -- Vicious Moonbeast (Horde)
+}
+
 LM.MOUNTFAMILY["Moth"] = {
     [342666] = true, -- Amber Ardenmoth
     [332256] = true, -- Duskflutter Ardenmoth
@@ -920,7 +954,12 @@ LM.MOUNTFAMILY["Nether Ray"] = {
     [ 39802] = true, -- Silver Riding Nether Ray
 }
 
+LM.MOUNTFAMILY["Owl"] = {
+    [424484] = true, -- Anu'relos, Flame's Guidance
+}
+
 LM.MOUNTFAMILY["Ottuk"] = {
+    [427222] = true, -- Delugen
     [359409] = true, -- Iskaara Trader's Ottuk
     [376879] = true, -- Ivory Trader's Ottuk
     [376875] = true, -- Brown Ottuk
@@ -1130,7 +1169,15 @@ LM.MOUNTFAMILY["Rylak"] = {
 
 LM.MOUNTFAMILY["Salamanther"] = {
     [374090] = true, -- Ancient Salamanther
+    [427724] = true, -- Salatrancer
     [374098] = true, -- Stormhide Salamanther
+}
+
+LM.MOUNTFAMILY["Scarab"] = {
+    [428060] = true, -- Golden Regal Scarab
+    [428005] = true, -- Jeweled Copper Scarab
+    [428065] = true, -- Jeweled Jade Scarab
+    [428062] = true, -- Jeweled Sapphire Scarab
 }
 
 LM.MOUNTFAMILY["Scorpid"] = {
@@ -1166,6 +1213,7 @@ LM.MOUNTFAMILY["Serpent"] = {
 
 LM.MOUNTFAMILY["Shalewing"] = {
     [408627] = true, -- Igneous Shalewing
+    [427549] = true, -- Imagiwing
     [408651] = true, -- Catalogued Shalewing
     [408647] = true, -- Cobalt Shalewing
     [408653] = true, -- Boulder Hauler
@@ -1229,6 +1277,7 @@ LM.MOUNTFAMILY["Skullboar"] = {
 LM.MOUNTFAMILY["Slitherdrake"] = {
     [368893] = true, -- Winding Slitherdrake
     [408977] = true, -- Obsidian Gladiator's Slitherdrake
+    [425416] = true, -- Verdant Gladiator's Slitherdrake
 }
 
 LM.MOUNTFAMILY["Slug"] = {
