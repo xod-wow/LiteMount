@@ -189,7 +189,8 @@ function LM.MountList:RarityWeights()
         else
             local rarity = m:GetRarity() or 50
             -- The weight is the mount's inverted rarity (rarer mounts are more likely)
-            weights[i] = 1 / rarity
+            -- Math fudge to guard against 0% rarity.
+            weights[i] = 101 / ( rarity + 1) - 1
         end
         weights.total = weights.total + weights[i]
     end
