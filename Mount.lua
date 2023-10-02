@@ -231,7 +231,9 @@ function LM.Mount:GetPriority()
 end
 
 function LM.Mount:GetRarity()
-    return MountsRarity:GetRarityByID(self.mountID)
+    if self.mountID then
+        return MountsRarity:GetRarityByID(self.mountID) or 0
+    end
 end
 
 -- This is gross
