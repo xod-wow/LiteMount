@@ -75,7 +75,7 @@ function LiteMountPriorityMixin:OnEnter()
         GameTooltip:AddLine(L.LM_RARITY_DISABLES_PRIORITY, 1, 1, 1, true)
         GameTooltip:AddLine(' ')
     end
-        
+
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
         local t, d = LM.UIFilter.GetPriorityText(p)
         GameTooltip:AddLine(t .. ' - ' .. d)

@@ -24,7 +24,7 @@
         <Button parentArray="mount" inherits="LiteMountPickerMountButtonTemplate" />
     </Frames>
 </Button>
-                    
+
 <Frame name="LiteMountPicker" mixin="LiteMountPickerMixin" inherits="LiteMountContainerStyleTemplate" hidden="true">
     <Size x="580" y="420" />
     <Anchors>
