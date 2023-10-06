@@ -65,6 +65,8 @@ end
 function LM.Mount:FilterToDisplay(f)
     if not f or f == "NONE" then
         return NONE
+    elseif f == "FAVORITES" then
+        return FAVORITES
     elseif f:sub(1,1) == '~' then
         return string.format(L.LM_NOT_FORMAT, self:FilterToDisplay(f:sub(2)))
     elseif f:match('^id:%d+$') then
