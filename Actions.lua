@@ -409,6 +409,11 @@ ACTIONS['SmartMount'] = {
                 m = swim:Random(context.random, randomStyle)
             end
 
+            -- XXX Is it actually sensible to always fall back to a ground mount?
+            -- XXX What would break if it only did this when the other conditions
+            -- XXX definitely didn't match, instead of just falling through. I kind
+            -- of want do "SmartMount ZONEMATCH" but can't.
+
             if not m then
                 LM.Debug(" - trying Ground Mount")
                 local run = filteredList:FilterSearch('RUN', '~SLOW')

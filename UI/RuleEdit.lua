@@ -294,6 +294,7 @@ local function ActionArgsMenu()
         flagMenuList,
 --      typeMenuList,
 --      familyMenuList,
+        { val = "FAVORITES", text = FAVORITES:upper() },
         { val = "NONE", text = NONE:upper() },
     }
 end
