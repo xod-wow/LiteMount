@@ -61,6 +61,7 @@ COMMANDS['priority'] =
         priority = tonumber(priority)
         if mount and priority then
             LM.Options:SetPriority(mount, priority)
+            LM.Print(format("Setting priority of %s to %d.", mount.name, priority))
         end
     end
 
