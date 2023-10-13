@@ -11,7 +11,10 @@
     <Size x="128" y="128" />
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="Text" inherits="Game36Font_Shadow2">
+            <FontString parentKey="Text" inherits="Game36Font">
+                <Shadow x="2" y="-2">
+                    <Color r="0" g="0" b="0"/>
+                </Shadow>
                 <Anchors> <Anchor point="CENTER" /> </Anchors>
             </FontString>
             <FontString parentKey="SubText" inherits="SystemFont_Shadow_Large2">
