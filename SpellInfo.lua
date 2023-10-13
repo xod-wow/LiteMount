@@ -21,7 +21,9 @@ LM.FLAG = { }
 LM.FLAG.RUN             = 0
 LM.FLAG.FLY             = 1
 LM.FLAG.SWIM            = 2
-LM.FLAG.DRAGONRIDING    = 3
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+    LM.FLAG.DRAGONRIDING    = 3
+end
 
 LM.SPELL = { }
 LM.SPELL.TRAVEL_FORM = 783
