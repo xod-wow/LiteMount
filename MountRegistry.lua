@@ -169,7 +169,9 @@ end
 function LM.MountRegistry:AddSpellMounts()
     for _,typeAndArgs in ipairs(MOUNT_SPELLS) do
         local m = LM.Mount:Get(unpack(typeAndArgs))
-        self:AddMount(m)
+        if m then
+            self:AddMount(m)
+        end
     end
 end
 
