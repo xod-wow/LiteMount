@@ -77,7 +77,7 @@ function LM.Mount:FilterToDisplay(f)
         return L.LM_FAMILY .. ' : ' .. L[family]
     elseif f:match('^mt:%d+$') then
         local _, id = string.split(':', f, 2)
-        return TYPE .. " : " .. LM.MOUNT_TYPES[tonumber(id)]
+        return TYPE .. " : " .. ( LM.MOUNT_TYPES[tonumber(id)] or id )
     elseif LM.Options:IsGroup(f) then
         return L.LM_GROUP .. ' : ' .. f
     elseif LM.Options:IsFlag(f) then
