@@ -63,12 +63,15 @@ LM.ITEM.DEADSOUL_HOUND_HARNESS = 170498
 LM.ITEM.SPECTRAL_BRIDLE = 174464
 LM.ITEM.MAW_SEEKER_HARNESS = 170499
 
+local vashjirMap = C_Map.GetMapInfo(203)
+local aqMap = C_Map.GetMapInfo(319)
+
 LM.MOUNT_TYPES = {
     [0]   = OTHER,
     [230] = MOUNT_JOURNAL_FILTER_GROUND,
     [231] = GetSpellInfo(64731), -- Sea Turtle
-    [232] = C_Map.GetMapInfo(203).name, -- Vashj'ir
-    [241] = C_Map.GetMapInfo(319).name, -- Anh'Qiraj
+    [232] = vashjirMap and vashjirMap.name,
+    [241] = aqMap and aqMap.name,
     [242] = DEAD,
     [247] = C_MountJournal.GetMountInfoByID(509), -- Red Flying Cloud
     [248] = MOUNT_JOURNAL_FILTER_FLYING,
