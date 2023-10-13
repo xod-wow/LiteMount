@@ -97,7 +97,6 @@ function LM.MountRegistry:Initialize()
     -- These are in this order so custom stuff is prioritized
     self:AddSpellMounts()
     self:AddJournalMounts()
-
     self:BuildIndexes()
 
     -- Refresh event setup
@@ -157,23 +156,8 @@ function LM.MountRegistry:AddMount(m)
 end
 
 function LM.MountRegistry:AddJournalMounts()
-    -- This is horrible but I can't find any other way to get the "unusable" flag
-    local usableMounts = {}
-
-    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_COLLECTED, true)
-    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_NOT_COLLECTED, true)
-    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_UNUSABLE, false)
-    C_MountJournal.SetAllSourceFilters(true)
-    C_MountJournal.SetAllTypeFilters(true)
-    C_MountJournal.SetSearch('')
-
-    for i = 1, C_MountJournal.GetNumDisplayedMounts() do
-        local mountID = select(12, C_MountJournal.GetDisplayedMountInfo(i))
-        usableMounts[mountID] = true
-    end
-
     for _, mountID in ipairs(C_MountJournal.GetMountIDs()) do
-        local m = LM.Mount:Get("Journal", mountID, usableMounts[mountID])
+        local m = LM.Mount:Get("Journal", mountID)
         if m then self:AddMount(m) end
     end
 end

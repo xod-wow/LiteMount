@@ -38,7 +38,7 @@ LM.Journal.__index = LM.Journal
 --  [5] mountTypeID,
 --  [6] uiModelSceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
-function LM.Journal:Get(id, isUsable)
+function LM.Journal:Get(id)
     local name, spellID, icon, _, _, sourceType, isFavorite, _, faction, isFiltered, isCollected, mountID, dragonRiding = C_MountJournal.GetMountInfoByID(id)
     local modelID, descriptionText, sourceText, isSelfMount, mountTypeID, sceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
@@ -59,11 +59,10 @@ function LM.Journal:Get(id, isUsable)
     m.mountTypeID   = mountTypeID
     m.description   = descriptionText
     m.sourceType    = sourceType
-    m.sourceText    = sourceText
+    m.sourceText    = sourceText ~= '' and sourceText
     m.isFavorite    = isFavorite
     m.isFiltered    = isFiltered
     m.isCollected   = isCollected
-    m.isUsable      = isFiltered == false and isUsable == true
     m.dragonRiding  = dragonRiding
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
     m.flags         = { }
@@ -172,6 +171,11 @@ function LM.Journal:Refresh()
     self.isFiltered = isFiltered
     self.isCollected = isCollected
     LM.Mount.Refresh(self)
+end
+
+function LM.Journal:IsUsable()
+    local isUsable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
+    return isUsable
 end
 
 function LM.Journal:IsCastable()

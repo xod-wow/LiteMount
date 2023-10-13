@@ -466,9 +466,11 @@ function LM.UIFilter.IsFilteredMount(m)
         return true
     end
 
-    -- isUsable is only set for journal mounts so nil is true
-    if LM.UIFilter.filterList.other.UNUSABLE and m.isUsable == false then
-        return true
+    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+        -- isUsable is only set for journal mounts so nil is true
+        if LM.UIFilter.filterList.other.UNUSABLE and m:IsUsable() == false then
+            return true
+        end
     end
 
     -- Priority Filters
