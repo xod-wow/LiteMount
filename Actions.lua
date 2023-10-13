@@ -30,6 +30,7 @@ local savedFormName = nil
 local restoreFormIDs = {
     [1] = true,     -- Cat Form
     [5] = true,     -- Bear Form
+    [8] = true,     -- Bear Form (Classic)
     [31] = true,    -- Moonkin Form
     [35] = true,    -- Moonkin Form
     [36] = true,    -- Treant Form
