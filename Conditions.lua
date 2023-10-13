@@ -16,6 +16,8 @@ if LibDebug then LibDebug() end
 
 local L = LM.Localize
 
+local ANY_TEXT = CLUB_FINDER_ANY_FLAG or SPELL_TARGET_TYPE1_DESC:upper()
+
 --[[
 
     <conditions>    :=  <condition> |
@@ -57,7 +59,7 @@ CONDITIONS["achievement"] = {
 CONDITIONS["advflyable"] = {
     handler =
         function (cond, context)
-            return IsAdvancedFlyableArea()
+            return IsAdvancedFlyableArea and IsAdvancedFlyableArea()
         end,
 }
 
@@ -152,36 +154,40 @@ CONDITIONS["combat"] = {
         end
 }
 
-CONDITIONS["covenant"] = {
-    name = L.LM_COVENANT,
-    toDisplay =
-        function (v)
-            local id = tonumber(v)
-            if id then
-                if id == 0 then return NONE end
-                local info = C_Covenants.GetCovenantData(id)
-                if info then return info.name end
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+
+    CONDITIONS["covenant"] = {
+        name = L.LM_COVENANT,
+        toDisplay =
+            function (v)
+                local id = tonumber(v)
+                if id then
+                    if id == 0 then return NONE end
+                    local info = C_Covenants.GetCovenantData(id)
+                    if info then return info.name end
+                end
+                return v
+            end,
+        menu =
+            function ()
+                local out = { nosort=true, { val = "covenant:0" } }
+                for _,id in ipairs(C_Covenants.GetCovenantIDs()) do
+                    table.insert(out, { val = "covenant:" .. id })
+                end
+                return out
+            end,
+        handler =
+            function (cond, context, v)
+                if not C_Covenants or not v then return end
+                local id = C_Covenants.GetActiveCovenantID() -- 0 for none
+                if not id then return end
+                if tonumber(v) == id then return true end
+                local data = C_Covenants.GetCovenantData(id)
+                if data and data.name == v then return true end
             end
-            return v
-        end,
-    menu =
-        function ()
-            local out = { nosort=true, { val = "covenant:0" } }
-            for _,id in ipairs(C_Covenants.GetCovenantIDs()) do
-                table.insert(out, { val = "covenant:" .. id })
-            end
-            return out
-        end,
-    handler =
-        function (cond, context, v)
-            if not C_Covenants or not v then return end
-            local id = C_Covenants.GetActiveCovenantID() -- 0 for none
-            if not id then return end
-            if tonumber(v) == id then return true end
-            local data = C_Covenants.GetCovenantData(id)
-            if data and data.name == v then return true end
-        end
-}
+    }
+
+end -- WOW_PROJECT_MAINLINE
 
 --- Note that this diverges from the macro [dead] defaults to "target".
 CONDITIONS["dead"] = {
@@ -305,9 +311,11 @@ CONDITIONS["equipped"] = {
                 return true
             end
 
-            local id = C_MountJournal.GetAppliedMountEquipmentID()
-            if id and id == v then
-                return true
+            if C_MountJournal.GetAppliedMountEquipmentID then
+                local id = C_MountJournal.GetAppliedMountEquipmentID()
+                if id and id == v then
+                    return true
+                end
             end
         end
 }
@@ -323,7 +331,7 @@ CONDITIONS["exists"] = {
 CONDITIONS["extra"] = {
     handler =
         function (cond, context, v)
-            if HasExtraActionBar() and HasAction(169) then
+            if HasExtraActionBar and HasExtraActionBar() and HasAction(169) then
                 if v then
                     local aType, aID = GetActionInfo(169)
                     if aType == "spell" and aID == tonumber(v) then
@@ -415,7 +423,7 @@ CONDITIONS["gather"] = {
     toDisplay =
         function (v)
             if not v or v == "any" then
-                return CLUB_FINDER_ANY_FLAG
+                return ANY_TEXT
             elseif v == "ore" then
                 return L.LM_ORE
             elseif v == "herb" then
@@ -469,7 +477,7 @@ CONDITIONS["group"] = {
             elseif v == "crossfaction" then
                 return CROSS_FACTION_CLUB_FINDER_SEARCH_OPTION
             elseif not v then
-                return CLUB_FINDER_ANY_FLAG
+                return ANY_TEXT
             end
         end,
     menu = {
@@ -577,6 +585,8 @@ CONDITIONS["known"] = {
         end
 }
 
+local MAXLEVEL = GetMaxLevelForLatestExpansion and GetMaxLevelForLatestExpansion() or 80
+
 -- GetMaxLevelForLatestExpansion()
 CONDITIONS["level"] = {
     name = LEVEL,
@@ -587,9 +597,8 @@ CONDITIONS["level"] = {
     },
     toDisplay =
         function (l1, l2)
-            local maxLevel = GetMaxLevelForLatestExpansion()
             if l1 == nil then
-                return string.format('%s (%d)', GUILD_RECRUITMENT_MAXLEVEL, maxLevel)
+                return string.format('%s (%d)', GUILD_RECRUITMENT_MAXLEVEL, MAXLEVEL)
             elseif l2 == nil then
                 return l1
             else
@@ -600,7 +609,7 @@ CONDITIONS["level"] = {
         function (cond, context, l1, l2)
             local level = UnitLevel('player')
             if not l1 then
-                return level == GetMaxLevelForLatestExpansion()
+                return level == MAXLEVEL
             elseif not l2 then
                 return level == tonumber(l1)
             elseif l2 then
@@ -609,36 +618,40 @@ CONDITIONS["level"] = {
         end
 }
 
-CONDITIONS["loadout"] = {
-    name = L["Talent loadout"],
-    toDisplay =
-        function (v)
-            return v
-        end,
-    menu =
-        function ()
-            local loadoutMenu = {}
-            local _, _, classIndex = UnitClass('player')
-            for specIndex = 1, 4 do
-                local specID = GetSpecializationInfoForClassID(classIndex, specIndex)
-                if not specID then break end
-                local configIDs = C_ClassTalents.GetConfigIDsBySpecID(specID)
-                for _, id in ipairs(configIDs) do
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+
+    CONDITIONS["loadout"] = {
+        name = L["Talent loadout"],
+        toDisplay =
+            function (v)
+                return v
+            end,
+        menu =
+            function ()
+                local loadoutMenu = {}
+                local _, _, classIndex = UnitClass('player')
+                for specIndex = 1, 4 do
+                    local specID = GetSpecializationInfoForClassID(classIndex, specIndex)
+                    if not specID then break end
+                    local configIDs = C_ClassTalents.GetConfigIDsBySpecID(specID)
+                    for _, id in ipairs(configIDs) do
+                        local info = C_Traits.GetConfigInfo(id)
+                        table.insert(loadoutMenu, { val = "loadout:"..info.name, text = info.name })
+                    end
+                end
+                return loadoutMenu
+            end,
+        handler =
+            function (cond, context, v)
+                if v then
+                    local id = C_ClassTalents.GetActiveConfigID()
                     local info = C_Traits.GetConfigInfo(id)
-                    table.insert(loadoutMenu, { val = "loadout:"..info.name, text = info.name })
+                    return info and info.name == v
                 end
             end
-            return loadoutMenu
-        end,
-    handler =
-        function (cond, context, v)
-            if v then
-                local id = C_ClassTalents.GetActiveConfigID()
-                local info = C_Traits.GetConfigInfo(id)
-                return info and info.name == v
-            end
-        end
-}
+    }
+
+end -- WOW_PROJECT_MAINLINE
 
 CONDITIONS["location"] = {
 --  name = LOCATION_COLON:gsub(":", ""),
@@ -703,7 +716,7 @@ CONDITIONS["mod"] = {
             elseif v == "shift" then
                 return SHIFT_KEY_TEXT
             elseif not v then
-                return CLUB_FINDER_ANY_FLAG
+                return ANY_TEXT
             end
         end,
     menu = {
@@ -837,23 +850,27 @@ CONDITIONS["pet"] = {
         end
 }
 
-CONDITIONS["profession"] = {
-    handler =
-        function (cond, context, v)
-            if not v then return end
-            local professions = { GetProfessions() }
-            local n = tonumber(v)
-            if n then
-                return tContains(professions, n)
-            else
-                for _,id in ipairs(professions) do
-                    if GetProfessionInfo(id) == v then
-                        return true
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+
+    CONDITIONS["profession"] = {
+        handler =
+            function (cond, context, v)
+                if not v then return end
+                local professions = { GetProfessions() }
+                local n = tonumber(v)
+                if n then
+                    return tContains(professions, n)
+                else
+                    for _,id in ipairs(professions) do
+                        if GetProfessionInfo(id) == v then
+                            return true
+                        end
                     end
                 end
             end
-        end
-}
+    }
+
+end -- WOW_PROJECT_MAINLINE
 
 CONDITIONS["pvp"] = {
     name = PVP,
@@ -934,41 +951,45 @@ CONDITIONS["sameunit"] = {
         end
 }
 
-CONDITIONS["season"] = {
-    name = L.LM_SEASON,
-    toDisplay =
-        function (v)
-            if v == "spring" then
-                return L.LM_SEASON_SPRING
-            elseif v == "summer" then
-                return L.LM_SEASON_SUMMER
-            elseif v == "autumn" or v == "fall" then
-                return L.LM_SEASON_FALL
-            elseif v == "winter" then
-                return L.LM_SEASON_WINTER
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+
+    CONDITIONS["season"] = {
+        name = L.LM_SEASON,
+        toDisplay =
+            function (v)
+                if v == "spring" then
+                    return L.LM_SEASON_SPRING
+                elseif v == "summer" then
+                    return L.LM_SEASON_SUMMER
+                elseif v == "autumn" or v == "fall" then
+                    return L.LM_SEASON_FALL
+                elseif v == "winter" then
+                    return L.LM_SEASON_WINTER
+                end
+            end,
+        menu = {
+            { val = "season:spring" },
+            { val = "season:summer" },
+            { val = "season:fall" },
+            { val = "season:winter" },
+        },
+        handler =
+            function (cond, context, v)
+                -- From the mount Wandering Ancient's model, as it changes
+                local modelID = C_MountJournal.GetMountInfoExtraByID(1458)
+                if v == "spring" then
+                    return modelID == 100463
+                elseif v == "summer" then
+                    return modelID == 100464
+                elseif v == "autumn" or v == "fall" then
+                    return modelID == 100465
+                elseif v == "winter" then
+                    return modelID == 100466
+                end
             end
-        end,
-    menu = {
-        { val = "season:spring" },
-        { val = "season:summer" },
-        { val = "season:fall" },
-        { val = "season:winter" },
-    },
-    handler =
-        function (cond, context, v)
-            -- From the mount Wandering Ancient's model, as it changes
-            local modelID = C_MountJournal.GetMountInfoExtraByID(1458)
-            if v == "spring" then
-                return modelID == 100463
-            elseif v == "summer" then
-                return modelID == 100464
-            elseif v == "autumn" or v == "fall" then
-                return modelID == 100465
-            elseif v == "winter" then
-                return modelID == 100466
-            end
-        end
-}
+    }
+
+end -- WOW_PROJECT_MAINLINE
 
 CONDITIONS["sex"] = {
     name = L.LM_SEX,
@@ -1014,41 +1035,45 @@ CONDITIONS["shapeshift"] = {
         end
 }
 
-CONDITIONS["spec"] = {
-    name = SPECIALIZATION,
-    toDisplay =
-        function (v)
-            local _, name, _, _, _, _, class = GetSpecializationInfoByID(v)
-            if name and name ~= "" then return class .. " : " .. name end
-        end,
-    menu =
-        function ()
-            local specs = {}
-            for classIndex = 1, GetNumClasses() do
-                local classMenu = { text = GetClassInfo(classIndex) }
-                for specIndex = 1, 4 do
-                    local id, name = GetSpecializationInfoForClassID(classIndex, specIndex)
-                    if not id then break end
-                    table.insert(classMenu, { val = string.format("spec:%d", id), text = name })
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+
+    CONDITIONS["spec"] = {
+        name = SPECIALIZATION,
+        toDisplay =
+            function (v)
+                local _, name, _, _, _, _, class = GetSpecializationInfoByID(v)
+                if name and name ~= "" then return class .. " : " .. name end
+            end,
+        menu =
+            function ()
+                local specs = {}
+                for classIndex = 1, GetNumClasses() do
+                    local classMenu = { text = GetClassInfo(classIndex) }
+                    for specIndex = 1, 4 do
+                        local id, name = GetSpecializationInfoForClassID(classIndex, specIndex)
+                        if not id then break end
+                        table.insert(classMenu, { val = string.format("spec:%d", id), text = name })
+                    end
+                    table.insert(specs, classMenu)
                 end
-                table.insert(specs, classMenu)
-            end
-            return specs
-        end,
-    handler =
-        function (cond, context, v)
-            if v then
-                local index = GetSpecialization()
-                if tonumber(v) ~= nil then
-                    v = tonumber(v)
-                    return index == v or GetSpecializationInfo(index) == v
-                else
-                    local _, name, _, _, _, role = GetSpecializationInfo(index)
-                    return (name == v or role == v)
+                return specs
+            end,
+        handler =
+            function (cond, context, v)
+                if v then
+                    local index = GetSpecialization()
+                    if tonumber(v) ~= nil then
+                        v = tonumber(v)
+                        return index == v or GetSpecializationInfo(index) == v
+                    else
+                        local _, name, _, _, _, role = GetSpecializationInfo(index)
+                        return (name == v or role == v)
+                    end
                 end
             end
-        end
-}
+    }
+
+end -- WOW_PROJECT_MAINLINE
 
 CONDITIONS["stationary"] = {
     args = true,
@@ -1084,19 +1109,23 @@ CONDITIONS["submerged"] = {
         end,
 }
 
-CONDITIONS["tracking"] = {
-    handler =
-        function (cond, context, v)
-            local name, active, _
-            for i = 1, C_Minimap.GetNumTrackingTypes() do
-                name, _, active = C_Minimap.GetTrackingInfo(i)
-                if active and (not v or strlower(name) == strlower(v) or i == tonumber(v)) then
-                    return true
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+
+    CONDITIONS["tracking"] = {
+        handler =
+            function (cond, context, v)
+                local name, active, _
+                for i = 1, C_Minimap.GetNumTrackingTypes() do
+                    name, _, active = C_Minimap.GetTrackingInfo(i)
+                    if active and (not v or strlower(name) == strlower(v) or i == tonumber(v)) then
+                        return true
+                    end
                 end
+                return false
             end
-            return false
-        end
-}
+    }
+
+end -- WOW_PROJECT_MAINLINE
 
 CONDITIONS["true"] = {
     handler =
@@ -1108,11 +1137,13 @@ CONDITIONS["true"] = {
 CONDITIONS["waterwalking"] = {
     handler =
         function (cond, context)
-            -- Anglers Waters Striders (168416) or Inflatable Mount Shoes (168417)
-            if not C_MountJournal.AreMountEquipmentEffectsSuppressed() then
-                local id = C_MountJournal.GetAppliedMountEquipmentID()
-                if id == 168416 or id == 168417 then
-                    return true
+            if C_MountJournal.AreMountEquipmentEffectsSuppressed then
+                -- Anglers Waters Striders (168416) or Inflatable Mount Shoes (168417)
+                if not C_MountJournal.AreMountEquipmentEffectsSuppressed() then
+                    local id = C_MountJournal.GetAppliedMountEquipmentID()
+                    if id == 168416 or id == 168417 then
+                        return true
+                    end
                 end
             end
 
@@ -1131,150 +1162,154 @@ CONDITIONS["waterwalking"] = {
         end
 }
 
--- See WardrobeSetsTransmogMixin:GetFirstMatchingSetID
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 
-local function GetTransmogLocationSourceID(location)
-    local baseSourceID, _, appliedSourceID = C_Transmog.GetSlotVisualInfo(location)
-    if appliedSourceID == Constants.Transmog.NoTransmogID then
-        return baseSourceID
-    else
-        return appliedSourceID
-    end
-end
+    -- See WardrobeSetsTransmogMixin:GetFirstMatchingSetID
 
-local function GetTransmogSetIDByName(name)
-    local usableSets = C_TransmogSets.GetUsableSets()
-    for _,info in ipairs(usableSets) do
-        if info.name == name then
-            return info.setID
+    local function GetTransmogLocationSourceID(location)
+        local baseSourceID, _, appliedSourceID = C_Transmog.GetSlotVisualInfo(location)
+        if appliedSourceID == Constants.Transmog.NoTransmogID then
+            return baseSourceID
+        else
+            return appliedSourceID
         end
     end
-end
 
-local function GetTransmogOutfitIDByName(name)
-    for _, id in ipairs(C_TransmogCollection.GetOutfits()) do
-        if name == C_TransmogCollection.GetOutfitInfo(id) then
-            return id
-        end
-    end
-end
-
-local function IsTransmogSetActive(setID)
-    if not C_TransmogSets.GetSetInfo(setID) then
-        return false
-    end
-    for key, slotInfo in pairs(TRANSMOG_SLOTS) do
-        if not slotInfo.location:IsSecondary() then
-            local sourceIDs = C_TransmogSets.GetSourceIDsForSlot(setID, slotInfo.location.slotID)
-            local activeSourceID = GetTransmogLocationSourceID(slotInfo.location)
-            if not tContains(sourceIDs, activeSourceID) then
-                return false
+    local function GetTransmogSetIDByName(name)
+        local usableSets = C_TransmogSets.GetUsableSets()
+        for _,info in ipairs(usableSets) do
+            if info.name == name then
+                return info.setID
             end
         end
     end
-    return true
-end
 
--- This makes me want to kill myself instantly.
--- See WardrobeOutfitDropDownMixin:IsOutfitDressed()
-
-local ExcludeOutfitSlot = {
-    [INVSLOT_MAINHAND] = true, [INVSLOT_OFFHAND] = true, [INVSLOT_RANGED] = true,
-}
-
-local function IsTransmogOutfitActive(outfitID)
-    local outfitInfoList = C_TransmogCollection.GetOutfitItemTransmogInfoList(outfitID)
-    if not outfitInfoList then return end
-
-    local currentInfoList = LM.Environment:GetPlayerTransmogInfo()
-    if not currentInfoList then return end
-
-    for slotID, info in ipairs(currentInfoList) do
-        if info.appearanceID ~= Constants.Transmog.NoTransmogID then
-            if not ExcludeOutfitSlot[slotID] and not info:IsEqual(outfitInfoList[slotID]) then
-                return false
+    local function GetTransmogOutfitIDByName(name)
+        for _, id in ipairs(C_TransmogCollection.GetOutfits()) do
+            if name == C_TransmogCollection.GetOutfitInfo(id) then
+                return id
             end
         end
     end
-    return true
-end
 
-local function GetTransmogOutfitsMenu()
-    local outfits = { text = TRANSMOG_OUTFIT_HYPERLINK_TEXT:match("|t(.*)") }
-    for _, id in ipairs(C_TransmogCollection.GetOutfits()) do
-        local name = C_TransmogCollection.GetOutfitInfo(id)
-        table.insert(outfits, { val = "xmog:"..name, text = name })
-    end
-    return outfits
-end
-
-local function GetTransmogSetsMenu()
-    LoadAddOn("Blizzard_EncounterJournal")
-    local byExpansion = { }
-    for _,info in ipairs(C_TransmogSets.GetUsableSets()) do
-        local expansion = info.expansionID + 1
-        if not byExpansion[expansion] then
-            local name = EJ_GetTierInfo(expansion) or NONE
-            byExpansion[expansion] = { text = name }
+    local function IsTransmogSetActive(setID)
+        if not C_TransmogSets.GetSetInfo(setID) then
+            return false
         end
-        local text = info.name
-        if info.description then
-            text = text .. " (" .. info.description .. ")"
+        for key, slotInfo in pairs(TRANSMOG_SLOTS) do
+            if not slotInfo.location:IsSecondary() then
+                local sourceIDs = C_TransmogSets.GetSourceIDsForSlot(setID, slotInfo.location.slotID)
+                local activeSourceID = GetTransmogLocationSourceID(slotInfo.location)
+                if not tContains(sourceIDs, activeSourceID) then
+                    return false
+                end
+            end
         end
-        table.insert(byExpansion[expansion], { val = "xmog:"..info.setID, text = text })
+        return true
     end
-    local sets = { nosort = true, text = WARDROBE_SETS }
-    for _,t in LM.PairsByKeys(byExpansion) do
-        table.insert(sets, t)
+
+    -- This makes me want to kill myself instantly.
+    -- See WardrobeOutfitDropDownMixin:IsOutfitDressed()
+
+    local ExcludeOutfitSlot = {
+        [INVSLOT_MAINHAND] = true, [INVSLOT_OFFHAND] = true, [INVSLOT_RANGED] = true,
+    }
+
+    local function IsTransmogOutfitActive(outfitID)
+        local outfitInfoList = C_TransmogCollection.GetOutfitItemTransmogInfoList(outfitID)
+        if not outfitInfoList then return end
+
+        local currentInfoList = LM.Environment:GetPlayerTransmogInfo()
+        if not currentInfoList then return end
+
+        for slotID, info in ipairs(currentInfoList) do
+            if info.appearanceID ~= Constants.Transmog.NoTransmogID then
+                if not ExcludeOutfitSlot[slotID] and not info:IsEqual(outfitInfoList[slotID]) then
+                    return false
+                end
+            end
+        end
+        return true
     end
-    return sets
-end
 
--- The args version of this takes slotid/appearanceid and really should be junked
--- now that the other form works. Well, if it reliably did. :(
+    local function GetTransmogOutfitsMenu()
+        local outfits = { text = TRANSMOG_OUTFIT_HYPERLINK_TEXT:match("|t(.*)") }
+        for _, id in ipairs(C_TransmogCollection.GetOutfits()) do
+            local name = C_TransmogCollection.GetOutfitInfo(id)
+            table.insert(outfits, { val = "xmog:"..name, text = name })
+        end
+        return outfits
+    end
 
-CONDITIONS["xmog"] = {
-    args = true,
-    name = PERKS_VENDOR_CATEGORY_TRANSMOG,
-    toDisplay =
-        function (v)
-            if tonumber(v) then
-                local info = C_TransmogSets.GetSetInfo(v)
-                if info then
-                    if info.description then
-                        return string.format("%s (%s)", info.name, info.description)
-                    else
-                        return info.name
+    local function GetTransmogSetsMenu()
+        LoadAddOn("Blizzard_EncounterJournal")
+        local byExpansion = { }
+        for _,info in ipairs(C_TransmogSets.GetUsableSets()) do
+            local expansion = info.expansionID + 1
+            if not byExpansion[expansion] then
+                local name = EJ_GetTierInfo(expansion) or NONE
+                byExpansion[expansion] = { text = name }
+            end
+            local text = info.name
+            if info.description then
+                text = text .. " (" .. info.description .. ")"
+            end
+            table.insert(byExpansion[expansion], { val = "xmog:"..info.setID, text = text })
+        end
+        local sets = { nosort = true, text = WARDROBE_SETS }
+        for _,t in LM.PairsByKeys(byExpansion) do
+            table.insert(sets, t)
+        end
+        return sets
+    end
+
+    -- The args version of this takes slotid/appearanceid and really should be junked
+    -- now that the other form works. Well, if it reliably did. :(
+
+    CONDITIONS["xmog"] = {
+        args = true,
+        name = PERKS_VENDOR_CATEGORY_TRANSMOG,
+        toDisplay =
+            function (v)
+                if tonumber(v) then
+                    local info = C_TransmogSets.GetSetInfo(v)
+                    if info then
+                        if info.description then
+                            return string.format("%s (%s)", info.name, info.description)
+                        else
+                            return info.name
+                        end
+                    end
+                end
+                return v
+            end,
+        menu =
+            function ()
+                return { GetTransmogOutfitsMenu(), GetTransmogSetsMenu() }
+            end,
+        handler =
+            function (cond, context, arg1, arg2)
+                if arg2 then
+                    local slotID, appearanceID = tonumber(arg1), tonumber(arg2)
+                    local tmSlot = TRANSMOG_SLOTS[(slotID or 0) * 100]
+                    if tmSlot then
+                        local ok, _, _, _, current = pcall(C_Transmog.GetSlotVisualInfo, tmSlot.location)
+                        return ok and current == appearanceID
+                    end
+                else
+                    local setID = tonumber(arg1) or GetTransmogSetIDByName(arg1)
+                    if setID then
+                        return IsTransmogSetActive(setID)
+                    end
+                    local outfitID = GetTransmogOutfitIDByName(arg1)
+                    if outfitID then
+                        return IsTransmogOutfitActive(outfitID)
                     end
                 end
             end
-            return v
-        end,
-    menu =
-        function ()
-            return { GetTransmogOutfitsMenu(), GetTransmogSetsMenu() }
-        end,
-    handler =
-        function (cond, context, arg1, arg2)
-            if arg2 then
-                local slotID, appearanceID = tonumber(arg1), tonumber(arg2)
-                local tmSlot = TRANSMOG_SLOTS[(slotID or 0) * 100]
-                if tmSlot then
-                    local ok, _, _, _, current = pcall(C_Transmog.GetSlotVisualInfo, tmSlot.location)
-                    return ok and current == appearanceID
-                end
-            else
-                local setID = tonumber(arg1) or GetTransmogSetIDByName(arg1)
-                if setID then
-                    return IsTransmogSetActive(setID)
-                end
-                local outfitID = GetTransmogOutfitIDByName(arg1)
-                if outfitID then
-                    return IsTransmogOutfitActive(outfitID)
-                end
-            end
-        end
-}
+    }
+
+end -- WOW_PROJECT_MAINLINE
 
 do
     for c, info in pairs(CONDITIONS) do
