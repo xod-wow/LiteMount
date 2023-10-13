@@ -342,18 +342,29 @@ local InstanceFlyableOverride = {
     [2464] = false,         -- Battle of Ardenweald (9.1)
 }
 
+local InstanceDragonridableOverride = {
+    -- Stricly speaking this is the debuff "Hostile Airways" (406608)
+    [2597] = false,         -- Zaralek Caverns - Chapter 1 Scenario
+}
+
 function LM.Environment:ForceFlyable(instanceID)
     instanceID = instanceID or select(8, GetInstanceInfo())
     InstanceFlyableOverride[instanceID] = true
 end
 
 function LM.Environment:CanDragonride(mapPath)
-    if IsSpellKnown(376777) then
-        return IsUsableSpell(368896) == true
-        -- return select(8, GetInstanceInfo()) == 2444
-    else
+    if not IsSpellKnown(376777) then
         return false
     end
+
+    local instanceID = select(8, GetInstanceInfo())
+
+    if InstanceDragonridableOverride[instanceID] ~= nil then
+        return InstanceDragonridableOverride[instanceID]
+    end
+
+    return IsUsableSpell(368896) == true
+    -- return select(8, GetInstanceInfo()) == 2444
 end
 
 -- Can't fly if you haven't learned a flying skill. Various expansion
