@@ -263,6 +263,7 @@ end
 -- Journeyman Riding (100% ground) = IsSpellKnown(33391)
 -- Expert Riding     (150% flying) = IsSpellKnown(34090)
 -- Artisan Riding    (280% flying) = IsSpellKnown(34091) - removed but characters can still have it
+-- Cold Weather Flying             = IsSpellKnown(54197) - wotlk classic
 -- Master Riding     (320% flying) = IsSpellKnown(90265)
 
 -- These are in this order because it's more likely you are high level and
@@ -271,6 +272,7 @@ end
 
 function LM.Environment:KnowsRidingSkill()
     return IsSpellKnown(90265)
+        or IsSpellKnown(54197)
         or IsSpellKnown(34091)
         or IsSpellKnown(34090)
         or IsSpellKnown(33391)
@@ -279,6 +281,7 @@ end
 
 function LM.Environment:KnowsFlyingSkill()
     return IsSpellKnown(90265)
+        or IsSpellKnown(54197)
         or IsSpellKnown(34091)
         or IsSpellKnown(34090)
 end
