@@ -665,7 +665,7 @@ local function MapTreeToMenu(node)
 end
 
 CONDITIONS["map"] = {
-    name = WORLD_MAP,
+    name = BRAWL_TOOLTIP_MAP,
     toDisplay =
         function (v)
             local info = C_Map.GetMapInfo(tonumber(v))
