@@ -243,7 +243,9 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         InitDropDownSection(DROPDOWNS.NOT_COLLECTED, self, level, menuList)
 
         ---- 3. UNUSABLE ----
-        InitDropDownSection(DROPDOWNS.UNUSABLE, self, level, menuList)
+        if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+            InitDropDownSection(DROPDOWNS.UNUSABLE, self, level, menuList)
+        end
 
         ---- 4. HIDDEN ----
         InitDropDownSection(DROPDOWNS.HIDDEN, self, level, menuList)
@@ -258,10 +260,14 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         InitDropDownSection(DROPDOWNS.TYPEID, self, level, menuList)
 
         ---- 8. FAMILY ----
-        InitDropDownSection(DROPDOWNS.FAMILY, self, level, menuList)
+        if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+            InitDropDownSection(DROPDOWNS.FAMILY, self, level, menuList)
+        end
 
         ---- 9. SOURCES ----
-        InitDropDownSection(DROPDOWNS.SOURCES, self, level, menuList)
+        if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+            InitDropDownSection(DROPDOWNS.SOURCES, self, level, menuList)
+        end
 
         ---- 10. PRIORITY ----
         InitDropDownSection(DROPDOWNS.PRIORITY, self, level, menuList)
