@@ -384,7 +384,7 @@ function LM.Environment:CanFly()
     end
 
     -- Can't fly in Warfronts
-    if C_Scenario.IsInScenario() then
+    if C_Scenario and C_Scenario.IsInScenario() then
         local scenarioType = select(10, C_Scenario.GetInfo())
         if scenarioType == LE_SCENARIO_TYPE_WARFRONT then
             return false
