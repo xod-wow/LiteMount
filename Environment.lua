@@ -465,8 +465,14 @@ local function ValidDisplayMap(info, group, seenGroups)
         return false
     end
 
-    if info.mapType <= Enum.UIMapType.Zone then
-        return C_Map.IsMapValidForNavBarDropDown(info.mapID)
+    if C_Map.IsMapValidForNavBarDropDown then
+        if info.mapType <= Enum.UIMapType.Zone then
+            return C_Map.IsMapValidForNavBarDropDown(info.mapID)
+        end
+    else
+        if info.mapType > Enum.UIMapType.Zone then
+            return false
+        end
     end
 
     if group then
@@ -529,7 +535,7 @@ local ShowMapOverride = {
 
 local function FillChildren(info)
     for _, child in ipairs(C_Map.GetMapChildrenInfo(info.mapID)) do
-        if ShowMapOverride[child.mapID] or C_Map.IsMapValidForNavBarDropDown(child.mapID) then
+        if ShowMapOverride[child.mapID] or ValidDisplayMap(child) then
             FillChildren(child)
             table.insert(info, child)
         end
