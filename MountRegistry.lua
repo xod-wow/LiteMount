@@ -22,12 +22,9 @@ LM.MountRegistry = CreateFrame("Frame", nil, UIParent)
 LM.MountRegistry.callbacks = CallbackHandler:New(LM.MountRegistry)
 
 -- Type, type class create args
-local MOUNT_SPELLS = {
+local MOUNT_SPELLS_COMMON = {
     { "RunningWild", LM.SPELL.RUNNING_WILD },
     { "GhostWolf", LM.SPELL.GHOST_WOLF, 'RUN', 'SLOW' },
-    { "TravelForm", LM.SPELL.TRAVEL_FORM, 'RUN', 'FLY', 'SWIM' },
---  { "TravelForm", LM.SPELL.FLIGHT_FORM, 'FLY' },
-    { "TravelForm", LM.SPELL.MOUNT_FORM, 'RUN' },
     { "Nagrand", LM.SPELL.FROSTWOLF_WAR_WOLF, 'Horde', 'RUN' },
     { "Nagrand", LM.SPELL.TELAARI_TALBUK, 'Alliance', 'RUN' },
 --  { "Soulshape", LM.SPELL.SOULSHAPE, 'RUN', 'SLOW' },
@@ -56,6 +53,23 @@ local MOUNT_SPELLS = {
     { "ItemSummoned",
         LM.ITEM.MAW_SEEKER_HARNESS, LM.SPELL.MAW_SEEKER_HARNESS, 'RUN' },
 }
+
+local MOUNT_SPELLS_BY_PROJECT = {
+    [1] = {
+        { "TravelForm", LM.SPELL.TRAVEL_FORM, 'RUN', 'FLY', 'SWIM' },
+        { "TravelForm", LM.SPELL.MOUNT_FORM, 'RUN' },
+    },
+    [11] = {
+        { "TravelForm", LM.SPELL.AQUATIC_FORM_CLASSIC, 'SWIM' },
+        { "TravelForm", LM.SPELL.FLIGHT_FORM_CLASSIC, 'FLY' },
+        { "TravelForm", LM.SPELL.SWIFT_FLIGHT_FORM_CLASSIC, 'FLY' },
+    }
+}
+
+local MOUNT_SPELLS = CreateFromMixins(
+                            MOUNT_SPELLS_COMMON,
+                            MOUNT_SPELLS_BY_PROJECT[WOW_PROJECT_ID]
+                        )
 
 local RefreshEvents = {
     ["NEW_MOUNT_ADDED"] = true,
