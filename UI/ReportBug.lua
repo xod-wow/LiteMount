@@ -45,8 +45,8 @@ function LiteMountReportBugMixin:OnShow()
     local _, race = UnitRace('player')
     local _, class = UnitClass('player')
     local level = UnitLevel('player')
-    local spec = GetSpecialization()
-    local specID, specName = GetSpecializationInfo(spec)
+    local spec = GetSpecialization and GetSpecialization() or 0
+    local specID, specName = GetSpecializationInfo and GetSpecializationInfo(spec) or 0, 0
 
     self.Scroll.EditBox:SetText([[
 |cff00ff00What happens?|r
@@ -64,6 +64,7 @@ function LiteMountReportBugMixin:OnShow()
         "--- General ---\n" ..
         "\n" ..
         string.format("date: %s\n", date()) ..
+        string.format("expansion: %s\n", _G['EXPANSION_NAME'..EXPANSION_LEVEL]) ..
         string.format("build: %s\n", strjoin(' | ', GetBuildInfo())) ..
         string.format("version: %s\n", GetAddOnMetadata('LiteMount', 'version')) ..
         string.format("locale: %s\n", GetLocale()) ..
@@ -76,7 +77,7 @@ function LiteMountReportBugMixin:OnShow()
         string.format("level: %s\n", level) ..
         string.format("race: %s\n", race) ..
         string.format("faction: %s\n", UnitFactionGroup('player')) ..
-        string.format("spec: %d %d %s\n", spec, specID, specName) ..
+        string.format("spec: %d %d %s\n", spec, specID, specName or "") ..
         "\n" ..
         "--- Location ---\n" ..
         "\n" ..
