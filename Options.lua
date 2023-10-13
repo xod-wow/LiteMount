@@ -58,18 +58,28 @@ END
 Macro
 ]]
 
-local DefaultRules = {
-    -- Vash'jir Seahorse
-    "Mount [map:203,submerged] mt:232",
-    -- Flying swimming mounts in Nazjatar with Budding Deepcoral
-    "Mount [map:1355,flyable,qfc:56766] mt:254",
-    -- AQ Battle Tanks in the raid instance
-    "Mount [instance:531] mt:241",
-    -- Arcanist's Manasaber to disguise you in Suramar
-    "Mount [extra:202477,nosubmerged] id:881",
-    -- Rustbolt Resistor and Aerial Unit R-21/X avoid being shot down
-    -- "Mount [map:1462,flyable] MECHAGON"
+local DefaultRulesByProject = {
+    -- Wrath Classic
+    [11] = {
+        -- AQ Battle Tanks in the raid instance
+        "Mount [instance:531] mt:241",
+    },
+    -- Retail
+    [1] = {
+        -- Vash'jir Seahorse
+        "Mount [map:203,submerged] mt:232",
+        -- Flying swimming mounts in Nazjatar with Budding Deepcoral
+        "Mount [map:1355,flyable,qfc:56766] mt:254",
+        -- AQ Battle Tanks in the raid instance
+        "Mount [instance:531] mt:241",
+        -- Arcanist's Manasaber to disguise you in Suramar
+        "Mount [extra:202477,nosubmerged] id:881",
+        -- Rustbolt Resistor and Aerial Unit R-21/X avoid being shot down
+        -- "Mount [map:1462,flyable] MECHAGON"
+    },
 }
+
+local DefaultRules = DefaultRulesByProject[WOW_PROJECT_ID]
 
 -- A lot of things need to be cleaned up when flags are deleted/renamed
 
