@@ -1,3 +1,5 @@
+WOW_PROJECT_ID = 1
+
 PLAYER_FACTION_GROUP = {
     [0] = "Horde",
     [1] = "Alliance",
@@ -26,5 +28,8 @@ UNIT_LEVEL_TEMPLATE = "Level %d"
 INVSLOT_MAINHAND = 16
 INVSLOT_OFFHAND = 17
 INVSLOT_RANGED = 18
+
+WORLD_MAP = "Map"
+SPELL_TARGET_TYPE1_DESC = "Map"
 
 SlashCmdList = {}

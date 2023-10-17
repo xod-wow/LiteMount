@@ -1,5 +1,10 @@
-dofile("Mock/WoWAPI.lua")
-dofile("LoadAddOn.lua")
+local LM = {}
+
+loadfile("Mock/WoWAPI.lua")()
+loadfile("../Libs/LibStub/LibStub.lua")()
+loadfile("../Libs/AceSerializer-3.0/AceSerializer-3.0.lua")()
+loadfile("../Libs/LibDeflate/LibDeflate.lua")()
+loadfile("../TableUtil.lua")('LiteMount', LM)
 
 local Serializer = LibStub("AceSerializer-3.0")
 local LibDeflate = LibStub("LibDeflate")
