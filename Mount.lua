@@ -290,10 +290,8 @@ function LM.Mount:Dump(prefix)
                    )
             )
     LM.Print(prefix .. " mountID: " .. tostring(self.mountID))
-    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-        LM.Print(prefix .. " family: " .. tostring(self.family))
-        LM.Print(prefix .. " dragonRiding: " .. tostring(self.dragonRiding))
-    end
+    LM.Print(prefix .. " family: " .. tostring(self.family))
+    LM.Print(prefix .. " dragonRiding: " .. tostring(self.dragonRiding))
     LM.Print(prefix .. " isCollected: " .. tostring(self.isCollected))
     LM.Print(prefix .. " isFavorite: " .. tostring(self.isFavorite))
     LM.Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))
