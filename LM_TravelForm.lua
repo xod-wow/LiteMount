@@ -33,9 +33,39 @@ function LM.TravelForm:IsActive(buffTable)
     end
 end
 
+-- In Wrath Classic, you can't fly in Dalaran except in Krasus Landing near
+-- the flight master. Normal flying mounts detect this correctly but the
+-- flight forms do not.
+--
+-- As far as I can tell there's no way to tell (that's locale-independent).
+-- There's no visible buff, IsFlyablArea() is true and Flight Form is not
+-- greyed out. Other flying mounts ARE flagged as unusable but only ones you
+-- know ever become usable so it's not reliable.
+--
+-- So, here's a huge hack that figures out approxiately if you are in the
+-- right area or not.
+
+local KrasusLandingCenter = CreateVector2D(0.727, 0.456)
+
+local function IsDalaranDenyArea()
+    if WOW_PROJECT_ID ~= WOW_PROJECT_WRATH_CLASSIC then return false end
+
+    local map = C_Map.GetBestMapForUnit('player')
+    if map ~= 125 then return false end
+
+    local pos = C_Map.GetPlayerMapPosition(map, 'player')
+    if not pos then return false end
+
+    pos:Subtract(KrasusLandingCenter)
+    if pos:GetLengthSquared() < 0.0064 then return false end
+
+    return true
+end
+
 -- IsUsableSpell doesn't return false for Travel Form indoors like it should,
 -- because you can swim indoors with it (apparently).
 function LM.TravelForm:IsCastable()
+    if IsDalaranDenyArea() then return false end
     if IsIndoors() and not IsSubmerged() then return false end
     local id = GetShapeshiftFormID()
     -- Don't recast over mount-like forms as it behaves as a dismount
