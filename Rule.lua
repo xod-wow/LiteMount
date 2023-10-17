@@ -125,6 +125,11 @@ function LM.Rule:ParseLine(line)
     return r
 end
 
+function LM.Rule:Initialize()
+    LM.Debug("Initializing rule " .. self:ToString())
+    LM.Actions:InitializeAction(self.action, self.args or {})
+end
+
 function LM.Rule:Dispatch(context)
 
     local isTrue = self.conditions:Eval(context)

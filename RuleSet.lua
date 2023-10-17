@@ -33,6 +33,11 @@ function LM.RuleSet:Compile(lines)
             if rule then tinsert(ruleset, rule) end
         end
     end
+
+    for _, rule in ipairs(ruleset) do
+        rule:Initialize()
+    end
+
     return ruleset
 end
 

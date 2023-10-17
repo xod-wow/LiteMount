@@ -195,7 +195,13 @@ ACTIONS['Spell'] = {
                     return LM.SecureAction:Spell(nameWithSubtext, context.unit)
                 end
             end
-        end
+        end,
+    initialize =
+        function (args)
+            for _, arg in ipairs(args) do
+                GetSpellInfo(arg)
+            end
+        end,
 }
 
 -- Buff is the same as Spell but checks if you have a matching aura and
@@ -236,7 +242,11 @@ ACTIONS['PreCast'] = {
                     return
                 end
             end
-        end
+        end,
+    initialize =
+        function (args)
+            ACTIONS['Spell'].initialize(args)
+        end,
 }
 
 ACTIONS['CancelAura'] = {
@@ -583,7 +593,13 @@ ACTIONS['Use'] = {
                     end
                 end
             end
-        end
+        end,
+    initialize =
+        function (args)
+            for _, arg in ipairs(args) do
+                GetItemInfo(arg)
+            end
+        end,
 }
 
 ACTIONS['PreUse'] = {
@@ -596,7 +612,11 @@ ACTIONS['PreUse'] = {
                 context.preCast = action.item
                 return
             end
-        end
+        end,
+    initialize =
+        function (args)
+            ACTIONS['Use'].initialize(args)
+        end,
 }
 
 do
@@ -674,5 +694,12 @@ function LM.Actions:ToDisplay(action, args)
         return name, table.concat(LM.tMap(args, a.toDisplay), "\n")
     else
         return name, table.concat(args, ' ')
+    end
+end
+
+function LM.Actions:InitializeAction(action, args)
+    local a = ACTIONS[action]
+    if a and a.initialize then
+        a.initialize(args)
     end
 end
