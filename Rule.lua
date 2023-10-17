@@ -154,7 +154,7 @@ end
 function LM.Rule:ToString()
     local out = { self.action }
     local cText = self.conditions:ToString()
-    if cText then table.insert(out, cText) end
+    if cText and cText ~= "" then table.insert(out, cText) end
     if self.args then table.insert(out, table.concat(self.args, ',')) end
     return table.concat(out, ' ')
 end
