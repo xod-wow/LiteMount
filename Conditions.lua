@@ -1328,7 +1328,7 @@ end
 function LM.Conditions:GetConditions()
     local out = { }
     for _, info in pairs(CONDITIONS) do
-        if info.name then
+        if not info.disabled and info.name then
             table.insert(out, info)
         end
     end
