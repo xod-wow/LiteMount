@@ -122,6 +122,8 @@ function LM.Rule:ParseLine(line)
         end
     end
 
+    r:Initialize()
+
     return r
 end
 
