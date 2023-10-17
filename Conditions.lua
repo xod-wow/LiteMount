@@ -57,6 +57,7 @@ CONDITIONS["achievement"] = {
 }
 
 CONDITIONS["advflyable"] = {
+    disabled = ( IsAdvancedFlyableArea == nil ),
     handler =
         function (cond, context)
             return IsAdvancedFlyableArea and IsAdvancedFlyableArea()
@@ -233,6 +234,7 @@ CONDITIONS["difficulty"] = {
 
 CONDITIONS["dragonridable"] = {
     name = L.LM_DRAGONRIDING_AREA,
+    disabled = ( IsAdvancedFlyableArea == nil ),
     handler =
         function (cond, context)
             return LM.Environment:CanDragonride(context.mapPath)
@@ -241,6 +243,7 @@ CONDITIONS["dragonridable"] = {
 
 CONDITIONS["dragonriding"] = {
     -- name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+    disabled = ( IsAdvancedFlyableArea == nil ),
     handler =
         function (cond, context)
             return LM.Environment:IsDragonriding()
@@ -477,13 +480,19 @@ CONDITIONS["group"] = {
                 return ANY_TEXT
             end
         end,
-    menu = {
-        nosort = true,
-        { val = "group" },
-        { val = "group:party" },
-        { val = "group:raid" },
-        { val = "group:crossfaction" },
-    },
+    menu =
+        function ()
+            local out = {
+                nosort = true,
+                { val = "group" },
+                { val = "group:party" },
+                { val = "group:raid" },
+            }
+            if CROSS_FACTION_CLUB_FINDER_SEARCH_OPTION then
+                table.insert(out, { val = "group:crossfaction" })
+            end
+            return out
+        end,
     handler =
         function (cond, context, groupType)
             if not groupType then
@@ -582,8 +591,6 @@ CONDITIONS["known"] = {
         end
 }
 
-local MAXLEVEL = GetMaxLevelForLatestExpansion and GetMaxLevelForLatestExpansion() or 80
-
 -- GetMaxLevelForLatestExpansion()
 CONDITIONS["level"] = {
     name = LEVEL,
@@ -595,7 +602,7 @@ CONDITIONS["level"] = {
     toDisplay =
         function (l1, l2)
             if l1 == nil then
-                return string.format('%s (%d)', GUILD_RECRUITMENT_MAXLEVEL, MAXLEVEL)
+                return string.format('%s (%d)', GUILD_RECRUITMENT_MAXLEVEL, GetPlayerMaxLevel())
             elseif l2 == nil then
                 return l1
             else
@@ -606,7 +613,7 @@ CONDITIONS["level"] = {
         function (cond, context, l1, l2)
             local level = UnitLevel('player')
             if not l1 then
-                return level == MAXLEVEL
+                return level == GetPlayerMaxLevel()
             elseif not l2 then
                 return level == tonumber(l1)
             elseif l2 then
