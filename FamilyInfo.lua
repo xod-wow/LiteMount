@@ -473,6 +473,7 @@ LM.MOUNTFAMILY["Elekk"] = {
 }
 
 LM.MOUNTFAMILY["Elemental"] = {
+    [358072] = true, -- Bound Blizzard
     [231442] = true, -- Farseer's Raging Tempest
     [289555] = true, -- Glacial Tidestorm
     [334482] = true, -- Restoration Deathwalker
