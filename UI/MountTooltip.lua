@@ -99,18 +99,20 @@ function LiteMountTooltipMixin:SetMount(m, canMount)
         self:AddLine("|cffffffff"..L.LM_FAMILY..":|r "..L[m.family])
     end
 
-    local r = m:GetRarity()
-    if r then
-        self:AddLine("|cffffffff"..RARITY..":|r "..string.format(L.LM_RARITY_FORMAT, r))
+    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+        local r = m:GetRarity()
+        if r then
+            self:AddLine("|cffffffff"..RARITY..":|r "..string.format(L.LM_RARITY_FORMAT, r))
+        end
     end
 
-    if m.description then
+    if m.description and m.description ~= "" then
         self:AddLine(" ")
         self:AddLine("|cffffffff" .. DESCRIPTION .. "|r")
         self:AddLine(m.description, nil, nil, nil, true)
     end
 
-    if m.sourceText then
+    if m.sourceText and m.sourceText ~= "" then
         self:AddLine(" ")
         self:AddLine("|cffffffff" .. SOURCE .. "|r")
         self:AddLine(m.sourceText, nil, nil, nil, true)

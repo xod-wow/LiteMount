@@ -188,32 +188,36 @@ function LiteMountGeneralPanelMixin:OnLoad()
         function (self) return LM.Options:GetOption('restoreForms') end
     LiteMountOptionsPanel_RegisterControl(self.RestoreForms)
 
-    -- UseRarityWeight --
+    -- UseRarityWeight (only on retail) --
 
-    self.UseRarityWeight.Text:SetText(L.LM_USE_RARITY_WEIGHTS)
-    self.UseRarityWeight.SetOption =
-        function (self, setting)
-            if not setting or setting == "0" then
-                LM.Options:SetOption('randomWeightStyle', 'Priority')
-            else
-                LM.Options:SetOption('randomWeightStyle', 'Rarity')
+    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+        self.UseRarityWeight.Text:SetText(L.LM_USE_RARITY_WEIGHTS)
+        self.UseRarityWeight.SetOption =
+            function (self, setting)
+                if not setting or setting == "0" then
+                    LM.Options:SetOption('randomWeightStyle', 'Priority')
+                else
+                    LM.Options:SetOption('randomWeightStyle', 'Rarity')
+                end
             end
+        if not IsAddOnLoaded('MountsRarity') then
+            self.UseRarityWeight.Text:SetScript('OnEnter',
+                    function (self)
+                        GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+                        GameTooltip:AddLine(L.LM_RARITY_DATA_INFO, 1, 1, 1, true)
+                        GameTooltip:Show()
+                    end)
+            self.UseRarityWeight.Text:SetScript('OnLeave', GameTooltip_Hide)
+            self.UseRarityWeight.Text:EnableMouse(true)
         end
-    if not IsAddOnLoaded('MountsRarity') then
-        self.UseRarityWeight.Text:SetScript('OnEnter',
-                function (self)
-                    GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-                    GameTooltip:AddLine(L.LM_RARITY_DATA_INFO, 1, 1, 1, true)
-                    GameTooltip:Show()
-                end)
-        self.UseRarityWeight.Text:SetScript('OnLeave', GameTooltip_Hide)
-        self.UseRarityWeight.Text:EnableMouse(true)
+        self.UseRarityWeight.GetOptionDefault =
+            function (self) return LM.Options:GetOptionDefault('randomWeightStyle') == 'Rarity' end
+        self.UseRarityWeight.GetOption =
+            function (self) return LM.Options:GetOption('randomWeightStyle') == 'Rarity' end
+        LiteMountOptionsPanel_RegisterControl(self.UseRarityWeight)
+    else
+        self.UseRarityWeight:Hide()
     end
-    self.UseRarityWeight.GetOptionDefault =
-        function (self) return LM.Options:GetOptionDefault('randomWeightStyle') == 'Rarity' end
-    self.UseRarityWeight.GetOption =
-        function (self) return LM.Options:GetOption('randomWeightStyle') == 'Rarity' end
-    LiteMountOptionsPanel_RegisterControl(self.UseRarityWeight)
 
     -- RandomPersistDropDown --
 

@@ -249,7 +249,7 @@ function LiteMountMountButtonMixin:Update(bitFlags, mount)
     end
 
     local rarity = mount:GetRarity()
-    if rarity then
+    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and rarity then
         self.Rarity:SetFormattedText(L.LM_RARITY_FORMAT, rarity)
         self.Rarity.toolTip = format(L.LM_RARITY_FORMAT_LONG, rarity)
     else
