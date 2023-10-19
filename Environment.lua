@@ -609,3 +609,66 @@ function LM.Environment:GetEJInstances()
 
     return out
 end
+
+local holidaysByID = {}
+
+do
+    local now = C_DateAndTime.GetCurrentCalendarTime()
+    local saved = C_Calendar.GetMonthInfo()
+    local holidaysByTitle = {}
+
+    C_Calendar.SetAbsMonth(now.month, now.year)
+    for monthDelta = 1, 12 do
+        -- Advance by one, easier than doing our own date arithmetic
+        C_Calendar.SetMonth(1)
+        local monthInfo = C_Calendar.GetMonthInfo()
+        for monthDay = 1, monthInfo.numDays do
+            for i = 1, C_Calendar.GetNumDayEvents(0, monthDay) do
+                local eventInfo = C_Calendar.GetDayEvent(0, monthDay, i)
+                if eventInfo.calendarType == 'HOLIDAY' and not holidaysByID[eventInfo.eventID] then
+                    holidaysByID[eventInfo.eventID] = eventInfo.title
+                    holidaysByTitle[eventInfo.title] = holidaysByTitle[eventInfo.title] or {}
+                    table.insert(holidaysByTitle[eventInfo.title], eventInfo.eventID)
+                end
+            end
+        end
+    end
+
+    -- if we see the same titled event with different IDs delete them all
+    -- as they're probably something dumb like Turbulent Timeways and not real
+    -- holidays
+    for _, IDs in pairs(holidaysByTitle) do
+        if #IDs > 1 then
+            for _, id in ipairs(IDs) do holidaysByID[id] = nil end
+        end
+    end
+
+    C_Calendar.SetAbsMonth(saved.month, saved.year)
+end
+
+function LM.Environment:IsHolidayActive(idOrTitle)
+    -- The calendar API is stateful so this is going to mess up the UI. We
+    -- could save and restore the current month but the user might be editing
+    -- or viewing something which will be lost.
+    if CalendarFrame and CalendarFrame:IsShown() then return end
+
+    local now = C_DateAndTime.GetCurrentCalendarTime()
+    C_Calendar.SetAbsMonth(now.month, now.year)
+
+    for i = 1, C_Calendar.GetNumDayEvents(0, now.monthDay) do
+        local eventInfo = C_Calendar.GetDayEvent(0, now.monthDay, i)
+        if eventInfo.eventID == idOrTitle or eventInfo.title == idOrTitle then
+            return
+                C_DateAndTime.CompareCalendarTime(eventInfo.startTime, now) >= 0 and
+                C_DateAndTime.CompareCalendarTime(eventInfo.endTime, now) < 0
+        end
+    end
+end
+
+function LM.Environment:GetHolidays()
+    return CopyTable(holidaysByID)
+end
+
+function LM.Environment:GetHolidayName(id)
+    return holidaysByID[id]
+end

@@ -521,6 +521,28 @@ CONDITIONS["help"] = {
         end
 }
 
+CONDITIONS["holiday"] = {
+    name = CALENDAR_FILTER_HOLIDAYS,
+    toDisplay =
+        function (v)
+            return LM.Environment:GetHolidayName(tonumber(v)) or v
+        end,
+    menu =
+        function ()
+            local out = {}
+            for id, title in pairs(LM.Environment:GetHolidays()) do
+                table.insert(out, { val="holiday:"..id, text=string.format("%s (%d)", title, id) })
+            end
+            return out
+        end,
+    handler =
+        function (cond, context, v)
+            if v then
+                return LM.Environment:IsHolidayActive(tonumber(v) or v)
+            end
+        end
+}
+
 CONDITIONS["indoors"] = {
     handler =
         function (cond, context)
