@@ -21,6 +21,7 @@ LM.Environment:RegisterEvent("PLAYER_LOGIN")
 function LM.Environment:Initialize()
     self.combatTravelForm = nil
 
+    self:InitializeHolidays()
     self:UpdateSwimTimes()
 
     self.startedFalling = 0
@@ -610,9 +611,10 @@ function LM.Environment:GetEJInstances()
     return out
 end
 
-local holidaysByID = {}
 
-do
+function LM.Environment:InitializeHolidays()
+    self.holidaysByID = {}
+
     local now = C_DateAndTime.GetCurrentCalendarTime()
     local saved = C_Calendar.GetMonthInfo()
     local holidaysByTitle = {}
@@ -625,8 +627,8 @@ do
         for monthDay = 1, monthInfo.numDays do
             for i = 1, C_Calendar.GetNumDayEvents(0, monthDay) do
                 local eventInfo = C_Calendar.GetDayEvent(0, monthDay, i)
-                if eventInfo.calendarType == 'HOLIDAY' and not holidaysByID[eventInfo.eventID] then
-                    holidaysByID[eventInfo.eventID] = eventInfo.title
+                if eventInfo.calendarType == 'HOLIDAY' and not self.holidaysByID[eventInfo.eventID] then
+                    self.holidaysByID[eventInfo.eventID] = eventInfo.title
                     holidaysByTitle[eventInfo.title] = holidaysByTitle[eventInfo.title] or {}
                     table.insert(holidaysByTitle[eventInfo.title], eventInfo.eventID)
                 end
@@ -639,10 +641,9 @@ do
     -- holidays
     for _, IDs in pairs(holidaysByTitle) do
         if #IDs > 1 then
-            for _, id in ipairs(IDs) do holidaysByID[id] = nil end
+            for _, id in ipairs(IDs) do self.holidaysByID[id] = nil end
         end
     end
-
     C_Calendar.SetAbsMonth(saved.month, saved.year)
 end
 
@@ -666,9 +667,9 @@ function LM.Environment:IsHolidayActive(idOrTitle)
 end
 
 function LM.Environment:GetHolidays()
-    return CopyTable(holidaysByID)
+    return CopyTable(self.holidaysByID)
 end
 
 function LM.Environment:GetHolidayName(id)
-    return holidaysByID[id]
+    return self.holidaysByID[id]
 end

@@ -86,6 +86,7 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
     L["LM_HELP_TRANSLATE"] = "Help translate LiteMount into your language. Thank you."
     L["LM_HERB"] = "Herb"
     L["LM_HIDDEN"] = "Hidden"
+    L["LM_HOLIDAY"] = "Holiday"
     L["LM_IMPORT_PROFILE"] = "Import Profile"
     L["LM_IMPORT_PROFILE_EXP"] = "Paste a previously exported profile into the box below to import it as the entered name."
     L["LM_INCLUDE_MOUNTS"] = "Include Mounts"

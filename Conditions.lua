@@ -522,7 +522,7 @@ CONDITIONS["help"] = {
 }
 
 CONDITIONS["holiday"] = {
-    name = CALENDAR_FILTER_HOLIDAYS,
+    name = L.LM_HOLIDAY,
     toDisplay =
         function (v)
             return LM.Environment:GetHolidayName(tonumber(v)) or v
