@@ -611,12 +611,28 @@ function LM.Environment:GetEJInstances()
     return out
 end
 
+local CALENDAR_FILTER_CVARS = {
+    ["calendarShowHolidays"] = 1,
+    ["calendarShowDarkmoon"] = 1,
+    ["calendarShowLockouts"] = 0,
+    ["calendarShowWeeklyHolidays"] = 0,
+    ["calendarShowBattlegrounds"] = 0,
+    ["calendarShowResets"] = 0,
+};
+
 
 function LM.Environment:InitializeHolidays()
     self.holidaysByID = {}
 
+    local savedCVars = {}
+    for cvar, value in pairs(CALENDAR_FILTER_CVARS) do
+        savedCVars[cvar] = GetCVar(cvar)
+        SetCVar(cvar, value)
+    end
+
     local now = C_DateAndTime.GetCurrentCalendarTime()
     local saved = C_Calendar.GetMonthInfo()
+
     local holidaysByTitle = {}
 
     C_Calendar.SetAbsMonth(now.month, now.year)
@@ -644,6 +660,9 @@ function LM.Environment:InitializeHolidays()
             for _, id in ipairs(IDs) do self.holidaysByID[id] = nil end
         end
     end
+
+    -- Restore settings
+    for cvar, value in pairs(savedCVars) do SetCVar(cvar, value) end
     C_Calendar.SetAbsMonth(saved.month, saved.year)
 end
 
