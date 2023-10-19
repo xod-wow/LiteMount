@@ -199,7 +199,11 @@ ACTIONS['Spell'] = {
     initialize =
         function (args)
             for _, arg in ipairs(args) do
-                GetSpellInfo(arg)
+                local spellID = tonumber(arg)
+                if spellID then
+                    local spell = Spell:CreateFromSpellID(spellID)
+                    spell:ContinueOnSpellLoad(function () spell:GetSpellName() end)
+                end
             end
         end,
 }
@@ -597,7 +601,11 @@ ACTIONS['Use'] = {
     initialize =
         function (args)
             for _, arg in ipairs(args) do
-                GetItemInfo(arg)
+                local _, itemID, _ = UsableItemParse(arg)
+                if itemID then
+                    local item = Item:CreateFromItemID(itemID)
+                    item:ContinueOnItemLoad(function () item:GetItemName() end)
+                end
             end
         end,
 }
