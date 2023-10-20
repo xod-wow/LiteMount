@@ -423,7 +423,6 @@ function LiteMountMountsPanelMixin:OnShow()
         )
 
     self:RegisterEvent('MOUNT_JOURNAL_USABILITY_CHANGED')
-    self:RegisterEvent('SPELL_UPDATE_USABLE')
 
     LiteMountOptionsPanel_OnShow(self)
 end
