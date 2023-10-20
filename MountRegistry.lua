@@ -97,6 +97,7 @@ function LM.MountRegistry:Initialize()
     -- These are in this order so custom stuff is prioritized
     self:AddSpellMounts()
     self:AddJournalMounts()
+    self:UpdateUsability()
 
     self:BuildIndexes()
 
@@ -156,24 +157,84 @@ function LM.MountRegistry:AddMount(m)
     end
 end
 
-function LM.MountRegistry:AddJournalMounts()
-    -- This is horrible but I can't find any other way to get the "unusable" flag
-    local usableMounts = {}
+local CollectedFilterSettings = {
+    [LE_MOUNT_JOURNAL_FILTER_COLLECTED] = true,
+    [LE_MOUNT_JOURNAL_FILTER_NOT_COLLECTED] = true,
+    [LE_MOUNT_JOURNAL_FILTER_UNUSABLE] = false,
+}
 
-    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_COLLECTED, true)
-    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_NOT_COLLECTED, true)
-    C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_UNUSABLE, false)
-    C_MountJournal.SetAllSourceFilters(true)
-    C_MountJournal.SetAllTypeFilters(true)
-    C_MountJournal.SetSearch('')
+local function SaveAndSetJournalFilters()
+    local data = {
+        collected = {},
+        sources = {},
+        types = {},
+    }
+
+    for setting, value in pairs(CollectedFilterSettings) do
+        data.collected[setting] = C_MountJournal.GetCollectedFilterSetting(setting)
+        C_MountJournal.SetCollectedFilterSetting(setting, value)
+    end
+
+    for i = 1, C_PetJournal.GetNumPetSources() do
+        if C_MountJournal.IsValidSourceFilter(i) then
+            data.sources[i] = C_MountJournal.IsSourceChecked(i)
+            C_MountJournal.SetSourceFilter(i, true)
+        end
+    end
+
+    for i = 1, Enum.MountTypeMeta.NumValues do
+        if C_MountJournal.IsValidTypeFilter(i) then
+            data.types[i] = C_MountJournal.IsTypeChecked(i)
+            C_MountJournal.SetTypeFilter(i, true)
+        end
+    end
+
+    if MountJournalSearchBox then
+        data.searchText = MountJournalSearchBox:GetText()
+        C_MountJournal.SetSearch("")
+    else
+        data.searchText = ""
+    end
+
+    return data
+end
+
+local function RestoreJournalFilters(data)
+    for setting, value in pairs(data.collected) do
+        C_MountJournal.SetCollectedFilterSetting(setting, value)
+    end
+    for i, value in pairs(data.sources) do
+        C_MountJournal.SetSourceFilter(i, value)
+    end
+    for i, value in pairs(data.types) do
+        C_MountJournal.SetTypeFilter(i, value)
+    end
+    C_MountJournal.SetSearch(data.searchText)
+end
+
+-- This is horrible but I can't find any other way to get the "unusable"
+-- flag as per the filter except fiddle with the filter and query
+
+function LM.MountRegistry:UpdateUsability()
+    local data = SaveAndSetJournalFilters()
+
+    local usableMounts = {}
 
     for i = 1, C_MountJournal.GetNumDisplayedMounts() do
         local mountID = select(12, C_MountJournal.GetDisplayedMountInfo(i))
         usableMounts[mountID] = true
     end
 
+    for _,m in ipairs(self:FilterSearch("JOURNAL")) do
+        m.isUsable = usableMounts[m.mountID] or false
+    end
+
+    RestoreJournalFilters(data)
+end
+
+function LM.MountRegistry:AddJournalMounts()
     for _, mountID in ipairs(C_MountJournal.GetMountIDs()) do
-        local m = LM.Mount:Get("Journal", mountID, usableMounts[mountID])
+        local m = LM.Mount:Get("Journal", mountID)
         if m then self:AddMount(m) end
     end
 end
@@ -192,10 +253,10 @@ end
 function LM.MountRegistry:RefreshMounts()
     if self.needRefresh then
         LM.Debug("Refreshing status of all mounts.")
-
         for _,m in ipairs(self.mounts) do
             m:Refresh()
         end
+        self:UpdateUsability()
         self.needRefresh = nil
     end
 end

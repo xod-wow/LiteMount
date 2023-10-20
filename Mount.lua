@@ -188,6 +188,14 @@ function LM.Mount:IsCancelable()
     return true
 end
 
+function LM.Mount:IsUsable()
+    return true
+end
+
+function LM.Mount:IsMountable()
+    return true
+end
+
 function LM.Mount:IsFromZone(zone)
     if self.sourceText then
         zone = zone:gsub('%-', '%%-')

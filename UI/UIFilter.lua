@@ -466,8 +466,7 @@ function LM.UIFilter.IsFilteredMount(m)
         return true
     end
 
-    -- isUsable is only set for journal mounts so nil is true
-    if LM.UIFilter.filterList.other.UNUSABLE and m.isUsable == false then
+    if LM.UIFilter.filterList.other.UNUSABLE and not m:IsUsable() then
         return true
     end
 
