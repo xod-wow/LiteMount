@@ -466,8 +466,13 @@ function LM.UIFilter.IsFilteredMount(m)
         return true
     end
 
-    if LM.UIFilter.filterList.other.UNUSABLE and not m:IsUsable() then
-        return true
+    if LM.UIFilter.filterList.other.UNUSABLE then
+        -- We can't find out the usability of filtered mounts and they are all
+        -- set to be unusable but we want to display them or not with just the
+        -- HIDDEN filter and not UNUSABLE.
+        if not m.isFiltered and not m:IsUsable() then
+            return true
+        end
     end
 
     -- Priority Filters
