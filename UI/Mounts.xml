@@ -88,9 +88,9 @@
     <HighlightTexture parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="NumberFontNormal" justifyH="RIGHT" hidden="true" parentKey="Count">
+            <FontString inherits="NumberFontNormalSmall" justifyH="RIGHT" hidden="true" parentKey="Count">
             <Anchors>
-                <Anchor point="BOTTOMRIGHT" x="-5" y="2" />
+                <Anchor point="BOTTOMRIGHT" x="0" y="2" />
             </Anchors>
             </FontString>
         </Layer>
