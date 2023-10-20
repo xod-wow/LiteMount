@@ -126,8 +126,5 @@ function LM.ActionButton:Create(n)
     b:SetScript("PreClick", self.PreClick)
     b:SetScript("PostClick", self.PostClick)
 
-    -- The only reason for this is to run the action initializers
-    LM.Options:GetCompiledButtonRuleSet(n)
-
     return b
 end

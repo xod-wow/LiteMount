@@ -122,14 +122,7 @@ function LM.Rule:ParseLine(line)
         end
     end
 
-    r:Initialize()
-
     return r
-end
-
-function LM.Rule:Initialize()
-    LM.Debug("Initializing rule " .. self:ToString())
-    LM.Actions:InitializeAction(self.action, self.args or {})
 end
 
 function LM.Rule:Dispatch(context)

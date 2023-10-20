@@ -195,17 +195,7 @@ ACTIONS['Spell'] = {
                     return LM.SecureAction:Spell(nameWithSubtext, context.unit)
                 end
             end
-        end,
-    initialize =
-        function (args)
-            for _, arg in ipairs(args) do
-                local spellID = tonumber(arg)
-                if spellID then
-                    local spell = Spell:CreateFromSpellID(spellID)
-                    spell:ContinueOnSpellLoad(function () spell:GetSpellName() end)
-                end
-            end
-        end,
+        end
 }
 
 -- Buff is the same as Spell but checks if you have a matching aura and
@@ -246,11 +236,7 @@ ACTIONS['PreCast'] = {
                     return
                 end
             end
-        end,
-    initialize =
-        function (args)
-            ACTIONS['Spell'].initialize(args)
-        end,
+        end
 }
 
 ACTIONS['CancelAura'] = {
@@ -597,17 +583,7 @@ ACTIONS['Use'] = {
                     end
                 end
             end
-        end,
-    initialize =
-        function (args)
-            for _, arg in ipairs(args) do
-                local _, itemID, _ = UsableItemParse(arg)
-                if itemID then
-                    local item = Item:CreateFromItemID(itemID)
-                    item:ContinueOnItemLoad(function () item:GetItemName() end)
-                end
-            end
-        end,
+        end
 }
 
 ACTIONS['PreUse'] = {
@@ -620,11 +596,7 @@ ACTIONS['PreUse'] = {
                 context.preCast = action.item
                 return
             end
-        end,
-    initialize =
-        function (args)
-            ACTIONS['Use'].initialize(args)
-        end,
+        end
 }
 
 do
@@ -702,12 +674,5 @@ function LM.Actions:ToDisplay(action, args)
         return name, table.concat(LM.tMap(args, a.toDisplay), "\n")
     else
         return name, table.concat(args, ' ')
-    end
-end
-
-function LM.Actions:InitializeAction(action, args)
-    local a = ACTIONS[action]
-    if a and a.initialize then
-        a.initialize(args)
     end
 end
