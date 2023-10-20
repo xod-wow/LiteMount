@@ -80,7 +80,7 @@ function LM.UIFilter.UpdateCache()
             tinsert(LM.UIFilter.filteredMountList, m)
         end
     end
-    dragonRidingSort = LM.Environment:CanDragonride()
+    dragonRidingSort = IsAdvancedFlyableArea()
     sort(LM.UIFilter.filteredMountList, FilterSort)
 end
 
