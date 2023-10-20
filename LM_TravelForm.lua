@@ -46,9 +46,11 @@ end
 -- right area or not.
 
 local KrasusLandingCenter = CreateVector2D(0.727, 0.456)
+local DalaranDenySpells = { LM.SPELL.FLIGHT_FORM_CLASSIC, LM.SPELL.SWIFT_FLIGHT_FORM_CLASSIC }
 
-local function IsDalaranDenyArea()
+function LM.TravelForm:IsAreaDenied()
     if WOW_PROJECT_ID ~= WOW_PROJECT_WRATH_CLASSIC then return false end
+    if not tContains(DalaranDenySpells, self.spellID) then return false end
 
     local map = C_Map.GetBestMapForUnit('player')
     if map ~= 125 then return false end
@@ -65,7 +67,7 @@ end
 -- IsUsableSpell doesn't return false for Travel Form indoors like it should,
 -- because you can swim indoors with it (apparently).
 function LM.TravelForm:IsCastable()
-    if IsDalaranDenyArea() then return false end
+    if self:IsAreaDenied() then return false end
     if IsIndoors() and not IsSubmerged() then return false end
     local id = GetShapeshiftFormID()
     -- Don't recast over mount-like forms as it behaves as a dismount
