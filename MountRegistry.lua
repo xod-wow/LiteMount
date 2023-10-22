@@ -22,7 +22,7 @@ LM.MountRegistry = CreateFrame("Frame", nil, UIParent)
 LM.MountRegistry.callbacks = CallbackHandler:New(LM.MountRegistry)
 
 -- Type, type class create args
-local MOUNT_SPELLS_COMMON = {
+local MOUNT_SPELLS = {
     { "RunningWild", LM.SPELL.RUNNING_WILD },
     { "GhostWolf", LM.SPELL.GHOST_WOLF, 'RUN', 'SLOW' },
     { "Nagrand", LM.SPELL.FROSTWOLF_WAR_WOLF, 'Horde', 'RUN' },
@@ -67,10 +67,7 @@ local MOUNT_SPELLS_BY_PROJECT = {
     }
 }
 
-local MOUNT_SPELLS = CreateFromMixins(
-                            MOUNT_SPELLS_COMMON,
-                            MOUNT_SPELLS_BY_PROJECT[WOW_PROJECT_ID]
-                        )
+tAppendAll(MOUNT_SPELLS, MOUNT_SPELLS_BY_PROJECT[WOW_PROJECT_ID])
 
 local RefreshEvents = {
     ["NEW_MOUNT_ADDED"] = true,
