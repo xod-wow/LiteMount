@@ -19,12 +19,13 @@ local DefaultFilterList = {
     other = { HIDDEN=true, UNUSABLE=true },
     priority = { },
     source = { },
-    typeid = { },
+    typeid = { }
 }
 
 LM.UIFilter = {
         filteredMountList = LM.MountList:New(),
         searchText = nil,
+        sortKey = 'default',
         filterList = CopyTable(DefaultFilterList),
     }
 
@@ -58,21 +59,40 @@ function LM.UIFilter.IsFiltered()
     return not tCompare(LM.UIFilter.filterList, DefaultFilterList, 2)
 end
 
--- Fetch -----------------------------------------------------------------------
+-- Sorting ---------------------------------------------------------------------
 
--- Don't call CanDragonRide thousands of times for no reason
-local dragonRidingSort = false
+local SortKeys = { 'default', 'name', 'rarity', 'summons' }
 
--- Show all the collected mounts before the uncollected mounts, then by name
-local function FilterSort(a, b)
-    if a.isCollected and not b.isCollected then return true end
-    if not a.isCollected and b.isCollected then return false end
-    if dragonRidingSort then
-        if a.dragonRiding and not b.dragonRiding then return true end
-        if not a.dragonRiding and b.dragonRiding then return false end
-    end
-    return a.name < b.name
+local SortKeyTexts = {
+    ['default']     = DEFAULT:upper(),
+    ['name']        = NAME,
+    ['rarity']      = RARITY,
+    ['summons']     = SUMMONS,
+}
+
+function LM.UIFilter.GetSortKey()
+    return LM.UIFilter.sortKey
 end
+
+function LM.UIFilter.SetSortKey(k)
+    if LM.UIFilter.sortKey == k then
+        return
+    else
+        LM.UIFilter.sortKey = ( k or 'default' )
+        LM.UIFilter.ClearCache()
+        callbacks:Fire('OnFilterChanged')
+    end
+end
+
+function LM.UIFilter.GetSortKeys()
+    return SortKeys
+end
+
+function LM.UIFilter.GetSortKeyText(k)
+    return SortKeyTexts[k] or UNKNOWN
+end
+
+-- Fetch -----------------------------------------------------------------------
 
 function LM.UIFilter.UpdateCache()
     for _,m in ipairs(LM.MountRegistry.mounts) do
@@ -80,8 +100,7 @@ function LM.UIFilter.UpdateCache()
             tinsert(LM.UIFilter.filteredMountList, m)
         end
     end
-    dragonRidingSort = IsAdvancedFlyableArea and IsAdvancedFlyableArea()
-    sort(LM.UIFilter.filteredMountList, FilterSort)
+    LM.UIFilter.filteredMountList:Sort(LM.UIFilter.sortKey)
 end
 
 function LM.UIFilter.ClearCache()

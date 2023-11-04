@@ -144,6 +144,14 @@ local DROPDOWNS = {
         menulist = function () return LM.UIFilter.GetSources() end,
         gettext = function (k) return LM.UIFilter.GetSourceText(k) end,
     },
+    ['SORTBY'] = {
+        value = 'SORTBY',
+        text = BLUE_FONT_COLOR:WrapTextInColorCode(CLUB_FINDER_SORT_BY),
+        checked = function (k) return LM.UIFilter.GetSortKey() == k end,
+        set = function (k) LM.UIFilter.SetSortKey(k) end,
+        menulist = function () return LM.UIFilter.GetSortKeys() end,
+        gettext = function (k) return LM.UIFilter.GetSortKeyText(k) end,
+    },
 }
 
 local function InitDropDownSection(template, self, level, menuList)
@@ -169,7 +177,7 @@ local function InitDropDownSection(template, self, level, menuList)
         return
     end
 
-    if level == 2 then
+    if level == 2 and template.setall then
         info.notCheckable = true
         info.text = CHECK_ALL
         info.func = function ()
@@ -271,6 +279,9 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
 
         ---- 10. PRIORITY ----
         InitDropDownSection(DROPDOWNS.PRIORITY, self, level, menuList)
+
+        ---- 11. SORTBY ----
+        InitDropDownSection(DROPDOWNS.SORTBY, self, level, menuList)
     else
         InitDropDownSection(DROPDOWNS[L_UIDROPDOWNMENU_MENU_VALUE], self, level, menuList)
     end
