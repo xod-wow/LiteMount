@@ -586,6 +586,7 @@ LM.MOUNTFAMILY["Gronnling"] = {
 
 LM.MOUNTFAMILY["Gryphon"] = {
     [302361] = true, -- Alabaster Stormtalon
+    [417888] = true, -- Algarian Stormrider
     [ 61229] = true, -- Armored Snowy Gryphon
     [275859] = true, -- Dusky Waycrest Gryphon
     [ 32239] = true, -- Ebon Gryphon
@@ -908,6 +909,7 @@ LM.MOUNTFAMILY["Mechanostrider"] = {
 }
 
 LM.MOUNTFAMILY["Moonbeast"] = {
+    [400976] = true, -- Gleaming Moonbeast
     [424534] = true, -- Vicious Moonbeast (Alliance)
     [424535] = true, -- Vicious Moonbeast (Horde)
 }
