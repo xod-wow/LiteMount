@@ -61,10 +61,22 @@ end
 
 -- Sorting ---------------------------------------------------------------------
 
-local SortKeys = { 'default', 'name', 'rarity', 'summons' }
+local SortKeysByProject = {
+    [1] = {
+        'default',
+        'name',
+        'rarity',
+        'summons'
+    },
+    [11] = {
+        'default',
+        'name',
+        'summons'
+    }
+}
 
 local SortKeyTexts = {
-    ['default']     = DEFAULT:upper(),
+    ['default']     = DEFAULT,
     ['name']        = NAME,
     ['rarity']      = RARITY,
     ['summons']     = SUMMONS,
@@ -85,7 +97,7 @@ function LM.UIFilter.SetSortKey(k)
 end
 
 function LM.UIFilter.GetSortKeys()
-    return SortKeys
+    return SortKeysByProject[WOW_PROJECT_ID]
 end
 
 function LM.UIFilter.GetSortKeyText(k)
