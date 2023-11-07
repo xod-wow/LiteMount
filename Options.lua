@@ -43,9 +43,17 @@ LeaveVehicle
 Dismount [nofalling]
 CopyTargetsMount
 ApplyRules
-Limit [mod:shift,nosubmerged,flyable] RUN,~FLY
-Limit [mod:shift,nosubmerged,dragonridable] RUN,~DRAGONRIDING
-Limit [mod:shift,submerged] -SWIM
+IF [mod:shift]
+    IF [submerged]
+        Limit -SWIM
+    ELSEIF [dragonridable]
+        Limit -DRAGONRIDING
+    ELSEIF [flyable]
+        Limit -FLY
+    ELSEIF [floating]
+        Limit -SWIM
+    END
+END
 SmartMount
 IF [falling]
   # Slow Fall, Levitate, Zen Flight, Glide, Flap
