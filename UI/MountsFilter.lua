@@ -146,7 +146,7 @@ local DROPDOWNS = {
     },
     ['SORTBY'] = {
         value = 'SORTBY',
-        text = BLUE_FONT_COLOR:WrapTextInColorCode(CLUB_FINDER_SORT_BY),
+        text = BLUE_FONT_COLOR:WrapTextInColorCode(RAID_FRAME_SORT_LABEL),
         checked = function (k) return LM.UIFilter.GetSortKey() == k end,
         set = function (k) LM.UIFilter.SetSortKey(k) end,
         menulist = function () return LM.UIFilter.GetSortKeys() end,
