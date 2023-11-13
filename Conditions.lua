@@ -730,39 +730,47 @@ CONDITIONS["maw"] = {
         end
 }
 
+local ModifierKeys = { "LSHIFT", "RSHIFT", "LCTRL", "RCTRL", "LALT", "RALT" }
+
 CONDITIONS["mod"] = {
     name = L.LM_MODIFIER_KEY,
     toDisplay =
         function (v)
-            if v == "alt" then
-                return ALT_KEY_TEXT
-            elseif v == "ctrl" then
-                return CTRL_KEY_TEXT
-            elseif v == "shift" then
-                return SHIFT_KEY_TEXT
-            elseif not v then
+            if not v then
                 return ANY_TEXT
+            elseif tonumber(v) then
+                return v
+            elseif _G[v:upper() .. "_KEY_TEXT"] then
+                return _G[v:upper() .. "_KEY_TEXT"]
+            else
+                return v
             end
         end,
     menu = {
         nosort = true,
         { val = "mod" },
         { val = "mod:alt" },
+        { val = "mod:lalt" },
+        { val = "mod:ralt" },
         { val = "mod:ctrl" },
+        { val = "mod:lctrl" },
+        { val = "mod:rctrl" },
         { val = "mod:shift" },
+        { val = "mod:lshift" },
+        { val = "mod:rshift" },
     },
     handler =
         function (cond, context, v)
             if not v then
                 return IsModifierKeyDown()
-            elseif v == "alt" then
-                return IsAltKeyDown()
-            elseif v == "ctrl" then
-                return IsControlKeyDown()
-            elseif v == "shift" then
-                return IsShiftKeyDown()
+            elseif tonumber(v) then
+                local n = 0
+                for _,k in ipairs(ModifiersKeys) do
+                    if IsModifierKeyDown(k) then n = n + 1 end
+                end
+                return n == tonumber(v)
             else
-                return false
+                return IsModifierKeyDown(v)
             end
         end,
 }
