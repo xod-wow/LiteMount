@@ -477,6 +477,7 @@ LM.MOUNTFAMILY["Elemental"] = {
     [231442] = true, -- Farseer's Raging Tempest
     [289555] = true, -- Glacial Tidestorm
     [334482] = true, -- Restoration Deathwalker
+    [424009] = true, -- Runebound Firelord
     [340068] = true, -- Sintouched Deathwalker
     [358319] = true, -- Soultwisted Deathwalker
     [348162] = true, -- Wandering Ancient
