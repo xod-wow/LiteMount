@@ -83,71 +83,20 @@ function LM.ActionButton:PreClick(inputButton, isDown)
 end
 
 function LM.ActionButton:PostClick(inputButton, isDown)
-
-    -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
-    -- if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
-
     if InCombatLockdown() then return end
 
     LM.Debug(format("PostClick handler called on %s (inputButton=%s, isDown=%s)",
                 self:GetName(), tostring(inputButton), tostring(isDown)))
-
-    -- We'd like to set the macro to undo whatever we did, but
-    -- tests like IsMounted() and CanExitVehicle() will still
-    -- represent the pre-action state at this point.  We don't want
-    -- to just blindly do the opposite of whatever we chose because
-    -- it might not have worked.
-
 end
 
-local PreClickSnippet = [[
-    local keys = self:GetAttribute("combat-keys")
-    if keys then
-        for k in keys:gmatch("[^,]+") do
-            self:SetAttribute(k, self:GetAttribute("combat-"..k))
-        end
-    end
-]]
-
-local PostClickSnippet = [[
-    local keys = self:GetAttribute("combat-keys")
-    if keys then
-        for k in keys:gmatch("[^,]+") do
-            self:SetAttribute(k, nil)
-        end
-    end
-]]
-
--- Combat actions. A hack until I can figure where to put it all, now that
--- Blizzard have added an in-combat flying sitatuation.
-
-function LM.ActionButton:PLAYER_REGEN_DISABLED(e, ...)
-        local act
-        -- Amirdrassil ugh
-        if select(8, GetInstanceInfo()) == 2549 then
-            local mounts = LM.MountRegistry:FilterSearch('DRAGONRIDING', 'COLLECTED')
-            local m = mounts:SimpleRandom()
-            if m then
-                act = m:GetCastAction()
-            end
-        else
-            act = LM.Actions:GetHandler('Combat')()
-        end
+-- Combat actions triggered on PLAYER_REGEN_DISABLED which happens before
+-- lockdown starts so we can still do secure things.
+function LM.ActionButton:OnEvent(e, ...)
+    if e == "PLAYER_REGEN_DISABLED" then
+        local act = LM.Actions:GetHandler('Combat')()
         if act then
-            self:SetAttribute("combat-keys", table.concat(GetKeysArray(act), ','))
-            for k,v in pairs(act) do
-                self:SetAttribute("combat-"..k, v)
-            end
+            act:SetupActionButton(self)
         end
-end
-
-function LM.ActionButton:PLAYER_REGEN_ENABLED(e, ...)
-    local keys = self:GetAttribute("combat-keys")
-    if keys then
-        for k in keys:gmatch("[^,]+") do
-            self:SetAttribute("combat-"..k, nil)
-        end
-            self:SetAttribute("combat-keys", nil)
     end
 end
 
@@ -172,12 +121,8 @@ function LM.ActionButton:Create(n)
     b:SetScript("PreClick", self.PreClick)
     b:SetScript("PostClick", self.PostClick)
 
-    -- We could just wrap and unwrap on PLAYER_REGEN_x?
-    SecureHandlerWrapScript(b, "OnClick", b, PreClickSnippet, PostClickSnippet)
-
     b:RegisterEvent("PLAYER_REGEN_DISABLED")
-    b:RegisterEvent("PLAYER_REGEN_ENABLED")
-    b:SetScript('OnEvent', function (self, e, ...) if self[e] then self[e](self, e, ...) end end)
+    b:SetScript('OnEvent', self.OnEvent)
 
     return b
 end

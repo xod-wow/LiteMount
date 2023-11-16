@@ -494,8 +494,16 @@ ACTIONS['CantMount'] = {
 ACTIONS['Combat'] = {
     handler =
         function (args, context)
+            if select(8, GetInstanceInfo()) == 2549 then
+                LM.Debug(" - dragonriding combat action for Amirdrassil raid")
+                local mounts = LM.MountRegistry:FilterSearch('DRAGONRIDING', 'COLLECTED')
+                local randomStyle = LM.Options:GetOption('randomWeightStyle')
+                local m = mounts:Random(context.random, randomStyle)
+                if m then
+                    return m:GetCastAction()
+                end
+            end
             LM.Debug(" - setting action to in-combat action")
-
             local macrotext
             if LM.Options:GetOption('useCombatMacro') then
                 macrotext = LM.Options:GetOption('combatMacro')

@@ -65,21 +65,10 @@ function LiteMount:Initialize()
 
     -- Setup actions for the initial profile
     LM.Options:OnProfile()
-
-    -- Set all the buttons to the default combat action
-    for i = 1, 4 do
-        local isDown = GetCVarBool("ActionButtonUseKeyDown")
-        self.actions[i]:PostClick("LeftButton", isDown)
-    end
 end
 
 function LiteMount:Refresh()
     LM.Debug("Refresh")
-
-    for _,actionButton in ipairs(self.actions) do
-        local isDown = GetCVarBool("ActionButtonUseKeyDown")
-        actionButton:PostClick("LeftButton", isDown)
-    end
 end
 
 function LiteMount:PLAYER_LOGIN()
