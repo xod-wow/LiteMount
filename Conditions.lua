@@ -671,9 +671,12 @@ CONDITIONS["loadout"] = {
     handler =
         function (cond, context, v)
             if v then
-                local id = C_ClassTalents.GetActiveConfigID()
-                local info = C_Traits.GetConfigInfo(id)
-                return info and info.name == v
+                local specID = PlayerUtil.GetCurrentSpecID()
+                local id = C_ClassTalents.GetLastSelectedSavedConfigID(specID)
+                if id then
+                    local info = C_Traits.GetConfigInfo(id)
+                    return info and info.name == v
+                end
             end
         end
 }
