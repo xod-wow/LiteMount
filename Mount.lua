@@ -98,30 +98,30 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
     elseif f == "NONE" then
         return false
     elseif f == "CASTABLE" then
-        if self:IsCastable() then return true end
+        return self:IsCastable() == true
+    elseif f == "COLLECTED" then
+        return self.isCollected == true
     elseif f == "MAWUSABLE" then
-        if self:MawUsable() then return true end
+        return self:MawUsable() == true
     elseif f == "JOURNAL" then
-        if self.mountTypeID then return true end
+        return self.mountTypeID ~= nil
     elseif f == "FAVORITES" then
-        if self.isFavorite then return true end
+        return self.isFavorite == true
     elseif f == "DRAGONRIDING" then
-        if self.dragonRiding then return true end
+        return self.dragonRiding == true
     elseif f == "ZONEMATCH" then
         local zone = GetZoneText()
-        if self:IsFromZone(zone) then return true end
+        return self:IsFromZone(zone)
     elseif tonumber(f) then
-        if self.spellID == tonumber(f) then return true end
+        return self.spellID == tonumber(f)
     elseif f:sub(1, 3) == 'id:' then
-        if self.mountID == tonumber(f:sub(4)) then return true end
+        return self.mountID == tonumber(f:sub(4))
     elseif f:sub(1, 3) == 'mt:' then
-        if self.mountTypeID == tonumber(f:sub(4)) then return true end
+        return self.mountTypeID == tonumber(f:sub(4))
     elseif f:sub(1, 7) == 'family:' then
-        if self.family == f:sub(8) or L[self.family] == f:sub(8) then
-            return true
-        end
+        return ( self.family == f:sub(8) or L[self.family] == f:sub(8) )
     elseif f:sub(1, 1) == '~' then
-        if not self:MatchesOneFilter(flags, groups, f:sub(2)) then return true end
+        return not self:MatchesOneFilter(flags, groups, f:sub(2))
     elseif flags[f] ~= nil then
         return true
     elseif groups[f] ~= nil then

@@ -98,10 +98,56 @@ function LM.ActionButton:PostClick(inputButton, isDown)
     -- to just blindly do the opposite of whatever we chose because
     -- it might not have worked.
 
-    local handler = LM.Actions:GetHandler('Combat')
-    local act = handler()
-    if act then
-        act:SetupActionButton(self)
+end
+
+local PreClickSnippet = [[
+    local keys = self:GetAttribute("combat-keys")
+    if keys then
+        for k in keys:gmatch("[^,]+") do
+            self:SetAttribute(k, self:GetAttribute("combat-"..k))
+        end
+    end
+]]
+
+local PostClickSnippet = [[
+    local keys = self:GetAttribute("combat-keys")
+    if keys then
+        for k in keys:gmatch("[^,]+") do
+            self:SetAttribute(k, nil)
+        end
+    end
+]]
+
+-- Combat actions. A hack until I can figure where to put it all, now that
+-- Blizzard have added an in-combat flying sitatuation.
+
+function LM.ActionButton:PLAYER_REGEN_DISABLED(e, ...)
+        local act
+        -- Amirdrassil ugh
+        if select(8, GetInstanceInfo()) == 2549 then
+            local mounts = LM.MountRegistry:FilterSearch('DRAGONRIDING', 'COLLECTED')
+            local m = mounts:SimpleRandom()
+            if m then
+                act = m:GetCastAction()
+            end
+        else
+            act = LM.Actions:GetHandler('Combat')()
+        end
+        if act then
+            self:SetAttribute("combat-keys", table.concat(GetKeysArray(act), ','))
+            for k,v in pairs(act) do
+                self:SetAttribute("combat-"..k, v)
+            end
+        end
+end
+
+function LM.ActionButton:PLAYER_REGEN_ENABLED(e, ...)
+    local keys = self:GetAttribute("combat-keys")
+    if keys then
+        for k in keys:gmatch("[^,]+") do
+            self:SetAttribute("combat-"..k, nil)
+        end
+            self:SetAttribute("combat-keys", nil)
     end
 end
 
@@ -125,6 +171,13 @@ function LM.ActionButton:Create(n)
     -- SecureActionButton setup
     b:SetScript("PreClick", self.PreClick)
     b:SetScript("PostClick", self.PostClick)
+
+    -- We could just wrap and unwrap on PLAYER_REGEN_x?
+    SecureHandlerWrapScript(b, "OnClick", b, PreClickSnippet, PostClickSnippet)
+
+    b:RegisterEvent("PLAYER_REGEN_DISABLED")
+    b:RegisterEvent("PLAYER_REGEN_ENABLED")
+    b:SetScript('OnEvent', function (self, e, ...) if self[e] then self[e](self, e, ...) end end)
 
     return b
 end
