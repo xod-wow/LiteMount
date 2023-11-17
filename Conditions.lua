@@ -753,14 +753,16 @@ CONDITIONS["member"] = {
                     local info = C_BattleNet.GetAccountInfoByGUID(guid)
                     if info and info.battleTag == name then return true end
                 end
+            elseif name:find('-') then
+                for u in IterateGroupUnits() do
+                    local n, r = UnitName(u)
+                    r = r or GetRealmName()
+                    if n..'-'..r == name then return true end
+                end
             else
                 for u in IterateGroupUnits() do
                     local n, r = UnitName(u)
-                    if not r then
-                        if n == name then return true end
-                    else
-                        if n..'-'..r == name then return true end
-                    end
+                    if n == name and r == nil then return true end
                 end
             end
         end
