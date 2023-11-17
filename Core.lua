@@ -67,10 +67,6 @@ function LiteMount:Initialize()
     LM.Options:OnProfile()
 end
 
-function LiteMount:Refresh()
-    LM.Debug("Refresh")
-end
-
 function LiteMount:PLAYER_LOGIN()
     self:UnregisterEvent("PLAYER_LOGIN")
 

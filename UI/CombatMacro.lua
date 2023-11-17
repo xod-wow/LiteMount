@@ -28,7 +28,6 @@ end
 
 function LiteMountCombatMacroEditBoxMixin:SetOption(v)
     LM.Options:SetOption('combatMacro', v)
-    LiteMount:Refresh()
 end
 
 function LiteMountCombatMacroEditBoxMixin:OnLoad()
@@ -48,7 +47,6 @@ end
 
 function LiteMountCombatMacroEnableButtonMixin:SetOption(v)
     LM.Options:SetOption('useCombatMacro', v and true or false)
-    LiteMount:Refresh()
 end
 
 --[[------------------------------------------------------------------------]]--
