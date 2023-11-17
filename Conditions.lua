@@ -43,6 +43,22 @@ local ANY_TEXT = CLUB_FINDER_ANY_FLAG or SPELL_TARGET_TYPE1_DESC:upper()
 
 ]]
 
+local function IterateGroupUnits()
+   local unit, numMembers
+   if IsInRaid() then
+      unit, numMembers = 'raid', GetNumGroupMembers()
+   else
+      unit, numMembers = 'party', GetNumSubgroupMembers()
+   end
+   local i = 0
+   return function ()
+      i = i + 1
+      if i <= numMembers then
+         return unit..i
+      end
+   end
+end
+
 -- If any condition starts with "no" we're screwed
 -- ".args" functions take a fixed set of arguments rather using / for OR
 
@@ -453,14 +469,8 @@ CONDITIONS["gather"] = {
 
 local function IsInCrossFactionGroup()
     local myFaction = UnitFactionGroup('player')
-    local unit, numMembers
-    if IsInRaid() then
-        unit, numMembers = 'raid', GetNumGroupMembers()
-    else
-        unit, numMembers = 'party', GetNumSubgroupMembers()
-    end
-    for i = 1, numMembers do
-        if UnitFactionGroup(unit..i) ~= myFaction then
+    for unit in IterateGroupUnits() do
+        if UnitFactionGroup(unit) ~= myFaction then
             return true
         end
     end
@@ -730,6 +740,29 @@ CONDITIONS["maw"] = {
     handler =
         function (cond, context, v)
             return LM.Environment:IsTheMaw(context.mapPath)
+        end
+}
+
+CONDITIONS["member"] = {
+    handler =
+        function (cond, context, name)
+            if not name then return end
+            if name:find('#') then
+                for u in IterateGroupUnits() do
+                    local guid = UnitGUID(u)
+                    local info = C_BattleNet.GetAccountInfoByGUID(guid)
+                    if info and info.battleTag == name then return true end
+                end
+            else
+                for u in IterateGroupUnits() do
+                    local n, r = UnitName(u)
+                    if not r then
+                        if n == name then return true end
+                    else
+                        if n..'-'..r == name then return true end
+                    end
+                end
+            end
         end
 }
 
