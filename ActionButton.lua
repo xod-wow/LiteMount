@@ -93,7 +93,7 @@ end
 -- lockdown starts so we can still do secure things.
 function LM.ActionButton:OnEvent(e, ...)
     if e == "PLAYER_REGEN_DISABLED" then
-        local act = LM.Actions:GetHandler('Combat')()
+        local act = LM.Actions:GetHandler('Combat')(nil, self.context)
         if act then
             act:SetupActionButton(self)
         end
