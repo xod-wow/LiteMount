@@ -381,6 +381,15 @@ function LM.Environment:CanFly()
         return InstanceFlyableOverride[instanceID]
     end
 
+    if WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC then
+        -- Classic Northrend requires Cold Weather Flying in WotLK Classic
+        if self:InInstance(571) then
+            if not IsSpellKnown(54197) then
+                return false
+            end
+        end
+    end
+
     -- Memories of Sunless Skies / Shadowlands Flying (63893)
     -- It seems like flying in Shadowlands is also unlocked by completing the
     -- Zereth Mortis Flying (65539) unlock even if you never did MoSS.
