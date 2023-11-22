@@ -5,7 +5,7 @@
   the mojo is done by IsUsableSpell to know if a mount can be cast, this just
   helps with the prioritization.
 
-  Copyright 2011-2021 Mike Battersby
+  Copyright 2011 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
@@ -39,6 +39,8 @@ function LM.Environment:Initialize()
     self:RegisterEvent("PLAYER_STOPPED_MOVING")
     self:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
     self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+    self:RegisterEvent("ENCOUNTER_START")
+    self:RegisterEvent("ENCOUNTER_END")
 end
 
 -- I hate OnUpdate handlers but there are just no good events for determining
@@ -145,7 +147,6 @@ function LM.Environment:PLAYER_STOPPED_MOVING()
 end
 
 function LM.Environment:MOUNT_JOURNAL_USABILITY_CHANGED()
-    LM.Debug("Updating swim times due to MOUNT_JOURNAL_USABILITY_CHANGED.")
     self:UpdateSwimTimes()
 end
 
@@ -163,6 +164,22 @@ end
 
 function LM.Environment:ZONE_CHANGED_NEW_AREA()
     LM.Options:RecordInstance()
+end
+
+-- encounterID, encounterName, difficultyID, groupSize
+function LM.Environment:ENCOUNTER_START(event, ...)
+    LM.Debug(format("Encounter started: %d (%s)", ...))
+    self.currentEncounter = { ... }
+end
+
+function LM.Environment:ENCOUNTER_END(event, ...)
+    self.currentEncounter = nil
+end
+
+function LM.Environment:GetEncounterInfo()
+    if self.currentEncounter then
+        return unpack(self.currentEncounter)
+    end
 end
 
 local herbSpellName = GetSpellInfo(2366)

@@ -4,7 +4,7 @@
 
   Mounting actions.
 
-  Copyright 2011-2021 Mike Battersby
+  Copyright 2011 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
@@ -491,25 +491,38 @@ ACTIONS['CantMount'] = {
         end
 }
 
+local CombatEncounterHandlers = {
+    -- Tindral Sageswift, Amirdrassil (Dragonflight)
+    [2786] =
+        function (args, context, id, name)
+            local mounts = LM.MountRegistry:FilterSearch('DRAGONRIDING', 'COLLECTED')
+            local randomStyle = LM.Options:GetOption('randomWeightStyle')
+            local m = mounts:Random(context.random, randomStyle)
+            if m then
+                return m:GetCastAction()
+            end
+        end,
+}
+
 ACTIONS['Combat'] = {
     handler =
         function (args, context)
-            if select(8, GetInstanceInfo()) == 2549 then
-                LM.Debug(" - dragonriding combat action for Amirdrassil raid")
-                local mounts = LM.MountRegistry:FilterSearch('DRAGONRIDING', 'COLLECTED')
-                local randomStyle = LM.Options:GetOption('randomWeightStyle')
-                local m = mounts:Random(context.random, randomStyle)
-                if m then
-                    return m:GetCastAction()
-                end
-            end
-            LM.Debug(" - setting action to in-combat action")
-            local macrotext
+            -- If specific combat macro is set always use it.
             if LM.Options:GetOption('useCombatMacro') then
-                macrotext = LM.Options:GetOption('combatMacro')
-            else
-                macrotext = LM.Actions:DefaultCombatMacro()
+                LM.Debug(" - combat action from settings")
+                local macrotext = LM.Options:GetOption('combatMacro')
+                return LM.SecureAction:Macro(macrotext)
             end
+            -- Check for an encounter-specific combat setting
+            local id, name = LM.Environment:GetEncounterInfo()
+            if id and CombatEncounterHandlers[id] then
+                LM.Debug(" - combat action for " .. name)
+                local act = CombatEncounterHandlers[id](args, context, id, name)
+                if act then return act end
+            end
+            -- Otherwise use the default actions
+            LM.Debug(" - default combat action")
+            local macrotext = LM.Actions:DefaultCombatMacro()
             return LM.SecureAction:Macro(macrotext)
         end
 }

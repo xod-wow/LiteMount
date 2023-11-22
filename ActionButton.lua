@@ -8,7 +8,7 @@
   type="macro" macrotext="...". If we're not in combat we
   use a preclick handler to set it to what we really want to do.
 
-  Copyright 2011-2021 Mike Battersby
+  Copyright 2011 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 
@@ -89,7 +89,7 @@ function LM.ActionButton:PostClick(inputButton, isDown)
                 self:GetName(), tostring(inputButton), tostring(isDown)))
 end
 
--- Combat actions triggered on PLAYER_REGEN_DISABLED which happens before
+-- Combat actions trigger on PLAYER_REGEN_DISABLED which happens before
 -- lockdown starts so we can still do secure things.
 function LM.ActionButton:OnEvent(e, ...)
     if e == "PLAYER_REGEN_DISABLED" then
@@ -121,6 +121,7 @@ function LM.ActionButton:Create(n)
     b:SetScript("PreClick", self.PreClick)
     b:SetScript("PostClick", self.PostClick)
 
+    -- Event handler for combat setup just before lockdown starts
     b:RegisterEvent("PLAYER_REGEN_DISABLED")
     b:SetScript('OnEvent', self.OnEvent)
 
