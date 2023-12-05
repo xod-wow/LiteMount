@@ -906,15 +906,6 @@ CONDITIONS["pcall"] = {
         end
 }
 
-CONDITIONS["playermodel"] = {
-    handler =
-        function (cond, context, v)
-            if v then
-                return LM.Environment:GetPlayerModel() == tonumber(v)
-            end
-        end
-}
-
 CONDITIONS["party"] = {
     handler =
         function (cond, context)
@@ -935,6 +926,15 @@ CONDITIONS["pet"] = {
                 return UnitName(petunit) == v or UnitCreatureFamily(petunit) == v
             else
                  return UnitExists(petunit)
+            end
+        end
+}
+
+CONDITIONS["playermodel"] = {
+    handler =
+        function (cond, context, v)
+            if v then
+                return LM.Environment:GetPlayerModel() == tonumber(v)
             end
         end
 }
@@ -1099,18 +1099,6 @@ CONDITIONS["sex"] = {
         end
 }
 
--- The difference between IsSwimming and IsSubmerged is that IsSubmerged
--- will also return true when you are standing on the bottom.  Note that
--- it sadly does not return false when you are floating on the top, that
--- is still counted as being submerged.
-
-CONDITIONS["swimming"] = {
-    handler =
-        function (cond, context)
-            return IsSubmerged()
-        end
-}
-
 CONDITIONS["shapeshift"] = {
     handler =
         function (cond, context)
@@ -1181,12 +1169,24 @@ CONDITIONS["stealthed"] = {
         end
 }
 
+-- The difference between IsSwimming and IsSubmerged is that IsSubmerged
+-- will also return true when you are standing on the bottom.  Note that
+-- it sadly does not return false when you are floating on the top, that
+-- is still counted as being submerged.
+
 CONDITIONS["submerged"] = {
     name = TUTORIAL_TITLE28,
     handler =
         function (cond, context)
             return (IsSubmerged() and not LM.Environment:IsFloating())
         end,
+}
+
+CONDITIONS["swimming"] = {
+    handler =
+        function (cond, context)
+            return IsSubmerged()
+        end
 }
 
 CONDITIONS["tracking"] = {
