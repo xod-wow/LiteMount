@@ -2,7 +2,7 @@
 
   LiteMount/TableUtil.lua
 
-  Copyright 2011-2021 Mike Battersby
+  Copyright 2011 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

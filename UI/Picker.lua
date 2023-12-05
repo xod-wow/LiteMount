@@ -4,7 +4,7 @@
 
   A pop-over for picking a thing from a list.
 
-  Copyright 2011-2021 Mike Battersby
+  Copyright 2011 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

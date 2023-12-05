@@ -10,7 +10,7 @@
 
   Also IsUsableSpell doesn't work right on it.
 
-  Copyright 2011-2021 Mike Battersby
+  Copyright 2011 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
 

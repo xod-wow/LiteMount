@@ -2,7 +2,7 @@
 
   LiteMount/LM_Soulshape.lua
 
-  Copyright 2011-2021 Mike Battersby
+  Copyright 2011 Mike Battersby
 
   Soulshape works the same way that the Draenor garrison abilities did.
   GetSpellInfo(310143) returns the spell name, but GetSpellInfo(spellName) will
