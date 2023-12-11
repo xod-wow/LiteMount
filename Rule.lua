@@ -131,7 +131,7 @@ function LM.Rule:Dispatch(context)
 
     local handler = LM.Actions:GetFlowControlHandler(self.action)
     if handler then
-        LM.Debug("Dispatching flow control action " .. (self.line or self:ToString()))
+        LM.Debug("  Dispatching flow control action " .. (self.line or self:ToString()))
         handler(self.args or {}, context, isTrue)
         return
     end
@@ -142,11 +142,11 @@ function LM.Rule:Dispatch(context)
 
     handler = LM.Actions:GetHandler(self.action)
     if not handler then
-        LM.WarningAndPrint(format(L.LM_ERR_BAD_ACTION, self.action))
+        LM.WarningAndPrint(L.LM_ERR_BAD_ACTION, self.action)
         return
     end
 
-    LM.Debug("Dispatching rule " .. (self.line or self:ToString()))
+    LM.Debug("  Dispatching rule " .. (self.line or self:ToString()))
 
     return handler(self.args or {}, context)
 end

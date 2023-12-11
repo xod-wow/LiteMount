@@ -200,7 +200,7 @@ end
 
 function LM.MountList:WeightedRandom(weights, r)
     if weights.total == 0 then
-        LM.Debug(format(' - WeightedRandom n=%d all weights 0'))
+        LM.Debug('  * WeightedRandom n=%d all weights 0')
         return
     end
 
@@ -210,10 +210,11 @@ function LM.MountList:WeightedRandom(weights, r)
     for i = 1, #self do
         t = t + weights[i]
         if t > cutoff then
-            LM.Debug(format(' - WeightedRandom n=%d, t=%0.3f, c=%0.3f, w=%0.3f, p=%0.3f',
-                                #self, weights.total, cutoff,
-                                weights[i],
-                                weights[i] / weights.total))
+            LM.Debug('  * WeightedRandom n=%d, t=%0.3f, c=%0.3f, w=%0.3f, p=%0.3f',
+                        #self, weights.total,
+                        cutoff,
+                        weights[i],
+                        weights[i] / weights.total)
             return self[i]
         end
     end

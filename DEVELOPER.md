@@ -260,12 +260,12 @@ Printing and debugging functions.
 
 ```
   LM.Print
-    Print(msg)
-    PrintError(msg)
-    Warning(msg)            - warnings go to UIErrorsFrame
-    WarningAndPrint(msg)
-    Debug(msg)
-    UIDebug(frame, msg)
+    Print(fmt, ...)
+    PrintError(fmt, ...)
+    Warning(fmt, ...)            - warnings go to UIErrorsFrame
+    WarningAndPrint(fmt, ...)
+    Debug(fmt, ...)
+    UIDebug(frame, fmt, ...)
 ```
 
 ### SlashCommand.lua

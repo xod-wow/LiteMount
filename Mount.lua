@@ -44,7 +44,7 @@ function LM.Mount:Get(className, ...)
             m.family = UNKNOWN
             LM.MOUNTFAMILY["Unknown"][m.spellID] = true
             --@debug@
-            LM.PrintError(format('No family: %s (%d)', m.name, m.spellID))
+            LM.PrintError('No family: %s (%d)', m.name, m.spellID)
             --@end-debug@
         end
     end
@@ -226,11 +226,9 @@ function LM.Mount:OnSummon()
     if LM.Options:GetOption('randomWeightStyle') == 'Rarity' then
         local rarity = self:GetRarity()
         rarity = string.format(L.LM_RARITY_FORMAT, rarity or 0)
-        LM.Print(string.format(L.LM_SUMMON_CHAT_MESSAGE_RARITY, self.name, rarity, n))
+        LM.Print(L.LM_SUMMON_CHAT_MESSAGE_RARITY, self.name, rarity, n)
     else
-        LM.Print(string.format(
-                    L.LM_SUMMON_CHAT_MESSAGE,
-                    self.name, self:GetPriority(), n))
+        LM.Print(L.LM_SUMMON_CHAT_MESSAGE, self.name, self:GetPriority(), n)
     end
 end
 

@@ -48,8 +48,8 @@ function LM.ActionButton:PreClick(inputButton, isDown)
 
     local startTime = debugprofilestop()
 
-    LM.Debug(format("PreClick handler called on %s (inputButton=%s, isDown=%s)",
-                self:GetName(), tostring(inputButton), tostring(isDown)))
+    LM.Debug("[%d] PreClick handler (inputButton=%s, isDown=%s)",
+             self.id, tostring(inputButton), tostring(isDown))
 
     LM.MountRegistry:RefreshMounts()
 
@@ -72,27 +72,28 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     local act = ruleSet:Run(context)
     if act then
         act:SetupActionButton(self)
-        LM.Debug("PreClick ok time " .. (debugprofilestop() - startTime))
+        LM.Debug("[%d] PreClick ok time %0.2f", self.id, debugprofilestop() - startTime)
         return
     end
 
     local handler = LM.Actions:GetHandler('CantMount')
     local act = handler()
     act:SetupActionButton(self)
-    LM.Debug("PreClick fail time " .. (debugprofilestop() - startTime))
+    LM.Debug("[%d] PreClick fail time %0.2f", self.id, debugprofilestop() - startTime)
 end
 
 function LM.ActionButton:PostClick(inputButton, isDown)
     if InCombatLockdown() then return end
 
-    LM.Debug(format("PostClick handler called on %s (inputButton=%s, isDown=%s)",
-                self:GetName(), tostring(inputButton), tostring(isDown)))
+    LM.Debug("[%d] PostClick handler (inputButton=%s, isDown=%s)",
+             self.id, tostring(inputButton), tostring(isDown))
 end
 
 -- Combat actions trigger on PLAYER_REGEN_DISABLED which happens before
 -- lockdown starts so we can still do secure things.
 function LM.ActionButton:OnEvent(e, ...)
     if e == "PLAYER_REGEN_DISABLED" then
+        LM.Debug('[%d] Combat started', self.id)
         local act = LM.Actions:GetHandler('Combat')(nil, self.context)
         if act then
             act:SetupActionButton(self)

@@ -18,12 +18,16 @@ local debugLines = {}
 local debugLinePos = 1
 local maxDebugLines = 100
 
-function LM.Print(msg)
+local format = format
+
+function LM.Print(...)
+    local msg = format(...)
     local f = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME
     f:AddMessage("|cff00ff00LiteMount:|r " .. msg)
 end
 
-function LM.PrintError(msg)
+function LM.PrintError(...)
+    local msg = format(...)
     LM.Print("|cffff6666" .. msg .. "|r")
 end
 
@@ -38,7 +42,9 @@ function LM.GetDebugLines()
     return out
 end
 
-function LM.Debug(msg)
+function LM.Debug(...)
+    local msg = format(...)
+
     debugLines[debugLinePos] = msg
     debugLinePos = ( debugLinePos + 1 ) % (maxDebugLines + 1)
 
@@ -73,7 +79,8 @@ local function GetFrameName(frame)
     return frame.__printableName
 end
 
-function LM.UIDebug(frame, msg)
+function LM.UIDebug(frame, ...)
+    local msg = format(...)
     if LM.Options:GetOption('uiDebugEnabled') then
         local name = GetFrameName(frame)
         LM.Print(ORANGE_FONT_COLOR:WrapTextInColorCode(name) .. ' : ' .. msg)
@@ -85,7 +92,7 @@ function LM.Warning(msg)
     UIErrorsFrame:AddMessage(msg, 1.0, 0.1, 0.1)
 end
 
-function LM.WarningAndPrint(msg)
-    LM.Warning(msg)
-    LM.PrintError(msg)
+function LM.WarningAndPrint(...)
+    LM.Warning(...)
+    LM.PrintError(...)
 end

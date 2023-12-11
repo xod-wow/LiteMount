@@ -41,7 +41,7 @@ function LiteMount:Initialize()
 
     local version = GetAddOnMetadata("LiteMount", "Version") or "UNKNOWN"
 
-    LM.Debug(format("Initializing LiteMount v%s, debugging enabled.", version))
+    LM.Debug("Initializing LiteMount v%s, debugging enabled.", version)
 
     LM.MountRegistry:Initialize()
 

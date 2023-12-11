@@ -168,7 +168,7 @@ end
 
 -- encounterID, encounterName, difficultyID, groupSize
 function LM.Environment:ENCOUNTER_START(event, ...)
-    LM.Debug(format("Encounter started: %d (%s)", ...))
+    LM.Debug("Encounter started: %d (%s)", ...)
     self.currentEncounter = { ... }
 end
 

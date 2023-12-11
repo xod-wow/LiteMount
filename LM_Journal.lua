@@ -43,7 +43,7 @@ function LM.Journal:Get(id)
     local modelID, descriptionText, sourceText, isSelfMount, mountTypeID, sceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
     if not name then
-        LM.Debug(format("LM.Mount: Failed GetMountInfo for ID = #%d", id))
+        LM.Debug("LM.Mount: Failed GetMountInfo for ID = #%d", id)
         return
     end
 
@@ -124,7 +124,7 @@ function LM.Journal:Get(id)
         return
 --@debug@
     else
-        LM.PrintError(string.format('Mount with unknown type number: %s = %d', m.name, m.mountTypeID))
+        LM.PrintError('Mount with unknown type number: %s = %d', m.name, m.mountTypeID)
 --@end-debug@
     end
 

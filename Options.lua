@@ -201,7 +201,7 @@ function LM.Options:VersionUpgrade5()
                     p.mountPriorities[spellID] = self.DEFAULT_PRIORITY
                 end
             end
-            LM.Debug(string.format('   - finished: total=%d, p0=%d, p1=%d', nTotal, nExcluded, nIncluded))
+            LM.Debug('   - finished: total=%d, p0=%d, p1=%d', nTotal, nExcluded, nIncluded)
             p.excludedSpells = nil
             p.uiMountFilterList = nil
             p.enableTwoPress = nil
@@ -383,7 +383,7 @@ function LM.Options:InitializePriorities()
 end
 
 function LM.Options:SetPriority(m, v)
-    LM.Debug(format("Setting mount %s (%d) to priority %s", m.name, m.spellID, tostring(v)))
+    LM.Debug("Setting mount %s (%d) to priority %s", m.name, m.spellID, tostring(v))
     if v then
         v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
     end
@@ -395,7 +395,7 @@ end
 -- with hundreds of unnecessary callback refreshes.
 
 function LM.Options:SetPriorities(mountlist, v)
-    LM.Debug(format("Setting %d mounts to priority %s", #mountlist, tostring(v)))
+    LM.Debug("Setting %d mounts to priority %s", #mountlist, tostring(v))
     if v then
         v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
     end
@@ -459,8 +459,7 @@ function LM.Options:GetMountFlags(m)
 end
 
 function LM.Options:SetMountFlag(m, setFlag)
-    LM.Debug(format("Setting flag %s for spell %s (%d).",
-                    setFlag, m.name, m.spellID))
+    LM.Debug("Setting flag %s for spell %s (%d).", setFlag, m.name, m.spellID)
 
     -- Note this is the actual cached copy, we can only change it here
     -- (and below in ClearMountFlag) because we are invalidating the cache
@@ -471,8 +470,7 @@ function LM.Options:SetMountFlag(m, setFlag)
 end
 
 function LM.Options:ClearMountFlag(m, clearFlag)
-    LM.Debug(format("Clearing flag %s for spell %s (%d).",
-                     clearFlag, m.name, m.spellID))
+    LM.Debug("Clearing flag %s for spell %s (%d).", clearFlag, m.name, m.spellID)
 
     -- See note above
     local flags = self:GetMountFlags(m)
@@ -481,7 +479,7 @@ function LM.Options:ClearMountFlag(m, clearFlag)
 end
 
 function LM.Options:ResetMountFlags(m)
-    LM.Debug(format("Defaulting flags for spell %s (%d).", m.name, m.spellID))
+    LM.Debug("Defaulting flags for spell %s (%d).", m.name, m.spellID)
     self.db.profile.flagChanges[m.spellID] = nil
     self.cachedMountFlags[m.spellID] = nil
     self.db.callbacks:Fire("OnOptionsModified")
@@ -707,7 +705,7 @@ function LM.Options:SetOption(name, val)
             if val == nil then val = defaults[k][name] end
             local valType, expectedType = type(val), type(defaults[k][name])
             if valType ~= expectedType then
-                LM.PrintError(string.format("Bad option type : %s=%s (expected %s)", name, valType, expectedType))
+                LM.PrintError("Bad option type : %s=%s (expected %s)", name, valType, expectedType)
             else
                 self.db[k][name] = val
                 self.db.callbacks:Fire("OnOptionsModified")
@@ -715,7 +713,7 @@ function LM.Options:SetOption(name, val)
             return
         end
     end
-    LM.PrintError(string.format("Bad option: %s", name))
+    LM.PrintError("Bad option: %s", name)
 end
 
 

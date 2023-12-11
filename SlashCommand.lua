@@ -61,7 +61,7 @@ COMMANDS['priority'] =
         priority = tonumber(priority)
         if mount and priority then
             LM.Options:SetPriority(mount, priority)
-            LM.Print(format("Setting priority of %s to %d.", mount.name, priority))
+            LM.Print("Setting priority of %s to %d.", mount.name, priority)
         end
     end
 
@@ -142,7 +142,7 @@ COMMANDS['xmog'] =
         if tmSlot then
             local ok, _, _, _, id = pcall(C_Transmog.GetSlotVisualInfo, tmSlot.location)
             if ok == true then
-                LM.Print(format("Transmog appearance ID for slot %d = %s", slotID, tostring(id)))
+                LM.Print("Transmog appearance ID for slot %d = %s", slotID, tostring(id))
             else
                 LM.Print("Bad transmog slot number: " .. slotID)
             end
