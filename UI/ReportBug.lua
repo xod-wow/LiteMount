@@ -32,6 +32,17 @@ function LiteMountReportBugMixin:OnSizeChanged()
     self.Scroll.EditBox:SetSize(x-28, y)
 end
 
+local function GetAnyLiteMountMacros()
+    local macros = ''
+    for i = 1, MAX_ACCOUNT_MACROS + MAX_CHARACTER_MACROS do
+        local name, _, body = GetMacroInfo(i)
+        if name and body:match("/click.*LM_") then
+            macros = macros .. format("%s:\n    %s\n", name, body:gsub("\n", "\n    "))
+        end
+    end
+    return macros
+end
+
 function LiteMountReportBugMixin:OnShow()
     local savedDefaults = LM.Options.db.defaults
     LM.Options.db:RegisterDefaults(nil)
@@ -47,6 +58,8 @@ function LiteMountReportBugMixin:OnShow()
     local level = UnitLevel('player')
     local spec = GetSpecialization and GetSpecialization() or 0
     local specID, specName = GetSpecializationInfo and GetSpecializationInfo(spec) or 0, 0
+
+    local macros = GetAnyLiteMountMacros()
 
     self.Scroll.EditBox:SetText([[
 |cff00ff00What happens?|r
@@ -83,10 +96,14 @@ function LiteMountReportBugMixin:OnShow()
         "\n" ..
         table.concat(LM.Environment:GetLocation(), "\n") ..  "\n" ..
         "\n" ..
+        "--- Macros ---\n" ..
+        "\n```\n" ..
+        macros ..
+        "```\n\n" ..
         "--- Debugging Output ---\n" ..
-        "\n" ..
+        "\n```\n" ..
         table.concat(LM.GetDebugLines(), "\n") .. "\n" ..
-        "\n" ..
+        "```\n\n" ..
         "--- Options DB ---\n" ..
         "\n" ..
          linefold(data, 80)
