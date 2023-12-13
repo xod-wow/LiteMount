@@ -44,12 +44,15 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
     -- if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
 
-    if InCombatLockdown() then return end
-
-    local startTime = debugprofilestop()
-
     LM.Debug("[%d] PreClick handler (inputButton=%s, isDown=%s)",
              self.id, tostring(inputButton), tostring(isDown))
+
+    if InCombatLockdown() then
+        LM.Debug("[%d] In combat, aborting", self.id)
+        return
+    end
+
+    local startTime = debugprofilestop()
 
     LM.MountRegistry:RefreshMounts()
 

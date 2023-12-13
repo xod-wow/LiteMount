@@ -461,7 +461,7 @@ ACTIONS['Macro'] = {
         function (args, context)
             local macrotext = LM.Options:GetOption('unavailableMacro')
             if macrotext ~= "" then
-                LM.Debug("  * using unavailable macro")
+                LM.Debug("  * setting action to unavailable macro")
                 return LM.SecureAction:Macro(macrotext)
             end
         end
@@ -472,7 +472,7 @@ ACTIONS['Script'] = {
         function (args, context)
             local macroText = table.concat(args, ' ')
             if SecureCmdOptionParse(macroText) then
-                LM.Debug("  * running script line: " .. macroText)
+                LM.Debug("  * setting action to script line: " .. macroText)
                 return LM.SecureAction:Macro(macroText)
             end
         end
@@ -509,19 +509,19 @@ ACTIONS['Combat'] = {
         function (args, context)
             -- If specific combat macro is set always use it.
             if LM.Options:GetOption('useCombatMacro') then
-                LM.Debug("  * combat action from settings")
+                LM.Debug("  * setting action to options combat macro")
                 local macrotext = LM.Options:GetOption('combatMacro')
                 return LM.SecureAction:Macro(macrotext)
             end
             -- Check for an encounter-specific combat setting
             local id, name = LM.Environment:GetEncounterInfo()
             if id and CombatEncounterHandlers[id] then
-                LM.Debug("  * combat action for " .. name)
+                LM.Debug("  * setting action to encounter " .. name)
                 local act = CombatEncounterHandlers[id](args, context, id, name)
                 if act then return act end
             end
             -- Otherwise use the default actions
-            LM.Debug("  * default combat action")
+            LM.Debug("  * setting action to default combat macro")
             local macrotext = LM.Actions:DefaultCombatMacro()
             return LM.SecureAction:Macro(macrotext)
         end
@@ -531,6 +531,7 @@ ACTIONS['Stop'] = {
     handler =
         function (args, context)
             -- return true and set up to do nothing
+            LM.Debug("  * setting action to nothing for stop")
             return LM.SecureAction:Macro("")
         end
 }
