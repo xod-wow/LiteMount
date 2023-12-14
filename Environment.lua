@@ -176,9 +176,34 @@ function LM.Environment:ENCOUNTER_END(event, ...)
     self.currentEncounter = nil
 end
 
+-- If you do the pulling then you get ENCOUNTER_START after PLAYER_REGEN_DISABLED
+-- and the combat setup doesn't work. Hopefully in this case you are targeting the
+-- boss so we can fake it up. This is pretty much all for Tindral Sageswift and I
+-- hope never gets needed again.
+
+local function GetUnitNPCID(unit)
+    local guid = UnitGUID(unit)
+    if guid then
+        local _, _, _, _, _, id = strsplit('-', guid)
+        -- No check for unitType because id will be nil and tonumber(nil) == nil
+        return tonumber(id)
+    end
+end
+
+local EncounterByNPCID = {
+    -- Tindral Sageswift, Amirdrassil (Dragonflight)
+    [209539] = 2786,
+}
+
 function LM.Environment:GetEncounterInfo()
     if self.currentEncounter then
         return unpack(self.currentEncounter)
+    end
+    local npcid = GetUnitNPCID('target')
+    if npcid and EncounterByNPCID[npcid] then
+        local name = UnitName('target')
+        local _, _, difficultyID, _, _, _, _, _, groupSize = GetInstanceInfo()
+        return EncounterByNPCID[npcid], name, difficultyID, groupSize
     end
 end
 
