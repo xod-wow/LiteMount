@@ -311,6 +311,21 @@ CONDITIONS["elapsed"] = {
         end
 }
 
+-- This is here in case I want to use it in the combat handler code, it doesn't work
+-- for player actions because you're in combat at the time. In general it's not reliable
+-- because if you are the first hit you will start combat before the encounter info is
+-- available.
+
+CONDITIONS["encounter"] = {
+    handler =
+        function (cond, context, v)
+            v = tonumber(v)
+            if v then
+                return LM.Environment:GetEncounterInfo() == v
+            end
+        end
+}
+
 CONDITIONS["equipped"] = {
     handler =
         function (cond, context, v)

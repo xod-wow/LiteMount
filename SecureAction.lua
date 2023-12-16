@@ -88,3 +88,15 @@ function LM.SecureAction:Click(clickButton)
     }
     return self:New(attr)
 end
+
+function LM.SecureAction:GetDescription()
+    if self.type == 'spell' or self.type == 'cancelaura' then
+        return format("%s %s", self.type, self.spell)
+    elseif self.type == 'item' then
+        return format("%s %s", self.type, self.item)
+    elseif self.type == 'click' then
+        return format("%s %s", self.type, self.clickbutton)
+    else
+        return self.type
+    end
+end

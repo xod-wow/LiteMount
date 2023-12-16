@@ -491,34 +491,53 @@ ACTIONS['CantMount'] = {
         end
 }
 
-local CombatEncounterHandlers = {
-    -- Tindral Sageswift, Amirdrassil (Dragonflight)
-    [2786] =
-        function (args, context, id, name)
-            local mounts = LM.MountRegistry:FilterSearch('DRAGONRIDING', 'COLLECTED')
-            local randomStyle = LM.Options:GetOption('randomWeightStyle')
-            local m = mounts:Random(context.random, randomStyle)
-            if m then
-                return m:GetCastAction()
-            end
-        end,
+-- In a theoretical world these could be rules, but the number of times you can do
+-- something at all useful in combat at the moment is 1. It's hard to imagine
+-- anything else useful you'd want to do in combat that isn't covered by the much
+-- simpler combatMacro. If that were done it would need some way to override the normal
+-- CASTABLE check for mounts since they won't be castable right away.
+--
+-- E.g, Mount [*map:2237] DRAGONRIDING
+
+local CombatHandlerOverride = {
+    {
+        -- Tindral Sageswift, Amirdrassil (Dragonflight)
+        -- Map check doesn't use LM.Environment:IsOnMap(2237) because the whole
+        -- raid is part of a group that would match.
+        handler =
+            function (args, context)
+                if C_Map.GetBestMapForUnit('player') == 2237 then
+                    local id, name = LM.Environment:GetEncounterInfo()
+                    if id and name then
+                        LM.Debug("  * matched encounter %s (%d) on map 2237", name, id)
+                    end
+                    local mounts = LM.MountRegistry:FilterSearch('DRAGONRIDING', 'COLLECTED')
+                    local randomStyle = LM.Options:GetOption('randomWeightStyle')
+                    local m = mounts:Random(context.random, randomStyle)
+                    if m then
+                        return m:GetCastAction()
+                    end
+                end
+            end,
+    },
 }
 
 ACTIONS['Combat'] = {
     handler =
         function (args, context)
-            -- If specific combat macro is set always use it.
+            -- If specific combat macro is set always use it
             if LM.Options:GetOption('useCombatMacro') then
                 LM.Debug("  * setting action to options combat macro")
                 local macrotext = LM.Options:GetOption('combatMacro')
                 return LM.SecureAction:Macro(macrotext)
             end
-            -- Check for an encounter-specific combat setting
-            local id, name = LM.Environment:GetEncounterInfo()
-            if id and CombatEncounterHandlers[id] then
-                LM.Debug("  * setting action to encounter " .. name)
-                local act = CombatEncounterHandlers[id](args, context, id, name)
-                if act then return act end
+            -- Check for an override combat setting
+            for _, info in ipairs(CombatHandlerOverride) do
+                local act = info.handler(args, context)
+                if act then
+                    LM.Debug("  * setting action to %s", act:GetDescription())
+                    return act
+                end
             end
             -- Otherwise use the default actions
             LM.Debug("  * setting action to default combat macro")
