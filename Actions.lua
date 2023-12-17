@@ -497,19 +497,17 @@ ACTIONS['CantMount'] = {
 -- simpler combatMacro. If that were done it would need some way to override the normal
 -- CASTABLE check for mounts since they won't be castable right away.
 --
--- E.g, Mount [*map:2237] DRAGONRIDING
+-- E.g, Mount [map:2234] DRAGONRIDING
 
 local CombatHandlerOverride = {
     {
         -- Tindral Sageswift, Amirdrassil (Dragonflight)
-        -- Map check doesn't use LM.Environment:IsOnMap(2237) because the whole
-        -- raid is part of a group that would match.
         handler =
             function (args, context)
-                if C_Map.GetBestMapForUnit('player') == 2237 then
+                if LM.Environment:IsMapInPath(2234) then
                     local id, name = LM.Environment:GetEncounterInfo()
                     if id and name then
-                        LM.Debug("  * matched encounter %s (%d) on map 2237", name, id)
+                        LM.Debug("  * matched encounter %s (%d)", name, id)
                     end
                     local mounts = LM.MountRegistry:FilterSearch('DRAGONRIDING', 'COLLECTED')
                     local randomStyle = LM.Options:GetOption('randomWeightStyle')
