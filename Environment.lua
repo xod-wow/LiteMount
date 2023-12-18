@@ -288,7 +288,7 @@ end
 
 function LM.Environment:IsMapInPath(mapID, mapPath)
     for _, pathMapID in ipairs(mapPath or self:GetMapPath()) do
-        if self:MapIsMap(pathMapID, mapID) then return true end
+        if pathMapID == mapID then return true end
     end
     return false
 end
