@@ -746,7 +746,7 @@ CONDITIONS["map"] = {
             if v:sub(1,1) == '*' then
                 return LM.Environment:IsOnMap(tonumber(v:sub(2)))
             else
-                return LM.Environment:IsMapInPath(tonumber(v), context.mapPath)
+                return LM.Environment:IsMapInPath(tonumber(v), context.mapPath, true)
             end
         end,
 }
