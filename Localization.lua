@@ -349,6 +349,7 @@ if locale == "deDE" then
     L["LM_HELP_TRANSLATE"] = "Hilf dabei, LiteMount in deine Sprache zu übersetzen. Danke."
     L["LM_HERB"] = "Kraut"
     L["LM_HIDDEN"] = "Versteckt"
+    L["LM_HOLIDAY"] = "Feiertag"
     L["LM_IMPORT_PROFILE"] = "Importprofil"
     L["LM_IMPORT_PROFILE_EXP"] = "Fügen Sie ein zuvor exportiertes Profil in das Feld unten ein, um es unter dem angegebenen Namen zu importieren."
     L["LM_INCLUDE_MOUNTS"] = "Reittiere einschließen"
