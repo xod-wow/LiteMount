@@ -1279,6 +1279,7 @@ LM.MOUNTFAMILY["Skullboar"] = {
 }
 
 LM.MOUNTFAMILY["Slitherdrake"] = {
+    [418286] = true, -- Auspicious Arborwyrm
     [368893] = true, -- Winding Slitherdrake
     [408977] = true, -- Obsidian Gladiator's Slitherdrake
     [425416] = true, -- Verdant Gladiator's Slitherdrake
