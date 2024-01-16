@@ -476,7 +476,8 @@ function LM.Environment:GetLocation()
         "zoneText: " .. GetZoneText(),
         "subZoneText: " .. GetSubZoneText(),
         "IsFlyableArea(): " .. tostring(IsFlyableArea()),
-        "IsAdvancedFlyableArea(): " .. tostring(IsAdvancedFlyableArea()),
+        IsAdvancedFlyableArea and
+            "IsAdvancedFlyableArea(): " .. tostring(IsAdvancedFlyableArea()),
     }
 end
 
