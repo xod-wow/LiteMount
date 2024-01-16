@@ -143,41 +143,7 @@ LM.Options = {
 -- any values in it at all.
 
 function LM.Options:UpdateVersion(n)
-    for _,c in pairs(self.db.sv.char) do
-        c.configVersion = math.max(c.configVersion or 0, n)
-    end
-    for _,p in pairs(self.db.profiles) do
-        p.configVersion = math.max(p.configVersion or 0, n)
-    end
     self.db.global.configVersion = math.max(self.db.global.configVersion or 0, n)
-end
-
--- Version 3 moved flag stuff global, and now version 4 is putting them
--- back into profile. I hope I'm not making the same mistakes all over
--- again. "Those who cannot remember the past are condemned to repeat it."
-function LM.Options:VersionUpgrade4()
-    LM.Debug('VersionUpgrade: 4')
-
-    if (self.db.global.configVersion or 4) < 4 then
-        LM.Debug(' - migrating global.flagChanges')
-        for n, p in pairs(self.db.profiles) do
-            LM.Debug('   - into profile: ' .. n)
-            p.flagChanges = p.flagChanges or {}
-            for spellID,changes in pairs(self.db.global.flagChanges or {}) do
-                p.flagChanges[spellID] = Mixin(p.flagChanges[spellID] or {}, changes)
-            end
-        end
-        LM.Debug(' - migrating global.customFlags')
-        for n, p in pairs(self.db.profiles) do
-            LM.Debug('   - into profile: ' .. n)
-            p.customFlags = p.customFlags or {}
-            Mixin(p.customFlags, self.db.global.customFlags)
-        end
-        self.db.global.customFlags = nil
-        self.db.global.flagChanges = nil
-    end
-
-    self:UpdateVersion(4)
 end
 
 function LM.Options:VersionUpgrade5()
@@ -207,23 +173,6 @@ function LM.Options:VersionUpgrade5()
             p.enableTwoPress = nil
         end
     end
-
-    self:UpdateVersion(5)
-end
-
--- This fixes a stupid typo I made in the code at one point
-
-function LM.Options:VersionUpgrade6()
-    LM.Debug('VersionUpgrade: 6')
-    for _,c in pairs(self.db.sv.char) do
-        if (c.configVersion or 6) < 6 then
-            if c.unvailableMacro then
-                c.unavailableMacro = c.unvailableMacro
-                c.unvailableMacro = nil
-            end
-        end
-    end
-    self:UpdateVersion(6)
 end
 
 -- From 7 onwards flagChanges is only the base flags, groups are stored
@@ -231,10 +180,14 @@ end
 -- members as keys with true as value.
 
 function LM.Options:VersionUpgrade7()
+    if (self.db.global.configVersion or 7) >= 7 then
+        return
+    end
+
     LM.Debug('VersionUpgrade: 7')
 
     for n, p in pairs(self.db.profiles) do
-        if (p.configVersion or 7) < 7 and p.flagChanges then
+        if p.flagChanges then
             LM.Debug(' - upgrading profile: ' .. n)
             p.oldFlagChanges = CopyTable(p.flagChanges)
             p.groups = p.customFlags or {}
@@ -252,7 +205,6 @@ function LM.Options:VersionUpgrade7()
             end
         end
     end
-    self:UpdateVersion(7)
 end
 
 -- Version 8 moves to storing the user rules as action lines and compiling
@@ -260,56 +212,58 @@ end
 -- sorts of grief.
 
 function LM.Options:VersionUpgrade8()
-    LM.Debug('VersionUpgrade: 8')
+    if (self.db.global.configVersion or 8) >= 8 then
+        return
+    end
 
+    LM.Debug('VersionUpgrade: 8')
     for n, p in pairs(self.db.profiles) do
-        if (p.configVersion or 8) < 8 and p.rules then
-            LM.Debug('   - upgrading profile: ' .. n)
-            p.oldRules = CopyTable(p.rules)
-            for k, ruleset in pairs(p.rules) do
-                LM.Debug('   - ruleset ' .. k)
-                for i, rule in ipairs(ruleset) do
+        LM.Debug('   - upgrading profile: ' .. n)
+        p.oldRules = CopyTable(p.rules)
+        for k, ruleset in pairs(p.rules) do
+            LM.Debug('   - ruleset ' .. k)
+            for i, rule in ipairs(ruleset) do
+                if type(rule) == 'table' then
                     ruleset[i] = LM.Rule:MigrateFromTable(rule)
                 end
             end
         end
     end
-    self:UpdateVersion(8)
 end
 
 -- Version 9 changes excludeNewMounts (true/false) to defaultPriority
 
 function LM.Options:VersionUpgrade9()
-    LM.Debug('VersionUpgrade: 9')
+    if (self.db.global.configVersion or 9) >= 9 then
+        return
+    end
 
+    LM.Debug('VersionUpgrade: 9')
     for n, p in pairs(self.db.profiles) do
-        if (p.configVersion or 9) < 9 then
-            LM.Debug(' - upgrading profile: ' .. n)
-            if p.excludeNewMounts then
-                p.defaultPriority = 0
-                p.excludeNewMounts = nil
-            end
+        LM.Debug(' - upgrading profile: ' .. n)
+        if p.excludeNewMounts then
+            p.defaultPriority = 0
+            p.excludeNewMounts = nil
         end
     end
-    self:UpdateVersion(9)
 end
 
 function LM.Options:CleanDatabase()
-    for n,c in pairs(self.db.sv.char) do
+    for n,c in pairs(self.db.sv.char or {}) do
         for k in pairs(c) do
-            if k ~= "configVersion" and defaults.char[k] == nil then
+            if defaults.char[k] == nil then
                 c[k] = nil
             end
         end
     end
-    for n,p in pairs(self.db.profiles) do
+    for n,p in pairs(self.db.profiles or {}) do
         for k in pairs(p) do
-            if k ~= "configVersion" and defaults.profile[k] == nil then
+            if defaults.profile[k] == nil then
                 p[k] = nil
             end
         end
     end
-    for k in pairs(self.db.global) do
+    for k in pairs(self.db.global or {}) do
         if k ~= "configVersion" and defaults.global[k] == nil then
             self.db.global[k] = nil
         end
@@ -317,13 +271,12 @@ function LM.Options:CleanDatabase()
 end
 
 function LM.Options:VersionUpgrade()
-    self:VersionUpgrade4()
     self:VersionUpgrade5()
-    self:VersionUpgrade6()
     self:VersionUpgrade7()
     self:VersionUpgrade8()
     self:VersionUpgrade9()
     self:CleanDatabase()
+    self:UpdateVersion(9)
 end
 
 function LM.Options:OnProfile()
@@ -339,10 +292,12 @@ end
 
 function LM.Options:Initialize()
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
+    self:VersionUpgrade()
+
     self.cachedMountFlags = {}
     self.cachedMountGroups = {}
     self.cachedRuleSets = {}
-    self:VersionUpgrade()
+
     self.db.RegisterCallback(self, "OnProfileChanged", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileCopied", "OnProfile")
     self.db.RegisterCallback(self, "OnProfileReset", "OnProfile")
