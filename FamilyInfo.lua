@@ -529,12 +529,15 @@ LM.MOUNTFAMILY["Flying Carpet"] = {
     [ 61451] = true, -- Flying Carpet
     [ 75596] = true, -- Frosty Flying Carpet
     [233364] = true, -- Leywoven Flying Carpet
+    [432455] = true, -- Noble Flying Carpet
     [ 61309] = true, -- Magnificent Flying Carpet
 }
 
 LM.MOUNTFAMILY["Fox"] = {
     [427435] = true, -- Crimson Glimmerfur
+    [431357] = true, -- Fur-endship Fox
     [171850] = true, -- Llothien Prowler
+    [431360] = true, -- Twilight Sky Prowler
     [242897] = true, -- Vicious War Fox
     [242896] = true, -- Vicious War Fox
     [290133] = true, -- Vulpine Familiar
@@ -691,6 +694,7 @@ LM.MOUNTFAMILY["Horse"] = {
     [ 68187] = true, -- Crusader's White Warhorse
     [260172] = true, -- Dapple Gray
     [354353] = true, -- Fallen Charger
+    [278966] = true, -- Fiery Hearthsteed
     [136505] = true, -- Ghastly Charger
     [260175] = true, -- Goldenmane
     [142073] = true, -- Hearthsteed
@@ -798,6 +802,7 @@ LM.MOUNTFAMILY["Larion"] = {
 LM.MOUNTFAMILY["Magic"] = {
     [229376] = true, -- Archmage's Prismatic Disc
     [353263] = true, -- Cartel Master's Gearglider
+    [431992] = true, -- Compass Rose
     [419345] = true, -- Eve's Ghastly Rider
     [ 42667] = true, -- Flying Broom
     [ 47977] = true, -- Magic Broom
@@ -835,6 +840,7 @@ LM.MOUNTFAMILY["Mana Ray"] = {
     [344574] = true, -- Bulbous Necroray
     [235764] = true, -- Darkspore Mana Ray
     [253108] = true, -- Felglow Mana Ray
+    [427777] = true, -- Heartseeker Mana Ray
     [344576] = true, -- Infested Necroray
     [253107] = true, -- Lambent Mana Ray
     [344575] = true, -- Pestilent Necroray
@@ -983,6 +989,10 @@ LM.MOUNTFAMILY["Pandaren Kite"] = {
 
 LM.MOUNTFAMILY["Panthara"] = {
     [243512] = true, -- Luminous Starseeker
+}
+
+LM.MOUNTFAMILY["Peafowl"] = {
+    [432558] = true, -- Majestic Azure Peafowl
 }
 
 LM.MOUNTFAMILY["Phalynx"] = {
@@ -1229,9 +1239,9 @@ LM.MOUNTFAMILY["Shalewing"] = {
 LM.MOUNTFAMILY["Shapeshift"] = {
     [165962] = true, -- Flight Form
     [  2645] = true, -- Ghost Wolf
-    [367673] = true, -- Heartbond Lupine
     [210053] = true, -- Mount Form
     [ 87840] = true, -- Running Wild
+    [369536] = true, -- Soar
     [310143] = true, -- Soulshape
     [   783] = true, -- Travel Form
 }
@@ -1391,6 +1401,7 @@ LM.MOUNTFAMILY["Tauralus"] = {
 }
 
 LM.MOUNTFAMILY["Tallstrider"] = {
+    [432610] = true, -- Clayscale Hornstrider
     [352926] = true, -- Skyskin Hornstrider
     [102346] = true, -- Swift Forest Strider
     [102350] = true, -- Swift Lovebird
@@ -1399,6 +1410,7 @@ LM.MOUNTFAMILY["Tallstrider"] = {
 }
 
 LM.MOUNTFAMILY["Thunderspine"] = {
+    [374204] = true, -- Explorer's Stonehide Packbeast
     [374247] = true, -- Lizi, Thunderspine Tramper
 }
 
@@ -1418,6 +1430,7 @@ LM.MOUNTFAMILY["Toad"] = {
 
 LM.MOUNTFAMILY["Turtle"] = {
     [ 30174] = true, -- Riding Turtle
+    [433281] = true, -- Savage Blue Battle Turtle
     [367826] = true, -- Savage Green Battle Turtle
     [ 64731] = true, -- Sea Turtle
 }
@@ -1517,6 +1530,7 @@ LM.MOUNTFAMILY["Wolf"] = {
     [171851] = true, -- Garn Nighthowl
     [171836] = true, -- Garn Steelmaw
     [   459] = true, -- Gray Wolf
+    [367673] = true, -- Heartbond Lupine
     [186305] = true, -- Infernal Direwolf
     [295386] = true, -- Ironclad Frostclaw
     [171839] = true, -- Ironside Warwolf
