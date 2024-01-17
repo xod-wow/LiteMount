@@ -107,8 +107,10 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
         return self.mountTypeID ~= nil
     elseif f == "FAVORITES" then
         return self.isFavorite == true
+--[[
     elseif f == "DRAGONRIDING" then
         return self.dragonRiding == true
+]]
     elseif f == "ZONEMATCH" then
         local zone = GetZoneText()
         return self:IsFromZone(zone)
