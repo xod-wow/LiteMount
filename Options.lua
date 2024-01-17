@@ -142,39 +142,6 @@ LM.Options = {
 -- jammed into it and all the other don't. You can't assume the profile has
 -- any values in it at all.
 
-function LM.Options:UpdateVersion(n)
-    self.db.global.configVersion = math.max(self.db.global.configVersion or 0, n)
-end
-
-function LM.Options:VersionUpgrade5()
-    LM.Debug('VersionUpgrade: 5')
-
-    -- Because I stuffed up downgrading version numbers, don't check for 5
-    -- just look for excludedSpells with no mountPriorities
-
-    for n,p in pairs(self.db.profiles) do
-        if p.excludedSpells and not p.mountPriorities then
-            LM.Debug('   - upgrading profile: ' .. n)
-            p.mountPriorities = p.mountPriorities or {}
-            local nTotal, nExcluded, nIncluded = 0, 0, 0
-            for spellID,isExcluded in pairs(p.excludedSpells or {}) do
-                nTotal = nTotal + 1
-                if isExcluded then
-                    nExcluded = nExcluded + 1
-                    p.mountPriorities[spellID] = self.DISABLED_PRIORITY
-                else
-                    nIncluded = nIncluded + 1
-                    p.mountPriorities[spellID] = self.DEFAULT_PRIORITY
-                end
-            end
-            LM.Debug('   - finished: total=%d, p0=%d, p1=%d', nTotal, nExcluded, nIncluded)
-            p.excludedSpells = nil
-            p.uiMountFilterList = nil
-            p.enableTwoPress = nil
-        end
-    end
-end
-
 -- From 7 onwards flagChanges is only the base flags, groups are stored
 -- in the groups attribute, renamed from customFlags and having the spellID
 -- members as keys with true as value.
@@ -271,12 +238,11 @@ function LM.Options:CleanDatabase()
 end
 
 function LM.Options:VersionUpgrade()
-    self:VersionUpgrade5()
     self:VersionUpgrade7()
     self:VersionUpgrade8()
     self:VersionUpgrade9()
     self:CleanDatabase()
-    self:UpdateVersion(9)
+    self.db.global.configVersion = 9
 end
 
 function LM.Options:OnProfile()
