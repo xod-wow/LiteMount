@@ -536,6 +536,7 @@ LM.MOUNTFAMILY["Flying Carpet"] = {
 LM.MOUNTFAMILY["Fox"] = {
     [427435] = true, -- Crimson Glimmerfur
     [431357] = true, -- Fur-endship Fox
+    [430225] = true, -- Gilnean Prowler0
     [171850] = true, -- Llothien Prowler
     [431360] = true, -- Twilight Sky Prowler
     [242897] = true, -- Vicious War Fox
