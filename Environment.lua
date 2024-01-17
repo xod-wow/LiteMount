@@ -385,6 +385,7 @@ local InstanceFlyableOverride = {
 }
 
 local InstanceDragonridableOverride = {
+    [2549] = true,          -- Amirdrassil Raid
     -- Stricly speaking this is the debuff "Hostile Airways" (406608)
     [2597] = false,         -- Zaralek Caverns - Chapter 1 Scenario
 }
