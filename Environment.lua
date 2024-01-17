@@ -405,7 +405,9 @@ function LM.Environment:CanDragonride(mapPath)
         return InstanceDragonridableOverride[instanceID]
     end
 
-    return IsUsableSpell(368896) == true
+    return IsAdvancedFlyableArea()
+
+    -- return IsUsableSpell(368896) == true
     -- return select(8, GetInstanceInfo()) == 2444
 end
 
