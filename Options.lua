@@ -113,10 +113,6 @@ local defaults = {
         announceViaChat     = false,
         announceViaUI       = false,
         announceColors      = false,
-
-        -- Paranoia, for now. Later delete these and let the cleanup work
-        oldRules            = { },
-        oldFlagChanges      = { },
     },
     char = {
         unavailableMacro    = "",
@@ -153,10 +149,9 @@ function LM.Options:VersionUpgrade7()
 
     LM.Debug('VersionUpgrade: 7')
 
-    for n, p in pairs(self.db.profiles) do
-        if p.flagChanges then
+    for n, p in pairs(self.db.sv.profiles or {}) do
+        if p.customFlags and p.flagChanges then
             LM.Debug(' - upgrading profile: ' .. n)
-            p.oldFlagChanges = CopyTable(p.flagChanges)
             p.groups = p.customFlags or {}
             p.customFlags = nil
             for spellID,changes in pairs(p.flagChanges) do
@@ -172,6 +167,7 @@ function LM.Options:VersionUpgrade7()
             end
         end
     end
+    return true
 end
 
 -- Version 8 moves to storing the user rules as action lines and compiling
@@ -184,18 +180,20 @@ function LM.Options:VersionUpgrade8()
     end
 
     LM.Debug('VersionUpgrade: 8')
-    for n, p in pairs(self.db.profiles) do
+    for n, p in pairs(self.db.sv.profiles or {}) do
         LM.Debug('   - upgrading profile: ' .. n)
-        p.oldRules = CopyTable(p.rules)
-        for k, ruleset in pairs(p.rules) do
-            LM.Debug('   - ruleset ' .. k)
-            for i, rule in ipairs(ruleset) do
-                if type(rule) == 'table' then
-                    ruleset[i] = LM.Rule:MigrateFromTable(rule)
+        if p.rules then
+            for k, ruleset in pairs(p.rules) do
+                LM.Debug('   - ruleset ' .. k)
+                for i, rule in ipairs(ruleset) do
+                    if type(rule) == 'table' then
+                        ruleset[i] = LM.Rule:MigrateFromTable(rule)
+                    end
                 end
             end
         end
     end
+    return true
 end
 
 -- Version 9 changes excludeNewMounts (true/false) to defaultPriority
@@ -206,43 +204,51 @@ function LM.Options:VersionUpgrade9()
     end
 
     LM.Debug('VersionUpgrade: 9')
-    for n, p in pairs(self.db.profiles) do
+    for n, p in pairs(self.db.sv.profiles or {}) do
         LM.Debug(' - upgrading profile: ' .. n)
         if p.excludeNewMounts then
             p.defaultPriority = 0
             p.excludeNewMounts = nil
         end
     end
+    return true
 end
 
 function LM.Options:CleanDatabase()
+    local changed
     for n,c in pairs(self.db.sv.char or {}) do
         for k in pairs(c) do
             if defaults.char[k] == nil then
                 c[k] = nil
+                changed = true
             end
         end
     end
-    for n,p in pairs(self.db.profiles or {}) do
+    for n,p in pairs(self.db.sv.profiles or {}) do
         for k in pairs(p) do
             if defaults.profile[k] == nil then
                 p[k] = nil
+                changed = true
             end
         end
     end
-    for k in pairs(self.db.global or {}) do
+    for k in pairs(self.db.sv.global or {}) do
         if k ~= "configVersion" and defaults.global[k] == nil then
-            self.db.global[k] = nil
+            self.db.sv.global[k] = nil
+            changed = true
         end
     end
+    return changed
 end
 
-function LM.Options:VersionUpgrade()
-    self:VersionUpgrade7()
-    self:VersionUpgrade8()
-    self:VersionUpgrade9()
-    self:CleanDatabase()
+function LM.Options:DatabaseMaintenance()
+    local changed
+    if self:VersionUpgrade7() then changed = true end
+    if self:VersionUpgrade8() then changed = true end
+    if self:VersionUpgrade9() then changed = true end
+    if self:CleanDatabase() then changed = true end
     self.db.global.configVersion = 9
+    return changed
 end
 
 function LM.Options:OnProfile()
@@ -257,8 +263,16 @@ end
 -- setup process to get access to the debugging settings.
 
 function LM.Options:Initialize()
+    local oldDB = LiteMountDB and CopyTable(LiteMountDB)
+
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
-    self:VersionUpgrade()
+
+    if self:DatabaseMaintenance() then
+        if oldDB then
+            LM.Debug('Backing up options database.')
+            LiteMountBackupDB = oldDB
+        end
+    end
 
     self.cachedMountFlags = {}
     self.cachedMountGroups = {}
@@ -765,7 +779,7 @@ function LM.Options:ImportProfile(profileName, str)
     local savedDefaults = self.db.defaults
 
     self.db.profiles[profileName] = data
-    self:VersionUpgrade()
+    -- XXX profile migrations~ XXX
 
     self.db:RegisterDefaults(savedDefaults)
 
