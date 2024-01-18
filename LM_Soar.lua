@@ -17,6 +17,8 @@ LM.Soar.__index = LM.Soar
 
 function LM.Soar:Get(...)
     local m = LM.Spell.Get(self, ...)
-    m.dragonRiding = true
-    return m
+    if m then
+        m.dragonRiding = true
+        return m
+    end
 end
