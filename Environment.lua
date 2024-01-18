@@ -396,6 +396,7 @@ function LM.Environment:ForceFlyable(instanceID)
 end
 
 function LM.Environment:CanDragonride(mapPath)
+    --- XXX IsPlayerSpell? XXX
     if not IsSpellKnown(376777) then
         return false
     end
@@ -407,9 +408,6 @@ function LM.Environment:CanDragonride(mapPath)
     end
 
     return IsAdvancedFlyableArea()
-
-    -- return IsUsableSpell(368896) == true
-    -- return select(8, GetInstanceInfo()) == 2444
 end
 
 -- Can't fly if you haven't learned a flying skill. Various expansion
