@@ -48,8 +48,17 @@ function LM.Spell:Refresh()
 end
 
 function LM.Spell:IsCastable()
-    if not IsSpellKnown(self.spellID) or not IsUsableSpell(self.spellID) then
+    if not IsSpellKnown(self.spellID) then
         return false
     end
+
+    if not IsUsableSpell(self.spellID) then
+        return false
+    end
+
+    if GetSpellCooldown(self.spellID) > 0 then
+        return false
+    end
+
     return LM.Mount.IsCastable(self)
 end
