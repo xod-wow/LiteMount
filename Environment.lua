@@ -384,10 +384,16 @@ local InstanceFlyableOverride = {
     [2464] = false,         -- Battle of Ardenweald (9.1)
 }
 
+-- Note that these have 3 possible 0return values, true, false, nil (no override)
+
 local InstanceDragonridableOverride = {
-    [2549] = true,          -- Amirdrassil Raid
-    -- Stricly speaking this is the debuff "Hostile Airways" (406608)
-    [2597] = false,         -- Zaralek Caverns - Chapter 1 Scenario
+    [2549] =            -- Amirdrassil Raid
+        function ()
+            -- Dragonriding debuff Blessing of the Emerald Dream (429226)
+            if LM.UnitAura('player', 429226, 'HARMFUL') then return true end
+        end,
+    [2597] = false,     -- Zaralek Caverns - Chapter 1 Scenario
+                        -- The debuff "Hostile Airways" (406608) but it's always up
 }
 
 function LM.Environment:ForceFlyable(instanceID)
@@ -402,12 +408,19 @@ function LM.Environment:CanDragonride(mapPath)
     end
 
     local instanceID = select(8, GetInstanceInfo())
+    local override = InstanceDragonridableOverride[instanceID]
+    local value = ( type(override) == 'function' and override(mapPath) or override )
+    if value ~= nil then return value end
 
-    if InstanceDragonridableOverride[instanceID] ~= nil then
-        return InstanceDragonridableOverride[instanceID]
+    -- Dragon Isles and Nokud Offensive. These are IsFlyableArea() for me but
+    -- I'm worried about what happens before you unlock normal flying (and have
+    -- no way of testing it).
+    if instanceID == 2444 or instanceID == 2516 then
+        return IsAdvancedFlyableArea()
     end
 
-    return IsAdvancedFlyableArea()
+    -- Lots of non-Dragon Isles areas are wrongly flagged IsAdvancedFlyableArea
+    return IsAdvancedFlyableArea() and IsFlyableArea()
 end
 
 -- Can't fly if you haven't learned a flying skill. Various expansion
