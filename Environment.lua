@@ -412,10 +412,9 @@ function LM.Environment:CanDragonride(mapPath)
     local value = ( type(override) == 'function' and override(mapPath) or override )
     if value ~= nil then return value end
 
-    -- Dragon Isles and Nokud Offensive. These are IsFlyableArea() for me but
-    -- I'm worried about what happens before you unlock normal flying (and have
-    -- no way of testing it).
-    if instanceID == 2444 or instanceID == 2516 then
+    -- Dragon Isles, Nokud Offensive, Zaralek Cavern, Emerald Dream.
+    -- These are only IsFlyableArea() if you have unlocked normal flying.
+    if instanceID == 2444 or instanceID == 2516 or instanceID == 2454 or instanceID == 2548 then
         return IsAdvancedFlyableArea()
     end
 
