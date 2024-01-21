@@ -412,9 +412,10 @@ function LM.Environment:CanDragonride(mapPath)
     local value = ( type(override) == 'function' and override(mapPath) or override )
     if value ~= nil then return value end
 
-    -- Dragon Isles, Nokud Offensive, Zaralek Cavern, Emerald Dream.
-    -- These are only IsFlyableArea() if you have unlocked normal flying.
-    if instanceID == 2444 or instanceID == 2516 or instanceID == 2454 or instanceID == 2548 then
+    -- Dragon Isles and everything in it are correctly flagged IsAdvancedFlyableArea
+    -- if you can dragonride, and you can't fly there unless you unlock it.
+
+    if self:IsMapInPath(1978, mapPath) then
         return IsAdvancedFlyableArea()
     end
 
