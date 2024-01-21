@@ -167,6 +167,9 @@ function LiteMountFlagBitMixin:Update(flag, mount)
     elseif flag == "RUN" and ( mount.flags.FLY or mount.flags.DRAGONRIDING ) then
         self:Enable()
         self:Show()
+    elseif flag == "FLY" and mount.flags.DRAGONRIDING then
+        self:Enable()
+        self:Show()
     else
         self:Hide()
         self:Disable()
