@@ -384,7 +384,7 @@ local InstanceFlyableOverride = {
     [2464] = false,         -- Battle of Ardenweald (9.1)
 }
 
--- Note that these have 3 possible 0return values, true, false, nil (no override)
+-- Note that these have 3 possible return values, true, false, nil (no override)
 
 local InstanceDragonridableOverride = {
     [2549] =            -- Amirdrassil Raid
@@ -409,8 +409,12 @@ function LM.Environment:CanDragonride(mapPath)
 
     local instanceID = select(8, GetInstanceInfo())
     local override = InstanceDragonridableOverride[instanceID]
-    local value = ( type(override) == 'function' and override(mapPath) or override )
-    if value ~= nil then return value end
+    if type(override) == 'function' then
+        local value = override(mapPath)
+        if value ~= nil then return value end
+    else
+        if override ~= nil then return override end
+    end
 
     -- Dragon Isles and everything in it are correctly flagged IsAdvancedFlyableArea
     -- if you can dragonride, and you can't fly there unless you unlock it.
