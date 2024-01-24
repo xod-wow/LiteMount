@@ -214,8 +214,13 @@ local function InitDropDownSection(template, self, level, menuList)
             local j = math.min(#menuList, i+stride-1)
             info.menuList = LM.tSlice(menuList, i, j)
             local f = template.gettext(info.menuList[1])
-            local t = template.gettext(info.menuList[#info.menuList])
-            info.text = format('%s...%s', f, t)
+            if i + stride < #menuList then
+                info.text = f .. " ..."
+            else
+                info.text = f
+            end
+            --local t = template.gettext(info.menuList[#info.menuList])
+            --info.text = format('%s...%s', f, t)
             info.value = template.value
             LibDD:UIDropDownMenu_AddButton(info, level)
         end

@@ -55,8 +55,11 @@ local function ArgsInitialize(dropDown, level, menuList)
             local j = math.min(#menuList, i+stride-1)
             info.menuList = LM.tSlice(menuList, i, j)
             local f = info.menuList[1].text
-            local t = info.menuList[#info.menuList].text
-            info.text = format('%s...%s', f, t)
+            if i + stride <= #menuList then
+                info.text = format("%s ...", f)
+            else
+                info.text = f
+            end
             LibDD:UIDropDownMenu_AddButton(info, level)
         end
     else
