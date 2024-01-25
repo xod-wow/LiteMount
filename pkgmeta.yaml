@@ -23,7 +23,7 @@ externals:
   Libs/LibDeflate: https://github.com/SafeteeWoW/LibDeflate
   Libs/CallbackHandler-1.0: https://repos.curseforge.com/wow/callbackhandler/trunk/CallbackHandler-1.0
   Libs/LibStub: https://repos.curseforge.com/wow/libstub/trunk
-  Libs/LibUIDropDownMenu: https://repos.wowace.com/wow/libuidropdownmenu/tags/v4.21.10010550587/LibUIDropDownMenu
+  Libs/LibUIDropDownMenu: https://repos.wowace.com/wow/libuidropdownmenu/trunk/LibUIDropDownMenu
   Libs/MountsRarity-2.0: https://github.com/sgade/MountsRarity
 
 enable-nolib-creation: no
