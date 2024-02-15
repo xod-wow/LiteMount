@@ -16,6 +16,15 @@ if LibDebug then LibDebug() end
 
 local L = LM.Localize
 
+local function ReplaceVars(list)
+    local out = {}
+    for _,l in ipairs(list) do
+        l = LM.Vars:StrSubVars(l)
+        tinsert(out, l)
+    end
+    return out
+end
+
 LM.Rule = { }
 
 local function replaceConstant(k) return LM.Vars:GetConst(k) end
@@ -148,7 +157,7 @@ function LM.Rule:Dispatch(context)
 
     LM.Debug("  Dispatching rule " .. (self.line or self:ToString()))
 
-    return handler(self.args or {}, context)
+    return handler(ReplaceVars(self.args or {}), context)
 end
 
 function LM.Rule:ToString()

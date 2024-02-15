@@ -36,15 +36,6 @@ local restoreFormIDs = {
     [36] = true,    -- Treant Form
 }
 
-local function ReplaceVars(list)
-    local out = {}
-    for _,l in ipairs(list) do
-        l = LM.Vars:StrSubVars(l)
-        tinsert(out, l)
-    end
-    return out
-end
-
 local FLOWCONTROLS = { }
 
 FLOWCONTROLS['IF'] =
@@ -365,7 +356,7 @@ ACTIONS['SmartMount'] = {
     handler =
         function (args, context)
 
-            local filters = ReplaceVars(LM.tJoin(context.filters[1], args))
+            local filters = LM.tJoin(context.filters[1], args)
 
             if LM.Conditions:Check("[maw]", context) then
                 table.insert(filters, "MAWUSABLE")
@@ -442,7 +433,7 @@ ACTIONS['Mount'] = {
         function (v) return LM.Mount:FilterToDisplay(v) end,
     handler =
         function (args, context)
-            local filters = ReplaceVars(LM.tJoin(context.filters[1], args))
+            local filters = LM.tJoin(context.filters[1], args)
             if LM.Conditions:Check("[maw]", context) then
                 table.insert(filters, "MAWUSABLE")
             end
