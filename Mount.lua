@@ -70,7 +70,7 @@ function LM.Mount.FilterToDisplay(f)
     elseif f == "FAVORITES" then
         return FAVORITES
     elseif f:sub(1,1) == '~' then
-        return string.format(L.LM_NOT_FORMAT, LM.Mount:FilterToDisplay(f:sub(2)))
+        return string.format(L.LM_NOT_FORMAT, LM.Mount.FilterToDisplay(f:sub(2)))
     elseif f:match('^id:%d+$') then
         local _, id = string.split(':', f, 2)
         return C_MountJournal.GetMountInfoByID(tonumber(id))
