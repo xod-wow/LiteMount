@@ -351,14 +351,15 @@ ACTIONS['SmartMount'] = {
     handler =
         function (args, context)
 
-            local filters = LM.tJoin(context.filters[1], args)
+            local filters = CopyTable(context.filters[1])
 
             if LM.Conditions:Check("[maw]", context) then
                 table.insert(filters, "MAWUSABLE")
             end
 
-            local filteredList = LM.MountRegistry:FilterSearch("CASTABLE"):Limit(unpack(filters))
+            local filteredList = LM.MountRegistry:FilterSearch("CASTABLE", unpack(args)):Limit(unpack(filters))
 
+            LM.Debug("  * args: " .. table.concat(args, ' '))
             LM.Debug("  * filters: " .. table.concat(filters, ' '))
             LM.Debug("  * filtered list contains " .. #filteredList .. " mounts")
 
@@ -427,12 +428,13 @@ ACTIONS['Mount'] = {
     toDisplay = LM.Mount.FilterToDisplay,
     handler =
         function (args, context)
-            local filters = LM.tJoin(context.filters[1], args)
+            local filters = CopyTable(context.filters[1])
             if LM.Conditions:Check("[maw]", context) then
                 table.insert(filters, "MAWUSABLE")
             end
+            LM.Debug("  * args: " .. table.concat(args, ' '))
             LM.Debug("  * filters: " .. table.concat(filters, ' '))
-            local mounts = LM.MountRegistry:FilterSearch("CASTABLE"):Limit(unpack(filters))
+            local mounts = LM.MountRegistry:FilterSearch("CASTABLE", unpack(args)):Limit(unpack(filters))
             local m = mounts:Random(context.random)
             if m then
                 LM.Debug("  * setting action to mount %s", m.name)
