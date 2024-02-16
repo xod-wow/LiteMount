@@ -41,12 +41,12 @@ local function ReadWord(line)
     if token then return nil, nil end
 
     -- Match ""
-    token, rest = line:match('^("[^"]*")(.*)$')
+    token, rest = line:match('^"([^"]*)"(.*)$')
     if token then return token, rest end
 
-    -- Match '', turn into ""
+    -- Match ''
     token, rest = line:match("^'([^']*)'(.*)$")
-    if token then return '"' .. token .. '"', rest end
+    if token then return token, rest end
 
     -- Match [] empty condition, which is just skipped
     token, rest = line:match('^(%[%])(.*)$')
@@ -56,8 +56,12 @@ local function ReadWord(line)
     token, rest = line:match('^(%[.-%])(.*)$')
     if token then return token, rest end
 
-    -- Match comma separated arguments
-    token, rest = line:match('^([^,]+),?(.*)$')
+    -- Match argument operator tokens , and /
+    token, rest = line:match('^([,/])(.*)$')
+    if token then return token, rest end
+
+    -- Match argument word tokens
+    token, rest = line:match('^([^,/]+)(.*)$')
     if token then return token, rest end
 end
 
@@ -71,7 +75,7 @@ function LM.Rule:ParseLine(line)
 
     r.line = line
 
-    local argWords, condWords, rest = { }, { }, nil
+    local argTokens, condWords, rest = { }, { }, nil
 
     -- Note this is intentionally unanchored to skip leading whitespace
     r.action, rest = line:match('(%S+)%s*(.*)')
@@ -88,7 +92,7 @@ function LM.Rule:ParseLine(line)
             if word:match('^%[.-%]$') then
                 tinsert(condWords, word:sub(2, -2))
             else
-                tinsert(argWords, word)
+                tinsert(argTokens, word)
             end
         end
     end
@@ -118,16 +122,31 @@ function LM.Rule:ParseLine(line)
 
     r.conditions = LM.RuleBoolean:Or(unpack(conditions))
 
+    -- args is not neat. Mount arguments are an expression where , is AND but
+    -- other kinds of arguments are just a comma-separated list. We need to
+    -- lex x/y here so we can handle the quoting, but we don't want to try to
+    -- parse it. So to be lazy I just shove the '/' into the arg list and
+    -- make the handlers deal with it however they want. Note that it is
+    -- almost certainly going to give weird behaviour using / with the Limit
+    -- actions because the first character can be an operator and something
+    -- like
+    --      Limit -RUN/FLY
+    -- is going to parse as
+    --      LIMIT ( -RUN or FLY )
+    -- but humans would intuitively expect it to be
+    --      LIMIT -( RUN or FLY )
+
     r.args = { }
 
-    for _, word in ipairs(argWords) do
-        word = word:gsub('{.-}', replaceConstant)
-        if word:match('^".+"$') then
-            tinsert(r.args, word:sub(2, -2))
-        else
-            for w in word:gmatch('[^,]+') do
-                tinsert(r.args, w)
+    for i, token in ipairs(argTokens) do
+        if token == ',' then
+            -- nothing
+        elseif token == '/' then
+            if i > 1 then
+                table.insert(r.args, token)
             end
+        else
+            table.insert(r.args, token)
         end
     end
 

@@ -432,9 +432,10 @@ ACTIONS['Mount'] = {
             if LM.Conditions:Check("[maw]", context) then
                 table.insert(filters, "MAWUSABLE")
             end
+            local mounts = LM.MountRegistry:FilterSearch("CASTABLE", unpack(args)):Limit(unpack(filters))
             LM.Debug("  * args: " .. table.concat(args, ' '))
             LM.Debug("  * filters: " .. table.concat(filters, ' '))
-            local mounts = LM.MountRegistry:FilterSearch("CASTABLE", unpack(args)):Limit(unpack(filters))
+            LM.Debug("  * filtered list contains " .. #mounts .. " mounts")
             local m = mounts:Random(context.random)
             if m then
                 LM.Debug("  * setting action to mount %s", m.name)

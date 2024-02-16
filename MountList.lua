@@ -237,22 +237,33 @@ local function filterMatch(m, ...)
     return m:MatchesFilters(...)
 end
 
-local function filterSplitOr(s)
-    local out = { strsplit('/', s) }
-    if #out == 1 then
-        return out[1]
-    else
-        return out
-    end
-end
-
 function LM.MountList:FilterSearch(...)
     -- This looks like a terrible idea but it's actually way faster and memory
-    -- efficient to do all this here once rather than strsplit for every mount
+    -- efficient to do all this here once rather than do it for every mount
     -- in the list
 
-    local filters = LM.tMap({ ... }, filterSplitOr)
-    return self:Search(filterMatch, unpack(filters))
+    -- Or filters have the literal '/' in the table and need to be made into
+    -- subtables which the Search understands as "OR"
+
+    local state, termList = nil, { }
+
+    for i = 1, select('#', ...) do
+        local term = select(i, ...)
+        if term == '/' then
+            state = '/'
+        elseif state == '/' then
+            if type(termList[#termList]) ~= 'table' then
+                termList[#termList] = { termList[#termList] }
+            end
+            state = nil
+            table.insert(termList[#termList], term)
+        else
+            state = nil
+            table.insert(termList, term)
+        end
+    end
+
+    return self:Search(filterMatch, unpack(termList))
 end
 
 -- Limits can be filter (no prefix), set (=), reduce (-) or extend (+).
