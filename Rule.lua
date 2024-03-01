@@ -136,7 +136,7 @@ function LM.Rule:ParseLine(line)
     -- but humans would intuitively expect it to be
     --      LIMIT -( RUN or FLY )
 
-    r.args = { }
+    r.args = LM.RuleArguments:Get()
 
     for i, token in ipairs(argTokens) do
         if token == ',' then

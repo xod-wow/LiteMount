@@ -98,7 +98,7 @@ ACTIONS['LimitInclude'] = {
     toDisplay = LM.Mount.FilterToDisplay,
     handler = function (args, context)
             -- XXX this multi-arg support is super sketchy/wrong XXX
-            local plusArgs = LM.tMap(args, function (a) return '+' .. a end)
+            local plusArgs = LM.tMap(args, function (a) return '+' .. a end, true)
             ACTIONS['Limit'].handler(plusArgs, context)
         end
 }
@@ -108,7 +108,7 @@ ACTIONS['LimitExclude'] = {
     toDisplay = LM.Mount.FilterToDisplay,
     handler = function (args, context)
             -- XXX this multi-arg support is super sketchy/wrong XXX
-            local minusArgs = LM.tMap(args, function (a) return '-' .. a end)
+            local minusArgs = LM.tMap(args, function (a) return '-' .. a end, true)
             ACTIONS['Limit'].handler(minusArgs, context)
         end
 }
@@ -698,7 +698,7 @@ function LM.Actions:ToDisplay(action, args)
     if not args then
         return name
     elseif a.toDisplay then
-        return name, table.concat(LM.tMap(args, a.toDisplay), "\n")
+        return name, table.concat(LM.tMap(args, a.toDisplay, true), "\n")
     else
         return name, table.concat(args, ' ')
     end
