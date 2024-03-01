@@ -1,12 +1,37 @@
 C_MountJournal = { }
 
+function C_MountJournal.GetCollectedFilterSetting(setting)
+end
+
 function C_MountJournal.SetCollectedFilterSetting(setting, value)
 end
 
 function C_MountJournal.SetAllSourceFilters()
 end
 
+function C_MountJournal.SetSourceFilter()
+end
+
+function C_MountJournal.IsSourceChecked()
+    return true
+end
+
+function C_MountJournal.IsValidSourceFilter(setting)
+    return true
+end
+
 function C_MountJournal.SetAllTypeFilters()
+end
+
+function C_MountJournal.SetTypeFilter()
+end
+
+function C_MountJournal.IsTypeChecked()
+    return true
+end
+
+function C_MountJournal.IsValidTypeFilter(setting)
+    return true
 end
 
 function C_MountJournal.SetSearch(text)

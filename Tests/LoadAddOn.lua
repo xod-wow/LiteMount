@@ -6,8 +6,6 @@ loadfile("../Libs/AceDB-3.0/AceDB-3.0.lua")()
 loadfile("../Libs/AceSerializer-3.0/AceSerializer-3.0.lua")()
 loadfile("../Libs/LibDeflate/LibDeflate.lua")()
 local mrNamespace = {}
-loadfile("../Libs/MountsRarity-2.0/Version.lua")('MountsRarity', mrNamespace)
-loadfile("../Libs/MountsRarity-2.0/Data.lua")('MountsRarity', mrNamespace)
 loadfile("../Libs/MountsRarity-2.0/MountsRarity.lua")('MountsRarity', mrNamespace)
  
 tocFiles = { }

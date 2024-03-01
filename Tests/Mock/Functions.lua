@@ -98,7 +98,7 @@ function IsStealthed()
         return math.random() < 0.25
     end
 end
-    
+
 function IsResting() return math.random() < 0.5 end
 
 function CanExitVehicle() return MockState.inVehicle end
@@ -108,6 +108,8 @@ function GetTime() return socket.gettime() end
 function InCombatLockdown() return MockState.inCombat end
 
 function UnitLevel(unit) return MockState.playerLevel end
+
+function GetMaxLevelForExpansionLevel(expansion) return 70 end
 
 local roles = { 'TANK', 'HEALER', 'DAMAGER' }
 
@@ -297,6 +299,12 @@ end
 function tContains(tbl, val)
     for _,v in ipairs(tbl) do
         if v == val then return true end
+    end
+end
+
+function tAppendAll(tbl, other)
+    for _, v in ipairs(other) do
+        table.insert(tbl, v)
     end
 end
 

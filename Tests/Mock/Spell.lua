@@ -37,6 +37,10 @@ function IsSpellKnown(id)
     end
 end
 
+function IsPlayerSpell(id)
+    return true
+end
+
 function IsUsableSpell(id)
     if MockState.moving then
         for _,info in pairs(data.GetMountInfoByID) do
