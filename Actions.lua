@@ -70,47 +70,57 @@ local ACTIONS = { }
 -- Modifies the list of usable mounts so action list lines after this one
 -- get the restricted list. Always returns no action.
 
+local function PushFilters(context, newfilters)
+    local filters = LM.tJoin(context.filters[1], newfilters)
+    LM.Debug("  * New filter: " .. table.concat(filters, ' '))
+    table.insert(context.filters, 1, filters)
+end
+
 ACTIONS['Limit'] = {
     handler =
         function (args, context)
-            local filters = LM.tJoin(context.filters[1], args)
-            table.insert(context.filters, 1, filters)
-            LM.Debug("  * New filter: " .. table.concat(context.filters[1], ' '))
+            PushFilters(context, args:ParseFilter())
         end
 }
 
--- These ones are really just for user rules.
+-- These ones are really just for user rules.  The whole syntax of the Limit
+-- args is a mess and doesn't parse well. If I had my time again I would
+-- probably use & and | which are more obvious. Or, you know, start with a proper
+-- grammar-based parser.
+
+local function MountArgsToDisplay(args)
+    local filters = args:ParseFilter()
+    return LM.tMap(filters, LM.Mount.FilterToDisplay, true)
+end
 
 ACTIONS['LimitSet'] = {
     name = L.LM_LIMIT_MOUNTS,
-    toDisplay = LM.Mount.FilterToDisplay,
-    handler = function (args, context)
-            -- There's no point of multi-arg, just use the last
-            if #args > 0 then
-                local setArgs = { '=' .. args[#args] }
-                ACTIONS['Limit'].handler(setArgs, context)
-            end
-        end
+    toDisplay = MountArgsToDisplay,
+    handler =
+        function (args, context)
+            local newfilters = LM.tMap(args:ParseFilter(), function (v) return '-'..v end)
+            PushFilters(context, newfilters)
+        end,
 }
 
 ACTIONS['LimitInclude'] = {
     name = L.LM_INCLUDE_MOUNTS,
-    toDisplay = LM.Mount.FilterToDisplay,
-    handler = function (args, context)
-            -- XXX this multi-arg support is super sketchy/wrong XXX
-            local plusArgs = LM.tMap(args, function (a) return '+' .. a end, true)
-            ACTIONS['Limit'].handler(plusArgs, context)
-        end
+    toDisplay = MountArgsToDisplay,
+    handler =
+        function (args, context)
+            local newfilters = LM.tMap(args:ParseFilter(), function (v) return '+'..v end)
+            PushFilters(context, newfilters)
+        end,
 }
 
 ACTIONS['LimitExclude'] = {
     name = L.LM_EXCLUDE_MOUNTS,
-    toDisplay = LM.Mount.FilterToDisplay,
-    handler = function (args, context)
-            -- XXX this multi-arg support is super sketchy/wrong XXX
-            local minusArgs = LM.tMap(args, function (a) return '-' .. a end, true)
-            ACTIONS['Limit'].handler(minusArgs, context)
-        end
+    toDisplay = MountArgsToDisplay,
+    handler =
+        function (args, context)
+            local newfilters = LM.tMap(args:ParseFilter(), function (v) return '-'..v end)
+            PushFilters(context, newfilters)
+        end,
 }
 
 ACTIONS['Endlimit'] = {
@@ -119,7 +129,7 @@ ACTIONS['Endlimit'] = {
             if #context.filters == 1 then return end
             table.remove(context.filters, 1)
             LM.Debug("  * restored filter: " .. table.concat(context.filters[1], ' '))
-        end
+        end,
 }
 
 local function GetUsableSpell(arg)
@@ -161,20 +171,25 @@ local function GetUsableSpell(arg)
     end
 end
 
+local function SpellArgsToDisplay(args)
+    local out = {}
+    for _, v in ipairs(args:ParseList()) do
+        local name, _, _, _, _, _, id = GetSpellInfo(v)
+        if name then
+            table.insert(out, string.format("%s (%d)", name, id))
+        else
+            table.insert(out, v)
+        end
+    end
+    return out
+end
+
 ACTIONS['Spell'] = {
     name = L.LM_CAST_SPELL,
-    toDisplay =
-        function (v)
-            local name, _, _, _, _, _, id = GetSpellInfo(v)
-            if name then
-                return string.format("%s (%d)", name, id)
-            else
-                return v
-            end
-        end,
+    toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
-            for _, arg in ipairs(args) do
+            for _, arg in ipairs(args:ParseList()) do
                 LM.Debug('  * trying spell: ' .. tostring(arg))
                 local name, id, nameWithSubtext = GetUsableSpell(arg)
                 if nameWithSubtext then
@@ -192,10 +207,10 @@ ACTIONS['Spell'] = {
 
 ACTIONS['Buff'] = {
     name = L.LM_APPLY_BUFF,
-    toDisplay = ACTIONS["Spell"].toDisplay,
+    toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
-            for _, arg in ipairs(args) do
+            for _, arg in ipairs(args:ParseList()) do
                 LM.Debug('  * trying buff: ' .. tostring(arg))
                 local name, id, nameWithSubtext = GetUsableSpell(arg)
                 if name and not LM.UnitAura(context.unit or 'player', name) then
@@ -212,10 +227,10 @@ ACTIONS['Buff'] = {
 -- avoiding the IsUsableSpell failures when targeting others.
 
 ACTIONS['PreCast'] = {
-    toDisplay = ACTIONS["Spell"].toDisplay,
+    toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
-            for _, arg in ipairs(args) do
+            for _, arg in ipairs(args:ParseList()) do
                 local name, _, _, castTime, _, _, id = GetSpellInfo(arg)
                 if name and IsPlayerSpell(id) and castTime == 0 then
                     LM.Debug("  * setting preCast to spell " .. name)
@@ -228,10 +243,10 @@ ACTIONS['PreCast'] = {
 
 ACTIONS['CancelAura'] = {
     name = L.LM_CANCEL_BUFF,
-    toDisplay = ACTIONS['Spell'].toDisplay,
+    toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
-            for _, arg in ipairs(args) do
+            for _, arg in ipairs(args:ParseList()) do
                 local name, _, _, _, _, _, _, _, _, _, castable = LM.UnitAura('player', arg)
                 if name and castable then
                     return LM.SecureAction:CancelAura(name)
@@ -347,7 +362,7 @@ ACTIONS['ApplyRules'] = {
 
 ACTIONS['SmartMount'] = {
     name = L.LM_SMARTMOUNT_ACTION,
-    toDisplay = LM.Mount.FilterToDisplay,
+    toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
 
@@ -356,10 +371,11 @@ ACTIONS['SmartMount'] = {
             if LM.Conditions:Check("[maw]", context) then
                 table.insert(filters, "MAWUSABLE")
             end
+            table.insert(filters, "CASTABLE")
+            local argsExpr = args:ParseMountExpression()
+            local filteredList = LM.MountRegistry:FilterSearch(argsExpr):Limit(filters)
 
-            local filteredList = LM.MountRegistry:FilterSearch("CASTABLE", unpack(args)):Limit(unpack(filters))
-
-            LM.Debug("  * args: " .. table.concat(args, ' '))
+            LM.Debug("  * args: " .. (args:ToString() or ''))
             LM.Debug("  * filters: " .. table.concat(filters, ' '))
             LM.Debug("  * filtered list contains " .. #filteredList .. " mounts")
 
@@ -425,15 +441,17 @@ ACTIONS['SmartMount'] = {
 
 ACTIONS['Mount'] = {
     name = L.LM_MOUNT_ACTION,
-    toDisplay = LM.Mount.FilterToDisplay,
+    toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
             local filters = CopyTable(context.filters[1])
             if LM.Conditions:Check("[maw]", context) then
                 table.insert(filters, "MAWUSABLE")
             end
-            local mounts = LM.MountRegistry:FilterSearch("CASTABLE", unpack(args)):Limit(unpack(filters))
-            LM.Debug("  * args: " .. table.concat(args, ' '))
+            table.insert(filters, "CASTABLE")
+            local argsExpr = args:ParseMountExpression()
+            local mounts = LM.MountRegistry:FilterSearch(argsExpr):Limit(filters)
+            LM.Debug("  * args: " .. (args:ToString() or ''))
             LM.Debug("  * filters: " .. table.concat(filters, ' '))
             LM.Debug("  * filtered list contains " .. #mounts .. " mounts")
             local m = mounts:Random(context.random)
@@ -591,7 +609,7 @@ end
 ACTIONS['Use'] = {
     handler =
         function (args, context)
-            for _, arg in ipairs(args) do
+            for _, arg in ipairs(args:ParseList()) do
                 local name, itemID, slotNum = UsableItemParse(arg)
                 if slotNum then
                     LM.Debug('  * trying slot ' .. tostring(slotNum))
@@ -612,7 +630,6 @@ ACTIONS['Use'] = {
 }
 
 ACTIONS['PreUse'] = {
-    toDisplay = ACTIONS['Use'].toDisplay,
     handler =
         function (args, context)
             local action = ACTIONS['Use'].handler(args, context)
@@ -690,14 +707,18 @@ function LM.Actions:IsFlowSkipped(context)
     return tContains(context.flowControl, false)
 end
 
+-- This is really terrible and only works for a minimal amount of things
+-- which rules might do, which is so far only one mount or group or type etc.
+-- It will probably break if I ever make rules actions even slightly flexible.
+
 function LM.Actions:ToDisplay(action, args)
     local a = ACTIONS[action]
     local name = a.name or action
-    if not args then
+    if args == nil then
         return name
     elseif a.toDisplay then
-        return name, table.concat(LM.tMap(args, a.toDisplay, true), "\n")
+        return name, table.concat(a.toDisplay(args), "\n")
     else
-        return name, table.concat(args, ' ')
+        return name, args:ToString()
     end
 end

@@ -237,54 +237,23 @@ local function filterMatch(m, ...)
     return m:MatchesFilters(...)
 end
 
-function LM.MountList:FilterSearch(...)
-    -- This looks like a terrible idea but it's actually way faster and memory
-    -- efficient to do all this here once rather than do it for every mount
-    -- in the list
-
-    -- Or filters have the literal '/' in the table and need to be made into
-    -- subtables which the Search understands as "OR"
-
-    local state, termList = nil, { }
-
-    for i = 1, select('#', ...) do
-        local term = select(i, ...)
-        if term == '/' then
-            state = '/'
-        elseif state == '/' then
-            if type(termList[#termList]) ~= 'table' then
-                termList[#termList] = { termList[#termList] }
-            end
-            state = nil
-            table.insert(termList[#termList], term)
-        else
-            state = nil
-            table.insert(termList, term)
-        end
+function LM.MountList:FilterSearch(filters, ...)
+    if type(filters) ~= 'table' then
+        filters = { filters, ... }
     end
-
-    return self:Search(filterMatch, unpack(termList))
+    return self:Search(filterMatch, unpack(filters))
 end
 
 -- Limits can be filter (no prefix), set (=), reduce (-) or extend (+).
 
-function LM.MountList:Limit(...)
-
-    -- This is a dubiously worthwhile optimization, to look for the last
-    -- set (=) and ignore everything before it as irrelevant. Depending on
-    -- how inefficient sub(1,1) is this might actually be slower.
-
-    local begin = 1
-    for i = 1, select('#', ...) do
-        if select(i, ...):sub(1,1) == '=' then
-            begin = i
-        end
+function LM.MountList:Limit(limits, ...)
+    if type(limits) ~= 'table' then
+        limits = { limits, ... }
     end
 
     local mounts = self:Copy()
 
-    for i = begin, select('#', ...) do
-        local f = select(i, ...)
+    for i, f in ipairs(limits) do
         if f:sub(1,1) == '+' then
             mounts:Extend(self:FilterSearch(f:sub(2)))
         elseif f:sub(1,1) == '-' then

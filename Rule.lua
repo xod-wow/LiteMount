@@ -16,15 +16,6 @@ if LibDebug then LibDebug() end
 
 local L = LM.Localize
 
-local function ReplaceVars(list)
-    local out = {}
-    for _,l in ipairs(list) do
-        l = LM.Vars:StrSubVars(l)
-        tinsert(out, l)
-    end
-    return out
-end
-
 LM.Rule = { }
 
 local function replaceConstant(k) return LM.Vars:GetConst(k) end
@@ -56,8 +47,8 @@ local function ReadWord(line)
     token, rest = line:match('^(%[.-%])(.*)$')
     if token then return token, rest end
 
-    -- Match argument operator tokens , and /
-    token, rest = line:match('^([,/])(.*)$')
+    -- Match argument operator tokens - + = , / ~
+    token, rest = line:match('^([-+=,/~])(.*)$')
     if token then return token, rest end
 
     -- Match argument word tokens
@@ -136,19 +127,7 @@ function LM.Rule:ParseLine(line)
     -- but humans would intuitively expect it to be
     --      LIMIT -( RUN or FLY )
 
-    r.args = LM.RuleArguments:Get()
-
-    for i, token in ipairs(argTokens) do
-        if token == ',' then
-            -- nothing
-        elseif token == '/' then
-            if i > 1 then
-                table.insert(r.args, token)
-            end
-        else
-            table.insert(r.args, token)
-        end
-    end
+    r.args = LM.RuleArguments:Get(argTokens)
 
     return r
 end
@@ -160,7 +139,7 @@ function LM.Rule:Dispatch(context)
     local handler = LM.Actions:GetFlowControlHandler(self.action)
     if handler then
         LM.Debug("  Dispatching flow control action " .. (self.line or self:ToString()))
-        handler(self.args or {}, context, isTrue)
+        handler(self.args, context, isTrue)
         return
     end
 
@@ -176,14 +155,15 @@ function LM.Rule:Dispatch(context)
 
     LM.Debug("  Dispatching rule " .. (self.line or self:ToString()))
 
-    return handler(ReplaceVars(self.args or {}), context)
+    return handler(self.args:ReplaceVars(), context)
 end
 
 function LM.Rule:ToString()
     local out = { self.action }
     local cText = self.conditions:ToString()
     if cText and cText ~= "" then table.insert(out, cText) end
-    if self.args then table.insert(out, table.concat(self.args, ',')) end
+    local aText = self.args:ToString()
+    if aText and aText ~= "" then table.insert(out, aText) end
     return table.concat(out, ' ')
 end
 
@@ -214,7 +194,7 @@ function LM.Rule:IsSimpleRule()
     if not tContains(SimpleActions, self.action) then
         return false
     end
-    if #self.args ~= 1 then
+    if not self.args:IsSimpleArguments() then
         return false
     end
     if not self.conditions:IsSimpleCondition() then
