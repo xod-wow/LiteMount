@@ -458,11 +458,9 @@ ACTIONS['Macro'] = {
 ACTIONS['Script'] = {
     handler =
         function (args, context)
-            local macroText = table.concat(args, ' ')
-            if SecureCmdOptionParse(macroText) then
-                LM.Debug("  * setting action to script line: " .. macroText)
-                return LM.SecureAction:Macro(macroText)
-            end
+            local macroText = args:ToString()
+            LM.Debug("  * setting action to script line: " .. macroText)
+            return LM.SecureAction:Macro(macroText)
         end
 }
 
