@@ -336,7 +336,8 @@ function LiteMountRuleEditActionMixin:Update()
 
     local actionText, argText
     if self.arg then
-        actionText, argText = LM.Actions:ToDisplay(self.type, { self.arg })
+        local args = LM.RuleArguments:Get(self.arg)
+        actionText, argText = LM.Actions:ToDisplay(self.type, args)
     else
         actionText = LM.Actions:ToDisplay(self.type)
     end
