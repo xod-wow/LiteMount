@@ -105,9 +105,9 @@ function LM.RuleArguments:ParseList()
     return self.asList
 end
 
-function LM.RuleArguments:ParseFilter()
-    if self.asFilter == nil then
-        self.asFilter = {}
+function LM.RuleArguments:ParseLimits()
+    if self.asLimits == nil then
+        self.asLimits = {}
         local mech
         for i, token in ipairs(self) do
             if token == '-' or token == '+' or token  == '=' then
@@ -117,11 +117,11 @@ function LM.RuleArguments:ParseFilter()
             elseif token == ',' then
                 mech = nil
             else
-                table.insert(self.asFilter, (mech or '') .. token)
+                table.insert(self.asLimits, (mech or '') .. token)
             end
         end
     end
-    return self.asFilter
+    return self.asLimits
 end
 
 function LM.RuleArguments:ParseMountExpression()

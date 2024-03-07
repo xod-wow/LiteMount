@@ -70,16 +70,16 @@ local ACTIONS = { }
 -- Modifies the list of usable mounts so action list lines after this one
 -- get the restricted list. Always returns no action.
 
-local function PushFilters(context, newfilters)
-    local filters = LM.tJoin(context.filters[1], newfilters)
-    LM.Debug("  * New filter: " .. table.concat(filters, ' '))
-    table.insert(context.filters, 1, filters)
+local function PushLimits(context, newlimits)
+    local limits = LM.tJoin(context.limits[1], newlimits)
+    LM.Debug("  * New limits: " .. table.concat(limits, ' '))
+    table.insert(context.limits, 1, limits)
 end
 
 ACTIONS['Limit'] = {
     handler =
         function (args, context)
-            PushFilters(context, args:ParseFilter())
+            PushLimits(context, args:ParseLimits())
         end
 }
 
@@ -89,8 +89,8 @@ ACTIONS['Limit'] = {
 -- grammar-based parser.
 
 local function MountArgsToDisplay(args)
-    local filters = args:ParseFilter()
-    return LM.tMap(filters, LM.Mount.FilterToDisplay, true)
+    local limits = args:ParseLimits()
+    return LM.tMap(limits, LM.Mount.FilterToDisplay, true)
 end
 
 ACTIONS['LimitSet'] = {
@@ -98,8 +98,8 @@ ACTIONS['LimitSet'] = {
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
-            local newfilters = LM.tMap(args:ParseFilter(), function (v) return '-'..v end)
-            PushFilters(context, newfilters)
+            local newlimits = LM.tMap(args:ParseLimits(), function (v) return '-'..v end)
+            PushLimits(context, newlimits)
         end,
 }
 
@@ -108,8 +108,8 @@ ACTIONS['LimitInclude'] = {
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
-            local newfilters = LM.tMap(args:ParseFilter(), function (v) return '+'..v end)
-            PushFilters(context, newfilters)
+            local newlimits = LM.tMap(args:ParseLimits(), function (v) return '+'..v end)
+            PushLimits(context, newlimits)
         end,
 }
 
@@ -118,17 +118,17 @@ ACTIONS['LimitExclude'] = {
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
-            local newfilters = LM.tMap(args:ParseFilter(), function (v) return '-'..v end)
-            PushFilters(context, newfilters)
+            local newLimits = LM.tMap(args:ParseLimits(), function (v) return '-'..v end)
+            PushLimits(context, newlimits)
         end,
 }
 
 ACTIONS['Endlimit'] = {
     handler =
         function (args, context)
-            if #context.filters == 1 then return end
-            table.remove(context.filters, 1)
-            LM.Debug("  * restored filter: " .. table.concat(context.filters[1], ' '))
+            if #context.limits == 1 then return end
+            table.remove(context.limits, 1)
+            LM.Debug("  * restored limits: " .. table.concat(context.limits[1], ' '))
         end,
 }
 
@@ -366,17 +366,17 @@ ACTIONS['SmartMount'] = {
     handler =
         function (args, context)
 
-            local filters = CopyTable(context.filters[1])
+            local limits = CopyTable(context.limits[1])
 
             if LM.Conditions:Check("[maw]", context) then
-                table.insert(filters, "MAWUSABLE")
+                table.insert(limits, "MAWUSABLE")
             end
-            table.insert(filters, "CASTABLE")
+            table.insert(limits, "CASTABLE")
             local argsExpr = args:ParseMountExpression()
-            local filteredList = LM.MountRegistry:FilterSearch(argsExpr):Limit(filters)
+            local filteredList = LM.MountRegistry:FilterSearch(argsExpr):Limit(limits)
 
             LM.Debug("  * args: " .. (args:ToString() or ''))
-            LM.Debug("  * filters: " .. table.concat(filters, ' '))
+            LM.Debug("  * limits: " .. table.concat(limits, ' '))
             LM.Debug("  * filtered list contains " .. #filteredList .. " mounts")
 
             if next(filteredList) == nil then return end
@@ -394,9 +394,9 @@ ACTIONS['SmartMount'] = {
 
             if not m and LM.Conditions:Check("[dragonridable]", context) then
                 LM.Debug("  * trying Dragon Riding Mount")
-                local fly = filteredList:FilterSearch('DRAGONRIDING')
-                LM.Debug("  * found " .. #fly .. " mounts.")
-                m = fly:Random(context.random, randomStyle)
+                local dragonriding = filteredList:FilterSearch('DRAGONRIDING')
+                LM.Debug("  * found " .. #dragonriding .. " mounts.")
+                m = dragonriding:Random(context.random, randomStyle)
             end
 
             if not m and LM.Conditions:Check("[flyable]", context) then
@@ -444,17 +444,17 @@ ACTIONS['Mount'] = {
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
-            local filters = CopyTable(context.filters[1])
+            local limits = CopyTable(context.limits[1])
             if LM.Conditions:Check("[maw]", context) then
-                table.insert(filters, "MAWUSABLE")
+                table.insert(limits, "MAWUSABLE")
             end
-            table.insert(filters, "CASTABLE")
+            table.insert(limits, "CASTABLE")
             local argsExpr = args:ParseMountExpression()
-            local mounts = LM.MountRegistry:FilterSearch(argsExpr):Limit(filters)
-            local randomStyle = context.rule.priority and LM.Options:GetOption('randomWeightStyle')
+            local mounts = LM.MountRegistry:FilterSearch(argsExpr):Limit(limits)
             LM.Debug("  * args: " .. (args:ToString() or ''))
-            LM.Debug("  * filters: " .. table.concat(filters, ' '))
+            LM.Debug("  * limits: " .. table.concat(limits, ' '))
             LM.Debug("  * filtered list contains " .. #mounts .. " mounts")
+            local randomStyle = context.rule.priority and LM.Options:GetOption('randomWeightStyle')
             local m = mounts:Random(context.random, randomStyle)
             if m then
                 LM.Debug("  * setting action to mount %s", m.name)
