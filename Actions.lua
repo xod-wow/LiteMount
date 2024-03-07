@@ -194,7 +194,7 @@ ACTIONS['Spell'] = {
                 local name, id, nameWithSubtext = GetUsableSpell(arg)
                 if nameWithSubtext then
                     LM.Debug("  * setting action to spell " .. nameWithSubtext)
-                    return LM.SecureAction:Spell(nameWithSubtext, context.unit)
+                    return LM.SecureAction:Spell(nameWithSubtext, context.rule.unit)
                 end
             end
         end
@@ -213,9 +213,9 @@ ACTIONS['Buff'] = {
             for _, arg in ipairs(args:ParseList()) do
                 LM.Debug('  * trying buff: ' .. tostring(arg))
                 local name, id, nameWithSubtext = GetUsableSpell(arg)
-                if name and not LM.UnitAura(context.unit or 'player', name) then
+                if name and not LM.UnitAura(context.rule.unit or 'player', name) then
                     LM.Debug("  * setting action to spell " .. nameWithSubtext)
-                    return LM.SecureAction:Spell(nameWithSubtext, context.unit)
+                    return LM.SecureAction:Spell(nameWithSubtext, context.rule.unit)
                 end
             end
         end
@@ -334,7 +334,7 @@ ACTIONS['CancelForm'] = {
 ACTIONS['CopyTargetsMount'] = {
     handler =
         function (args, context)
-            local unit = context.unit or "target"
+            local unit = context.rule.unit or "target"
             if LM.Options:GetOption('copyTargetsMount') and UnitIsPlayer(unit) then
                 LM.Debug("  * trying to clone %s's mount", unit)
                 local m = LM.MountRegistry:GetMountFromUnitAura(unit)
@@ -451,10 +451,11 @@ ACTIONS['Mount'] = {
             table.insert(filters, "CASTABLE")
             local argsExpr = args:ParseMountExpression()
             local mounts = LM.MountRegistry:FilterSearch(argsExpr):Limit(filters)
+            local randomStyle = context.rule.priority and LM.Options:GetOption('randomWeightStyle')
             LM.Debug("  * args: " .. (args:ToString() or ''))
             LM.Debug("  * filters: " .. table.concat(filters, ' '))
             LM.Debug("  * filtered list contains " .. #mounts .. " mounts")
-            local m = mounts:Random(context.random)
+            local m = mounts:Random(context.random, randomStyle)
             if m then
                 LM.Debug("  * setting action to mount %s", m.name)
                 return m:GetCastAction(context), m
@@ -616,13 +617,13 @@ ACTIONS['Use'] = {
                     local s, d, e = GetInventoryItemCooldown('player', slotNum)
                     if s == 0 and e == 1 then
                         LM.Debug('  * Setting action to use slot ' .. slotNum)
-                        return LM.SecureAction:Item(slotNum, context.unit)
+                        return LM.SecureAction:Item(slotNum, context.rule.unit)
                     end
                 else
                     LM.Debug('  * trying item ' .. tostring(name))
                     if name and IsCastableItem(itemID) then
                         LM.Debug('  * setting action to use item ' .. name)
-                        return LM.SecureAction:Item(name, context.unit)
+                        return LM.SecureAction:Item(name, context.rule.unit)
                     end
                 end
             end

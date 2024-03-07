@@ -99,7 +99,15 @@ function LM.RuleBoolean:EvalLeaf(context)
     if condition == "" then return true end
 
     if condition:sub(1,1) == '@' then
-        context.unit = condition:sub(2)
+        context.rule.unit = condition:sub(2)
+        return true
+    end
+
+    -- This is a mildly awful hack to allow setting binary options on actions
+    -- using conditions instead of having heterogenous arg types or overloading
+    -- the filter strings (even more).
+    if condition:sub(1,1) == '+' then
+        context.rule[condition:sub(2)] = true
         return true
     end
 
@@ -122,7 +130,7 @@ function LM.RuleBoolean:EvalNot(context)
     return not self.conditions[1]:Eval(context)
 end
 
--- the ANDed sections carry the unit between them
+-- the ANDed sections carry the per-rule context between them
 function LM.RuleBoolean:EvalAnd(context)
     for _,c in ipairs(self.conditions) do
         local v = c:Eval(context)
@@ -131,16 +139,16 @@ function LM.RuleBoolean:EvalAnd(context)
     return true
 end
 
--- Note: deliberately resets the unit on false
+-- Note: deliberately resets the per-rule context on false
 function LM.RuleBoolean:EvalOr(context)
     if #self.conditions == 0 then
         return true
     end
-    local origUnit = context.unit
+    local origRuleContext = CopyTable(context.rule)
     for _,c in ipairs(self.conditions) do
         local v = c:Eval(context)
         if v then return v end
-        context.unit = origUnit
+        context.rule = origRuleContext
     end
     return false
 end

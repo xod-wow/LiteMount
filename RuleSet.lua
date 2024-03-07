@@ -38,7 +38,7 @@ end
 
 function LM.RuleSet:Run(context)
     for n,rule in ipairs(self) do
-        context.unit = nil
+        context.rule = {}
         local act = rule:Dispatch(context)
         if act then return act, n end
     end

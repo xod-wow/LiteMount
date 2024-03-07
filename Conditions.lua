@@ -84,7 +84,7 @@ CONDITIONS["aura"] = {
     -- name = L["Aura"],
     handler =
         function (cond, context, v)
-            local unit = context.unit or "player"
+            local unit = context.rule.unit or "player"
             if LM.UnitAura(unit, v) or LM.UnitAura(unit, v, "HARMFUL") then
                 return true
             end
@@ -110,7 +110,7 @@ CONDITIONS["channeling"] = {
     -- name = CHANNELING,
     handler =
         function (cond, context, v)
-            local unit = context.unit or "player"
+            local unit = context.rule.unit or "player"
             if not v then
                 return UnitChannelInfo(unit) ~= nil
             elseif tonumber(v) then
@@ -139,7 +139,7 @@ CONDITIONS["class"] = {
     handler =
         function (cond, context, v)
             if v then
-                return tContains({ UnitClass(context.unit or "player") }, v)
+                return tContains({ UnitClass(context.rule.unit or "player") }, v)
             end
         end,
 }
@@ -159,13 +159,13 @@ CONDITIONS["combat"] = {
     handler =
         function (cond, context)
             local unit, petunit
-            if not context.unit then
+            if not context.rule.unit then
                 unit, petunit = "player", "pet"
-            elseif context.unit == "player" then
+            elseif context.rule.unit == "player" then
                 petunit = "pet"
             else
-                unit = context.unit
-                petunit = context.unit .. "pet"
+                unit = context.rule.unit
+                petunit = context.rule.unit .. "pet"
             end
             return UnitAffectingCombat(unit) or UnitAffectingCombat(petunit)
         end
@@ -208,7 +208,7 @@ CONDITIONS["dead"] = {
     -- name = DEAD,
     handler =
         function (cond, context)
-            return UnitIsDead(context.unit or "player")
+            return UnitIsDead(context.rule.unit or "player")
         end
 }
 
@@ -354,7 +354,7 @@ CONDITIONS["equipped"] = {
 CONDITIONS["exists"] = {
     handler =
         function (cond, context)
-            return UnitExists(context.unit or "target")
+            return UnitExists(context.rule.unit or "target")
         end
 }
 
@@ -393,7 +393,7 @@ CONDITIONS["faction"] = {
     handler =
         function (cond, context, v)
             if v then
-                return tContains({ UnitFactionGroup(context.unit or "player") }, v)
+                return tContains({ UnitFactionGroup(context.rule.unit or "player") }, v)
             end
         end,
 }
@@ -535,14 +535,14 @@ CONDITIONS["group"] = {
 CONDITIONS["harm"] = {
     handler =
         function (cond, context)
-            return not UnitIsFriend("player", context.unit or "target")
+            return not UnitIsFriend("player", context.rule.unit or "target")
         end
 }
 
 CONDITIONS["help"] = {
     handler =
         function (cond, context)
-            return UnitIsFriend("player", context.unit or "target")
+            return UnitIsFriend("player", context.rule.unit or "target")
         end
 }
 
@@ -873,7 +873,7 @@ CONDITIONS["name"] = {
     handler =
         function (cond, context, v)
             if v then
-                return UnitName(context.unit or "player") == v
+                return UnitName(context.rule.unit or "player") == v
             end
         end
 }
@@ -924,7 +924,7 @@ CONDITIONS["pcall"] = {
 CONDITIONS["party"] = {
     handler =
         function (cond, context)
-            return UnitPlayerOrPetInParty(context.unit or "target")
+            return UnitPlayerOrPetInParty(context.rule.unit or "target")
         end
 }
 
@@ -932,10 +932,10 @@ CONDITIONS["pet"] = {
     handler =
         function (cond, context, v)
             local petunit
-            if not context.unit or context.unit == "player" then
+            if not context.rule.unit or context.rule.unit == "player" then
                 petunit = "pet"
             else
-                petunit = context.unit .. "pet"
+                petunit = context.rule.unit .. "pet"
             end
             if v then
                 return UnitName(petunit) == v or UnitCreatureFamily(petunit) == v
@@ -978,7 +978,7 @@ CONDITIONS["pvp"] = {
     handler =
         function (cond, context, v)
             if not v then
-                return UnitIsPVP(context.unit or "player")
+                return UnitIsPVP(context.rule.unit or "player")
             else
                 return GetZonePVPInfo() == v
             end
@@ -998,7 +998,7 @@ CONDITIONS["qfc"] = {
 CONDITIONS["race"] = {
     handler =
         function (cond, context, v)
-            local race, raceEN, raceID = UnitRace(context.unit or "player")
+            local race, raceEN, raceID = UnitRace(context.rule.unit or "player")
             return ( race == v or raceEN == v or raceID == tonumber(v) )
         end
 }
@@ -1006,7 +1006,7 @@ CONDITIONS["race"] = {
 CONDITIONS["raid"] = {
     handler =
         function (cond, context)
-            return UnitPlayerOrPetInRaid(context.unit or "target")
+            return UnitPlayerOrPetInRaid(context.rule.unit or "target")
         end
 }
 
@@ -1038,7 +1038,7 @@ CONDITIONS["role"] = {
     handler =
         function (cond, context, v)
             if v then
-                return UnitGroupRolesAssigned(context.unit or "player") == v
+                return UnitGroupRolesAssigned(context.rule.unit or "player") == v
             end
         end
 }
@@ -1047,7 +1047,7 @@ CONDITIONS["sameunit"] = {
     handler =
         function (cond, context, v)
             if v then
-                return UnitIsUnit(v, context.unit or "player")
+                return UnitIsUnit(v, context.rule.unit or "player")
             end
         end
 }
@@ -1109,7 +1109,7 @@ CONDITIONS["sex"] = {
     handler =
         function (cond, context, v)
             if v then
-                return UnitSex(context.unit or "player") == tonumber(v)
+                return UnitSex(context.rule.unit or "player") == tonumber(v)
             end
         end
 }
