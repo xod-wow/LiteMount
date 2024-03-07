@@ -65,8 +65,21 @@ function LM.RuleArguments:ToString()
     end
 end
 
+local unaryTokenOperators = {
+    ['~'] = true,
+    ['-'] = true,
+    ['+'] = true,
+    ['='] = true,
+}
+
 function LM.RuleArguments:IsSimpleArguments()
-    return #self == 1
+    if #self == 1 then
+        return true
+    elseif #self == 2 and unaryTokenOperators[self[1]] then
+        return true
+    else
+        return false
+    end
 end
 
 function LM.RuleArguments:ReplaceVars()
