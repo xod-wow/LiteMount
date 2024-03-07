@@ -18,8 +18,6 @@ local L = LM.Localize
 
 LM.Rule = { }
 
-local function replaceConstant(k) return LM.Vars:GetConst(k) end
-
 local function ReadWord(line)
     local token, rest
 
@@ -80,6 +78,7 @@ function LM.Rule:ParseLine(line)
         local word
         word, rest = ReadWord(rest)
         if word then
+            word = LM.Vars:StrSubConsts(word)
             if word:match('^%[.-%]$') then
                 tinsert(condWords, word:sub(2, -2))
             else
@@ -93,14 +92,6 @@ function LM.Rule:ParseLine(line)
     for _, word in ipairs(condWords) do
         local clause = { }
         for c in word:gmatch('[^,]+') do
-            c = c:gsub('{.-}', function (k)
-                    local v = LM.Vars:GetConst(k)
-                    if v then
-                        return v
-                    else
-                        r.vars = true
-                    end
-                 end)
             if c:sub(1,2) == 'no' then
                 local l = LM.RuleBoolean:Leaf(c:sub(3))
                 table.insert(clause, LM.RuleBoolean:Not(l))
