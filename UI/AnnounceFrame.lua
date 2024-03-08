@@ -17,8 +17,8 @@ LiteMountAnnounceFrameMixin = {}
 function LiteMountAnnounceFrameMixin:OnLoad()
     FadingFrame_OnLoad(self)
     FadingFrame_SetFadeInTime(self, 0.5)
-    FadingFrame_SetHoldTime(self, 1)
-    FadingFrame_SetFadeOutTime(self, 2)
+    FadingFrame_SetHoldTime(self, 3)
+    FadingFrame_SetFadeOutTime(self, 1)
     LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "OnCallback")
 end
 
