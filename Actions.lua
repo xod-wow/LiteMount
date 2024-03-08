@@ -360,14 +360,12 @@ ACTIONS['ApplyRules'] = {
         end
 }
 
-ACTIONS['SmartMount'] = {
-    name = L.LM_SMARTMOUNT_ACTION,
+ACTIONS['Mount'] = {
+    name = L.LM_MOUNT_ACTION,
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
-
             local limits = CopyTable(context.limits[1])
-
             if LM.Conditions:Check("[maw]", context) then
                 table.insert(limits, "MAWUSABLE")
             end
@@ -381,55 +379,59 @@ ACTIONS['SmartMount'] = {
 
             if next(filteredList) == nil then return end
 
-            local randomStyle = LM.Options:GetOption('randomWeightStyle')
+            local randomStyle = context.rule.priority and LM.Options:GetOption('randomWeightStyle')
 
             local m
 
-            if not m and LM.Conditions:Check("[submerged]", context) then
-                LM.Debug("  * trying Aquatic Mount (underwater)")
-                local swim = filteredList:FilterSearch('SWIM')
-                LM.Debug("  * found " .. #swim .. " mounts.")
-                m = swim:Random(context.random, randomStyle)
-            end
+            if context.rule.smart then
+                if not m and LM.Conditions:Check("[submerged]", context) then
+                    LM.Debug("  * trying Aquatic Mount (underwater)")
+                    local swim = filteredList:FilterSearch('SWIM')
+                    LM.Debug("  * found " .. #swim .. " mounts.")
+                    m = swim:Random(context.random, randomStyle)
+                end
 
-            if not m and LM.Conditions:Check("[dragonridable]", context) then
-                LM.Debug("  * trying Dragon Riding Mount")
-                local dragonriding = filteredList:FilterSearch('DRAGONRIDING')
-                LM.Debug("  * found " .. #dragonriding .. " mounts.")
-                m = dragonriding:Random(context.random, randomStyle)
-            end
+                if not m and LM.Conditions:Check("[dragonridable]", context) then
+                    LM.Debug("  * trying Dragon Riding Mount")
+                    local dragonriding = filteredList:FilterSearch('DRAGONRIDING')
+                    LM.Debug("  * found " .. #dragonriding .. " mounts.")
+                    m = dragonriding:Random(context.random, randomStyle)
+                end
 
-            if not m and LM.Conditions:Check("[flyable]", context) then
-                LM.Debug("  * trying Flying Mount")
-                local fly = filteredList:FilterSearch('FLY')
-                LM.Debug("  * found " .. #fly .. " mounts.")
-                m = fly:Random(context.random, randomStyle)
-            end
+                if not m and LM.Conditions:Check("[flyable]", context) then
+                    LM.Debug("  * trying Flying Mount")
+                    local fly = filteredList:FilterSearch('FLY')
+                    LM.Debug("  * found " .. #fly .. " mounts.")
+                    m = fly:Random(context.random, randomStyle)
+                end
 
-            if not m and LM.Conditions:Check("[floating,nowaterwalking]", context) then
-                LM.Debug("  * trying Aquatic Mount (on the surface)")
-                local swim = filteredList:FilterSearch('SWIM')
-                LM.Debug("  * found " .. #swim .. " mounts.")
-                m = swim:Random(context.random, randomStyle)
-            end
+                if not m and LM.Conditions:Check("[floating,nowaterwalking]", context) then
+                    LM.Debug("  * trying Aquatic Mount (on the surface)")
+                    local swim = filteredList:FilterSearch('SWIM')
+                    LM.Debug("  * found " .. #swim .. " mounts.")
+                    m = swim:Random(context.random, randomStyle)
+                end
 
-            -- XXX Is it actually sensible to always fall back to a ground mount?
-            -- XXX What would break if it only did this when the other conditions
-            -- XXX definitely didn't match, instead of just falling through. I kind
-            -- of want do "SmartMount ZONEMATCH" but can't.
+                -- XXX Is it actually sensible to always fall back to a ground mount?
+                -- XXX What would break if it only did this when the other conditions
+                -- XXX definitely didn't match, instead of just falling through. I kind
+                -- of want do "SmartMount ZONEMATCH" but can't.
 
-            if not m then
-                LM.Debug("  * trying Ground Mount")
-                local run = filteredList:FilterSearch('RUN', '~SLOW')
-                LM.Debug("  * found " .. #run .. " mounts.")
-                m = run:Random(context.random, randomStyle)
-            end
+                if not m then
+                    LM.Debug("  * trying Ground Mount")
+                    local run = filteredList:FilterSearch('RUN', '~SLOW')
+                    LM.Debug("  * found " .. #run .. " mounts.")
+                    m = run:Random(context.random, randomStyle)
+                end
 
-            if not m then
-                LM.Debug("  * trying Slow Ground Mount")
-                local walk = filteredList:FilterSearch('RUN', 'SLOW')
-                LM.Debug("  * found " .. #walk .. " mounts.")
-                m = walk:Random(context.random, randomStyle)
+                if not m then
+                    LM.Debug("  * trying Slow Ground Mount")
+                    local walk = filteredList:FilterSearch('RUN', 'SLOW')
+                    LM.Debug("  * found " .. #walk .. " mounts.")
+                    m = walk:Random(context.random, randomStyle)
+                end
+            else
+                m = filteredList:Random(context.random, randomStyle)
             end
 
             if m then
@@ -439,27 +441,24 @@ ACTIONS['SmartMount'] = {
         end
 }
 
-ACTIONS['Mount'] = {
-    name = L.LM_MOUNT_ACTION,
+ACTIONS['SmartMount'] = {
+    name = L.LM_SMARTMOUNT_ACTION,
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
-            local limits = CopyTable(context.limits[1])
-            if LM.Conditions:Check("[maw]", context) then
-                table.insert(limits, "MAWUSABLE")
-            end
-            table.insert(limits, "CASTABLE")
-            local argsExpr = args:ParseMountExpression()
-            local mounts = LM.MountRegistry:FilterSearch(argsExpr):Limit(limits)
-            LM.Debug("  * args: " .. (args:ToString() or ''))
-            LM.Debug("  * limits: " .. table.concat(limits, ' '))
-            LM.Debug("  * filtered list contains " .. #mounts .. " mounts")
-            local randomStyle = context.rule.priority and LM.Options:GetOption('randomWeightStyle')
-            local m = mounts:Random(context.random, randomStyle)
-            if m then
-                LM.Debug("  * setting action to mount %s", m.name)
-                return m:GetCastAction(context), m
-            end
+            context.rule.priority = true
+            context.rule.smart = true
+            return ACTIONS.Mount.handler(args, context)
+        end
+}
+
+ACTIONS['PriorityMount'] = {
+    name = L.LM_PRIORITYMOUNT_ACTION,
+    toDisplay = MountArgsToDisplay,
+    handler =
+        function (args, context)
+            context.rule.priority = true
+            return ACTIONS.Mount.handler(args, context)
         end
 }
 
