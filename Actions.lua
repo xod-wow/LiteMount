@@ -98,7 +98,7 @@ ACTIONS['LimitSet'] = {
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
-            local newlimits = LM.tMap(args:ParseLimits(), function (v) return '-'..v end)
+            local newlimits = LM.tMap(args:ParseLimits(), function (v) return '='..v end)
             PushLimits(context, newlimits)
         end,
 }
