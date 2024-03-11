@@ -267,6 +267,8 @@ local function ActionTypeInitialize(dropDown, level, menuList)
         end
         for _,item in ipairs(TypeMenu) do
             info.text = LM.Actions:ToDisplay(item)
+            info.tooltipTitle = LM.Actions:GetDescription(item)
+            info.tooltipOnButton = true
             info.arg1 = item
             info.arg2 = dropDown:GetParent()
             LibDD:UIDropDownMenu_AddButton(info, level)

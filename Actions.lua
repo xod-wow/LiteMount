@@ -95,6 +95,7 @@ end
 
 ACTIONS['LimitSet'] = {
     name = L.LM_LIMIT_MOUNTS,
+    description = L.LM_LIMITSET_DESCRIPTION,
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
@@ -105,6 +106,7 @@ ACTIONS['LimitSet'] = {
 
 ACTIONS['LimitInclude'] = {
     name = L.LM_INCLUDE_MOUNTS,
+    description = L.LM_LIMITINCLUDE_DESCRIPTION,
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
@@ -115,6 +117,7 @@ ACTIONS['LimitInclude'] = {
 
 ACTIONS['LimitExclude'] = {
     name = L.LM_EXCLUDE_MOUNTS,
+    description = L.LM_LIMITEXCLUDE_DESCRIPTION,
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
@@ -186,6 +189,7 @@ end
 
 ACTIONS['Spell'] = {
     name = L.LM_SPELL_ACTION,
+    description = L.LM_SPELL_DESCRIPTION,
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -206,7 +210,6 @@ ACTIONS['Spell'] = {
 -- because for some spells (e.g., Levitate) the ID doesn't match.
 
 ACTIONS['Buff'] = {
---  name = L.LM_APPLY_BUFF_ACTION,
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -227,7 +230,8 @@ ACTIONS['Buff'] = {
 -- avoiding the IsUsableSpell failures when targeting others.
 
 ACTIONS['PreCast'] = {
---  name = L.LM_PRECAST_ACTION,
+    name = L.LM_PRECAST_ACTION,
+    description = L.LM_PRECAST_DESCRIPTION,
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -243,7 +247,6 @@ ACTIONS['PreCast'] = {
 }
 
 ACTIONS['CancelAura'] = {
---  name = L.LM_CANCELAURA_ACTION,
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -363,6 +366,7 @@ ACTIONS['ApplyRules'] = {
 
 ACTIONS['Mount'] = {
     name = L.LM_MOUNT_ACTION,
+    description = L.LM_MOUNT_DESCRIPTION,
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
@@ -444,6 +448,7 @@ ACTIONS['Mount'] = {
 
 ACTIONS['SmartMount'] = {
     name = L.LM_SMARTMOUNT_ACTION,
+    description = L.LM_SMARTMOUNT_DESCRIPTION,
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
@@ -455,6 +460,7 @@ ACTIONS['SmartMount'] = {
 
 ACTIONS['PriorityMount'] = {
     name = L.LM_PRIORITYMOUNT_ACTION,
+    description = L.LM_PRIORITYMOUNT_DESCRIPTION,
     toDisplay = MountArgsToDisplay,
     handler =
         function (args, context)
@@ -625,6 +631,7 @@ end
 
 ACTIONS['Use'] = {
     name = L.LM_USE_ACTION,
+    description = L.LM_USE_DESCRIPTION,
     toDisplay = ItemArgsToDisplay,
     handler =
         function (args, context)
@@ -649,7 +656,8 @@ ACTIONS['Use'] = {
 }
 
 ACTIONS['PreUse'] = {
---  name = L.LM_PREUSE_ACTION,
+    name = L.LM_PREUSE_ACTION,
+    description = L.LM_PREUSE_DESCRIPTION,
     toDisplay = ItemArgsToDisplay,
     handler =
         function (args, context)
@@ -743,3 +751,9 @@ function LM.Actions:ToDisplay(action, args)
         return name, args:ToString()
     end
 end
+
+function LM.Actions:GetDescription(action)
+    local a = ACTIONS[action]
+    if a then return a.description end
+end
+
