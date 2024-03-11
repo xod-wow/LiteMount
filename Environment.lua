@@ -423,6 +423,13 @@ function LM.Environment:CanDragonride(mapPath)
         return IsAdvancedFlyableArea()
     end
 
+    -- Can't dragonride in Warfronts either
+    if C_Scenario and C_Scenario.IsInScenario() then
+        local scenarioType = select(10, C_Scenario.GetInfo())
+        if scenarioType == LE_SCENARIO_TYPE_WARFRONT then
+            return false
+        end
+    end
     -- Lots of non-Dragon Isles areas are wrongly flagged IsAdvancedFlyableArea
     return IsAdvancedFlyableArea() and IsFlyableArea()
 end
