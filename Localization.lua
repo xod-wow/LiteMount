@@ -133,10 +133,12 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
     L["LM_SEX"] = "Sex"
     L["LM_SHOW_ALL_MOUNTS"] = "Show all mounts"
     L["LM_SMARTMOUNT_ACTION"] = "Smart Priority Mount"
+    L["LM_SPELL_ACTION"] = "Cast Spell"
     L["LM_SUMMON_CHAT_MESSAGE"] = "%s (Priority: %d, Summons: %d)"
     L["LM_SUMMON_CHAT_MESSAGE_RARITY"] = "%s (Rarity: %s, Summons: %d)"
     L["LM_TRANSLATORS"] = "Translators"
     L["LM_USABLE"] = "Usable"
+    L["LM_USE_ACTION"] = "Use Item"
     L["LM_USE_RARITY_WEIGHTS"] = "Summon mounts more or less often based on their rarity (instead of priority)."
     L["LM_WARN_REPLACE_COND"] = "The [%s] action list condition has been replaced by [%s] due to Blizzard changes."
 

@@ -105,6 +105,13 @@
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
         </Button>
+        <EditBox parentkey="ArgText" autofocus="false" letters="40" inherits="LargeInputBoxTemplate" hidden="true">
+            <Size y="33" />
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.TypeDropDown" relativePoint="RIGHT" x="8" y="-2" />
+                <Anchor point="RIGHT" x="-16" />
+            </Anchors>
+        </EditBox>
         <Frame name="$parentDropDown" parentKey="DropDown" />
     </Frames>
 </Frame>

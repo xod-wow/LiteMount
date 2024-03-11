@@ -238,7 +238,7 @@ end
 
 LiteMountRuleEditActionMixin = {}
 
-local TypeMenu = {
+local MountActionTypeMenu = {
     "SmartMount",
     "PriorityMount",
     "Mount",
@@ -246,6 +246,17 @@ local TypeMenu = {
     "LimitInclude",
     "LimitExclude",
 }
+
+local TextActionTypeMenu = {
+--@debug@
+    "Spell",
+    "PreCast",
+    "Use",
+    "PreUse",
+--@end-debug@
+}
+
+local TypeMenu = LM.tJoin(MountActionTypeMenu, TextActionTypeMenu)
 
 local function ActionTypeInitialize(dropDown, level, menuList)
     if level == 1 then
@@ -270,13 +281,22 @@ local function ActionTypeButtonClick(button, mouseButton)
     LibDD:ToggleDropDownMenu(1, nil, dropdown)
 end
 
+local function ActionOnTextChanged(self)
+    local text = self:GetText()
+    if text == "" then
+        self:GetParent():SetArg(nil)
+    else
+        self:GetParent():SetArg(text)
+    end
+end
+
 local function MountToInfo(m) return { val = m.spellID, text = m.name } end
 local function GroupToInfo(v) return { val = v, text = LM.UIFilter.GetGroupText(v) } end
 local function FlagToInfo(v) return { val = v, text = LM.UIFilter.GetFlagText(v) } end
 local function FamilyToInfo(v) return { val = "family:"..v, text = LM.UIFilter.GetFamilyText(v) } end
 local function TypeToInfo(v) return { val = "mt:"..v, text = LM.UIFilter.GetTypeText(v) } end
 
-local function ActionArgsMenu()
+local function MountArgsMenu()
     local groupMenuList = LM.tMap(LM.UIFilter.GetGroups(), GroupToInfo)
     groupMenuList.text = L.LM_GROUP
 
@@ -306,7 +326,7 @@ end
 local function ActionArgButtonClick(button, mouseButton)
     local dropdown = button:GetParent().DropDown
     -- local values = LM.tMap(LM.MountRegistry.mounts, MountToInfo)
-    local values = ActionArgsMenu()
+    local values = MountArgsMenu()
     if values then
         LibDD:UIDropDownMenu_Initialize(dropdown, ArgsInitialize, 'MENU')
         LibDD:UIDropDownMenu_SetAnchor(dropdown, 5, 5, 'TOPLEFT', button, 'BOTTOMLEFT')
@@ -320,9 +340,10 @@ function LiteMountRuleEditActionMixin:SetArg(arg)
 end
 
 function LiteMountRuleEditActionMixin:SetType(type)
-    -- XXX reset arg if arg type is ever differen XXX
-    -- if self.type ~= type then self.arg = nil end
-    self.type = type
+    if self.type ~= type then
+        self.type = type
+        self.arg = nil
+    end
     self:GetParent():Update()
 end
 
@@ -332,6 +353,7 @@ function LiteMountRuleEditActionMixin:Update()
     if not self.type then
         self.TypeDropDown:SetText(actionHelp)
         self.ArgDropDown:Hide()
+        self.ArgText:Hide()
         return
     end
 
@@ -344,14 +366,23 @@ function LiteMountRuleEditActionMixin:Update()
     end
 
     self.TypeDropDown:SetText(actionText)
-    self.ArgDropDown:SetText(argText or "")
-    self.ArgDropDown:Show()
+
+    if tContains(TextActionTypeMenu, self.type) then
+        self.ArgText:SetText(self.arg or '')
+        self.ArgText:Show()
+        self.ArgDropDown:Hide()
+    else
+        self.ArgDropDown:SetText(argText or "")
+        self.ArgDropDown:Show()
+        self.ArgText:Hide()
+    end
 end
 
 function LiteMountRuleEditActionMixin:OnLoad()
     LibDD:Create_UIDropDownMenu(self.DropDown)
     self.TypeDropDown:SetScript('OnClick', ActionTypeButtonClick)
     self.ArgDropDown:SetScript('OnClick', ActionArgButtonClick)
+    self.ArgText:SetScript('OnTextChanged', ActionOnTextChanged)
 end
 
 --[[------------------------------------------------------------------------]]--

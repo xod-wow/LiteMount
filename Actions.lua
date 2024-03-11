@@ -185,7 +185,7 @@ local function SpellArgsToDisplay(args)
 end
 
 ACTIONS['Spell'] = {
-    name = L.LM_CAST_SPELL,
+    name = L.LM_SPELL_ACTION,
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -206,7 +206,7 @@ ACTIONS['Spell'] = {
 -- because for some spells (e.g., Levitate) the ID doesn't match.
 
 ACTIONS['Buff'] = {
-    name = L.LM_APPLY_BUFF,
+--  name = L.LM_APPLY_BUFF_ACTION,
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -227,6 +227,7 @@ ACTIONS['Buff'] = {
 -- avoiding the IsUsableSpell failures when targeting others.
 
 ACTIONS['PreCast'] = {
+--  name = L.LM_PRECAST_ACTION,
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -242,7 +243,7 @@ ACTIONS['PreCast'] = {
 }
 
 ACTIONS['CancelAura'] = {
-    name = L.LM_CANCEL_BUFF,
+--  name = L.LM_CANCELAURA_ACTION,
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -606,7 +607,25 @@ local function UsableItemParse(arg)
     return name, itemID, slotNum
 end
 
+local function ItemArgsToDisplay(args)
+    local out = {}
+    for _, v in ipairs(args:ParseList()) do
+        local name, id, slot = UsableItemParse(v)
+        if name then
+            table.insert(out, string.format("%s (%d)", name, id))
+        elseif slot then
+            -- XXX FIXME XXX translate to slot name
+            table.insert(out, slot)
+        else
+            table.insert(out, v)
+        end
+    end
+    return out
+end
+
 ACTIONS['Use'] = {
+    name = L.LM_USE_ACTION,
+    toDisplay = ItemArgsToDisplay,
     handler =
         function (args, context)
             for _, arg in ipairs(args:ParseList()) do
@@ -630,6 +649,8 @@ ACTIONS['Use'] = {
 }
 
 ACTIONS['PreUse'] = {
+--  name = L.LM_PREUSE_ACTION,
+    toDisplay = ItemArgsToDisplay,
     handler =
         function (args, context)
             local action = ACTIONS['Use'].handler(args, context)
