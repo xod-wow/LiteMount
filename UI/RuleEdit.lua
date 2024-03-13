@@ -249,12 +249,10 @@ local MountActionTypeMenu = {
 }
 
 local TextActionTypeMenu = {
---@debug@
     "Spell",
-    "PreCast",
     "Use",
+    "PreCast",
     "PreUse",
---@end-debug@
 }
 
 local TypeMenu = LM.tJoin(MountActionTypeMenu, TextActionTypeMenu)
