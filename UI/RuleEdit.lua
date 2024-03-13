@@ -100,18 +100,19 @@ local function ConditionTypeInitialize(dropDown, level, menuList)
         info.text = NONE:upper()
         info.arg1 = nil
         info.arg2 = dropDown:GetParent()
+        info.checked = ( currentType == nil )
         LibDD:UIDropDownMenu_AddButton(info, level)
         LibDD:UIDropDownMenu_AddSeparator(level)
         for _,item in ipairs(LM.Conditions:GetConditions()) do
             info.text = item.name
             info.arg1 = item.condition
-            info.checked = currentType == item.condition
+            info.checked = ( currentType == item.condition )
             LibDD:UIDropDownMenu_AddButton(info, level)
         end
         LibDD:UIDropDownMenu_AddSeparator(level)
         info.text = ADVANCED_LABEL
         info.arg1 = "advanced"
-        info.checked = currentType == "advanced"
+        info.checked = ( currentType == "advanced" )
         LibDD:UIDropDownMenu_AddButton(info, level)
     end
 end
@@ -260,6 +261,7 @@ local TypeMenu = LM.tJoin(MountActionTypeMenu, TextActionTypeMenu)
 
 local function ActionTypeInitialize(dropDown, level, menuList)
     if level == 1 then
+        local currentType = dropDown:GetParent().type
         local info = LibDD:UIDropDownMenu_CreateInfo()
         -- info.minWidth = dropDown.owner:GetWidth() - 25 - 10
         info.func = function (button, arg1, owner)
@@ -271,6 +273,7 @@ local function ActionTypeInitialize(dropDown, level, menuList)
             info.tooltipOnButton = true
             info.arg1 = item
             info.arg2 = dropDown:GetParent()
+            info.checked = ( currentType == item )
             LibDD:UIDropDownMenu_AddButton(info, level)
         end
     end
