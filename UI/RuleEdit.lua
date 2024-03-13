@@ -286,6 +286,15 @@ local function ActionTypeButtonClick(button, mouseButton)
     LibDD:ToggleDropDownMenu(1, nil, dropdown)
 end
 
+local function ActionTypeButtonOnEnter(button)
+    local parent = button:GetParent()
+    if parent.type then
+        GameTooltip:SetOwner(button, "ANCHOR_RIGHT")
+        GameTooltip:AddLine(LM.Actions:GetDescription(parent.type), 1, 1, 1, true)
+        GameTooltip:Show()
+    end
+end
+
 local function ActionOnTextChanged(self)
     local text = self:GetText()
     if text == "" then
@@ -386,6 +395,8 @@ end
 function LiteMountRuleEditActionMixin:OnLoad()
     LibDD:Create_UIDropDownMenu(self.DropDown)
     self.TypeDropDown:SetScript('OnClick', ActionTypeButtonClick)
+    self.TypeDropDown:SetScript('OnEnter', ActionTypeButtonOnEnter)
+    self.TypeDropDown:SetScript('OnLeave', GameTooltip_Hide)
     self.ArgDropDown:SetScript('OnClick', ActionArgButtonClick)
     self.ArgText:SetScript('OnTextChanged', ActionOnTextChanged)
 end
