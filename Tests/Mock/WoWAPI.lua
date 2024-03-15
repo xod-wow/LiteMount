@@ -1,5 +1,4 @@
 socket = require "socket"
-date = require "date"
 
 math.randomseed(math.floor(socket.gettime()))
 

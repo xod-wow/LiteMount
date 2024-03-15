@@ -1,32 +1,37 @@
 -- Does nothing, returns nothing
 
-C_Calendar = { }
+local status, date = pcall(require, "date")
 
-local reference = date()
+if status then
+    C_Calendar = { }
 
-function C_Calendar.GetMonthInfo()
-    local first = reference:setday(1)
-    local last = first:addmonths(1):adddays(-1)
+    local reference = date()
 
-    return {
-        month = reference:getmonth(),
-        year = reference:getyear(),
-        numDays = last:getday(),
-        firstWeekday = first:getweekday(),
-    }
-end
+    function C_Calendar.GetMonthInfo()
+        local first = reference:setday(1)
+        local last = first:addmonths(1):adddays(-1)
 
-function C_Calendar.SetAbsMonth(month, year)
-    reference = reference:setmonth(month):setyear(year)
-end
+        return {
+            month = reference:getmonth(),
+            year = reference:getyear(),
+            numDays = last:getday(),
+            firstWeekday = first:getweekday(),
+        }
+    end
 
-function C_Calendar.SetMonth(offset)
-    reference = reference:addmonths(offset)
-end
+    function C_Calendar.SetAbsMonth(month, year)
+        reference = reference:setmonth(month):setyear(year)
+    end
 
-function C_Calendar.GetNumDayEvents(monthOffset, monthDay)
-    return 0
-end
+    function C_Calendar.SetMonth(offset)
+        reference = reference:addmonths(offset)
+    end
 
-function C_Calendar.GetDayEvent(monthOffset, monthDay, i)
+    function C_Calendar.GetNumDayEvents(monthOffset, monthDay)
+        return 0
+    end
+
+    function C_Calendar.GetDayEvent(monthOffset, monthDay, i)
+    end
+
 end
