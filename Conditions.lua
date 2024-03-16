@@ -72,6 +72,16 @@ CONDITIONS["achievement"] = {
         end
 }
 
+CONDITIONS["activethreat"] = {
+    disabled = ( C_QuestLog.GetActiveThreatMaps == nil ),
+    handler =
+        function (cond, context, v)
+            local map = C_Map.GetBestMapForUnit('player')
+            local activeThreatMaps = C_QuestLog.GetActiveThreatMaps()
+            return map ~= nil and tContains(activeThreatMaps, map)
+        end,
+}
+
 CONDITIONS["advflyable"] = {
     disabled = ( IsAdvancedFlyableArea == nil ),
     handler =
