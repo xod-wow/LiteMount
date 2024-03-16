@@ -17,6 +17,7 @@ local L = LM.Localize
 local template = {
     limits = { {} },
     flowControl = {},
+    rule = {},
 }
 
 LM.RuleContext = {}
