@@ -376,7 +376,7 @@ ACTIONS['Mount'] = {
             end
             table.insert(limits, "CASTABLE")
             local argsExpr = args:ParseMountExpression()
-            local filteredList = LM.MountRegistry:FilterSearch(argsExpr):Limit(limits)
+            local filteredList = LM.MountRegistry:Limit(limits):FilterSearch(argsExpr)
 
             LM.Debug("  * args: " .. (args:ToString() or ''))
             LM.Debug("  * limits: " .. table.concat(limits, ' '))
