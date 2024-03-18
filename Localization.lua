@@ -99,6 +99,7 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
     L["LM_MODIFIER_KEY"] = "Modifier key"
     L["LM_MOUNT_ACTION"] = "Random Mount"
     L["LM_MOUNT_DESCRIPTION"] = "Summon a random mount."
+    L["LM_MOUSE_BUTTON_CLICKED"] = "Mouse button clicked"
     L["LM_NEW_FLAG"] = "New Flag"
     L["LM_NEW_GROUP"] = "New Group"
     L["LM_NEW_PROFILE"] = "New Profile"
