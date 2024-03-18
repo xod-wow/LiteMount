@@ -113,7 +113,7 @@ function LM.RuleArguments:ParseLimits()
             if token == '-' or token == '+' or token  == '=' then
                 mech = token
             elseif token == '/' then
-                -- pass
+                -- XXX FIXME YOU IDIOT
             elseif token == ',' then
                 mech = nil
             else
