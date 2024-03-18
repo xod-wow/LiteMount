@@ -742,13 +742,15 @@ end
 
 function LM.Actions:ToDisplay(action, args)
     local a = ACTIONS[action]
-    local name = a.name or action
-    if args == nil then
-        return name
-    elseif a.toDisplay then
-        return name, table.concat(a.toDisplay(args), "\n")
-    else
-        return name, args:ToString()
+    if a then
+        local name = a.name or action
+        if args == nil then
+            return name
+        elseif a.toDisplay then
+            return name, table.concat(a.toDisplay(args), "\n")
+        else
+            return name, args:ToString()
+        end
     end
 end
 
