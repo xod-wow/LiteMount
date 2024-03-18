@@ -99,41 +99,6 @@ CONDITIONS["breathbar"] = {
         end
 }
 
-CONDITIONS["btn"] = {
-    name = L.LM_MOUSE_BUTTON_CLICKED,
-    toDisplay =
-        function (v)
-            if v then
-                return _G["KEY_BUTTON"..v] or v
-            end
-        end,
-    menu = {
-        { val = "btn:1" },
-        { val = "btn:2" },
-        { val = "btn:3" },
-        { val = "btn:4" },
-        { val = "btn:5" },
-        nosort = true,
-    },
-    handler =
-        function (cond, context, v)
-            local inputButton = GetMouseButtonClicked()
-            if not inputButton or not v then
-                return false
-            elseif inputButton == "LeftButton" and v == "1" then
-                return true
-            elseif inputButton == "RightButton" and v == "2" then
-                return true
-            elseif inputButton == "MiddleButton" and v == "3" then
-                return true
-            elseif inputButton:sub(1,6) == "Button" and v == inputButton:sub(7) then
-                return true
-            elseif inputButton == v then
-                return true
-            end
-        end
-}
-
 CONDITIONS["canexitvehicle"] = {
     handler =
         function (cond, context)

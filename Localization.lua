@@ -95,7 +95,6 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
     L["LM_MACRO_EXP"] = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
     L["LM_MODIFIER_KEY"] = "Modifier key"
     L["LM_MOUNT_ACTION"] = "Random Mount"
-    L["LM_MOUSE_BUTTON_CLICKED"] = "Mouse button clicked"
     L["LM_NEW_FLAG"] = "New Flag"
     L["LM_NEW_GROUP"] = "New Group"
     L["LM_NEW_PROFILE"] = "New Profile"
