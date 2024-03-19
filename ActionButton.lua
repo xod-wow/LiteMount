@@ -44,6 +44,8 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
     -- if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
 
+    inputButton = LM.Environment:GetMouseButtonClicked() or inputButton
+
     LM.Debug("[%d] PreClick handler (inputButton=%s, isDown=%s)",
              self.id, tostring(inputButton), tostring(isDown))
 
@@ -87,6 +89,8 @@ end
 
 function LM.ActionButton:PostClick(inputButton, isDown)
     if InCombatLockdown() then return end
+
+    LM.Environment:ClearMouseButtonClicked()
 
     LM.Debug("[%d] PostClick handler (inputButton=%s, isDown=%s)",
              self.id, tostring(inputButton), tostring(isDown))

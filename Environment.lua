@@ -777,3 +777,15 @@ end
 function LM.Environment:GetHolidayName(id)
     return self.holidaysByID[id]
 end
+
+function LM.Environment:SaveMouseButtonClicked()
+    self.mouseButtonClicked = GetMouseButtonClicked()
+end
+
+function LM.Environment:ClearMouseButtonClicked()
+    self.mouseButtonClicked = nil
+end
+
+function LM.Environment:GetMouseButtonClicked()
+    return self.mouseButtonClicked
+end
