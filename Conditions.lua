@@ -127,8 +127,8 @@ CONDITIONS["btn"] = {
     },
     handler =
         function (cond, context, v)
-            local inputButton = context.inputButton
-            if not context.inputButton or not v then
+            local inputButton = LM.Environment:GetMouseButtonClicked() or context.inputButton
+            if not inputButton or not v then
                 return false
             elseif inputButton == "LeftButton" and v == "1" then
                 return true
