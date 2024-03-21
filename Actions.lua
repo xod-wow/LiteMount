@@ -580,7 +580,7 @@ local function IsCastableItem(itemID)
     end
 
     local s, d, e = GetItemCooldown(itemID)
-    if s == 0 and e == 1 then
+    if s == 0 and (e == true or e == 1) then
         return true
     end
 
