@@ -124,7 +124,7 @@ function LM.Tarecgosa2:GetCastAction()
 
     --[[
     local start, duration, enable = GetItemCooldown(self.itemID)
-    if enable == 1 and duration > 0 then
+    if (enable == true or enable == 1) and duration > 0 then
         return tryAgain
     end
     ]]

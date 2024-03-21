@@ -66,7 +66,7 @@ function LM.ItemSummoned:IsCastable()
 
     -- Either equipped or non-equippable and in bags
     local start, duration, enable = GetItemCooldown(self.itemID)
-    if duration > 0 and enable == 1 then
+    if duration > 0 and (enable == true or enable == 1) then
         return false
     end
 
