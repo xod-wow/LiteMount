@@ -445,6 +445,7 @@ local PseudoFlags = {
     "MAWUSABLE",
     "DRAGONRIDING",
     "FAVORITES", FAVORITES,
+    "ALL", ALL,
     "NONE", NONE
 }
 

@@ -67,6 +67,8 @@ end
 function LM.Mount.FilterToDisplay(f)
     if not f or f == "NONE" then
         return NONE
+    elseif f == "ALL" then
+        return ALL
     elseif f == "FAVORITES" then
         return FAVORITES
     elseif f:sub(1,1) == '~' then
@@ -93,7 +95,7 @@ function LM.Mount.FilterToDisplay(f)
 end
 
 function LM.Mount:MatchesOneFilter(flags, groups, f)
-    if f == "" or f == self.name then
+    if f == "" or f == "ALL" or f == self.name then
         return true
     elseif f == "NONE" then
         return false
