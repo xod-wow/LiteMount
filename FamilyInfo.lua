@@ -52,10 +52,12 @@ LM.MOUNTFAMILY["Aquilon"] = {
 LM.MOUNTFAMILY["Armoredon"] = {
     [387231] = true, -- Hailstorm Armoredon
     [406637] = true, -- Inferno Armoredon
+    [434462] = true, -- Infinite Armoredon
     [422486] = true, -- Verdant Armoredon
 }
 
 LM.MOUNTFAMILY["Bakar"] = {
+    [424607] = true, -- Taivan
 }
 
 LM.MOUNTFAMILY["Basilisk"] = {
@@ -105,6 +107,8 @@ LM.MOUNTFAMILY["Beetle"] = {
 LM.MOUNTFAMILY["Bird"] = {
     [414324] = true, -- Gold-Toed Albatross
     [366790] = true, -- Quawks
+    [437162] = true, -- Polly Roger
+    [254812] = true, -- Royal Seafeather
     [231524] = true, -- Shadowblade's Baneful Omen
     [231525] = true, -- Shadowblade's Crimson Omen
     [231523] = true, -- Shadowblade's Lethal Omen
@@ -368,6 +372,7 @@ LM.MOUNTFAMILY["Drake"] = {
     [124550] = true, -- Cataclysmic Gladiator's Twilight Drake
     [377071] = true, -- Crimson Gladiator's Drake
     [229387] = true, -- Deathlord's Vilebrood Vanquisher
+    [424539] = true, -- Draconic Gladiator's Drake
     [175700] = true, -- Emerald Drake
     [110039] = true, -- Experiment 12-B
     [113120] = true, -- Feldrake
@@ -430,6 +435,8 @@ LM.MOUNTFAMILY["Dreamtalon"] = {
     [427043] = true, -- Snowfluff Dreamtalon
     [426955] = true, -- Springtide Dreamtalon
     [427224] = true, -- Talont
+    [434470] = true, -- Vicious Dreamtalon (Alliance)
+    [434477] = true, -- Vicious Dreamtalon (Horde)
 }
 
 LM.MOUNTFAMILY["Eagle"] = {
@@ -1209,6 +1216,7 @@ LM.MOUNTFAMILY["Seahorse"] = {
     [300150] = true, -- Fabious
     [300151] = true, -- Inkscale Deepseeker
     [288711] = true, -- Saltwater Seahorse
+    [300154] = true, -- Silver Tidestallion
     [ 98718] = true, -- Subdued Seahorse
     [ 75207] = true, -- Vashj'ir Seahorse
 }
@@ -1226,9 +1234,14 @@ LM.MOUNTFAMILY["Serpent"] = {
     [316343] = true, -- Wriggling Parasite
 }
 
+LM.MOUNTFAMILY["Shadebeast"] = {
+    [440444] = true, -- Zovaal's Soul Eater
+}
+
 LM.MOUNTFAMILY["Shalewing"] = {
     [408627] = true, -- Igneous Shalewing
     [427549] = true, -- Imagiwing
+    [408648] = true, -- Calescent Shalewing
     [408651] = true, -- Catalogued Shalewing
     [408647] = true, -- Cobalt Shalewing
     [408653] = true, -- Boulder Hauler
@@ -1488,6 +1501,7 @@ LM.MOUNTFAMILY["Wilderling"] = {
     [353856] = true, -- Ardenweald Wilderling
     [353857] = true, -- Autumnal Wilderling
     [353859] = true, -- Summer Wilderling
+    [439138] = true, -- Voyaging Wilderling
     [353858] = true, -- Winder Wilderling
 }
 
