@@ -144,6 +144,7 @@ LM.MOUNTFAMILY["Boar"] = {
 
 LM.MOUNTFAMILY["Bruffalon"] = {
     [349935] = true, -- Noble Bruffalon
+    [373967] = true, -- Stormtouched Bruffalon
 }
 
 LM.MOUNTFAMILY["Brutosaur"] = {
@@ -440,6 +441,7 @@ LM.MOUNTFAMILY["Dreamtalon"] = {
 }
 
 LM.MOUNTFAMILY["Eagle"] = {
+    [385260] = true, -- Bestowed Ohuna Spotter
     [385262] = true, -- Duskwing Ohuna
     [395644] = true, -- Divine Kiss of Ohn'ahra
 }
@@ -821,6 +823,7 @@ LM.MOUNTFAMILY["Magic"] = {
 }
 
 LM.MOUNTFAMILY["Mammoth"] = {
+    [374172] = true, -- Bestowed Trawling Mammoth
     [ 59785] = true, -- Black War Mammoth
     [ 59788] = true, -- Black War Mammoth
     [ 61465] = true, -- Grand Black War Mammoth
@@ -977,6 +980,7 @@ LM.MOUNTFAMILY["Owl"] = {
 }
 
 LM.MOUNTFAMILY["Ottuk"] = {
+    [376898] = true, -- Bestowed Ottuk Vanguard
     [427222] = true, -- Delugen
     [359409] = true, -- Iskaara Trader's Ottuk
     [376879] = true, -- Ivory Trader's Ottuk
@@ -1191,6 +1195,7 @@ LM.MOUNTFAMILY["Rylak"] = {
 
 LM.MOUNTFAMILY["Salamanther"] = {
     [374090] = true, -- Ancient Salamanther
+    [374097] = true, -- Coralscale Salamanther
     [427724] = true, -- Salatrancer
     [374098] = true, -- Stormhide Salamanther
 }
@@ -1291,6 +1296,7 @@ LM.MOUNTFAMILY["Skeletal Horse"] = {
 
 LM.MOUNTFAMILY["Skitterfly"] = {
     [374034] = true, -- Azure Skitterfly
+    [374071] = true, -- Bestowed Sandskimmer
     [374032] = true, -- Tamed Skitterfly
     [374048] = true, -- Verdant Skitterfly
 }
@@ -1424,6 +1430,7 @@ LM.MOUNTFAMILY["Tallstrider"] = {
 }
 
 LM.MOUNTFAMILY["Thunderspine"] = {
+    [351408] = true, -- Bestowed Thunderspine Packleader
     [374204] = true, -- Explorer's Stonehide Packbeast
     [374247] = true, -- Lizi, Thunderspine Tramper
 }
