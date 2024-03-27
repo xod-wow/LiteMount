@@ -191,8 +191,8 @@ function LiteMountMountIconMixin:OnLeave()
     LiteMountTooltip:Hide()
 end
 
-function LiteMountMountIconMixin:PreClick(mouseButton)
-    if mouseButton == 'LeftButton' and IsModifiedClick("CHATLINK") then
+function LiteMountMountIconMixin:PreClick(mouseButton, isDown)
+    if mouseButton == 'LeftButton' and not isDown and IsModifiedClick("CHATLINK") then
         local mount = self:GetParent().mount
         ChatEdit_InsertLink(GetSpellLink(mount.spellID))
     end
