@@ -50,23 +50,24 @@ local FLOWCONTROLS = { }
 FLOWCONTROLS['IF'] =
     function (args, context, isTrue)
         LM.Debug('  * IF test is ' .. tostring(isTrue))
-        table.insert(context.flowControl, isTrue)
+        local trueCount = isTrue and 1 or 0
+        table.insert(context.flowControl, trueCount)
     end
 
 FLOWCONTROLS['ELSEIF'] =
     function (args, context, isTrue)
-        local wasTrue = context.flowControl[#context.flowControl]
-        isTrue = not wasTrue and isTrue
-        LM.Debug('  * ELSEIF test is ' .. tostring(isTrue))
-        context.flowControl[#context.flowControl] = isTrue
+        local trueCount  = context.flowControl[#context.flowControl]
+        trueCount = trueCount + ( isTrue and 1 or 0 )
+        LM.Debug('  * ELSEIF test is ' .. tostring(trueCount == 1))
+        context.flowControl[#context.flowControl] = trueCount
     end
 
 FLOWCONTROLS['ELSE'] =
     function (args, context, isTrue)
-        local wasTrue = context.flowControl[#context.flowControl]
-        isTrue = not wasTrue
-        LM.Debug('  * ELSE test is ' .. tostring(isTrue))
-        context.flowControl[#context.flowControl] = isTrue
+        local trueCount  = context.flowControl[#context.flowControl]
+        trueCount = trueCount + 1
+        LM.Debug('  * ELSE test is ' .. tostring(trueCount == 1))
+        context.flowControl[#context.flowControl] = trueCount
     end
 
 FLOWCONTROLS['END'] =
@@ -701,7 +702,7 @@ function LM.Actions:GetHandler(action)
 end
 
 function LM.Actions:IsFlowSkipped(context)
-    return tContains(context.flowControl, false)
+    return ContainsIf(context.flowControl, function (v) return v ~= 1 end)
 end
 
 function LM.Actions:ToDisplay(action, args)
