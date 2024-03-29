@@ -129,38 +129,63 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
     end
 end
 
-function LM.Mount:MatchesFilterOr(flags, groups, ...)
-    local f
+function LM.Mount:MatchesFilters(...)
+    local currentFlags = self:GetFlags()
+    local currentGroups = self:GetGroups()
     for i = 1, select('#', ...) do
-        f = select(i, ...)
-        if self:MatchesOneFilter(flags, groups, f) then
-            return true
-        end
-    end
-    return false
-end
-
-function LM.Mount:MatchesFilterAnd(flags, groups, ...)
-    local f
-    for i = 1, select('#', ...) do
-        f = select(i, ...)
-        if type(f) == 'table' then
-            if not self:MatchesFilterOr(flags, groups, unpack(f)) then
-                return false
-            end
-        else
-            if not self:MatchesFilterOr(flags, groups, f) then
-                return false
-            end
+        local f = select(i, ...)
+        if not self:MatchesOneFilter(currentFlags, currentGroups, f) then
+            return false
         end
     end
     return true
 end
 
-function LM.Mount:MatchesFilters(...)
+function LM.Mount:EvalLeaf(f, g, e)
+    return self:MatchesOneFilter(f, g, e)
+end
+
+function LM.Mount:EvalAnd(f, g, e)
+    local result = true
+    for _, term in ipairs(e) do
+        result = result and self:Eval(f, g, term)
+    end
+    return result
+end
+
+function LM.Mount:EvalOr(f, g, e)
+    local result = false
+    for _, term in ipairs(e) do
+        result = result or self:Eval(f, g, term)
+    end
+    return result
+end
+
+function LM.Mount:EvalNot(f, g, e)
+    return not self:Eval(f, g, e[1])
+end
+
+function LM.Mount:Eval(f, g, e)
+    if type(e) ~= 'table' then
+        return self:EvalLeaf(f, g, e)
+    elseif e.op == ',' then
+        return self:EvalAnd(f, g, e)
+    elseif e.op == '/' then
+        return self:EvalOr(f, g, e)
+    elseif e.op == '~' then
+        return self:EvalNot(f, g, e)
+    else
+    --@debug@
+        DevTools_Dump(e)
+        LM.WarningAndPrint('Bad operator made it through somehow: ' .. e.op)
+    --@end-debug@
+    end
+end
+
+function LM.Mount:MatchesExpression(e)
     local currentFlags = self:GetFlags()
     local currentGroups = self:GetGroups()
-    return self:MatchesFilterAnd(currentFlags, currentGroups, ...)
+    return self:Eval(currentFlags, currentGroups, e)
 end
 
 function LM.Mount:FlagsSet(checkFlags)

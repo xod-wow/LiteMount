@@ -237,34 +237,39 @@ local function filterMatch(m, ...)
     return m:MatchesFilters(...)
 end
 
-function LM.MountList:FilterSearch(filters, ...)
-    if type(filters) ~= 'table' then
-        filters = { filters, ... }
-    end
-    return self:Search(filterMatch, unpack(filters))
+function LM.MountList:FilterSearch(...)
+    return self:Search(filterMatch, ...)
 end
 
--- Limits can be filter (no prefix), set (=), reduce (-) or extend (+).
+-- Limits can be intersect (no prefix), subtract (-) or union (+). This really
+-- only works when called on a list of the full set of mounts because it's
+-- assuming self is everything. So bundle up all the limit expressions into a
+-- list and call this once.
 
-function LM.MountList:Limit(limits, ...)
-    if type(limits) ~= 'table' then
-        limits = { limits, ... }
-    end
+local function expressionMatch(m, e)
+    return m:MatchesExpression(e)
+end
 
+function LM.MountList:ExpressionSearch(e)
+    return self:Search(expressionMatch, e)
+end
+
+function LM.MountList:Limit(limits)
     local mounts = self:Copy()
-
-    for i, f in ipairs(limits) do
-        if f:sub(1,1) == '+' then
-            mounts:Extend(self:FilterSearch(f:sub(2)))
-        elseif f:sub(1,1) == '-' then
-            mounts:Reduce(self:FilterSearch(f:sub(2)))
-        elseif f:sub(1,1) == '=' then
-            mounts = self:FilterSearch(f:sub(2))
+    for _, arg in ipairs(limits) do
+        local e = arg:ParseExpression()
+        if e == nil then
+            return nil
+        elseif e.op == '+' then
+            mounts = mounts:Extend(self:ExpressionSearch(e[1]))
+        elseif e.op == '-' then
+            mounts = mounts:Reduce(self:ExpressionSearch(e[1]))
+        elseif e.op == '=' then
+            mounts = self:ExpressionSearch(e[1])
         else
-            mounts = mounts:FilterSearch(f)
+            mounts = mounts:ExpressionSearch(e)
         end
     end
-
     return mounts
 end
 

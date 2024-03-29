@@ -123,6 +123,24 @@ function LM.Rule:ParseLine(line)
     return r
 end
 
+function LM.Rule:Validate()
+    local handler = LM.Actions:GetFlowControlHandler(self.action)
+    if handler then
+        return #self.args == 0
+    end
+
+    handler = LM.Actions:GetHandler(self.action)
+    if not handler then
+        return false
+    end
+
+    if not LM.Rule.args:Validate() then
+        return false
+    end
+
+    return true
+end
+
 function LM.Rule:Dispatch(context)
 
     local isTrue = self.conditions:Eval(context)
@@ -176,7 +194,6 @@ end
 local SimpleActions = {
     "Mount",
     "SmartMount",
-    "LimitSet",
     "LimitInclude",
     "LimitExclude",
 }

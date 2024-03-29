@@ -331,6 +331,7 @@ local function MountArgsMenu()
 --      typeMenuList,
 --      familyMenuList,
         { val = "FAVORITES", text = FAVORITES:upper() },
+        { val = "ALL", text = ALL:upper() },
         { val = "NONE", text = NONE:upper() },
     }
 end

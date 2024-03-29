@@ -15,7 +15,7 @@ if LibDebug then LibDebug() end
 local L = LM.Localize
 
 local template = {
-    limits = { {} },
+    limits = {},
     flowControl = {},
     rule = {},
 }

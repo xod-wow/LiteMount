@@ -41,12 +41,12 @@ MountRegistry.lua
 SlashCommand.lua
 Conditions.lua
 Vars.lua
-Actions.lua
 RuleArguments.lua
 RuleBoolean.lua
 RuleContext.lua
 Rule.lua
 RuleSet.lua
+Actions.lua
 ActionButton.lua
 Core.lua
 

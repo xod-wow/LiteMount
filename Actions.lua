@@ -71,16 +71,11 @@ local ACTIONS = { }
 -- Modifies the list of usable mounts so action list lines after this one
 -- get the restricted list. Always returns no action.
 
-local function PushLimits(context, newlimits)
-    local limits = LM.tJoin(context.limits[1], newlimits)
-    LM.Debug("  * New limits: " .. table.concat(limits, ' '))
-    table.insert(context.limits, 1, limits)
-end
-
 ACTIONS['Limit'] = {
     handler =
         function (args, context)
-            PushLimits(context, args:ParseLimits())
+            LM.Debug("  * Add limits: " .. args:ToString())
+            table.insert(context.limits, args)
         end
 }
 
@@ -89,50 +84,43 @@ ACTIONS['Limit'] = {
 -- probably use & and | which are more obvious. Or, you know, start with a proper
 -- grammar-based parser.
 
-local function MountArgsToDisplay(args)
-    local limits = args:ParseLimits()
-    return LM.tMap(limits, LM.Mount.FilterToDisplay, true)
-end
-
 ACTIONS['LimitSet'] = {
     name = L.LM_LIMIT_MOUNTS,
     description = L.LM_LIMITSET_DESCRIPTION,
-    toDisplay = MountArgsToDisplay,
+    toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
-            local newlimits = LM.tMap(args:ParseLimits(), function (v) return '='..v end)
-            PushLimits(context, newlimits)
+            ACTIONS.Limit.handler(args:Prepend('='), context)
         end,
 }
 
 ACTIONS['LimitInclude'] = {
     name = L.LM_INCLUDE_MOUNTS,
     description = L.LM_LIMITINCLUDE_DESCRIPTION,
-    toDisplay = MountArgsToDisplay,
+    toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
-            local newlimits = LM.tMap(args:ParseLimits(), function (v) return '+'..v end)
-            PushLimits(context, newlimits)
+            ACTIONS.Limit.handler(args:Prepend('+'), context)
         end,
 }
 
 ACTIONS['LimitExclude'] = {
     name = L.LM_EXCLUDE_MOUNTS,
     description = L.LM_LIMITEXCLUDE_DESCRIPTION,
-    toDisplay = MountArgsToDisplay,
+    toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
-            local newlimits = LM.tMap(args:ParseLimits(), function (v) return '-'..v end)
-            PushLimits(context, newlimits)
+            ACTIONS.Limit.handler(args:Prepend('-'), context)
         end,
 }
 
 ACTIONS['Endlimit'] = {
     handler =
         function (args, context)
-            if #context.limits == 1 then return end
-            table.remove(context.limits, 1)
-            LM.Debug("  * restored limits: " .. table.concat(context.limits[1], ' '))
+            local args = table.remove(context.limits)
+            if args then
+                LM.Debug("  * removed limits: " .. args:ToString())
+            end
         end,
 }
 
@@ -365,22 +353,64 @@ ACTIONS['ApplyRules'] = {
         end
 }
 
+local mawCastableArg = LM.RuleArguments:Get("MAWUSABLE", "CASTABLE")
+local castableArg = LM.RuleArguments:Get("CASTABLE")
+
+local smartActions = {
+    {
+        condition   = "[submerged]",
+        arg         = LM.RuleArguments:Get('SWIM'),
+        debug       = "Aquatic Mount (underwater)",
+    },
+    {
+        condition   = "[dragonridable]",
+        arg         = LM.RuleArguments:Get('DRAGONRIDING'),
+        debug       = "Dragonriding Mount",
+    },
+    {
+        condition   = "[flyable]",
+        arg         = LM.RuleArguments:Get('FLY'),
+        debug       = 'Flying Mount',
+    },
+    {
+        condition   = "[floating,nowaterwalking]",
+        arg         = LM.RuleArguments:Get('SWIM'),
+        debug       = "Aquatic Mount (on the surface)",
+    },
+    {
+        condition   = "[]",
+        arg         = LM.RuleArguments:Get('RUN', '~', 'SLOW'),
+        debug       = "Ground Mount",
+    },
+    {
+        condition   = "[]",
+        arg         = LM.RuleArguments:Get('RUN', 'SLOW'),
+        debug       = "Slow Ground Mount",
+    },
+}
+
 ACTIONS['Mount'] = {
     name = L.LM_MOUNT_ACTION,
     description = L.LM_MOUNT_DESCRIPTION,
-    toDisplay = MountArgsToDisplay,
+    toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
-            local limits = CopyTable(context.limits[1])
+            local limits = CopyTable(context.limits)
             if LM.Conditions:Check("[maw]", context) then
-                table.insert(limits, "MAWUSABLE")
+                table.insert(limits, mawCastableArg)
+            else
+                table.insert(limits, castableArg)
             end
-            table.insert(limits, "CASTABLE")
-            local argsExpr = args:ParseMountExpression()
-            local filteredList = LM.MountRegistry:Limit(limits):FilterSearch(argsExpr)
+            if #args > 0 then
+                table.insert(limits, args)
+            end
+            local filteredList = LM.MountRegistry:Limit(limits)
 
             LM.Debug("  * args: " .. (args:ToString() or ''))
-            LM.Debug("  * limits: " .. table.concat(limits, ' '))
+            LM.Debug("  * limits:")
+            for i, l in ipairs(limits) do
+                LM.Debug("    % 2d. %s", i, l:ToString() or '')
+            end
             LM.Debug("  * filtered list contains " .. #filteredList .. " mounts")
 
             if next(filteredList) == nil then return end
@@ -390,51 +420,14 @@ ACTIONS['Mount'] = {
             local m
 
             if context.rule.smart then
-                if not m and LM.Conditions:Check("[submerged]", context) then
-                    LM.Debug("  * trying Aquatic Mount (underwater)")
-                    local swim = filteredList:FilterSearch('SWIM')
-                    LM.Debug("  * found " .. #swim .. " mounts.")
-                    m = swim:Random(context.random, randomStyle)
-                end
-
-                if not m and LM.Conditions:Check("[dragonridable]", context) then
-                    LM.Debug("  * trying Dragon Riding Mount")
-                    local dragonriding = filteredList:FilterSearch('DRAGONRIDING')
-                    LM.Debug("  * found " .. #dragonriding .. " mounts.")
-                    m = dragonriding:Random(context.random, randomStyle)
-                end
-
-                if not m and LM.Conditions:Check("[flyable]", context) then
-                    LM.Debug("  * trying Flying Mount")
-                    local fly = filteredList:FilterSearch('FLY')
-                    LM.Debug("  * found " .. #fly .. " mounts.")
-                    m = fly:Random(context.random, randomStyle)
-                end
-
-                if not m and LM.Conditions:Check("[floating,nowaterwalking]", context) then
-                    LM.Debug("  * trying Aquatic Mount (on the surface)")
-                    local swim = filteredList:FilterSearch('SWIM')
-                    LM.Debug("  * found " .. #swim .. " mounts.")
-                    m = swim:Random(context.random, randomStyle)
-                end
-
-                -- XXX Is it actually sensible to always fall back to a ground mount?
-                -- XXX What would break if it only did this when the other conditions
-                -- XXX definitely didn't match, instead of just falling through. I kind
-                -- of want do "SmartMount ZONEMATCH" but can't.
-
-                if not m then
-                    LM.Debug("  * trying Ground Mount")
-                    local run = filteredList:FilterSearch('RUN', '~SLOW')
-                    LM.Debug("  * found " .. #run .. " mounts.")
-                    m = run:Random(context.random, randomStyle)
-                end
-
-                if not m then
-                    LM.Debug("  * trying Slow Ground Mount")
-                    local walk = filteredList:FilterSearch('RUN', 'SLOW')
-                    LM.Debug("  * found " .. #walk .. " mounts.")
-                    m = walk:Random(context.random, randomStyle)
+                for _, info in ipairs(smartActions) do
+                    if not m and LM.Conditions:Check(info.condition, context) then
+                        LM.Debug("  * trying " .. info.debug)
+                        local expr = info.arg:ParseExpression()
+                        local mounts = filteredList:ExpressionSearch(expr)
+                        LM.Debug("  * found " .. #mounts .. " mounts.")
+                        m = mounts:Random(context.random, randomStyle)
+                    end
                 end
             else
                 m = filteredList:Random(context.random, randomStyle)
@@ -450,7 +443,7 @@ ACTIONS['Mount'] = {
 ACTIONS['SmartMount'] = {
     name = L.LM_SMARTMOUNT_ACTION,
     description = L.LM_SMARTMOUNT_DESCRIPTION,
-    toDisplay = MountArgsToDisplay,
+    toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
             context.rule.priority = true
@@ -462,7 +455,7 @@ ACTIONS['SmartMount'] = {
 ACTIONS['PriorityMount'] = {
     name = L.LM_PRIORITYMOUNT_ACTION,
     description = L.LM_PRIORITYMOUNT_DESCRIPTION,
-    toDisplay = MountArgsToDisplay,
+    toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
             context.rule.priority = true
@@ -759,4 +752,3 @@ function LM.Actions:GetDescription(action)
     local a = ACTIONS[action]
     if a then return a.description end
 end
-
