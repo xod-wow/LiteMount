@@ -56,7 +56,7 @@ FLOWCONTROLS['IF'] =
 
 FLOWCONTROLS['ELSEIF'] =
     function (args, context, isTrue)
-        local trueCount  = context.flowControl[#context.flowControl]
+        local trueCount  = context.flowControl[#context.flowControl] or 0
         trueCount = trueCount + ( isTrue and 1 or 0 )
         LM.Debug('  * ELSEIF test is ' .. tostring(trueCount == 1))
         context.flowControl[#context.flowControl] = trueCount
@@ -64,7 +64,7 @@ FLOWCONTROLS['ELSEIF'] =
 
 FLOWCONTROLS['ELSE'] =
     function (args, context, isTrue)
-        local trueCount  = context.flowControl[#context.flowControl]
+        local trueCount  = context.flowControl[#context.flowControl] or 0
         trueCount = trueCount + 1
         LM.Debug('  * ELSE test is ' .. tostring(trueCount == 1))
         context.flowControl[#context.flowControl] = trueCount
