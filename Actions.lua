@@ -353,7 +353,7 @@ ACTIONS['ApplyRules'] = {
         end
 }
 
-local mawCastableArg = LM.RuleArguments:Get("MAWUSABLE", "CASTABLE")
+local mawCastableArg = LM.RuleArguments:Get("MAWUSABLE", ",", "CASTABLE")
 local castableArg = LM.RuleArguments:Get("CASTABLE")
 
 local smartActions = {
@@ -379,12 +379,12 @@ local smartActions = {
     },
     {
         condition   = "[]",
-        arg         = LM.RuleArguments:Get('RUN', '~', 'SLOW'),
+        arg         = LM.RuleArguments:Get('RUN', ',', '~', 'SLOW'),
         debug       = "Ground Mount",
     },
     {
         condition   = "[]",
-        arg         = LM.RuleArguments:Get('RUN', 'SLOW'),
+        arg         = LM.RuleArguments:Get('RUN', ',', 'SLOW'),
         debug       = "Slow Ground Mount",
     },
 }
