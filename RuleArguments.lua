@@ -19,7 +19,7 @@ LM.RuleArguments = { }
 function LM.RuleArguments:Get(tokens, ...)
     tokens = tokens or {}
     if type(tokens) == 'table' then
-        return CreateFromMixins(tokens or {}, LM.RuleArguments)
+        return CreateFromMixins(tokens, LM.RuleArguments)
     else
         return CreateFromMixins({ tokens, ...}, LM.RuleArguments)
     end
