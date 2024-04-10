@@ -259,6 +259,7 @@ function LM.MountList:Limit(limits)
     for _, arg in ipairs(limits) do
         local e = arg:ParseExpression()
         if e == nil then
+            -- SYNTAX ERROR PRINT SOMETHING?
             return nil
         elseif e.op == '+' then
             mounts = mounts:Extend(self:ExpressionSearch(e[1]))
