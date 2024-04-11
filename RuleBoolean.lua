@@ -93,27 +93,33 @@ function LM.RuleBoolean:Not(cond)
 end
 
 function LM.RuleBoolean:EvalLeaf(context)
-    local condition = LM.Vars:StrSubVars(self.condition)
-
     -- Empty condition [] is true
-    if condition == "" then return true end
-
-    if condition:sub(1,1) == '@' then
-        context.rule.unit = condition:sub(2)
+    if self.condition == "" then
         return true
     end
 
-    -- This is a mildly awful hack to allow setting binary options on actions
-    -- using conditions instead of having heterogenous arg types or overloading
-    -- the filter strings (even more).
-    if condition:sub(1,1) == '+' then
-        context.rule[condition:sub(2)] = true
-        return true
+    if self.condition:len() > 1 then
+        if self.condition:sub(1,1) == '@' then
+            context.rule.unit = self.condition:sub(2)
+            return true
+        end
+
+        -- This is a mildly awful hack to allow setting binary options on actions
+        -- using conditions instead of having heterogenous arg types or overloading
+        -- the expression syntax (even more). Devoid of backwards compatibility it'd
+        -- probably be better to have used this for Limit as well as Mount.
+        if self.condition:sub(1,1) == '+' then
+            context.rule[self.condition:sub(2)] = true
+            return true
+        elseif self.condition:sub(1,1) == '-' then
+            context.rule[self.condition:sub(2)] = false
+            return true
+        end
     end
 
     local c = LM.Conditions:GetCondition(self.condition)
     if not c then
-        LM.WarningAndPrint(L.LM_ERR_BAD_CONDITION, condition)
+        LM.WarningAndPrint(L.LM_ERR_BAD_CONDITION, self.condition)
         return false
     end
 

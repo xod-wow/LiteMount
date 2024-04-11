@@ -30,18 +30,14 @@ local function ReadWord(line)
     if token then return nil, nil end
 
     -- Match ""
-    token, rest = line:match('^"([^"]*)"(.*)$')
+    token, rest = line:match('^"(.-)"(.*)$')
     if token then return token, rest end
 
     -- Match ''
-    token, rest = line:match("^'([^']*)'(.*)$")
+    token, rest = line:match("^'(.-)'(.*)$")
     if token then return token, rest end
 
-    -- Match [] empty condition, which is just skipped
-    token, rest = line:match('^(%[%])(.*)$')
-    if token then return nil, rest end
-
-    -- Match regular conditions
+    -- Match conditions (includes empty condition [])
     token, rest = line:match('^(%[.-%])(.*)$')
     if token then return token, rest end
 
@@ -79,7 +75,7 @@ function LM.Rule:ParseLine(line)
         word, rest = ReadWord(rest)
         if word then
             word = LM.Vars:StrSubConsts(word)
-            if word:match('^%[.-%]$') then
+            if word:match('^%[.*%]$') then
                 tinsert(condWords, word:sub(2, -2))
             else
                 tinsert(argTokens, word)
