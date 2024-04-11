@@ -1459,10 +1459,15 @@ LM.Conditions = { }
 local CheckConditionCache = {}
 
 function LM.Conditions:Check(conditions, context)
-    local line = "DUMMY " .. conditions
+    -- A real action so the rule parse validates
+    local line = "Stop " .. conditions
     if not CheckConditionCache[line] then
         local rule = LM.Rule:ParseLine(line)
-        CheckConditionCache[line] = rule.conditions
+        if not rule then
+            return
+        else
+            CheckConditionCache[line] = rule.conditions
+        end
     end
     return CheckConditionCache[line]:Eval(context or {})
 end
