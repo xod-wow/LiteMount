@@ -67,6 +67,7 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
     L["LM_ENABLE_DEBUGGING"] = "Enable debugging messages."
     L["LM_ENABLING_MOUNT"] = "Enabling active mount: %s"
     L["LM_ERR_BAD_ACTION"] = "Bad action '%s' in action list."
+    L["LM_ERR_BAD_ARGUMENTS"] = "Bad arguments '%s' in action list."
     L["LM_ERR_BAD_CONDITION"] = "Bad condition '%s' in action list."
     L["LM_EVERY_D_MINUTES"] = "Every %d minutes"
     L["LM_EVERY_D_SECONDS"] = "Every %d seconds"

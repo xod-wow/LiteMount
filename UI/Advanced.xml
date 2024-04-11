@@ -55,6 +55,18 @@
                     <FontString inherits="ChatFontNormal" />
                 </EditBox>
             </ScrollChild>
+
+            <Layers>
+                <Layer level="ARTWORK">
+                    <FontString parentKey="ErrorMessage" inherits="GameFontRed" justifyV="TOP" justifyH="MIDDLE" hidden="true">
+                        <Anchors>
+                            <Anchor point="TOP" relativePoint="BOTTOM"  y="-12" />
+                            <Anchor point="LEFT" />
+                            <Anchor point="RIGHT" />
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
         </ScrollFrame>
 
         <Button parentKey="UnlockButton" inherits="UIPanelButtonTemplate" mixin="LiteMountAdvancedUnlockButtonMixin" text="UNLOCK">

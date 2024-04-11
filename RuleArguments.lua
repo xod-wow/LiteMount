@@ -103,7 +103,14 @@ function LM.RuleArguments:ParseList()
         self.asList = {}
         for i, token in ipairs(self) do
             if token == '/' or token == ',' then
-                -- pass, we'll accept either as list delims, even mixed
+                -- we'll accept either as list delims, even mixed
+                if i == 1 or i == #self then
+                    -- SYNTAX ERROR : leading or trailing operator
+                    return nil
+                elseif self[i-1] == '/' or self[i-1] == ',' then
+                    -- SYNTAX ERROR : consecutive operators
+                    return nil
+                end
             elseif OPERATORS[token] then
                 return nil
             else
@@ -192,4 +199,19 @@ function LM.RuleArguments:ParseExpression()
         self.asExpression = t[1]
     end
     return self.asExpression
+end
+
+function LM.RuleArguments:Validate(argType)
+    if argType == 'expression' and #self > 0 then
+        return self:ParseExpression() ~= nil
+    elseif argType == 'list' then
+        return self:ParseList() ~= nil
+    elseif argType == 'none' then
+        return #self == 0
+    elseif argType == 'macrotext' then
+        local macrotext = self:ToString()
+        return macrotext:sub(1,1) == '/'
+    else
+        return true
+    end
 end

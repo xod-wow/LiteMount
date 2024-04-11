@@ -70,15 +70,19 @@ function LM.Rule:ParseLine(line)
         return
     end
 
+    -- once we see an argument we are done with conditions
+    local inArgs = false
+
     while rest ~= nil do
         local word
         word, rest = ReadWord(rest)
         if word then
             word = LM.Vars:StrSubConsts(word)
-            if word:match('^%[.*%]$') then
+            if not inArgs and word:match('^%[.*%]$') then
                 tinsert(condWords, word:sub(2, -2))
             else
                 tinsert(argTokens, word)
+                inArgs = true
             end
         end
     end
@@ -116,22 +120,28 @@ function LM.Rule:ParseLine(line)
 
     r.args = LM.RuleArguments:Get(argTokens)
 
-    return r
+    local ok, err = r:Validate()
+
+    return ok and r or nil, err
 end
 
 function LM.Rule:Validate()
-    local handler = LM.Actions:GetFlowControlHandler(self.action)
-    if handler then
-        return #self.args == 0
+    local fcHandler = LM.Actions:GetFlowControlHandler(self.action)
+    local handler = LM.Actions:GetHandler(self.action)
+
+    if not ( fcHandler or handler ) then
+        return false, format(L.LM_ERR_BAD_ACTION, self.action)
     end
 
-    handler = LM.Actions:GetHandler(self.action)
-    if not handler then
-        return false
+    local ok, err = self.conditions:Validate()
+    if not ok then
+        return false, err
     end
 
-    if not LM.Rule.args:Validate() then
-        return false
+    local argType = LM.Actions:GetArgType(self.action)
+
+    if not self.args:Validate(argType) then
+        return false, format(L.LM_ERR_BAD_ARGUMENTS, self.args:ToString())
     end
 
     return true
@@ -154,6 +164,7 @@ function LM.Rule:Dispatch(context)
 
     handler = LM.Actions:GetHandler(self.action)
     if not handler then
+        -- Shouldn't reach this due to Validate at compile time
         LM.WarningAndPrint(L.LM_ERR_BAD_ACTION, self.action)
         return
     end

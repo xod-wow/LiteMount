@@ -119,7 +119,7 @@ function LM.RuleBoolean:EvalLeaf(context)
 
     local c = LM.Conditions:GetCondition(self.condition)
     if not c then
-        LM.WarningAndPrint(L.LM_ERR_BAD_CONDITION, self.condition)
+        -- Hopefully stopped at compile time and can't happen
         return false
     end
 
@@ -244,5 +244,39 @@ function LM.RuleBoolean:ToDisplay()
         else
             return c
         end
+    end
+end
+
+function LM.RuleBoolean:ValidateLeaf(badList)
+    if self.condition == '' then
+        return true
+    elseif self.condition:len() > 1 then
+        if self.condition:sub(1, 1) == '@' then
+            return true
+        elseif self.condition:sub(1, 1) == '+' then
+            return true
+        elseif self.condition:sub(1, 1) == '-' then
+            return true
+        end
+    end
+    local c = LM.Conditions:GetCondition(self.condition)
+    if not c then
+        table.insert(badList, self.condition)
+    end
+end
+
+function LM.RuleBoolean:Validate(badList)
+    badList = badList or {}
+    if self.op == 'LEAF' then
+        self:ValidateLeaf(badList)
+    else
+        for _, c in ipairs(self.conditions) do
+            c:Validate(badList)
+        end
+    end
+    if #badList == 0 then
+        return true
+    else
+        return false, format(L.LM_ERR_BAD_CONDITION, table.concat(badList, ', '))
     end
 end

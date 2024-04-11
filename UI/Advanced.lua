@@ -78,7 +78,15 @@ end
 LiteMountAdvancedEditBoxMixin = {}
 
 function LiteMountAdvancedEditBoxMixin:SetOption(v, i)
-    LM.Options:SetButtonRuleSet(i, v)
+    local parent = self:GetParent()
+    local ruleset = LM.RuleSet:Compile(v)
+    if ruleset.errors then
+        parent.ErrorMessage:SetText(ruleset.errors[1].err)
+        parent.ErrorMessage:Show()
+    else
+        LM.Options:SetButtonRuleSet(i, v)
+        parent.ErrorMessage:Hide()
+    end
 end
 
 function LiteMountAdvancedEditBoxMixin:GetOption(i)
