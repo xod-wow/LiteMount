@@ -22,12 +22,6 @@ if LibDebug then LibDebug() end
 LM.Soulshape = setmetatable({ }, LM.Spell)
 LM.Soulshape.__index = LM.Soulshape
 
-function LM.Soulshape:Get(spellID, ...)
-    local m = LM.Spell.Get(self, spellID, ...)
-    m.isCollected = m:IsKnown()
-    return m
-end
-
 function LM.Soulshape:IsActive()
     return false
 end
@@ -36,8 +30,8 @@ function LM.Soulshape:IsCancelable()
     return false
 end
 
-function LM.Soulshape:Refresh()
-    self.isCollected = self:IsKnown()
+function LM.Soulshape:IsCollected()
+    return self:IsKnown()
 end
 
 function LM.Soulshape:IsKnown()

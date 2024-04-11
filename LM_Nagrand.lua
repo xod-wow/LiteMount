@@ -29,20 +29,21 @@ function LM.Nagrand:Get(spellID, faction, ...)
     local m = LM.Spell.Get(self, spellID, ...)
 
     if m then
-        local playerFaction = UnitFactionGroup("player")
         m.baseSpellID = LM.SPELL.GARRISON_ABILITY
         m.baseSpellName = GetSpellInfo(m.baseSpellID)
-        m.isFiltered = ( playerFaction ~= faction )
         m.needsFaction = faction
-        m.isCollected = (not m.isFiltered) and IsSpellKnown(m.baseSpellID)
     end
 
     return m
 end
 
-function LM.Nagrand:Refresh()
-    self.isCollected = IsSpellKnown(self.baseSpellID)
-    LM.Mount.Refresh(self)
+function LM.Nagrand:IsFiltered()
+    local playerFaction = UnitFactionGroup("player")
+    return playerFaction ~= self.needsFaction
+end
+
+function LM.Nagrand:IsCollected()
+    return not self:IsFiltered() and IsSpellKnown(self.baseSpellID)
 end
 
 function LM.Nagrand:GetCastAction(context)

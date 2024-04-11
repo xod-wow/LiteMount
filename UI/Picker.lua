@@ -39,7 +39,7 @@ local function UpdateScroll(self)
                     b.mount = m
                     b:SetText(m.name)
                     b:Show()
-                    if not m.isCollected then
+                    if not m:IsCollected() then
                         b:SetNormalFontObject("GameFontDisable")
                     else
                         b:SetNormalFontObject("GameFontNormal")

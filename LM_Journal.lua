@@ -39,7 +39,7 @@ LM.Journal.__index = LM.Journal
 --  [6] uiModelSceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
 function LM.Journal:Get(id)
-    local name, spellID, icon, _, _, sourceType, isFavorite, _, faction, isFiltered, isCollected, mountID, dragonRiding = C_MountJournal.GetMountInfoByID(id)
+    local name, spellID, icon, _, _, sourceType, _, _, faction, _, _, mountID, dragonRiding = C_MountJournal.GetMountInfoByID(id)
     local modelID, descriptionText, sourceText, isSelfMount, mountTypeID, sceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
     if not name then
@@ -60,9 +60,6 @@ function LM.Journal:Get(id)
     m.description   = descriptionText
     m.sourceType    = sourceType
     m.sourceText    = sourceText
-    m.isFavorite    = isFavorite
-    m.isFiltered    = isFiltered
-    m.isCollected   = isCollected
     m.dragonRiding  = dragonRiding
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
     m.flags         = { }
@@ -165,14 +162,6 @@ function LM.Journal:GetFlags()
     return flags
 end
 
-function LM.Journal:Refresh()
-    local isFavorite, _, _, isFiltered, isCollected = select(7, C_MountJournal.GetMountInfoByID(self.mountID))
-    self.isFavorite = isFavorite
-    self.isFiltered = isFiltered
-    self.isCollected = isCollected
-    LM.Mount.Refresh(self)
-end
-
 function LM.Journal:IsMountable()
     local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
     return usable
@@ -191,6 +180,21 @@ function LM.Journal:IsCastable()
         return false
     end
     return LM.Mount.IsCastable(self)
+end
+
+function LM.Journal:IsFavorite()
+    local isFavorite = select(7, C_MountJournal.GetMountInfoByID(self.mountID))
+    return isFavorite
+end
+
+function LM.Journal:IsFiltered()
+    local isFiltered = select(10, C_MountJournal.GetMountInfoByID(self.mountID))
+    return isFiltered
+end
+
+function LM.Journal:IsCollected()
+    local isCollected = select(11, C_MountJournal.GetMountInfoByID(self.mountID))
+    return isCollected
 end
 
 function LM.Journal:GetCastAction(context)

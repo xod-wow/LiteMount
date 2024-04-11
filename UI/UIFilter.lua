@@ -485,15 +485,15 @@ function LM.UIFilter.IsFilteredMount(m)
     -- example) with some mounts that have different horde/alliance versions
     -- with the same name.
 
-    if LM.UIFilter.filterList.other.HIDDEN and m.isFiltered then
+    if LM.UIFilter.filterList.other.HIDDEN and m:IsFiltered() then
         return true
     end
 
-    if LM.UIFilter.filterList.other.COLLECTED and m.isCollected then
+    if LM.UIFilter.filterList.other.COLLECTED and m:IsCollected() then
         return true
     end
 
-    if LM.UIFilter.filterList.other.NOT_COLLECTED and not m.isCollected then
+    if LM.UIFilter.filterList.other.NOT_COLLECTED and not m:IsCollected() then
         return true
     end
 
@@ -501,7 +501,7 @@ function LM.UIFilter.IsFilteredMount(m)
         -- We can't find out the usability of filtered mounts and they are all
         -- set to be unusable but we want to display them or not with just the
         -- HIDDEN filter and not UNUSABLE.
-        if not m.isFiltered and not m:IsUsable() then
+        if not m:IsFiltered() and not m:IsUsable() then
             return true
         end
     end

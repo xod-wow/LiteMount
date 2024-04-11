@@ -296,7 +296,7 @@ function LiteMountGroupsPanelMountMixin:SetMount(mount, group)
         self.Checked:Hide()
     end
 
-    if not mount.isCollected then
+    if not mount:IsCollected() then
         self.Name:SetFontObject("GameFontDisableSmall")
     else
         self.Name:SetFontObject("GameFontNormalSmall")

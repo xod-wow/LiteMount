@@ -260,7 +260,7 @@ function LiteMountMountButtonMixin:Update(bitFlags, mount)
         self.Rarity.toolTip = nil
     end
 
-    if not mount.isCollected then
+    if not mount:IsCollected() then
         self.Name:SetFontObject("GameFontDisable")
         self.Icon:GetNormalTexture():SetVertexColor(1, 1, 1)
         self.Icon:GetNormalTexture():SetDesaturated(true)

@@ -30,9 +30,8 @@ function LM.Tarecgosa:Get()
     return m
 end
 
-function LM.Tarecgosa:Refresh()
-    self.isCollected = ( GetItemCount(self.itemID) > 0 )
-    LM.Mount.Refresh(self)
+function LM.Tarecgosa:IsCollected()
+    return ( GetItemCount(self.itemID) > 0 )
 end
 
 function LM.Tarecgosa:InProgress()

@@ -31,7 +31,6 @@ function LM.Spell:Get(spellID, ...)
     m.name = name
     m.spellID = spellID
     m.icon = icon
-    m.isCollected = IsSpellKnown(m.spellID)
     m.flags = { }
 
     for i = 1, select('#', ...) do
@@ -42,9 +41,8 @@ function LM.Spell:Get(spellID, ...)
     return m
 end
 
-function LM.Spell:Refresh()
-    self.isCollected = IsSpellKnown(self.spellID)
-    LM.Mount.Refresh(self)
+function LM.Spell:IsCollected()
+    return IsSpellKnown(self.spellID)
 end
 
 function LM.Spell:IsCastable()

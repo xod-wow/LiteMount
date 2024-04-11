@@ -102,13 +102,13 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
     elseif f == "CASTABLE" then
         return self:IsCastable() == true
     elseif f == "COLLECTED" then
-        return self.isCollected == true
+        return self:IsCollected() == true
     elseif f == "MAWUSABLE" then
         return self:MawUsable() == true
     elseif f == "JOURNAL" then
         return self.mountTypeID ~= nil
     elseif f == "FAVORITES" then
-        return self.isFavorite == true
+        return self:IsFavorite()
     elseif f == "ZONEMATCH" then
         local zone = GetZoneText()
         return self:IsFromZone(zone)
@@ -221,6 +221,18 @@ function LM.Mount:IsMountable()
     return true
 end
 
+function LM.Mount:IsFavorite()
+    return false
+end
+
+function LM.Mount:IsCollected()
+    return true
+end
+
+function LM.Mount:IsFiltered()
+    return false
+end
+
 function LM.Mount:IsFromZone(zone)
     if self.sourceText then
         zone = zone:gsub('%-', '%%-')
@@ -319,9 +331,9 @@ function LM.Mount:Dump(prefix)
     LM.Print(prefix .. " mountID: " .. tostring(self.mountID))
     LM.Print(prefix .. " family: " .. tostring(self.family))
     LM.Print(prefix .. " dragonRiding: " .. tostring(self.dragonRiding))
-    LM.Print(prefix .. " isCollected: " .. tostring(self.isCollected))
-    LM.Print(prefix .. " isFavorite: " .. tostring(self.isFavorite))
-    LM.Print(prefix .. " isFiltered: " .. tostring(self.isFiltered))
+    LM.Print(prefix .. " isCollected: " .. tostring(self:IsCollected()))
+    LM.Print(prefix .. " isFavorite: " .. tostring(self:IsFavorite()))
+    LM.Print(prefix .. " isFiltered: " .. tostring(self:IsFiltered()))
     LM.Print(prefix .. " priority: " .. tostring(self:GetPriority()))
     LM.Print(prefix .. " castable: " .. tostring(self:IsCastable()) .. " (spell " .. tostring(IsUsableSpell(self.spellID)) .. ")")
 end

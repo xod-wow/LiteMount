@@ -281,8 +281,8 @@ local SortFunctions = {
     -- Show all the collected mounts before the uncollected mounts, then by name
     ['default'] =
         function (a, b)
-            if a.isCollected and not b.isCollected then return true end
-            if not a.isCollected and b.isCollected then return false end
+            if a:IsCollected() and not b:IsCollected() then return true end
+            if not a:IsCollected() and b:IsCollected() then return false end
             if dragonRidingSort then
                 if a.dragonRiding and not b.dragonRiding then return true end
                 if not a.dragonRiding and b.dragonRiding then return false end
