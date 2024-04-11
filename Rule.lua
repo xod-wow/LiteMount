@@ -172,7 +172,7 @@ function LM.Rule:ToString()
     local cText = self.conditions:ToString()
     if cText and cText ~= "" then table.insert(out, cText) end
     local aText = self.args:ToString()
-    if aText and aText ~= "" then table.insert(out, aText) end
+    if aText ~= "" then table.insert(out, aText) end
     return table.concat(out, ' ')
 end
 

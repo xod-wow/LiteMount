@@ -420,10 +420,10 @@ ACTIONS['Mount'] = {
             end
             local filteredList = LM.MountRegistry:Limit(limits)
 
-            LM.Debug("  * args: " .. (args:ToString() or ''))
+            LM.Debug("  * args: " .. args:ToString())
             LM.Debug("  * limits:")
             for i, l in ipairs(limits) do
-                LM.Debug("    % 2d. %s", i, l:ToString() or '')
+                LM.Debug("    % 2d. %s", i, l:ToString())
             end
             LM.Debug("  * filtered list contains " .. #filteredList .. " mounts")
 

@@ -60,9 +60,7 @@ function LM.RuleArguments:Prepend(tokens, ...)
 end
 
 function LM.RuleArguments:ToString()
-    if #self > 0 then
-        return table.concat(self, '')
-    end
+    return table.concat(self, '')
 end
 
 local UNARYOPERATORS = {
