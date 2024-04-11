@@ -87,6 +87,7 @@ ACTIONS['Limit'] = {
 ACTIONS['LimitSet'] = {
     name = L.LM_LIMIT_MOUNTS,
     description = L.LM_LIMITSET_DESCRIPTION,
+    argType = 'expression',
     toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
@@ -97,6 +98,7 @@ ACTIONS['LimitSet'] = {
 ACTIONS['LimitInclude'] = {
     name = L.LM_INCLUDE_MOUNTS,
     description = L.LM_LIMITINCLUDE_DESCRIPTION,
+    argType = 'expression',
     toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
@@ -107,6 +109,7 @@ ACTIONS['LimitInclude'] = {
 ACTIONS['LimitExclude'] = {
     name = L.LM_EXCLUDE_MOUNTS,
     description = L.LM_LIMITEXCLUDE_DESCRIPTION,
+    argType = 'expression',
     toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
@@ -115,6 +118,7 @@ ACTIONS['LimitExclude'] = {
 }
 
 ACTIONS['Endlimit'] = {
+    argType = 'none',
     handler =
         function (args, context)
             local args = table.remove(context.limits)
@@ -179,6 +183,7 @@ end
 ACTIONS['Spell'] = {
     name = L.LM_SPELL_ACTION,
     description = L.LM_SPELL_DESCRIPTION,
+    argType = 'list',
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -200,6 +205,7 @@ ACTIONS['Spell'] = {
 
 ACTIONS['Buff'] = {
     toDisplay = SpellArgsToDisplay,
+    argType = 'list',
     handler =
         function (args, context)
             for _, arg in ipairs(args:ParseList()) do
@@ -221,6 +227,7 @@ ACTIONS['Buff'] = {
 ACTIONS['PreCast'] = {
     name = L.LM_PRECAST_ACTION,
     description = L.LM_PRECAST_DESCRIPTION,
+    argType = 'list',
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -237,6 +244,7 @@ ACTIONS['PreCast'] = {
 
 ACTIONS['CancelAura'] = {
     toDisplay = SpellArgsToDisplay,
+    argType = 'list',
     handler =
         function (args, context)
             for _, arg in ipairs(args:ParseList()) do
@@ -250,6 +258,7 @@ ACTIONS['CancelAura'] = {
 
 -- In vehicle -> exit it
 ACTIONS['LeaveVehicle'] = {
+    argType = 'none',
     handler =
         function (args, context)
             if CanExitVehicle() then
@@ -274,6 +283,7 @@ end
 
 ACTIONS['Dismount'] = {
     name = BINDING_NAME_DISMOUNT,
+    argType = 'none',
     handler =
         function (args, context)
             local action
@@ -320,11 +330,13 @@ ACTIONS['Dismount'] = {
 
 -- CancelForm has been absorbed into Dismount
 ACTIONS['CancelForm'] = {
+    argType = 'none',
     handler = function (args, context) end
 }
 
 -- Got a player target, try copying their mount
 ACTIONS['CopyTargetsMount'] = {
+    argType = 'none',
     handler =
         function (args, context)
             local unit = context.rule.unit or "target"
@@ -340,6 +352,7 @@ ACTIONS['CopyTargetsMount'] = {
 }
 
 ACTIONS['ApplyRules'] = {
+    argType = 'none',
     handler =
         function (args, context)
             local ruleSet = LM.Options:GetCompiledRuleSet(context.id)
@@ -392,6 +405,7 @@ local smartActions = {
 ACTIONS['Mount'] = {
     name = L.LM_MOUNT_ACTION,
     description = L.LM_MOUNT_DESCRIPTION,
+    argType = 'expression',
     toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
@@ -443,6 +457,7 @@ ACTIONS['Mount'] = {
 ACTIONS['SmartMount'] = {
     name = L.LM_SMARTMOUNT_ACTION,
     description = L.LM_SMARTMOUNT_DESCRIPTION,
+    argType = 'expression',
     toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
@@ -455,6 +470,7 @@ ACTIONS['SmartMount'] = {
 ACTIONS['PriorityMount'] = {
     name = L.LM_PRIORITYMOUNT_ACTION,
     description = L.LM_PRIORITYMOUNT_DESCRIPTION,
+    argType = 'expression',
     toDisplay = LM.RuleArguments.ToDisplay,
     handler =
         function (args, context)
@@ -464,6 +480,7 @@ ACTIONS['PriorityMount'] = {
 }
 
 ACTIONS['Macro'] = {
+    argType = 'none',
     handler =
         function (args, context)
             local macrotext = LM.Options:GetOption('unavailableMacro')
@@ -475,6 +492,7 @@ ACTIONS['Macro'] = {
 }
 
 ACTIONS['Script'] = {
+    argType = 'macrotext',
     handler =
         function (args, context)
             local macroText = args:ToString()
@@ -484,6 +502,7 @@ ACTIONS['Script'] = {
 }
 
 ACTIONS['CantMount'] = {
+    argType = 'none',
     handler =
         function (args, context)
             -- This isn't a great message, but there isn't a better one that
@@ -526,6 +545,7 @@ local CombatHandlerOverride = {
 }
 
 ACTIONS['Combat'] = {
+    argType = 'none',
     handler =
         function (args, context)
             -- If specific combat macro is set always use it
@@ -550,6 +570,7 @@ ACTIONS['Combat'] = {
 }
 
 ACTIONS['Stop'] = {
+    argType = 'none',
     handler =
         function (args, context)
             -- return true and set up to do nothing
@@ -626,6 +647,7 @@ end
 ACTIONS['Use'] = {
     name = L.LM_USE_ACTION,
     description = L.LM_USE_DESCRIPTION,
+    argType = 'list',
     toDisplay = ItemArgsToDisplay,
     handler =
         function (args, context)
@@ -652,6 +674,7 @@ ACTIONS['Use'] = {
 ACTIONS['PreUse'] = {
     name = L.LM_PREUSE_ACTION,
     description = L.LM_PREUSE_DESCRIPTION,
+    argType = 'list',
     toDisplay = ItemArgsToDisplay,
     handler =
         function (args, context)
@@ -715,6 +738,14 @@ function LM.Actions:DefaultCombatMacro()
     mt = mt .. "/leavevehicle\n"
 
     return mt
+end
+
+function LM.Actions:GetArgType(action)
+    if FLOWCONTROLS[action] then
+        return 'none'
+    elseif ACTIONS[action] then
+        return ACTIONS[action].argType
+    end
 end
 
 function LM.Actions:GetFlowControlHandler(action)
