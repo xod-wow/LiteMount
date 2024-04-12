@@ -201,17 +201,24 @@ function LM.RuleArguments:ParseExpression()
     return self.asExpression
 end
 
-function LM.RuleArguments:Validate(argType)
+function LM.RuleArguments:Validate(action)
+    local argType = LM.Actions:GetArgType(action)
     if argType == 'expression' and #self > 0 then
-        return self:ParseExpression() ~= nil
+        if self:ParseExpression() == nil then
+            return false, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
+        end
     elseif argType == 'list' then
-        return self:ParseList() ~= nil
+        if self:ParseList() == nil then
+            return false, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
+        end
     elseif argType == 'none' then
-        return #self == 0
+        if #self > 0 then
+            return false, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
+        end
     elseif argType == 'macrotext' then
-        local macrotext = self:ToString()
-        return macrotext:sub(1,1) == '/'
-    else
-        return true
+        if self[1] ~= '/' then
+            return false, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
+        end
     end
+    return true
 end

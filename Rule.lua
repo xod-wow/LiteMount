@@ -104,28 +104,19 @@ function LM.Rule:ParseLine(line)
 
     r.conditions = LM.RuleBoolean:Or(unpack(conditions))
 
-    -- args is not neat. Mount arguments are an expression where , is AND but
-    -- other kinds of arguments are just a comma-separated list. We need to
-    -- lex x/y here so we can handle the quoting, but we don't want to try to
-    -- parse it. So to be lazy I just shove the '/' into the arg list and
-    -- make the handlers deal with it however they want. Note that it is
-    -- almost certainly going to give weird behaviour using / with the Limit
-    -- actions because the first character can be an operator and something
-    -- like
-    --      Limit -RUN/FLY
-    -- is going to parse as
-    --      LIMIT ( -RUN or FLY )
-    -- but humans would intuitively expect it to be
-    --      LIMIT -( RUN or FLY )
+    -- Delay actually parsing the args until later when the actions can parse
+    -- them as they need. Can probably parse them using LM.Actions:GetArgType,
+    -- but I've done enough changing things for now so continue to let the
+    -- action handlers call the parsing.
 
     r.args = LM.RuleArguments:Get(argTokens)
 
     local ok, err = r:Validate()
-
     return ok and r or nil, err
 end
 
 function LM.Rule:Validate()
+    -- XXX At some point should probably OO into LM.RuleAction XXX
     local fcHandler = LM.Actions:GetFlowControlHandler(self.action)
     local handler = LM.Actions:GetHandler(self.action)
 
@@ -138,10 +129,9 @@ function LM.Rule:Validate()
         return false, err
     end
 
-    local argType = LM.Actions:GetArgType(self.action)
-
-    if not self.args:Validate(argType) then
-        return false, format(L.LM_ERR_BAD_ARGUMENTS, self.args:ToString())
+    ok, err = self.args:Validate(self.action)
+    if not ok then
+        return false, err
     end
 
     return true
@@ -165,7 +155,6 @@ function LM.Rule:Dispatch(context)
     handler = LM.Actions:GetHandler(self.action)
     if not handler then
         -- Shouldn't reach this due to Validate at compile time
-        LM.WarningAndPrint(L.LM_ERR_BAD_ACTION, self.action)
         return
     end
 

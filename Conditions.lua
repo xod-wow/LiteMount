@@ -1464,6 +1464,7 @@ function LM.Conditions:Check(conditions, context)
     if not CheckConditionCache[line] then
         local rule = LM.Rule:ParseLine(line)
         if not rule then
+            -- I hope I don't mess up my own checks, but I might
             return
         else
             CheckConditionCache[line] = rule.conditions

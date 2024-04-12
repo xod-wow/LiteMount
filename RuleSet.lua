@@ -51,13 +51,14 @@ end
 function LM.RuleSet:PrintErrors()
     if self.errors then
         for _, info in ipairs(self.errors) do
-            LM.PrintError(info.err)
+            LM.PrintError(L.LM_ERR_BAD_RULE, info.line, info.err)
         end
     end
 end
 
 function LM.RuleSet:Run(context)
-    -- Annoy people on purpose so they fix their action lists
+    -- Annoy people on purpose so they fix their action lists. Otherwise
+    -- this should be moved into the places Compile() is called.
     self:PrintErrors()
     for n,rule in ipairs(self) do
         context.rule = {}
