@@ -310,7 +310,7 @@ ACTIONS['Dismount'] = {
                 end
             end
 
-            if action and savedFormName then
+            if action and savedFormName and savedFormName ~= GetFormNameWithSubtext() then
                 -- Without the /cancelform the "Auto Dismount in Flight" setting stops
                 -- this from working.
                 LM.Debug("  * override action to restore form: " .. savedFormName)
