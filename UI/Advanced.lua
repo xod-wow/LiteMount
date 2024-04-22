@@ -81,8 +81,9 @@ function LiteMountAdvancedEditBoxMixin:CheckCompileErrors()
     local parent = self:GetParent()
     local ruleset = LM.RuleSet:Compile(self:GetText())
     if ruleset.errors then
-        local info = ruleset.errors[1]
-        local msg = format(L.LM_ERR_BAD_RULE, info.line, info.err)
+        -- It's possible we should just show the first one
+        local errs = LM.tMap(ruleset.errors, function (info) return info.err end)
+        local msg = table.concat(errs, "\n")
         parent.ErrorMessage:SetText(msg)
         parent.ErrorMessage:Show()
         return false
