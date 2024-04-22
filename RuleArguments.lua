@@ -216,8 +216,9 @@ function LM.RuleArguments:Validate(action)
             return false, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
         end
     elseif argType == 'macrotext' then
-        if self[1] ~= '/' then
-            return false, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
+        local macrotext = self:ToString()
+        if macrotext:sub(1,1) ~= '/' then
+            return false, format(L.LM_ERR_BAD_ARGUMENTS, macrotext)
         end
     end
     return true
