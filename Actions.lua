@@ -635,6 +635,28 @@ local function UsableItemParse(arg)
     return name, itemID, slotNum
 end
 
+-- Is this really not in the game anywhere?
+local InventorySlotTable = {
+    [INVSLOT_AMMO]      = AMMOSLOT,
+    [INVSLOT_HEAD]      = HEADSLOT,
+    [INVSLOT_NECK]      = NECKSLOT,
+    [INVSLOT_SHOULDER]  = SHOULDERSLOT,
+    [INVSLOT_BODY]      = SHIRTSLOT,
+    [INVSLOT_CHEST]     = CHESTSLOT,
+    [INVSLOT_WAIST]     = WAISTSLOT,
+    [INVSLOT_LEGS]      = LEGSSLOT,
+    [INVSLOT_FEET]      = FEETSLOT,
+    [INVSLOT_FINGER1]   = FINGER0SLOT .. " (1)",
+    [INVSLOT_FINGER2]   = FINGER1SLOT .. " (2)",
+    [INVSLOT_TRINKET1]  = TRINKET0SLOT .. " (1)",
+    [INVSLOT_TRINKET2]  = TRINKET1SLOT .. " (2)",
+    [INVSLOT_BACK]      = BACKSLOT,
+    [INVSLOT_MAINHAND]  = MAINHANDSLOT,
+    [INVSLOT_OFFHAND]   = SECONDARYHANDSLOT,
+    [INVSLOT_RANGED]    = RANGEDSLOT,
+    [INVSLOT_TABARD]    = TABARDSLOT,
+}
+
 local function ItemArgsToDisplay(args)
     local out = {}
     for _, v in ipairs(args:ParseList()) do
@@ -642,8 +664,7 @@ local function ItemArgsToDisplay(args)
         if name then
             table.insert(out, string.format("%s (%d)", name, id))
         elseif slot then
-            -- XXX FIXME XXX translate to slot name
-            table.insert(out, slot)
+            table.insert(out, InventorySlotTable[slot] or slot)
         else
             table.insert(out, v)
         end
