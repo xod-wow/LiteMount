@@ -60,7 +60,7 @@ local MOUNT_SPELLS_BY_PROJECT = {
         { "TravelForm", LM.SPELL.TRAVEL_FORM, 'RUN', 'FLY', 'SWIM' },
         { "TravelForm", LM.SPELL.MOUNT_FORM, 'RUN' },
     },
-    [11] = {
+    [14] = {
         { "TravelForm", LM.SPELL.TRAVEL_FORM, 'RUN', 'SLOW' },
         { "TravelForm", LM.SPELL.AQUATIC_FORM_CLASSIC, 'SWIM' },
         { "TravelForm", LM.SPELL.FLIGHT_FORM_CLASSIC, 'FLY' },

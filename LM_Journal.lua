@@ -74,10 +74,16 @@ function LM.Journal:Get(id)
 
     if m.mountTypeID == 230 then          -- ground mount
         m.flags['RUN'] = true
+    elseif m.mountTypeID == 225 then      -- Cataclysm Classic: Spectral Steed/Wolf
+        m.flags['RUN'] = true
+    elseif m.mountTypeID == 229 then      -- Cataclysm Classic: Drakes
+        m.flags['FLY'] = true
     elseif m.mountTypeID == 231 then      -- riding/sea turtle
         m.flags['SWIM'] = true
     elseif m.mountTypeID == 232 then      -- Vashj'ir Seahorse
         -- no flags
+    elseif m.mountTypeID == 238 then      -- Cataclysm Classic: Drakes (2)
+        m.flags['FLY'] = true
     elseif m.mountTypeID == 241 then      -- AQ-only bugs
         -- no flags
     elseif m.mountTypeID == 242 then      -- Flyers for when dead in some zones

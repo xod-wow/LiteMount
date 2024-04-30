@@ -67,8 +67,8 @@ Macro
 ]]
 
 local DefaultRulesByProject = {
-    -- Wrath Classic
-    [11] = {
+    -- Cataclysm Classic
+    [14] = {
         -- AQ Battle Tanks in the raid instance
         "Mount [instance:531] mt:241",
     },

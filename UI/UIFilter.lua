@@ -68,7 +68,7 @@ local SortKeysByProject = {
         'rarity',
         'summons'
     },
-    [11] = {
+    [14] = {
         'default',
         'name',
         'summons'

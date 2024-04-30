@@ -450,7 +450,7 @@ function LM.Environment:CanFly()
         return InstanceFlyableOverride[instanceID]
     end
 
-    if WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC then
+    if WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
         -- Classic Northrend requires Cold Weather Flying in WotLK Classic
         if self:InInstance(571) then
             if not IsSpellKnown(54197) then
