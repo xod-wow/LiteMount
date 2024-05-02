@@ -1295,6 +1295,7 @@ LM.MOUNTFAMILY["Skeletal Horse"] = {
 }
 
 LM.MOUNTFAMILY["Skitterfly"] = {
+    [349943] = true, -- Amber Skitterfly
     [374034] = true, -- Azure Skitterfly
     [374071] = true, -- Bestowed Sandskimmer
     [374032] = true, -- Tamed Skitterfly
