@@ -61,19 +61,19 @@ end
 
 -- Sorting ---------------------------------------------------------------------
 
-local SortKeysByProject = {
+local SortKeysByProject = LM.TableWithDefault({
     [1] = {
         'default',
         'name',
         'rarity',
         'summons'
     },
-    [14] = {
+    DEFAULT = {
         'default',
         'name',
         'summons'
-    }
-}
+    },
+})
 
 local SortKeyTexts = {
     ['default']     = DEFAULT,

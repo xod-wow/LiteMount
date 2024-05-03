@@ -49,7 +49,7 @@ local KrasusLandingCenter = CreateVector2D(0.727, 0.456)
 local DalaranDenySpells = { LM.SPELL.FLIGHT_FORM_CLASSIC, LM.SPELL.SWIFT_FLIGHT_FORM_CLASSIC }
 
 function LM.TravelForm:IsAreaDenied()
-    if WOW_PROJECT_ID ~= WOW_PROJECT_WRATH_CLASSIC then return false end
+    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then return false end
     if not tContains(DalaranDenySpells, self.spellID) then return false end
 
     local map = C_Map.GetBestMapForUnit('player')

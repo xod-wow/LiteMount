@@ -66,14 +66,12 @@ END
 Macro
 ]]
 
-local DefaultRulesByProject = {
-    -- Cataclysm Classic
-    [14] = {
+local DefaultRulesByProject = LM.TableWithDefault({
+    DEFAULT = {
         -- AQ Battle Tanks in the raid instance
         "Mount [instance:531] mt:241",
     },
-    -- Retail
-    [1] = {
+    [1] = { -- Retail
         -- Vash'jir Seahorse
         "Mount [map:203,submerged] mt:232",
         -- Flying swimming mounts in Nazjatar with Budding Deepcoral
@@ -85,7 +83,7 @@ local DefaultRulesByProject = {
         -- Rustbolt Resistor and Aerial Unit R-21/X avoid being shot down
         -- "Mount [map:1462,flyable] MECHAGON"
     },
-}
+})
 
 local DefaultRules = DefaultRulesByProject[WOW_PROJECT_ID]
 

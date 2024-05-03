@@ -76,14 +76,17 @@ function LM.Journal:Get(id)
         m.flags['RUN'] = true
     elseif m.mountTypeID == 225 then      -- Cataclysm Classic: Spectral Steed/Wolf
         m.flags['RUN'] = true
+        m.mountTypeID = 230
     elseif m.mountTypeID == 229 then      -- Cataclysm Classic: Drakes
         m.flags['FLY'] = true
+        m.mountTypeID = 248
     elseif m.mountTypeID == 231 then      -- riding/sea turtle
         m.flags['SWIM'] = true
     elseif m.mountTypeID == 232 then      -- Vashj'ir Seahorse
         -- no flags
     elseif m.mountTypeID == 238 then      -- Cataclysm Classic: Drakes (2)
         m.flags['FLY'] = true
+        m.mountTypeID = 248
     elseif m.mountTypeID == 241 then      -- AQ-only bugs
         -- no flags
     elseif m.mountTypeID == 242 then      -- Flyers for when dead in some zones
@@ -173,6 +176,8 @@ function LM.Journal:IsMountable()
     return usable
 end
 
+-- This flag is set for the journal mounts in MountRegistry as it's not at all
+-- dynamically queryable and overall just sucks.
 function LM.Journal:IsUsable()
     return self.isUsable
 end

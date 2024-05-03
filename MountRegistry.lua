@@ -55,18 +55,18 @@ local MOUNT_SPELLS = {
         LM.ITEM.MAW_SEEKER_HARNESS, LM.SPELL.MAW_SEEKER_HARNESS, 'RUN' },
 }
 
-local MOUNT_SPELLS_BY_PROJECT = {
+local MOUNT_SPELLS_BY_PROJECT = LM.TableWithDefault({
     [1] = {
         { "TravelForm", LM.SPELL.TRAVEL_FORM, 'RUN', 'FLY', 'SWIM' },
         { "TravelForm", LM.SPELL.MOUNT_FORM, 'RUN' },
     },
-    [14] = {
+    DEFAULT = {
         { "TravelForm", LM.SPELL.TRAVEL_FORM, 'RUN', 'SLOW' },
         { "TravelForm", LM.SPELL.AQUATIC_FORM_CLASSIC, 'SWIM' },
         { "TravelForm", LM.SPELL.FLIGHT_FORM_CLASSIC, 'FLY' },
         { "TravelForm", LM.SPELL.SWIFT_FLIGHT_FORM_CLASSIC, 'FLY' },
-    }
-}
+    },
+})
 
 tAppendAll(MOUNT_SPELLS, MOUNT_SPELLS_BY_PROJECT[WOW_PROJECT_ID])
 

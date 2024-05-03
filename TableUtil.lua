@@ -173,3 +173,9 @@ function LM.TableToString(val)
     DumpTableContents(val, '', '', context)
     return table.concat(context.lines, '\n') .. '\n'
 end
+
+local defaultIndexer = { __index = function (t, k) return t.DEFAULT end }
+
+function LM.TableWithDefault(t)
+    return setmetatable(t, defaultIndexer)
+end

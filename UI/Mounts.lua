@@ -269,7 +269,7 @@ function LiteMountMountButtonMixin:Update(bitFlags, mount)
         self.Name:SetFontObject("GameFontNormal")
         self.Icon:GetNormalTexture():SetDesaturated(true)
         self.Icon:GetNormalTexture():SetVertexColor(0.6, 0.2, 0.2)
-    elseif WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC and not mount:IsMountable() then
+    elseif WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE and not mount:IsMountable() then
         -- In classic mounts are made red if you can't use them right now
         self.Name:SetFontObject("GameFontNormal")
         self.Icon:GetNormalTexture():SetDesaturated(true)
