@@ -74,6 +74,8 @@ function LM.ActionButton:PreClick(inputButton, isDown)
 
     local act = ruleSet:Run(context)
     if act then
+        -- Note that in some circumstances this call will do the action and
+        -- leave the button as a NoOp (if it can be done in non-protected code)
         act:SetupActionButton(self)
         LM.Debug("[%d] PreClick ok time %0.2f", self.id, debugprofilestop() - startTime)
         return

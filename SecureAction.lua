@@ -29,6 +29,10 @@ function LM.SecureAction:New(attr)
 end
 
 function LM.SecureAction:SetupActionButton(button, n)
+    if self.type == '_lm_func' then
+        self._lm_func()
+        return
+    end
     for k,v in pairs(self) do
         if k ~= 'type' and n then
             k = k .. tostring(n)
@@ -85,6 +89,17 @@ function LM.SecureAction:Click(clickButton)
     local attr = {
             ["type"] = "click",
             ["clickbutton"] = clickButton
+    }
+    return self:New(attr)
+end
+
+function LM.SecureAction:Execute(script)
+    if type(script) == 'string' then
+        script = loadstring(script)
+    end
+    local attr = {
+            ["type"] = "_lm_func",
+            ["_lm_func"] = script
     }
     return self:New(attr)
 end

@@ -300,6 +300,7 @@ ACTIONS['Dismount'] = {
             if IsMounted() then
                 LM.Debug("  * setting action to dismount")
                 action = LM.SecureAction:Macro(SLASH_DISMOUNT1)
+                -- action = LM.SecureAction:Execute(Dismount)
             else
                 -- Otherwise we look for the mount from its buff and return the cancel
                 -- actions.
