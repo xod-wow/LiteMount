@@ -444,7 +444,7 @@ CONDITIONS["faction"] = {
 }
 
 CONDITIONS["falling"] = {
-    -- name = STRING_ENVIRONMENTAL_DAMAGE_FALLING,
+    name = STRING_ENVIRONMENTAL_DAMAGE_FALLING,
     handler =
         function (cond, context)
             return LM.Environment:IsFalling()
@@ -655,6 +655,7 @@ CONDITIONS["instance"] = {
 }
 
 CONDITIONS["jump"] = {
+    -- name = BINDING_NAME_JUMP,
     handler =
         function (cond, context)
             local jumpTime = LM.Environment:GetJumpTime()
@@ -662,6 +663,7 @@ CONDITIONS["jump"] = {
         end
 }
 
+-- Is this useless? Everything is already separated
 CONDITIONS["keybind"] = {
     handler =
         function (cond, context, v)
