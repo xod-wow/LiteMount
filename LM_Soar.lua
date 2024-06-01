@@ -22,3 +22,14 @@ function LM.Soar:Get(...)
         return m
     end
 end
+
+-- Soar gives an error message instead of IsUsableSpell false in a variety
+-- of pretty ordinary circumstances.
+
+function LM.Soar:IsCastable()
+    if IsSubmerged() then
+        return false
+    else
+        return LM.Spell.IsCastable(self)
+    end
+end
