@@ -541,7 +541,7 @@ local CombatHandlerOverride = {
                     if id and name then
                         LM.Debug("  * matched encounter %s (%d)", name, id)
                     end
-                    local mounts = LM.MountRegistry:FilterSearch('DRAGONRIDING', '~Soar', 'COLLECTED')
+                    local mounts = LM.MountRegistry:FilterSearch('DRAGONRIDING', 'JOURNAL', 'COLLECTED')
                     local randomStyle = LM.Options:GetOption('randomWeightStyle')
                     local m = mounts:Random(context.random, randomStyle)
                     if m then

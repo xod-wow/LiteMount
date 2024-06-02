@@ -390,6 +390,9 @@ local InstanceDragonridableOverride = {
     [2549] =            -- Amirdrassil Raid
         function ()
             -- Dragonriding debuff Blessing of the Emerald Dream (429226)
+            -- This is an approximation, it doesn't make the area dragonriding
+            -- it just forces the journal dragonriding mounts to work. Notably
+            -- Soar does not work with it, so there is a hack there too.
             if LM.UnitAura('player', 429226, 'HARMFUL') then return true end
         end,
     [2597] = false,     -- Zaralek Caverns - Chapter 1 Scenario
