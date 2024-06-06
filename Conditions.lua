@@ -677,9 +677,9 @@ CONDITIONS["known"] = {
     handler =
         function (cond, context, v)
             if v then
-                local spellID = select(7, GetSpellInfo(v))
-                if spellID then
-                    return IsSpellKnown(spellID) or IsPlayerSpell(spellID)
+                local info = C_Spell.GetSpellInfo(v)
+                if info then
+                    return IsSpellKnown(info.spellID) or IsPlayerSpell(info.spellID)
                 end
             end
         end

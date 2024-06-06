@@ -136,20 +136,20 @@ local function GetUsableSpell(arg)
         return
     end
 
-    -- For names, GetSpellInfo returns nil if it's not in your spellbook
+    -- For names, GetSpellName returns nil if it's not in your spellbook
     -- so we don't need to call IsSpellKnown
-    local name, _, _, _, _, _, spellID = GetSpellInfo(argN or arg)
-    if not name then
+    local info = C_Spell.GetSpellInfo(argN or arg)
+    if not info then
         return
     end
 
     -- Glide won't cast while mounted
-    if spellID == 131347 and IsMounted() then
+    if info.spellID == 131347 and IsMounted() then
         return
     end
 
     -- Zen Flight only works if you can fly
-    if spellID == 125883 and not LM.Environment:CanFly() then
+    if info.spellID == 125883 and not LM.Environment:CanFly() then
         return
     end
 
@@ -162,7 +162,7 @@ local function GetUsableSpell(arg)
     local subtext = GetSpellSubtext(argN or arg)
     local nameWithSubtext = string.format('%s(%s)', name, subtext or "")
 
-    if name and IsUsableSpell(name) and GetSpellCooldown(name) == 0 then
+    if name and C_Spell.IsUsableSpell(name) and C_Spell.GetSpellCooldown(name) == 0 then
         return name, spellID, nameWithSubtext
     end
 end
@@ -170,9 +170,9 @@ end
 local function SpellArgsToDisplay(args)
     local out = {}
     for _, v in ipairs(args:ParseList()) do
-        local name, _, _, _, _, _, id = GetSpellInfo(v)
-        if name then
-            table.insert(out, string.format("%s (%d)", name, id))
+        local info = C_Spell.GetSpellInfo(v)
+        if info then
+            table.insert(out, string.format("%s (%d)", info.name, info.spellID))
         else
             table.insert(out, v)
         end
@@ -232,10 +232,10 @@ ACTIONS['PreCast'] = {
     handler =
         function (args, context)
             for _, arg in ipairs(args:ParseList()) do
-                local name, _, _, castTime, _, _, id = GetSpellInfo(arg)
-                if name and IsPlayerSpell(id) and castTime == 0 then
-                    LM.Debug("  * setting preCast to spell " .. name)
-                    context.preCast = name
+                local info = C_Spell.GetSpellInfo(arg)
+                if info and IsPlayerSpell(info.spellID) and info.castTime == 0 then
+                    LM.Debug("  * setting preCast to spell " .. info.name)
+                    context.preCast = info.name
                     return
                 end
             end
@@ -252,7 +252,7 @@ ACTIONS['CancelAura'] = {
                 if name then
                     -- Levitate (for example) is marked canApplyAura == false so this is a
                     -- half-workaround. You still won't cancel Levitate somone else put on you.
-                    if canApplyAura or (source == 'player' and GetSpellInfo(name)) then
+                    if canApplyAura or (source == 'player' and C_Spell.GetSpellInfo(name)) then
                         return LM.SecureAction:CancelAura(name)
                     end
                 end
@@ -276,7 +276,7 @@ local function GetFormNameWithSubtext()
     local idx = GetShapeshiftForm()
     if idx and idx > 0 then
         local spellID = select(4, GetShapeshiftFormInfo(idx))
-        local n = GetSpellInfo(spellID)
+        local n = C_Spell.GetSpellName(spellID)
         local s = GetSpellSubtext(spellID) or ''
         return string.format('%s(%s)', n, s)
     end
@@ -299,8 +299,8 @@ ACTIONS['Dismount'] = {
 
             if IsMounted() then
                 LM.Debug("  * setting action to dismount")
-                action = LM.SecureAction:Macro(SLASH_DISMOUNT1)
-                -- action = LM.SecureAction:Execute(Dismount)
+                -- action = LM.SecureAction:Macro(SLASH_DISMOUNT1)
+                action = LM.SecureAction:Execute(Dismount)
             else
                 -- Otherwise we look for the mount from its buff and return the cancel
                 -- actions.
@@ -760,7 +760,7 @@ function LM.Actions:DefaultCombatMacro()
     elseif playerClass == "SHAMAN" then
         local mount = LM.MountRegistry:GetMountBySpell(LM.SPELL.GHOST_WOLF)
         if mount and mount:GetPriority() > 0 then
-            local s = GetSpellInfo(LM.SPELL.GHOST_WOLF)
+            local s = C_Spell.GetSpellName(LM.SPELL.GHOST_WOLF)
             mt = mt .. "/cast [noform] " .. s .. "\n"
             mt = mt .. "/cancelform [form]\n"
         end

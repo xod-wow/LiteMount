@@ -277,7 +277,7 @@ end
 
 local function MatchMountToBuff(m, buffNames)
     if buffNames[m.name] then return true end
-    local spellName = GetSpellInfo(m.spellID)
+    local spellName = C_Spell.GetSpellName(m.spellID)
     if spellName and buffNames[spellName] then return true end
 end
 
@@ -285,7 +285,7 @@ function LM.MountRegistry:GetMountFromUnitAura(unitid)
     local buffNames = { }
     local i = 1
     while true do
-        local aura = UnitAura(unitid, i)
+        local aura = C_UnitAuras.GetAuraDataByIndex(unitid, i)
         if aura then buffNames[aura] = true else break end
         i = i + 1
     end
@@ -300,7 +300,7 @@ function LM.MountRegistry:GetActiveMount()
     local buffIDs = { }
     local i = 1
     while true do
-        local id = select(10, UnitAura('player', i))
+        local id = select(10, C_UnitAuras.GetAuraDataByIndex('player', i))
         if id then buffIDs[id] = true else break end
         i = i + 1
     end

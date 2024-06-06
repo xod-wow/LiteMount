@@ -88,7 +88,7 @@ function LM.Mount.FilterToDisplay(f)
         -- XXX LOCALIZE XXX
         return TYPE .. ' : ' .. L[f]
     else
-        local n = GetSpellInfo(f)
+        local n = C_Spell.GetSpellName(f)
         if n then return n end
         return DISABLED_FONT_COLOR:WrapTextInColorCode(f)
     end
@@ -200,11 +200,11 @@ function LM.Mount:IsActive(buffTable)
 end
 
 function LM.Mount:IsCastable()
-    local castTime = select(4, GetSpellInfo(self.spellID))
+    local info = C_Spell.GetSpellInfo(self.spellID)
     if LM.Environment:IsMovingOrFalling() then
-        if castTime > 0 then return false end
+        if info.castTime > 0 then return false end
     elseif LM.Options:GetOption('instantOnlyMoving') then
-        if castTime == 0 then return false end
+        if info.castTime == 0 then return false end
     end
     return true
 end
@@ -246,12 +246,12 @@ end
 -- These should probably not be making new identical objects all the time.
 
 function LM.Mount:GetCastAction()
-    local spellName = GetSpellInfo(self.spellID)
+    local spellName = C_Spell.GetSpellName(self.spellID)
     return LM.SecureAction:Spell(spellName)
 end
 
 function LM.Mount:GetCancelAction()
-    local spellName = GetSpellInfo(self.spellID)
+    local spellName = C_Spell.GetSpellName(self.spellID)
     return LM.SecureAction:CancelAura(spellName)
 end
 
@@ -311,7 +311,7 @@ end
 function LM.Mount:Dump(prefix)
     prefix = prefix or ""
 
-    local spellName = GetSpellInfo(self.spellID)
+    local spellName = C_Spell.GetSpellName(self.spellID)
 
     local currentFlags, defaultFlags = {}, {}
     for f in pairs(self:GetFlags()) do tinsert(currentFlags, f) end

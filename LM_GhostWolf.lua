@@ -12,7 +12,7 @@ local _, LM = ...
 if LibDebug then LibDebug() end
 --@end-debug@
 
-local TABLET_OF_GHOST_WOLF_AURA = GetSpellInfo(168799)
+local TABLET_OF_GHOST_WOLF_AURA = C_Spell.GetSpellName(168799)
 
 LM.GhostWolf = setmetatable({ }, LM.Spell)
 LM.GhostWolf.__index = LM.GhostWolf

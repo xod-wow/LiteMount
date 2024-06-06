@@ -7,9 +7,9 @@
   Draenor Ability spells are weird.
 
   The name of the Garrison Ability (localized) is
-        name = GetSpellInfo(161691)
+        name = C_Spell.GetSpellName(161691)
   But,
-        GetSpellInfo(name)
+        C_Spell.GetSpellName(name)
   returns the actual current spell that's active.
 
   Copyright 2011 Mike Battersby
@@ -30,7 +30,7 @@ function LM.Nagrand:Get(spellID, faction, ...)
 
     if m then
         m.baseSpellID = LM.SPELL.GARRISON_ABILITY
-        m.baseSpellName = GetSpellInfo(m.baseSpellID)
+        m.baseSpellName = C_Spell.GetSpellName(m.baseSpellID)
         m.needsFaction = faction
     end
 
@@ -55,8 +55,8 @@ end
 function LM.Nagrand:IsCastable()
     local zoneAbilities = C_ZoneAbility.GetActiveAbilities()
     for _,info in ipairs(zoneAbilities) do
-        local zoneSpellName = GetSpellInfo(info.spellID)
-        local zoneSpellID = select(7, GetSpellInfo(zoneSpellName))
+        local zoneSpellName = C_Spell.GetSpellName(info.spellID)
+        local zoneSpellID = C_Spell.GetSpellInfo(zoneSpellName).spellID
         if zoneSpellID == self.spellID then
             return IsUsableSpell(info.spellID) and LM.Mount.IsCastable(self)
         end

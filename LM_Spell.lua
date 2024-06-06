@@ -19,18 +19,18 @@ LM.Spell.__index = LM.Spell
 
 function LM.Spell:Get(spellID, ...)
 
-    local name, _, icon = GetSpellInfo(spellID)
+    local info = C_Spell.GetSpellInfo(spellID)
 
-    if not name then
+    if not info then
         LM.Debug("LM.Mount: Failed GetSpellInfo #"..spellID)
         return
     end
 
-    local m = LM.Mount.new(self, spellID)
+    local m = LM.Mount.new(self, info.spellID)
 
-    m.name = name
-    m.spellID = spellID
-    m.icon = icon
+    m.name = info.name
+    m.spellID = info.spellID
+    m.icon = info.iconID
     m.flags = { }
 
     for i = 1, select('#', ...) do
@@ -54,7 +54,7 @@ function LM.Spell:IsCastable()
         return false
     end
 
-    if GetSpellCooldown(self.spellID) > 0 then
+    if C_Spell.GetSpellCooldown(self.spellID) > 0 then
         return false
     end
 

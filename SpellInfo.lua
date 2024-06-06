@@ -75,7 +75,7 @@ local aqMap = C_Map.GetMapInfo(319)
 LM.MOUNT_TYPES = {
     [0]   = OTHER,
     [230] = MOUNT_JOURNAL_FILTER_GROUND,
-    [231] = GetSpellInfo(64731), -- Sea Turtle
+    [231] = C_Spell.GetSpellName(64731), -- Sea Turtle
     [232] = vashjirMap and vashjirMap.name,
     [241] = aqMap and aqMap.name,
     [242] = DEAD,
@@ -96,12 +96,12 @@ LM.MOUNT_TYPES = {
 function LM.UnitAura(unit, aura, filter)
     local i = 1
     while true do
-        local name, _, _, _, _, _, _, _, _, id = UnitAura(unit, i, filter)
+        local name, _, _, _, _, _, _, _, _, id = C_UnitAuras.GetAuraDataByIndex(unit, i, filter)
         if not name then
             return
         end
         if name == aura or id == tonumber(aura) then
-            return UnitAura(unit, i, filter)
+            return C_UnitAuras.GetAuraDataByIndex(unit, i, filter)
         end
         i = i + 1
     end

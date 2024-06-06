@@ -39,7 +39,7 @@ function LiteMount:Initialize()
     -- Do this first because LM.Debug doesn't work until it's loaded.
     LM.Options:Initialize()
 
-    local version = GetAddOnMetadata("LiteMount", "Version") or "UNKNOWN"
+    local version = C_AddOns.GetAddOnMetadata("LiteMount", "Version") or "UNKNOWN"
 
     LM.Debug("Initializing LiteMount v%s, debugging enabled.", version)
 

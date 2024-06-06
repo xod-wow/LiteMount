@@ -36,12 +36,12 @@ function LM.ItemSummoned:Get(itemID, spellID, ...)
 end
 
 function LM.ItemSummoned:IsCollected()
-    return GetItemCount(self.itemID) > 0
+    return C_Item.GetItemCount(self.itemID) > 0
 end
 
 function LM.ItemSummoned:GetCastAction(context)
     -- I assume that if you actually have the item, GetItemInfo() works
-    local itemName = GetItemInfo(self.itemID)
+    local itemName = C_Item.GetItemInfo(self.itemID)
     return LM.SecureAction:Item(itemName)
 end
 
@@ -52,18 +52,18 @@ function LM.ItemSummoned:IsCastable()
         return false
     end
 
-    if IsEquippableItem(self.itemID) then
-        if not IsEquippedItem(self.itemID) then
+    if C_Item.IsEquippableItem(self.itemID) then
+        if not C_Item.IsEquippedItem(self.itemID) then
             return false
         end
     else
-        if GetItemCount(self.itemID) == 0 then
+        if C_Item.GetItemCount(self.itemID) == 0 then
             return false
         end
     end
 
     -- Either equipped or non-equippable and in bags
-    local start, duration, enable = GetItemCooldown(self.itemID)
+    local start, duration, enable = C_Item.GetItemCooldown(self.itemID)
     if duration > 0 and (enable == true or enable == 1) then
         return false
     end

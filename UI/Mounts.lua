@@ -222,7 +222,7 @@ LiteMountMountButtonMixin = {}
 function LiteMountMountButtonMixin:Update(bitFlags, mount)
     self.mount = mount
     self.Icon:SetNormalTexture(mount.icon)
-    self.Name:SetText(mount.name)
+    self.Name:SetText(mount.name .. ' ' .. tostring(mount.mountTypeID))
 
     local count = mount:GetSummonCount()
     if count > 0 then

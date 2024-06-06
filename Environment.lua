@@ -207,13 +207,13 @@ function LM.Environment:GetEncounterInfo()
     end
 end
 
-local herbSpellName = GetSpellInfo(2366)
-local mineSpellName = GetSpellInfo(2575)
--- local mineSpellName2 = GetSpellInfo(195122)
+local herbSpellName = C_Spell.GetSpellName(2366)
+local mineSpellName = C_Spell.GetSpellName(2575)
+-- local mineSpellName2 = C_Spell.GetSpellName(195122)
 
 function LM.Environment:UNIT_SPELLCAST_SUCCEEDED(ev, unit, guid, spellID)
     if unit == 'player' then
-        local spellName = GetSpellInfo(spellID)
+        local spellName = C_Spell.GetSpellName(spellID)
         if spellName == herbSpellName then
             self.lastHerbTime = GetTime()
         elseif spellName == mineSpellName then

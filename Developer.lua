@@ -38,7 +38,7 @@ function LM.Developer:CompareUsability()
     for i = 1, #self.usableOnSurface do
         if self.usableOnSurface[i] ~= self.usableUnderWater[i] then
             LM.Print("Found a spell with a difference!")
-            LM.Print(i .. ": " .. GetSpellInfo(i))
+            LM.Print(i .. ": " .. C_Spell.GetSpellName(i))
             LM.Print("")
         end
         if i % 50000 == 0 then
@@ -102,17 +102,14 @@ function LM.Developer:ExportMockData()
     data.GetSpellInfo = {}
 
     for name, spellID in pairs(LM.SPELL) do
-        local info = { GetSpellInfo(spellID) }
-        if info[1] then
-            data.GetSpellInfo[spellID] = info
-        end
+        data.GetSpellInfo[spellID] = C_Spell.GetSpellInfo(spellID)
     end
 
     for _,mountID in ipairs(C_MountJournal.GetMountIDs()) do
         data.GetMountInfoByID[mountID] = { C_MountJournal.GetMountInfoByID(mountID) }
         data.GetMountInfoExtraByID[mountID] = { C_MountJournal.GetMountInfoExtraByID(mountID) }
         local spellID = select(2, C_MountJournal.GetMountInfoByID(mountID))
-        data.GetSpellInfo[spellID] =  { GetSpellInfo(spellID) }
+        data.GetSpellInfo[spellID] =  C_Spell.GetSpellInfo(spellID)
     end
 
     data.GetItemInfo = {}
@@ -126,7 +123,7 @@ function LM.Developer:ExportMockData()
         info = { GetItemSpell(itemID) }
         if info[1] then
             data.GetItemSpell[itemID] = info
-            data.GetSpellInfo[info[2]] = { GetSpellInfo(info[2]) }
+            data.GetSpellInfo[info[2]] = C_Spell.GetSpellInfo(info[2])
         end
     end
 

@@ -57,13 +57,13 @@ function LM.Soulshape:IsCastable()
     end
 ]]
 
-    local activeSpellID = select(7, GetSpellInfo(self.name))
+    local activeSpellInfo = C_Spell.GetSpellInfo(self.name)
 
-    if not IsUsableSpell(activeSpellID) then
+    if not IsUsableSpell(activeSpellInfo.spellID) then
         return false
     end
 
-    if GetSpellCooldown(activeSpellID) > 0 then
+    if GetSpellCooldown(activeSpellInfo.spellID) > 0 then
         return false
     end
 

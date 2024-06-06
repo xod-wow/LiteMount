@@ -200,7 +200,7 @@ function LiteMountGeneralPanelMixin:OnLoad()
                     LM.Options:SetOption('randomWeightStyle', 'Rarity')
                 end
             end
-        if not IsAddOnLoaded('MountsRarity') then
+        if not C_AddOns.IsAddOnLoaded('MountsRarity') then
             self.UseRarityWeight.Text:SetScript('OnEnter',
                     function (self)
                         GameTooltip:SetOwner(self, "ANCHOR_CURSOR")

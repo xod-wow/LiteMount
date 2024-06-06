@@ -79,14 +79,14 @@ function LM.Journal:Get(id)
         m.mountTypeID = 230
     elseif m.mountTypeID == 229 then      -- Cataclysm Classic: Drakes
         m.flags['FLY'] = true
-        m.mountTypeID = 248
+        -- m.mountTypeID = 248
     elseif m.mountTypeID == 231 then      -- riding/sea turtle
         m.flags['SWIM'] = true
     elseif m.mountTypeID == 232 then      -- Vashj'ir Seahorse
         -- no flags
     elseif m.mountTypeID == 238 then      -- Cataclysm Classic: Drakes (2)
         m.flags['FLY'] = true
-        m.mountTypeID = 248
+        -- m.mountTypeID = 248
     elseif m.mountTypeID == 241 then      -- AQ-only bugs
         -- no flags
     elseif m.mountTypeID == 242 then      -- Flyers for when dead in some zones
@@ -117,15 +117,15 @@ function LM.Journal:Get(id)
         m.flags['SWIM'] = true
     elseif m.mountTypeID == 424 then      -- Flying + Dragonriding Drake
         m.flags['FLY'] = true
-        m.mountTypeID = 248
+        -- m.mountTypeID = 248
     elseif m.mountTypeID == 426 then      -- Dragonriding copies for Azeroth comp: ABORT
         return
     elseif m.mountTypeID == 428 then      -- Flying + Dragonriding Protodrake
         m.flags['FLY'] = true
-        m.mountTypeID = 248
+        -- m.mountTypeID = 248
     elseif m.mountTypeID == 429 then      -- Flying + Dragonriding Roc/Pterrodax
         m.flags['FLY'] = true
-        m.mountTypeID = 248
+        -- m.mountTypeID = 248
     elseif m.mountTypeID == 430 then      -- Literally only "Temp" right now: ABORT
         return
 --@debug@
@@ -222,7 +222,7 @@ function LM.Journal:GetCastAction(context)
     end
 
     if context and context.preCast then
-        castActions = castActions or { "/cast " .. GetSpellInfo(self.spellID) }
+        castActions = castActions or { "/cast " .. C_Spell.GetSpellName(self.spellID) }
         table.insert(castActions, 1, "/cast [@player] " .. context.preCast)
     end
 
