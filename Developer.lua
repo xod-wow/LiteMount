@@ -116,14 +116,11 @@ function LM.Developer:ExportMockData()
     data.GetItemSpell = {}
 
     for name, itemID in pairs(LM.ITEM) do
-        local info = { C_Item.GetItemInfo(itemID) }
-        if info[1] then
-            data.GetItemInfo[itemID] = info
-        end
-        info = { C_Item.GetItemSpell(itemID) }
-        if info[1] then
-            data.GetItemSpell[itemID] = info
-            data.GetSpellInfo[info[2]] = C_Spell.GetSpellInfo(info[2])
+        data.GetItemInfo[itemID] = C_Item.GetItemInfo(itemID)
+        local spellName, spellID = C_Item.GetItemSpell(itemID)
+        if spellName then
+            data.GetItemSpell[spellID] = { spellName, spellID }
+            data.GetSpellInfo[spellID] = C_Spell.GetSpellInfo(spellID)
         end
     end
 

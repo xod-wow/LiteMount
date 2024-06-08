@@ -378,12 +378,12 @@ CONDITIONS["equipped"] = {
                 return false
             end
 
-            if IsEquippedItemType(v) then
+            if C_Item.IsEquippedItemType(v) then
                 return true
             end
 
             v = tonumber(v) or v
-            if IsEquippedItem(v) then
+            if C_Item.IsEquippedItem(v) then
                 return true
             end
 

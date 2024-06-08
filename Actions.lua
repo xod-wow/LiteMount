@@ -596,9 +596,9 @@ local function IsCastableItem(itemID)
         if not C_ToyBox.IsToyUsable(itemID) then
             return false
         end
-    elseif not IsUsableItem(itemID) then
+    elseif not C_Item.IsUsableItem(itemID) then
         return false
-    elseif IsEquippableItem(itemID) and not IsEquippedItem(itemID) then
+    elseif C_Item.IsEquippableItem(itemID) and not C_Item.IsEquippedItem(itemID) then
         return false
     end
 
@@ -612,7 +612,7 @@ end
 
 -- A derpy version of SecureCmdItemParse that doesn't support bags but does
 -- support item IDs as well as slot names. The assumption is that if you have
--- the item then GetItemInfo will always return values immediately.
+-- the item then GetItemName will always return values immediately.
 
 local function UsableItemParse(arg)
     local name, itemID, slotNum
@@ -621,7 +621,7 @@ local function UsableItemParse(arg)
     if slotOrID and slotOrID <= INVSLOT_LAST_EQUIPPED then
         slotNum = slotOrID
     elseif slotOrID then
-        name = C_Item.GetItemInfo(slotOrID)
+        name = C_Item.GetItemNameByID(slotOrID)
         itemID = slotOrID
     else
         local slotName = "INVSLOT_"..arg:upper()
@@ -629,7 +629,7 @@ local function UsableItemParse(arg)
             slotNum = _G[slotName]
         else
             name = arg
-            itemID = C_Item.GetItemInfoInstant(arg)
+            itemID = C_Item.GetItemID(arg)
         end
     end
 
@@ -693,7 +693,7 @@ ACTIONS['Use'] = {
                     end
                 else
                     LM.Debug('  * trying item ' .. tostring(name))
-                    if name and IsCastableItem(itemID) then
+                    if name and C_Item.IsCastableItem(itemID) then
                         LM.Debug('  * setting action to use item ' .. name)
                         return LM.SecureAction:Item(name, context.rule.unit)
                     end

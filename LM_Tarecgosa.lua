@@ -77,7 +77,7 @@ function LM.Tarecgosa:IsCastable()
         if C_Item.GetItemCount(self.itemID) == 0 then
             return false
         end
-    elseif not IsEquippedItem(self.itemID) then
+    elseif not C_Item.IsEquippedItem(self.itemID) then
         return false
     end
 
@@ -130,4 +130,3 @@ function LM.Tarecgosa2:GetCastAction()
 
     return LM.SecureAction:Macro(self:Macro())
 end
-
