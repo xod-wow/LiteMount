@@ -602,7 +602,7 @@ local function IsCastableItem(itemID)
         return false
     end
 
-    local s, d, e = GetItemCooldown(itemID)
+    local s, d, e = C_Item.GetItemCooldown(itemID)
     if s == 0 and (e == true or e == 1) then
         return true
     end
@@ -621,7 +621,7 @@ local function UsableItemParse(arg)
     if slotOrID and slotOrID <= INVSLOT_LAST_EQUIPPED then
         slotNum = slotOrID
     elseif slotOrID then
-        name = GetItemInfo(slotOrID)
+        name = C_Item.GetItemInfo(slotOrID)
         itemID = slotOrID
     else
         local slotName = "INVSLOT_"..arg:upper()
@@ -629,7 +629,7 @@ local function UsableItemParse(arg)
             slotNum = _G[slotName]
         else
             name = arg
-            itemID = GetItemInfoInstant(arg)
+            itemID = C_Item.GetItemInfoInstant(arg)
         end
     end
 

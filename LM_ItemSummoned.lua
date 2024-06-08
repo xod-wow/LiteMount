@@ -16,7 +16,7 @@ LM.ItemSummoned = setmetatable({ }, LM.Mount)
 LM.ItemSummoned.__index = LM.ItemSummoned
 
 -- In theory we might be able to just use the itemID and use
---      spellName = GetItemSpell(itemID)
+--      spellName = C_Item.GetItemSpell(itemID)
 -- the trouble is the names aren't definitely unique and that makes me
 -- worried.  Since there are such a small number of these, keeping track of
 -- the spell as well isn't a burden.

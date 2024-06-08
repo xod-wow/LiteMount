@@ -31,7 +31,7 @@ function LM.Tarecgosa:Get()
 end
 
 function LM.Tarecgosa:IsCollected()
-    return ( GetItemCount(self.itemID) > 0 )
+    return ( C_Item.GetItemCount(self.itemID) > 0 )
 end
 
 function LM.Tarecgosa:InProgress()
@@ -46,7 +46,7 @@ function LM.Tarecgosa:GetCastAction(context)
         return { ['type'] = "macro", ['macrotext'] = "" }
     end
 
-    local itemName = GetItemInfo(self.itemID)
+    local itemName = C_Item.GetItemInfo(self.itemID)
 
     -- We could move this back into LM.ItemSummoned if I could figure
     -- out how to determine what slot an item went into automatically.
@@ -74,7 +74,7 @@ function LM.Tarecgosa:IsCastable()
     end
 
     if LM.Options.db.profile.enableTwoPress then
-        if GetItemCount(self.itemID) == 0 then
+        if C_Item.GetItemCount(self.itemID) == 0 then
             return false
         end
     elseif not IsEquippedItem(self.itemID) then
@@ -91,7 +91,7 @@ LM.Tarecgosa2.__index = LM.Tarecgosa2
 function LM.Tarecgosa2:Get(itemID)
     local m = setmetatable({ }, self)
     m.itemID = itemID
-    m.spellID = select(2, GetItemSpell(itemID))
+    m.spellID = select(2, C_Item.GetItemSpell(itemID))
     m.mainHand = GetInventoryItemID("player", 16)
     m.offHand = GetInventoryItemID("player", 17)
 
@@ -122,7 +122,7 @@ function LM.Tarecgosa2:GetCastAction()
     end
 
     --[[
-    local start, duration, enable = GetItemCooldown(self.itemID)
+    local start, duration, enable = C_Item.GetItemCooldown(self.itemID)
     if (enable == true or enable == 1) and duration > 0 then
         return tryAgain
     end
