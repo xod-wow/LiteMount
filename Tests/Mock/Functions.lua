@@ -59,14 +59,6 @@ function GetNumTrackingTypes() return 0 end
 
 function GetMaxLevelForLatestExpansion() return 60 end
 
-function GetAddOnMetadata(name, attr)
-    if attr == "Title" then
-        return "LiteMount"
-    elseif attr == "Version" then
-        return "99.9"
-    end
-end
-
 function IsSubmerged() return MockState.submerged end
 
 function IsFalling() return MockState.falling end
@@ -126,10 +118,6 @@ function IsInGroup(groupType)
 end
 
 IsInRaid = IsInGroup
-
-function GetTalentTierInfo(tier)
-    return true, math.random(3), 10
-end
 
 function GetSpecialization()
     local class = UnitClass('player')

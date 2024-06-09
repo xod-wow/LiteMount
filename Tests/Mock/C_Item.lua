@@ -6,22 +6,24 @@ local function GetIDByName(name)
     return id
 end
 
-function UseItemByName(itemName)
+C_Item = {}
+
+function C_Item.UseItemByName(itemName)
     print(">>> UseItem " .. itemName)
     local spellName, spellID = GetItemSpell(itemName)
     print(">>> ", spellName, spellID)
     CastSpell(spellID)
 end
 
-function IsEquippableItem(id)
+function C_Item.IsEquippableItem(id)
     return ( id == 71086 )
 end
 
-function IsEquippedItem(id)
+function C_Item.IsEquippedItem(id)
     return MockState.equipped[id]
 end
 
-function IsEquippedItemType(itemType)
+function C_Item.IsEquippedItemType(itemType)
     if math.random() < 0.2 then
         return true
     else
@@ -29,16 +31,15 @@ function IsEquippedItemType(itemType)
     end
 end
 
-function GetItemInfo(id)
+function C_Item.GetItemInfo(id)
     if type(id) == 'number' then
         return MockGetFromData(data.GetItemInfo, id)
     else
-        print(id, MockGetFromData(data.GetItemInfo, id, 1))
         return MockGetFromData(data.GetItemInfo, id, 1)
     end
 end
 
-function GetItemCount(id)
+function C_Item.GetItemCount(id)
     if data.GetItemInfo[id] then
         return 1
     else
@@ -46,12 +47,12 @@ function GetItemCount(id)
     end
 end
 
-function GetItemCooldown(id)
+function C_Item.GetItemCooldown(id)
     -- start, duration, enable
     return 0, 0, 1
 end
 
-function GetItemSpell(id)
+function C_Item.GetItemSpell(id)
     if type(id) ~= 'number' then
         id = GetIDByName(id)
     end
