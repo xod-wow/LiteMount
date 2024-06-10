@@ -20,6 +20,18 @@ local function maxn(t)
     return n
 end
 
+local function IsIndexTable(t)
+    if type(t) ~= 'table' then
+        return false
+    end
+    for k in pairs(t) do
+        if type(k) ~= 'number' then
+            return false
+        end
+    end
+    return true
+end
+
 function MockGetFromData(mTable, mKey, mIndex)
     local _, info
     if mIndex then
@@ -27,7 +39,7 @@ function MockGetFromData(mTable, mKey, mIndex)
         if not mKey then return end
     end
     info = mTable[mKey]
-    if type(info) == "table" then
+    if IsIndexTable(info) then
         return unpack(info, 1, maxn(info))
     else
         return info

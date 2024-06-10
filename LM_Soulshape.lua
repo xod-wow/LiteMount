@@ -63,7 +63,8 @@ function LM.Soulshape:IsCastable()
         return false
     end
 
-    if GetSpellCooldown(activeSpellInfo.spellID) > 0 then
+    local cooldownInfo = C_Spell.GetSpellCooldown(activeSpellInfo.spellID)
+    if cooldownInfo and cooldownInfo.startTime > 0 then
         return false
     end
 

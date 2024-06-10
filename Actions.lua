@@ -162,8 +162,11 @@ local function GetUsableSpell(arg)
     local subtext = GetSpellSubtext(argN or arg)
     local nameWithSubtext = string.format('%s(%s)', name, subtext or "")
 
-    if name and C_Spell.IsUsableSpell(name) and C_Spell.GetSpellCooldown(name) == 0 then
-        return name, spellID, nameWithSubtext
+    if name and IsUsableSpell(name) then
+        local cooldownInfo = C_Spell.GetSpellCooldown(name)
+        if cooldownInfo and cooldownInfo.startTime == 0 then
+            return name, spellID, nameWithSubtext
+        end
     end
 end
 
