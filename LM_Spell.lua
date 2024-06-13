@@ -50,7 +50,7 @@ function LM.Spell:IsCastable()
         return false
     end
 
-    if not IsUsableSpell(self.spellID) then
+    if not C_Spell.IsSpellUsable(self.spellID) then
         return false
     end
 

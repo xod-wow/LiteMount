@@ -67,7 +67,7 @@
 
   You can't use Running Wild when you are shapeshifted (e.g., you are
   transformed into a Night Elf or Human by a dungeon buff).  Unfortunately
-  IsUsableSpell() still returns true in that case.
+  IsSpellUsable() still returns true in that case.
 
 
 * [CLOSED] Code to check every spell usability

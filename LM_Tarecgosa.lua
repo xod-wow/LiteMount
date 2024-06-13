@@ -68,8 +68,8 @@ function LM.Tarecgosa:IsCastable()
         return true
     end
 
-    -- IsUsableSpell seems to test correctly whether it's indoors etc.
-    if not IsUsableSpell(self.spellID) then
+    -- IsSpellUsable seems to test correctly whether it's indoors etc.
+    if not C_Spell.IsSpellUsable(self.spellID) then
         return false
     end
 
@@ -117,7 +117,7 @@ function LM.Tarecgosa2:GetCastAction()
         ['lm-nextaction'] = self,
     }
 
-    if not IsEquippedItem(self.itemID) or not IsUsableSpell(self.spellID) then
+    if not IsEquippedItem(self.itemID) or not C_Spell.IsSpellUsable(self.spellID) then
         return LM.SecureAction:New(tryAgain)
     end
 

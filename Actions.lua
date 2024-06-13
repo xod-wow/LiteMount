@@ -162,7 +162,7 @@ local function GetUsableSpell(arg)
     local subtext = GetSpellSubtext(argN or arg)
     local nameWithSubtext = string.format('%s(%s)', name, subtext or "")
 
-    if name and IsUsableSpell(name) then
+    if name and C_Spell.IsSpellUsable(name) then
         local cooldownInfo = C_Spell.GetSpellCooldown(name)
         if cooldownInfo and cooldownInfo.startTime == 0 then
             return name, spellID, nameWithSubtext
@@ -225,7 +225,7 @@ ACTIONS['Buff'] = {
 -- Set context.precast to a spell name to try to macro in before mounting journal
 -- mounts. This is a bit less strict than Spell and Buff because the macro
 -- still works even if the spell isn't usable, and has the advantage of
--- avoiding the IsUsableSpell failures when targeting others.
+-- avoiding the IsSpellUsable failures when targeting others.
 
 ACTIONS['PreCast'] = {
     name = L.LM_PRECAST_ACTION,

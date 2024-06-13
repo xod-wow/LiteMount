@@ -25,7 +25,7 @@ local function CoPartialUpdate(t)
     local i = #t + 1
     while true do
         if i > MAX_SPELL_ID then return end
-        t[i] = IsUsableSpell(i)
+        t[i] = C_Spell.IsSpellUsable(i)
         if i % 50000 == 0 then
             LM.Print(i)
             coroutine.yield()

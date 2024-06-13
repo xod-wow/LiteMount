@@ -59,7 +59,7 @@ function LM.Soulshape:IsCastable()
 
     local activeSpellInfo = C_Spell.GetSpellInfo(self.name)
 
-    if not IsUsableSpell(activeSpellInfo.spellID) then
+    if not C_Spell.IsSpellUsable(activeSpellInfo.spellID) then
         return false
     end
 

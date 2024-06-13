@@ -2,7 +2,7 @@
   LiteMount/Location.lua
 
   Some basics about the current game state with respect to mounting. Most of
-  the mojo is done by IsUsableSpell to know if a mount can be cast, this just
+  the mojo is done by IsSpellUsable to know if a mount can be cast, this just
   helps with the prioritization.
 
   Copyright 2011 Mike Battersby

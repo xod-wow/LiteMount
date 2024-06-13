@@ -187,7 +187,7 @@ function LM.Journal:IsCastable()
     if not usable then
         return false
     end
-    if not IsUsableSpell(self.spellID) then
+    if not C_Spell.IsSpellUsable(self.spellID) then
         return false
     end
     return LM.Mount.IsCastable(self)

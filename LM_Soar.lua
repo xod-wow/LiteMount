@@ -30,7 +30,7 @@ function LM.Soar:Get(...)
     end
 end
 
--- Soar gives an error message instead of IsUsableSpell false in a variety
+-- Soar gives an error message instead of IsSpellUsable false in a variety
 -- of pretty ordinary circumstances.
 
 function LM.Soar:IsCastable()

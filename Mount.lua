@@ -336,5 +336,5 @@ function LM.Mount:Dump(prefix)
     LM.Print(prefix .. " isFavorite: " .. tostring(self:IsFavorite()))
     LM.Print(prefix .. " isFiltered: " .. tostring(self:IsFiltered()))
     LM.Print(prefix .. " priority: " .. tostring(self:GetPriority()))
-    LM.Print(prefix .. " castable: " .. tostring(self:IsCastable()) .. " (spell " .. tostring(IsUsableSpell(self.spellID)) .. ")")
+    LM.Print(prefix .. " castable: " .. tostring(self:IsCastable()) .. " (spell " .. tostring(C_Spell.IsSpellUsable(self.spellID)) .. ")")
 end

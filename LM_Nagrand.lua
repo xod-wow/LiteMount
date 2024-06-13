@@ -58,7 +58,7 @@ function LM.Nagrand:IsCastable()
         local zoneSpellName = C_Spell.GetSpellName(info.spellID)
         local zoneSpellID = C_Spell.GetSpellInfo(zoneSpellName).spellID
         if zoneSpellID == self.spellID then
-            return IsUsableSpell(info.spellID) and LM.Mount.IsCastable(self)
+            return C_Spell.IsSpellUsable(info.spellID) and LM.Mount.IsCastable(self)
         end
     end
     return false
