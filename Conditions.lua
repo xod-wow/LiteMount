@@ -1067,7 +1067,10 @@ CONDITIONS["raid"] = {
 CONDITIONS["random"] = {
     handler =
         function (cond, context, n)
-            return math.random(100) <= tonumber(n)
+            n = tonumber(n)
+            if n then
+                return math.random(100) <= tonumber(n)
+            end
         end
 }
 
