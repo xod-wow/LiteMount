@@ -1034,7 +1034,7 @@ CONDITIONS["pvp"] = {
             if not v then
                 return UnitIsPVP(context.rule.unit or "player")
             else
-                return GetZonePVPInfo() == v
+                return C_PvP.GetZonePVPInfo() == v
             end
         end
 }
