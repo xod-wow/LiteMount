@@ -91,42 +91,51 @@ function LM.Journal:Get(id)
         -- no flags
     elseif m.mountTypeID == 242 then      -- Flyers for when dead in some zones
         m.flags['FLY'] = true
-    elseif m.mountTypeID == 247 then      -- Red Flying Cloud
-        m.flags['FLY'] = true
-    elseif m.mountTypeID == 248 then      -- Flying mounts
+    elseif m.mountTypeID == 248 then      -- Steady flying only mounts (none left?)
         m.flags['FLY'] = true
     elseif m.mountTypeID == 254 then      -- Swimming only mounts
         m.flags['SWIM'] = true
     elseif m.mountTypeID == 284 then      -- Chauffeured Mekgineer's Chopper
         m.flags['RUN'] = true
         m.flags['SLOW'] = true
-    elseif m.mountTypeID == 398 then      -- Kua'fon
-        -- Kua'fon can fly if achievement 13573 is completed, otherwise run
-    elseif m.mountTypeID == 402 then      -- Dragonriding
+    elseif m.mountTypeID == 402 then      -- Original DF Dragonriding mounts
+        m.flags['FLY'] = true
         m.flags['DRAGONRIDING'] = true
     elseif m.mountTypeID == 407 then      -- Flying + Aquatic (Aurelid etc.)
+        -- XXX FIXME XXX can this dragonride?
         m.flags['FLY'] = true
         m.flags['SWIM'] = true
     elseif m.mountTypeID == 408 then      -- Unsuccessful Prototype Fleetpod
         m.flags['RUN'] = true
         m.flags['SLOW'] = true
-    elseif m.mountTypeID == 411 then      -- Whelpling, what on earth is this: ABORT
-        return
     elseif m.mountTypeID == 412 then      -- Ground + Aquatic (Ottuk etc.)
         m.flags['RUN'] = true
         m.flags['SWIM'] = true
     elseif m.mountTypeID == 424 then      -- Flying + Dragonriding Drake
         m.flags['FLY'] = true
-        -- m.mountTypeID = 248
-    elseif m.mountTypeID == 426 then      -- Dragonriding copies for Azeroth comp: ABORT
+        m.flags['DRAGONRIDING'] = true
+    elseif m.mountTypeID == 436 then      -- Flying + Aquatic + Dragonriding
+        m.flags['FLY'] = true
+        m.flags['DRAGONRIDING'] = true
+    elseif m.mountTypeID == 437 then      -- Flying discs can't dragonride?
+        m.flags['FLY'] = true
+    elseif m.mountTypeID == 442 then      -- Soar, now a journal mount?
+        -- XXX FIXME XXX can Soar steady fly?
+        m.flags['DRAGONRIDING'] = true
+    elseif m.mountTypeID == 398 then      -- Used to be Kua'fon
+        -- Kua'fon can fly if achievement 13573 is completed, otherwise run
         return
-    elseif m.mountTypeID == 428 then      -- Flying + Dragonriding Protodrake
-        m.flags['FLY'] = true
-        -- m.mountTypeID = 248
-    elseif m.mountTypeID == 429 then      -- Flying + Dragonriding Roc/Pterrodax
-        m.flags['FLY'] = true
-        -- m.mountTypeID = 248
-    elseif m.mountTypeID == 430 then      -- Literally only "Temp" right now: ABORT
+    elseif m.mountTypeID == 247 then      -- Used to be Red Flying Cloud
+        return
+    elseif m.mountTypeID == 430 then      -- Whelpling, what on earth is this: ABORT
+        return
+    elseif m.mountTypeID == 411 then      -- Used to be Whelpling
+        return
+    elseif m.mountTypeID == 426 then      -- Used to be Dragonriding copies for races
+        return
+    elseif m.mountTypeID == 428 then      -- Used to be Flying + Dragonriding Protodrake
+        return
+    elseif m.mountTypeID == 429 then      -- Used to be Flying + Dragonriding Roc/Pterrodax
         return
 --@debug@
     else
@@ -156,6 +165,7 @@ end
 function LM.Journal:GetFlags()
     local flags = LM.Mount.GetFlags(self)
 
+    -- XXX FIXME XXX is this still required at all? If so it should be fixed
     -- Dynamic Kua'fon flags
     if self.mountTypeID == 398 then
         flags = CopyTable(flags)

@@ -72,6 +72,7 @@ LM.ITEM.MAW_SEEKER_HARNESS = 170499
 local vashjirMap = C_Map.GetMapInfo(203)
 local aqMap = C_Map.GetMapInfo(319)
 
+-- XXX FIXME XXX update these for TWW
 LM.MOUNT_TYPES = {
     [0]   = OTHER,
     [230] = MOUNT_JOURNAL_FILTER_GROUND,

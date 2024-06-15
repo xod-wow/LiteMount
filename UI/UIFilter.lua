@@ -552,6 +552,12 @@ function LM.UIFilter.IsFilteredMount(m)
         return hasAura == nil
     end
 
+--@debug@
+    if tonumber(filtertext) then
+        return m.mountTypeID ~= tonumber(filtertext)
+    end
+--@end-debug@
+
     if strfind(m.name:lower(), filtertext:lower(), 1, true) then
         return false
     end
