@@ -159,7 +159,7 @@ local function GetUsableSpell(arg)
     -- pass the spell in by ID since otherwise you'll get whichever one
     -- GetSpellInfo(name) decides to return.
 
-    local subtext = GetSpellSubtext(argN or arg)
+    local subtext = C_Spell.GetSpellSubtext(argN or arg)
     local nameWithSubtext = string.format('%s(%s)', name, subtext or "")
 
     if name and C_Spell.IsSpellUsable(name) then
@@ -280,7 +280,7 @@ local function GetFormNameWithSubtext()
     if idx and idx > 0 then
         local spellID = select(4, GetShapeshiftFormInfo(idx))
         local n = C_Spell.GetSpellName(spellID)
-        local s = GetSpellSubtext(spellID) or ''
+        local s = C_Spell.GetSpellSubtext(spellID) or ''
         return string.format('%s(%s)', n, s)
     end
 end
