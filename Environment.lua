@@ -405,8 +405,12 @@ function LM.Environment:ForceFlyable(instanceID)
 end
 
 function LM.Environment:CanDragonride(mapPath)
-    --- XXX IsPlayerSpell? XXX
-    if not IsSpellKnown(376777) then
+    -- If you can't fly you can't dragonride
+    if not self:KnowsFlyingSkill() then
+        return false
+    end
+
+    if not C_MountJournal.IsDragonridingUnlocked() then
         return false
     end
 
@@ -433,6 +437,7 @@ function LM.Environment:CanDragonride(mapPath)
             return false
         end
     end
+
     -- Lots of non-Dragon Isles areas are wrongly flagged IsAdvancedFlyableArea
     return IsAdvancedFlyableArea() and IsFlyableArea()
 end
