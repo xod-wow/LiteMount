@@ -1178,6 +1178,14 @@ CONDITIONS["shapeshift"] = {
         end
 }
 
+CONDITIONS["skyriding"] = {
+    name = C_Spell.GetSpellName(LM.SPELL.FLIGHT_STYLE_SKYRIDING),
+    handler =
+        function (cond, context)
+            return LM.UnitAura('player', LM.SPELL.FLIGHT_STYLE_SKYRIDING) ~= nil
+        end
+}
+
 CONDITIONS["spec"] = {
     name = SPECIALIZATION,
     disabled = ( GetSpecializationInfoByID == nil ),
@@ -1238,6 +1246,14 @@ CONDITIONS["stealthed"] = {
     handler =
         function (cond, context)
             return IsStealthed()
+        end
+}
+
+CONDITIONS["steadyflight"] = {
+    name = C_Spell.GetSpellName(LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT),
+    handler =
+        function (cond, context)
+            return LM.UnitAura('player', LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT) ~= nil
         end
 }
 
