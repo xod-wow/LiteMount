@@ -905,10 +905,12 @@ CONDITIONS["mounted"] = {
                 return IsMounted()
             else
                 local m = LM.MountRegistry:GetActiveMount()
-                if tonumber(v) then
-                    return m.spellID == tonumber(v)
-                else
-                    return m.name == v
+                if m then
+                    if tonumber(v) then
+                        return m.spellID == tonumber(v)
+                    else
+                        return m.name == v
+                    end
                 end
             end
         end
