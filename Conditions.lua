@@ -793,10 +793,12 @@ CONDITIONS["map"] = {
         end,
     handler =
         function (cond, context, v)
-            if v:sub(1,1) == '*' then
-                return LM.Environment:IsOnMap(tonumber(v:sub(2)))
-            else
-                return LM.Environment:IsMapInPath(tonumber(v), context.mapPath, true)
+            if tonumber(v) then
+                if v:sub(1,1) == '*' then
+                    return LM.Environment:IsOnMap(tonumber(v:sub(2)))
+                else
+                    return LM.Environment:IsMapInPath(tonumber(v), context.mapPath, true)
+                end
             end
         end,
 }
