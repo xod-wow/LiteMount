@@ -285,8 +285,8 @@ function LM.MountRegistry:GetMountFromUnitAura(unitid)
     local buffNames = { }
     local i = 1
     while true do
-        local aura = C_UnitAuras.GetAuraDataByIndex(unitid, i)
-        if aura then buffNames[aura] = true else break end
+        local auraInfo = C_UnitAuras.GetAuraDataByIndex(unitid, i)
+        if auraInfo then buffNames[auraInfo.name] = true else break end
         i = i + 1
     end
     return self.mounts:Find(MatchMountToBuff, buffNames)
@@ -300,8 +300,8 @@ function LM.MountRegistry:GetActiveMount()
     local buffIDs = { }
     local i = 1
     while true do
-        local id = select(10, C_UnitAuras.GetAuraDataByIndex('player', i))
-        if id then buffIDs[id] = true else break end
+        local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
+        if auraInfo then buffIDs[auraInfo.spellId] = true else break end
         i = i + 1
     end
     return self.mounts:Find(function (m) return m:IsActive(buffIDs) end)

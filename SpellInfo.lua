@@ -96,12 +96,12 @@ LM.MOUNT_TYPES = {
 function LM.UnitAura(unit, aura, filter)
     local i = 1
     while true do
-        local name, _, _, _, _, _, _, _, _, id = C_UnitAuras.GetAuraDataByIndex(unit, i, filter)
-        if not name then
+        local auraInfo = C_UnitAuras.GetAuraDataByIndex(unit, i, filter)
+        if not auraInfo then
             return
         end
-        if name == aura or id == tonumber(aura) then
-            return C_UnitAuras.GetAuraDataByIndex(unit, i, filter)
+        if auraInfo.name == aura or auraInfo.spellId == tonumber(aura) then
+            return auraInfo
         end
         i = i + 1
     end
