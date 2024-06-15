@@ -317,9 +317,12 @@ ACTIONS['Dismount'] = {
             if action and savedFormName and savedFormName ~= GetFormNameWithSubtext() then
                 -- Without the /cancelform the "Auto Dismount in Flight" setting stops
                 -- this from working.
+                -- XXX FIXME XXX macrotext required
+                --[[
                 LM.Debug("  * override action to restore form: " .. savedFormName)
                 local macroText = string.format("/cancelform\n/cast %s", savedFormName)
                 action = LM.SecureAction:Macro(macroText)
+                ]]
             end
 
             if action then
