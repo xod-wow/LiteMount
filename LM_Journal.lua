@@ -117,10 +117,11 @@ function LM.Journal:Get(id)
     elseif m.mountTypeID == 436 then      -- Flying + Aquatic + Dragonriding
         m.flags['FLY'] = true
         m.flags['DRAGONRIDING'] = true
-    elseif m.mountTypeID == 437 then      -- Flying discs can't dragonride?
+    elseif m.mountTypeID == 437 then      -- Flying discs
         m.flags['FLY'] = true
+        m.flags['DRAGONRIDING'] = true
     elseif m.mountTypeID == 442 then      -- Soar, now a journal mount?
-        -- XXX FIXME XXX can Soar steady fly?
+        -- Soar can't steady fly but it does cast and immediately cancel
         m.flags['DRAGONRIDING'] = true
     elseif m.mountTypeID == 398 then      -- Used to be Kua'fon
         -- Kua'fon can fly if achievement 13573 is completed, otherwise run
