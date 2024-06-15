@@ -423,8 +423,15 @@ function LM.Environment:CanDragonride(mapPath)
         if override ~= nil then return override end
     end
 
-    -- Dragon Isles and Khaz Algar and everything in them are correctly flagged IsAdvancedFlyableArea
-    -- if you can dragonride, and you can't fly there unless you unlock it.
+    -- TWW intro area has this debuff preventing dragonriding (and I would assume
+    -- flying also would have to check that later).
+    if LM.UnitAura('player', 456486, 'HARMFUL') then
+        return false
+    end
+
+    -- Dragon Isles and Khaz Algar and everything in them are correctly flagged
+    -- IsAdvancedFlyableArea if you can dragonride, and you can't fly there
+    -- unless you unlock it.
 
     if self:IsMapInPath(1978, mapPath) or self:IsMapInPath(2274, mapPath) then
         return IsAdvancedFlyableArea()
