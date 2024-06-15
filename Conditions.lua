@@ -68,7 +68,10 @@ CONDITIONS["achievement"] = {
     -- name = BATTLE_PET_SOURCE_6,
     handler =
         function (cond, context, v)
-            return select(4, GetAchievementInfo(tonumber(v or 0)))
+            v = tonumber(v)
+            if v then
+                return select(4, GetAchievementInfo(v))
+            end
         end
 }
 
