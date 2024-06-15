@@ -1533,6 +1533,15 @@ function LM.Conditions:IsValidCondition(text)
     end
 end
 
+function LM.Conditions:TestAllConditions()
+    local context = LM.RuleContext:New({ id = 99 })
+    for name, cond in pairs(CONDITIONS) do
+        cond:handler(context)
+        cond:handler(context, tostring(math.random(1000000)))
+        cond:handler(context, "text")
+    end
+end
+
 function LM.Conditions:ToDisplay(text)
     local cond, valuestr = strsplit(':', text)
 
