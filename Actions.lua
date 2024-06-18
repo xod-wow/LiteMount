@@ -302,7 +302,6 @@ ACTIONS['Dismount'] = {
 
             if IsMounted() then
                 LM.Debug("  * setting action to dismount")
-                -- action = LM.SecureAction:Macro(SLASH_DISMOUNT1)
                 action = LM.SecureAction:Execute(Dismount)
             else
                 -- Otherwise we look for the mount from its buff and return the cancel
@@ -315,11 +314,15 @@ ACTIONS['Dismount'] = {
             end
 
             if action and savedFormName and savedFormName ~= GetFormNameWithSubtext() then
-                -- Without the /cancelform the "Auto Dismount in Flight" setting stops
-                -- this from working.
-                -- XXX FIXME XXX macrotext required
+                -- "Auto Dismount in Flight" setting stops this from working.
+                if not IsFlying() or GetCVarBool('autoDismountFlying') then
+                    LM.Debug("  * override action to restore form: " .. savedFormName)
+                    action = LM.SecureAction:Spell(savedFormName)
+                else
+                    LM.Debug("  * restore form prevented by flying: " .. savedFormName)
+                end
                 --[[
-                LM.Debug("  * override action to restore form: " .. savedFormName)
+                -- XXX FIXME XXX macrotext required
                 local macroText = string.format("/cancelform\n/cast %s", savedFormName)
                 action = LM.SecureAction:Macro(macroText)
                 ]]

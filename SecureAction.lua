@@ -18,6 +18,21 @@ local _, LM = ...
 if LibDebug then LibDebug() end
 --@end-debug@
 
+local TempMacroName = "_LITEMOUNT_"
+
+local function CreateOrUpdateMacro(macrotext)
+    local index = GetMacroIndexByName(TempMacroName)
+    local _, _, content = GetMacroInfo(index)
+    if content ~= macrotext then
+        if index == 0 then
+            index = CreateMacro(TempMacroName, "ABILITY_MOUNT_MECHASTRIDER", macrotext)
+        else
+            EditMacro(index, nil, nil, macrotext)
+        end
+    end
+    return index
+end
+
 -- This wrapper class is so that LM.ActionButton can treat all of the returns
 -- from action functions as if they were a Mount class.
 
@@ -39,6 +54,13 @@ function LM.SecureAction:SetupActionButton(button, n)
         end
         button:SetAttribute(k, v)
     end
+
+    -- This does seem to work but it is very slow. So slow I can notice it.
+    if self.type == 'macro' then
+        local macroIndex = CreateOrUpdateMacro(self.macrotext)
+        button:SetAttribute("macro", macroIndex)
+    end
+
     -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
     button:SetAttribute("pressAndHoldAction", true)
     button:SetAttribute("typerelease", self.type)
