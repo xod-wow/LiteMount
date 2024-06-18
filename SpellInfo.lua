@@ -74,27 +74,37 @@ LM.ITEM.MAW_SEEKER_HARNESS = 170499
 local vashjirMap = C_Map.GetMapInfo(203)
 local aqMap = C_Map.GetMapInfo(319)
 
--- XXX FIXME XXX update these for TWW
-LM.MOUNT_TYPES = {
+LM.MOUNT_TYPE_IDS = {
     [0]   = OTHER,
+    [225] = MOUNT_JOURNAL_FILTER_GROUND,    -- Cataclysm Classic
+    [229] = MOUNT_JOURNAL_FILTER_FLYING,    -- Cataclysm Classic
     [230] = MOUNT_JOURNAL_FILTER_GROUND,
-    [231] = C_Spell.GetSpellName(64731), -- Sea Turtle
+    [231] = C_Spell.GetSpellName(64731),    -- Sea Turtle
     [232] = vashjirMap and vashjirMap.name,
     [241] = aqMap and aqMap.name,
     [242] = DEAD,
-    [247] = C_MountJournal.GetMountInfoByID(509), -- Red Flying Cloud
-    [248] = MOUNT_JOURNAL_FILTER_FLYING,
+    [247] = C_MountJournal.GetMountInfoByID(285), -- Flying Carpets CC
+    [248] = MOUNT_JOURNAL_FILTER_FLYING,    -- Cataclysm Classic
     [254] = MOUNT_JOURNAL_FILTER_AQUATIC,
     [284] = HEIRLOOMS,
-    [398] = C_MountJournal.GetMountInfoByID(1043), -- Kua'fon
     [402] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
     [407] = MOUNT_JOURNAL_FILTER_FLYING .. ' + ' .. MOUNT_JOURNAL_FILTER_AQUATIC,
     [408] = C_MountJournal.GetMountInfoByID(1539), -- Unsuccessful Prototype Fleetpod
     [412] = MOUNT_JOURNAL_FILTER_GROUND .. ' + ' .. MOUNT_JOURNAL_FILTER_AQUATIC,
---  [424] = 248,
---  [428] = 248,
---  [429] = 248,
+    [424] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+    [426] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+    [436] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+    [437] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+    [442] = C_Spell.GetSpellName(LM.SPELL.SOAR),
 }
+
+do
+    LM.MOUNT_TYPE_NAMES = {}
+    for typeID, typeName in pairs(LM.MOUNT_TYPE_IDS) do
+        LM.MOUNT_TYPE_NAMES[typeName] = LM.MOUNT_TYPE_NAMES[typeName] or {}
+        table.insert(LM.MOUNT_TYPE_NAMES[typeName], typeID)
+    end
+end
 
 function LM.UnitAura(unit, aura, filter)
     local i = 1

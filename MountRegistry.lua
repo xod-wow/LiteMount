@@ -154,6 +154,8 @@ function LM.MountRegistry:AddMount(m)
     else
         tinsert(self.mounts, m)
     end
+
+    LM.UIFilter.RegisterUsedTypeID(m.mountTypeID or 0)
 end
 
 local CollectedFilterSettings = {

@@ -72,14 +72,13 @@ function LM.Journal:Get(id)
     -- Numbers also need to be given names in SpellInfo.lua when new
     -- ones are added.
 
-    if m.mountTypeID == 230 then          -- ground mount
+    if m.mountTypeID == 225 then          -- Cataclysm Classic: Spectral Steed/Wolf
         m.flags['RUN'] = true
-    elseif m.mountTypeID == 225 then      -- Cataclysm Classic: Spectral Steed/Wolf
-        m.flags['RUN'] = true
-        m.mountTypeID = 230
     elseif m.mountTypeID == 229 then      -- Cataclysm Classic: Drakes
         m.flags['FLY'] = true
         -- m.mountTypeID = 248
+    elseif m.mountTypeID == 230 then      -- ground mount
+        m.flags['RUN'] = true
     elseif m.mountTypeID == 231 then      -- riding/sea turtle
         m.flags['SWIM'] = true
     elseif m.mountTypeID == 232 then      -- Vashj'ir Seahorse
@@ -89,10 +88,6 @@ function LM.Journal:Get(id)
         -- m.mountTypeID = 248
     elseif m.mountTypeID == 241 then      -- AQ-only bugs
         -- no flags
-    elseif m.mountTypeID == 242 then      -- Flyers for when dead in some zones
-        m.flags['FLY'] = true
-    elseif m.mountTypeID == 248 then      -- Steady flying only mounts (none left?)
-        m.flags['FLY'] = true
     elseif m.mountTypeID == 254 then      -- Swimming only mounts
         m.flags['SWIM'] = true
     elseif m.mountTypeID == 284 then      -- Chauffeured Mekgineer's Chopper
@@ -101,8 +96,8 @@ function LM.Journal:Get(id)
     elseif m.mountTypeID == 402 then      -- Original DF Dragonriding mounts
         m.flags['FLY'] = true
         m.flags['DRAGONRIDING'] = true
-    elseif m.mountTypeID == 407 then      -- Flying + Aquatic (Aurelid etc.)
-        -- XXX FIXME XXX can this dragonride?
+    elseif m.mountTypeID == 407 then      -- Flying + Aquatic
+        -- Can't dragonride (at least for now)
         m.flags['FLY'] = true
         m.flags['SWIM'] = true
     elseif m.mountTypeID == 408 then      -- Unsuccessful Prototype Fleetpod
@@ -120,12 +115,14 @@ function LM.Journal:Get(id)
     elseif m.mountTypeID == 437 then      -- Flying discs
         m.flags['FLY'] = true
         m.flags['DRAGONRIDING'] = true
-    elseif m.mountTypeID == 442 then      -- Soar, now a journal mount but useless?
-        return
     elseif m.mountTypeID == 398 then      -- Used to be Kua'fon
         -- Kua'fon can fly if achievement 13573 is completed, otherwise run
         return
+    elseif m.mountTypeID == 242 then      -- Flyers for when dead in some zones
+        return
     elseif m.mountTypeID == 247 then      -- Used to be Red Flying Cloud
+        return
+    elseif m.mountTypeID == 248 then      -- Was flying mounts
         return
     elseif m.mountTypeID == 430 then      -- Whelpling, what on earth is this: ABORT
         return
@@ -136,6 +133,8 @@ function LM.Journal:Get(id)
     elseif m.mountTypeID == 428 then      -- Used to be Flying + Dragonriding Protodrake
         return
     elseif m.mountTypeID == 429 then      -- Used to be Flying + Dragonriding Roc/Pterrodax
+        return
+    elseif m.mountTypeID == 442 then      -- Soar, now a journal mount but useless?
         return
 --@debug@
     else
