@@ -405,7 +405,7 @@ CONDITIONS["equipped"] = {
 
             if C_MountJournal.GetAppliedMountEquipmentID then
                 local id = C_MountJournal.GetAppliedMountEquipmentID()
-                if id and id == v then
+                if id and ( id == v or C_Item.GetItemInfo(id) == v ) then
                     return true
                 end
             end
