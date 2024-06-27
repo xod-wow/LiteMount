@@ -1342,7 +1342,7 @@ local function GetTransmogLocationSourceID(location)
 end
 
 local function GetTransmogSetIDByName(name)
-    local usableSets = C_TransmogSets.GetUsableSets()
+    local usableSets = C_TransmogSets.GetAllSets()
     for _,info in ipairs(usableSets) do
         if info.name == name then
             return info.setID
@@ -1366,7 +1366,7 @@ local function IsTransmogSetActive(setID)
         if not slotInfo.location:IsSecondary() then
             local sourceIDs = C_TransmogSets.GetSourceIDsForSlot(setID, slotInfo.location.slotID)
             local activeSourceID = GetTransmogLocationSourceID(slotInfo.location)
-            if not tContains(sourceIDs, activeSourceID) then
+            if #sourceIDs > 0 and not tContains(sourceIDs, activeSourceID) then
                 return false
             end
         end
@@ -1408,7 +1408,7 @@ local function GetTransmogOutfitsMenu()
 end
 
 local function GetTransmogSetsMenu()
-    LoadAddOn("Blizzard_EncounterJournal")
+    C_AddOns.LoadAddOn("Blizzard_EncounterJournal")
     local byExpansion = { }
     for _,info in ipairs(C_TransmogSets.GetUsableSets()) do
         local expansion = info.expansionID + 1
@@ -1433,7 +1433,6 @@ end
 -- now that the other form works. Well, if it reliably did. :(
 
 CONDITIONS["xmog"] = {
-    args = true,
     name = PERKS_VENDOR_CATEGORY_TRANSMOG,
     disabled = not ( C_TransmogSets and C_Transmog ),
     toDisplay =
@@ -1456,22 +1455,13 @@ CONDITIONS["xmog"] = {
         end,
     handler =
         function (cond, context, arg1, arg2)
-            if arg2 then
-                local slotID, appearanceID = tonumber(arg1), tonumber(arg2)
-                local tmSlot = TRANSMOG_SLOTS[(slotID or 0) * 100]
-                if tmSlot then
-                    local ok, _, _, _, current = pcall(C_Transmog.GetSlotVisualInfo, tmSlot.location)
-                    return ok and current == appearanceID
-                end
-            else
-                local setID = tonumber(arg1) or GetTransmogSetIDByName(arg1)
-                if setID then
-                    return IsTransmogSetActive(setID)
-                end
-                local outfitID = GetTransmogOutfitIDByName(arg1)
-                if outfitID then
-                    return IsTransmogOutfitActive(outfitID)
-                end
+            local setID = tonumber(arg1) or GetTransmogSetIDByName(arg1)
+            if setID then
+                return IsTransmogSetActive(setID)
+            end
+            local outfitID = GetTransmogOutfitIDByName(arg1)
+            if outfitID then
+                return IsTransmogOutfitActive(outfitID)
             end
         end
 }

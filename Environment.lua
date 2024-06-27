@@ -543,16 +543,18 @@ function LM.Environment:GetPlayerModel()
 end
 
 -- The level of black magic shenanigans here is off the charts. What on earth
--- is ModelSceneID 290? I don't know but it's what DressUpFrame uses so ...
+-- is ModelSceneID 596? I don't know but it's what DressUpFrame uses so ...
 -- This used in conditions to check if we're wearing a transmog outfit.
 
-local ModelSceneScanFrame = CreateFrame('ModelScene')
-Mixin(ModelSceneScanFrame, ModelSceneMixin)
-ModelSceneScanFrame:OnLoad()
+local ModelSceneScanFrame = CreateFrame('ModelScene', nil, nil, 'ModelSceneMixinTemplate')
+ModelSceneScanFrame:SetSize(100, 100)
 
 function LM.Environment:GetPlayerTransmogInfo()
     ModelSceneScanFrame:Show()
-    ModelSceneScanFrame:TransitionToModelSceneID(290, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, true)
+    ModelSceneScanFrame:ClearScene()
+    ModelSceneScanFrame:SetViewInsets(0, 0, 0, 0)
+    ModelSceneScanFrame:ReleaseAllActors()
+    ModelSceneScanFrame:TransitionToModelSceneID(596, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, true)
     local actor = ModelSceneScanFrame:GetPlayerActor()
     actor:SetModelByUnit("player")
     local infoList = actor:GetItemTransmogInfoList()
