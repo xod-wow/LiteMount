@@ -149,8 +149,10 @@ local function GetUsableSpell(arg)
     end
 
     -- Zen Flight only works if you can fly
-    if info.spellID == 125883 and not LM.Environment:CanFly() then
-        return
+    if info.spellID == 125883 then
+        if not ( IsFlyableArea() or IsAdvancedFlyableArea() ) then
+            return
+        end
     end
 
     -- Some spells share names (e.g., Surge Forward is both an Evoker ability
