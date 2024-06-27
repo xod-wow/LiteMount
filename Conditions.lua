@@ -232,14 +232,17 @@ CONDITIONS["covenant"] = {
             end
             return v
         end,
-    menu =
-        function ()
-            local out = { nosort=true, { val = "covenant:0" } }
-            for _,id in ipairs(C_Covenants.GetCovenantIDs()) do
-                table.insert(out, { val = "covenant:" .. id })
-            end
-            return out
-        end,
+    menu = {
+        -- This used to be dynamic but Blizzard are re-using convenant storage
+        -- for other stuff unrelated to the Shadowlands covenants people expect
+        -- to be shown under that name.
+        nosort = true,
+        { val = "covenant:0" },
+        { val = "covenant:1" },
+        { val = "covenant:2" },
+        { val = "covenant:3" },
+        { val = "covenant:4" },
+    },
     handler =
         function (cond, context, v)
             if not C_Covenants or not v then return end
