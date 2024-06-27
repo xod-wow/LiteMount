@@ -637,7 +637,7 @@ local function UsableItemParse(arg)
             slotNum = _G[slotName]
         else
             name = arg
-            itemID = C_Item.GetItemID(arg)
+            itemID = C_Item.GetItemInfoInstant(arg)
         end
     end
 
@@ -701,7 +701,7 @@ ACTIONS['Use'] = {
                     end
                 else
                     LM.Debug('  * trying item ' .. tostring(name))
-                    if name and C_Item.IsCastableItem(itemID) then
+                    if name and IsCastableItem(itemID) then
                         LM.Debug('  * setting action to use item ' .. name)
                         return LM.SecureAction:Item(name, context.rule.unit)
                     end
