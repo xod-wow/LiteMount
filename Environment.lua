@@ -121,15 +121,14 @@ end
 
 -- Now that we have to ignore some mounts that are duplicates for the Kalimdor
 -- cup but still trigger the condition, do this the old fashioned way iterating
--- over the mount journal. Assumption is that you can't summon a dragonriding
--- mount in a non-dragonriding area.
+-- over the mount journal.
 
-function LM.Environment:IsDragonriding()
+function LM.Environment:IsDragonRiding()
     local mountIDs = C_MountJournal.GetMountIDs()
     for _, id in ipairs(mountIDs) do
         local _, _, _, isActive, _, _, _, _, _, _, _, _, isForDragonriding = C_MountJournal.GetMountInfoByID(id)
         if isActive then
-            return isForDragonriding
+            return isForDragonriding and self:CanDragonride()
         end
     end
 end
@@ -414,6 +413,11 @@ function LM.Environment:CanDragonride(mapPath)
         return false
     end
 
+    -- if you are switched into steady flight you can't skyride
+    if LM.UnitAura('player', LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT) then
+        return false
+    end
+
     local instanceID = select(8, GetInstanceInfo())
     local override = InstanceDragonridableOverride[instanceID]
     if type(override) == 'function' then
@@ -453,10 +457,15 @@ end
 -- Can't fly if you haven't learned a flying skill. Various expansion
 -- continents from Draenor onwards need achievement unlocks to be able to fly.
 
-function LM.Environment:CanFly()
+function LM.Environment:CanSteadyFly()
 
     -- If you don't know how to fly, you can't fly
     if not self:KnowsFlyingSkill() then
+        return false
+    end
+
+    -- if you are switched into skyriding you can't fly only skyride
+    if LM.UnitAura('player', LM.SPELL.FLIGHT_STYLE_SKYRIDING) ~= nil then
         return false
     end
 

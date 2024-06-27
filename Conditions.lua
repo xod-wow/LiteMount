@@ -310,7 +310,7 @@ CONDITIONS["difficulty"] = {
 }
 
 CONDITIONS["dragonridable"] = {
-    name = L.LM_DRAGONRIDING_AREA,
+    name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_DRAGONRIDING),
     disabled = ( IsAdvancedFlyableArea == nil ),
     handler =
         function (cond, context)
@@ -483,10 +483,10 @@ CONDITIONS["floating"] = {
 }
 
 CONDITIONS["flyable"] = {
-    name = L.LM_FLYABLE_AREA,
+    name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_FLYING),
     handler =
         function (cond, context)
-            return LM.Environment:CanFly()
+            return LM.Environment:CanSteadyFly()
         end,
 }
 

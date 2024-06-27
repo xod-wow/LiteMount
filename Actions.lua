@@ -394,7 +394,7 @@ local smartActions = {
     {
         condition   = "[dragonridable]",
         arg         = LM.RuleArguments:Get('DRAGONRIDING'),
-        debug       = "Dragonriding Mount",
+        debug       = "Skyriding Mount",
     },
     {
         condition   = "[flyable]",
