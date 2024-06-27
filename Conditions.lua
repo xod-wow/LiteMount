@@ -70,6 +70,7 @@ CONDITIONS["achievement"] = {
         function (cond, context, v)
             v = tonumber(v)
             if v then
+                --- XXX Expect move to C_AchievementInfo at some point
                 return select(4, GetAchievementInfo(v))
             end
         end
