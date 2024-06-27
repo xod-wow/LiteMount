@@ -136,7 +136,7 @@ local function GetUsableSpell(arg)
         return
     end
 
-    -- For names, GetSpellName returns nil if it's not in your spellbook
+    -- For names, GetSpellInfo returns nil if it's not in your spellbook
     -- so we don't need to call IsSpellKnown
     local info = C_Spell.GetSpellInfo(argN or arg)
     if not info then
@@ -162,10 +162,10 @@ local function GetUsableSpell(arg)
     -- GetSpellInfo(name) decides to return.
 
     local subtext = C_Spell.GetSpellSubtext(argN or arg)
-    local nameWithSubtext = string.format('%s(%s)', name, subtext or "")
+    local nameWithSubtext = string.format('%s(%s)', info.name, subtext or "")
 
-    if name and C_Spell.IsSpellUsable(name) then
-        local cooldownInfo = C_Spell.GetSpellCooldown(name)
+    if C_Spell.IsSpellUsable(info.name) then
+        local cooldownInfo = C_Spell.GetSpellCooldown(info.name)
         if cooldownInfo and cooldownInfo.startTime == 0 then
             return name, spellID, nameWithSubtext
         end
