@@ -265,29 +265,38 @@ CONDITIONS["dead"] = {
 
 -- https://wow.gamepedia.com/DifficultyID
 CONDITIONS["difficulty"] = {
-    --[[
-    name = DUNGEON_DIFFICULTY,
+    name = LFG_LIST_DIFFICULTY,
     toDisplay =
         function (v)
             if tonumber(v) then
-                return DifficultyUtil.GetDifficultyName(tonumber(v))
+                v = tonumber(v)
+                local parts = {}
+                local name, groupType, _, isChallengeMode, _, _, _, isLFR, _, maxPlayers = GetDifficultyInfo(v)
+                if IsLegacyDifficulty(v) then
+                    table.insert(parts, LFG_LIST_LEGACY)
+                end
+                table.insert(parts, name)
+                if groupType == "raid" and not isLFR then
+                    table.insert(parts, RAID)
+                elseif groupType == "party" and not isChallengeMode then
+                    table.insert(parts, LFG_TYPE_DUNGEON)
+                end
+                if isLFR then
+                    table.insert(parts, format('(%d)', maxPlayers))
+                end
+                return table.concat(parts, ' ')
             else
                 return v
             end
         end,
     menu =
         function ()
-            local names = {}
-            for _, id  in pairs(DifficultyUtil.ID) do
-                names[DifficultyUtil.GetDifficultyName(id)] = true
-            end
             local out = {}
-            for name in pairs(names) do
-                table.insert(out, { val = "difficulty:" .. name })
+            for _, id  in pairs(DifficultyUtil.ID) do
+                table.insert(out, { val = "difficulty:" .. id })
             end
             return out
         end,
-    ]]
     handler =
         function (cond, context, v)
             if v then
