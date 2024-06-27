@@ -1280,9 +1280,15 @@ CONDITIONS["tracking"] = {
         function (cond, context, v)
             local name, active, _
             for i = 1, C_Minimap.GetNumTrackingTypes() do
-                name, _, active = C_Minimap.GetTrackingInfo(i)
-                if active and (not v or strlower(name) == strlower(v) or i == tonumber(v)) then
-                    return true
+                local info = C_Minimap.GetTrackingInfo(i)
+                if info and info.active then
+                    if not v then
+                        return true
+                    elseif strlower(info.name) == strlower(v) then
+                        return true
+                    elseif info.spellID and info.spellID == tonumber(v) then
+                        return true
+                    end
                 end
             end
             return false
