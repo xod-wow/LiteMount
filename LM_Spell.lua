@@ -55,7 +55,7 @@ function LM.Spell:IsCastable()
     end
 
     local cooldownInfo = C_Spell.GetSpellCooldown(self.spellID)
-    if info and info.startTime > 0 then
+    if cooldownInfo and cooldownInfo.startTime > 0 then
         return false
     end
 
