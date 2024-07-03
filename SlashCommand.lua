@@ -199,7 +199,7 @@ COMMANDS['pi'] =
 COMMANDS['mockdata'] =
     function ()
         LM.Developer:ExportMockData()
-        ReloadUI()
+        C_UI.Reload()
     end
 
 --@end-debug@

@@ -926,9 +926,7 @@ if locale == "frFR" then
     L["LM_ON_SCREEN_DISPLAY"] = "L'affichage sur écran"
     L["LM_ORE"] = "Minerai"
     L["LM_PARTY_OR_RAID_GROUP"] = "Dans un groupe ou un groupe de raid"
-    L["LM_PRECAST_DESCRIPTION"] = [=[Enregistre un sort à lancer avant d'invoquer une monture. Entrez le nom ou l'ID du sort. 
-    Le sort n'est lancé qu'avant les montures du journal, et il doit être instantané.
-    ]=]
+    L["LM_PRECAST_DESCRIPTION"] = "Enregistre un sort à lancer avant d'invoquer une monture. Entrez le nom ou l'ID du sort. Le sort n'est lancé qu'avant les montures du journal, et il doit être instantané."
     L["LM_PREUSE_DESCRIPTION"] = "Enregistre un objet à utiliser avant d'invoquer une monture. Entrez le nom ou l'ID de l'objet, ou un numéro d'emplacement d'un équipement. Il ne sera utilisé qu'avant l'invocation d'une monture du journal et doit être instantané."
     L["LM_PRIORITY"] = "Priorité"
     L["LM_PRIORITY_DESC1"] = "Normal"

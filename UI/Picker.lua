@@ -27,8 +27,8 @@ local function UpdateScroll(self)
     local offset = HybridScrollFrame_GetOffset(self)
     local mounts = LM.UIFilter.GetFilteredMountList()
 
-    for i, button in ipairs(self.buttons) do
-        local index = ( offset + i - 1 ) * #button.mount + 1
+    for buttonIndex, button in ipairs(self.buttons) do
+        local index = ( offset + buttonIndex - 1 ) * #button.mount + 1
         if not mounts[index] then
             button:Hide()
         else

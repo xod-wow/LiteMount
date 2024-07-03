@@ -167,7 +167,7 @@ local function GetUsableSpell(arg)
     if C_Spell.IsSpellUsable(info.name) then
         local cooldownInfo = C_Spell.GetSpellCooldown(info.name)
         if cooldownInfo and cooldownInfo.startTime == 0 then
-            return name, spellID, nameWithSubtext
+            return info.name, info.spellID, nameWithSubtext
         end
     end
 end

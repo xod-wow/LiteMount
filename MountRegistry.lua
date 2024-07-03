@@ -89,6 +89,20 @@ local RefreshEvents = {
     ["ACHIEVEMENT_EARNED"] = true,
 }
 
+function LM.MountRegistry:OnEvent(event, ...)
+    if RefreshEvents[event] then
+        LM.Debug("Got refresh event "..event)
+        self.needRefresh = true
+    elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
+        local _, _, spellID = ...
+        local m = self.indexes.spellID[spellID]
+        if m then
+            m:OnSummon()
+            self.callbacks:Fire("OnMountSummoned", m)
+        end
+    end
+end
+
 function LM.MountRegistry:Initialize()
 
     self.mounts = LM.MountList:New()
@@ -101,20 +115,7 @@ function LM.MountRegistry:Initialize()
     self:BuildIndexes()
 
     -- Refresh event setup
-    self:SetScript("OnEvent",
-            function (self, event, ...)
-                if RefreshEvents[event] then
-                    LM.Debug("Got refresh event "..event)
-                    self.needRefresh = true
-                elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
-                    local _, _, spellID = ...
-                    local m = self.indexes.spellID[spellID]
-                    if m then
-                        m:OnSummon()
-                        self.callbacks:Fire("OnMountSummoned", m)
-                    end
-                end
-            end)
+    self:SetScript("OnEvent", self.OnEvent)
 
     for ev in pairs(RefreshEvents) do
         self:RegisterEvent(ev)
