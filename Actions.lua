@@ -121,9 +121,9 @@ ACTIONS['Endlimit'] = {
     argType = 'none',
     handler =
         function (args, context)
-            local args = table.remove(context.limits)
-            if args then
-                LM.Debug("  * removed limits: " .. args:ToString())
+            local oldLimits = table.remove(context.limits)
+            if oldLimits then
+                LM.Debug("  * removed limits: " .. oldLimits:ToString())
             end
         end,
 }
