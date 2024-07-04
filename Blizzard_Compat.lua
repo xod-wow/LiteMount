@@ -75,33 +75,15 @@ if not LM.C_Spell.GetSpellCooldown then
 end
 
 if not LM.C_Spell.IsSpellUsable then
-
-    local IsUsableSpell = _G.IsUsableSpell
-
-    function LM.C_Spell.IsSpellUsable(spellIdentifier)
-        return IsUsableSpell(spellIdentifier)
-    end
+    LM.C_Spell.IsSpellUsable = _G.IsUsableSpell
 end
 
 if not LM.C_Spell.PickupSpell then
     LM.C_Spell.PickupSpell = _G.PickupSpell
 end
 
-
---[[ C_Item ]]------------------------------------------------------------------
-
-LM.C_Item = CopyTable(C_Item or {})
-
-if not LM.C_Item.GetItemInfoInstant then
-    LM.C_Item.GetItemInfoInstant = _G.GetItemInfoInstant
-end
-
-if not LM.C_Item.GetItemSpell then
-    LM.C_Item.GetItemSpell = _G.GetItemSpell
-end
-
-if not LM.C_Item.PickupItem then
-    LM.C_Item.PickupItem = _G.PickupItem
+if not LM.C_Spell.GetSpellSubtext then
+    LM.C_Spell.GetSpellSubtext = _G.GetSpellSubtext
 end
 
 

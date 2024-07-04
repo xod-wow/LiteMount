@@ -10,7 +10,6 @@
 
 local _, LM = ...
 
-local C_Item = LM.C_Item or C_Item
 local C_Spell = LM.C_Spell or C_Spell
 
 local L = LM.Localize
