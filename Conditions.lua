@@ -313,7 +313,8 @@ CONDITIONS["difficulty"] = {
 }
 
 CONDITIONS["dragonridable"] = {
-    name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_DRAGONRIDING),
+    disabled = ( MOUNT_JOURNAL_FILTER_DRAGONRIDING == nil ),
+    name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_DRAGONRIDING or UNKNOWN),
     disabled = ( IsAdvancedFlyableArea == nil ),
     handler =
         function (cond, context)
@@ -1548,9 +1549,11 @@ end
 function LM.Conditions:TestAllConditions()
     local context = LM.RuleContext:New({ id = 99 })
     for name, cond in pairs(CONDITIONS) do
-        cond:handler(context)
-        cond:handler(context, tostring(math.random(1000000)))
-        cond:handler(context, "text")
+        if not cond.disabled then
+            cond:handler(context)
+            cond:handler(context, tostring(math.random(1000000)))
+            cond:handler(context, "text")
+        end
     end
 end
 

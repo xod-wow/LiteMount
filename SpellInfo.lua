@@ -83,6 +83,7 @@ LM.MOUNT_TYPE_IDS = {
     [230] = MOUNT_JOURNAL_FILTER_GROUND,
     [231] = C_Spell.GetSpellName(64731),    -- Sea Turtle
     [232] = vashjirMap and vashjirMap.name,
+    [238] = MOUNT_JOURNAL_FILTER_FLYING,    -- Cataclysm Classic
     [241] = aqMap and aqMap.name,
     [242] = DEAD,
     [247] = C_MountJournal.GetMountInfoByID(285), -- Flying Carpets CC
