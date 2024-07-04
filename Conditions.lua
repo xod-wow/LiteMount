@@ -10,6 +10,9 @@
 
 local _, LM = ...
 
+local C_Item = LM.C_Item or C_Item
+local C_Spell = LM.C_Spell or C_Spell
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -82,7 +85,7 @@ CONDITIONS["activethreat"] = {
         function (cond, context, v)
             local map = C_Map.GetBestMapForUnit('player')
             local activeThreatMaps = C_QuestLog.GetActiveThreatMaps()
-            return map ~= nil and tContains(activeThreatMaps, map)
+            return map ~= nil and activeThreatMaps ~= nil and tContains(activeThreatMaps, map)
         end,
 }
 
@@ -695,7 +698,7 @@ CONDITIONS["known"] = {
             if v then
                 local info = C_Spell.GetSpellInfo(v)
                 if info then
-                    return IsSpellKnown(info.spellID) or IsPlayerSpell(info.spellID)
+                    return IsPlayerSpell(info.spellID)
                 end
             end
         end

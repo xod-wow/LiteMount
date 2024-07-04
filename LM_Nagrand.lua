@@ -18,6 +18,8 @@
 
 local _, LM = ...
 
+local C_Spell = LM.C_Spell or C_Spell
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -43,7 +45,7 @@ function LM.Nagrand:IsFiltered()
 end
 
 function LM.Nagrand:IsCollected()
-    return not self:IsFiltered() and IsSpellKnown(self.baseSpellID)
+    return not self:IsFiltered() and IsPlayerSpell(self.baseSpellID)
 end
 
 function LM.Nagrand:GetCastAction(context)

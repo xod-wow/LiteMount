@@ -15,6 +15,8 @@
 
 local _, LM = ...
 
+local C_Spell = LM.C_Spell or C_Spell
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -35,7 +37,7 @@ function LM.Soulshape:IsCollected()
 end
 
 function LM.Soulshape:IsKnown()
-    if IsSpellKnown(self.spellID) then
+    if IsPlayerSpell(self.spellID) then
         return true
     end
     for _,ability in ipairs(C_ZoneAbility.GetActiveAbilities()) do

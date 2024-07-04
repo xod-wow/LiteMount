@@ -10,6 +10,9 @@
 
 local _, LM = ...
 
+local C_Item = LM.C_Item or C_Item
+local C_Spell = LM.C_Spell or C_Spell
+
 local L = LM.Localize
 
 --@debug@
@@ -132,12 +135,12 @@ local function GetUsableSpell(arg)
     -- You can look up any spell from any class by number so we have to
     -- test numbers to see if we know them
     local argN = tonumber(arg)
-    if argN and not IsSpellKnown(argN) then
+    if argN and not IsPlayerSpell(argN) then
         return
     end
 
     -- For names, GetSpellInfo returns nil if it's not in your spellbook
-    -- so we don't need to call IsSpellKnown
+    -- so we don't need to call IsPlayerSpell
     local info = C_Spell.GetSpellInfo(argN or arg)
     if not info then
         return

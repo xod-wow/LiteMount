@@ -10,6 +10,8 @@
 
 local _, LM = ...
 
+local C_Spell = LM.C_Spell or C_Spell
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -42,11 +44,11 @@ function LM.Spell:Get(spellID, ...)
 end
 
 function LM.Spell:IsCollected()
-    return IsSpellKnown(self.spellID)
+    return IsPlayerSpell(self.spellID)
 end
 
 function LM.Spell:IsCastable()
-    if not IsSpellKnown(self.spellID) then
+    if not IsPlayerSpell(self.spellID) then
         return false
     end
 

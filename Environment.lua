@@ -11,6 +11,10 @@
 
 local _, LM = ...
 
+local C_Item = LM.C_Item or C_Item
+local C_Spell = LM.C_Spell or C_Spell
+local C_MountJournal = LM.C_MountJournal or C_MountJournal
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -123,7 +127,7 @@ end
 -- cup but still trigger the condition, do this the old fashioned way iterating
 -- over the mount journal.
 
-function LM.Environment:IsDragonRiding()
+function LM.Environment:IsDragonriding()
     local mountIDs = C_MountJournal.GetMountIDs()
     for _, id in ipairs(mountIDs) do
         local _, _, _, isActive, _, _, _, _, _, _, _, _, isForDragonriding = C_MountJournal.GetMountInfoByID(id)
@@ -478,7 +482,7 @@ function LM.Environment:CanSteadyFly()
     if WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
         -- Classic Northrend requires Cold Weather Flying in WotLK Classic
         if self:InInstance(571) then
-            if not IsSpellKnown(54197) then
+            if not IsPlayerSpell(54197) then
                 return false
             end
         end

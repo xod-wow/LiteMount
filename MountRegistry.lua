@@ -10,6 +10,9 @@
 
 local _, LM = ...
 
+local C_MountJournal = LM.C_MountJournal or C_MountJournal
+local C_Spell = LM.C_Spell
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -389,4 +392,3 @@ function LM.MountRegistry:GetJournalTotals()
     end
     return c
 end
-

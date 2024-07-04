@@ -10,6 +10,9 @@
 
 local _, LM = ...
 
+local C_Spell = LM.C_Spell or C_Spell
+local C_MountJournal = LM.C_MountJournal or C_MountJournal
+
 local L = LM.Localize
 
 -- Rarity data repackaged daily from DataForAzeroth by Sören Gade
@@ -298,7 +301,7 @@ local MawUsableSpells = {
 
 function LM.Mount:MawUsable()
     -- The True Maw Walker unlocks all mounts, but the spell (353214) doesn't
-    -- seem to return true for IsSpellKnown(). The unlock is not account-wide
+    -- seem to return true for IsPlayerSpell(). The unlock is not account-wide
     -- so the quest is good enough (for now).
 
     if C_QuestLog.IsQuestFlaggedCompleted(63994) then
