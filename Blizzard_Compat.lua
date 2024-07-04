@@ -1,8 +1,13 @@
 --[[----------------------------------------------------------------------------
 
-  LiteMount/_Compat.lua
+  LiteMount/Blizzard_Compat.lua
 
   Copyright 2024 Mike Battersby
+
+  For better or worse, try to back-port a functioning amount of compatibility
+  for the 11.0 deprecations into classic, on the assumption that it will
+  eventually go in there properly and this is the right approach rather than
+  making the new way look like the old.
 
 ----------------------------------------------------------------------------]]--
 
