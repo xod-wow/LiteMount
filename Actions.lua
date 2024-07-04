@@ -610,7 +610,7 @@ local function IsCastableItem(itemID)
         return false
     end
 
-    local s, d, e = C_Item.GetItemCooldown(itemID)
+    local s, d, e = C_Container.GetItemCooldown(itemID)
     if s == 0 and (e == true or e == 1) then
         return true
     end

@@ -66,7 +66,7 @@ function LM.ItemSummoned:IsCastable()
     end
 
     -- Either equipped or non-equippable and in bags
-    local start, duration, enable = C_Item.GetItemCooldown(self.itemID)
+    local start, duration, enable = C_Container.GetItemCooldown(self.itemID)
     if duration > 0 and (enable == true or enable == 1) then
         return false
     end
