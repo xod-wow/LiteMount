@@ -403,18 +403,21 @@ CONDITIONS["exists"] = {
         end
 }
 
--- Check for an extraactionbutton, optionally with a specific spell
+-- Check for an extraactionbutton, optionally with a specific spell id
 CONDITIONS["extra"] = {
     handler =
         function (cond, context, v)
-            if HasExtraActionBar and HasExtraActionBar() and HasAction(169) then
-                if v then
-                    local aType, aID = GetActionInfo(169)
-                    if aType == "spell" and aID == tonumber(v) then
+            if HasExtraActionBar and HasExtraActionBar() then
+                local action = ExtraActionButton1.action
+                if action and HasAction(action) then
+                    if v then
+                        local aType, aID = GetActionInfo(action)
+                        if aType == "spell" and aID == tonumber(v) then
+                            return true
+                        end
+                    else
                         return true
                     end
-                else
-                    return true
                 end
             end
         end
