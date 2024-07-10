@@ -266,8 +266,10 @@ LM.MOUNT_TYPE_INFO = {
 do
     LM.MOUNT_TYPE_NAMES = {}
     for typeID, typeInfo in pairs(LM.MOUNT_TYPE_INFO) do
-        LM.MOUNT_TYPE_NAMES[typeInfo.name] = LM.MOUNT_TYPE_NAMES[typeInfo.name] or {}
-        table.insert(LM.MOUNT_TYPE_NAMES[typeInfo.name], typeID)
+        if typeInfo.name then
+            LM.MOUNT_TYPE_NAMES[typeInfo.name] = LM.MOUNT_TYPE_NAMES[typeInfo.name] or {}
+            table.insert(LM.MOUNT_TYPE_NAMES[typeInfo.name], typeID)
+        end
     end
 end
 
