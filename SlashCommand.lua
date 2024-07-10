@@ -47,13 +47,18 @@ local COMMANDS = {}
 
 COMMANDS[''] =
     function ()
-        LiteMountOptionsPanel_Open()
+        -- Look, please stop doing this, ok? Nothing good can come of it.
+        if not InCombatLockdown() then
+            LiteMountOptionsPanel_Open()
+        end
     end
 
 COMMANDS['macro'] =
     function ()
-        local i = CreateOrUpdateMacro()
-        if i then PickupMacro(i) end
+        if not InCombatLockdown() then
+            local i = CreateOrUpdateMacro()
+            if i then PickupMacro(i) end
+        end
     end
 
 COMMANDS['priority'] =
@@ -222,13 +227,6 @@ local function PrintUsage()
 end
 
 LM.SlashCommandFunc = function (argstr)
-
-    -- Look, please stop doing this, ok? Nothing good can come of it.
-    if InCombatLockdown() then
-        LM.PrintError(ERR_NOT_IN_COMBAT)
-        return true
-    end
-
     local args = { strsplit(" ", argstr) }
     local cmd = table.remove(args, 1)
 
