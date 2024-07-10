@@ -193,7 +193,7 @@ LM.MOUNT_TYPE_INFO = {
         -- Unsuccessful Prototype Fleetpod
         name = C_MountJournal.GetMountInfoByID(1539),
         flags = {
-            FLY = true,
+            RUN = true,
             SLOW = true,
         },
     },
