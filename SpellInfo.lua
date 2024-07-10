@@ -246,14 +246,15 @@ LM.MOUNT_TYPE_INFO = {
         },
     },
     [442] = {
-        -- Soar, doesn't work though
+        -- Soar, doesn't work though (spell works). Can't steady fly
         name = C_Spell.GetSpellName(LM.SPELL.SOAR),
+        skip = true,
         flags = {
             DRAGONRIDING = true,
         },
     },
     [445] = {
-        -- Voyaging Wilderling got it's own type for some reason
+        -- Voyaging Wilderling got its own type for some reason
         name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
         flags = {
             FLY = true,
