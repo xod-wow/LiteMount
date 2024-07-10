@@ -32,7 +32,7 @@ LM.Journal.__index = LM.Journal
 -- [10] isFiltered,
 -- [11] isCollected,
 -- [12] mountID,
--- [13] isForDragonriding = C_MountJournal.GetMountInfoByID(mountID)
+-- [13] isSteadyFlight = C_MountJournal.GetMountInfoByID(mountID)
 
 --  [1] creatureDisplayInfoID,
 --  [2] description,
@@ -42,8 +42,8 @@ LM.Journal.__index = LM.Journal
 --  [6] uiModelSceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
 function LM.Journal:Get(id)
-    local name, spellID, icon, _, _, sourceType, _, _, faction, _, _, mountID, dragonRiding = C_MountJournal.GetMountInfoByID(id)
-    local modelID, descriptionText, sourceText, isSelfMount, mountTypeID, sceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
+    local name, spellID, icon, _, _, sourceType, _, _, faction, _, _, _, isSteadyFlight = C_MountJournal.GetMountInfoByID(id)
+    local modelID, descriptionText, sourceText, isSelfMount, mountTypeID, sceneID = C_MountJournal.GetMountInfoExtraByID(id)
 
     if not name then
         LM.Debug("LM.Mount: Failed GetMountInfo for ID = #%d", id)
@@ -56,14 +56,14 @@ function LM.Journal:Get(id)
     m.sceneID       = sceneID
     m.name          = name
     m.spellID       = spellID
-    m.mountID       = mountID
+    m.mountID       = id
     m.icon          = icon
     m.isSelfMount   = isSelfMount
     m.mountTypeID   = mountTypeID
     m.description   = descriptionText
     m.sourceType    = sourceType
     m.sourceText    = sourceText
-    m.dragonRiding  = dragonRiding
+    m.isSteadyFlight= isSteadyFlight
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
     m.flags         = { }
 

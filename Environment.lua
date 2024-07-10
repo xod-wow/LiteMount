@@ -122,20 +122,6 @@ function LM.Environment:IsTheMaw(mapPath)
     return LM.Environment:IsMapInPath(1543, mapPath)
 end
 
--- Now that we have to ignore some mounts that are duplicates for the Kalimdor
--- cup but still trigger the condition, do this the old fashioned way iterating
--- over the mount journal.
-
-function LM.Environment:IsDragonriding()
-    local mountIDs = C_MountJournal.GetMountIDs()
-    for _, id in ipairs(mountIDs) do
-        local _, _, _, isActive, _, _, _, _, _, _, _, _, isForDragonriding = C_MountJournal.GetMountInfoByID(id)
-        if isActive then
-            return isForDragonriding and self:CanDragonride()
-        end
-    end
-end
-
 function LM.Environment:PLAYER_LOGIN()
     self:Initialize()
 end

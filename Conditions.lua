@@ -321,15 +321,6 @@ CONDITIONS["dragonridable"] = {
         end,
 }
 
-CONDITIONS["dragonriding"] = {
-    -- name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
-    disabled = ( IsAdvancedFlyableArea == nil ),
-    handler =
-        function (cond, context)
-            return LM.Environment:IsDragonriding()
-        end,
-}
-
 -- Persistent "deck of cards" draw randomness
 
 CONDITIONS["draw"] = {
