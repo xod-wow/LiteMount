@@ -283,7 +283,7 @@ function LM.UIFilter.GetTypeNameText(t)
 end
 
 function LM.UIFilter.RegisterUsedTypeID(id)
-    local typeName = LM.MOUNT_TYPE_IDS[id]
+    local typeName = LM.MOUNT_TYPE_IDS[id] or UNKNOWN
     LM.UIFilter.typeNamesInUse[typeName] = true
 end
 
