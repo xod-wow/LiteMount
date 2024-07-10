@@ -76,36 +76,197 @@ LM.ITEM.MAW_SEEKER_HARNESS = 170499
 local vashjirMap = C_Map.GetMapInfo(203)
 local aqMap = C_Map.GetMapInfo(319)
 
-LM.MOUNT_TYPE_IDS = {
-    [0]   = OTHER,
-    [225] = MOUNT_JOURNAL_FILTER_GROUND,    -- Cataclysm Classic
-    [229] = MOUNT_JOURNAL_FILTER_FLYING,    -- Cataclysm Classic
-    [230] = MOUNT_JOURNAL_FILTER_GROUND,
-    [231] = C_Spell.GetSpellName(64731),    -- Sea Turtle
-    [232] = vashjirMap and vashjirMap.name,
-    [238] = MOUNT_JOURNAL_FILTER_FLYING,    -- Cataclysm Classic
-    [241] = aqMap and aqMap.name,
-    [242] = DEAD,
-    [247] = C_MountJournal.GetMountInfoByID(285), -- Flying Carpets CC
-    [248] = MOUNT_JOURNAL_FILTER_FLYING,    -- Cataclysm Classic
-    [254] = MOUNT_JOURNAL_FILTER_AQUATIC,
-    [284] = HEIRLOOMS,
-    [402] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
-    [407] = MOUNT_JOURNAL_FILTER_FLYING .. ' + ' .. MOUNT_JOURNAL_FILTER_AQUATIC,
-    [408] = C_MountJournal.GetMountInfoByID(1539), -- Unsuccessful Prototype Fleetpod
-    [412] = MOUNT_JOURNAL_FILTER_GROUND .. ' + ' .. MOUNT_JOURNAL_FILTER_AQUATIC,
-    [424] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
-    [426] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
-    [436] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
-    [437] = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
-    [442] = C_Spell.GetSpellName(LM.SPELL.SOAR),
+LM.MOUNT_TYPE_INFO = {
+    [0] = {
+        name = OTHER,
+        flags = { },
+    },
+    [225] = {
+        -- Cataclysm Classic: Spectral Steed/Wolf
+        name = MOUNT_JOURNAL_FILTER_GROUND,
+        flags = {
+            RUN = true,
+        }
+    },
+    [229] = {
+        -- Cataclysm Classic: Drakes
+        name = MOUNT_JOURNAL_FILTER_FLYING,
+        flags = {
+            FLY = true,
+        }
+    },
+    [230] = {
+        -- Ground Mount
+        name = MOUNT_JOURNAL_FILTER_GROUND,
+        flags = {
+            RUN = true,
+        },
+    },
+    [231] = {
+        -- Riding/Sea Turtle
+        name = C_Spell.GetSpellName(64731),
+        flags = {
+            SWIM = true,
+        },
+    },
+    [232] = {
+        -- Vashj'ir Seahorse
+        name = vashjirMap and vashjirMap.name,
+        flags = { },
+    },
+    [238] = {
+        -- Cataclysm Classic: Flying Mounts
+        name = MOUNT_JOURNAL_FILTER_FLYING,
+        flags = {
+            FLY = true,
+        },
+    },
+    [241] = {
+        -- AQ-only bugs
+        name = aqMap and aqMap.name,
+        flags = { },
+    },
+    [242] = {
+        -- Flyers for when dead in some zones
+        name = DEAD,
+        skip = true,
+        flags = { },
+    },
+    [247] = {
+        -- Cataclysm Classic: Flying Carpets
+        -- Pre-TWW Red Flying Cloud
+        -- TWW [DND] Test Mount JZB
+        name = C_MountJournal.GetMountInfoByID(285), -- Flying Carpets CC
+        skip = select(4, GetBuildInfo()) >= 110000,
+        flags = {
+            FLY = true,
+        },
+    },
+    [248] = {
+        -- Cataclysm Classic: Nether Drakes
+        -- Pre-TWW: Nether Drakes
+        name = MOUNT_JOURNAL_FILTER_FLYING,    -- Cataclysm Classic
+        flags = {
+            FLY = true,
+        },
+    },
+    [254] = {
+        -- Swimming-only mounts
+        name = MOUNT_JOURNAL_FILTER_AQUATIC,
+        flags = {
+            SWIM = true,
+        },
+    },
+    [284] = {
+        -- Chauffeured Mekgineer's Chopper etc
+        name = HEIRLOOMS,
+        flags = {
+            RUN = true,
+            SLOW = true,
+        },
+    },
+    [398] = {
+        -- Pre-TWW Kua'fon
+        name = C_MountJournal.GetMountInfoByID(1043),
+        flags = {
+            -- Dynamically handled in LM.Journal
+        },
+    },
+    [402] = {
+        -- TWW: Flying mounts with Ride-Along
+        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        flags = {
+            FLY = true,
+            DRAGONRIDING = true,
+            RIDEALONG = true,
+        },
+    },
+    [407] = {
+        -- Flying + Aquatic, can't dragonride (at least for now
+        name = MOUNT_JOURNAL_FILTER_FLYING .. ' + ' .. MOUNT_JOURNAL_FILTER_AQUATIC,
+        flags = {
+            FLY = true,
+            SWIM = true,
+        },
+    },
+    [408] = {
+        -- Unsuccessful Prototype Fleetpod
+        name = C_MountJournal.GetMountInfoByID(1539),
+        flags = {
+            FLY = true,
+            SLOW = true,
+        },
+    },
+    [411] = {
+        -- Whelpling? What is this
+        name = C_MountJournal.GetMountInfoByID(1690),
+        skip = true,
+    },
+    [412] = {
+        -- Ground + Aquatic mounts
+        name = MOUNT_JOURNAL_FILTER_GROUND .. ' + ' .. MOUNT_JOURNAL_FILTER_AQUATIC,
+        flags = {
+            FLY = true,
+            SWIM = true,
+        },
+    },
+    [424] = {
+        -- Flying + Dragonriding
+        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        flags = {
+            FLY = true,
+            DRAGONRIDING = true,
+        },
+    },
+    [426] = {
+        -- Copies of the OG dragonriding mounts use for racing
+        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        skip = true,
+    },
+    [430] = {
+        -- Another Whelpling? Even more peculiar
+        name = C_MountJournal.GetMountInfoByID(1796),
+        skip = true,
+    },
+    [436] = {
+        -- Flying + Dragonriding Aurelids
+        -- These don't benefit from mount equipment?
+        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        flags = {
+            FLY = true,
+            DRAGONRIDING = true,
+        },
+    },
+    [437] = {
+        -- Flying + Dragonriding discs
+        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        flags = {
+            FLY = true,
+            DRAGONRIDING = true,
+        },
+    },
+    [442] = {
+        -- Soar, doesn't work though
+        name = C_Spell.GetSpellName(LM.SPELL.SOAR),
+        flags = {
+            DRAGONRIDING = true,
+        },
+    },
+    [445] = {
+        -- Voyaging Wilderling got it's own type for some reason
+        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        flags = {
+            FLY = true,
+            DRAGONRIDING = true,
+        },
+    },
 }
 
 do
     LM.MOUNT_TYPE_NAMES = {}
-    for typeID, typeName in pairs(LM.MOUNT_TYPE_IDS) do
-        LM.MOUNT_TYPE_NAMES[typeName] = LM.MOUNT_TYPE_NAMES[typeName] or {}
-        table.insert(LM.MOUNT_TYPE_NAMES[typeName], typeID)
+    for typeID, typeInfo in pairs(LM.MOUNT_TYPE_INFO) do
+        LM.MOUNT_TYPE_NAMES[typeInfo.name] = LM.MOUNT_TYPE_NAMES[typeInfo.name] or {}
+        table.insert(LM.MOUNT_TYPE_NAMES[typeInfo.name], typeID)
     end
 end
 

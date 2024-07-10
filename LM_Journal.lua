@@ -75,73 +75,15 @@ function LM.Journal:Get(id)
     -- Numbers also need to be given names in SpellInfo.lua when new
     -- ones are added.
 
-    if m.mountTypeID == 225 then          -- Cataclysm Classic: Spectral Steed/Wolf
-        m.flags['RUN'] = true
-    elseif m.mountTypeID == 229 then      -- Cataclysm Classic: Drakes
-        m.flags['FLY'] = true
-        -- m.mountTypeID = 248
-    elseif m.mountTypeID == 230 then      -- ground mount
-        m.flags['RUN'] = true
-    elseif m.mountTypeID == 231 then      -- riding/sea turtle
-        m.flags['SWIM'] = true
-    elseif m.mountTypeID == 232 then      -- Vashj'ir Seahorse
-        -- no flags
-    elseif m.mountTypeID == 238 then      -- Cataclysm Classic: Drakes (2)
-        m.flags['FLY'] = true
-        -- m.mountTypeID = 248
-    elseif m.mountTypeID == 241 then      -- AQ-only bugs
-        -- no flags
-    elseif m.mountTypeID == 247 then      -- Cataclysm Classic: Flying Carpet
-        m.flags['FLY'] = true
-    elseif m.mountTypeID == 248 then      -- Cataclysm Classic: Nether Drakes
-        m.flags['FLY'] = true
-    elseif m.mountTypeID == 254 then      -- Swimming only mounts
-        m.flags['SWIM'] = true
-    elseif m.mountTypeID == 284 then      -- Chauffeured Mekgineer's Chopper
-        m.flags['RUN'] = true
-        m.flags['SLOW'] = true
-    elseif m.mountTypeID == 398 then      -- Used to be Kua'fon
-        -- Kua'fon can fly if achievement 13573 is completed, otherwise run
-    elseif m.mountTypeID == 402 then      -- Original DF Dragonriding mounts
-        m.flags['FLY'] = true
-        m.flags['DRAGONRIDING'] = true
-    elseif m.mountTypeID == 407 then      -- Flying + Aquatic
-        -- Can't dragonride (at least for now)
-        m.flags['FLY'] = true
-        m.flags['SWIM'] = true
-    elseif m.mountTypeID == 408 then      -- Unsuccessful Prototype Fleetpod
-        m.flags['RUN'] = true
-        m.flags['SLOW'] = true
-    elseif m.mountTypeID == 412 then      -- Ground + Aquatic (Ottuk etc.)
-        m.flags['RUN'] = true
-        m.flags['SWIM'] = true
-    elseif m.mountTypeID == 424 then      -- Flying + Dragonriding Drake
-        m.flags['FLY'] = true
-        m.flags['DRAGONRIDING'] = true
-    elseif m.mountTypeID == 436 then      -- Flying + Aquatic + Dragonriding
-        m.flags['FLY'] = true
-        m.flags['DRAGONRIDING'] = true
-    elseif m.mountTypeID == 437 then      -- Flying discs
-        m.flags['FLY'] = true
-        m.flags['DRAGONRIDING'] = true
-    elseif m.mountTypeID == 242 then      -- Flyers for when dead in some zones
-        return
-    elseif m.mountTypeID == 411 then      -- Used to be Whelpling
-        return
-    elseif m.mountTypeID == 426 then      -- Used to be Dragonriding copies for races
-        return
-    elseif m.mountTypeID == 428 then      -- Used to be Flying + Dragonriding Protodrake
-        return
-    elseif m.mountTypeID == 429 then      -- Used to be Flying + Dragonriding Roc/Pterrodax
-        return
-    elseif m.mountTypeID == 430 then      -- Whelpling, what on earth is this: ABORT
-        return
-    elseif m.mountTypeID == 442 then      -- Soar, now a journal mount but useless?
-        return
+    local typeInfo = LM.MOUNT_TYPE_INFO[m.mountTypeID]
+    if not typeInfo then
 --@debug@
-    else
         LM.PrintError('Mount with unknown type number: %s = %d', m.name, m.mountTypeID)
 --@end-debug@
+    elseif typeInfo.skip then
+        return
+    else
+        Mixin(m.flags, typeInfo.flags)
     end
 
     -- Aquatic Shades for Otto. This should probably be moved off somewhere

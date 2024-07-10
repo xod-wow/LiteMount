@@ -283,8 +283,10 @@ function LM.UIFilter.GetTypeNameText(t)
 end
 
 function LM.UIFilter.RegisterUsedTypeID(id)
-    local typeName = LM.MOUNT_TYPE_IDS[id] or UNKNOWN
-    LM.UIFilter.typeNamesInUse[typeName] = true
+    local typeInfo = LM.MOUNT_TYPE_INFO[id]
+    if typeInfo then
+        LM.UIFilter.typeNamesInUse[typeInfo.name] = true
+    end
 end
 
 
@@ -480,8 +482,8 @@ function LM.UIFilter.IsFilteredMount(m)
     end
 
     -- TypeName filters
-    local typeName = LM.MOUNT_TYPE_IDS[m.mountTypeID or 0]
-    if LM.UIFilter.filterList.typename[typeName] == true then
+    local typeInfo = LM.MOUNT_TYPE_INFO[m.mountTypeID or 0]
+    if typeInfo and LM.UIFilter.filterList.typename[typeInfo.name] == true then
         return true
     end
 
