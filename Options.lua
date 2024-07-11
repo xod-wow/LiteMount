@@ -46,10 +46,8 @@ ApplyRules
 IF [mod:shift]
     IF [submerged]
         Limit -SWIM
-    ELSEIF [dragonridable]
-        Limit -DRAGONRIDING
-    ELSEIF [flyable]
-        Limit -FLY
+    ELSEIF [dragonridable][flyable]
+        Limit -DRAGONRIDING/FLY
     ELSEIF [floating]
         Limit -SWIM
     END
