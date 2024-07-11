@@ -292,6 +292,24 @@ function LM.Environment:InInstance(...)
     return false
 end
 
+function LM.Environment:GetFlightStyle()
+    local spellID = C_MountJournal.GetDynamicFlightModeSpellID()
+    if not spellID then return end
+
+    local spellInfo = C_Spell.GetSpellInfo(spellID)
+    if not spellInfo then return end
+
+    local steadyInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT)
+    if steadyInfo and spellInfo.iconID == steadyInfo.iconID then
+        return steadyInfo.name, "FLY"
+    end
+
+    local skyridingInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_SKYRIDING)
+    if skyridingInfo and spellInfo.iconID == skyridingInfo.iconID then
+        return skyridingInfo.name, "DRAGONRIDING"
+    end
+end
+
 -- Apprentice Riding  (60% ground) = IsPlayerSpell(33388)
 -- Journeyman Riding (100% ground) = IsPlayerSpell(33391)
 -- Expert Riding     (150% flying) = IsPlayerSpell(34090)
