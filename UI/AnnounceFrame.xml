@@ -26,6 +26,7 @@
     </Layers>
     <Scripts>
         <OnLoad method="OnLoad" />
+        <OnEvent method="OnEvent" />
         <OnUpdate function="FadingFrame_OnUpdate" />
     </Scripts>
 </Frame>
