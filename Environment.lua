@@ -300,11 +300,21 @@ function LM.Environment:GetFlightStyle()
     if not spellInfo then return end
 
     local steadyInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT)
+    local skyridingInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_SKYRIDING)
+    if not steadyInfo and skyridingInfo then return end
+
+    -- The default flight style is skyriding. Weirdly GetOverrideSpell still
+    -- return 460003 (Switch to Skyriding) in this case, but it can be detected
+    -- by the icon in the base spell not being replaced.
+
+    if spellInfo.iconID == spellInfo.originalIconID then
+        return skyridingInfo.name, "DRAGONRIDING"
+    end
+
     if steadyInfo and spellInfo.iconID == steadyInfo.iconID then
         return steadyInfo.name, "FLY"
     end
 
-    local skyridingInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_SKYRIDING)
     if skyridingInfo and spellInfo.iconID == skyridingInfo.iconID then
         return skyridingInfo.name, "DRAGONRIDING"
     end
