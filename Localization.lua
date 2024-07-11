@@ -44,6 +44,7 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
     L["LM_ACTION"] = "Action"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "When Blizzard adds a new mount, set it to priority 0 (disabled)."
     L["LM_ADVANCED_EXP"] = "These settings allow you to customize the actions run by each of the LiteMount key bindings. Please read the documentation at the URL below before changing anything."
+    L["LM_ANNOUNCE_FLIGHT_STYLE"] = "Announce flight style changes."
     L["LM_ANNOUNCE_MOUNTS"] = "Announce summoned mounts in:"
     L["LM_AREA_FMT_S"] = "%s area"
     L["LM_AUTHOR"] = "Author"

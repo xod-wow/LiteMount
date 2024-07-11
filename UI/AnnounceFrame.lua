@@ -27,14 +27,16 @@ end
 
 function LiteMountAnnounceFrameMixin:OnEvent(event, ...)
     if event == 'UNIT_SPELLCAST_SUCCEEDED' then
-        local unit, guid, spellID = ...
-        local spellName = C_Spell.GetSpellName(spellID)
-        if spellID == 460002 then
-            local name = C_Spell.GetSpellName(LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT)
-            self:ShowText(name)
-        elseif spellID == 460003 then
-            local name = C_Spell.GetSpellName(LM.SPELL.FLIGHT_STYLE_SKYRIDING)
-            self:ShowText(name)
+        if LM.Options:GetOption('announceFlightStyle') then
+            local unit, guid, spellID = ...
+            local spellName = C_Spell.GetSpellName(spellID)
+            if spellID == 460002 then
+                local name = C_Spell.GetSpellName(LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT)
+                self:ShowText(name)
+            elseif spellID == 460003 then
+                local name = C_Spell.GetSpellName(LM.SPELL.FLIGHT_STYLE_SKYRIDING)
+                self:ShowText(name)
+            end
         end
     end
 end

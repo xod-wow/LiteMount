@@ -219,6 +219,27 @@ function LiteMountGeneralPanelMixin:OnLoad()
         self.UseRarityWeight:Hide()
     end
 
+    -- AnnounceFlightStyle (only on retail) --
+
+    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+        self.AnnounceFlightStyle.Text:SetText(L.LM_ANNOUNCE_FLIGHT_STYLE)
+        self.AnnounceFlightStyle.SetOption =
+            function (self, setting)
+                if not setting or setting == "0" then
+                    LM.Options:SetOption('announceFlightStyle', false)
+                else
+                    LM.Options:SetOption('announceFlightStyle', true)
+                end
+            end
+        self.AnnounceFlightStyle.GetOptionDefault =
+            function (self) return LM.Options:GetOptionDefault('announceFlightStyle') end
+        self.AnnounceFlightStyle.GetOption =
+            function (self) return LM.Options:GetOption('announceFlightStyle') end
+        LiteMountOptionsPanel_RegisterControl(self.AnnounceFlightStyle)
+    else
+        self.AnnounceFlightStyle:Hide()
+    end
+
     -- RandomPersistDropDown --
 
     self.RandomPersistDropDown.GetOption =

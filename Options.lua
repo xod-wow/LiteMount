@@ -109,6 +109,7 @@ local defaults = {
         announceViaChat     = false,
         announceViaUI       = false,
         announceColors      = false,
+        announceFlightStyle = true,
     },
     char = {
         unavailableMacro    = "",
