@@ -40,32 +40,38 @@ local restoreFormIDs = {
 
 local FLOWCONTROLS = { }
 
+-- trueState values
+--  0 false and never was true
+--  1 true
+--  2 false and previously was true
+
 FLOWCONTROLS['IF'] =
     function (args, context, isTrue)
-        LM.Debug('  * IF test is ' .. tostring(isTrue))
-        local trueCount = isTrue and 1 or 0
-        table.insert(context.flowControl, trueCount)
+        local trueState = isTrue and 1 or 0
+        table.insert(context.flowControl, trueState)
+        LM.Debug('  * IF test is ' .. table.concat(context.flowControl, ','))
     end
 
 FLOWCONTROLS['ELSEIF'] =
     function (args, context, isTrue)
-        local trueCount  = context.flowControl[#context.flowControl]
-        trueCount = trueCount + ( isTrue and 1 or 0 )
-        LM.Debug('  * ELSEIF test is ' .. tostring(trueCount == 1))
-        context.flowControl[#context.flowControl] = trueCount
+        local trueState  = context.flowControl[#context.flowControl]
+        trueState = trueState == 1 and 2 or isTrue and 1 or 0
+        context.flowControl[#context.flowControl] = trueState
+        LM.Debug('  * ELSEIF test is ' .. table.concat(context.flowControl, ','))
     end
 
 FLOWCONTROLS['ELSE'] =
     function (args, context, isTrue)
-        local trueCount  = context.flowControl[#context.flowControl]
-        trueCount = trueCount + 1
-        LM.Debug('  * ELSE test is ' .. tostring(trueCount == 1))
-        context.flowControl[#context.flowControl] = trueCount
+        local trueState  = context.flowControl[#context.flowControl]
+        trueState = trueState + 1
+        context.flowControl[#context.flowControl] = trueState
+        LM.Debug('  * ELSE test is ' .. table.concat(context.flowControl, ','))
     end
 
 FLOWCONTROLS['END'] =
     function (args, context, isTrue)
         table.remove(context.flowControl)
+        LM.Debug('  * END is ' .. table.concat(context.flowControl, ','))
     end
 
 local ACTIONS = { }
