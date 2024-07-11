@@ -12,6 +12,8 @@ local _, LM = ...
 
 local L = LM.Localize
 
+local C_Spell = LM.C_Spell or C_Spell
+
 LiteMountAnnounceFrameMixin = {}
 
 function LiteMountAnnounceFrameMixin:OnLoad()
