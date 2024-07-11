@@ -256,9 +256,7 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         InitDropDownSection(DROPDOWNS.NOT_COLLECTED, self, level, menuList)
 
         ---- 3. UNUSABLE ----
-        if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-            InitDropDownSection(DROPDOWNS.UNUSABLE, self, level, menuList)
-        end
+        InitDropDownSection(DROPDOWNS.UNUSABLE, self, level, menuList)
 
         ---- 4. HIDDEN ----
         InitDropDownSection(DROPDOWNS.HIDDEN, self, level, menuList)
