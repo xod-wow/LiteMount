@@ -176,7 +176,7 @@ LM.MOUNT_TYPE_INFO = {
         -- TWW: Flying mounts with Ride-Along
         name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
         flags = {
-            FLY = true,
+            FLY = tocVersion >= 110000 and true or nil,
             DRAGONRIDING = true,
             RIDEALONG = true,
         },
