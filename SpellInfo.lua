@@ -18,12 +18,16 @@ if LibDebug then LibDebug() end
 
 local L = LM.Localize
 
--- The values are sort order
+local tocVersion = select(4, GetBuildInfo())
+
+-- The values are sort order / UI display order
 LM.FLAG = { }
-LM.FLAG.RUN             = 0
-LM.FLAG.FLY             = 1
-LM.FLAG.SWIM            = 2
-if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+LM.FLAG.SWIM            = 0
+LM.FLAG.RUN             = 1
+LM.FLAG.FLY             = 2
+if tocVersion > 110000 then
+    LM.FLAG.RIDEALONG    = 3
+elseif tocVersion > 100000 then
     LM.FLAG.DRAGONRIDING    = 3
 end
 
