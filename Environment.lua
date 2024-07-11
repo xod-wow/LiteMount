@@ -393,11 +393,6 @@ function LM.Environment:ForceFlyable(instanceID)
 end
 
 function LM.Environment:CanDragonride(mapPath)
-    -- If you can't fly you can't dragonride
-    if not self:KnowsFlyingSkill() then
-        return false
-    end
-
     if not C_MountJournal.IsDragonridingUnlocked() then
         return false
     end
