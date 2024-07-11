@@ -151,7 +151,7 @@ LM.MOUNT_TYPE_INFO = {
         },
     },
     [254] = {
-        -- Swimming-only mounts
+        -- Aquatic-only mounts
         name = MOUNT_JOURNAL_FILTER_AQUATIC,
         flags = {
             SWIM = true,
