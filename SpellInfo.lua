@@ -137,7 +137,7 @@ LM.MOUNT_TYPE_INFO = {
         -- Pre-TWW Red Flying Cloud
         -- TWW [DND] Test Mount JZB
         name = C_MountJournal.GetMountInfoByID(285), -- Flying Carpets CC
-        skip = select(4, GetBuildInfo()) >= 110000,
+        skip = tocVersion >= 110000,
         flags = {
             FLY = true,
         },
@@ -215,7 +215,7 @@ LM.MOUNT_TYPE_INFO = {
         name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
         flags = {
             FLY = true,
-            DRAGONRIDING = true,
+            DRAGONRIDING = tocVersion >= 110000 and true or nil,
         },
     },
     [426] = {
