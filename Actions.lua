@@ -390,6 +390,17 @@ local switchSpellInfo = C_Spell.GetSpellInfo(switchSpellID or 0)
 ACTIONS['SwitchFlightStyle'] = {
     name = switchSpellInfo and switchSpellInfo.name,
     argType = 'valueOrNone',
+    toDisplay =
+        function (args)
+            if #args == 0 then
+                return { switchSpellInfo.name }
+            else
+                -- XXX if there is a localization for Steady Flight it would
+                -- be better to return it instead of L.FLY
+                local typeName =  L[args[1]] or UNKNOWN
+                return { switchSpellInfo.name .. ': ' .. typeName }
+            end
+        end,
     handler =
         function (args, context)
             if IsPlayerSpell(switchSpellID) then
