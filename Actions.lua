@@ -384,6 +384,19 @@ ACTIONS['ApplyRules'] = {
         end
 }
 
+local switchSpellID  = C_MountJournal.GetDynamicFlightModeSpellID()
+local switchSpellInfo = C_Spell.GetSpellInfo(switchSpellID or 0)
+
+ACTIONS['SwitchFlightStyle'] = {
+    name = switchSpellInfo and switchSpellInfo.name,
+    argType = 'none',
+    handler =
+        function (args, context)
+            LM.Debug("  * setting action to spell " .. switchSpellInfo.name)
+            return LM.SecureAction:Spell(switchSpellInfo.name, context.rule.unit)
+        end
+}
+
 local mawCastableArg = LM.RuleArguments:Get("MAWUSABLE", ",", "CASTABLE")
 local castableArg = LM.RuleArguments:Get("CASTABLE")
 

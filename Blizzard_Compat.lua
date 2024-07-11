@@ -99,3 +99,10 @@ if not LM.C_MountJournal.IsDragonridingUnlocked then
         return IsPlayerSpell(376777)
     end
 end
+
+if not C_MountJournal.GetDynamicFlightModeSpellID then
+
+    function LM.C_MountJournal.GetDynamicFlightModeSpellID()
+    end
+
+end
