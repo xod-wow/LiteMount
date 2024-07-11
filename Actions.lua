@@ -389,11 +389,17 @@ local switchSpellInfo = C_Spell.GetSpellInfo(switchSpellID or 0)
 
 ACTIONS['SwitchFlightStyle'] = {
     name = switchSpellInfo and switchSpellInfo.name,
-    argType = 'none',
+    argType = 'valueOrNone',
     handler =
         function (args, context)
-            LM.Debug("  * setting action to spell " .. switchSpellInfo.name)
-            return LM.SecureAction:Spell(switchSpellInfo.name, context.rule.unit)
+            if IsPlayerSpell(switchSpellID) then
+                local args = args:ParseList()
+                local _, currentStyle = LM.Environment:GetFlightStyle()
+                if #args == 0 or currentStyle ~= args[1] then 
+                    LM.Debug("  * setting action to spell " .. switchSpellInfo.name)
+                    return LM.SecureAction:Spell(switchSpellInfo.name, context.rule.unit)
+                end
+            end
         end
 }
 
