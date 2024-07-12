@@ -133,8 +133,8 @@
                 "zhTW - BNSSNB, yunrong81, lohipp, BNS333"
             }
 
-            self.Version:SetText(GetAddOnMetadata("LiteMount", "Version") or "")
-            self.Author:SetText(GetAddOnMetadata("LiteMount", "Author") or "")
+            self.Version:SetText(C_AddOns.GetAddOnMetadata("LiteMount", "Version") or "")
+            self.Author:SetText(C_AddOns.GetAddOnMetadata("LiteMount", "Author") or "")
             self.Translators:SetText(table.concat(translators, "\n"))
 
             self.HelpURL.url = 'https://github.com/xod-wow/LiteMount/wiki'

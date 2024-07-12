@@ -10,6 +10,9 @@
 
 local _, LM = ...
 
+local C_Spell = LM.C_Spell or C_Spell
+local C_MountJournal = LM.C_MountJournal or C_MountJournal
+
 local L = LM.Localize
 
 -- Rarity data repackaged daily from DataForAzeroth by Sören Gade
@@ -81,14 +84,19 @@ function LM.Mount.FilterToDisplay(f)
         return L.LM_FAMILY .. ' : ' .. L[family]
     elseif f:match('^mt:%d+$') then
         local _, id = string.split(':', f, 2)
-        return TYPE .. " : " .. ( LM.MOUNT_TYPES[tonumber(id)] or id )
+        local typeInfo = LM.MOUNT_TYPE_INFO[tonumber(id)]
+        if typeInfo and not typeInfo.skip then
+            return TYPE .. " : " .. typeInfo.name
+        else
+            return TYPE .. " : " .. id
+        end
     elseif LM.Options:IsGroup(f) then
         return L.LM_GROUP .. ' : ' .. f
     elseif LM.Options:IsFlag(f) then
         -- XXX LOCALIZE XXX
         return TYPE .. ' : ' .. L[f]
     else
-        local n = GetSpellInfo(f)
+        local n = C_Spell.GetSpellName(f)
         if n then return n end
         return DISABLED_FONT_COLOR:WrapTextInColorCode(f)
     end
@@ -200,11 +208,11 @@ function LM.Mount:IsActive(buffTable)
 end
 
 function LM.Mount:IsCastable()
-    local castTime = select(4, GetSpellInfo(self.spellID))
+    local info = C_Spell.GetSpellInfo(self.spellID)
     if LM.Environment:IsMovingOrFalling() then
-        if castTime > 0 then return false end
+        if info.castTime > 0 then return false end
     elseif LM.Options:GetOption('instantOnlyMoving') then
-        if castTime == 0 then return false end
+        if info.castTime == 0 then return false end
     end
     return true
 end
@@ -246,12 +254,12 @@ end
 -- These should probably not be making new identical objects all the time.
 
 function LM.Mount:GetCastAction()
-    local spellName = GetSpellInfo(self.spellID)
+    local spellName = C_Spell.GetSpellName(self.spellID)
     return LM.SecureAction:Spell(spellName)
 end
 
 function LM.Mount:GetCancelAction()
-    local spellName = GetSpellInfo(self.spellID)
+    local spellName = C_Spell.GetSpellName(self.spellID)
     return LM.SecureAction:CancelAura(spellName)
 end
 
@@ -298,7 +306,7 @@ local MawUsableSpells = {
 
 function LM.Mount:MawUsable()
     -- The True Maw Walker unlocks all mounts, but the spell (353214) doesn't
-    -- seem to return true for IsSpellKnown(). The unlock is not account-wide
+    -- seem to return true for IsPlayerSpell(). The unlock is not account-wide
     -- so the quest is good enough (for now).
 
     if C_QuestLog.IsQuestFlaggedCompleted(63994) then
@@ -311,7 +319,7 @@ end
 function LM.Mount:Dump(prefix)
     prefix = prefix or ""
 
-    local spellName = GetSpellInfo(self.spellID)
+    local spellName = C_Spell.GetSpellName(self.spellID)
 
     local currentFlags, defaultFlags = {}, {}
     for f in pairs(self:GetFlags()) do tinsert(currentFlags, f) end
@@ -330,11 +338,10 @@ function LM.Mount:Dump(prefix)
             )
     LM.Print(prefix .. " mountID: " .. tostring(self.mountID))
     LM.Print(prefix .. " family: " .. tostring(self.family))
-    LM.Print(prefix .. " dragonRiding: " .. tostring(self.dragonRiding))
     LM.Print(prefix .. " isCollected: " .. tostring(self:IsCollected()))
     LM.Print(prefix .. " isMountable: " .. tostring(self:IsMountable()))
     LM.Print(prefix .. " isFavorite: " .. tostring(self:IsFavorite()))
     LM.Print(prefix .. " isFiltered: " .. tostring(self:IsFiltered()))
     LM.Print(prefix .. " priority: " .. tostring(self:GetPriority()))
-    LM.Print(prefix .. " castable: " .. tostring(self:IsCastable()) .. " (spell " .. tostring(IsUsableSpell(self.spellID)) .. ")")
+    LM.Print(prefix .. " castable: " .. tostring(self:IsCastable()) .. " (spell " .. tostring(C_Spell.IsSpellUsable(self.spellID)) .. ")")
 end

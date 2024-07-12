@@ -26,7 +26,7 @@ local function ReadWord(line)
     if token then return nil, rest end
 
     -- Skip from # to end of line
-    token, rest = line:match('^#')
+    token = line:match('^#')
     if token then return nil, nil end
 
     -- Match ""
@@ -60,7 +60,7 @@ function LM.Rule:ParseLine(line)
 
     r.line = line
 
-    local argTokens, condWords, rest = { }, { }, nil
+    local argTokens, condWords, rest = { }, { }
 
     -- Note this is intentionally unanchored to skip leading whitespace
     r.action, rest = line:match('(%S+)%s*(.*)')

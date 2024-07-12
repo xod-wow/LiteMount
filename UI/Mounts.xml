@@ -135,10 +135,10 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormal" justifyH="LEFT" parentKey="Name">
+            <FontString inherits="GameFontNormal" justifyH="LEFT" wordwrap="false" parentKey="Name">
                 <Anchors>
                     <Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT" x="8" />
-                    <Anchor point="BOTTOM" relativePoint="CENTER" y="2" />
+                    <Anchor point="BOTTOMRIGHT" relativePoint="CENTER" y="2" />
                 </Anchors>
             </FontString>
             <FontString inherits="GameFontWhiteTiny" justifyH="LEFT" parentKey="Types">

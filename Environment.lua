@@ -2,7 +2,7 @@
   LiteMount/Location.lua
 
   Some basics about the current game state with respect to mounting. Most of
-  the mojo is done by IsUsableSpell to know if a mount can be cast, this just
+  the mojo is done by IsSpellUsable to know if a mount can be cast, this just
   helps with the prioritization.
 
   Copyright 2011 Mike Battersby
@@ -10,6 +10,9 @@
 ----------------------------------------------------------------------------]]--
 
 local _, LM = ...
+
+local C_Spell = LM.C_Spell or C_Spell
+local C_MountJournal = LM.C_MountJournal or C_MountJournal
 
 --@debug@
 if LibDebug then LibDebug() end
@@ -119,21 +122,6 @@ function LM.Environment:IsTheMaw(mapPath)
     return LM.Environment:IsMapInPath(1543, mapPath)
 end
 
--- Now that we have to ignore some mounts that are duplicates for the Kalimdor
--- cup but still trigger the condition, do this the old fashioned way iterating
--- over the mount journal. Assumption is that you can't summon a dragonriding
--- mount in a non-dragonriding area.
-
-function LM.Environment:IsDragonriding()
-    local mountIDs = C_MountJournal.GetMountIDs()
-    for _, id in ipairs(mountIDs) do
-        local _, _, _, isActive, _, _, _, _, _, _, _, _, isForDragonriding = C_MountJournal.GetMountInfoByID(id)
-        if isActive then
-            return isForDragonriding
-        end
-    end
-end
-
 function LM.Environment:PLAYER_LOGIN()
     self:Initialize()
 end
@@ -207,13 +195,13 @@ function LM.Environment:GetEncounterInfo()
     end
 end
 
-local herbSpellName = GetSpellInfo(2366)
-local mineSpellName = GetSpellInfo(2575)
--- local mineSpellName2 = GetSpellInfo(195122)
+local herbSpellName = C_Spell.GetSpellName(2366)
+local mineSpellName = C_Spell.GetSpellName(2575)
+-- local mineSpellName2 = C_Spell.GetSpellName(195122)
 
 function LM.Environment:UNIT_SPELLCAST_SUCCEEDED(ev, unit, guid, spellID)
     if unit == 'player' then
-        local spellName = GetSpellInfo(spellID)
+        local spellName = C_Spell.GetSpellName(spellID)
         if spellName == herbSpellName then
             self.lastHerbTime = GetTime()
         elseif spellName == mineSpellName then
@@ -302,6 +290,34 @@ function LM.Environment:InInstance(...)
         if currentID == id then return true end
     end
     return false
+end
+
+function LM.Environment:GetFlightStyle()
+    local spellID = C_MountJournal.GetDynamicFlightModeSpellID()
+    if not spellID then return end
+
+    local spellInfo = C_Spell.GetSpellInfo(spellID)
+    if not spellInfo then return end
+
+    local steadyInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT)
+    local skyridingInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_SKYRIDING)
+    if not steadyInfo and skyridingInfo then return end
+
+    -- The default flight style is skyriding. Weirdly GetOverrideSpell still
+    -- return 460003 (Switch to Skyriding) in this case, but it can be detected
+    -- by the icon in the base spell not being replaced.
+
+    if spellInfo.iconID == spellInfo.originalIconID then
+        return skyridingInfo.name, "DRAGONRIDING"
+    end
+
+    if steadyInfo and spellInfo.iconID == steadyInfo.iconID then
+        return steadyInfo.name, "FLY"
+    end
+
+    if skyridingInfo and spellInfo.iconID == skyridingInfo.iconID then
+        return skyridingInfo.name, "DRAGONRIDING"
+    end
 end
 
 -- Apprentice Riding  (60% ground) = IsPlayerSpell(33388)
@@ -405,8 +421,12 @@ function LM.Environment:ForceFlyable(instanceID)
 end
 
 function LM.Environment:CanDragonride(mapPath)
-    --- XXX IsPlayerSpell? XXX
-    if not IsSpellKnown(376777) then
+    if not C_MountJournal.IsDragonridingUnlocked() then
+        return false
+    end
+
+    -- if you are switched into steady flight you can't skyride
+    if LM.UnitAura('player', LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT) then
         return false
     end
 
@@ -419,12 +439,20 @@ function LM.Environment:CanDragonride(mapPath)
         if override ~= nil then return override end
     end
 
-    -- Dragon Isles and everything in it are correctly flagged IsAdvancedFlyableArea
-    -- if you can dragonride, and you can't fly there unless you unlock it.
+    -- TWW intro area has this debuff preventing dragonriding (and I would assume
+    -- flying also would have to check that later).
+    if LM.UnitAura('player', 456486, 'HARMFUL') then
+        return false
+    end
 
-    if self:IsMapInPath(1978, mapPath) then
+    -- Dragon Isles and Khaz Algar and everything in them are correctly flagged
+    -- IsAdvancedFlyableArea if you can dragonride, and you can't fly there
+    -- unless you unlock it.
+
+    if self:IsMapInPath(1978, mapPath) or self:IsMapInPath(2274, mapPath) then
         return IsAdvancedFlyableArea()
     end
+
 
     -- Can't dragonride in Warfronts either
     if C_Scenario and C_Scenario.IsInScenario() then
@@ -433,6 +461,7 @@ function LM.Environment:CanDragonride(mapPath)
             return false
         end
     end
+
     -- Lots of non-Dragon Isles areas are wrongly flagged IsAdvancedFlyableArea
     return IsAdvancedFlyableArea() and IsFlyableArea()
 end
@@ -440,10 +469,15 @@ end
 -- Can't fly if you haven't learned a flying skill. Various expansion
 -- continents from Draenor onwards need achievement unlocks to be able to fly.
 
-function LM.Environment:CanFly()
+function LM.Environment:CanSteadyFly()
 
     -- If you don't know how to fly, you can't fly
     if not self:KnowsFlyingSkill() then
+        return false
+    end
+
+    -- if you are switched into skyriding you can't fly only skyride
+    if LM.UnitAura('player', LM.SPELL.FLIGHT_STYLE_SKYRIDING) ~= nil then
         return false
     end
 
@@ -456,7 +490,7 @@ function LM.Environment:CanFly()
     if WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
         -- Classic Northrend requires Cold Weather Flying in WotLK Classic
         if self:InInstance(571) then
-            if not IsSpellKnown(54197) then
+            if not IsPlayerSpell(54197) then
                 return false
             end
         end
@@ -521,16 +555,18 @@ function LM.Environment:GetPlayerModel()
 end
 
 -- The level of black magic shenanigans here is off the charts. What on earth
--- is ModelSceneID 290? I don't know but it's what DressUpFrame uses so ...
+-- is ModelSceneID 596? I don't know but it's what DressUpFrame uses so ...
 -- This used in conditions to check if we're wearing a transmog outfit.
 
-local ModelSceneScanFrame = CreateFrame('ModelScene')
-Mixin(ModelSceneScanFrame, ModelSceneMixin)
-ModelSceneScanFrame:OnLoad()
+local ModelSceneScanFrame = CreateFrame('ModelScene', nil, nil, 'ModelSceneMixinTemplate')
+ModelSceneScanFrame:SetSize(100, 100)
 
 function LM.Environment:GetPlayerTransmogInfo()
     ModelSceneScanFrame:Show()
-    ModelSceneScanFrame:TransitionToModelSceneID(290, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, true)
+    ModelSceneScanFrame:ClearScene()
+    ModelSceneScanFrame:SetViewInsets(0, 0, 0, 0)
+    ModelSceneScanFrame:ReleaseAllActors()
+    ModelSceneScanFrame:TransitionToModelSceneID(596, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, true)
     local actor = ModelSceneScanFrame:GetPlayerActor()
     actor:SetModelByUnit("player")
     local infoList = actor:GetItemTransmogInfoList()

@@ -323,8 +323,8 @@ end
 -- running the OnRefresh for all the controls in its OnShow
 
 function LiteMountOptionsPanel_RegisterControl(control, parent)
-    control.GetOption = control.GetOption or function (control) end
-    control.SetOption = control.SetOption or function (control, v, i) end
+    control.GetOption = control.GetOption or function () end
+    control.SetOption = control.SetOption or function () end
     control.GetControl = control.GetControl or LiteMountOptionsControl_GetControl
     control.SetControl = control.SetControl or LiteMountOptionsControl_SetControl
 

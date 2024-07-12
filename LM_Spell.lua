@@ -10,6 +10,8 @@
 
 local _, LM = ...
 
+local C_Spell = LM.C_Spell or C_Spell
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -19,18 +21,18 @@ LM.Spell.__index = LM.Spell
 
 function LM.Spell:Get(spellID, ...)
 
-    local name, _, icon = GetSpellInfo(spellID)
+    local info = C_Spell.GetSpellInfo(spellID)
 
-    if not name then
+    if not info then
         LM.Debug("LM.Mount: Failed GetSpellInfo #"..spellID)
         return
     end
 
-    local m = LM.Mount.new(self, spellID)
+    local m = LM.Mount.new(self, info.spellID)
 
-    m.name = name
-    m.spellID = spellID
-    m.icon = icon
+    m.name = info.name
+    m.spellID = info.spellID
+    m.icon = info.iconID
     m.flags = { }
 
     for i = 1, select('#', ...) do
@@ -42,19 +44,20 @@ function LM.Spell:Get(spellID, ...)
 end
 
 function LM.Spell:IsCollected()
-    return IsSpellKnown(self.spellID)
+    return IsPlayerSpell(self.spellID)
 end
 
 function LM.Spell:IsCastable()
-    if not IsSpellKnown(self.spellID) then
+    if not IsPlayerSpell(self.spellID) then
         return false
     end
 
-    if not IsUsableSpell(self.spellID) then
+    if not C_Spell.IsSpellUsable(self.spellID) then
         return false
     end
 
-    if GetSpellCooldown(self.spellID) > 0 then
+    local cooldownInfo = C_Spell.GetSpellCooldown(self.spellID)
+    if cooldownInfo and cooldownInfo.startTime > 0 then
         return false
     end
 

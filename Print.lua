@@ -63,9 +63,9 @@ local function GetFrameNameInternal(frame)
         end
     end
     local parent = frame:GetParent()
-    for name,child in pairs(parent) do
+    for childName, child in pairs(parent) do
         if child == frame then
-            return GetFrameNameInternal(parent)..'.'..name
+            return GetFrameNameInternal(parent)..'.'..childName
         end
     end
     name = tostring(frame):sub(10)

@@ -10,6 +10,9 @@
 
 local _, LM = ...
 
+local C_Spell = LM.C_Spell or C_Spell
+local C_MountJournal = LM.C_MountJournal or C_MountJournal
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -29,7 +32,7 @@ LM.Journal.__index = LM.Journal
 -- [10] isFiltered,
 -- [11] isCollected,
 -- [12] mountID,
--- [13] isForDragonriding = C_MountJournal.GetMountInfoByID(mountID)
+-- [13] isSteadyFlight = C_MountJournal.GetMountInfoByID(mountID)
 
 --  [1] creatureDisplayInfoID,
 --  [2] description,
@@ -39,8 +42,8 @@ LM.Journal.__index = LM.Journal
 --  [6] uiModelSceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
 
 function LM.Journal:Get(id)
-    local name, spellID, icon, _, _, sourceType, _, _, faction, _, _, mountID, dragonRiding = C_MountJournal.GetMountInfoByID(id)
-    local modelID, descriptionText, sourceText, isSelfMount, mountTypeID, sceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
+    local name, spellID, icon, _, _, sourceType, _, _, faction, _, _, _, isSteadyFlight = C_MountJournal.GetMountInfoByID(id)
+    local modelID, descriptionText, sourceText, isSelfMount, mountTypeID, sceneID = C_MountJournal.GetMountInfoExtraByID(id)
 
     if not name then
         LM.Debug("LM.Mount: Failed GetMountInfo for ID = #%d", id)
@@ -53,85 +56,34 @@ function LM.Journal:Get(id)
     m.sceneID       = sceneID
     m.name          = name
     m.spellID       = spellID
-    m.mountID       = mountID
+    m.mountID       = id
     m.icon          = icon
     m.isSelfMount   = isSelfMount
     m.mountTypeID   = mountTypeID
     m.description   = descriptionText
     m.sourceType    = sourceType
     m.sourceText    = sourceText
-    m.dragonRiding  = dragonRiding
+    m.isSteadyFlight= isSteadyFlight
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
     m.flags         = { }
 
     -- LM.Debug("LM.Mount: mount type of "..m.name.." is "..m.mountTypeID)
 
     -- This list is could be added to in the future by Blizzard. See:
-    --   http://wowpedia.org/API_C_MountJournal.GetMountInfoExtraByID
+    --   https://warcraft.wiki.gg/wiki/API_C_MountJournal.GetMountInfoExtraByID
     --
     -- Numbers also need to be given names in SpellInfo.lua when new
     -- ones are added.
 
-    if m.mountTypeID == 230 then          -- ground mount
-        m.flags['RUN'] = true
-    elseif m.mountTypeID == 225 then      -- Cataclysm Classic: Spectral Steed/Wolf
-        m.flags['RUN'] = true
-        m.mountTypeID = 230
-    elseif m.mountTypeID == 229 then      -- Cataclysm Classic: Drakes
-        m.flags['FLY'] = true
-        m.mountTypeID = 248
-    elseif m.mountTypeID == 231 then      -- riding/sea turtle
-        m.flags['SWIM'] = true
-    elseif m.mountTypeID == 232 then      -- Vashj'ir Seahorse
-        -- no flags
-    elseif m.mountTypeID == 238 then      -- Cataclysm Classic: Drakes (2)
-        m.flags['FLY'] = true
-        m.mountTypeID = 248
-    elseif m.mountTypeID == 241 then      -- AQ-only bugs
-        -- no flags
-    elseif m.mountTypeID == 242 then      -- Flyers for when dead in some zones
-        m.flags['FLY'] = true
-    elseif m.mountTypeID == 247 then      -- Red Flying Cloud
-        m.flags['FLY'] = true
-    elseif m.mountTypeID == 248 then      -- Flying mounts
-        m.flags['FLY'] = true
-    elseif m.mountTypeID == 254 then      -- Swimming only mounts
-        m.flags['SWIM'] = true
-    elseif m.mountTypeID == 284 then      -- Chauffeured Mekgineer's Chopper
-        m.flags['RUN'] = true
-        m.flags['SLOW'] = true
-    elseif m.mountTypeID == 398 then      -- Kua'fon
-        -- Kua'fon can fly if achievement 13573 is completed, otherwise run
-    elseif m.mountTypeID == 402 then      -- Dragonriding
-        m.flags['DRAGONRIDING'] = true
-    elseif m.mountTypeID == 407 then      -- Flying + Aquatic (Aurelid etc.)
-        m.flags['FLY'] = true
-        m.flags['SWIM'] = true
-    elseif m.mountTypeID == 408 then      -- Unsuccessful Prototype Fleetpod
-        m.flags['RUN'] = true
-        m.flags['SLOW'] = true
-    elseif m.mountTypeID == 411 then      -- Whelpling, what on earth is this: ABORT
-        return
-    elseif m.mountTypeID == 412 then      -- Ground + Aquatic (Ottuk etc.)
-        m.flags['RUN'] = true
-        m.flags['SWIM'] = true
-    elseif m.mountTypeID == 424 then      -- Flying + Dragonriding Drake
-        m.flags['FLY'] = true
-        m.mountTypeID = 248
-    elseif m.mountTypeID == 426 then      -- Dragonriding copies for Azeroth comp: ABORT
-        return
-    elseif m.mountTypeID == 428 then      -- Flying + Dragonriding Protodrake
-        m.flags['FLY'] = true
-        m.mountTypeID = 248
-    elseif m.mountTypeID == 429 then      -- Flying + Dragonriding Roc/Pterrodax
-        m.flags['FLY'] = true
-        m.mountTypeID = 248
-    elseif m.mountTypeID == 430 then      -- Literally only "Temp" right now: ABORT
-        return
+    local typeInfo = LM.MOUNT_TYPE_INFO[m.mountTypeID]
+    if not typeInfo then
 --@debug@
-    else
         LM.PrintError('Mount with unknown type number: %s = %d', m.name, m.mountTypeID)
 --@end-debug@
+    elseif typeInfo.skip then
+        return
+    else
+        Mixin(m.flags, typeInfo.flags)
     end
 
     -- Aquatic Shades for Otto. This should probably be moved off somewhere
@@ -156,6 +108,7 @@ end
 function LM.Journal:GetFlags()
     local flags = LM.Mount.GetFlags(self)
 
+    -- XXX FIXME XXX is this still required at all? If so it should be fixed
     -- Dynamic Kua'fon flags
     if self.mountTypeID == 398 then
         flags = CopyTable(flags)
@@ -187,7 +140,7 @@ function LM.Journal:IsCastable()
     if not usable then
         return false
     end
-    if not IsUsableSpell(self.spellID) then
+    if not C_Spell.IsSpellUsable(self.spellID) then
         return false
     end
     return LM.Mount.IsCastable(self)
@@ -222,7 +175,7 @@ function LM.Journal:GetCastAction(context)
     end
 
     if context and context.preCast then
-        castActions = castActions or { "/cast " .. GetSpellInfo(self.spellID) }
+        castActions = castActions or { "/cast " .. C_Spell.GetSpellName(self.spellID) }
         table.insert(castActions, 1, "/cast [@player] " .. context.preCast)
     end
 

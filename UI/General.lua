@@ -200,7 +200,7 @@ function LiteMountGeneralPanelMixin:OnLoad()
                     LM.Options:SetOption('randomWeightStyle', 'Rarity')
                 end
             end
-        if not IsAddOnLoaded('MountsRarity') then
+        if not C_AddOns.IsAddOnLoaded('MountsRarity') then
             self.UseRarityWeight.Text:SetScript('OnEnter',
                     function (self)
                         GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
@@ -217,6 +217,27 @@ function LiteMountGeneralPanelMixin:OnLoad()
         LiteMountOptionsPanel_RegisterControl(self.UseRarityWeight)
     else
         self.UseRarityWeight:Hide()
+    end
+
+    -- AnnounceFlightStyle (only on retail) --
+
+    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+        self.AnnounceFlightStyle.Text:SetText(L.LM_ANNOUNCE_FLIGHT_STYLE)
+        self.AnnounceFlightStyle.SetOption =
+            function (self, setting)
+                if not setting or setting == "0" then
+                    LM.Options:SetOption('announceFlightStyle', false)
+                else
+                    LM.Options:SetOption('announceFlightStyle', true)
+                end
+            end
+        self.AnnounceFlightStyle.GetOptionDefault =
+            function (self) return LM.Options:GetOptionDefault('announceFlightStyle') end
+        self.AnnounceFlightStyle.GetOption =
+            function (self) return LM.Options:GetOption('announceFlightStyle') end
+        LiteMountOptionsPanel_RegisterControl(self.AnnounceFlightStyle)
+    else
+        self.AnnounceFlightStyle:Hide()
     end
 
     -- RandomPersistDropDown --

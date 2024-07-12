@@ -1,13 +1,3 @@
-function GetSpellInfo(id)
-    local info
-    if type(id) == 'number' then
-        return MockGetFromData(data.GetSpellInfo, id)
-    elseif type(id) == 'string' then
-        return MockGetFromData(data.GetSpellInfo, id, 1)
-    end
-    -- print("GetSpellInfo", tostring(id))
-end
-
 -- Assume that all spells put a buff on you with the same id
 function CastSpell(id)
     MockState.buffs[id] = true

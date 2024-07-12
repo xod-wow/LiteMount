@@ -183,14 +183,12 @@ function LiteMountGroupsPanelGroupsMixin:Update()
     local totalHeight = (#allGroups + 1) * (self.buttons[1]:GetHeight() + 1)
     local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
 
-    local index, button
-
     self.AddGroupButton:SetParent(nil)
     self.AddGroupButton:Hide()
 
     for i = 1, #self.buttons do
-        button = self.buttons[i]
-        index = offset + i
+        local button = self.buttons[i]
+        local index = offset + i
         if index <= #allGroups then
             local groupText = allGroups[index]
             if LM.Options:IsGlobalGroup(groupText) then

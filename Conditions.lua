@@ -10,6 +10,8 @@
 
 local _, LM = ...
 
+local C_Spell = LM.C_Spell or C_Spell
+
 --@debug@
 if LibDebug then LibDebug() end
 --@end-debug@
@@ -68,7 +70,11 @@ CONDITIONS["achievement"] = {
     -- name = BATTLE_PET_SOURCE_6,
     handler =
         function (cond, context, v)
-            return select(4, GetAchievementInfo(tonumber(v or 0)))
+            v = tonumber(v)
+            if v then
+                --- XXX Expect move to C_AchievementInfo at some point
+                return select(4, GetAchievementInfo(v))
+            end
         end
 }
 
@@ -78,7 +84,7 @@ CONDITIONS["activethreat"] = {
         function (cond, context, v)
             local map = C_Map.GetBestMapForUnit('player')
             local activeThreatMaps = C_QuestLog.GetActiveThreatMaps()
-            return map ~= nil and tContains(activeThreatMaps, map)
+            return map ~= nil and activeThreatMaps ~= nil and tContains(activeThreatMaps, map)
         end,
 }
 
@@ -229,14 +235,17 @@ CONDITIONS["covenant"] = {
             end
             return v
         end,
-    menu =
-        function ()
-            local out = { nosort=true, { val = "covenant:0" } }
-            for _,id in ipairs(C_Covenants.GetCovenantIDs()) do
-                table.insert(out, { val = "covenant:" .. id })
-            end
-            return out
-        end,
+    menu = {
+        -- This used to be dynamic but Blizzard are re-using convenant storage
+        -- for other stuff unrelated to the Shadowlands covenants people expect
+        -- to be shown under that name.
+        nosort = true,
+        { val = "covenant:0" },
+        { val = "covenant:1" },
+        { val = "covenant:2" },
+        { val = "covenant:3" },
+        { val = "covenant:4" },
+    },
     handler =
         function (cond, context, v)
             if not C_Covenants or not v then return end
@@ -259,29 +268,43 @@ CONDITIONS["dead"] = {
 
 -- https://wow.gamepedia.com/DifficultyID
 CONDITIONS["difficulty"] = {
-    --[[
-    name = DUNGEON_DIFFICULTY,
+    name = LFG_LIST_DIFFICULTY,
     toDisplay =
         function (v)
             if tonumber(v) then
-                return DifficultyUtil.GetDifficultyName(tonumber(v))
+                v = tonumber(v)
+                if v == 0 then
+                    return WORLD
+                end
+                local parts = {}
+                local name, groupType, _, isChallengeMode, _, _, _, isLFR, _, maxPlayers = GetDifficultyInfo(v)
+                if IsLegacyDifficulty(v) then
+                    table.insert(parts, LFG_LIST_LEGACY)
+                end
+                table.insert(parts, name)
+                if groupType == "raid" and not isLFR then
+                    table.insert(parts, RAID)
+                elseif groupType == "party" and not isChallengeMode then
+                    table.insert(parts, LFG_TYPE_DUNGEON)
+                end
+                if isLFR then
+                    table.insert(parts, format('(%d)', maxPlayers))
+                end
+                return table.concat(parts, ' ')
             else
                 return v
             end
         end,
     menu =
         function ()
-            local names = {}
+            local out = {
+                { val = "difficulty:0" }
+            }
             for _, id  in pairs(DifficultyUtil.ID) do
-                names[DifficultyUtil.GetDifficultyName(id)] = true
-            end
-            local out = {}
-            for name in pairs(names) do
-                table.insert(out, { val = "difficulty:" .. name })
+                table.insert(out, { val = "difficulty:" .. id })
             end
             return out
         end,
-    ]]
     handler =
         function (cond, context, v)
             if v then
@@ -294,20 +317,11 @@ CONDITIONS["difficulty"] = {
 }
 
 CONDITIONS["dragonridable"] = {
-    name = L.LM_DRAGONRIDING_AREA,
+    name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_DRAGONRIDING or UNKNOWN),
     disabled = ( IsAdvancedFlyableArea == nil ),
     handler =
         function (cond, context)
             return LM.Environment:CanDragonride(context.mapPath)
-        end,
-}
-
-CONDITIONS["dragonriding"] = {
-    -- name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
-    disabled = ( IsAdvancedFlyableArea == nil ),
-    handler =
-        function (cond, context)
-            return LM.Environment:IsDragonriding()
         end,
 }
 
@@ -378,18 +392,18 @@ CONDITIONS["equipped"] = {
                 return false
             end
 
-            if IsEquippedItemType(v) then
+            if C_Item.IsEquippedItemType(v) then
                 return true
             end
 
             v = tonumber(v) or v
-            if IsEquippedItem(v) then
+            if C_Item.IsEquippedItem(v) then
                 return true
             end
 
             if C_MountJournal.GetAppliedMountEquipmentID then
                 local id = C_MountJournal.GetAppliedMountEquipmentID()
-                if id and id == v then
+                if id and ( id == v or C_Item.GetItemInfo(id) == v ) then
                     return true
                 end
             end
@@ -470,10 +484,10 @@ CONDITIONS["floating"] = {
 }
 
 CONDITIONS["flyable"] = {
-    name = L.LM_FLYABLE_AREA,
+    name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_FLYING),
     handler =
         function (cond, context)
-            return LM.Environment:CanFly()
+            return LM.Environment:CanSteadyFly()
         end,
 }
 
@@ -680,9 +694,9 @@ CONDITIONS["known"] = {
     handler =
         function (cond, context, v)
             if v then
-                local spellID = select(7, GetSpellInfo(v))
-                if spellID then
-                    return IsSpellKnown(spellID) or IsPlayerSpell(spellID)
+                local info = C_Spell.GetSpellInfo(v)
+                if info then
+                    return IsPlayerSpell(info.spellID)
                 end
             end
         end
@@ -793,10 +807,12 @@ CONDITIONS["map"] = {
         end,
     handler =
         function (cond, context, v)
-            if v:sub(1,1) == '*' then
-                return LM.Environment:IsOnMap(tonumber(v:sub(2)))
-            else
-                return LM.Environment:IsMapInPath(tonumber(v), context.mapPath, true)
+            if tonumber(v) then
+                if v:sub(1,1) == '*' then
+                    return LM.Environment:IsOnMap(tonumber(v:sub(2)))
+                else
+                    return LM.Environment:IsMapInPath(tonumber(v), context.mapPath, true)
+                end
             end
         end,
 }
@@ -903,10 +919,12 @@ CONDITIONS["mounted"] = {
                 return IsMounted()
             else
                 local m = LM.MountRegistry:GetActiveMount()
-                if tonumber(v) then
-                    return m.spellID == tonumber(v)
-                else
-                    return m.name == v
+                if m then
+                    if tonumber(v) then
+                        return m.spellID == tonumber(v)
+                    else
+                        return m.name == v
+                    end
                 end
             end
         end
@@ -1030,7 +1048,7 @@ CONDITIONS["pvp"] = {
             if not v then
                 return UnitIsPVP(context.rule.unit or "player")
             else
-                return GetZonePVPInfo() == v
+                return C_PvP.GetZonePVPInfo() == v
             end
         end
 }
@@ -1063,7 +1081,10 @@ CONDITIONS["raid"] = {
 CONDITIONS["random"] = {
     handler =
         function (cond, context, n)
-            return math.random(100) <= tonumber(n)
+            n = tonumber(n)
+            if n then
+                return math.random(100) <= tonumber(n)
+            end
         end
 }
 
@@ -1260,9 +1281,15 @@ CONDITIONS["tracking"] = {
         function (cond, context, v)
             local name, active, _
             for i = 1, C_Minimap.GetNumTrackingTypes() do
-                name, _, active = C_Minimap.GetTrackingInfo(i)
-                if active and (not v or strlower(name) == strlower(v) or i == tonumber(v)) then
-                    return true
+                local info = C_Minimap.GetTrackingInfo(i)
+                if info and info.active then
+                    if not v then
+                        return true
+                    elseif strlower(info.name) == strlower(v) then
+                        return true
+                    elseif info.spellID and info.spellID == tonumber(v) then
+                        return true
+                    end
                 end
             end
             return false
@@ -1316,7 +1343,7 @@ local function GetTransmogLocationSourceID(location)
 end
 
 local function GetTransmogSetIDByName(name)
-    local usableSets = C_TransmogSets.GetUsableSets()
+    local usableSets = C_TransmogSets.GetAllSets()
     for _,info in ipairs(usableSets) do
         if info.name == name then
             return info.setID
@@ -1340,7 +1367,7 @@ local function IsTransmogSetActive(setID)
         if not slotInfo.location:IsSecondary() then
             local sourceIDs = C_TransmogSets.GetSourceIDsForSlot(setID, slotInfo.location.slotID)
             local activeSourceID = GetTransmogLocationSourceID(slotInfo.location)
-            if not tContains(sourceIDs, activeSourceID) then
+            if #sourceIDs > 0 and not tContains(sourceIDs, activeSourceID) then
                 return false
             end
         end
@@ -1382,7 +1409,7 @@ local function GetTransmogOutfitsMenu()
 end
 
 local function GetTransmogSetsMenu()
-    LoadAddOn("Blizzard_EncounterJournal")
+    C_AddOns.LoadAddOn("Blizzard_EncounterJournal")
     local byExpansion = { }
     for _,info in ipairs(C_TransmogSets.GetUsableSets()) do
         local expansion = info.expansionID + 1
@@ -1407,7 +1434,6 @@ end
 -- now that the other form works. Well, if it reliably did. :(
 
 CONDITIONS["xmog"] = {
-    args = true,
     name = PERKS_VENDOR_CATEGORY_TRANSMOG,
     disabled = not ( C_TransmogSets and C_Transmog ),
     toDisplay =
@@ -1430,22 +1456,13 @@ CONDITIONS["xmog"] = {
         end,
     handler =
         function (cond, context, arg1, arg2)
-            if arg2 then
-                local slotID, appearanceID = tonumber(arg1), tonumber(arg2)
-                local tmSlot = TRANSMOG_SLOTS[(slotID or 0) * 100]
-                if tmSlot then
-                    local ok, _, _, _, current = pcall(C_Transmog.GetSlotVisualInfo, tmSlot.location)
-                    return ok and current == appearanceID
-                end
-            else
-                local setID = tonumber(arg1) or GetTransmogSetIDByName(arg1)
-                if setID then
-                    return IsTransmogSetActive(setID)
-                end
-                local outfitID = GetTransmogOutfitIDByName(arg1)
-                if outfitID then
-                    return IsTransmogOutfitActive(outfitID)
-                end
+            local setID = tonumber(arg1) or GetTransmogSetIDByName(arg1)
+            if setID then
+                return IsTransmogSetActive(setID)
+            end
+            local outfitID = GetTransmogOutfitIDByName(arg1)
+            if outfitID then
+                return IsTransmogOutfitActive(outfitID)
             end
         end
 }
@@ -1522,6 +1539,17 @@ function LM.Conditions:IsValidCondition(text)
         local cond, valuestr = strsplit(':', text)
         if cond and CONDITIONS[cond] and not CONDITIONS[cond].disabled then
             return true
+        end
+    end
+end
+
+function LM.Conditions:TestAllConditions()
+    local context = LM.RuleContext:New({ id = 99 })
+    for name, cond in pairs(CONDITIONS) do
+        if not cond.disabled then
+            cond:handler(context)
+            cond:handler(context, tostring(math.random(1000000)))
+            cond:handler(context, "text")
         end
     end
 end

@@ -18,8 +18,8 @@ LiteMountTooltipMixin = {}
 
 function LiteMountTooltipMixin:AttachPreview()
     local w, h = self:GetSize()
-    local clampedW = min(PREVIEW_SIZE_CLAMP, w)
-    local clampedH = min(PREVIEW_SIZE_CLAMP, h)
+    local clampedW = math.min(PREVIEW_SIZE_CLAMP, w)
+    local clampedH = math.min(PREVIEW_SIZE_CLAMP, h)
 
     self.Preview:ClearAllPoints()
 

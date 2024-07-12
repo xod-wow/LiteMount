@@ -19,7 +19,7 @@ local DefaultFilterList = {
     other = { HIDDEN=true, UNUSABLE=true },
     priority = { },
     source = { },
-    typeid = { }
+    typename = { }
 }
 
 LM.UIFilter = {
@@ -27,6 +27,7 @@ LM.UIFilter = {
         searchText = nil,
         sortKey = 'default',
         filterList = CopyTable(DefaultFilterList),
+        typeNamesInUse = {},
     }
 
 local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
@@ -238,43 +239,54 @@ function LM.UIFilter.GetFamilyText(i)
 end
 
 
--- TypeIDs ---------------------------------------------------------------------
+-- TypeNames -------------------------------------------------------------------
 
-function LM.UIFilter.IsTypeIDChecked(t)
-    return not LM.UIFilter.filterList.typeid[t]
+function LM.UIFilter.IsTypeNameChecked(t)
+    return not LM.UIFilter.filterList.typename[t]
 end
 
-function LM.UIFilter.SetTypeIDFilter(t, v)
+function LM.UIFilter.SetTypeNameFilter(t, v)
     LM.UIFilter.ClearCache()
     if v then
-        LM.UIFilter.filterList.typeid[t] = nil
+        LM.UIFilter.filterList.typename[t] = nil
     else
-        LM.UIFilter.filterList.typeid[t] = true
+        LM.UIFilter.filterList.typename[t] = true
     end
     callbacks:Fire('OnFilterChanged')
 end
 
-function LM.UIFilter.SetAllTypeIDFilters(v)
+function LM.UIFilter.SetAllTypeNameFilters(v)
     LM.UIFilter.ClearCache()
-    for n in pairs(LM.MOUNT_TYPES) do
+    for n in pairs(LM.MOUNT_TYPE_NAMES) do
         if v then
-            LM.UIFilter.filterList.typeid[n] = nil
+            LM.UIFilter.filterList.typename[n] = nil
         else
-            LM.UIFilter.filterList.typeid[n] = true
+            LM.UIFilter.filterList.typename[n] = true
         end
     end
     callbacks:Fire('OnFilterChanged')
 end
 
-function LM.UIFilter.GetTypeIDs()
+function LM.UIFilter.GetTypeNames()
     local out = {}
-    for t in pairs(LM.MOUNT_TYPES) do table.insert(out, t) end
-    sort(out, function (a,b) return LM.MOUNT_TYPES[a] < LM.MOUNT_TYPES[b] end)
+    for t in pairs(LM.MOUNT_TYPE_NAMES) do
+        if LM.UIFilter.typeNamesInUse[t] then
+            table.insert(out, t)
+        end
+    end
+    sort(out)
     return out
 end
 
-function LM.UIFilter.GetTypeIDText(t)
-    return LM.MOUNT_TYPES[t]
+function LM.UIFilter.GetTypeNameText(t)
+    return t
+end
+
+function LM.UIFilter.RegisterUsedTypeID(id)
+    local typeInfo = LM.MOUNT_TYPE_INFO[id]
+    if typeInfo then
+        LM.UIFilter.typeNamesInUse[typeInfo.name] = true
+    end
 end
 
 
@@ -469,8 +481,9 @@ function LM.UIFilter.IsFilteredMount(m)
         return true
     end
 
-    -- TypeID filters
-    if LM.UIFilter.filterList.typeid[m.mountTypeID or 0] == true then
+    -- TypeName filters
+    local typeInfo = LM.MOUNT_TYPE_INFO[m.mountTypeID or 0]
+    if typeInfo and LM.UIFilter.filterList.typename[typeInfo.name] == true then
         return true
     end
 
@@ -551,6 +564,12 @@ function LM.UIFilter.IsFilteredMount(m)
         local hasAura = AuraUtil.FindAuraByName(m.name, "player")
         return hasAura == nil
     end
+
+--@debug@
+    if tonumber(filtertext) then
+        return m.mountTypeID ~= tonumber(filtertext)
+    end
+--@end-debug@
 
     if strfind(m.name:lower(), filtertext:lower(), 1, true) then
         return false

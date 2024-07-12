@@ -99,14 +99,14 @@ local DROPDOWNS = {
         menulist = function () return LM.UIFilter.GetPriorities() end,
         gettext = function (k) return LM.UIFilter.GetPriorityText(k) end,
     },
-    ['TYPEID'] = {
-        value = 'TYPEID',
+    ['TYPENAME'] = {
+        value = 'TYPENAME',
         text = string.format('%s (%s)', TYPE, ID),
-        checked = function (k) return LM.UIFilter.IsTypeIDChecked(k) end,
-        set = function (k, v) LM.UIFilter.SetTypeIDFilter(k, v) end,
-        setall = function (v) LM.UIFilter.SetAllTypeIDFilters(v) end,
-        menulist = function () return LM.UIFilter.GetTypeIDs() end,
-        gettext = function (k) return LM.UIFilter.GetTypeIDText(k) end,
+        checked = function (k) return LM.UIFilter.IsTypeNameChecked(k) end,
+        set = function (k, v) LM.UIFilter.SetTypeNameFilter(k, v) end,
+        setall = function (v) LM.UIFilter.SetAllTypeNameFilters(v) end,
+        menulist = function () return LM.UIFilter.GetTypeNames() end,
+        gettext = function (k) return LM.UIFilter.GetTypeNameText(k) end,
     },
     ['GROUP'] = {
         value = 'GROUP',
@@ -256,9 +256,7 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         InitDropDownSection(DROPDOWNS.NOT_COLLECTED, self, level, menuList)
 
         ---- 3. UNUSABLE ----
-        if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-            InitDropDownSection(DROPDOWNS.UNUSABLE, self, level, menuList)
-        end
+        InitDropDownSection(DROPDOWNS.UNUSABLE, self, level, menuList)
 
         ---- 4. HIDDEN ----
         InitDropDownSection(DROPDOWNS.HIDDEN, self, level, menuList)
@@ -269,8 +267,8 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         ---- 6. FLAG ----
         InitDropDownSection(DROPDOWNS.FLAG, self, level, menuList)
 
-        ---- 7. TYPEID ----
-        InitDropDownSection(DROPDOWNS.TYPEID, self, level, menuList)
+        ---- 7. TYPENAME ----
+        InitDropDownSection(DROPDOWNS.TYPENAME, self, level, menuList)
 
         ---- 8. FAMILY ----
         if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then

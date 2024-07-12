@@ -43,13 +43,12 @@ LeaveVehicle
 Dismount [nofalling]
 CopyTargetsMount
 ApplyRules
+SwitchFlightStyle [mod:rshift]
 IF [mod:shift]
     IF [submerged]
         Limit -SWIM
-    ELSEIF [dragonridable]
-        Limit -DRAGONRIDING
-    ELSEIF [flyable]
-        Limit -FLY
+    ELSEIF [dragonridable][flyable]
+        Limit -DRAGONRIDING/FLY
     ELSEIF [floating]
         Limit -SWIM
     END
@@ -111,6 +110,7 @@ local defaults = {
         announceViaChat     = false,
         announceViaUI       = false,
         announceColors      = false,
+        announceFlightStyle = true,
     },
     char = {
         unavailableMacro    = "",

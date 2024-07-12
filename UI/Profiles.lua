@@ -142,10 +142,9 @@ function ChangeProfileMixin.Initialize(dropDown, level)
     tinsert(dbProfiles, 1, "Default")
 
     if level == 1 then
-        info = LibDD:UIDropDownMenu_CreateInfo()
 
         for _,p in ipairs(dbProfiles) do
-            info = LibDD:UIDropDownMenu_CreateInfo()
+            local info = LibDD:UIDropDownMenu_CreateInfo()
             info.text = GetProfileNameText(p)
             info.value = p
             info.checked = function ()
@@ -194,7 +193,7 @@ function DeleteProfileMixin.Initialize(dropDown, level)
         tDeleteItem(dbProfiles, currentProfile)
 
         for _, p in ipairs(dbProfiles) do
-            info = LibDD:UIDropDownMenu_CreateInfo()
+            local info = LibDD:UIDropDownMenu_CreateInfo()
             info.text = GetProfileNameText(p)
             info.arg1 = p
             info.notCheckable = 1
@@ -211,7 +210,7 @@ local ExportProfileMixin = {}
 function ExportProfileMixin.Initialize(dropDown, level)
     local dbProfiles = LM.Options.db:GetProfiles() or {}
     for _, p in ipairs(dbProfiles) do
-        info = LibDD:UIDropDownMenu_CreateInfo()
+        local info = LibDD:UIDropDownMenu_CreateInfo()
         info.text = GetProfileNameText(p)
         info.arg1 = p
         info.notCheckable = 1
