@@ -11,6 +11,7 @@
 local _, LM = ...
 
 local C_Spell = LM.C_Spell or C_Spell
+local C_MountJournal = LM.C_MountJournal or C_MountJournal
 
 local L = LM.Localize
 
@@ -386,7 +387,7 @@ ACTIONS['ApplyRules'] = {
         end
 }
 
-local switchSpellID  = C_MountJournal.GetDynamicFlightModeSpellID()
+local switchSpellID = C_MountJournal.GetDynamicFlightModeSpellID()
 local switchSpellInfo = C_Spell.GetSpellInfo(switchSpellID or 0)
 
 ACTIONS['SwitchFlightStyle'] = {
