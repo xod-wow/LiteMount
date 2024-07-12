@@ -273,6 +273,9 @@ CONDITIONS["difficulty"] = {
         function (v)
             if tonumber(v) then
                 v = tonumber(v)
+                if v == 0 then
+                    return WORLD
+                end
                 local parts = {}
                 local name, groupType, _, isChallengeMode, _, _, _, isLFR, _, maxPlayers = GetDifficultyInfo(v)
                 if IsLegacyDifficulty(v) then
@@ -294,7 +297,9 @@ CONDITIONS["difficulty"] = {
         end,
     menu =
         function ()
-            local out = {}
+            local out = {
+                { val = "difficulty:0" }
+            }
             for _, id  in pairs(DifficultyUtil.ID) do
                 table.insert(out, { val = "difficulty:" .. id })
             end
