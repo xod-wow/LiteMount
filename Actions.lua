@@ -261,12 +261,14 @@ ACTIONS['CancelAura'] = {
     handler =
         function (args, context)
             for _, arg in ipairs(args:ParseList()) do
-                local name, _,_,_,_,_, source, _,_,_, canApplyAura = LM.UnitAura('player', arg)
-                if name then
+                local info = LM.UnitAura('player', arg)
+                if info then
                     -- Levitate (for example) is marked canApplyAura == false so this is a
                     -- half-workaround. You still won't cancel Levitate somone else put on you.
-                    if canApplyAura or (source == 'player' and C_Spell.GetSpellInfo(name)) then
-                        return LM.SecureAction:CancelAura(name)
+                    if info.canApplyAura then
+                        return LM.SecureAction:CancelAura(info.name)
+                    elseif info.sourceUnit == 'player' and C_Spell.GetSpellInfo(info.name) then
+                        return LM.SecureAction:CancelAura(info.name)
                     end
                 end
             end
