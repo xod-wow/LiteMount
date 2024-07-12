@@ -43,6 +43,7 @@ LeaveVehicle
 Dismount [nofalling]
 CopyTargetsMount
 ApplyRules
+SwitchFlightStyle [mod:rshift]
 IF [mod:shift]
     IF [submerged]
         Limit -SWIM
