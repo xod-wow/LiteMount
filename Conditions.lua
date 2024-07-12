@@ -312,7 +312,6 @@ CONDITIONS["difficulty"] = {
 }
 
 CONDITIONS["dragonridable"] = {
-    disabled = ( MOUNT_JOURNAL_FILTER_DRAGONRIDING == nil ),
     name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_DRAGONRIDING or UNKNOWN),
     disabled = ( IsAdvancedFlyableArea == nil ),
     handler =

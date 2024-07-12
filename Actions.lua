@@ -404,9 +404,9 @@ ACTIONS['SwitchFlightStyle'] = {
     handler =
         function (args, context)
             if IsPlayerSpell(switchSpellID) then
-                local args = args:ParseList()
+                local argList = args:ParseList()
                 local _, currentStyle = LM.Environment:GetFlightStyle()
-                if #args == 0 or currentStyle ~= args[1] then 
+                if #argList == 0 or currentStyle ~= argList[1] then
                     LM.Debug("  * setting action to spell " .. switchSpellInfo.name)
                     return LM.SecureAction:Spell(switchSpellInfo.name, context.rule.unit)
                 end
