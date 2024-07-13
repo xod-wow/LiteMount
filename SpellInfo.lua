@@ -206,7 +206,7 @@ LM.MOUNT_TYPE_INFO = {
         -- Ground + Aquatic mounts
         name = MOUNT_JOURNAL_FILTER_GROUND .. ' + ' .. MOUNT_JOURNAL_FILTER_AQUATIC,
         flags = {
-            FLY = true,
+            RUN = true,
             SWIM = true,
         },
     },
