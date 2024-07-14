@@ -1000,6 +1000,7 @@ LM.MOUNTFAMILY["Nether Ray"] = {
 
 LM.MOUNTFAMILY["Owl"] = {
     [424484] = true, -- Anu'relos, Flame's Guidance
+    [443660] = true, -- [Charming Courier
 }
 
 LM.MOUNTFAMILY["Ottuk"] = {
