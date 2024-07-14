@@ -136,8 +136,8 @@ end
 -- version (including preview) but the actions are all still LM.ItemSummoned.
 
 local CopyAttributesFromJournal = {
-    'modelID', 'sceneID', 'mountID', 'isSelfMount', 'description',
-    'sourceType', 'sourceText'
+    'creatureDisplayInfoID', 'uiModelSceneID', 'mountID', 'isSelfMount', 'description',
+    'sourceType', 'source'
 }
 
 function LM.MountRegistry:AddMount(m)

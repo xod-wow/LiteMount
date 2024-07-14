@@ -195,12 +195,13 @@ end
 
 -- Families --------------------------------------------------------------------
 
+local function FamilyNameSort(a, b)
+    return LM.MountInfo.GetMountFamilyNameByID(a) < LM.MountInfo.GetMountFamilyNameByID(b)
+end
+
 function LM.UIFilter.GetFamilies()
-    local out = {}
-    for k in pairs(LM.MOUNTFAMILY) do
-        table.insert(out, k)
-    end
-    table.sort(out, function (a, b) return L[a] < L[b] end)
+    local out = LM.MountInfo.GetMountFamilyIDs()
+    table.sort(out, FamilyNameSort)
     return out
 end
 
@@ -209,8 +210,8 @@ function LM.UIFilter.SetAllFamilyFilters(v)
     if v then
         table.wipe(LM.UIFilter.filterList.family)
     else
-        for k in pairs(LM.MOUNTFAMILY) do
-            LM.UIFilter.filterList.family[k] = true
+        for _,id in ipairs(LM.MountInfo.GetMountFamilyIDs()) do
+            LM.UIFilter.filterList.family[id] = true
         end
     end
     callbacks:Fire('OnFilterChanged')
@@ -231,7 +232,7 @@ function LM.UIFilter.IsFamilyChecked(i)
 end
 
 function LM.UIFilter.IsValidFamilyFilter(i)
-    return LM.MOUNTFAMILY[i] ~= nil
+    return LM.MountInfo.IsValidMountFamilyID(i)
 end
 
 function LM.UIFilter.GetFamilyText(i)
@@ -579,7 +580,7 @@ function LM.UIFilter.IsFilteredMount(m)
         return false
     end
 
-    if m.sourceText and searchMatch(stripcodes(m.sourceText), filtertext) then
+    if m.source and searchMatch(stripcodes(m.source), filtertext) then
         return false
     end
 

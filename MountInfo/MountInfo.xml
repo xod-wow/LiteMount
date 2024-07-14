@@ -1,0 +1,5 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Script file="MountInfo.lua" />
+    <Script file="FamilyInfo.lua" />
+    <Script file="ExpansionInfo.lua" />
+</Ui>

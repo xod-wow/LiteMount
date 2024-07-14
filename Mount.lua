@@ -33,15 +33,10 @@ function LM.Mount:Get(className, ...)
     if not m then return end
 
     if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-        for familyName, familyMounts in pairs(LM.MOUNTFAMILY) do
-            if familyMounts[m.spellID] then
-                m.family = familyName
-            end
-        end
+        m.family = LM.MountInfo.GetMountFamilyBySpellID(m.spellID)
 
         if not m.family then
             m.family = UNKNOWN
-            LM.MOUNTFAMILY["Unknown"][m.spellID] = true
             --@debug@
             LM.PrintError('No family: %s (%d)', m.name, m.spellID)
             --@end-debug@
@@ -77,7 +72,7 @@ function LM.Mount.FilterToDisplay(f)
         return C_MountJournal.GetMountInfoByID(tonumber(id))
     elseif f:match('^family:') then
         local _, family = string.split(':', f, 2)
-        return L.LM_FAMILY .. ' : ' .. L[family]
+        return L.LM_FAMILY .. ' : ' .. LM.MountInfo.GetMountFamilyNameByID(m.family)
     elseif f:match('^mt:%d+$') then
         local _, id = string.split(':', f, 2)
         local typeInfo = LM.MOUNT_TYPE_INFO[tonumber(id)]
@@ -123,7 +118,8 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
     elseif f:sub(1, 3) == 'mt:' then
         return self.mountTypeID == tonumber(f:sub(4))
     elseif f:sub(1, 7) == 'family:' then
-        return ( self.family == f:sub(8) or L[self.family] == f:sub(8) )
+        local familyName = LM.MountInfo.GetMountFamilyNameByID(self.family)
+        return ( self.family == f:sub(8) or familyName == f:sub(8) )
     elseif f:sub(1, 1) == '~' then
         return not self:MatchesOneFilter(flags, groups, f:sub(2))
     elseif flags[f] ~= nil then
@@ -238,9 +234,9 @@ function LM.Mount:IsFiltered()
 end
 
 function LM.Mount:IsFromZone(zone)
-    if self.sourceText then
+    if self.source then
         zone = zone:gsub('%-', '%%-')
-        local source = self.sourceText:gsub("|c........(.-)|r", "%1")
+        local source = self.source:gsub("|c........(.-)|r", "%1")
         local zt = ZONE_COLON .. '[^|]+' .. zone
         local lt = LOCATION_COLON .. '[^|]+' .. zone
         return source:find(zt, 1) ~= nil or source:find(lt, 1) ~= nil
@@ -333,7 +329,7 @@ function LM.Mount:Dump(prefix)
                    )
             )
     LM.Print(prefix .. " mountID: " .. tostring(self.mountID))
-    LM.Print(prefix .. " family: " .. tostring(self.family))
+    LM.Print(prefix .. " family: " .. LM.MountInfo.GetMountFamilyNameByID(self.family))
     LM.Print(prefix .. " isCollected: " .. tostring(self:IsCollected()))
     LM.Print(prefix .. " isMountable: " .. tostring(self:IsMountable()))
     LM.Print(prefix .. " isFavorite: " .. tostring(self:IsFavorite()))

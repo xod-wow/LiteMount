@@ -16,50 +16,16 @@ local C_MountJournal = LM.C_MountJournal or C_MountJournal
 LM.Journal = setmetatable({ }, LM.Mount)
 LM.Journal.__index = LM.Journal
 
---  [1] name,
---  [2] spellID,
---  [3] icon,
---  [4] isActive,
---  [5] isUsable,
---  [6] sourceType,
---  [7] isFavorite,
---  [8] isFactionSpecific,
---  [9] faction,
--- [10] isFiltered,
--- [11] isCollected,
--- [12] mountID,
--- [13] isSteadyFlight = C_MountJournal.GetMountInfoByID(mountID)
-
---  [1] creatureDisplayInfoID,
---  [2] description,
---  [3] source,
---  [4] isSelfMount,
---  [5] mountTypeID,
---  [6] uiModelSceneID = C_MountJournal.GetMountInfoExtraByID(mountID)
-
 function LM.Journal:Get(id)
-    local name, spellID, icon, _, _, sourceType, _, _, faction, _, _, _, isSteadyFlight = C_MountJournal.GetMountInfoByID(id)
-    local modelID, descriptionText, sourceText, isSelfMount, mountTypeID, sceneID = C_MountJournal.GetMountInfoExtraByID(id)
-
-    if not name then
+    local mountInfo = LM.MountInfo.GetMountInfoByMountID(id)
+    if not mountInfo then
         LM.Debug("LM.Mount: Failed GetMountInfo for ID = #%d", id)
         return
     end
 
     local m = LM.Mount.new(self)
+    Mixin(m, mountInfo)
 
-    m.modelID       = modelID
-    m.sceneID       = sceneID
-    m.name          = name
-    m.spellID       = spellID
-    m.mountID       = id
-    m.icon          = icon
-    m.isSelfMount   = isSelfMount
-    m.mountTypeID   = mountTypeID
-    m.description   = descriptionText
-    m.sourceType    = sourceType
-    m.sourceText    = sourceText
-    m.isSteadyFlight= isSteadyFlight
     m.needsFaction  = PLAYER_FACTION_GROUP[faction]
     m.flags         = { }
 
