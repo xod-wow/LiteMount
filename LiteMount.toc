@@ -24,6 +24,7 @@ Developer.lua
 #@end-debug@
 
 SpellInfo.lua
+ExpansionInfo.lua
 FamilyInfo.lua
 Environment.lua
 Options.lua

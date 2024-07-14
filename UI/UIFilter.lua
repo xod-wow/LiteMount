@@ -13,6 +13,7 @@ local _, LM = ...
 local L = LM.Localize
 
 local DefaultFilterList = {
+    expansion = { },
     family = { },
     flag = { },
     group = { },
@@ -236,6 +237,52 @@ end
 
 function LM.UIFilter.GetFamilyText(i)
     return L[i]
+end
+
+
+-- Expansions --------------------------------------------------------------------
+
+function LM.UIFilter.GetExpansions()
+    local out = {}
+    for k in pairs(LM.MOUNTEXPANSION) do
+        table.insert(out, k)
+    end
+    table.sort(out, function (a, b) return L[a] < L[b] end)
+    return out
+end
+
+function LM.UIFilter.SetAllExpansionsFilters(v)
+    LM.UIFilter.ClearCache()
+    if v then
+        table.wipe(LM.UIFilter.filterList.expansion)
+    else
+        for k in pairs(LM.MOUNTEXPANSION) do
+            LM.UIFilter.filterList.expansion[k] = true
+        end
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.SetExpansionFilter(i, v)
+    LM.UIFilter.ClearCache()
+    if v then
+        LM.UIFilter.filterList.expansion[i] = nil
+    else
+        LM.UIFilter.filterList.expansion[i] = true
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.IsExpansionChecked(i)
+    return not LM.UIFilter.filterList.expansion[i]
+end
+
+function LM.UIFilter.IsValidExpansionFilter(i)
+    return LM.MOUNTEXPANSION[i] ~= nil
+end
+
+function LM.UIFilter.GetExpansionText(i)
+    return i
 end
 
 
@@ -489,6 +536,11 @@ function LM.UIFilter.IsFilteredMount(m)
 
     -- Family filters
     if m.family and LM.UIFilter.filterList.family[m.family] == true then
+        return true
+    end
+
+    -- Expansion filters
+    if m.expansion and LM.UIFilter.filterList.expansion[m.expansion] == true then
         return true
     end
 

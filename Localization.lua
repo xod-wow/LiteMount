@@ -76,6 +76,7 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
     L["LM_EVERY_D_SECONDS"] = "Every %d seconds"
     L["LM_EVERY_TIME"] = "Every time"
     L["LM_EXCLUDE_MOUNTS"] = "Exclude Mounts"
+    L["LM_EXPANSION"] = "Expansion"
     L["LM_EXPORT_PROFILE"] = "Export Profile"
     L["LM_EXPORT_PROFILE_EXP"] = "Cut-and-paste the text below into a file to save this profile. You can restore it again with 'Import Profile'."
     L["LM_FAMILY"] = "Family"

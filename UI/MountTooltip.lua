@@ -99,6 +99,10 @@ function LiteMountTooltipMixin:SetMount(m, canMount)
         self:AddLine("|cffffffff"..L.LM_FAMILY..":|r "..L[m.family])
     end
 
+    if m.expansion then
+        self:AddLine("|cffffffff"..L.LM_EXPANSION..":|r "..m.expansion)
+    end
+
     if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
         local r = m:GetRarity()
         if r then

@@ -102,6 +102,19 @@ function LM.Journal:Get(id)
             end)
     end
 
+    m.expansion = nil
+    for k, v in pairs(LM.MOUNTEXPANSION) do
+        if v[id] == true then
+            m.expansion = k
+            break
+        elseif v["minID"] and v["maxID"] then
+            if id >= v["minID"] and id <= v["maxID"] then
+                m.expansion = k
+                break
+            end
+        end
+    end
+
     return m
 end
 

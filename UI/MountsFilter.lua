@@ -135,6 +135,15 @@ local DROPDOWNS = {
         menulist = function () return LM.UIFilter.GetFamilies() end,
         gettext = function (k) return LM.UIFilter.GetFamilyText(k) end,
     },
+    ['EXPANSION'] = {
+        value = 'EXPANSION',
+        text = L.LM_EXPANSION,
+        checked = function (k) return LM.UIFilter.IsExpansionChecked(k) end,
+        set = function (k, v) LM.UIFilter.SetExpansionFilter(k, v) end,
+        setall = function (v) LM.UIFilter.SetAllExpansionsFilters(v) end,
+        menulist = function () return LM.UIFilter.GetExpansions() end,
+        gettext = function (k) return LM.UIFilter.GetExpansionText(k) end,
+    },
     ['SOURCES'] = {
         value = 'SOURCES',
         text = SOURCES,
@@ -275,15 +284,18 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
             InitDropDownSection(DROPDOWNS.FAMILY, self, level, menuList)
         end
 
-        ---- 9. SOURCES ----
+        ---- 9. EXPANSION ----
+        InitDropDownSection(DROPDOWNS.EXPANSION, self, level, menuList)
+
+        ---- 10. SOURCES ----
         if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
             InitDropDownSection(DROPDOWNS.SOURCES, self, level, menuList)
         end
 
-        ---- 10. PRIORITY ----
+        ---- 11. PRIORITY ----
         InitDropDownSection(DROPDOWNS.PRIORITY, self, level, menuList)
 
-        ---- 11. SORTBY ----
+        ---- 12. SORTBY ----
         InitDropDownSection(DROPDOWNS.SORTBY, self, level, menuList)
     else
         InitDropDownSection(DROPDOWNS[L_UIDROPDOWNMENU_MENU_VALUE], self, level, menuList)

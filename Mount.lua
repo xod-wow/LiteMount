@@ -82,6 +82,9 @@ function LM.Mount.FilterToDisplay(f)
     elseif f:match('^family:') then
         local _, family = string.split(':', f, 2)
         return L.LM_FAMILY .. ' : ' .. L[family]
+    elseif f:match('^expansion:') then
+        local _, expansion = string.split(':', f, 2)
+        return L.LM_EXPANSION .. ' : ' .. expansion
     elseif f:match('^mt:%d+$') then
         local _, id = string.split(':', f, 2)
         local typeInfo = LM.MOUNT_TYPE_INFO[tonumber(id)]
@@ -128,6 +131,8 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
         return self.mountTypeID == tonumber(f:sub(4))
     elseif f:sub(1, 7) == 'family:' then
         return ( self.family == f:sub(8) or L[self.family] == f:sub(8) )
+    elseif f:sub(1, 7) == 'expansion:' then
+        return ( self.expansion == f:sub(8) or self.expansion == f:sub(8) )
     elseif f:sub(1, 1) == '~' then
         return not self:MatchesOneFilter(flags, groups, f:sub(2))
     elseif flags[f] ~= nil then
@@ -337,6 +342,7 @@ function LM.Mount:Dump(prefix)
                    )
             )
     LM.Print(prefix .. " mountID: " .. tostring(self.mountID))
+    LM.Print(prefix .. " family: " .. tostring(self.family))
     LM.Print(prefix .. " family: " .. tostring(self.family))
     LM.Print(prefix .. " isCollected: " .. tostring(self:IsCollected()))
     LM.Print(prefix .. " isMountable: " .. tostring(self:IsMountable()))
