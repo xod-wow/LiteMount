@@ -308,15 +308,15 @@ function LM.Environment:GetFlightStyle()
     -- by the icon in the base spell not being replaced.
 
     if spellInfo.iconID == spellInfo.originalIconID then
-        return skyridingInfo.name, "DRAGONRIDING"
+        return skyridingInfo.name, "skyriding"
     end
 
     if steadyInfo and spellInfo.iconID == steadyInfo.iconID then
-        return steadyInfo.name, "FLY"
+        return steadyInfo.name, "steady"
     end
 
     if skyridingInfo and spellInfo.iconID == skyridingInfo.iconID then
-        return skyridingInfo.name, "DRAGONRIDING"
+        return skyridingInfo.name, "skyriding"
     end
 end
 

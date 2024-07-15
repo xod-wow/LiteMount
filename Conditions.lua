@@ -476,6 +476,32 @@ CONDITIONS["false"] = {
         end
 }
 
+CONDITIONS["flightstyle"] = {
+    name = L.LM_FLIGHT_STYLE,
+    toDisplay =
+        function (v)
+            if v ==  "steady" then
+                return L.LM_STEADY_FLIGHT
+            elseif v == "skyriding" then
+                return L.SKYRIDING
+            else
+                return v
+            end
+        end,
+    menu =
+        function ()
+            return {
+                { val = "flightstyle:steady" },
+                { val = "flightstyle:skyriding" },
+            }
+        end,
+    handler =
+        function (cond, context, v)
+            local _, currentStyle = LM.Environment:GetFlightStyle()
+            return currentStyle == v
+        end,
+}
+
 CONDITIONS["floating"] = {
     handler =
         function (cond, context)
