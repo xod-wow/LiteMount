@@ -10,10 +10,6 @@ local _, LM = ...
 
 local C_Spell = LM.C_Spell or C_Spell
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 local MAX_SPELL_ID = 500000
 
 LM.Developer = CreateFrame("Frame")

@@ -15,10 +15,6 @@
 
 local _, LM = ...
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 LM.Soar = setmetatable({ }, LM.Spell)
 LM.Soar.__index = LM.Soar
 

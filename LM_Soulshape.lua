@@ -17,10 +17,6 @@ local _, LM = ...
 
 local C_Spell = LM.C_Spell or C_Spell
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 LM.Soulshape = setmetatable({ }, LM.Spell)
 LM.Soulshape.__index = LM.Soulshape
 

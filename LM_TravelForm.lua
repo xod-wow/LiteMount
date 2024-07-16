@@ -16,10 +16,6 @@
 
 local _, LM = ...
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 LM.TravelForm = setmetatable({ }, LM.Spell)
 LM.TravelForm.__index = LM.TravelForm
 

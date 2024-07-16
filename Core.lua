@@ -23,10 +23,6 @@
 
 local _, LM = ...
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 -- This is still a SecureActionButton for backwards compatibility with
 -- people's macros with /click LiteMount in them.
 

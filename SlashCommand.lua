@@ -10,10 +10,6 @@
 
 local _, LM = ...
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 local L = LM.Localize
 
 -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497

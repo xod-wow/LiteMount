@@ -8,10 +8,6 @@
 
 local _, LM = ...
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 local L = LM.Localize
 
 local template = {

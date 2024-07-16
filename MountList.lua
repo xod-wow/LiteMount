@@ -10,10 +10,6 @@
 
 local _, LM = ...
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 --[[----------------------------------------------------------------------------
 
   A primer reminder for me on LUA metatables and doing OO stuff in

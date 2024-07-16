@@ -13,10 +13,6 @@ local _, LM = ...
 local C_MountJournal = LM.C_MountJournal or C_MountJournal
 local C_Spell = LM.C_Spell
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
 
 local IndexAttributes = { 'mountID', 'name', 'spellID' }

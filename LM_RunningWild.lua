@@ -8,10 +8,6 @@
 
 local _, LM = ...
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 LM.RunningWild = setmetatable({ }, LM.Spell)
 LM.RunningWild.__index = LM.RunningWild
 

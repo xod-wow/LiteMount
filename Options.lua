@@ -13,10 +13,6 @@ local _, LM = ...
 local Serializer = LibStub("AceSerializer-3.0")
 local LibDeflate = LibStub("LibDeflate")
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 --[[----------------------------------------------------------------------------
 
 mountPriorities is a list of spell ids the player has seen before mapped to

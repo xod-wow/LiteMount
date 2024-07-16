@@ -8,10 +8,6 @@
 
 local _, LM = ...
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 function LM.tMap(t, f, isIndexTable)
     local out = {}
     if isIndexTable then

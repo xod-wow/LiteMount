@@ -10,10 +10,6 @@ local _, LM = ...
 
 local C_Spell = LM.C_Spell or C_Spell
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 local TABLET_OF_GHOST_WOLF_AURA = C_Spell.GetSpellName(168799)
 
 LM.GhostWolf = setmetatable({ }, LM.Spell)

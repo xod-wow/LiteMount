@@ -10,10 +10,6 @@
 
 local _, LM = ...
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 local debugLines = {}
 local debugLinePos = 1
 local maxDebugLines = 100

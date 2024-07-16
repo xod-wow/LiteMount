@@ -12,10 +12,6 @@ local _, LM = ...
 
 local C_Spell = LM.C_Spell or C_Spell
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 local L = LM.Localize
 
 local tocVersion = select(4, GetBuildInfo())

@@ -15,10 +15,6 @@ local C_MountJournal = LM.C_MountJournal or C_MountJournal
 
 local L = LM.Localize
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 --
 -- This is the support for saving and restoring druid forms which is all done
 -- in the Dismount action. Form IDs that you put here must be cancelled

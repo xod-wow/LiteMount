@@ -19,10 +19,6 @@ local L = LM.Localize
 --  https://github.com/sgade/MountsRarity
 local MountsRarity = LibStub("MountsRarity-2.0")
 
---@debug@
-if LibDebug then LibDebug() end
---@end-debug@
-
 LM.Mount = { }
 LM.Mount.__index = LM.Mount
 
