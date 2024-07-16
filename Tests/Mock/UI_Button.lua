@@ -59,7 +59,7 @@ function mockButton:Click(mouseButton, isDown)
             CancelAuraByName(spellName)
         elseif actionType == "item" then
             local itemName = self:GetAttribute('item')
-            UseItemByName(itemName)
+            C_Item.UseItemByName(itemName)
         else
             print(">>> " .. tostring(actionType))
         end

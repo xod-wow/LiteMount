@@ -47,6 +47,7 @@ function MockGetFromData(mTable, mKey, mIndex)
 end
 
 dofile("Mock/Data.lua")
+dofile("Mock/GlobalStrings.lua")
 
 dofile("Mock/Constants.lua")
 dofile("Mock/Enum.lua")
@@ -55,6 +56,8 @@ dofile("Mock/Macro.lua")
 dofile("Mock/Spell.lua")
 dofile("Mock/C_AddOns.lua")
 dofile("Mock/C_Calendar.lua")
+dofile("Mock/C_Container.lua")
+dofile("Mock/C_CreatureInfo.lua")
 dofile("Mock/C_DateAndTime.lua")
 dofile("Mock/C_Item.lua")
 dofile("Mock/C_Map.lua")

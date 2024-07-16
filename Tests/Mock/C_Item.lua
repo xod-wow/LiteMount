@@ -10,7 +10,7 @@ C_Item = {}
 
 function C_Item.UseItemByName(itemName)
     print(">>> UseItem " .. itemName)
-    local spellName, spellID = GetItemSpell(itemName)
+    local spellName, spellID = C_Item.GetItemSpell(itemName)
     print(">>> ", spellName, spellID)
     CastSpell(spellID)
 end
@@ -53,8 +53,31 @@ function C_Item.GetItemCooldown(id)
 end
 
 function C_Item.GetItemSpell(id)
+    print(id)
     if type(id) ~= 'number' then
         id = GetIDByName(id)
     end
+    print(id)
+    print(MockGetFromData(data.GetItemSpell, id))
     return MockGetFromData(data.GetItemSpell, id)
+end
+
+--[[------------------------------------------------------------------------]]--
+
+local ItemMixin = {
+    GetItemName =
+        function (self)
+            local name = C_Item.GetItemInfo(self.id)
+            return name
+        end,
+    ContinueOnItemLoad =
+        function (self, f)
+            f()
+        end,
+}
+
+Item = {}
+
+function Item:CreateFromItemID(itemID)
+    return Mixin({ id = itemID }, ItemMixin)
 end

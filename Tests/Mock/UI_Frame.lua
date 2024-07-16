@@ -78,6 +78,10 @@ function mockFrame:GetAttribute(k)
     return self[k]
 end
 
+function mockFrame:SetSize(w, h)
+    return w, h
+end
+
 function CreateFrame(frameType, ...)
     local class = _G["mock"..frameType]
     if class then

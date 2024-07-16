@@ -86,7 +86,7 @@ function LM.Journal:Get(id)
     -- else and made more generic.
     if m.mountID == 1656 then
         m.castActions = {}
-         local item = Item:CreateFromItemID(202042)
+         local item = Item:CreateFromItemID(LM.ITEM.AQUATIC_SHADES)
          item:ContinueOnItemLoad(
             function ()
                 m.castActions[1] = "/use " .. item:GetItemName()

@@ -16,10 +16,11 @@ local StateInfo = {
     indoors = false,
     inVehicle = false,
     inCombat = false,
-    keyDown = { shift = false, ctrl = false, alt = false },
+    keyDown = { lshift = false, rshift = false, lctrl = false, rctrl = false, lalt = false, ralt = false },
     extraActionButton = nil,
     playerKnowsFlying = true,
     flyableArea = true,
+    advancedFlyableArea = true,
     moving = false,
     cvar_actionbuttonusekeydown = true,
 }

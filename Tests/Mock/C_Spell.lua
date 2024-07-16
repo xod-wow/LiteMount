@@ -17,7 +17,12 @@ function C_Spell.GetSpellName(spellIdentifier)
 end
 
 function C_Spell.GetSpellCooldown(id)
-    return 0
+    return {
+        isEnabled = true,
+        startTime = 0,
+        modRate = 1,
+        duration = 0,
+    }
 end
 
 function C_Spell.GetSpellIDForSpellIdentifier(spellIdentifier)
@@ -36,4 +41,34 @@ function C_Spell.GetSpellTexture(spellIdentifier)
 end
 
 function C_Spell.PickupSpell(spellIdentifier)
+end
+
+function C_Spell.IsSpellUsable(id)
+    if MockState.moving then
+        for _,info in pairs(data.GetMountInfoByID) do
+            if info[2] == id then
+                return false
+            end
+        end
+    end
+    return data.GetSpellInfo[id] ~= nil
+end
+
+--[[------------------------------------------------------------------------]]--
+
+local SpellMixin = {
+    ContinueOnSpellLoad =
+        function (self, f)
+            f()
+        end,
+    GetSpellName =
+        function (self)
+            return C_Spell.GetSpellName(self.id)
+        end,
+}
+
+Spell = {}
+
+function Spell:CreateFromSpellID(spellID)
+    return Mixin({ id = spellID}, SpellMixin)
 end

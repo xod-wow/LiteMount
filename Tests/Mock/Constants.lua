@@ -71,7 +71,7 @@ SECONDARYHANDSLOT   = "Offhand"
 RANGEDSLOT          = "Ranged"
 TABARDSLOT          = "Tabard"
 
-WORLD_MAP = "Map"
+WORLD_MAP           = "Map"
 SPELL_TARGET_TYPE1_DESC = "Map"
 
 SlashCmdList = {}

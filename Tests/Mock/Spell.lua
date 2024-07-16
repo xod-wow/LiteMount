@@ -1,17 +1,17 @@
 -- Assume that all spells put a buff on you with the same id
 function CastSpell(id)
     MockState.buffs[id] = true
-    print(">>> CastSpell " .. id .. " " .. GetSpellInfo(id))
+    print(">>> CastSpell " .. id .. " " .. C_Spell.GetSpellName(id))
 end
 
 function CastSpellByName(name)
-    local id = select(7, GetSpellInfo(name))
-    if id then CastSpell(id) end
+    local info = C_Spell.GetSpellInfo(name)
+    if info then CastSpell(info.spellID) end
 end
 
 function CancelAura(id)
     MockState.buffs[id] = nil
-    print(">>> CancelAura " .. id .. " " .. GetSpellInfo(id))
+    print(">>> CancelAura " .. id .. " " .. C_Spell.GetSpellName(id))
 end
 
 function CancelAuraByName(name)
@@ -29,21 +29,6 @@ end
 
 function IsPlayerSpell(id)
     return true
-end
-
-function IsUsableSpell(id)
-    if MockState.moving then
-        for _,info in pairs(data.GetMountInfoByID) do
-            if info[2] == id then
-                return false
-            end
-        end
-    end
-    return data.GetSpellInfo[id] ~= nil
-end
-
-function GetSpellCooldown(id)
-    return 0
 end
 
 -- I should probably pick a test spell and have it be channeling sometimes

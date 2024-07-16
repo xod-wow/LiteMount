@@ -80,6 +80,8 @@ end
 
 function IsFlyableArea() return MockState.flyableArea end
 
+function IsAdvancedFlyableArea() return MockState.advancedFlyableArea end
+
 function IsIndoors() return MockState.indoors end
 
 function IsOutdoors() return not MockState.indoors end
@@ -207,9 +209,18 @@ function GetMirrorTimerInfo()
     end
 end
 
-function IsShiftKeyDown() return MockState.keyDown.shift end
-function IsAltKeyDown() return MockState.keyDown.alt end
-function IsControlKeyDown() return MockState.keyDown.ctrl end
+function IsLeftShiftKeyDown() return MockState.keyDown.lshift end
+function IsRightShiftKeyDown() return MockState.keyDown.rshift end
+function IsShiftKeyDown() return IsLeftShiftKeyDown() or IsRightShiftKeyDown() end
+
+function IsLeftCtrlKeyDown() return MockState.keyDown.lshift end
+function IsRightCtrlKeyDown() return MockState.keyDown.rshift end
+function IsCtrlKeyDown() return IsLeftCtrlKeyDown() or IsRightCtrlKeyDown() end
+
+function IsLeftAltKeyDown() return MockState.keyDown.lshift end
+function IsRightAltKeyDown() return MockState.keyDown.rshift end
+function IsAltKeyDown() return IsLeftAltKeyDown() or IsRightAltKeyDown() end
+
 function IsModifierKeyDown()
     return IsShiftKeyDown() or IsAltKeyDown() or IsControlKeyDown()
 end
@@ -296,6 +307,16 @@ function tAppendAll(tbl, other)
     end
 end
 
+function GetBuildInfo()
+    return
+        "11.0.2",
+        "55522",
+        "Jul  8 2024",
+        110002,
+        "",
+        " "
+end
+
 local function pairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
@@ -329,6 +350,13 @@ function DumpTable(o, indent)
             return tostring(o)
         end
     end
+end
+
+function ContainsIf(t, f)
+    for _, v in ipairs(t) do
+        if f(v) then return true end
+    end
+    return false
 end
 
 function debugprofilestop()
