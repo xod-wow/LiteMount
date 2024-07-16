@@ -1089,7 +1089,58 @@ CONDITIONS["qfc"] = {
         end
 }
 
+local RACE_TABLE = {}
+for i = 1, 100 do
+    local info = C_CreatureInfo.GetRaceInfo(i)
+    if info and not RACE_TABLE[info.clientFileString] then
+        RACE_TABLE[info.clientFileString] = info.raceName
+    end
+end
+
+local RACE_STRINGS = {
+    "BloodElf",
+    "DarkIronDwarf",
+    "Dracthyr",
+    "Draenei",
+    "Dwarf",
+    "EarthenDwarf",
+    "Gnome",
+    "Goblin",
+    "HighmountainTauren",
+    "Human",
+    "KulTiran",
+    "LightforgedDraenei",
+    "MagharOrc",
+    "Mechagnome",
+    "NightElf",
+    "Nightborne",
+    "Orc",
+    "Pandaren",
+    "Scourge",  -- Undead
+    "Tauren",
+    "Troll",
+    "VoidElf",
+    "Vulpera",
+    "Worgen",
+    "ZandalariTroll",
+}
+
 CONDITIONS["race"] = {
+    name = RACE,
+    toDisplay =
+        function (v)
+            return RACE_TABLE[v] or v
+        end,
+    menu =
+        function ()
+            local out = {}
+            for _, val in ipairs(RACE_STRINGS) do
+                if RACE_TABLE[val] then
+                    table.insert(out, { val = string.format("race:%s", val) })
+                end
+            end
+            return out
+        end,
     handler =
         function (cond, context, v)
             local race, raceEN, raceID = UnitRace(context.rule.unit or "player")
