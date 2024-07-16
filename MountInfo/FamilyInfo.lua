@@ -816,7 +816,7 @@ MOUNTFAMILY["Infernal"] = {
     [171827] = true, -- Hellfire Infernal
 }
 
-LM.MOUNTFAMILY["Jawcrawler"] = {
+MOUNTFAMILY["Jawcrawler"] = {
     [447957] = true, -- Ferocious Jawcrawler
 }
 
@@ -908,7 +908,7 @@ MOUNTFAMILY["Mana Ray"] = {
     [253106] = true, -- Vibrant Mana Ray
 }
 
-.MOUNTFAMILY["Mechanical"] = {
+MOUNTFAMILY["Mechanical"] = {
     [405623] = true, -- Armadillo Roller
     [290718] = true, -- Aerial Unit R-21/X
     [ 71342] = true, -- Big Love Rocket
@@ -982,7 +982,7 @@ MOUNTFAMILY["Mechanostrider"] = {
     [ 15779] = true, -- White Mechanostrider Mod B
 }
 
-LM.MOUNTFAMILY["Mole"] = {
+MOUNTFAMILY["Mole"] = {
     [449269] = true, -- Crimson Mudnose
     [449258] = true, -- Ol' Mole Rufus
     [449264] = true, -- Wick
