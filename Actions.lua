@@ -418,6 +418,13 @@ local castableArg = LM.RuleArguments:Get("CASTABLE")
 
 local smartActions = {
     {
+        -- Only original aquatic mounts are sped up by the buff in Vashj'ir,
+        -- newer hybrid ones like Ottuks are slow.
+        condition   = "[submerged,map:203]",
+        arg         = LM.RuleArguments:Get('mt:231', '/', 'mt:254'),
+        debug       = "Aquatic Mount (Vashj'ir)",
+    },
+    {
         condition   = "[submerged]",
         arg         = LM.RuleArguments:Get('SWIM'),
         debug       = "Aquatic Mount (underwater)",
