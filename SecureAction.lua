@@ -27,6 +27,7 @@ end
 function LM.SecureAction:SetupActionButton(button, n)
     if self.type == '_lm_func' then
         self._lm_func()
+        button:SetAttribute('type', nil)
         return
     end
     for k,v in pairs(self) do
