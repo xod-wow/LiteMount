@@ -82,22 +82,6 @@ function LM.Journal:Get(id)
         Mixin(m.flags, typeInfo.flags)
     end
 
-    -- Aquatic Shades for Otto. This should probably be moved off somewhere
-    -- else and made more generic.
-    if m.mountID == 1656 then
-        m.castActions = {}
-         local item = Item:CreateFromItemID(LM.ITEM.AQUATIC_SHADES)
-         item:ContinueOnItemLoad(
-            function ()
-                m.castActions[1] = "/use " .. item:GetItemName()
-            end)
-        local spell = Spell:CreateFromSpellID(m.spellID)
-        spell:ContinueOnSpellLoad(
-            function ()
-                m.castActions[2] = "/cast " .. spell:GetSpellName()
-            end)
-    end
-
     return m
 end
 
