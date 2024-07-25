@@ -322,12 +322,14 @@ ACTIONS['Dismount'] = {
                 end
             end
 
+            -- This obeys "Auto Dismount in Flight", otherwise it would need a
+            -- macrotext and not work from the actionbar.
             if action and savedFormName and savedFormName ~= GetFormNameWithSubtext() then
-                -- Without the /cancelform the "Auto Dismount in Flight" setting stops
-                -- this from working. Though, should this actually obey that setting?
-                LM.Debug("  * override action to restore form: " .. savedFormName)
-                local macroText = string.format("/cancelform\n/cast %s", savedFormName)
-                action = LM.SecureAction:Macro(macroText)
+                local autoDismount = not IsFlying() or GetCVarBool('autoDismountFlying')
+                if autoDismount or GetShapeshiftFormID() then
+                    LM.Debug("  * override action to restore form: " .. savedFormName)
+                    action = LM.SecureAction:Spell(savedFormName)
+                end
             end
 
             if action then
@@ -541,8 +543,12 @@ ACTIONS['Macro'] = {
         function (args, context)
             local macrotext = LM.Options:GetOption('unavailableMacro')
             if macrotext ~= "" then
-                LM.Debug("  * setting action to unavailable macro")
-                return LM.SecureAction:Macro(macrotext)
+                if GetRunningMacro() then
+                    LM.Debug("  * unavailable macro not possible from actionbar")
+                else
+                    LM.Debug("  * setting action to unavailable macro")
+                    return LM.SecureAction:Macro(macrotext)
+                end
             end
         end
 }
@@ -551,9 +557,13 @@ ACTIONS['Script'] = {
     argType = 'macrotext',
     handler =
         function (args, context)
-            local macroText = args:ToString()
-            LM.Debug("  * setting action to script line: " .. macroText)
-            return LM.SecureAction:Macro(macroText)
+            if GetRunningMacro() then
+                LM.Debug("  * Script action not available from actionbar")
+            else
+                local macroText = args:ToString()
+                LM.Debug("  * setting action to script line: " .. macroText)
+                return LM.SecureAction:Macro(macroText)
+            end
         end
 }
 
@@ -567,7 +577,7 @@ ACTIONS['CantMount'] = {
             LM.Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
 
             LM.Debug("  * setting action to can't mount now")
-            return LM.SecureAction:Macro("")
+            return LM.SecureAction:NoAction()
         end
 }
 
@@ -600,6 +610,9 @@ local CombatHandlerOverride = {
     },
 }
 
+-- Combat handler is a bit magic because it's called from PLAYER_REGEN_DISABLED
+-- rather than by user activation, so you can't tell if it's being called from
+-- a macro (and thus won't work).
 ACTIONS['Combat'] = {
     argType = 'none',
     handler =
@@ -631,7 +644,7 @@ ACTIONS['Stop'] = {
         function (args, context)
             -- return true and set up to do nothing
             LM.Debug("  * setting action to nothing for stop")
-            return LM.SecureAction:Macro("")
+            return LM.SecureAction:NoAction()
         end
 }
 

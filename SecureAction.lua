@@ -24,21 +24,30 @@ function LM.SecureAction:New(attr)
     return setmetatable(attr, LM.SecureAction)
 end
 
-function LM.SecureAction:SetupActionButton(button, n)
-    if self.type == '_lm_func' then
+function LM.SecureAction:SetupActionButton(button, mouseButtonIndex)
+    if self.type == nil then
+        button:SetAttribute('type', nil)
+        return
+    elseif self.type == '_lm_func' then
         self._lm_func()
         button:SetAttribute('type', nil)
         return
     end
     for k,v in pairs(self) do
-        if k ~= 'type' and n then
-            k = k .. tostring(n)
+        if k ~= 'type' and mouseButtonIndex then
+            k = k .. tostring(mouseButtonIndex)
         end
         button:SetAttribute(k, v)
     end
     -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
     button:SetAttribute("pressAndHoldAction", true)
     button:SetAttribute("typerelease", self.type)
+end
+
+function LM.SecureAction:NoAction()
+    return self:New( {
+                ["type"] = nil,
+            } )
 end
 
 function LM.SecureAction:Macro(macroText, unit)
