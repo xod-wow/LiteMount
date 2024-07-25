@@ -52,7 +52,7 @@ local MOUNT_SPELLS = {
 
 local MOUNT_SPELLS_BY_PROJECT = LM.TableWithDefault({
     [1] = {
-        { "TravelForm", LM.SPELL.TRAVEL_FORM, 'RUN', 'FLY', 'SWIM' },
+        { "TravelForm", LM.SPELL.TRAVEL_FORM, 'DRAGONRIDING', 'RUN', 'FLY', 'SWIM' },
         { "TravelForm", LM.SPELL.MOUNT_FORM, 'RUN' },
     },
     DEFAULT = {
