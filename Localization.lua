@@ -97,6 +97,7 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
     L["LM_LIMITINCLUDE_DESCRIPTION"] = "Add the specified mounts to the set available to later actions."
     L["LM_LIMITSET_DESCRIPTION"] = "Limit the available mounts for all later actions to those specified."
     L["LM_MACRO_EXP"] = "This macro will be run if LiteMount is unable to find a usable mount. This might be because you are indoors, or are moving and don't know any instant-cast mounts."
+    L["LM_MACRO_NOT_ALLOWED"] = "This setting does not work when activating LiteMount using a macro on an action bar. This is due to Blizzard preventing macros from calling other macros."
     L["LM_MODIFIER_KEY"] = "Modifier key"
     L["LM_MOUNT_ACTION"] = "Random Mount"
     L["LM_MOUNT_DESCRIPTION"] = "Summon a random mount."

@@ -236,7 +236,11 @@ ACTIONS['Buff'] = {
 
 ACTIONS['PreCast'] = {
     name = L.LM_PRECAST_ACTION,
-    description = L.LM_PRECAST_DESCRIPTION,
+    description =
+        string.format("%s\n\n%s",
+            L.LM_PRECAST_DESCRIPTION,
+            DRAGONFLIGHT_RED_COLOR:WrapTextInColorCode(L.LM_MACRO_NOT_ALLOWED)
+        ),
     argType = 'list',
     toDisplay = SpellArgsToDisplay,
     handler =
@@ -765,7 +769,11 @@ ACTIONS['Use'] = {
 
 ACTIONS['PreUse'] = {
     name = L.LM_PREUSE_ACTION,
-    description = L.LM_PREUSE_DESCRIPTION,
+    description =
+        string.format("%s\n\n%s",
+            L.LM_PREUSE_DESCRIPTION,
+            DRAGONFLIGHT_RED_COLOR:WrapTextInColorCode(L.LM_MACRO_NOT_ALLOWED)
+        ),
     argType = 'list',
     toDisplay = ItemArgsToDisplay,
     handler =

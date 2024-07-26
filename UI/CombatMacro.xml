@@ -54,13 +54,22 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_COMBAT_MACRO_EXP">
+            <FontString parentKey="explainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_COMBAT_MACRO_EXP">
                 <Anchors>
                     <Anchor point="TOP" y="-60" />
                     <Anchor point="LEFT" x="24" />
                     <Anchor point="RIGHT" x="-24" />
                 </Anchors>
             </FontString>
+
+            <FontString parentKey="warnText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_MACRO_NOT_ALLOWED">
+                <Color r="1" g="0.5" b="0.5" />
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.explainText" y="-8" />
+                    <Anchor point="RIGHT" relativeKey="$parent.explainText" />
+                </Anchors>
+            </FontString>
+
 
             <FontString inherits="GameFontNormalLarge" parentKey="Enable" text="ENABLE">
                 <Anchors>
