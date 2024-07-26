@@ -104,15 +104,15 @@
         <Layer level="ARTWORK">
             <FontString parentKey="TranslatorsText" inherits="GameFontNormal" justifyH="RIGHT" text="LM_TRANSLATORS">
                 <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.AuthorText" />
+                    <Anchor point="LEFT" relativeKey="$parent.HelpTranslate" />
                     <Anchor point="TOP" relativeKey="$parent.TranslateURL" relativePoint="BOTTOM" y="-32" />
                 </Anchors>
             </FontString>
 
-            <FontString parentKey="Translators" inherits="GameFontHighlight" spacing="8" justifyH="LEFT">
+            <FontString parentKey="Translators" inherits="GameFontNormalSmall" spacing="8" justifyH="LEFT">
                 <Color r="0.8" g="1" b="0.8" a="1" />
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.TranslatorsText" relativePoint="TOPRIGHT" x="4" />
+                    <Anchor point="TOPLEFT" relativeKey="$parent.TranslatorsText" relativePoint="BOTTOMLEFT" x="16" y="-8" />
                 </Anchors>
             </FontString>
 
@@ -122,15 +122,15 @@
     <Scripts>
         <OnLoad>
             local translators = {
-                "deDE - Bullseify, Selthi, staratnight, wiggelator, pas06, Salty",
-                "esES - TradOrtiz, valdesca, Arcturas8",
-                "frFR - Joured, lastdans, Khis_wow, Lightuky",
-                "itIT - Gialllo, faniel80",
-                "koKR - yuk6196u, zzipsa22, tstlssk",
-                "ptBR - Kalx_, felipe_shaman, valarvinganca, Passolargo76 ",
-                "ruRU - unplayed, Artur91425",
-                "zhCN - okaydud, wowuicn, csuzyx",
-                "zhTW - BNSSNB, yunrong81, lohipp, BNS333"
+                "deDE - Bullseify, Flanll88, pas06, Salty, Selthi, sense_ce, staratnight, wiggelator, xStopho",
+                "esES - HelpTranslate, TradOrtiz, valdesca",
+                "frFR - Aryksa, Joured, Khis_wow, lastdans, Lightuky",
+                "itIT - faniel80, Gialllo", 
+                "koKR - tstlssk, yuk6196u, zzipsa22",
+                "ptBR - felipe_shaman, Kalx_, Passolargo76, valarvinganca",
+                "ruRU - Artur91425, unplayed",
+                "zhCN - csuzyx, okaydud, wowuicn",
+                "zhTW - BNS333, BNSSNB, lohipp, yunrong81"
             }
 
             self.Version:SetText(C_AddOns.GetAddOnMetadata("LiteMount", "Version") or "")
