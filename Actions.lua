@@ -239,7 +239,7 @@ ACTIONS['PreCast'] = {
     description =
         string.format("%s\n\n%s",
             L.LM_PRECAST_DESCRIPTION,
-            DRAGONFLIGHT_RED_COLOR:WrapTextInColorCode(L.LM_MACRO_NOT_ALLOWED)
+            FACTION_RED_COLOR:WrapTextInColorCode(L.LM_MACRO_NOT_ALLOWED)
         ),
     argType = 'list',
     toDisplay = SpellArgsToDisplay,
@@ -772,7 +772,7 @@ ACTIONS['PreUse'] = {
     description =
         string.format("%s\n\n%s",
             L.LM_PREUSE_DESCRIPTION,
-            DRAGONFLIGHT_RED_COLOR:WrapTextInColorCode(L.LM_MACRO_NOT_ALLOWED)
+            FACTION_RED_COLOR:WrapTextInColorCode(L.LM_MACRO_NOT_ALLOWED)
         ),
     argType = 'list',
     toDisplay = ItemArgsToDisplay,
