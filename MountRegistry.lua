@@ -26,7 +26,7 @@ local MOUNT_SPELLS = {
     { "GhostWolf", LM.SPELL.GHOST_WOLF, 'RUN', 'SLOW' },
     { "Nagrand", LM.SPELL.FROSTWOLF_WAR_WOLF, 'Horde', 'RUN' },
     { "Nagrand", LM.SPELL.TELAARI_TALBUK, 'Alliance', 'RUN' },
-    { "Soar", LM.SPELL.SOAR, 'DRAGONRIDING' },
+    { "Soar", LM.SPELL.SOAR, 'FLY', 'DRAGONRIDING' },
 --  { "Soulshape", LM.SPELL.SOULSHAPE, 'RUN', 'SLOW' },
     { "ItemSummoned",
         LM.ITEM.MAGIC_BROOM, LM.SPELL.MAGIC_BROOM, 'RUN', 'FLY', },
