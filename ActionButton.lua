@@ -83,14 +83,16 @@ function LM.ActionButton:PreClick(inputButton, isDown)
 end
 
 function LM.ActionButton:PostClick(inputButton, isDown)
+    LM.Debug("[%d] PostClick handler (inputButton=%s, isDown=%s)",
+             self.id, tostring(inputButton), tostring(isDown))
     LM.Environment:ClearMouseButtonClicked()
 
-    if self.runningAction then
+    if self.runningAction and not InCombatLockdown() then
         self.runningAction:ClearActionButton(self)
         self.runningAction = nil
     end
 
-    LM.Debug("[%d] PostClick handler (inputButton=%s, isDown=%s)",
+    LM.Debug("[%d] PostClick finish",
              self.id, tostring(inputButton), tostring(isDown))
 end
 
