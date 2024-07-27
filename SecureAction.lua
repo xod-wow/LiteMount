@@ -44,6 +44,11 @@ function LM.SecureAction:SetupActionButton(button, mouseButtonIndex)
     button:SetAttribute("typerelease", self.type)
 end
 
+function LM.SecureAction:ClearActionButton(button)
+    button:SetAttribute('type', nil)
+    button:SetAttribute('typerelease', nil)
+end
+
 function LM.SecureAction:NoAction()
     return self:New( {
                 ["type"] = nil,

@@ -68,38 +68,48 @@ function LM.ActionButton:PreClick(inputButton, isDown)
 
     local ruleSet = LM.Options:GetCompiledButtonRuleSet(self.id)
 
-    local act = ruleSet:Run(context)
-    if act then
+    self.runningAction = ruleSet:Run(context)
+    if self.runningAction then
         -- Note that in some circumstances this call will do the action and
         -- leave the button as a NoOp (if it can be done in non-protected code)
-        act:SetupActionButton(self)
+        self.runningAction:SetupActionButton(self)
         LM.Debug("[%d] PreClick ok time %0.2f", self.id, debugprofilestop() - startTime)
         return
     end
 
     local handler = LM.Actions:GetHandler('CantMount')
-    act = handler()
-    act:SetupActionButton(self)
+    handler():SetupActionButton(self)
     LM.Debug("[%d] PreClick fail time %0.2f", self.id, debugprofilestop() - startTime)
 end
 
 function LM.ActionButton:PostClick(inputButton, isDown)
-    if InCombatLockdown() then return end
-
     LM.Environment:ClearMouseButtonClicked()
+
+    if self.runningAction then
+        self.runningAction:ClearActionButton(self)
+        self.runningAction = nil
+    end
 
     LM.Debug("[%d] PostClick handler (inputButton=%s, isDown=%s)",
              self.id, tostring(inputButton), tostring(isDown))
 end
 
 -- Combat actions trigger on PLAYER_REGEN_DISABLED which happens before
--- lockdown starts so we can still do secure things.
+-- lockdown starts so we can still do secure things. Unlike other places
+-- it's possible this will do SecureHandlerWrapScript if it's being called
+-- from a macro.
 function LM.ActionButton:OnEvent(e, ...)
     if e == "PLAYER_REGEN_DISABLED" then
         LM.Debug('[%d] Combat started', self.id)
-        local act = LM.Actions:GetHandler('Combat')(nil, self.context)
-        if act then
-            act:SetupActionButton(self)
+        self.runningAction = LM.Actions:GetHandler('Combat')(nil, self.context)
+        if self.runningAction then
+            self.runningAction:SetupActionButton(self)
+        end
+    elseif e == "PLAYER_REGEN_ENABLED" then
+        LM.Debug('[%d] Combat ended', self.id)
+        if self.runningAction then
+            self.runningAction:ClearActionButton(self)
+            self.runningAction = nil
         end
     end
 end
@@ -125,8 +135,9 @@ function LM.ActionButton:Create(n)
     b:SetScript("PreClick", self.PreClick)
     b:SetScript("PostClick", self.PostClick)
 
-    -- Event handler for combat setup just before lockdown starts
+    -- Events handler for combat setup just before lockdown starts/ends
     b:RegisterEvent("PLAYER_REGEN_DISABLED")
+    b:RegisterEvent("PLAYER_REGEN_ENABLED")
     b:SetScript('OnEvent', self.OnEvent)
 
     return b
