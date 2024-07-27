@@ -44,7 +44,16 @@ function LM.ActionButton:PreClick(inputButton, isDown)
              self.id, tostring(inputButton), tostring(isDown))
 
     if InCombatLockdown() then
-        LM.Debug("[%d] In combat, aborting", self.id)
+        if GetRunningMacro() then
+            LM.Debug("[%d] In combat using macro, dismounting", self.id)
+            if IsMounted() then
+                Dismount()
+            elseif CanExitVehicle() then
+                VehicleExit()
+            end
+        else
+            LM.Debug("[%d] In combat, aborting", self.id)
+        end
         return
     end
 
