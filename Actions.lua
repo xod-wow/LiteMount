@@ -89,11 +89,17 @@ ACTIONS['Limit'] = {
 -- probably use & and | which are more obvious. Or, you know, start with a proper
 -- grammar-based parser.
 
+
+local function MountListToDisplay(args)
+    local limits = args:ParseList()
+    return LM.tMap(limits, LM.Mount.FilterToDisplay, true)
+end
+
 ACTIONS['LimitSet'] = {
     name = L.LM_LIMIT_MOUNTS,
     description = L.LM_LIMITSET_DESCRIPTION,
     argType = 'expression',
-    toDisplay = LM.RuleArguments.ToDisplay,
+    toDisplay = MountListToDisplay,
     handler =
         function (args, context)
             ACTIONS.Limit.handler(args:Prepend('='), context)
@@ -104,7 +110,7 @@ ACTIONS['LimitInclude'] = {
     name = L.LM_INCLUDE_MOUNTS,
     description = L.LM_LIMITINCLUDE_DESCRIPTION,
     argType = 'expression',
-    toDisplay = LM.RuleArguments.ToDisplay,
+    toDisplay = MountListToDisplay,
     handler =
         function (args, context)
             ACTIONS.Limit.handler(args:Prepend('+'), context)
@@ -115,7 +121,7 @@ ACTIONS['LimitExclude'] = {
     name = L.LM_EXCLUDE_MOUNTS,
     description = L.LM_LIMITEXCLUDE_DESCRIPTION,
     argType = 'expression',
-    toDisplay = LM.RuleArguments.ToDisplay,
+    toDisplay = MountListToDisplay,
     handler =
         function (args, context)
             ACTIONS.Limit.handler(args:Prepend('-'), context)
@@ -465,7 +471,7 @@ ACTIONS['Mount'] = {
     name = L.LM_MOUNT_ACTION,
     description = L.LM_MOUNT_DESCRIPTION,
     argType = 'expression',
-    toDisplay = LM.RuleArguments.ToDisplay,
+    toDisplay = MountListToDisplay,
     handler =
         function (args, context)
             local limits = CopyTable(context.limits)
@@ -520,7 +526,7 @@ ACTIONS['SmartMount'] = {
     name = L.LM_SMARTMOUNT_ACTION,
     description = L.LM_SMARTMOUNT_DESCRIPTION,
     argType = 'expression',
-    toDisplay = LM.RuleArguments.ToDisplay,
+    toDisplay = MountListToDisplay,
     handler =
         function (args, context)
             context.rule.priority = true
@@ -533,7 +539,7 @@ ACTIONS['PriorityMount'] = {
     name = L.LM_PRIORITYMOUNT_ACTION,
     description = L.LM_PRIORITYMOUNT_DESCRIPTION,
     argType = 'expression',
-    toDisplay = LM.RuleArguments.ToDisplay,
+    toDisplay = MountListToDisplay,
     handler =
         function (args, context)
             context.rule.priority = true
