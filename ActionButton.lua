@@ -40,24 +40,24 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
     -- if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
 
+    local startTime = debugprofilestop()
+
     LM.Debug("[%d] PreClick handler (inputButton=%s, isDown=%s)",
              self.id, tostring(inputButton), tostring(isDown))
 
     if InCombatLockdown() then
         if GetRunningMacro() then
-            LM.Debug("[%d] In combat using macro, dismounting", self.id)
             if IsMounted() then
                 Dismount()
             elseif CanExitVehicle() then
                 VehicleExit()
             end
+            LM.Debug("[%d] In macro combat time %0.2fms", self.id, debugprofilestop() - startTime)
         else
-            LM.Debug("[%d] In combat, aborting", self.id)
+            LM.Debug("[%d] In combat abort time %0.2fms", self.id, debugprofilestop() - startTime)
         end
         return
     end
-
-    local startTime = debugprofilestop()
 
     LM.MountRegistry:RefreshMounts()
 
@@ -77,32 +77,33 @@ function LM.ActionButton:PreClick(inputButton, isDown)
 
     local ruleSet = LM.Options:GetCompiledButtonRuleSet(self.id)
 
-    self.runningAction = ruleSet:Run(context)
-    if self.runningAction then
+    local act = ruleSet:Run(context)
+    if act then
         -- Note that in some circumstances this call will do the action and
         -- leave the button as a NoOp (if it can be done in non-protected code)
-        self.runningAction:SetupActionButton(self)
-        LM.Debug("[%d] PreClick ok time %0.2f", self.id, debugprofilestop() - startTime)
+        act:SetupActionButton(self)
+        LM.Debug("[%d] PreClick ok time %0.2fms", self.id, debugprofilestop() - startTime)
         return
     end
 
     local handler = LM.Actions:GetHandler('CantMount')
     handler():SetupActionButton(self)
-    LM.Debug("[%d] PreClick fail time %0.2f", self.id, debugprofilestop() - startTime)
+    LM.Debug("[%d] PreClick fail time %0.2fms", self.id, debugprofilestop() - startTime)
 end
 
 function LM.ActionButton:PostClick(inputButton, isDown)
+    local startTime = debugprofilestop()
+
     LM.Debug("[%d] PostClick handler (inputButton=%s, isDown=%s)",
              self.id, tostring(inputButton), tostring(isDown))
+
     LM.Environment:ClearMouseButtonClicked()
 
-    if self.runningAction and not InCombatLockdown() then
-        self.runningAction:ClearActionButton(self)
-        self.runningAction = nil
+    if not InCombatLockdown() then
+        LM.SecureAction:ClearActionButton(self)
     end
 
-    LM.Debug("[%d] PostClick finish",
-             self.id, tostring(inputButton), tostring(isDown))
+    LM.Debug("[%d] PostClick finish time %0.2fms", self.id, debugprofilestop() - startTime)
 end
 
 -- Combat actions trigger on PLAYER_REGEN_DISABLED which happens before
@@ -112,16 +113,13 @@ end
 function LM.ActionButton:OnEvent(e, ...)
     if e == "PLAYER_REGEN_DISABLED" then
         LM.Debug('[%d] Combat started', self.id)
-        self.runningAction = LM.Actions:GetHandler('Combat')(nil, self.context)
-        if self.runningAction then
-            self.runningAction:SetupActionButton(self)
+        local act = LM.Actions:GetHandler('Combat')(nil, self.context)
+        if act then
+            act:SetupActionButton(self)
         end
     elseif e == "PLAYER_REGEN_ENABLED" then
         LM.Debug('[%d] Combat ended', self.id)
-        if self.runningAction then
-            self.runningAction:ClearActionButton(self)
-            self.runningAction = nil
-        end
+        LM.SecureAction:ClearActionButton(self)
     end
 end
 
