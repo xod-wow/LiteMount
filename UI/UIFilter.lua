@@ -14,6 +14,7 @@ local L = LM.Localize
 
 local DefaultFilterList = {
     family = { },
+    expansion = { },
     flag = { },
     group = { },
     other = { HIDDEN=true, UNUSABLE=true },
@@ -190,6 +191,47 @@ function LM.UIFilter.GetSourceText(i)
     elseif i == n+1 then
         return OTHER
     end
+end
+
+
+-- Expansions ------------------------------------------------------------------
+
+function LM.UIFilter.GetExpansions()
+    return LM.MountInfo.GetMountExpansionIDs()
+end
+
+function LM.UIFilter.SetAllExpansionFilters(v)
+    LM.UIFilter.ClearCache()
+    if v then
+        table.wipe(LM.UIFilter.filterList.expansion)
+    else
+        for _,id in ipairs(LM.UIFilter.GetExpansions()) do
+            LM.UIFilter.filterList.expansion[id] = true
+        end
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.SetExpansionFilter(i, v)
+    LM.UIFilter.ClearCache()
+    if v then
+        LM.UIFilter.filterList.expansion[i] = nil
+    else
+        LM.UIFilter.filterList.expansion[i] = true
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.IsExpansionChecked(i)
+    return not LM.UIFilter.filterList.expansion[i]
+end
+
+function LM.UIFilter.IsValidExpansionFilter(i)
+    return LM.MountInfo.IsValidMountExpansionID(i)
+end
+
+function LM.UIFilter.GetExpansionText(i)
+    return LM.MountInfo.GetMountExpansionNameByID(i)
 end
 
 
@@ -478,22 +520,39 @@ function LM.UIFilter.IsFilteredMount(m)
         source = LM.UIFilter.GetNumSources()
     end
 
-    if LM.UIFilter.filterList.source[source] == true then
-        return true
+    -- The next() checks mean if nothing is filtered then also show mounts
+    -- that don't have the attribute, otherwise it is enforced and those mounts
+    -- don't match anything.
+
+    if next(LM.UIFilter.filterList.source) ~= nil then
+        if LM.UIFilter.filterList.source[source] == true then
+            return true
+        end
     end
 
     -- TypeName filters
-    local typeInfo = LM.MOUNT_TYPE_INFO[m.mountTypeID or 0]
-    if typeInfo and LM.UIFilter.filterList.typename[typeInfo.name] == true then
-        return true
+    if next(LM.UIFilter.filterList.typename) ~= nil then
+        local typeInfo = LM.MOUNT_TYPE_INFO[m.mountTypeID or 0]
+        if typeInfo and LM.UIFilter.filterList.typename[typeInfo.name] == true then
+            return true
+        end
     end
 
     -- Family filters
-    if m.family and LM.UIFilter.filterList.family[m.family] == true then
-        return true
+    if next(LM.UIFilter.filterList.family) ~= nil then
+        if m.family and LM.UIFilter.filterList.family[m.family] == true then
+            return true
+        end
     end
 
-    -- Group filters
+    -- Expansion filters
+    if next(LM.UIFilter.filterList.expansion) ~= nil then
+        if not m.expansion or LM.UIFilter.filterList.expansion[m.expansion] == true then
+            return true
+        end
+    end
+
+    -- Group filters, not wrapped in a next() because the default has some true
 
     -- Does the mount info indicate it should be hidden. This happens (for
     -- example) with some mounts that have different horde/alliance versions
@@ -521,13 +580,15 @@ function LM.UIFilter.IsFilteredMount(m)
     end
 
     -- Priority Filters
-    for _,p in ipairs(LM.UIFilter.GetPriorities()) do
-        if LM.UIFilter.filterList.priority[p] and LM.Options:GetPriority(m) == p then
-            return true
+    if next(LM.UIFilter.filterList.priority) then
+        for _,p in ipairs(LM.UIFilter.GetPriorities()) do
+            if LM.UIFilter.filterList.priority[p] and LM.Options:GetPriority(m) == p then
+                return true
+            end
         end
     end
 
-    -- Groups filter has a magic NONE for anything with no groups
+    -- Groups filter has a magic NONE for anything with no groups, so no next()
     local mountGroups = m:GetGroups()
     if not next(mountGroups) then
         if LM.UIFilter.filterList.group[NONE] then return true end

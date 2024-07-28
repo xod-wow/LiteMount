@@ -71,8 +71,15 @@ function LM.Mount.FilterToDisplay(f)
         local _, id = string.split(':', f, 2)
         return C_MountJournal.GetMountInfoByID(tonumber(id))
     elseif f:match('^family:') then
-        local _, family = string.split(':', f, 2)
-        return L.LM_FAMILY .. ' : ' .. LM.MountInfo.GetMountFamilyNameByID(m.family)
+        local _, id = string.split(':', f, 2)
+        id = tonumber(id)
+        local name = LM.MountInfo.GetMountFamilyNameByID(id)
+        return L.LM_FAMILY .. ' : ' .. (name or tostring(id))
+    elseif f:match('^expansion:') then
+        local _, id = string.split(':', f, 2)
+        id = tonumber(id)
+        local name = LM.MountInfo.GetMountExpansionNameByID(id)
+        return EXPANSION_FILTER_TEXT .. ' : ' .. (name or tostring(id))
     elseif f:match('^mt:%d+$') then
         local _, id = string.split(':', f, 2)
         local typeInfo = LM.MOUNT_TYPE_INFO[tonumber(id)]
@@ -117,9 +124,10 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
         return self.mountID == tonumber(f:sub(4))
     elseif f:sub(1, 3) == 'mt:' then
         return self.mountTypeID == tonumber(f:sub(4))
-    elseif f:sub(1, 7) == 'family:' then
-        local familyName = LM.MountInfo.GetMountFamilyNameByID(self.family)
-        return ( self.family == f:sub(8) or familyName == f:sub(8) )
+    elseif f:sub(1, 10) == 'expansion:' and self.expansion then
+        return ( self.expansion == tonumber(f:sub(11)) or familyName == f:sub(11) )
+    elseif f:sub(1, 7) == 'family:' and self.family then
+        return ( self.family == tonumber(f:sub(8)) or self.familyName == f:sub(8) )
     elseif f:sub(1, 1) == '~' then
         return not self:MatchesOneFilter(flags, groups, f:sub(2))
     elseif flags[f] ~= nil then
@@ -329,7 +337,8 @@ function LM.Mount:Dump(prefix)
                    )
             )
     LM.Print(prefix .. " mountID: " .. tostring(self.mountID))
-    LM.Print(prefix .. " family: " .. LM.MountInfo.GetMountFamilyNameByID(self.family))
+    LM.Print(prefix .. " family: " .. toString(m.familyName))
+    LM.Print(prefix .. " expansion: " .. tostring(m.expansionName))
     LM.Print(prefix .. " isCollected: " .. tostring(self:IsCollected()))
     LM.Print(prefix .. " isMountable: " .. tostring(self:IsMountable()))
     LM.Print(prefix .. " isFavorite: " .. tostring(self:IsFavorite()))

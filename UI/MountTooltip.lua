@@ -95,8 +95,12 @@ function LiteMountTooltipMixin:SetMount(m, canMount)
 
     self:AddLine("|cffffffff"..SUMMONS..":|r "..tostring(m:GetSummonCount()))
 
-    if m.family then
-        self:AddLine("|cffffffff"..L.LM_FAMILY..":|r "..L[m.family])
+    if m.familyName then
+        self:AddLine("|cffffffff"..L.LM_FAMILY..":|r "..m.familyName)
+    end
+
+    if m.expansionName then
+        self:AddLine("|cffffffff"..EXPANSION_FILTER_TEXT..":|r "..m.expansionName)
     end
 
     if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then

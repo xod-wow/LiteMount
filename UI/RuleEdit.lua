@@ -307,6 +307,7 @@ local function MountToInfo(m) return { val = m.spellID, text = m.name } end
 local function GroupToInfo(v) return { val = v, text = LM.UIFilter.GetGroupText(v) } end
 local function FlagToInfo(v) return { val = v, text = LM.UIFilter.GetFlagText(v) } end
 local function FamilyToInfo(v) return { val = "family:"..v, text = LM.UIFilter.GetFamilyText(v) } end
+local function ExpansionToInfo(v) return { val = "expansion:"..v, text = LM.UIFilter.GetExpansionText(v) } end
 local function TypeToInfo(v) return { val = "mt:"..v, text = LM.UIFilter.GetTypeText(v) } end
 
 local function MountArgsMenu()
@@ -319,6 +320,9 @@ local function MountArgsMenu()
 --  local typeMenuList = LM.tMap(LM.UIFilter.GetTypes(), TypeToInfo)
 --  typeMenuList.text = TYPE
 
+    local expansionMenuList = LM.tMap(LM.UIFilter.GetExpansions(), ExpansionToInfo)
+    expansionMenuList.text = EXPANSION_FILTER_TEXT
+
     local flagMenuList = LM.tMap(LM.UIFilter.GetFlags(), FlagToInfo)
     flagMenuList.text = TYPE
 
@@ -329,6 +333,7 @@ local function MountArgsMenu()
         mountMenuList,
         groupMenuList,
         flagMenuList,
+        expansionMenuList,
 --      typeMenuList,
 --      familyMenuList,
         { val = "FAVORITES", text = FAVORITES:upper() },
