@@ -52,7 +52,7 @@ function LM.ActionButton:PreClick(inputButton, isDown)
             elseif CanExitVehicle() then
                 VehicleExit()
             end
-            LM.Debug("[%d] In macro combat time %0.2fms", self.id, debugprofilestop() - startTime)
+            LM.Debug("[%d] In combat direct time %0.2fms", self.id, debugprofilestop() - startTime)
         else
             LM.Debug("[%d] In combat abort time %0.2fms", self.id, debugprofilestop() - startTime)
         end
