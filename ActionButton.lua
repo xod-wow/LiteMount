@@ -46,7 +46,7 @@ function LM.ActionButton:PreClick(inputButton, isDown)
              self.id, tostring(inputButton), tostring(isDown))
 
     if InCombatLockdown() then
-        if GetRunningMacro() then
+        if GetRunningMacro() and self:GetAttribute("type") == 'macro' then
             if IsMounted() then
                 Dismount()
             elseif CanExitVehicle() then
