@@ -270,19 +270,12 @@ function LM.MountList:Limit(limits)
     return mounts
 end
 
--- Don't call CanDragonRide thousands of times for no reason
-local dragonRidingSort = false
-
 local SortFunctions = {
     -- Show all the collected mounts before the uncollected mounts, then by name
     ['default'] =
         function (a, b)
             if a:IsCollected() and not b:IsCollected() then return true end
             if not a:IsCollected() and b:IsCollected() then return false end
-            if dragonRidingSort then
-                if a.dragonRiding and not b.dragonRiding then return true end
-                if not a.dragonRiding and b.dragonRiding then return false end
-            end
             return a.name < b.name
         end,
     ['name'] =
@@ -300,7 +293,6 @@ local SortFunctions = {
 }
 
 function LM.MountList:Sort(key)
-    dragonRidingSort = IsAdvancedFlyableArea and IsAdvancedFlyableArea()
     table.sort(self, SortFunctions[key] or SortFunctions.default)
 end
 
