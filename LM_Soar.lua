@@ -18,22 +18,12 @@ local _, LM = ...
 LM.Soar = setmetatable({ }, LM.Spell)
 LM.Soar.__index = LM.Soar
 
-function LM.Soar:Get(...)
-    local m = LM.Spell.Get(self, ...)
-    if m then
-        m.dragonRiding = true
-        return m
-    end
-end
-
 -- Soar gives an error message instead of IsSpellUsable false in a variety
 -- of pretty ordinary circumstances.
 
 function LM.Soar:IsCastable()
     if IsSubmerged() then
-        return false
-    elseif not IsAdvancedFlyableArea() then
-        -- This is for Amirdrassil and a guess at how it works in reality
+        -- You can actually cast it but it bugs out.
         return false
     else
         return LM.Spell.IsCastable(self)
