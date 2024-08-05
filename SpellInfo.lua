@@ -250,6 +250,14 @@ LM.MOUNT_TYPE_INFO = {
             DRAGONRIDING = true,
         },
     },
+    [444] = {
+        -- Flying + Dragonriding Charming Courier (on beta at least)
+        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        flags = {
+            FLY = true,
+            DRAGONRIDING = true,
+        },
+    },
     [445] = {
         -- Voyaging Wilderling got its own type for some reason
         name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,

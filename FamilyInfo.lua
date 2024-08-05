@@ -131,6 +131,7 @@ LM.MOUNTFAMILY["Bloodswarmer"] = {
     [275841] = true, -- Expedition Bloodswarmer
     [243795] = true, -- Leaping Veinseeker
     [447190] = true, -- Shadowed Swarmite
+    [447195] = true, -- Swarmite Skyhunter
     [449325] = true, -- Vicious Skyflayer (Alliance)
     [447405] = true, -- Vicious Skyflayer (Horde)
 }
@@ -176,6 +177,7 @@ LM.MOUNTFAMILY["Cat"] = {
     [ 22723] = true, -- Black War Tiger
     [129934] = true, -- Blue Shado-Pan Riding Tiger
     [ 63637] = true, -- Darnassian Nightsaber
+    [448979] = true, -- Dauntless Imperial Lynx
     [200175] = true, -- Felsaber
     [ 90621] = true, -- Golden King
     [129932] = true, -- Green Shado-Pan Riding Tiger
@@ -1414,10 +1416,13 @@ LM.MOUNTFAMILY["Snapdragon"] = {
 LM.MOUNTFAMILY["Spider"] = {
     [213115] = true, -- Bloodfang Widow
     [359401] = true, -- Genesis Crawler
+    [448685] = true, -- Heritage Undercrawler
     [359403] = true, -- Ineffable Skitterer
+    [448689] = true, -- Royal Court Undercrawler
     [359402] = true, -- Tarachnid Creeper
     [327408] = true, -- Vicious War Spider
     [327407] = true, -- Vicious War Spider
+    [448680] = true, -- Widow's Undercrawler
 }
 
 LM.MOUNTFAMILY["Stone Drake"] = {
