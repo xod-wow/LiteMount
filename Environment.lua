@@ -228,9 +228,8 @@ function LM.Environment:IsCombatTravelForm()
 end
 
 function LM.Environment:IsCantSummonForm()
-    local formID = GetShapeshiftFormID()
-    -- cat, bear, treant druid forms can't be mounted from with SummonByID
-    if formID == 1 or formID == 5 or formID == 36 then
+    -- C_MountJournal.SummonByID() fails in druid forms, Ghost Wolf is OK.
+    if select(2, UnitClass("player")) == "DRUID" and GetShapeshiftFormID() then
         return true
     else
         return false
@@ -246,7 +245,7 @@ function LM.Environment:MapIsMap(a, b, checkGroup)
         local aGroup = C_Map.GetMapGroupID(a)
         if aGroup and aGroup == C_Map.GetMapGroupID(b) then
             return true
-    end
+        end
     end
     return false
 end

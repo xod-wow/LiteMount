@@ -139,12 +139,12 @@ function LM.Developer:ExportMockData()
 
     data.GetClassInfo = {}
 
-    local i = 1
+    local classIndex = 1
     while true do
-        local info = { GetClassInfo(i) }
+        local info = { GetClassInfo(classIndex) }
         if info[1] then
-            data.GetClassInfo[i] = info
-            i = i + 1
+            data.GetClassInfo[classIndex] = info
+            classIndex = classIndex + 1
         else
             break
         end
