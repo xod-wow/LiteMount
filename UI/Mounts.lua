@@ -194,15 +194,15 @@ function LiteMountMountIconMixin:OnLeave()
 end
 
 function LiteMountMountIconMixin:PreClick(mouseButton, isDown)
-    if mouseButton == 'LeftButton' and not isDown and IsModifiedClick("CHATLINK") then
+    if mouseButton == 'LeftButton' and IsModifiedClick("CHATLINK") then
         local mount = self:GetParent().mount
-        ChatEdit_InsertLink(GetSpellLink(mount.spellID))
+        ChatEdit_InsertLink(C_Spell.GetSpellLink(mount.spellID))
     end
 end
 
 function LiteMountMountIconMixin:OnLoad()
     self:SetAttribute("unit", "player")
-    self:RegisterForClicks("AnyUp", "AnyDown")
+    self:RegisterForClicks("AnyUp")
     self:RegisterForDrag("LeftButton")
     self:SetScript('PreClick', self.PreClick)
 end
