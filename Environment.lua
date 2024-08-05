@@ -416,12 +416,8 @@ function LM.Environment:ForceFlyable(instanceID)
 end
 
 function LM.Environment:CanDragonride(mapPath)
+    -- This has a compat for Cataclysm Classic to return false always
     if not C_MountJournal.IsDragonridingUnlocked() then
-        return false
-    end
-
-    -- if you are switched into steady flight you can't skyride
-    if LM.UnitAura('player', LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT) then
         return false
     end
 
@@ -440,15 +436,6 @@ function LM.Environment:CanDragonride(mapPath)
         return false
     end
 
-    -- Dragon Isles and Khaz Algar and everything in them are correctly flagged
-    -- IsAdvancedFlyableArea if you can dragonride, and you can't fly there
-    -- unless you unlock it.
-
-    if self:IsMapInPath(1978, mapPath) or self:IsMapInPath(2274, mapPath) then
-        return IsAdvancedFlyableArea()
-    end
-
-
     -- Can't dragonride in Warfronts either
     if C_Scenario and C_Scenario.IsInScenario() then
         local scenarioType = select(10, C_Scenario.GetInfo())
@@ -457,8 +444,12 @@ function LM.Environment:CanDragonride(mapPath)
         end
     end
 
-    -- Lots of non-Dragon Isles areas are wrongly flagged IsAdvancedFlyableArea
-    return IsAdvancedFlyableArea() and IsFlyableArea()
+    -- Blizzard appears sometime in the TWW pre-patch have changed
+    -- IsAdvancedFlyableArea so that is really IsFlightStyleSkyriding. So
+    --  skyridingArea = IsFlyableArea() and IsAdvancedFlyableArea()
+    --  flyingArea = IsFlyableArea() and not IsAdvancedFlyableArea()
+
+    return IsFlyableArea() and IsAdvancedFlyableArea()
 end
 
 -- Can't fly if you haven't learned a flying skill. Various expansion
@@ -468,11 +459,6 @@ function LM.Environment:CanSteadyFly()
 
     -- If you don't know how to fly, you can't fly
     if not self:KnowsFlyingSkill() then
-        return false
-    end
-
-    -- if you are switched into skyriding you can't fly only skyride
-    if LM.UnitAura('player', LM.SPELL.FLIGHT_STYLE_SKYRIDING) ~= nil then
         return false
     end
 
@@ -510,7 +496,7 @@ function LM.Environment:CanSteadyFly()
         end
     end
 
-    return IsFlyableArea()
+    return IsFlyableArea() and not IsAdvancedFlyableArea()
 end
 
 function LM.Environment:CantBreathe()
