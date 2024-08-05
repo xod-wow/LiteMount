@@ -123,6 +123,9 @@ function LM.Journal:IsCastable()
     if not C_Spell.IsSpellUsable(self.spellID) then
         return false
     end
+    if self.mountID == 1727 and GetRunningMacro() ~= nil then
+        return false
+    end
     return LM.Mount.IsCastable(self)
 end
 
