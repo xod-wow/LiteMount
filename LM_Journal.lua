@@ -123,8 +123,9 @@ function LM.Journal:IsCastable()
     if not C_Spell.IsSpellUsable(self.spellID) then
         return false
     end
+    -- Tarecgosa workarounds for macro
     if self.mountID == 1727 and GetRunningMacro() ~= nil then
-        return false
+        if LM.Environment:IsCantSummonForm() then return false end
     end
     return LM.Mount.IsCastable(self)
 end
@@ -144,13 +145,31 @@ function LM.Journal:IsCollected()
     return isCollected
 end
 
+-- This is a bit complicated.
+--
+-- Casting the spell is better than SummonByID in most ways, because it takes
+-- advantages of all the auto-cancelling that spellcasts do.
+--
+-- You can't cast Tarecgosa's Visage (id = 1727) by casting the spell, who
+-- knows why, so you have to summon by ID. It's not protected BUT it plain
+-- doesn't work if you are in a druid form.
+--
+-- For keybind use we can cancelform and go, but CancelShapeshiftForm() is
+-- protected call from a /click so from the macro Tarecgosa can't work.
+--
+-- I could maybe work around this by having the Execute happen in the PostClick
+-- handler and setting the action to "cancelaura" and the form name, but that's
+-- a lot of effort for 1 broken mount spell, one class and only via /click.
+
 function LM.Journal:GetCastAction(context)
+    if GetRunningMacro() ~= nil and self.mountID == 1727 then
+        -- This relies on not getting here if in a druid form
+        return LM.SecureAction:Execute(function () C_MountJournal.SummonByID(self.mountID) end)
+    end
+
     local castActions
 
-    if self.castActions then
-        castActions = CopyTable(self.castActions)
-    elseif self.mountID == 1727 then
-        -- You can't cast Tarecgosa's Visage by name. But you also can't always SummonByID
+    if self.mountID == 1727 then
         castActions = { format("/run C_MountJournal.SummonByID(%d)", self.mountID) }
         if LM.Environment:IsCantSummonForm() then
             table.insert(castActions, 1, "/cancelform")
