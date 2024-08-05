@@ -287,30 +287,15 @@ function LM.Environment:InInstance(...)
     return false
 end
 
+local steadyInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT)
+local skyridingInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_SKYRIDING)
+
 function LM.Environment:GetFlightStyle()
-    local spellID = C_MountJournal.GetDynamicFlightModeSpellID()
-    if not spellID then return end
-
-    local spellInfo = C_Spell.GetSpellInfo(spellID)
-    if not spellInfo then return end
-
-    local steadyInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT)
-    local skyridingInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_SKYRIDING)
     if not steadyInfo and skyridingInfo then return end
 
-    -- The default flight style is skyriding. Weirdly GetOverrideSpell still
-    -- return 460003 (Switch to Skyriding) in this case, but it can be detected
-    -- by the icon in the base spell not being replaced.
-
-    if spellInfo.iconID == spellInfo.originalIconID then
-        return skyridingInfo.name, "skyriding"
-    end
-
-    if steadyInfo and spellInfo.iconID == steadyInfo.iconID then
+    if IsAdvancedFlyableArea() == false then
         return steadyInfo.name, "steady"
-    end
-
-    if skyridingInfo and spellInfo.iconID == skyridingInfo.iconID then
+    else
         return skyridingInfo.name, "skyriding"
     end
 end
