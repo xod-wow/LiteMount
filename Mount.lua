@@ -105,6 +105,8 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
         return false
     elseif f == "CASTABLE" then
         return self:IsCastable() == true
+    elseif f == "USABLE" then
+        return self:IsUsable() == true
     elseif f == "COLLECTED" then
         return self:IsCollected() == true
     elseif f == "MAWUSABLE" then
