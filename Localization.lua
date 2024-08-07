@@ -33,8 +33,6 @@ L.RUN                   = MOUNT_JOURNAL_FILTER_GROUND
 L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
 
 
--- :r! sh Tools/fetchlocale.sh -------------------------------------------------
-
 -- enUS / enGB / Default -------------------------------------------------------
 
     L = L or {}
@@ -2264,6 +2262,7 @@ end
 if locale == "zhCN" then
     L = L or {}
     L["LM_ACTION"] = "行动"
+    L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "当暴雪添加一个新的坐骑时，将其优先级设置为0（禁用）。"
     L["LM_ADVANCED_EXP"] = "这些设置允许您自定义每个LiteMount键绑定运行的操作。在更改任何内容之前，请阅读以下URL中的文档。"
     L["LM_ANNOUNCE_FLIGHT_STYLE"] = "宣布飞行模式切换"
     L["LM_ANNOUNCE_MOUNTS"] = "宣布召唤的坐骑"
@@ -2311,14 +2310,20 @@ if locale == "zhCN" then
     L["LM_HELP_TRANSLATE"] = "帮助将LiteMount翻译成您的语言。谢谢。"
     L["LM_HERB"] = "草药"
     L["LM_HIDDEN"] = "隐"
+    L["LM_HOLIDAY"] = "游戏中的日历会把像啤酒节和万圣节前夕这样的事件称为“节日活动”。"
     L["LM_IMPORT_PROFILE"] = "导入设定档"
     L["LM_IMPORT_PROFILE_EXP"] = "将先前导出的设定档贴上到下面的框中，以将其作为输入的名称汇入。"
     L["LM_INCLUDE_MOUNTS"] = "包括坐骑"
     L["LM_INSTANT_ONLY_MOVING"] = "移动时只召唤瞬发坐骑。"
     L["LM_LIMIT_MOUNTS"] = "限制坐骑"
+    L["LM_LIMITEXCLUDE_DESCRIPTION"] = "在后续的操作中，从可用的坐骑集合中排除指定的坐骑。"
+    L["LM_LIMITINCLUDE_DESCRIPTION"] = "在后续的操作中，向可用的坐骑集合中添加指定的坐骑。"
+    L["LM_LIMITSET_DESCRIPTION"] = "所有后续操作中使用的坐骑，限定为指定的这些坐骑。"
     L["LM_MACRO_EXP"] = "如果LiteMount不能找到可用的坐骑会用到此宏，这可能是因为你在室内，或者正在移动中，并且不会任何瞬发坐骑。"
+    L["LM_MACRO_NOT_ALLOWED"] = "当使用动作条上的宏来激活 LiteMount 时，这个设置不起作用。原因是暴雪阻止了宏调用其他宏。"
     L["LM_MODIFIER_KEY"] = "修饰键"
     L["LM_MOUNT_ACTION"] = "随机坐骑"
+    L["LM_MOUNT_DESCRIPTION"] = "随机召唤一个坐骑。"
     L["LM_MOUSE_BUTTON_CLICKED"] = "鼠标按钮被按下"
     L["LM_NEW_FLAG"] = "创建一个标签"
     L["LM_NEW_GROUP"] = "创建组"
@@ -2328,6 +2333,10 @@ if locale == "zhCN" then
     L["LM_ON_SCREEN_DISPLAY"] = "在屏幕上显示"
     L["LM_ORE"] = "矿石"
     L["LM_PARTY_OR_RAID_GROUP"] = "在小队或团队中"
+    L["LM_PRECAST_ACTION"] = "召唤坐骑前施放技能"
+    L["LM_PRECAST_DESCRIPTION"] = "在召唤坐骑之前尝试施放一个技能。请输入法术的名称或法术ID。仅能在坐骑列表中的坐骑之前施放，并且该技能必须没有施法时间。"
+    L["LM_PREUSE_ACTION"] = "召唤坐骑前使用道具"
+    L["LM_PREUSE_DESCRIPTION"] = "在召唤坐骑之前尝试使用一个道具。请输入物品名称、物品ID或装备槽编号。仅能召唤坐骑之前使用。该道具必须没有使用时间。"
     L["LM_PRIORITY"] = "优先"
     L["LM_PRIORITY_DESC1"] = "正常"
     L["LM_PRIORITY_DESC2"] = "更经常"
@@ -2586,6 +2595,7 @@ if locale == "zhTW" then
     L["LM_MACRO_EXP"] = "如果LiteMount無法找到一個可召喚的坐騎，此巨集將被執行。這有可能是由於你在室內，或在移動中並且沒有任何可瞬間召喚的坐騎。"
     L["LM_MODIFIER_KEY"] = "修飾鍵"
     L["LM_MOUNT_ACTION"] = "隨機坐騎"
+    L["LM_MOUSE_BUTTON_CLICKED"] = "滑鼠按鈕被按下"
     L["LM_NEW_FLAG"] = "新增標籤"
     L["LM_NEW_GROUP"] = "創建組"
     L["LM_NEW_PROFILE"] = "新建一個設定檔"
