@@ -1,3 +1,5 @@
+function Dismount() end
+
 function SetCVar(k, v)
     k = k:lower()
     MockState["cvar_"..k] = (not not v)
