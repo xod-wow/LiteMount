@@ -25,11 +25,9 @@ local function CheckFile(svFile)
         MockStateRandomize()
         -- local n = math.random(4)
         -- LiteMount.actions[n]:Click()
-        if MockState.inCombat == false then
-            MockStatePrint()
-            LiteMount.actions[1]:Click("LeftButton", true)
-            LiteMount.actions[1]:Click("LeftButton", false)
-        end
+        MockStatePrint()
+        LiteMount.actions[1]:Click("LeftButton", true)
+        LiteMount.actions[1]:Click("LeftButton", false)
     end
 
     SendEvent('PLAYER_LOGOUT')
