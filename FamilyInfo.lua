@@ -90,6 +90,7 @@ LM.MOUNTFAMILY["Bear"] = {
     [ 60119] = true, -- Black War Bear
     [288438] = true, -- Blackpaw
     [103081] = true, -- Darkmoon Dancing Bear
+    [464443] = true, -- Harmonious Salutations Bear
     [341821] = true, -- Snowstorm
     [229486] = true, -- Vicious War Bear
     [229487] = true, -- Vicious War Bear
