@@ -49,9 +49,11 @@ end
 dofile("Mock/Data.lua")
 dofile("Mock/GlobalStrings.lua")
 
+dofile("Mock/Functions.lua")
+
+dofile("Mock/Color.lua")
 dofile("Mock/Constants.lua")
 dofile("Mock/Enum.lua")
-dofile("Mock/Functions.lua")
 dofile("Mock/Macro.lua")
 dofile("Mock/Spell.lua")
 dofile("Mock/C_AddOns.lua")

@@ -19,6 +19,8 @@ end
 
 function GetRealmName() return MockState.realmName end
 
+function GetRunningMacro() end
+
 function UnitName() return MockState.playerName end
 
 function UnitClass() return MockState.playerClass end
