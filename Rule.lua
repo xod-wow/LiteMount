@@ -46,14 +46,11 @@ local function ReadWord(line)
     if token then return token, rest end
 end
 
-function LM.Rule:Get()
-    return CreateFromMixins(LM.Rule)
-end
-
 function LM.Rule:ParseLine(line)
 
-    local r = LM.Rule:Get()
+    local r = CreateFromMixins(LM.Rule)
 
+    r.errors = {}
     r.line = line
 
     local argTokens, condWords, rest = { }, { }
@@ -107,27 +104,28 @@ function LM.Rule:ParseLine(line)
 
     r.args = LM.RuleArguments:Get(argTokens)
 
-    local ok, err = r:Validate()
-    return ok and r or nil, err
+    r:CheckErrors()
+
+    return r
 end
 
-function LM.Rule:Validate()
+function LM.Rule:CheckErrors()
     -- XXX At some point should probably OO into LM.RuleAction XXX
     local fcHandler = LM.Actions:GetFlowControlHandler(self.action)
     local handler = LM.Actions:GetHandler(self.action)
 
     if not ( fcHandler or handler ) then
-        return false, format(L.LM_ERR_BAD_ACTION, self.action)
+        table.insert(self.errors, format(L.LM_ERR_BAD_ACTION, self.action))
     end
 
     local ok, err = self.conditions:Validate()
     if not ok then
-        return false, err
+        table.insert(self.errors, err)
     end
 
     ok, err = self.args:Validate(self.action)
     if not ok then
-        return false, err
+        table.insert(self.errors, err)
     end
 
     return true

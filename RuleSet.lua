@@ -16,28 +16,27 @@ function LM.RuleSet:Get()
     return CreateFromMixins(LM.RuleSet)
 end
 
+function LM.RuleSet:CompileLine(line, lineNumber)
+    local rule = LM.Rule:ParseLine(line)
+    if rule then
+        tinsert(self, rule)
+        for _, errorText in ipairs(rule.errors) do
+            self.errors = self.errors or {}
+            tinsert(self.errors, { num=lineNumber, line=line, err=errorText })
+        end
+    end
+end
+
 function LM.RuleSet:Compile(lines)
     local ruleset = LM.RuleSet:Get()
     if type(lines) == 'table' then
         for i, line in ipairs(lines) do
-            local rule, err = LM.Rule:ParseLine(line)
-            if rule then
-                tinsert(ruleset, rule)
-            elseif err then
-                ruleset.errors = ruleset.errors or {}
-                tinsert(ruleset.errors, { num=i, line=line, err=err })
-            end
+            ruleset:CompileLine(line, i)
         end
     else
         local i = 1
         for line in lines:gmatch('([^\r\n]+)') do
-            local rule, err = LM.Rule:ParseLine(line)
-            if rule then
-                tinsert(ruleset, rule)
-            elseif err then
-                ruleset.errors = ruleset.errors or {}
-                tinsert(ruleset.errors, { num=i, line=line, err=err })
-            end
+            ruleset:CompileLine(line, i)
             i = i + 1
         end
     end
