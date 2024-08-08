@@ -167,7 +167,7 @@ local function GetUsableSpell(arg)
     end
 
     -- Some spells share names (e.g., Surge Forward is both an Evoker ability
-    -- and a Dragonriding ability). If the spell has a subtext it can be
+    -- and a Skyriding ability). If the spell has a subtext it can be
     -- distinguished by bracketing it after the name. This only works if you
     -- pass the spell in by ID since otherwise you'll get whichever one
     -- GetSpellInfo(name) decides to return.
@@ -441,7 +441,7 @@ local smartActions = {
         debug       = "Aquatic Mount (underwater)",
     },
     {
-        condition   = "[dragonridable]",
+        condition   = "[flyable,advflyable]",
         arg         = LM.RuleArguments:Get('DRAGONRIDING'),
         debug       = "Skyriding Mount",
     },

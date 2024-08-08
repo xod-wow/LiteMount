@@ -2,11 +2,11 @@
 
   LiteMount/LM_Soar.lua
 
-  Soar only mostly behaves like a Dragonriding mount, there are some exceptions
+  Soar only mostly behaves like a Skyriding mount, there are some exceptions
   that don't make a lot of consistent sense to me. You can't soar underwater
-  and it's not affected by the Amirdrassil buff that enables Dragonriding.
+  and it's not affected by the Amirdrassil buff that enables Skyriding.
 
-  Pretend to be a Dragonriding mount then pile this full of corner cases. At
+  Pretend to be a Skyriding mount then pile this full of corner cases. At
   least then they're all in one spot.
 
   Copyright 2011 Mike Battersby

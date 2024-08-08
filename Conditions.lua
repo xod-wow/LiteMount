@@ -312,15 +312,6 @@ CONDITIONS["difficulty"] = {
         end
 }
 
-CONDITIONS["dragonridable"] = {
-    name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_DRAGONRIDING or UNKNOWN),
-    disabled = ( IsAdvancedFlyableArea == nil ),
-    handler =
-        function (cond, context)
-            return LM.Environment:CanDragonride(context.mapPath)
-        end,
-}
-
 -- Persistent "deck of cards" draw randomness
 
 CONDITIONS["draw"] = {
@@ -509,7 +500,7 @@ CONDITIONS["flyable"] = {
     name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_FLYING),
     handler =
         function (cond, context)
-            return LM.Environment:CanSteadyFly()
+            return LM.Environment:IsFlyableArea(context.mapPath)
         end,
 }
 

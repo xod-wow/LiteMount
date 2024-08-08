@@ -179,7 +179,7 @@ LM.MOUNT_TYPE_INFO = {
         },
     },
     [407] = {
-        -- Flying + Aquatic, can't dragonride (at least for now
+        -- Flying + Aquatic, can't skyride (at least for now
         name = MOUNT_JOURNAL_FILTER_FLYING .. ' + ' .. MOUNT_JOURNAL_FILTER_AQUATIC,
         flags = {
             FLY = true,
@@ -208,7 +208,7 @@ LM.MOUNT_TYPE_INFO = {
         },
     },
     [424] = {
-        -- Flying + Dragonriding
+        -- Flying + Skyriding
         name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
         flags = {
             FLY = true,
@@ -216,7 +216,7 @@ LM.MOUNT_TYPE_INFO = {
         },
     },
     [426] = {
-        -- Copies of the OG dragonriding mounts use for racing
+        -- Copies of the OG skyriding mounts use for racing
         name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
         skip = true,
     },
@@ -226,7 +226,7 @@ LM.MOUNT_TYPE_INFO = {
         skip = true,
     },
     [436] = {
-        -- Flying + Dragonriding Aurelids
+        -- Flying + Skyriding Aurelids
         -- These don't benefit from mount equipment?
         name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
         flags = {
@@ -235,7 +235,7 @@ LM.MOUNT_TYPE_INFO = {
         },
     },
     [437] = {
-        -- Flying + Dragonriding discs
+        -- Flying + Skyriding discs
         name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
         flags = {
             FLY = true,
@@ -251,7 +251,7 @@ LM.MOUNT_TYPE_INFO = {
         },
     },
     [444] = {
-        -- Flying + Dragonriding Charming Courier (on beta at least)
+        -- Flying + Skyriding Charming Courier (on beta at least)
         name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
         flags = {
             FLY = true,

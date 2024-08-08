@@ -337,9 +337,9 @@ local InstanceFlyableOverride = {
 
     [2549] =            -- Amirdrassil Raid
         function ()
-            -- Dragonriding debuff Blessing of the Emerald Dream (429226)
-            -- This is an approximation, it doesn't make the area dragonriding
-            -- it just forces the journal dragonriding mounts to work. Notably
+            -- Skyriding debuff Blessing of the Emerald Dream (429226)
+            -- This is an approximation, it doesn't make the area skyriding
+            -- it just forces the journal skyriding mounts to work. Notably
             -- Soar does not work with it, so there is a hack there too.
             if LM.UnitAura('player', 429226, 'HARMFUL') then return true end
         end,
@@ -393,7 +393,7 @@ function LM.Environment:IsFlyableArea(mapPath)
         end
     end
 
-    -- TWW intro area has this debuff preventing dragonriding (and I would assume
+    -- TWW intro area has this debuff preventing skyriding (and I would assume
     -- flying also would have to check that later).
     if LM.UnitAura('player', 456486, 'HARMFUL') then
         return false
@@ -402,33 +402,21 @@ function LM.Environment:IsFlyableArea(mapPath)
     return IsFlyableArea()
 end
 
-function LM.Environment:CanDragonride(mapPath)
-    -- This has a compat for Cataclysm Classic to return false always
-    if not C_MountJournal.IsDragonridingUnlocked() then
-        return false
+-- Area allows flying and you know how to fly0
+function LM.Environment:CanFly(mapPath)
+
+    if IsAdvancedFlyableArea and IsAdvancedFlyableArea() then
+        -- This has a compat for Cataclysm Classic to return false always
+        if not C_MountJournal.IsDragonridingUnlocked() then
+            return false
+        end
+    else
+        if not self:KnowsFlyingSkill() then
+            return false
+        end
     end
 
-    if not self:IsFlyableArea(mapPath) then
-        return false
-    end
-
-    return IsAdvancedFlyableArea()
-end
-
--- Can't fly if you haven't learned a flying skill. Various expansion
--- continents from Draenor onwards need achievement unlocks to be able to fly.
-
-function LM.Environment:CanSteadyFly()
-    -- If you don't know how to fly, you can't fly
-    if not self:KnowsFlyingSkill() then
-        return false
-    end
-
-    if not self:IsFlyableArea(mapPath) then
-        return false
-    end
-
-    return not IsAdvancedFlyableArea()
+    return self:IsFlyableArea(mapPath)
 end
 
 function LM.Environment:CantBreathe()

@@ -43,7 +43,7 @@ SwitchFlightStyle [mod:rshift]
 IF [mod:shift]
     IF [submerged]
         Limit -SWIM
-    ELSEIF [dragonridable][flyable]
+    ELSEIF [flyable]
         Limit -DRAGONRIDING/FLY
     ELSEIF [floating]
         Limit -SWIM
