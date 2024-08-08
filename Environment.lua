@@ -325,59 +325,7 @@ function LM.Environment:KnowsFlyingSkill()
 end
 
 local InstanceFlyableOverride = {
-    -- IsFlyableArea() seems to be broken for all of WoD in the Shadowlands prepatch
-    -- unless you have the old achievement completed.
-    [1116] = true,          -- Draenor (WoD)
-    [1152] = true,          -- Horde Garrison Level 1
-    [1330] = true,          -- Horde Garrison Level 2
-    [1153] = true,          -- Horde Garrison Level 3
-    [1154] = true,          -- Horde Garrison Level 4 (?)
-    [1158] = true,          -- Alliance Garrison Level 1
-    [1331] = true,          -- Alliance Garrison Level 2
-    [1159] = true,          -- Alliance Garrison Level 3
-    [1160] = true,          -- Alliance Garrison Level 4 (?)
-    [1464] = true,          -- Tanaan Jungle (WoD)
-
-    -- Some people report IsFlyableArea() broken for Broken Isles (Legion) too
-    [1220] = true,          -- Broken Isles
-
-    [ 754] = false,         -- Throne of the Four Winds
-    [1107] = false,         -- Dreadscar Rift (Warlock)
-    [1191] = false,         -- Ashran PVP Area
-    [1265] = false,         -- Tanaan Jungle Intro
-    [1463] = false,         -- Helheim Exterior Area
-    [1469] = false,         -- Heart of Azeroth (Shaman)
-    [1479] = false,         -- Skyhold (Warrior)
-    [1500] = false,         -- Broken Shore DH Scenario
-    [1514] = false,         -- Wandering Isle (Monk)
-    [1519] = false,         -- Fel Hammer (DH)
-    [1604] = false,         -- Niskara, priest legion campaign
-    [1669] = false,         -- Argus
-    [1688] = false,         -- The Deadmines (Pet Battle)
-    [1750] = false,         -- Azuremyst Isle (Legion Scenario?)
-    [1760] = false,         -- Ruins of Lordaeron BfA opening
-    [1763] = false,         -- Atal'Dazar instance
-    [1803] = false,         -- Battleground: Seething Shore
-    [1813] = false,         -- Island Expedition Un'gol Ruins
-    [1814] = false,         -- Island Expedition Havenswood
-    [1879] = false,         -- Island Expedition Jorundall
-    [1882] = false,         -- Island Expedition Verdant Wilds
-    [1883] = false,         -- Island Expedition Whispering Reef
-    [1892] = false,         -- Island Expedition Rotting Mire
-    [1893] = false,         -- Island Expedition The Dread Chain
-    [1897] = false,         -- Island Expedition Molten Cay
-    [1898] = false,         -- Island Expedition Skittering Hollow
-    [1906] = false,         -- Zuldazar Continent Finale
-    [1907] = false,         -- Island Expedition Snowblossom Village
-    [2124] = false,         -- Island Expedition Crestfall
-    [2275] = false,         -- Lesser Vision Vale of Eternal Twilight
-    [2278] = false,         -- Revendreth Scenario
-    [2291] = false,         -- De Other Side
-    [2293] = false,         -- Theater of Pain
-    [2296] = false,         -- Castle Nathria
-    [2363] = false,         -- Queen's Winter Conservatory
-    [2364] = false,         -- The Maw (Starting Experience)
-    [2464] = false,         -- Battle of Ardenweald (9.1)
+    -- Clear these out for TWW, everything I tested is flagged correctly.
 }
 
 -- Note that these have 3 possible return values, true, false, nil (no override)
