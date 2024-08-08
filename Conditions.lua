@@ -500,7 +500,7 @@ CONDITIONS["flyable"] = {
     name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_FLYING),
     handler =
         function (cond, context)
-            return LM.Environment:IsFlyableArea(context.mapPath)
+            return LM.Environment:CanFly(context.mapPath)
         end,
 }
 
