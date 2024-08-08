@@ -2312,7 +2312,7 @@ if locale == "zhCN" then
     L["LM_HELP_TRANSLATE"] = "帮助将LiteMount翻译成您的语言。谢谢。"
     L["LM_HERB"] = "草药"
     L["LM_HIDDEN"] = "隐"
-    L["LM_HOLIDAY"] = "游戏中的日历会把像啤酒节和万圣节前夕这样的事件称为“节日活动”。"
+    L["LM_HOLIDAY"] = "节日活动"
     L["LM_IMPORT_PROFILE"] = "导入配置文件"
     L["LM_IMPORT_PROFILE_EXP"] = "将之前导出的配置文件粘贴到下面的框中，输入名称后，导入它。"
     L["LM_INCLUDE_MOUNTS"] = "包括坐骑"
