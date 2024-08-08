@@ -208,6 +208,31 @@ function LM.Options:VersionUpgrade9()
     return true
 end
 
+-- Version 10 removes [dragonridable]
+
+function LM.Options:VersionUpgrade10()
+    if (self.db.global.configVersion or 10) >= 10 then
+        return
+    end
+
+    LM.Debug('VersionUpgrade: 10')
+    for n, p in pairs(self.db.sv.profiles or {}) do
+        LM.Debug(' - upgrading profile: ' .. n)
+        for k, ruleset in pairs(p.rules or {}) do
+            LM.Debug('   - ruleset ' .. k)
+            for i, rule in ipairs(ruleset) do
+                -- this is not right but otherwise we might end up with more
+                -- than 3 conditions and the UI will freak
+                ruleset[i] = rule:gsub('dragonridable', 'flyable')
+            end
+        end
+        for i, buttonAction in ipairs(p.buttonActions or {}) do
+            p.buttonActions[i] = buttonAction:gsub('dragonridable', 'flyable,advflyable')
+        end
+    end
+    return true
+end
+
 function LM.Options:CleanDatabase()
     local changed
     for n,c in pairs(self.db.sv.char or {}) do
@@ -240,8 +265,9 @@ function LM.Options:DatabaseMaintenance()
     if self:VersionUpgrade7() then changed = true end
     if self:VersionUpgrade8() then changed = true end
     if self:VersionUpgrade9() then changed = true end
+    if self:VersionUpgrade10() then changed = true end
     if self:CleanDatabase() then changed = true end
-    self.db.global.configVersion = 9
+    self.db.global.configVersion = 10
     return changed
 end
 
@@ -260,6 +286,10 @@ function LM.Options:Initialize()
     local oldDB = LiteMountDB and CopyTable(LiteMountDB)
 
     self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
+
+    -- It would be neater and safer to do the maintenance before AceDB got its
+    -- hands on things, but I want to be able to spit out debugging in the
+    -- maintenance code which relies on self.db existing.
 
     if self:DatabaseMaintenance() then
         if oldDB then
