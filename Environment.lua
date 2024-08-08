@@ -343,11 +343,6 @@ local InstanceDragonridableOverride = {
                         -- The debuff "Hostile Airways" (406608) but it's always up
 }
 
-function LM.Environment:ForceFlyable(instanceID)
-    instanceID = instanceID or select(8, GetInstanceInfo())
-    InstanceFlyableOverride[instanceID] = true
-end
-
 function LM.Environment:CanDragonride(mapPath)
     -- This has a compat for Cataclysm Classic to return false always
     if not C_MountJournal.IsDragonridingUnlocked() then

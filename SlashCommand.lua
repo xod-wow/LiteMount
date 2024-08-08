@@ -174,12 +174,6 @@ COMMANDS['uidebug'] =
         end
     end
 
-COMMANDS['forcefly'] =
-    function ()
-        LM.Environment:ForceFlyable()
-    end
-
-
 COMMANDS['savebtn'] =
     function ()
         LM.Environment:SaveMouseButtonClicked()
