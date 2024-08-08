@@ -36,16 +36,40 @@ function LiteMountRuleButtonMixin:OnShow()
     self:SetWidth(self:GetParent():GetWidth())
 end
 
+function LiteMountRuleButtonMixin:OnEnter()
+    if self.errorLines then
+        GameTooltip:SetOwner(self, "ANCHOR_CURSOR_RIGHT")
+        GameTooltip:AddLine(ERRORS, 1, 1, 1)
+        for _, line in ipairs(self.errorLines) do
+            GameTooltip:AddLine(line)
+        end
+        GameTooltip:Show()
+    end
+end
+
 function LiteMountRuleButtonMixin:OnLoad()
     self.MoveUp:SetScript('OnClick', function () MoveRule(self.index, -1) end)
     self.MoveDown:SetScript('OnClick', function () MoveRule(self.index, 1) end)
 end
 
-function LiteMountRuleButtonMixin:Update(index, rule, ruleSetRule)
+function LiteMountRuleButtonMixin:Update(index, rule, compiledRule)
     self.index = index
     self.rule = rule
     self.NumText:SetText(index)
-    local conditions, action = ruleSetRule:ToDisplay()
+    if next(compiledRule.errors) then
+        self.Error:Show()
+        self.errorLines = compiledRule.errors
+        self.Condition:ClearAllPoints()
+        self.Condition:SetPoint("LEFT", self.Error, "RIGHT", 4, 0)
+        self.Condition:SetPoint("RIGHT", self, "CENTER")
+    else
+        self.Error:Hide()
+        self.errorLines = nil
+        self.Condition:ClearAllPoints()
+        self.Condition:SetPoint("LEFT", self.NumText, "RIGHT", 4, 0)
+        self.Condition:SetPoint("RIGHT", self, "CENTER")
+    end
+    local conditions, action = compiledRule:ToDisplay()
     self.Action:SetText(action)
     self.Condition:SetText(table.concat(conditions, '\n'))
     self.Selected:SetShown(self.rule == LiteMountRulesPanel.selectedRule)

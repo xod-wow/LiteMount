@@ -882,6 +882,8 @@ function LM.Actions:ToDisplay(action, args)
         else
             return name, args:ToString()
         end
+    else
+        return action.." |A:Ping_Chat_Warning:15:15|a", args:ToString()
     end
 end
 

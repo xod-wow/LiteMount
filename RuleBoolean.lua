@@ -221,7 +221,7 @@ function LM.RuleBoolean:ToDisplay()
     elseif self.op == 'AND' then
         local out = { }
         for _,c in ipairs(self.conditions) do
-            local text = c:ToDisplay() or UNKNOWN
+            local text = c:ToDisplay()
             if c.op == 'NOT' then
                 table.insert(out, RED_FONT_COLOR:WrapTextInColorCode(text))
             else
@@ -237,8 +237,10 @@ function LM.RuleBoolean:ToDisplay()
         local c, a = LM.Conditions:ToDisplay(s)
         if a then
             return string.format('%s : %s', c, a)
-        else
+        elseif c then
             return c
+        else
+            return s.." |A:Ping_Chat_Warning:15:15|a"
         end
     end
 end

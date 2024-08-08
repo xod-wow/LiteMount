@@ -29,6 +29,8 @@
         <OnShow method="OnShow" inherit="prepend" />
         <OnLoad method="OnLoad" inherit="prepend" />
         <OnClick method="OnClick" inherit="prepend" />
+        <OnEnter method="OnEnter" />
+        <OnLeave function="GameTooltip_Hide" />
     </Scripts>
 
     <Layers>
@@ -39,6 +41,11 @@
                     <Anchor point="LEFT" x="4" />
                 </Anchors>
             </FontString>
+            <Texture parentKey="Error" atlas="Ping_Chat_Warning" useAtlasSize="true" hidden="true">
+                <Anchors>
+                    <Anchor point="LEFT" relativekey="$parent.NumText" relativePoint="RIGHT" />
+                </Anchors>
+            </Texture>
             <Texture parentKey="Selected" alphaMode="ADD" hidden="true">
                 <Color r="0.1" g="0.1" b="0" />
                 <Anchors>
@@ -89,12 +96,12 @@
         </Button>
         <Frame parentKey="Condition" inherits="LiteMountRulePartTemplate">
             <Size x="260" y="58" />
-            <Anchors> <Anchor point="LEFT" relativeKey="$parent.NumText" relativePoint="RIGHT" x="8" /> </Anchors>
+            <!-- Anchors adjusted in code for Error or not -->
         </Frame>
         <Frame parentKey="Action" inherits="LiteMountRulePartTemplate">
             <Size y="58" />
             <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.Condition" relativePoint="RIGHT" x="16" />
+                <Anchor point="LEFT" relativePoint="CENTER" />
                 <Anchor point="RIGHT" x="-40" />
             </Anchors>
         </Frame>

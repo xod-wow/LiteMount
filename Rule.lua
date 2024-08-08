@@ -133,6 +133,10 @@ end
 
 function LM.Rule:Dispatch(context)
 
+    if next(self.errors) then
+        return
+    end
+
     local isTrue = self.conditions:Eval(context)
 
     local handler = LM.Actions:GetFlowControlHandler(self.action)
