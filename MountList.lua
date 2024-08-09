@@ -196,7 +196,7 @@ end
 
 function LM.MountList:WeightedRandom(weights, r)
     if weights.total == 0 then
-        LM.Debug('  * WeightedRandom n=%d all weights 0')
+        LM.Debug('  * WeightedRandom n=%d all weights 0', #self)
         return
     end
 
