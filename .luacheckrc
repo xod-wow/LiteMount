@@ -200,6 +200,7 @@ read_globals = {
     "EditMacro",
     "EncounterJournal",
     "Enum",
+    "ERRORS",
     "ExtraActionButton1",
     "FACTION",
     "FACTION_LABELS",
