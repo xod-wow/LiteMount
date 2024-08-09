@@ -93,7 +93,7 @@
     <Size y="56" />
     <Frames>
         <Button parentkey="TypeDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate">
-            <Size x="192" y="33" />
+            <Size x="210" y="33" />
             <Anchors>
                 <Anchor point="LEFT" x="40" />
             </Anchors>
