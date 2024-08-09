@@ -179,7 +179,7 @@ function LM.Options:VersionUpgrade8()
         if p.rules then
             for k, ruleset in pairs(p.rules) do
                 LM.Debug('   - ruleset ' .. k)
-                for i, rule in ipairs(ruleset) do
+                for i, rule in pairs(ruleset) do
                     if type(rule) == 'table' then
                         ruleset[i] = LM.Rule:MigrateFromTable(rule)
                     end
@@ -220,13 +220,14 @@ function LM.Options:VersionUpgrade10()
         LM.Debug(' - upgrading profile: ' .. n)
         for k, ruleset in pairs(p.rules or {}) do
             LM.Debug('   - ruleset ' .. k)
-            for i, rule in ipairs(ruleset) do
+            for i, rule in pairs(ruleset) do
                 -- this is not right but otherwise we might end up with more
                 -- than 3 conditions and the UI will freak
                 ruleset[i] = rule:gsub('dragonridable', 'flyable')
             end
         end
-        for i, buttonAction in ipairs(p.buttonActions or {}) do
+        for i, buttonAction in pairs(p.buttonActions or {}) do
+            LM.Debug('   - buttonAction ' .. i)
             p.buttonActions[i] = buttonAction:gsub('dragonridable', 'flyable,advflyable')
         end
     end

@@ -52,23 +52,6 @@ function CheckProfile(profileName)
         return
     end
 
-    if not newp.mountPriorities then
-        print("  >>> Error: profile missing mountPriorities. <<<")
-        return
-    end
-
-    print("  Checking excludedSpells -> mountPriorities")
-
-    if oldp.excludedSpells and not oldp.mountPriorities then
-        for spellId, isExcluded in pairs(oldp.excludedSpells) do
-            if newp.mountPriorities[spellId] == nil then
-                print("   >>> Error: new profile missing priority for " .. tostring(spellId) .. " <<<")
-            elseif isExcluded and newp.mountPriorities[spellId] ~= 0 then
-                print("Error: migrate priority failed: " ..tostring(spellId))
-            end
-        end
-    end
-
     print("  Checking flagChanges")
 
     if oldp.flagChanges then
@@ -82,6 +65,7 @@ function CheckProfile(profileName)
     end
 
     print("  Checking buttonActions")
+
     for i = 1, 4 do
         local oldAction = (oldp.buttonActions or {})[i]
         local newAction = rawget(newp.buttonActions or {}, i)
@@ -93,6 +77,7 @@ function CheckProfile(profileName)
     end
 
     print("  Checking flagChanges -> group")
+
     if oldp.flagChanges then
         for spellID,changes in pairs(oldp.flagChanges) do
             for group,c in ipairs(changes) do
@@ -113,6 +98,22 @@ function CheckProfile(profileName)
             end
         end
     end
+
+    print("  Checking rules")
+
+    if oldp.rules then
+        for buttonIndex,ruleList in pairs(oldp.rules) do
+            for ruleIndex in ipairs(ruleList) do
+                if oldp.rules[buttonIndex][ruleIndex] ~= newp.rules[buttonIndex][ruleIndex] then
+                    print(">>>  Error: rule difference. <<<")
+                    print(string.format('  old[%d][%d] %s', buttonIndex, ruleIndex, oldp.rules[buttonIndex][ruleIndex]))
+                    print(string.format('  new[%d][%d] %s', buttonIndex, ruleIndex, newp.rules[buttonIndex][ruleIndex]))
+                end
+            end
+        end
+    end
+
+    
 end
 
 local profileNames = {}
@@ -128,4 +129,4 @@ end
 
 SendEvent('PLAYER_LOGOUT')
 
-print(LM.TableToString(LiteMountDB))
+-- print(LM.TableToString(LiteMountDB))
