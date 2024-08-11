@@ -334,7 +334,7 @@ end
 -- Overrides have 3 possible return values, true, false, nil (no override)
 local InstanceFlyableOverride = {
     -- Clear these out for TWW, everything I tested is flagged correctly.
-
+    [2512] = true,      -- The Primalist Future
     [2549] =            -- Amirdrassil Raid
         function ()
             -- Skyriding debuff Blessing of the Emerald Dream (429226)
