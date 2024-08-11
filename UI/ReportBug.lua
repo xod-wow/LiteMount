@@ -44,10 +44,10 @@ local function GetAnyLiteMountMacros()
 end
 
 function LiteMountReportBugMixin:OnShow()
-    local savedDefaults = LM.Options.db.defaults
-    LM.Options.db:RegisterDefaults(nil)
-    local sv = CopyTable(LM.Options.db.sv)
-    LM.Options.db:RegisterDefaults(savedDefaults)
+    local savedDefaults = LM.db.defaults
+    LM.db:RegisterDefaults(nil)
+    local sv = CopyTable(LM.db.sv)
+    LM.db:RegisterDefaults(savedDefaults)
 
     local data = LibDeflate:EncodeForPrint(
                     LibDeflate:CompressDeflate(
@@ -81,7 +81,7 @@ function LiteMountReportBugMixin:OnShow()
         string.format("build: %s\n", strjoin(' | ', GetBuildInfo())) ..
         string.format("version: %s\n", C_AddOns.GetAddOnMetadata('LiteMount', 'version')) ..
         string.format("locale: %s\n", GetLocale()) ..
-        string.format("current profile: %s\n", LM.Options.db:GetCurrentProfile()) ..
+        string.format("current profile: %s\n", LM.db:GetCurrentProfile()) ..
         "\n" ..
         "--- Player ---\n" ..
         "\n" ..

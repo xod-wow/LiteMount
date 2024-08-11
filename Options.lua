@@ -137,13 +137,13 @@ LM.Options = {
 -- members as keys with true as value.
 
 function LM.Options:VersionUpgrade7()
-    if (self.db.global.configVersion or 7) >= 7 then
+    if (LM.db.global.configVersion or 7) >= 7 then
         return
     end
 
     LM.Debug('VersionUpgrade: 7')
 
-    for n, p in pairs(self.db.sv.profiles or {}) do
+    for n, p in pairs(LM.db.sv.profiles or {}) do
         if p.customFlags and p.flagChanges then
             LM.Debug(' - upgrading profile: ' .. n)
             p.groups = p.customFlags or {}
@@ -169,12 +169,12 @@ end
 -- sorts of grief.
 
 function LM.Options:VersionUpgrade8()
-    if (self.db.global.configVersion or 8) >= 8 then
+    if (LM.db.global.configVersion or 8) >= 8 then
         return
     end
 
     LM.Debug('VersionUpgrade: 8')
-    for n, p in pairs(self.db.sv.profiles or {}) do
+    for n, p in pairs(LM.db.sv.profiles or {}) do
         LM.Debug('   - upgrading profile: ' .. n)
         if p.rules then
             for k, ruleset in pairs(p.rules) do
@@ -193,12 +193,12 @@ end
 -- Version 9 changes excludeNewMounts (true/false) to defaultPriority
 
 function LM.Options:VersionUpgrade9()
-    if (self.db.global.configVersion or 9) >= 9 then
+    if (LM.db.global.configVersion or 9) >= 9 then
         return
     end
 
     LM.Debug('VersionUpgrade: 9')
-    for n, p in pairs(self.db.sv.profiles or {}) do
+    for n, p in pairs(LM.db.sv.profiles or {}) do
         LM.Debug(' - upgrading profile: ' .. n)
         if p.excludeNewMounts then
             p.defaultPriority = 0
@@ -211,12 +211,12 @@ end
 -- Version 10 removes [dragonridable]
 
 function LM.Options:VersionUpgrade10()
-    if (self.db.global.configVersion or 10) >= 10 then
+    if (LM.db.global.configVersion or 10) >= 10 then
         return
     end
 
     LM.Debug('VersionUpgrade: 10')
-    for n, p in pairs(self.db.sv.profiles or {}) do
+    for n, p in pairs(LM.db.sv.profiles or {}) do
         LM.Debug(' - upgrading profile: ' .. n)
         for k, ruleset in pairs(p.rules or {}) do
             LM.Debug('   - ruleset ' .. k)
@@ -236,7 +236,7 @@ end
 
 function LM.Options:CleanDatabase()
     local changed
-    for n,c in pairs(self.db.sv.char or {}) do
+    for n,c in pairs(LM.db.sv.char or {}) do
         for k in pairs(c) do
             if defaults.char[k] == nil then
                 c[k] = nil
@@ -244,7 +244,7 @@ function LM.Options:CleanDatabase()
             end
         end
     end
-    for n,p in pairs(self.db.sv.profiles or {}) do
+    for n,p in pairs(LM.db.sv.profiles or {}) do
         for k in pairs(p) do
             if defaults.profile[k] == nil then
                 p[k] = nil
@@ -252,9 +252,9 @@ function LM.Options:CleanDatabase()
             end
         end
     end
-    for k in pairs(self.db.sv.global or {}) do
+    for k in pairs(LM.db.sv.global or {}) do
         if k ~= "configVersion" and defaults.global[k] == nil then
-            self.db.sv.global[k] = nil
+            LM.db.sv.global[k] = nil
             changed = true
         end
     end
@@ -268,7 +268,7 @@ function LM.Options:DatabaseMaintenance()
     if self:VersionUpgrade9() then changed = true end
     if self:VersionUpgrade10() then changed = true end
     if self:CleanDatabase() then changed = true end
-    self.db.global.configVersion = 10
+    LM.db.global.configVersion = 10
     return changed
 end
 
@@ -277,7 +277,7 @@ function LM.Options:OnProfile()
     table.wipe(self.cachedMountGroups)
     table.wipe(self.cachedRuleSets)
     self:InitializePriorities()
-    self.db.callbacks:Fire("OnOptionsProfile")
+    LM.db.callbacks:Fire("OnOptionsProfile")
 end
 
 -- This is split into two because I want to load it early in the
@@ -286,11 +286,11 @@ end
 function LM.Options:Initialize()
     local oldDB = LiteMountDB and CopyTable(LiteMountDB)
 
-    self.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
+    LM.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
 
     -- It would be neater and safer to do the maintenance before AceDB got its
     -- hands on things, but I want to be able to spit out debugging in the
-    -- maintenance code which relies on self.db existing.
+    -- maintenance code which relies on LM.db existing.
 
     if self:DatabaseMaintenance() then
         if oldDB then
@@ -303,9 +303,9 @@ function LM.Options:Initialize()
     self.cachedMountGroups = {}
     self.cachedRuleSets = {}
 
-    self.db.RegisterCallback(self, "OnProfileChanged", "OnProfile")
-    self.db.RegisterCallback(self, "OnProfileCopied", "OnProfile")
-    self.db.RegisterCallback(self, "OnProfileReset", "OnProfile")
+    LM.db.RegisterCallback(self, "OnProfileChanged", "OnProfile")
+    LM.db.RegisterCallback(self, "OnProfileCopied", "OnProfile")
+    LM.db.RegisterCallback(self, "OnProfileReset", "OnProfile")
 
     --@debug@
     LiteMountDB.data = nil
@@ -321,23 +321,23 @@ function LM.Options:GetAllPriorities()
 end
 
 function LM.Options:GetRawMountPriorities()
-    return self.db.profile.mountPriorities
+    return LM.db.profile.mountPriorities
 end
 
 function LM.Options:SetRawMountPriorities(v)
-    self.db.profile.mountPriorities = v
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.profile.mountPriorities = v
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:GetPriority(m)
-    local p = self.db.profile.mountPriorities[m.spellID] or self.db.profile.defaultPriority
-    return p, (self.db.profile.priorityWeights[p] or 0)
+    local p = LM.db.profile.mountPriorities[m.spellID] or LM.db.profile.defaultPriority
+    return p, (LM.db.profile.priorityWeights[p] or 0)
 end
 
 function LM.Options:InitializePriorities()
     for _,m in ipairs(LM.MountRegistry.mounts) do
-        if not self.db.profile.mountPriorities[m.spellID] then
-            self.db.profile.mountPriorities[m.spellID] = self.db.profile.defaultPriority
+        if not LM.db.profile.mountPriorities[m.spellID] then
+            LM.db.profile.mountPriorities[m.spellID] = LM.db.profile.defaultPriority
         end
     end
 end
@@ -347,8 +347,8 @@ function LM.Options:SetPriority(m, v)
     if v then
         v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
     end
-    self.db.profile.mountPriorities[m.spellID] = v
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.profile.mountPriorities[m.spellID] = v
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 -- Don't just loop over SetPriority because we don't want the UI to freeze up
@@ -360,9 +360,9 @@ function LM.Options:SetPriorities(mountlist, v)
         v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
     end
     for _,m in ipairs(mountlist) do
-        self.db.profile.mountPriorities[m.spellID] = v
+        LM.db.profile.mountPriorities[m.spellID] = v
     end
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 --[[----------------------------------------------------------------------------
@@ -390,19 +390,19 @@ local function FlagDiff(a, b)
 end
 
 function LM.Options:GetRawFlagChanges()
-    return self.db.profile.flagChanges
+    return LM.db.profile.flagChanges
 end
 
 function LM.Options:SetRawFlagChanges(v)
-    self.db.profile.flagChanges = v
+    LM.db.profile.flagChanges = v
     table.wipe(self.cachedMountFlags)
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:GetMountFlags(m)
 
     if not self.cachedMountFlags[m.spellID] then
-        local changes = self.db.profile.flagChanges[m.spellID]
+        local changes = LM.db.profile.flagChanges[m.spellID]
 
         self.cachedMountFlags[m.spellID] = CopyTable(m.flags)
 
@@ -440,21 +440,21 @@ end
 
 function LM.Options:ResetMountFlags(m)
     LM.Debug("Defaulting flags for spell %s (%d).", m.name, m.spellID)
-    self.db.profile.flagChanges[m.spellID] = nil
+    LM.db.profile.flagChanges[m.spellID] = nil
     self.cachedMountFlags[m.spellID] = nil
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:ResetAllMountFlags()
-    table.wipe(self.db.profile.flagChanges)
+    table.wipe(LM.db.profile.flagChanges)
     table.wipe(self.cachedMountFlags)
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:SetMountFlags(m, flags)
-    self.db.profile.flagChanges[m.spellID] = FlagDiff(m.flags, flags)
+    LM.db.profile.flagChanges[m.spellID] = FlagDiff(m.flags, flags)
     self.cachedMountFlags[m.spellID] = nil
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 
@@ -494,14 +494,14 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRawGroups()
-    return self.db.profile.groups, self.db.global.groups
+    return LM.db.profile.groups, LM.db.global.groups
 end
 
 function LM.Options:SetRawGroups(profileGroups, globalGroups)
-    self.db.profile.groups = profileGroups or self.db.profile.groups
-    self.db.global.groups = globalGroups or self.db.global.groups
+    LM.db.profile.groups = profileGroups or LM.db.profile.groups
+    LM.db.global.groups = globalGroups or LM.db.global.groups
     table.wipe(self.cachedMountGroups)
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:GetGroupNames()
@@ -510,10 +510,10 @@ function LM.Options:GetGroupNames()
     -- different profile and making the global group.
 
     local groupNames = {}
-    for g,v in pairs(self.db.global.groups) do
+    for g,v in pairs(LM.db.global.groups) do
         if v then groupNames[g] = true end
     end
-    for g,v in pairs(self.db.profile.groups) do
+    for g,v in pairs(LM.db.profile.groups) do
         if v then groupNames[g] = true end
     end
     local out = GetKeysArray(groupNames)
@@ -522,11 +522,11 @@ function LM.Options:GetGroupNames()
 end
 
 function LM.Options:IsGlobalGroup(g)
-    return self.db.profile.groups[g] == nil and self.db.global.groups[g] ~= nil
+    return LM.db.profile.groups[g] == nil and LM.db.global.groups[g] ~= nil
 end
 
 function LM.Options:IsProfileGroup(g)
-    return self.db.profile.groups[g] ~= nil
+    return LM.db.profile.groups[g] ~= nil
 end
 
 function LM.Options:IsGroup(g)
@@ -536,22 +536,22 @@ end
 function LM.Options:CreateGroup(g, isGlobal)
     if self:IsGroup(g) or self:IsFlag(g) then return end
     if isGlobal then
-        self.db.global.groups[g] = { }
+        LM.db.global.groups[g] = { }
     else
-        self.db.profile.groups[g] = { }
+        LM.db.profile.groups[g] = { }
     end
     table.wipe(self.cachedMountGroups)
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:DeleteGroup(g)
-    if self.db.profile.groups[g] then
-        self.db.profile.groups[g] = nil
-    elseif self.db.global.groups[g] then
-        self.db.global.groups[g] = nil
+    if LM.db.profile.groups[g] then
+        LM.db.profile.groups[g] = nil
+    elseif LM.db.global.groups[g] then
+        LM.db.global.groups[g] = nil
     end
     table.wipe(self.cachedMountGroups)
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:RenameGroup(g, newG)
@@ -559,17 +559,17 @@ function LM.Options:RenameGroup(g, newG)
     if g == newG then return end
 
     -- all this "tmp" stuff is to deal with f == newG, just in case
-    if self.db.profile.groups[g] then
-        local tmp = self.db.profile.groups[g]
-        self.db.profile.groups[g] = nil
-        self.db.profile.groups[newG] = tmp
-    elseif self.db.global.groups[g] then
-        local tmp = self.db.global.groups[g]
-        self.db.global.groups[g] = nil
-        self.db.global.groups[newG] = tmp
+    if LM.db.profile.groups[g] then
+        local tmp = LM.db.profile.groups[g]
+        LM.db.profile.groups[g] = nil
+        LM.db.profile.groups[newG] = tmp
+    elseif LM.db.global.groups[g] then
+        local tmp = LM.db.global.groups[g]
+        LM.db.global.groups[g] = nil
+        LM.db.global.groups[newG] = tmp
     end
     table.wipe(self.cachedMountGroups)
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:GetMountGroups(m)
@@ -585,31 +585,31 @@ function LM.Options:GetMountGroups(m)
 end
 
 function LM.Options:IsMountInGroup(m, g)
-    if self.db.profile.groups[g] then
-        return self.db.profile.groups[g][m.spellID]
-    elseif self.db.global.groups[g] then
-        return self.db.global.groups[g][m.spellID]
+    if LM.db.profile.groups[g] then
+        return LM.db.profile.groups[g][m.spellID]
+    elseif LM.db.global.groups[g] then
+        return LM.db.global.groups[g][m.spellID]
     end
 end
 
 function LM.Options:SetMountGroup(m, g)
-    if self.db.profile.groups[g] then
-        self.db.profile.groups[g][m.spellID] = true
-    elseif self.db.global.groups[g] then
-        self.db.global.groups[g][m.spellID] = true
+    if LM.db.profile.groups[g] then
+        LM.db.profile.groups[g][m.spellID] = true
+    elseif LM.db.global.groups[g] then
+        LM.db.global.groups[g][m.spellID] = true
     end
     self.cachedMountGroups[m.spellID] = nil
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:ClearMountGroup(m, g)
-    if self.db.profile.groups[g] then
-        self.db.profile.groups[g][m.spellID] = nil
-    elseif self.db.global.groups[g] then
-        self.db.global.groups[g][m.spellID] = nil
+    if LM.db.profile.groups[g] then
+        LM.db.profile.groups[g][m.spellID] = nil
+    elseif LM.db.global.groups[g] then
+        LM.db.global.groups[g][m.spellID] = nil
     end
     self.cachedMountGroups[m.spellID] = nil
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 
@@ -618,7 +618,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetRules(n)
-    local rules = self.db.profile.rules[n] or DefaultRules
+    local rules = LM.db.profile.rules[n] or DefaultRules
     return LM.tCopyShallow(rules)
 end
 
@@ -631,12 +631,12 @@ end
 
 function LM.Options:SetRules(n, rules)
     if not rules or tCompare(rules, DefaultRules, 10) then
-        self.db.profile.rules[n] = nil
+        LM.db.profile.rules[n] = nil
     else
-        self.db.profile.rules[n] = rules
+        LM.db.profile.rules[n] = rules
     end
     self.cachedRuleSets['user'..n] = nil
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 
@@ -647,7 +647,7 @@ end
 function LM.Options:GetOption(name)
     for _, k in ipairs({ 'char', 'profile', 'global' }) do
         if defaults[k][name] ~= nil then
-            return self.db[k][name]
+            return LM.db[k][name]
         end
     end
 end
@@ -668,8 +668,8 @@ function LM.Options:SetOption(name, val)
             if valType ~= expectedType then
                 LM.PrintError("Bad option type : %s=%s (expected %s)", name, valType, expectedType)
             else
-                self.db[k][name] = val
-                self.db.callbacks:Fire("OnOptionsModified")
+                LM.db[k][name] = val
+                LM.db.callbacks:Fire("OnOptionsModified")
             end
             return
         end
@@ -683,7 +683,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetButtonRuleSet(n)
-    return self.db.profile.buttonActions[n]
+    return LM.db.profile.buttonActions[n]
 end
 
 function LM.Options:GetCompiledButtonRuleSet(n)
@@ -694,9 +694,9 @@ function LM.Options:GetCompiledButtonRuleSet(n)
 end
 
 function LM.Options:SetButtonRuleSet(n, v)
-    self.db.profile.buttonActions[n] = v
+    LM.db.profile.buttonActions[n] = v
     self.cachedRuleSets['button'..n] = nil
-    self.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 
@@ -707,16 +707,16 @@ end
 
 function LM.Options:RecordInstance()
     local info = { GetInstanceInfo() }
-    self.db.global.instances[info[8]] = info[1]
+    LM.db.global.instances[info[8]] = info[1]
 end
 
 function LM.Options:GetInstances(id)
-    return LM.tCopyShallow(self.db.global.instances)
+    return LM.tCopyShallow(LM.db.global.instances)
 end
 
 function LM.Options:GetInstanceNameByID(id)
-    if self.db.global.instances[id] then
-        return self.db.global.instances[id]
+    if LM.db.global.instances[id] then
+        return LM.db.global.instances[id]
     end
 
     -- AQ is hard-coded in the default rules. This is not really the right
@@ -732,17 +732,17 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:IncrementSummonCount(m)
-    self.db.global.summonCounts[m.spellID] =
-        (self.db.global.summonCounts[m.spellID] or 0) + 1
-    return self.db.global.summonCounts[m.spellID]
+    LM.db.global.summonCounts[m.spellID] =
+        (LM.db.global.summonCounts[m.spellID] or 0) + 1
+    return LM.db.global.summonCounts[m.spellID]
 end
 
 function LM.Options:GetSummonCount(m)
-    return self.db.global.summonCounts[m.spellID] or 0
+    return LM.db.global.summonCounts[m.spellID] or 0
 end
 
 function LM.Options:ResetSummonCount(m)
-    self.db.global.summonCounts[m.spellID] = nil
+    LM.db.global.summonCounts[m.spellID] = nil
 end
 
 
@@ -752,23 +752,23 @@ end
 
 function LM.Options:ExportProfile(profileName)
     -- remove all the defaults from the DB before export
-    local savedDefaults = self.db.defaults
-    self.db:RegisterDefaults(nil)
+    local savedDefaults = LM.db.defaults
+    LM.db:RegisterDefaults(nil)
 
     -- Add an export time into the profile
 
-    self.db.profiles[profileName].__export__ = time()
+    LM.db.profiles[profileName].__export__ = time()
 
     local data = LibDeflate:EncodeForPrint(
                     LibDeflate:CompressDeflate(
                      Serializer:Serialize(
-                       self.db.profiles[profileName]
+                       LM.db.profiles[profileName]
                      ) ) )
 
-    self.db.profiles[profileName].__export__ = nil
+    LM.db.profiles[profileName].__export__ = nil
 
     -- put the defaults back
-    self.db:RegisterDefaults(savedDefaults)
+    LM.db:RegisterDefaults(savedDefaults)
 
     -- If something went wrong upstream this could be nil
     return data
@@ -797,17 +797,17 @@ function LM.Options:ImportProfile(profileName, str)
     -- import the current profile, given that they don't expose enough
     -- functionality to do so in an "approved" way.
 
-    if profileName == self.db:GetCurrentProfile() then return false end
+    if profileName == LM.db:GetCurrentProfile() then return false end
 
     local data = self:DecodeProfileData(str)
     if not data then return false end
 
-    local savedDefaults = self.db.defaults
+    local savedDefaults = LM.db.defaults
 
-    self.db.profiles[profileName] = data
+    LM.db.profiles[profileName] = data
     -- XXX profile migrations~ XXX
 
-    self.db:RegisterDefaults(savedDefaults)
+    LM.db:RegisterDefaults(savedDefaults)
 
     return true
 end

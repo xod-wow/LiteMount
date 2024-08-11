@@ -27,9 +27,9 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
     OnAccept = function (self)
             local text = self.editBox:GetText()
             if text and text ~= "" then
-                LM.Options.db:SetProfile(text)
+                LM.db:SetProfile(text)
                 if self.data then
-                    LM.Options.db:CopyProfile(self.data)
+                    LM.db:CopyProfile(self.data)
                 end
             end
         end,
@@ -43,7 +43,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
         end,
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
-            if text ~= "" and not LM.Options.db.profiles[text] then
+            if text ~= "" and not LM.db.profiles[text] then
                 self:GetParent().button1:Enable()
             else
                 self:GetParent().button1:Disable()
@@ -63,7 +63,7 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_PROFILE"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LM.Options.db:DeleteProfile(self.data)
+            LM.db:DeleteProfile(self.data)
         end,
 }
 
@@ -76,7 +76,7 @@ StaticPopupDialogs["LM_OPTIONS_RESET_PROFILE"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LM.Options.db:ResetProfile(self.data)
+            LM.db:ResetProfile(self.data)
         end,
 }
 
@@ -89,7 +89,7 @@ local function GetProfileNameText(p)
 end
 
 local function ClickSetProfile(self, arg1, arg2, checked)
-    LM.Options.db:SetProfile(self.value)
+    LM.db:SetProfile(self.value)
     LibDD:UIDropDownMenu_RefreshAll(L_UIDROPDOWNMENU_OPEN_MENU, true)
 end
 
@@ -102,7 +102,7 @@ local function ClickDeleteProfile(self, arg1, arg2, check)
 end
 
 local function ClickResetProfile(self)
-    local arg1 = LM.Options.db:GetCurrentProfile()
+    local arg1 = LM.db:GetCurrentProfile()
     StaticPopup_Show("LM_OPTIONS_RESET_PROFILE", arg1, nil, arg1)
 end
 
@@ -135,8 +135,8 @@ end
 local ChangeProfileMixin = {}
 
 function ChangeProfileMixin.Initialize(dropDown, level)
-    local currentProfile = LM.Options.db:GetCurrentProfile()
-    local dbProfiles = LM.Options.db:GetProfiles() or {}
+    local currentProfile = LM.db:GetCurrentProfile()
+    local dbProfiles = LM.db:GetProfiles() or {}
     tDeleteItem(dbProfiles, "Default")
     sort(dbProfiles)
     tinsert(dbProfiles, 1, "Default")
@@ -148,7 +148,7 @@ function ChangeProfileMixin.Initialize(dropDown, level)
             info.text = GetProfileNameText(p)
             info.value = p
             info.checked = function ()
-                    return (p == LM.Options.db:GetCurrentProfile())
+                    return (p == LM.db:GetCurrentProfile())
                 end
             info.keepShownOnClick = 1
             info.func = ClickSetProfile
@@ -165,7 +165,7 @@ local NewProfileMixin = {}
 
 function NewProfileMixin.Initialize(dropDown, level)
     if level == 1 then
-        local currentProfile = LM.Options.db:GetCurrentProfile()
+        local currentProfile = LM.db:GetCurrentProfile()
         local info = LibDD:UIDropDownMenu_CreateInfo()
         info.text = L.LM_CURRENT_SETTINGS
         info.notCheckable = 1
@@ -187,8 +187,8 @@ local DeleteProfileMixin = {}
 
 function DeleteProfileMixin.Initialize(dropDown, level)
     if level == 1 then
-        local currentProfile = LM.Options.db:GetCurrentProfile()
-        local dbProfiles = LM.Options.db:GetProfiles() or {}
+        local currentProfile = LM.db:GetCurrentProfile()
+        local dbProfiles = LM.db:GetProfiles() or {}
         tDeleteItem(dbProfiles, "Default")
         tDeleteItem(dbProfiles, currentProfile)
 
@@ -208,7 +208,7 @@ end
 local ExportProfileMixin = {}
 
 function ExportProfileMixin.Initialize(dropDown, level)
-    local dbProfiles = LM.Options.db:GetProfiles() or {}
+    local dbProfiles = LM.db:GetProfiles() or {}
     for _, p in ipairs(dbProfiles) do
         local info = LibDD:UIDropDownMenu_CreateInfo()
         info.text = GetProfileNameText(p)
@@ -225,18 +225,18 @@ end
 LiteMountProfilesPanelMixin = {}
 
 function LiteMountProfilesPanelMixin:OnRefresh()
-    local currentProfile = LM.Options.db:GetCurrentProfile()
+    local currentProfile = LM.db:GetCurrentProfile()
     self.CurrentProfile:SetText(currentProfile)
 end
 
 function LiteMountProfilesPanelMixin:OnShow()
-    LM.Options.db.RegisterCallback(self, "OnProfileCopied", "OnRefresh")
-    LM.Options.db.RegisterCallback(self, "OnProfileChanged", "OnRefresh")
-    LM.Options.db.RegisterCallback(self, "OnProfileReset", "OnRefresh")
+    LM.db.RegisterCallback(self, "OnProfileCopied", "OnRefresh")
+    LM.db.RegisterCallback(self, "OnProfileChanged", "OnRefresh")
+    LM.db.RegisterCallback(self, "OnProfileReset", "OnRefresh")
 end
 
 function LiteMountProfilesPanelMixin:OnHide()
-    LM.Options.db.UnregisterAllCallbacks(self)
+    LM.db.UnregisterAllCallbacks(self)
 end
 
 function LiteMountProfilesPanelMixin:OnLoad()

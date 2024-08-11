@@ -129,8 +129,8 @@ COMMANDS['profile'] =
     function (argstr)
         -- can't use the split args because we need the raw rest of the line
         local profileName = argstr:gsub('^profile%s+', '')
-        if profileName and LM.Options.db.profiles[profileName] then
-            LM.Options.db:SetProfile(profileName)
+        if profileName and LM.db.profiles[profileName] then
+            LM.db:SetProfile(profileName)
             LM.Print("Switching to profile: " .. profileName)
         else
             LM.Print("No profile found with name: " .. profileName)

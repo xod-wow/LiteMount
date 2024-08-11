@@ -21,7 +21,7 @@ processing.
 Lots of the other parts of the code look at the options to decide how to
 behave. They should always use the getter/setter method.
 
-LM.Options.db fires two LibCallback events that can be listened for:
+LM.db fires two LibCallback events that can be listened for:
 OnOptionsModified (when any setting is changed) and OnOptionsProfile
 (profile changed).
 
@@ -82,7 +82,7 @@ rules that are attempted when it is clicked.
 
 ```
   LM.ActionButton
-    Create(n)               - Buttons are named LM_B{n} and use LM.Options.db.buttonActions[n]
+    Create(n)               - Buttons are named LM_B{n} and use LM.db.buttonActions[n]
 ```
 
 ### Rule.lua

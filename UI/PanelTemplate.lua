@@ -38,7 +38,7 @@
   allows use of GetOption/SetOption just for the undo functionality.
 
   Don't refresh any of UI elements that are controls. The panel has a callback
-  into LM.Options.db that redraws when anything is modified and handles the
+  into LM.db that redraws when anything is modified and handles the
   profile switching.
 
   In an ideal world most of this would be replaced with an AceDB that has a
@@ -159,7 +159,7 @@ end
 
 function LiteMountOptionsPanel_Cancel(self)
     LM.UIDebug(self, "Panel_Cancel")
-    LM.Options.db.UnregisterAllCallbacks(self)
+    LM.db.UnregisterAllCallbacks(self)
     for _,control in ipairs(self.controls or {}) do
         LiteMountOptionsControl_Cancel(control)
     end
@@ -172,13 +172,13 @@ function LiteMountOptionsPanel_OnShow(self)
     -- Blizzard SettingsPanel takes care of calling OnRefresh now
     -- self:OnRefresh('Panel_OnShow')
 
-    LM.Options.db.RegisterCallback(self, "OnOptionsModified", "OnRefresh")
-    LM.Options.db.RegisterCallback(self, "OnOptionsProfile", "OnReset")
+    LM.db.RegisterCallback(self, "OnOptionsModified", "OnRefresh")
+    LM.db.RegisterCallback(self, "OnOptionsProfile", "OnReset")
 end
 
 function LiteMountOptionsPanel_OnHide(self)
     LM.UIDebug(self, "Panel_OnHide")
-    LM.Options.db.UnregisterAllCallbacks(self)
+    LM.db.UnregisterAllCallbacks(self)
 
     -- Seems like the InterfacePanel calls all the OnCommit for
     -- anything that's been opened when the appropriate button is clicked

@@ -66,7 +66,7 @@ function LiteMountProfileImportMixin:UpdateImportButton()
     local profileData = self.ProfileData:GetText()
 
     if profileName ~= "" and
-      profileName ~= LM.Options.db:GetCurrentProfile() and
+      profileName ~= LM.db:GetCurrentProfile() and
       LM.Options:DecodeProfileData(profileData) then
         self.ImportButton:Enable()
     else
