@@ -240,7 +240,7 @@ function LM.RuleBoolean:ToDisplay()
         elseif c then
             return c
         else
-            return s.." |A:Ping_Chat_Warning:15:15|a"
+            return s.." |A:gmchat-icon-alert:15:15|a"
         end
     end
 end

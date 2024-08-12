@@ -41,7 +41,7 @@
                     <Anchor point="LEFT" x="4" />
                 </Anchors>
             </FontString>
-            <Texture parentKey="Error" atlas="Ping_Chat_Warning" useAtlasSize="true" hidden="true">
+            <Texture parentKey="Error" atlas="gmchat-icon-alert" useAtlasSize="true" hidden="true">
                 <Anchors>
                     <Anchor point="LEFT" relativekey="$parent.NumText" relativePoint="RIGHT" />
                 </Anchors>
