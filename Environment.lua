@@ -366,9 +366,15 @@ function LM.Environment:IsFlyableArea(mapPath)
     end
 
     if WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
-        -- Classic Northrend requires Cold Weather Flying in WotLK Classic
+        -- Northrend requires Cold Weather Flying
         if self:InInstance(571) then
             if not IsPlayerSpell(54197) then
+                return false
+            end
+        end
+        -- Eastern Kingdoms, Kalimdor and Deepholm require Flight Master's License
+        if self:InInstance(0, 1, 646) then
+            if not IsPlayerSpell(90267) then
                 return false
             end
         end
