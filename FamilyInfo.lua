@@ -1004,6 +1004,7 @@ LM.MOUNTFAMILY["Moth"] = {
 
 LM.MOUNTFAMILY["Murloc"] = {
     [315132] = true, -- Gargantuan Grrloc
+    [463025] = true, -- Gigantic Grrloc
     [419567] = true, -- Ginormous Grrloc
 }
 
