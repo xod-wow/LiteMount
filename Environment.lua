@@ -405,6 +405,11 @@ function LM.Environment:IsFlyableArea(mapPath)
         return false
     end
 
+     -- Khaz Algar before static flight is unlocked
+    if IsFlyableArea() == false and LM.Environment:IsMapInPath(2274, mapPath) then
+        return IsAdvancedFlyableArea();
+    end
+
     return IsFlyableArea()
 end
 
