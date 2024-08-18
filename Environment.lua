@@ -345,6 +345,8 @@ local InstanceFlyableOverride = {
         end,
     [2597] = false,     -- Zaralek Caverns - Chapter 1 Scenario
                         -- The debuff "Hostile Airways" (406608) but it's always up
+    [2552] = true,      -- Khaz Algar (Surface)
+    [2601] = true,      -- Khaz Algar
 }
 
 function LM.Environment:GetFlyableOverride(mapPath)
