@@ -601,14 +601,28 @@ ACTIONS['CantMount'] = {
 
 local CombatHandlerOverride = {
     {
-        -- Tindral Sageswift, Amirdrassil (Dragonflight)
         handler =
             function (args, context)
+                local allowCombatMount = false
+
+                -- Tindral Sageswift, Amirdrassil (Dragonflight)
                 if LM.Environment:IsMapInPath(2234) then
                     local id, name = LM.Environment:GetEncounterInfo()
                     if id and name then
                         LM.Debug("  * matched encounter %s (%d)", name, id)
                     end
+
+                    allowCombatMount = true
+                end
+
+                -- The Dawnbreaker (The War Within)
+                local instanceID = select(8, GetInstanceInfo())
+
+                if instanceID == 2662 and LM.UnitAura('player', 449042, 'HARMFUL') then
+                    allowCombatMount = true
+                end
+
+                if allowCombatMount then
                     local mounts = LM.MountRegistry:FilterSearch('mt:402', 'COLLECTED')
                     local randomStyle = LM.Options:GetOption('randomWeightStyle')
                     local m = mounts:Random(context.random, randomStyle)
