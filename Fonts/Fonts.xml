@@ -1,0 +1,23 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- This is essentially GameFontNormal with mono roman/cyrillic -->
+
+<FontFamily name="LiteMountMonoFont" virtual="true">
+    <Member alphabet="roman">
+        <Font font="Interface\AddOns\LiteMount\Fonts\FiraMono-Medium.ttf" height="12" />
+    </Member>
+    <Member alphabet="korean">
+        <Font font="Fonts\2002.TTF" height="13"/>
+    </Member>
+    <Member alphabet="simplifiedchinese">
+        <Font font="Fonts\ARKai_T.ttf" height="13"/>
+    </Member>
+    <Member alphabet="traditionalchinese">
+        <Font font="Fonts\blei00d.TTF" height="13"/>
+    </Member>
+    <Member alphabet="russian">
+        <Font font="Interface\AddOns\LiteMount\Fonts\FiraMono-Medium.ttf" height="12" />
+    </Member>
+</FontFamily>
+
+</Ui>

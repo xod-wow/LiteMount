@@ -4,7 +4,6 @@
 
 <Script file="Advanced.lua" />
 
-
 <Frame name="LiteMountAdvancedPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountAdvancedPanelMixin">
 
     <Layers>
@@ -52,7 +51,7 @@
                         <OnUpdate function="InputScrollFrame_OnUpdate" />
                         <OnCursorChanged function="ScrollingEdit_OnCursorChanged" />
                     </Scripts>
-                    <FontString inherits="ChatFontNormal" />
+                    <FontString inherits="LiteMountMonoFont" />
                 </EditBox>
             </ScrollChild>
 

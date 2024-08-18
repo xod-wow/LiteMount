@@ -54,4 +54,6 @@ Core.lua
 
 KeyBindingStrings.lua
 
+Fonts\Fonts.xml
+
 UI\UI.xml
