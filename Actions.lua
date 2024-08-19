@@ -599,40 +599,36 @@ ACTIONS['CantMount'] = {
 --
 -- E.g, Mount [map:2234] DRAGONRIDING
 
-local CombatHandlerOverride = {
-    {
-        handler =
-            function (args, context)
-                local allowCombatMount = false
+local function CombatHandlerOverride(args, context)
+    -- For speed these should try to return ASAP.
 
-                -- Tindral Sageswift, Amirdrassil (Dragonflight)
-                if LM.Environment:IsMapInPath(2234) then
-                    local id, name = LM.Environment:GetEncounterInfo()
-                    if id and name then
-                        LM.Debug("  * matched encounter %s (%d)", name, id)
-                    end
+    -- Tindral Sageswift, Amirdrassil raid (Dragonflight)
+    if LM.Environment:IsMapInPath(2234) then
+        local id, name = LM.Environment:GetEncounterInfo()
+        if id and name then
+            LM.Debug("  * matched encounter %s (%d)", name, id)
+        end
+        local mounts = LM.MountRegistry:FilterSearch('mt:402', 'COLLECTED')
+        local randomStyle = LM.Options:GetOption('randomWeightStyle')
+        local m = mounts:Random(context.random, randomStyle)
+        return m and m:GetCastAction()
+    end
 
-                    allowCombatMount = true
-                end
+    -- The Dawnbreaker dungeon (The War Within)
+    -- https://www.wowhead.com/spell=449042/radiant-light
+    -- Radiant light bathes the player, protecting them from Encroaching
+    -- Shadows. Enables skyriding, steady flight, and mounting in combat. Upon
+    -- exiting the Lamplighter's influence Radiant Light no longer lasts
+    -- forever and when 10 sec or less remains, players gain Encroaching
+    -- Shadows.
 
-                -- The Dawnbreaker (The War Within)
-                local instanceID = select(8, GetInstanceInfo())
-
-                if instanceID == 2662 and LM.UnitAura('player', 449042, 'HARMFUL') then
-                    allowCombatMount = true
-                end
-
-                if allowCombatMount then
-                    local mounts = LM.MountRegistry:FilterSearch('mt:402', 'COLLECTED')
-                    local randomStyle = LM.Options:GetOption('randomWeightStyle')
-                    local m = mounts:Random(context.random, randomStyle)
-                    if m then
-                        return m:GetCastAction()
-                    end
-                end
-            end,
-    },
-}
+    local instanceID = select(8, GetInstanceInfo())
+    if instanceID == 2662 and LM.UnitAura('player', 449042, 'HARMFUL') then
+        -- Because you can fly out of combat the CASTABLE checks work correctly
+        -- and there's no need to be fancy.
+        return ACTIONS.SmartMount.handler(args, context)
+    end
+end
 
 -- Combat handler is a bit magic because it's called from PLAYER_REGEN_DISABLED
 -- rather than by user activation, so you can't tell if it's being called from
@@ -648,12 +644,10 @@ ACTIONS['Combat'] = {
                 return LM.SecureAction:Macro(macrotext)
             end
             -- Check for an override combat setting
-            for _, info in ipairs(CombatHandlerOverride) do
-                local act = info.handler(args, context)
-                if act then
-                    LM.Debug("  * setting action to %s", act:GetDescription())
-                    return act
-                end
+            local act = CombatHandlerOverride(args, context)
+            if act then
+                LM.Debug("  * setting action to %s", act:GetDescription())
+                return act
             end
             -- Otherwise use the default actions
             LM.Debug("  * setting action to default combat macro")
