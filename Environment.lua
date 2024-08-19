@@ -347,6 +347,7 @@ local InstanceFlyableOverride = {
                         -- The debuff "Hostile Airways" (406608) but it's always up
     [2552] = true,      -- Khaz Algar (Surface)
     [2601] = true,      -- Khaz Algar
+    [2662] = true,      -- The Dawnbreaker (Dungeon) after /reload it goes wrong
 }
 
 function LM.Environment:GetFlyableOverride(mapPath)
