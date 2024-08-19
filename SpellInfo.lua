@@ -171,7 +171,7 @@ LM.MOUNT_TYPE_INFO = {
     },
     [402] = {
         -- TWW: Flying mounts with Ride-Along
-        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        name = MOUNT_JOURNAL_FILTER_FLYING .. ' + ' .. MOUNT_JOURNAL_FILTER_RIDEALONG ,
         flags = {
             FLY = tocVersion >= 110000 and true or nil,
             DRAGONRIDING = true,
@@ -209,7 +209,7 @@ LM.MOUNT_TYPE_INFO = {
     },
     [424] = {
         -- Flying + Skyriding
-        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        name = MOUNT_JOURNAL_FILTER_FLYING,
         flags = {
             FLY = true,
             DRAGONRIDING = tocVersion >= 110000 and true or nil,
@@ -228,7 +228,7 @@ LM.MOUNT_TYPE_INFO = {
     [436] = {
         -- Flying + Skyriding Aurelids
         -- These don't benefit from mount equipment?
-        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        name = MOUNT_JOURNAL_FILTER_FLYING,
         flags = {
             FLY = true,
             DRAGONRIDING = true,
@@ -236,7 +236,7 @@ LM.MOUNT_TYPE_INFO = {
     },
     [437] = {
         -- Flying + Skyriding discs
-        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        name = MOUNT_JOURNAL_FILTER_FLYING,
         flags = {
             FLY = true,
             DRAGONRIDING = true,
@@ -252,7 +252,7 @@ LM.MOUNT_TYPE_INFO = {
     },
     [444] = {
         -- Flying + Skyriding Charming Courier (on beta at least)
-        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        name = MOUNT_JOURNAL_FILTER_FLYING,
         flags = {
             FLY = true,
             DRAGONRIDING = true,
@@ -260,7 +260,7 @@ LM.MOUNT_TYPE_INFO = {
     },
     [445] = {
         -- Voyaging Wilderling got its own type for some reason
-        name = MOUNT_JOURNAL_FILTER_DRAGONRIDING,
+        name = MOUNT_JOURNAL_FILTER_FLYING,
         flags = {
             FLY = true,
             DRAGONRIDING = true,
