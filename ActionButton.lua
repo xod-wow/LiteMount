@@ -113,7 +113,8 @@ end
 function LM.ActionButton:OnEvent(e, ...)
     if e == "PLAYER_REGEN_DISABLED" then
         LM.Debug('[%d] Combat started', self.id)
-        local act = LM.Actions:GetHandler('Combat')(nil, self.context)
+        local args = LM.RuleArguments:Get()
+        local act = LM.Actions:GetHandler('Combat')(args, self.context)
         if act then
             act:SetupActionButton(self)
         end
