@@ -227,12 +227,14 @@ function LM.Environment:IsCombatTravelForm()
     return self.combatTravelForm
 end
 
-function LM.Environment:IsCantSummonForm()
-    -- C_MountJournal.SummonByID() fails in druid forms, Ghost Wolf is OK.
-    if select(2, UnitClass("player")) == "DRUID" and GetShapeshiftFormID() then
-        return true
-    else
-        return false
+function LM.Environment:GetDruidForm()
+    if select(2, UnitClass("player")) == "DRUID" then
+        local id = GetShapeshiftFormID()
+        if id then
+            local index = GetShapeshiftForm()
+            local _, _, _, spellID = GetShapeshiftFormInfo(index)
+            return id, C_Spell.GetSpellInfo(spellID)
+        end
     end
 end
 

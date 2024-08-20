@@ -256,6 +256,7 @@ ACTIONS['PreCast'] = {
                 if info and IsPlayerSpell(info.spellID) and info.castTime == 0 then
                     LM.Debug("  * setting preCast to spell " .. info.name)
                     context.preCast = info.name
+                    context.preUse = nil
                     return
                 end
             end
@@ -794,8 +795,9 @@ ACTIONS['PreUse'] = {
         function (args, context)
             local action = ACTIONS['Use'].handler(args, context)
             if action and action.item then
-                LM.Debug("  * setting preCast to item " .. action.item)
-                context.preCast = action.item
+                LM.Debug("  * setting preUse to item " .. action.item)
+                context.preUse = action.item
+                context.preCast = nil
                 return
             end
         end

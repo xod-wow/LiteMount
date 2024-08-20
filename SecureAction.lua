@@ -25,13 +25,11 @@ function LM.SecureAction:New(attr)
 end
 
 function LM.SecureAction:SetupActionButton(button, mouseButtonIndex)
-    button.clickHookFunction = nil
-    button:SetAttribute('type', nil)
-    if self.type == '_lm_func' then
-        button.clickHookFunction = self._lm_func
-    else
-        for k,v in pairs(self) do
-            if k ~= 'type' and mouseButtonIndex then
+    button:SetAttribute('type', self.type)
+    button.clickHookFunction = self.EXECUTE
+    for k,v in pairs(self) do
+        if k ~= 'type' and k ~= 'EXECUTE' then
+            if mouseButtonIndex then
                 k = k .. tostring(mouseButtonIndex)
             end
             button:SetAttribute(k, v)
@@ -103,15 +101,17 @@ function LM.SecureAction:Click(clickButton)
     return self:New(attr)
 end
 
-function LM.SecureAction:Execute(script)
+function LM.SecureAction:AddExecute(script)
     if type(script) == 'string' then
         script = loadstring(script)
     end
-    local attr = {
-            ["type"] = "_lm_func",
-            ["_lm_func"] = script
-    }
-    return self:New(attr)
+    self.EXECUTE = script
+end
+
+function LM.SecureAction:Execute(script)
+    local act = LM.SecureAction:New({})
+    act:AddExecute(script)
+    return act
 end
 
 function LM.SecureAction:GetDescription()
