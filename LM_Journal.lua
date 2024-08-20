@@ -176,6 +176,16 @@ function LM.Journal:GetCastAction(context)
         end
     end
 
+    -- Summon Charger and Summon Warhorse are busted on Cata Classic, though
+    -- weirdly Summon (Great) Exarch's Elekk and Summon (Great) Sunwalker Kodo
+    -- work fine.
+    if WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
+        if self.mountID == 41 or self.mountID == 84 then
+            local summonFunc = function () C_MountJournal.SummonByID(self.mountID) end
+            return LM.SecureAction:Execute(summonFunc)
+        end
+    end
+
     if context and context.preCast then
         castActions = castActions or { "/cast " .. C_Spell.GetSpellName(self.spellID) }
         table.insert(castActions, 1, "/cast [@player] " .. context.preCast)
