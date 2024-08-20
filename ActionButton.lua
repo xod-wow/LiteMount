@@ -79,8 +79,6 @@ function LM.ActionButton:PreClick(inputButton, isDown)
 
     local act = ruleSet:Run(context)
     if act then
-        -- Note that in some circumstances this call will do the action and
-        -- leave the button as a NoOp (if it can be done in non-protected code)
         act:SetupActionButton(self)
         LM.Debug("[%d] PreClick ok time %0.2fms", self.id, debugprofilestop() - startTime)
         return
@@ -89,6 +87,14 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     local handler = LM.Actions:GetHandler('CantMount')
     handler():SetupActionButton(self)
     LM.Debug("[%d] PreClick fail time %0.2fms", self.id, debugprofilestop() - startTime)
+end
+
+-- Non-secure execute actions are done here with the SABT setup blank
+
+function LM.ActionButton:OnClickHook(inputButton, isDown)
+    if self.clickHookFunction then
+        self.clickHookFunction()
+    end
 end
 
 function LM.ActionButton:PostClick(inputButton, isDown)
@@ -144,6 +150,7 @@ function LM.ActionButton:Create(n)
 
     -- SecureActionButton setup
     b:SetScript("PreClick", self.PreClick)
+    b:HookScript("OnClick", self.OnClickHook)
     b:SetScript("PostClick", self.PostClick)
 
     -- Events handler for combat setup just before lockdown starts/ends

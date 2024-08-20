@@ -184,6 +184,8 @@ function LM.Journal:GetCastAction(context)
     if castActions and GetRunningMacro() == nil then
         return LM.SecureAction:Macro(table.concat(castActions, "\n"))
     else
+        -- This could use Execute always, which would remove a bunch of workarounds
+        -- BUT casting a spell works in way more situations so stick with it.
         return LM.Mount.GetCastAction(self, context)
     end
 end

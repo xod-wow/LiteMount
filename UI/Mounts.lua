@@ -181,6 +181,8 @@ end
 
 --[[------------------------------------------------------------------------]]--
 
+-- This is a minimal emulation of LM.ActionButton
+
 LiteMountMountIconMixin = {}
 
 function LiteMountMountIconMixin:OnEnter()
@@ -191,6 +193,12 @@ end
 
 function LiteMountMountIconMixin:OnLeave()
     LiteMountTooltip:Hide()
+end
+
+function LiteMountMountIconMixin:OnClickHook(mouseButton, isDown)
+    if self.clickHookFunction then
+        self.clickHookFunction()
+    end
 end
 
 function LiteMountMountIconMixin:PreClick(mouseButton, isDown)
@@ -205,6 +213,7 @@ function LiteMountMountIconMixin:OnLoad()
     self:RegisterForClicks("AnyUp")
     self:RegisterForDrag("LeftButton")
     self:SetScript('PreClick', self.PreClick)
+    self:HookScript('OnClick', self.OnClickHook)
 end
 
 function LiteMountMountIconMixin:OnDragStart()

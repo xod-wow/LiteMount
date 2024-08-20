@@ -25,11 +25,10 @@ function LM.SecureAction:New(attr)
 end
 
 function LM.SecureAction:SetupActionButton(button, mouseButtonIndex)
-    if self.type == nil then
-        button:SetAttribute('type', nil)
-    elseif self.type == '_lm_func' then
-        self._lm_func()
-        button:SetAttribute('type', nil)
+    button.clickHookFunction = nil
+    button:SetAttribute('type', nil)
+    if self.type == '_lm_func' then
+        button.clickHookFunction = self._lm_func
     else
         for k,v in pairs(self) do
             if k ~= 'type' and mouseButtonIndex then
@@ -44,6 +43,7 @@ function LM.SecureAction:SetupActionButton(button, mouseButtonIndex)
 end
 
 function LM.SecureAction:ClearActionButton(button)
+    button.clickHookFunction = nil
     button:SetAttribute('type', nil)
     button:SetAttribute('typerelease', nil)
 end
