@@ -157,9 +157,9 @@ end
 -- For keybind use we can cancelform and go, but CancelShapeshiftForm() is
 -- protected call from a /click so from the macro Tarecgosa can't work.
 --
--- I could maybe work around this by having the Execute happen in the PostClick
--- handler and setting the action to "cancelaura" and the form name, but that's
--- a lot of effort for 1 broken mount spell, one class and only via /click.
+-- I could maybe work around this (and some other single pre-use/pre-cast setup)
+-- by setting both the SABT and the OnClick hook to do things (e.g., cancelform
+-- + SummonByID, or item/spell + SummonByID).
 
 function LM.Journal:GetCastAction(context)
     if GetRunningMacro() ~= nil and self.mountID == 1727 then
