@@ -610,8 +610,7 @@ local function CombatHandlerOverride(args, context)
             LM.Debug("  * matched encounter %s (%d)", name, id)
         end
         local mounts = LM.MountRegistry:FilterSearch('mt:402', 'COLLECTED')
-        local randomStyle = LM.Options:GetOption('randomWeightStyle')
-        local m = mounts:Random(context.random, randomStyle)
+        local m = mounts:Random(context.random)
         return m and m:GetCastAction()
     end
 
