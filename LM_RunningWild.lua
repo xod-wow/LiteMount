@@ -30,3 +30,7 @@ function LM.RunningWild:IsCastable()
         and LM.Environment:KnowsRidingSkill()
         and LM.Spell.IsCastable(self)
 end
+
+function LM.RunningWild:IsHidden()
+    return not IsPlayerSpell(self.SpellID)
+end

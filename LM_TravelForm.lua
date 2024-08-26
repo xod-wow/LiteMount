@@ -75,3 +75,7 @@ function LM.TravelForm:GetCancelAction()
     -- Is there any good reason to use /cancelform instead?
     return LM.SecureAction:CancelAura(self.name)
 end
+
+function LM.TravelForm:IsHidden()
+    return not IsPlayerSpell(self.spellID)
+end

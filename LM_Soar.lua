@@ -29,3 +29,7 @@ function LM.Soar:IsCastable()
         return LM.Spell.IsCastable(self)
     end
 end
+
+function LM.Soar:IsHidden()
+    return not IsPlayerSpell(self.spellID)
+end
