@@ -105,7 +105,7 @@ function LM.MountRegistry:Initialize()
     -- These are in this order so custom stuff is prioritized
     self:AddSpellMounts()
     self:AddJournalMounts()
-    self:UpdateUsability()
+    self:UpdateFilterUsability()
 
     self:BuildIndexes()
 
@@ -212,18 +212,18 @@ end
 -- This is horrible but I can't find any other way to get the "unusable"
 -- flag as per the filter except fiddle with the filter and query
 
-function LM.MountRegistry:UpdateUsability()
+function LM.MountRegistry:UpdateFilterUsability()
     local data = SaveAndSetJournalFilters()
 
-    local usableMounts = {}
+    local filterUsableMounts = {}
 
     for i = 1, C_MountJournal.GetNumDisplayedMounts() do
         local mountID = select(12, C_MountJournal.GetDisplayedMountInfo(i))
-        usableMounts[mountID] = true
+        filterUsableMounts[mountID] = true
     end
 
     for _,m in ipairs(self:FilterSearch("JOURNAL")) do
-        m.isUsable = usableMounts[m.mountID] or false
+        m.isFilterUsable = filterUsableMounts[m.mountID] or false
     end
 
     RestoreJournalFilters(data)
@@ -253,7 +253,6 @@ function LM.MountRegistry:RefreshMounts()
         for _,m in ipairs(self.mounts) do
             m:Refresh()
         end
-        self:UpdateUsability()
         self.needRefresh = nil
     end
 end

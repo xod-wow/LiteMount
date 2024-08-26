@@ -35,13 +35,13 @@ function LM.Nagrand:Get(spellID, faction, ...)
     return m
 end
 
-function LM.Nagrand:IsFiltered()
+function LM.Nagrand:IsHidden()
     local playerFaction = UnitFactionGroup("player")
     return playerFaction ~= self.needsFaction
 end
 
 function LM.Nagrand:IsCollected()
-    return not self:IsFiltered() and IsPlayerSpell(self.baseSpellID)
+    return not self:IsHidden() and IsPlayerSpell(self.baseSpellID)
 end
 
 function LM.Nagrand:GetCastAction(context)

@@ -104,20 +104,19 @@ function LM.Journal:GetFlags()
     return flags
 end
 
-function LM.Journal:IsMountable()
+function LM.Journal:IsUsable()
     local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
     return usable
 end
 
 -- This flag is set for the journal mounts in MountRegistry as it's not at all
 -- dynamically queryable and overall just sucks.
-function LM.Journal:IsUsable()
-    return self.isUsable
+function LM.Journal:IsFilterUsable()
+    return self.isFilterUsable
 end
 
 function LM.Journal:IsCastable()
-    local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
-    if not usable then
+    if not self:IsUsable() then
         return false
     end
     if not C_Spell.IsSpellUsable(self.spellID) then
@@ -131,9 +130,9 @@ function LM.Journal:IsFavorite()
     return isFavorite
 end
 
-function LM.Journal:IsFiltered()
-    local isFiltered = select(10, C_MountJournal.GetMountInfoByID(self.mountID))
-    return isFiltered
+function LM.Journal:IsHidden()
+    local isHidden = select(10, C_MountJournal.GetMountInfoByID(self.mountID))
+    return isHidden
 end
 
 function LM.Journal:IsCollected()
@@ -215,7 +214,7 @@ end
 function LM.Journal:Dump(prefix)
     prefix = prefix or ""
     LM.Mount.Dump(self, prefix)
-    LM.Print(prefix .. " isUsable: " .. tostring(self.isUsable))
+    LM.Print(prefix .. " isFilterUsable: " .. tostring(self.isFilterUsable))
     LM.Print(prefix .. " mountTypeID: " .. tostring(self.mountTypeID))
     LM.Print(prefix .. " sourceType: " .. tostring(self.sourceType))
 end

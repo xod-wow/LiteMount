@@ -223,6 +223,10 @@ function LM.Mount:IsUsable()
     return true
 end
 
+function LM.Mount:IsFilterUsable()
+    return true
+end
+
 function LM.Mount:IsMountable()
     return true
 end
@@ -235,7 +239,7 @@ function LM.Mount:IsCollected()
     return true
 end
 
-function LM.Mount:IsFiltered()
+function LM.Mount:IsHidden()
     return false
 end
 
@@ -337,9 +341,10 @@ function LM.Mount:Dump(prefix)
     LM.Print(prefix .. " mountID: " .. tostring(self.mountID))
     LM.Print(prefix .. " family: " .. tostring(self.family))
     LM.Print(prefix .. " isCollected: " .. tostring(self:IsCollected()))
+    LM.Print(prefix .. " isUsable: " .. tostring(self:IsUsable()))
     LM.Print(prefix .. " isMountable: " .. tostring(self:IsMountable()))
     LM.Print(prefix .. " isFavorite: " .. tostring(self:IsFavorite()))
-    LM.Print(prefix .. " isFiltered: " .. tostring(self:IsFiltered()))
+    LM.Print(prefix .. " isHidden: " .. tostring(self:IsHidden()))
     LM.Print(prefix .. " priority: " .. tostring(self:GetPriority()))
     LM.Print(prefix .. " castable: " .. tostring(self:IsCastable()) .. " (spell " .. tostring(C_Spell.IsSpellUsable(self.spellID)) .. ")")
 end
