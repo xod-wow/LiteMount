@@ -242,11 +242,7 @@ ACTIONS['Buff'] = {
 
 ACTIONS['PreCast'] = {
     name = L.LM_PRECAST_ACTION,
-    description =
-        string.format("%s\n\n%s",
-            L.LM_PRECAST_DESCRIPTION,
-            FACTION_RED_COLOR:WrapTextInColorCode(L.LM_MACRO_NOT_ALLOWED)
-        ),
+    description = L.LM_PRECAST_DESCRIPTION,
     argType = 'list',
     toDisplay = SpellArgsToDisplay,
     handler =
@@ -615,7 +611,9 @@ local function CombatHandlerOverride(args, context)
     end
 
     -- The Dawnbreaker dungeon (The War Within)
-    -- https://www.wowhead.com/spell=449042/radiant-light
+    -- Two boss fight (Speaker Shadowcrown and Rasha'nan) have flying in combat
+    -- enabled by a debuff, Radiant Light.
+    --      https://www.wowhead.com/spell=449042/radiant-light
     -- Radiant light bathes the player, protecting them from Encroaching
     -- Shadows. Enables skyriding, steady flight, and mounting in combat. Upon
     -- exiting the Lamplighter's influence Radiant Light no longer lasts
@@ -783,11 +781,7 @@ ACTIONS['Use'] = {
 
 ACTIONS['PreUse'] = {
     name = L.LM_PREUSE_ACTION,
-    description =
-        string.format("%s\n\n%s",
-            L.LM_PREUSE_DESCRIPTION,
-            FACTION_RED_COLOR:WrapTextInColorCode(L.LM_MACRO_NOT_ALLOWED)
-        ),
+    description = L.LM_PREUSE_DESCRIPTION,
     argType = 'list',
     toDisplay = ItemArgsToDisplay,
     handler =
