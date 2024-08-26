@@ -596,35 +596,41 @@ ACTIONS['CantMount'] = {
 --
 -- E.g, Mount [map:2234] DRAGONRIDING
 
+local function SummonJournalMountDirect(...)
+    if IsMounted() then
+        Dismount()
+    else
+        local mounts = LM.MountRegistry:FilterSearch(..., 'JOURNAL', 'CASTABLE')
+        local m = mounts:Random()
+        if m then C_MountJournal.SummonByID(m.mountID) end
+    end
+end
+
 local function CombatHandlerOverride(args, context)
     -- For speed these should try to return ASAP.
 
+    local id, name = LM.Environment:GetEncounterInfo()
+    if id and name then
+        LM.Debug("  * matched encounter %s (%d)", name, id)
+    end
+
     -- Tindral Sageswift, Amirdrassil raid (Dragonflight)
     if LM.Environment:IsMapInPath(2234) then
-        local id, name = LM.Environment:GetEncounterInfo()
-        if id and name then
-            LM.Debug("  * matched encounter %s (%d)", name, id)
-        end
-        local mounts = LM.MountRegistry:FilterSearch('mt:402', 'COLLECTED')
-        local m = mounts:Random(context.random)
-        return m and m:GetCastAction()
+        return LM.SecureAction:Execute(function () SummonJournalMountDirect('DRAGONRIDING') end)
     end
 
     -- The Dawnbreaker dungeon (The War Within)
     -- Two boss fight (Speaker Shadowcrown and Rasha'nan) have flying in combat
     -- enabled by a debuff, Radiant Light.
     --      https://www.wowhead.com/spell=449042/radiant-light
-    -- Radiant light bathes the player, protecting them from Encroaching
-    -- Shadows. Enables skyriding, steady flight, and mounting in combat. Upon
-    -- exiting the Lamplighter's influence Radiant Light no longer lasts
-    -- forever and when 10 sec or less remains, players gain Encroaching
-    -- Shadows.
+    -- Unfortunately it may not be enabled when you enter combat so we have to
+    -- override the whole instance.
 
     local instanceID = select(8, GetInstanceInfo())
-    if instanceID == 2662 and LM.UnitAura('player', 449042, 'HARMFUL') then
+    if instanceID == 2662 then
         -- Because you can fly out of combat the CASTABLE checks work correctly
         -- and there's no need to be fancy.
-        return ACTIONS.SmartMount.handler(args, context)
+        return LM.SecureAction:Execute(function () SummonJournalMountDirect('DRAGONRIDING') end)
     end
 end
 
