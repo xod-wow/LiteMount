@@ -121,6 +121,8 @@ function LM.SecureAction:GetDescription()
         return format("%s %s", self.type, self.item)
     elseif self.type == 'click' then
         return format("%s %s", self.type, self.clickbutton)
+    elseif self.EXECUTE then
+        return 'function'
     else
         return self.type
     end
