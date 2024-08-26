@@ -32,5 +32,5 @@ function LM.RunningWild:IsCastable()
 end
 
 function LM.RunningWild:IsHidden()
-    return not IsPlayerSpell(self.SpellID)
+    return not IsPlayerSpell(self.spellID)
 end

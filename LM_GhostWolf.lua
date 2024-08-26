@@ -45,6 +45,6 @@ function LM.GhostWolf:GetFlags()
     return flags
 end
 
-function LM.TravelForm:IsHidden()
+function LM.GhostWolf:IsHidden()
     return not IsPlayerSpell(self.spellID)
 end
