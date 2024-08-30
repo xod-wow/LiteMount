@@ -1042,13 +1042,12 @@ CONDITIONS["profession"] = {
             if not v then return end
             local professions = { GetProfessions() }
             local n = tonumber(v)
-            if n then
-                return tContains(professions, n)
-            else
-                for _,id in ipairs(professions) do
-                    if GetProfessionInfo(id) == v then
-                        return true
-                    end
+            for _,index in ipairs(professions) do
+                local name, _, _, _, _, _, skillLine = GetProfessionInfo(index)
+                if n and n == skillLine then
+                    return true
+                elseif name == v then
+                    return true
                 end
             end
         end
