@@ -347,8 +347,6 @@ local InstanceFlyableOverride = {
         end,
     [2597] = false,     -- Zaralek Caverns - Chapter 1 Scenario
                         -- The debuff "Hostile Airways" (406608) but it's always up
-    [2552] = true,      -- Khaz Algar (Surface)
-    [2601] = true,      -- Khaz Algar
     [2662] = true,      -- The Dawnbreaker (Dungeon) after /reload it goes wrong
 }
 
@@ -385,14 +383,27 @@ function LM.Environment:IsFlyableArea(mapPath)
         end
     end
 
-    -- Memories of Sunless Skies / Shadowlands Flying (63893)
-    -- It seems like flying in Shadowlands is also unlocked by completing the
-    -- Zereth Mortis Flying (65539) unlock even if you never did MoSS.
-    -- ZM achievement: select(4, GetAchievementInfo(15514))
     if self:InInstance(2222) then
+        -- Memories of Sunless Skies / Shadowlands Flying (63893) It seems like
+        -- flying in Shadowlands is also unlocked by completing the Zereth
+        -- Mortis Flying (65539) unlock even if you never did MoSS.
+        -- ZM achievement: select(4, GetAchievementInfo(15514))
         if not C_QuestLog.IsQuestFlaggedCompleted(63893) and
            not C_QuestLog.IsQuestFlaggedCompleted(65539) then
                 return false
+        end
+    elseif self:InInstance(2552, 2601) then
+        -- In Khaz Algar (Surface) (2552) and Khaz Algar (2601) before you
+        -- unlock Steady Flight, IsFlyableArea() is false and I don't know of a
+        -- check to see if Skyriding would work.
+        if select(4, GetAchievementInfo(40231)) == false then
+            return true
+        end
+    elseif self:IsMapInPath(1978, mapPath) then
+        -- In Dragon Isles (1978) IsFlyableArea() is false until you unlock
+        -- Dragon Isles Pathfinder.
+        if select(4, GetAchievementInfo(19307)) == false then
+            return true
         end
     end
 
@@ -404,8 +415,7 @@ function LM.Environment:IsFlyableArea(mapPath)
         end
     end
 
-    -- TWW intro area has this debuff preventing skyriding (and I would assume
-    -- flying also would have to check that later).
+    -- TWW intro area has this debuff preventing flying
     if LM.UnitAura('player', 456486, 'HARMFUL') then
         return false
     end
@@ -413,7 +423,7 @@ function LM.Environment:IsFlyableArea(mapPath)
     return IsFlyableArea()
 end
 
--- Area allows flying and you know how to fly0
+-- Area allows flying and you know how to fly
 function LM.Environment:CanFly(mapPath)
 
     if IsAdvancedFlyableArea and IsAdvancedFlyableArea() then
