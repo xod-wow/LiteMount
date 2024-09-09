@@ -383,16 +383,7 @@ function LM.Environment:IsFlyableArea(mapPath)
         end
     end
 
-    if self:InInstance(2222) then
-        -- Memories of Sunless Skies / Shadowlands Flying (63893) It seems like
-        -- flying in Shadowlands is also unlocked by completing the Zereth
-        -- Mortis Flying (65539) unlock even if you never did MoSS.
-        -- ZM achievement: select(4, GetAchievementInfo(15514))
-        if not C_QuestLog.IsQuestFlaggedCompleted(63893) and
-           not C_QuestLog.IsQuestFlaggedCompleted(65539) then
-                return false
-        end
-    elseif self:InInstance(2552, 2601) then
+    if self:InInstance(2552, 2601) then
         -- In Khaz Algar (Surface) (2552) and Khaz Algar (2601) before you
         -- unlock Steady Flight, IsFlyableArea() is false and I don't know of a
         -- check to see if Skyriding would work.
@@ -429,12 +420,13 @@ function LM.Environment:CanFly(mapPath)
     if IsAdvancedFlyableArea and IsAdvancedFlyableArea() then
         -- This has a compat for Cataclysm Classic to return false always
         if not C_MountJournal.IsDragonridingUnlocked() then
-            return false
+            -- This enables soar for Dracthyr on new accounts withouth Skyriding
+            if not C_Spell.IsSpellUsable(LM.SPELL.SOAR) then
+                return false
+            end
         end
-    else
-        if not self:KnowsFlyingSkill() then
-            return false
-        end
+    elseif not self:KnowsFlyingSkill() then
+        return false
     end
 
     return self:IsFlyableArea(mapPath)

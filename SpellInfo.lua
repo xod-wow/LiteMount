@@ -243,10 +243,11 @@ LM.MOUNT_TYPE_INFO = {
         },
     },
     [442] = {
-        -- Soar, doesn't work though (spell works). Can't steady fly
+        -- Soar, doesn't work though (spell works).
         name = C_Spell.GetSpellName(LM.SPELL.SOAR),
         skip = true,
         flags = {
+            FLY = true,
             DRAGONRIDING = true,
         },
     },

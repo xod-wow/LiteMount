@@ -21,6 +21,10 @@ LM.Soar.__index = LM.Soar
 -- Soar gives an error message instead of IsSpellUsable false in a variety
 -- of pretty ordinary circumstances.
 
+-- Soar still has a lot of weirdnesses as of TWW. If you never unlocked
+-- dragonriding it behaves as a steady flight mount sometimes, and other
+-- times instantly dismounts you.
+
 function LM.Soar:IsCastable()
     if IsSubmerged() then
         -- You can actually cast it but it bugs out.
