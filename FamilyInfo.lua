@@ -90,6 +90,7 @@ LM.MOUNTFAMILY["Bear"] = {
     [ 60119] = true, -- Black War Bear
     [288438] = true, -- Blackpaw
     [103081] = true, -- Darkmoon Dancing Bear
+    [457485] = true, -- Grizzly Hills Packmaster
     [464443] = true, -- Harmonious Salutations Bear
     [341821] = true, -- Snowstorm
     [229486] = true, -- Vicious War Bear
@@ -563,6 +564,7 @@ LM.MOUNTFAMILY["Fire Hawk"] = {
 
 LM.MOUNTFAMILY["Fish"] = {
     [214791] = true, -- Brinedeep Bottom-Feeder
+    [448850] = true, -- Kah, Legend of the Deep
     [448851] = true, -- Underlight Corrupted Behemoth
     [448849] = true, -- Underlight Shorestalker
     [397406] = true, -- Wonderous Wavewhisker
