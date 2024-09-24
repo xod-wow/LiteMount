@@ -159,13 +159,14 @@ local NeedsCancelFormIDs = {
     [36] = true,    -- Treant
 }
 
-function LM.Journal:GetCastAction(context)
-    local forceSummonByID = false
+-- Can't cast some mounts by casting the spell, who knows why.
+local ForceSummonByID = {
+    [482] = true,   -- Jungle Riding Crane
+    [1727] = true,  -- Tarecgosa's Visage
+}
 
-    -- Can't cast Tarecgosa's Visage (id 1727) by casting the spell, who knows why.
-    if self.mountID == 1727 then
-        forceSummonByID = true
-    end
+function LM.Journal:GetCastAction(context)
+    local forceSummonByID = ForceSummonByID[self.mountID] or false
 
     -- Summon Charger and Summon Warhorse are busted on Cata Classic, though
     -- weirdly Summon (Great) Exarch's Elekk and Summon (Great) Sunwalker Kodo
