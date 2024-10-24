@@ -365,7 +365,8 @@ ACTIONS['CopyTargetsMount'] = {
     handler =
         function (args, context)
             local unit = context.rule.unit or "target"
-            if LM.Options:GetOption('copyTargetsMount') and UnitIsPlayer(unit) then
+--          if LM.Options:GetOption('copyTargetsMount') and UnitIsPlayer(unit) then
+            if LM.Options:GetOption('copyTargetsMount') then
                 LM.Debug("  * trying to clone %s's mount", unit)
                 local m = LM.MountRegistry:GetMountFromUnitAura(unit)
                 if m and m:IsCastable() then
