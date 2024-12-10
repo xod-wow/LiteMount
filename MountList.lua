@@ -194,6 +194,33 @@ function LM.MountList:RarityWeights()
     return weights
 end
 
+function LM.MountList:LFUWeights(weights, r)
+    local weights = { total=0 }
+    local lowestSummonCount
+
+    for i, m in ipairs(self) do
+        if m:GetPriority() ~= LM.Options.DISABLED_PRIORITY then
+            local c = m:GetSummonCount()
+            if c <= (lowestSummonCount or c) then
+                lowestSummonCount = c
+            end
+        end
+    end
+
+    for i, m in ipairs(self) do
+        if m:GetPriority() == LM.Options.DISABLED_PRIORITY then
+            weights[i] = 0
+        elseif m:GetSummonCount() == lowestSummonCount then
+            weights[i] = 1
+        else
+            weights[i] = 0
+        end
+        weights.total = weights.total + weights[i]
+    end
+
+    return weights
+end
+
 function LM.MountList:WeightedRandom(weights, r)
     if weights.total == 0 then
         LM.Debug('  * WeightedRandom n=%d all weights 0', #self)
@@ -223,6 +250,9 @@ function LM.MountList:Random(r, style)
         return self:WeightedRandom(weights, r)
     elseif style == 'Rarity' then
         local weights = self:RarityWeights()
+        return self:WeightedRandom(weights, r)
+    elseif style == 'LeastUsed' then
+        local weights = self:LFUWeights()
         return self:WeightedRandom(weights, r)
     else
         return self:SimpleRandom(r)
