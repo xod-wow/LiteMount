@@ -44,14 +44,17 @@ function LiteMountAnnounceFrameMixin:OnEvent(event, ...)
 end
 
 local function GetColorText(mount)
-    if LM.Options:GetOption('randomWeightStyle') == 'Rarity' then
+    local style =  LM.Options:GetOption('randomWeightStyle')
+    if style == 'Rarity' then
         local r = mount:GetRarity()
         local c = LM.UIFilter.GetRarityColor(r)
         return c:WrapTextInColorCode(mount.name)
-    else
+    elseif style == 'Priority' then
         local p = mount:GetPriority()
         local c = LM.UIFilter.GetPriorityColor(p)
         return c:WrapTextInColorCode(mount.name)
+    else
+        return mount.name
     end
 end
 
