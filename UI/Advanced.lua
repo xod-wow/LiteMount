@@ -12,8 +12,6 @@ local _, LM = ...
 
 local L = LM.Localize
 
-local LibDD = LibStub("LibUIDropDownMenu-4.0")
-
 local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)
 end
@@ -42,21 +40,12 @@ end
 
 --[[------------------------------------------------------------------------]]--
 
-local function BindingDropDown_Initialize(dropDown, level)
-    local info = LibDD:UIDropDownMenu_CreateInfo()
+local function BindingGenerator(owner, rootDescription)
     local editBox = LiteMountAdvancedPanel.EditScroll.EditBox
-    if level == 1 then
-        for i = 1,4 do
-            info.text = BindingText(i)
-            info.arg1 = i
-            info.arg2 = BindingText(i)
-            info.func = function (button, v, t)
-                    LiteMountOptionsControl_SetTab(editBox, v)
-                    LibDD:UIDropDownMenu_SetText(dropDown, t)
-                end
-            info.checked = (editBox.tab == i)
-            LibDD:UIDropDownMenu_AddButton(info, level)
-        end
+    local IsSelected = function (v) return editBox.tab == v end
+    local SetSelected = function (v) LiteMountOptionsControl_SetTab(editBox, v) end
+    for i = 1, 4 do
+        rootDescription:CreateRadio(BindingText(i), IsSelected, SetSelected, i)
     end
 end
 
@@ -117,15 +106,12 @@ LiteMountAdvancedPanelMixin = {}
 
 function LiteMountAdvancedPanelMixin:OnLoad()
     self.name = ADVANCED_OPTIONS
-    LibDD:Create_UIDropDownMenu(self.BindingDropDown)
+    self.BindingDropDown:SetupMenu(BindingGenerator)
     LiteMountOptionsPanel_RegisterControl(self.EditScroll.EditBox, self)
     LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountAdvancedPanelMixin:OnShow()
-    local text = BindingText(self.EditScroll.EditBox.tab)
-    LibDD:UIDropDownMenu_Initialize(self.BindingDropDown, BindingDropDown_Initialize)
-    LibDD:UIDropDownMenu_SetText(self.BindingDropDown, text)
     self.EditScroll.EditBox:CheckCompileErrors()
     self.UnlockButton:Show()
 end

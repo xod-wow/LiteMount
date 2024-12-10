@@ -93,12 +93,12 @@
         </Button>
 -->
 
-        <Frame parentkey="BindingDropDown">
-            <Size x="93" y="22" />
+        <DropdownButton parentkey="BindingDropDown" inherits="WoWStyle1DropdownTemplate">
+            <Size x="192" y="26" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="-8" />
+                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="8" />
             </Anchors>
-        </Frame>
+        </DropdownButton>
 
         <EditBox parentKey="DocURL" autoFocus="false" ignoreArrows="true">
             <Size y="16" />
