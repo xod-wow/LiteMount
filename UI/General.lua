@@ -10,8 +10,6 @@ local _, LM = ...
 
 local L = LM.Localize
 
-local LibDD = LibStub("LibUIDropDownMenu-4.0")
-
 local persistOptions = {
     { 0,    L.LM_EVERY_TIME },
     { 30,   format(L.LM_EVERY_D_SECONDS, 30) },
@@ -20,30 +18,26 @@ local persistOptions = {
     { 1800, format(L.LM_EVERY_D_MINUTES, 30) },
 }
 
-local function RandomPersistDropDown_UpdateText(dropdown, keepSeconds)
-    for _,opt in ipairs(persistOptions) do
-        if opt[1] == keepSeconds then
-            LibDD:UIDropDownMenu_SetText(dropdown, opt[2])
-            return
-        end
+local function RandomPersistGenerator(owner, rootDescription)
+    local IsSelected = function (v) return v == LM.Options:GetOption('randomKeepSeconds') end
+    local SetSelected = function (v) LM.Options:SetOption('randomKeepSeconds', v) end
+    for _, info in ipairs(persistOptions) do
+        rootDescription:CreateRadio(info[2], IsSelected, SetSelected, info[1])
     end
-    LibDD:UIDropDownMenu_SetText(dropdown, '????')
 end
 
-local function RandomPersistDropDown_Initialize(dropdown, level)
-    local info = LibDD:UIDropDownMenu_CreateInfo()
-    if level == 1 then
-        local keepSeconds = LM.Options:GetOption('randomKeepSeconds')
-        for _,opt in ipairs(persistOptions) do
-            info.arg1 = opt[1]
-            info.text = opt[2]
-            info.checked = ( opt[1] == keepSeconds )
-            info.func =
-                function (_, seconds)
-                    dropdown.isDirty = true
-                    LM.Options:SetOption('randomKeepSeconds', seconds)
-                end
-            LibDD:UIDropDownMenu_AddButton(info, level)
+local styleOptions = {
+    { 'Priority', 'Summon by priority' },
+    { 'Rarity', 'Summon by rarity', disabled=(WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) },
+    { 'LeastUsed', 'Summon by least used' },
+}
+
+local function SummonStyleGenerator(owner, rootDescription)
+    local IsSelected = function (v) return v == LM.Options:GetOption('randomWeightStyle') end
+    local SetSelected = function (v) LM.Options:SetOption('randomWeightStyle', v) end
+    for _, info in ipairs(styleOptions) do
+        if not info.disabled then
+            rootDescription:CreateRadio(info[2], IsSelected, SetSelected, info[1])
         end
     end
 end
@@ -53,12 +47,11 @@ end
 LiteMountGeneralPanelMixin = {}
 
 function LiteMountGeneralPanelMixin:OnShow()
-    LibDD:UIDropDownMenu_Initialize(self.RandomPersistDropDown, RandomPersistDropDown_Initialize)
+    self.RandomPersistDropDown:SetupMenu(RandomPersistGenerator)
+    self.SummonStyleDropDown:SetupMenu(SummonStyleGenerator)
 end
 
 function LiteMountGeneralPanelMixin:OnLoad()
-
-    LibDD:Create_UIDropDownMenu(self.RandomPersistDropDown)
 
     -- CopyTargetsMount --
 
@@ -188,6 +181,7 @@ function LiteMountGeneralPanelMixin:OnLoad()
         function (self) return LM.Options:GetOption('restoreForms') end
     LiteMountOptionsPanel_RegisterControl(self.RestoreForms)
 
+--[[
     -- UseRarityWeight (only on retail) --
 
     if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
@@ -218,6 +212,7 @@ function LiteMountGeneralPanelMixin:OnLoad()
     else
         self.UseRarityWeight:Hide()
     end
+]]
 
     -- AnnounceFlightStyle (only on retail) --
 
@@ -240,6 +235,37 @@ function LiteMountGeneralPanelMixin:OnLoad()
         self.AnnounceFlightStyle:Hide()
     end
 
+--[[
+    -- UseRarityWeight (only on retail) --
+
+    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+        self.UseRarityWeight.Text:SetText(L.LM_USE_RARITY_WEIGHTS)
+        self.UseRarityWeight.SetOption =
+            function (self, setting)
+                if not setting or setting == "0" then
+                    LM.Options:SetOption('randomWeightStyle', 'Priority')
+                else
+                    LM.Options:SetOption('randomWeightStyle', 'Rarity')
+                end
+            end
+        if not C_AddOns.IsAddOnLoaded('MountsRarity') then
+            self.UseRarityWeight.Text:SetScript('OnEnter',
+                    function (self)
+                        GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+                        GameTooltip:AddLine(L.LM_RARITY_DATA_INFO, 1, 1, 1, true)
+                        GameTooltip:Show()
+                    end)
+            self.UseRarityWeight.Text:SetScript('OnLeave', GameTooltip_Hide)
+            self.UseRarityWeight.Text:EnableMouse(true)
+        end
+        self.UseRarityWeight.GetOptionDefault =
+            function (self) return LM.Options:GetOptionDefault('randomWeightStyle') == 'Rarity' end
+        self.UseRarityWeight.GetOption =
+            function (self) return LM.Options:GetOption('randomWeightStyle') == 'Rarity' end
+        LiteMountOptionsPanel_RegisterControl(self.UseRarityWeight)
+    else
+        self.UseRarityWeight:Hide()
+    end
     -- RandomPersistDropDown --
 
     self.RandomPersistDropDown.GetOption =
@@ -250,6 +276,7 @@ function LiteMountGeneralPanelMixin:OnLoad()
         function (self, v) LM.Options:SetOption('randomKeepSeconds', v) end
     self.RandomPersistDropDown.SetControl = RandomPersistDropDown_UpdateText
     LiteMountOptionsPanel_RegisterControl(self.RandomPersistDropDown)
+]]
 
     -- Debugging --
 

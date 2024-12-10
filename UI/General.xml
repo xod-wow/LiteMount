@@ -49,17 +49,9 @@
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
-        <CheckButton parentKey="UseRarityWeight" inherits="LiteMountOptionsCheckButtonTemplate">
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.RestoreForms" relativePoint="BOTTOMLEFT" x="0" y="-8" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsControl_OnChanged" />
-            </Scripts>
-        </CheckButton>
         <CheckButton parentKey="AnnounceFlightStyle" inherits="LiteMountOptionsCheckButtonTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.UseRarityWeight" relativePoint="BOTTOMLEFT" x="0" y="-8" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.RestoreForms" relativePoint="BOTTOMLEFT" x="0" y="-8" />
             </Anchors>
             <Scripts>
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
@@ -68,9 +60,26 @@
     </Frames>
     <Layers>
         <Layer level="OVERLAY">
+            <FontString parentKey="SummonStyle" text="LM_SUMMON_STYLE" inherits="GameFontHighlight">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceFlightStyle" relativePoint="BOTTOMLEFT" y="-16" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Frames>
+        <DropdownButton parentKey="SummonStyleDropDown" inherits="WoWStyle1DropdownTemplate">
+            <Size x="192" y="26" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.SummonStyle" relativePoint="BOTTOMLEFT" x="16" y="-8" />
+            </Anchors>
+        </DropdownButton>
+    </Frames>
+    <Layers>
+        <Layer level="OVERLAY">
             <FontString parentKey="AnnounceMount" text="LM_ANNOUNCE_MOUNTS" inherits="GameFontHighlight">
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceFlightStyle" relativePoint="BOTTOMLEFT" y="-32" />
+                    <Anchor point="TOPLEFT" relativeKey="$parent.SummonStyle" relativePoint="BOTTOMLEFT" y="-56" />
                 </Anchors>
             </FontString>
         </Layer>
@@ -105,18 +114,18 @@
         <Layer level="OVERLAY">
             <FontString parentKey="RandomPersist" text="LM_RANDOM_PERSISTENCE" inherits="GameFontHighlight">
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceMount" relativePoint="BOTTOMLEFT" y="-64" />
+                    <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceMount" relativePoint="BOTTOMLEFT" y="-56" />
                 </Anchors>
             </FontString>
         </Layer>
     </Layers>
     <Frames>
-        <Frame parentKey="RandomPersistDropDown">
-            <Size x="93" y="22" />
+        <DropdownButton parentKey="RandomPersistDropDown" inherits="WoWStyle1DropdownTemplate">
+            <Size x="192" y="26" />
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" y="-8" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" x="16" y="-8" />
             </Anchors>
-        </Frame>
+        </DropdownButton>
         <CheckButton parentKey="Debugging" inherits="LiteMountOptionsCheckButtonTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" x="0" y="-72" />
