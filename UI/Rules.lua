@@ -12,8 +12,6 @@ local _, LM = ...
 
 local L = LM.Localize
 
-local LibDD = LibStub("LibUIDropDownMenu-4.0")
-
 local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)
 end
@@ -145,21 +143,12 @@ end
 
 --[[------------------------------------------------------------------------]]--
 
-local function BindingDropDown_Initialize(dropDown, level)
-    local info = LibDD:UIDropDownMenu_CreateInfo()
+local function BindingGenerator(owner, rootDescription)
     local scroll = LiteMountRulesPanel.Scroll
-    if level == 1 then
-        for i = 1,4 do
-            info.text = BindingText(i)
-            info.arg1 = i
-            info.arg2 = BindingText(i)
-            info.func = function (button, v, t)
-                    LiteMountOptionsControl_SetTab(scroll, v)
-                    LibDD:UIDropDownMenu_SetText(dropDown, t)
-                end
-            info.checked = (scroll.tab == i)
-            LibDD:UIDropDownMenu_AddButton(info, level)
-        end
+    local IsSelected = function (v) return scroll.tab == v end
+    local SetSelected = function (v) LiteMountOptionsControl_SetTab(scroll, v) end
+    for i = 1, 4 do
+        rootDescription:CreateRadio(BindingText(i), IsSelected, SetSelected, i)
     end
 end
 
@@ -226,12 +215,10 @@ function LiteMountRulesPanelMixin:OnRefresh(trigger)
 end
 
 function LiteMountRulesPanelMixin:OnShow()
-    LibDD:UIDropDownMenu_Initialize(self.BindingDropDown, BindingDropDown_Initialize)
-    LibDD:UIDropDownMenu_SetText(self.BindingDropDown, BindingText(self.Scroll.tab))
 end
 
 function LiteMountRulesPanelMixin:OnLoad()
-    LibDD:Create_UIDropDownMenu(self.BindingDropDown)
+    self.BindingDropDown:SetupMenu(BindingGenerator)
 
     self.AddButton:SetScript('OnClick', function () self:AddRule() end)
     self.DeleteButton:SetScript('OnClick', function () self:DeleteRule() end)

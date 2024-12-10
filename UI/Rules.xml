@@ -148,12 +148,12 @@
             </Layers>
         </ScrollFrame>
 
-        <Frame name="$parentBindingDropDown" parentkey="BindingDropDown">
-            <Size x="93" y="22" />
+        <DropdownButton parentkey="BindingDropDown" inherits="WoWStyle1DropdownTemplate">
+            <Size x="192" y="26" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.Scroll" x="-8" />
+                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.Scroll" x="8" />
             </Anchors>
-        </Frame>
+        </DropdownButton>
 
         <Button parentKey="AddButton" inherits="UIPanelButtonTemplate" text="ADD">
             <Size x="72" y="22" />
