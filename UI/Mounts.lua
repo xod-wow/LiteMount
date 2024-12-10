@@ -29,11 +29,11 @@ function LiteMountPriorityMixin:Update()
         self.Plus:Show()
         self.Priority:SetText('')
     end
-    if LM.Options:GetOption('randomWeightStyle') == 'Rarity' and value ~= 0 then
-        local r, g, b = LM.UIFilter.GetPriorityColor(''):GetRGB()
+    if LM.Options:GetOption('randomWeightStyle') == 'Priority' or value == 0 then
+        local r, g, b = LM.UIFilter.GetPriorityColor(value):GetRGB()
         self.Background:SetColorTexture(r, g, b, 0.33)
     else
-        local r, g, b = LM.UIFilter.GetPriorityColor(value):GetRGB()
+        local r, g, b = LM.UIFilter.GetPriorityColor(''):GetRGB()
         self.Background:SetColorTexture(r, g, b, 0.33)
     end
 end
@@ -72,7 +72,7 @@ function LiteMountPriorityMixin:OnEnter()
     GameTooltip:ClearLines()
     GameTooltip:AddLine(L.LM_PRIORITY)
 
-    if LM.Options:GetOption('randomWeightStyle') == 'Rarity' then
+    if LM.Options:GetOption('randomWeightStyle') ~= 'Priority' then
         GameTooltip:AddLine(' ')
         GameTooltip:AddLine(L.LM_RARITY_DISABLES_PRIORITY, 1, 1, 1, true)
         GameTooltip:AddLine(' ')
