@@ -253,6 +253,45 @@ CONDITIONS["covenant"] = {
         end
 }
 
+CONDITIONS["cursor"] = {
+    args = true,
+    handler =
+        function (cond, context, v, edge)
+            if v then
+                local fraction = 0.5
+                if edge and edge:lower() == "edge" then
+                    fraction = 0
+                end
+                local uiScale, w, h = UIParent:GetEffectiveScale(), UIParent:GetSize()
+                w, h = math.floor(w*uiScale+0.5), math.floor(h*uiScale+0.5)
+                local x, y = GetCursorPosition()
+                x, y = math.floor(0.5+x), math.floor(0.5+y)
+                local L = x <= w*fraction
+                local R = x >= w*(1-fraction)
+                local B = y <= h*fraction
+                local T = y >= h*(1-fraction)
+                v = v:upper()
+                if v == "TOP" then
+                    return T
+                elseif v == "BOTTOM" then
+                    return B
+                elseif v == "LEFT" then
+                    return L
+                elseif v == "RIGHT" then
+                    return not R
+                elseif v == "TOPLEFT" then
+                    return T and L
+                elseif v == "TOPRIGHT" then
+                    return T and R
+                elseif v == "BOTTOMLEFT" then
+                    return B and L
+                elseif v == "BOTTOMRIGHT" then
+                    return B and R
+                end
+            end
+        end
+}
+
 --- Note that this diverges from the macro [dead] defaults to "target".
 CONDITIONS["dead"] = {
     -- name = DEAD,
