@@ -102,9 +102,11 @@ LM.MOUNTFAMILY["Bear"] = {
 
 LM.MOUNTFAMILY["Bee"] = {
     [259741] = true, -- Honeyback Harvester
+    [303767] = true, -- Honeyback Hivemother
     [447160] = true, -- Raging Cinderbee
     [447057] = true, -- Smoldering Cinderbee
     [447151] = true, -- Soaring Meaderbee
+    [471538] = true, -- Timely Buzzbee
 }
 
 LM.MOUNTFAMILY["Beetle"] = {
@@ -114,6 +116,7 @@ LM.MOUNTFAMILY["Beetle"] = {
 
 LM.MOUNTFAMILY["Bird"] = {
     [414324] = true, -- Gold-Toed Albatross
+    [471696] = true, -- Hooktalon
     [366790] = true, -- Quawks
     [437162] = true, -- Polly Roger
     [254812] = true, -- Royal Seafeather
@@ -125,6 +128,7 @@ LM.MOUNTFAMILY["Bird"] = {
     [266925] = true, -- Siltwing Albatross
     [171828] = true, -- Solar Spirehawk
     [254811] = true, -- Squawks
+    [471562] = true, -- Thrayir, Eyes of the Siren
     [253639] = true, -- Violet Spellwing
     [316275] = true, -- Waste Marauder
     [316276] = true, -- Wastewander Skyterror
@@ -405,6 +409,7 @@ LM.MOUNTFAMILY["Drake"] = {
     [107842] = true, -- Blazing Drake
     [ 59568] = true, -- Blue Drake
     [ 59569] = true, -- Bronze Drake
+   [1214946] = true, -- Broodling of Sinestra
     [124550] = true, -- Cataclysmic Gladiator's Twilight Drake
     [377071] = true, -- Crimson Gladiator's Drake
     [229387] = true, -- Deathlord's Vilebrood Vanquisher
@@ -525,6 +530,7 @@ LM.MOUNTFAMILY["Elemental"] = {
     [334482] = true, -- Restoration Deathwalker
     [424009] = true, -- Runebound Firelord
     [448939] = true, -- Shackled Shadow
+    [448934] = true, -- Shadow of Doubt
     [340068] = true, -- Sintouched Deathwalker
     [358319] = true, -- Soultwisted Deathwalker
     [348162] = true, -- Wandering Ancient
@@ -876,12 +882,17 @@ LM.MOUNTFAMILY["Magic"] = {
     [419345] = true, -- Eve's Ghastly Rider
     [ 42667] = true, -- Flying Broom
     [435044] = true, -- Golden Discus
+    [472479] = true, -- Love Witch's Sweeper
     [ 47977] = true, -- Magic Broom
     [435082] = true, -- Mogu Hazeblazer
     [130092] = true, -- Red Flying Cloud
     [435084] = true, -- Sky Surfer
+    [472489] = true, -- Sky Witch's Sweeper
+    [472487] = true, -- Silvermoon Sweeper
     [359318] = true, -- Soaring Spelltome
+    [473137] = true, -- Soweezi's Vintage Waveshredder
     [346554] = true, -- Tazavesh Gearglider
+    [472488] = true, -- Twilight Witch's Sweeper
     [334352] = true, -- Wildseed Cradle
 }
 
@@ -946,6 +957,7 @@ LM.MOUNTFAMILY["Mechanical"] = {
     [428013] = true, -- Incognitro, the Indecipherable Felcycle
     [297157] = true, -- Junkheap Drifter
     [239013] = true, -- Lightforged Warframe
+    [472253] = true, -- Lunar Launcher
     [448188] = true, -- Machine Defense Unit 1-11
     [281554] = true, -- Meat Wagon
     [261437] = true, -- Mecha-Mogul Mk2
@@ -966,6 +978,7 @@ LM.MOUNTFAMILY["Mechanical"] = {
     [245723] = true, -- Stormwind Skychaser
     [302795] = true, -- Swift Spectral Magnetocraft
     [442358] = true, -- Stonevault Mechsuit
+    [472752] = true, -- The Breaker's Song
     [272770] = true, -- The Dreadwake
     [ 44151] = true, -- Turbo-Charged Flying Machine
     [223354] = true, -- Vicious War Trike
@@ -1087,6 +1100,7 @@ LM.MOUNTFAMILY["Panthara"] = {
 }
 
 LM.MOUNTFAMILY["Peafowl"] = {
+    [432562] = true, -- Brilliant Sunburst Peafowl
     [432558] = true, -- Majestic Azure Peafowl
 }
 
@@ -1191,6 +1205,7 @@ LM.MOUNTFAMILY["Raptor"] = {
     [138643] = true, -- Green Primal Raptor
     [ 10795] = true, -- Ivory Raptor
     [ 17450] = true, -- Ivory Raptor
+    [473472] = true, -- Jani's Trashpile
     [ 16084] = true, -- Mottled Red Raptor
     [213158] = true, -- Predatory Bloodgazer
     [138641] = true, -- Red Primal Raptor
@@ -1280,6 +1295,7 @@ LM.MOUNTFAMILY["Rylak"] = {
     [336039] = true, -- Gruesome Flayedwing
     [153489] = true, -- Iron Skyreaver
     [336036] = true, -- Marrowfang
+   [1214920] = true, -- Nightfall Skyreaver
     [191633] = true, -- Soaring Skyterror
     [194046] = true, -- Swift Spectral Rylak
 }
@@ -1426,6 +1442,7 @@ LM.MOUNTFAMILY["Slyvern"] = {
 
 LM.MOUNTFAMILY["Snapdragon"] = {
     [300147] = true, -- Deepcoral Snapdragon
+    [474086] = true, -- Prismatic Snapdragon
     [294038] = true, -- Royal Snapdragon
     [300146] = true, -- Snapdragon Kelpstalker
 }
@@ -1450,6 +1467,7 @@ LM.MOUNTFAMILY["Stone Drake"] = {
 }
 
 LM.MOUNTFAMILY["Stone Hound"] = {
+   [1214974] = true, -- Copper-Maned Quilen
     [435115] = true, -- Guardian Quilen
     [124659] = true, -- Imperial Quilen
     [435118] = true, -- Marble Quilen
@@ -1556,6 +1574,7 @@ LM.MOUNTFAMILY["Toad"] = {
 
 LM.MOUNTFAMILY["Turtle"] = {
     [ 30174] = true, -- Riding Turtle
+    [473861] = true, -- Savage Alabaster Battle Turtle
     [433281] = true, -- Savage Blue Battle Turtle
     [453255] = true, -- Savage Ebony Battle Turtle
     [367826] = true, -- Savage Green Battle Turtle
@@ -1567,6 +1586,7 @@ LM.MOUNTFAMILY["Unknown"] = {
 
 LM.MOUNTFAMILY["Ur'zul"] = {
     [243651] = true, -- Shackled Ur'zul
+   [1214940] = true, -- Ur'zul Fleshripper
 }
 
 LM.MOUNTFAMILY["Vespoid"] = {
