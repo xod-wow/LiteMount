@@ -60,26 +60,9 @@
     </Frames>
     <Layers>
         <Layer level="OVERLAY">
-            <FontString parentKey="SummonStyle" text="LM_SUMMON_STYLE" inherits="GameFontHighlight">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceFlightStyle" relativePoint="BOTTOMLEFT" y="-16" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-    <Frames>
-        <DropdownButton parentKey="SummonStyleDropDown" inherits="WoWStyle1DropdownTemplate">
-            <Size x="192" y="26" />
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.SummonStyle" relativePoint="BOTTOMLEFT" x="16" y="-8" />
-            </Anchors>
-        </DropdownButton>
-    </Frames>
-    <Layers>
-        <Layer level="OVERLAY">
             <FontString parentKey="AnnounceMount" text="LM_ANNOUNCE_MOUNTS" inherits="GameFontHighlight">
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.SummonStyle" relativePoint="BOTTOMLEFT" y="-56" />
+                    <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceFlightStyle" relativePoint="BOTTOMLEFT" y="-16" />
                 </Anchors>
             </FontString>
         </Layer>
@@ -112,9 +95,26 @@
     </Frames>
     <Layers>
         <Layer level="OVERLAY">
-            <FontString parentKey="RandomPersist" text="LM_RANDOM_PERSISTENCE" inherits="GameFontHighlight">
+            <FontString parentKey="SummonStyle" text="LM_SUMMON_STYLE" inherits="GameFontHighlight">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceMount" relativePoint="BOTTOMLEFT" y="-56" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Frames>
+        <DropdownButton parentKey="SummonStyleDropDown" inherits="WoWStyle1DropdownTemplate">
+            <Size x="448" y="26" />
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.SummonStyle" relativePoint="BOTTOMLEFT" x="16" y="-8" />
+            </Anchors>
+        </DropdownButton>
+    </Frames>
+    <Layers>
+        <Layer level="OVERLAY">
+            <FontString parentKey="RandomPersist" text="LM_RANDOM_PERSISTENCE" inherits="GameFontHighlight">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.SummonStyle" relativePoint="BOTTOMLEFT" y="-56" />
                 </Anchors>
             </FontString>
         </Layer>

@@ -11,7 +11,7 @@ local _, LM = ...
 local L = LM.Localize
 
 local persistOptions = {
-    { 0,    L.LM_EVERY_TIME },
+    { 0,    string.format("%s (%s)", L.LM_EVERY_TIME, DEFAULT) },
     { 30,   format(L.LM_EVERY_D_SECONDS, 30) },
     { 120,  format(L.LM_EVERY_D_MINUTES, 2) },
     { 300,  format(L.LM_EVERY_D_MINUTES, 5) },
@@ -27,9 +27,9 @@ local function RandomPersistGenerator(owner, rootDescription)
 end
 
 local styleOptions = {
-    { 'Priority', 'Summon by priority' },
-    { 'Rarity', 'Summon by rarity', disabled=(WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) },
-    { 'LeastUsed', 'Summon by least used' },
+    { 'Priority', string.format("%s (%s)", L.LM_SUMMON_STYLE_PRIORITY, DEFAULT)  },
+    { 'Rarity', L.LM_SUMMON_STYLE_RARITY, disabled=(WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) },
+    { 'LeastUsed', L.LM_SUMMON_STYLE_LEASTUSED },
 }
 
 local function SummonStyleGenerator(owner, rootDescription)
