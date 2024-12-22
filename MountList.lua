@@ -194,7 +194,7 @@ function LM.MountList:RarityWeights()
     return weights
 end
 
-function LM.MountList:LFUWeights(weights, r)
+function LM.MountList:LFUWeights()
     local weights = { total=0 }
     local lowestSummonCount
 

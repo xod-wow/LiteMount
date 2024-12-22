@@ -227,6 +227,7 @@ read_globals = {
     "GetActionInfo",
     "GetBindingKey",
     "GetBuildInfo",
+    "GetCursorPosition",
     "GetCVar",
     "GetCVarBool",
     "GetClassInfo",
