@@ -266,27 +266,27 @@ CONDITIONS["cursor"] = {
                 w, h = math.floor(w*uiScale+0.5), math.floor(h*uiScale+0.5)
                 local x, y = GetCursorPosition()
                 x, y = math.floor(0.5+x), math.floor(0.5+y)
-                local L = x <= w*fraction
-                local R = x >= w*(1-fraction)
-                local B = y <= h*fraction
-                local T = y >= h*(1-fraction)
+                local isL = x <= w*fraction
+                local isR = x >= w*(1-fraction)
+                local isB = y <= h*fraction
+                local isT = y >= h*(1-fraction)
                 v = v:upper()
                 if v == "TOP" then
-                    return T
+                    return isT
                 elseif v == "BOTTOM" then
-                    return B
+                    return isB
                 elseif v == "LEFT" then
-                    return L
+                    return isL
                 elseif v == "RIGHT" then
-                    return not R
+                    return not isR
                 elseif v == "TOPLEFT" then
-                    return T and L
+                    return isT and isL
                 elseif v == "TOPRIGHT" then
-                    return T and R
+                    return isT and isR
                 elseif v == "BOTTOMLEFT" then
-                    return B and L
+                    return isB and isL
                 elseif v == "BOTTOMRIGHT" then
-                    return B and R
+                    return isB and isR
                 end
             end
         end
