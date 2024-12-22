@@ -170,6 +170,12 @@ function LM.TableToString(val)
     return table.concat(context.lines, '\n') .. '\n'
 end
 
+function LM.TableToLines(val)
+    local context = { depth = 0, lines = {} }
+    DumpTableContents(val, '', '', context)
+    return context.lines
+end
+
 local defaultIndexer = { __index = function (t, k) return t.DEFAULT end }
 
 function LM.TableWithDefault(t)
