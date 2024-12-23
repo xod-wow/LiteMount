@@ -57,6 +57,7 @@ COMMANDS['dbget'] =
         local ftext = string.format("return LM.db.%s", key)
         local f, err = loadstring(ftext)
         if f then
+            setfenv(f, { LM = LM })
             local v = f()
             if type(v) == 'table' then
                 LM.Print('%s =', key)
@@ -74,10 +75,13 @@ COMMANDS['dbget'] =
 COMMANDS['dbset'] =
     function (argstr, key, val)
         if key == nil or val == nil then return end
-        -- Absolutely no effort has been made to stop breaking out. You break
-        -- it, you bought it.
         local f, err = loadstring(string.format("LM.db.%s = %s", key, val))
-        if f then f() else LM.Print(err) end
+        if f then
+            setfenv(f, { LM = LM })
+            f()
+        else
+            LM.Print(err)
+        end
     end
 
 COMMANDS['macro'] =
