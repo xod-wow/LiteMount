@@ -114,6 +114,9 @@ function LM.Environment:IsTheMaw(mapPath)
     -- This is the instanced post-Maldraxxus questing
     if instanceID == 2456 then return true end
 
+    -- Sanctum of Domination raid allows mounting normally
+    if instanceID == 2450 then return false end
+
     -- Otherwise, The Maw is just zones in instance 2222
     return LM.Environment:IsMapInPath(1543, mapPath)
 end
