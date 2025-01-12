@@ -569,6 +569,7 @@ LM.MOUNTFAMILY["Fey Dragon"] = {
 }
 
 LM.MOUNTFAMILY["Fire Hawk"] = {
+   [1216542] = true, -- Blazing Royal Fire Hawk
     [ 97560] = true, -- Corrupted Fire Hawk
     [ 97501] = true, -- Felfire Hawk
     [ 97493] = true, -- Pureblood Fire Hawk
@@ -1123,8 +1124,9 @@ LM.MOUNTFAMILY["Phoenix"] = {
     [139448] = true, -- Clutch of Ji-Kun
     [129552] = true, -- Crimson Pandaren Phoenix
     [ 88990] = true, -- Dark Phoenix
-    [347813] = true, -- Fireplume Phoenix
     [132118] = true, -- Emerald Pandaren Phoenix
+    [347813] = true, -- Fireplume Phoenix
+    [459784] = true, -- Golden Ashes of Al'ar
     [347812] = true, -- Sapphire Skyblazer
     [132119] = true, -- Violet Pandaren Phoenix
 }
