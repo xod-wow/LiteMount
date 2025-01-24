@@ -1759,5 +1759,6 @@ LM.MOUNTFAMILY["Zodiac"] = {
     [308087] = true, -- Lucky Yun
     [259395] = true, -- Shu-Zen, the Divine Sentinel
     [308078] = true, -- Squeakers, the Trickster
+    [468205] = true, -- Timbered Sky Snake
     [359317] = true, -- Wen Lo, the River's Edge
 }
