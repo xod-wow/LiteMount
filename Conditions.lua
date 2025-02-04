@@ -382,6 +382,26 @@ CONDITIONS["draw"] = {
         end
 }
 
+CONDITIONS["drivable"] = {
+    name = format(L.LM_AREA_FMT_S, ACCESSIBILITY_DRIVE_LABEL or "D.R.I.V.E."),
+    disabled = ( IsDrivableArea == nil ),
+    handler =
+        function (cond, context)
+            -- Should work, doesn't so far
+            -- return IsDrivableArea and IsDrivableArea()
+            return LM.Environment:IsDrivableArea()
+        end,
+}
+
+CONDITIONS["driving"] = {
+    handler =
+        function (cond, context)
+            -- Only one D.R.I.V.E. mount so far. Maybe in the future Blizzard will
+            -- add IsDriving(), otherwise it'll be vehicle UI detection of some kind.
+            return LM.UnitAura('player', LM.SPELL.G_99_BREAKNECK) ~= nil
+        end,
+}
+
 CONDITIONS["elapsed"] = {
     args = true,
     handler =

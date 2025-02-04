@@ -169,6 +169,13 @@ LM.MOUNTFAMILY["Brutosaur"] = {
     [465235] = true, -- Trader's Gilded Brutosaur
 }
 
+LM.MOUNTFAMILY["Butterfly"] = {
+   [1218014] = true, -- Midnight Butterfly
+   [1217994] = true, -- Pearlescent Butterfly
+   [1218012] = true, -- Ruby Butterfly
+   [1218013] = true, -- Spring Butterfly
+}
+
 LM.MOUNTFAMILY["Camel"] = {
     [ 88748] = true, -- Brown Riding Camel
     [307263] = true, -- Explorer's Dunetrekker
@@ -305,6 +312,7 @@ LM.MOUNTFAMILY["Courser"] = {
     [222241] = true, -- Prestigious Midnight Courser
     [222236] = true, -- Prestigious Royal Courser
     [280730] = true, -- Pureheart Courser
+   [1217965] = true, -- Shimmermist Free Runner
     [332252] = true, -- Shimmermist Runner
     [312765] = true, -- Sundancer
     [312767] = true, -- Swift Gloomhoof
@@ -480,11 +488,21 @@ LM.MOUNTFAMILY["Dreamtalon"] = {
     [434477] = true, -- Vicious Dreamtalon (Horde)
 }
 
+-- Note DRIVE is translated in all all languages (from flag data)
+LM.MOUNTFAMILY["DRIVE"] = {
+    [460013] = true, -- G-99 Breakneck
+}
+
 LM.MOUNTFAMILY["Eagle"] = {
     [385260] = true, -- Bestowed Ohuna Spotter
     [463133] = true, -- Coldflame Tempest
     [385262] = true, -- Duskwing Ohuna
     [395644] = true, -- Divine Kiss of Ohn'ahra
+}
+
+LM.MOUNTFAMILY["Eel"] = {
+    [466145] = true, -- Vicious Electro Eel (Horde)
+    [466146] = true, -- Vicious Electro Eel (Alliance)
 }
 
 LM.MOUNTFAMILY["Elderhorn"] = {
@@ -717,6 +735,7 @@ LM.MOUNTFAMILY["Hawkstrider"] = {
 LM.MOUNTFAMILY["Helicid"] = {
     [408313] = true, -- Big Slick in the City
     [359376] = true, -- Bronze Helicid
+   [1218069] = true, -- Emerald Snail
     [374157] = true, -- Gooey Snailemental
     [350219] = true, -- Magmashell
     [346719] = true, -- Serenade
@@ -825,8 +844,11 @@ LM.MOUNTFAMILY["Hound"] = {
 
 LM.MOUNTFAMILY["Hyena"] = {
     [237287] = true, -- Alabaster Hyena
+    [466001] = true, -- Blackwater Bonecrusher
     [306423] = true, -- Caravan Hyena
+    [465999] = true, -- Crimson Armored Growler
     [237286] = true, -- Dune Scavenger
+    [466002] = true, -- Violet Armored Growler
 }
 
 LM.MOUNTFAMILY["Infernal"] = {
@@ -937,14 +959,23 @@ LM.MOUNTFAMILY["Mana Ray"] = {
 LM.MOUNTFAMILY["Mechanical"] = {
     [405623] = true, -- Armadillo Roller
     [290718] = true, -- Aerial Unit R-21/X
+    [466023] = true, -- Asset Advocator
     [ 71342] = true, -- Big Love Rocket
+    [466024] = true, -- Bilgewater Bombardier
+    [466019] = true, -- Blackwater Shredder Deluxe Mk 2
+    [473188] = true, -- Bronze Goblin Waveshredder
     [359545] = true, -- Carcinized Zerethsteed (but not)
     [171846] = true, -- Champion's Treadblade
     [179244] = true, -- Chauffeured Mechano-Hog
     [179245] = true, -- Chauffeured Mekgineer's Chopper
+   [1217235] = true, -- Crimson Shreddertank
+   [1221694] = true, -- Enterprising Shreddertank
     [448186] = true, -- Crowd Pummeler 2-30
+    [466018] = true, -- Darkfuse Demolisher
+    [466027] = true, -- Darkfuse Spy-Eye
     [247448] = true, -- Darkmoon Dirigible
     [446052] = true, -- Delver's Dirigible
+    [466133] = true, -- Delver's Gob-Trotter
     [458335] = true, -- Diamond Mechsuit
     [126507] = true, -- Depleted-Kyparium Rocket
     [307256] = true, -- Explorer's Jungle Hopper
@@ -956,10 +987,13 @@ LM.MOUNTFAMILY["Mechanical"] = {
     [ 87091] = true, -- Goblin Turbo-Trike
     [428067] = true, -- Hatefored Blazecycle
     [428013] = true, -- Incognitro, the Indecipherable Felcycle
+    [466017] = true, -- Innovation Investigator
     [297157] = true, -- Junkheap Drifter
     [239013] = true, -- Lightforged Warframe
     [472253] = true, -- Lunar Launcher
     [448188] = true, -- Machine Defense Unit 1-11
+    [466025] = true, -- Margin Manipulator
+    [466028] = true, -- Mean Green Flying Machine
     [281554] = true, -- Meat Wagon
     [261437] = true, -- Mecha-Mogul Mk2
     [296788] = true, -- Mechacycle Model W
@@ -969,19 +1003,27 @@ LM.MOUNTFAMILY["Mechanical"] = {
     [ 60424] = true, -- Mekgineer's Chopper
     [ 63796] = true, -- Mimiron's Head
     [424082] = true, -- Mimiron's Jumpjets
+    [466013] = true, -- Ochre Delivery Rocket
     [245725] = true, -- Orgrimmar Interceptor
     [447413] = true, -- Pearlescent Goblin Wave Shredder
+    [466020] = true, -- Personalized Goblin S.C.R.A.Per
+   [1221155] = true, -- Prototype A.S.M.R.
     [400733] = true, -- Rocket Shredder 9001
     [299170] = true, -- Rustbolt Resistor
     [291492] = true, -- Rusty Mechanocrawler
+    [466026] = true, -- Salvaged Goblin Gazillionaire's Flying Machine
     [299159] = true, -- Scrapforged Mechaspider
     [134359] = true, -- Sky Golem
     [245723] = true, -- Stormwind Skychaser
     [302795] = true, -- Swift Spectral Magnetocraft
+    [466014] = true, -- Steamwheedle Supplier
     [442358] = true, -- Stonevault Mechsuit
+   [1217760] = true, -- The Big G
     [472752] = true, -- The Breaker's Song
     [272770] = true, -- The Dreadwake
+    [466016] = true, -- The Topskimmer Special
     [ 44151] = true, -- Turbo-Charged Flying Machine
+    [466022] = true, -- Venture Coordinator
     [223354] = true, -- Vicious War Trike
     [171845] = true, -- Warlord's Deathwheel
     [290328] = true, -- Wonderwing 2.0
@@ -1397,7 +1439,9 @@ LM.MOUNTFAMILY["Skeletal Horse"] = {
     [ 63643] = true, -- Forsaken Warhorse
     [ 17465] = true, -- Green Skeletal Warhorse
     [142910] = true, -- Ironbound Wraithcharger
+   [1217341] = true, -- Lively Darkmoon Charger
     [229499] = true, -- Midnight
+   [1217340] = true, -- Midnight Darkmoon Charger
     [ 66846] = true, -- Ochre Skeletal Warhorse
     [ 23246] = true, -- Purple Skeletal Warhorse
     [ 17462] = true, -- Red Skeletal Horse
@@ -1405,9 +1449,11 @@ LM.MOUNTFAMILY["Skeletal Horse"] = {
     [288722] = true, -- Risen Mare
     [ 17481] = true, -- Rivendare's Deathcharger
     [  8980] = true, -- Skeletal Horse
+   [1217343] = true, -- Snowy Darkmoon Charger
     [281890] = true, -- Vicious Black Bonesteed
     [146622] = true, -- Vicious Skeletal Warhorse
     [281889] = true, -- Vicious White Bonesteed
+   [1217342] = true, -- Violet Darkmoon Charger
     [ 65645] = true, -- White Skeletal Warhorse
 }
 

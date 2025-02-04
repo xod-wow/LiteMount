@@ -27,6 +27,7 @@ local MOUNT_SPELLS = {
     { "Nagrand", LM.SPELL.FROSTWOLF_WAR_WOLF, 'Horde', 'RUN' },
     { "Nagrand", LM.SPELL.TELAARI_TALBUK, 'Alliance', 'RUN' },
     { "Soar", LM.SPELL.SOAR, 'FLY', 'DRAGONRIDING' },
+    { "Drive", LM.SPELL.G_99_BREAKNECK, 'DRIVE' },
 --  { "Soulshape", LM.SPELL.SOULSHAPE, 'RUN', 'SLOW' },
     { "ItemSummoned",
         LM.ITEM.MAGIC_BROOM, LM.SPELL.MAGIC_BROOM, 'RUN', 'FLY', },

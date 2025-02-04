@@ -41,7 +41,9 @@ CopyTargetsMount
 ApplyRules
 SwitchFlightStyle [mod:rshift]
 IF [mod:shift]
-    IF [submerged]
+    IF [drivable]
+        Limit -DRIVE
+    ELSEIF [submerged]
         Limit -SWIM
     ELSEIF [flyable]
         Limit -DRAGONRIDING/FLY

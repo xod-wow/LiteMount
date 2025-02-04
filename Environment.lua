@@ -440,6 +440,21 @@ function LM.Environment:CanFly(mapPath)
     return self:IsFlyableArea(mapPath)
 end
 
+-- Blizzard's IsDrivableArea is always false so far
+function LM.Environment:IsDrivableArea(mapPath)
+    if C_ZoneAbility then
+        local zoneAbilities = C_ZoneAbility.GetActiveAbilities()
+        for _,info in ipairs(zoneAbilities) do
+            local zoneSpellName = C_Spell.GetSpellName(info.spellID)
+            local zoneSpellID = C_Spell.GetSpellInfo(zoneSpellName).spellID
+            if zoneSpellID == LM.SPELL.G_99_BREAKNECK then
+                return true
+            end
+        end
+    end
+    return false
+end
+
 function LM.Environment:CantBreathe()
     local name, _, _, rate = GetMirrorTimerInfo(2)
     return (name == "BREATH" and rate < 0)

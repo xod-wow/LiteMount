@@ -163,7 +163,7 @@ function LiteMountFlagBitMixin:Update(flag, mount)
     if cur[flag] or mount.flags[flag] then
         self:Enable()
         self:Show()
-    elseif flag == "SWIM" then
+    elseif flag == "SWIM" and not mount.flags.DRIVE then
         self:Enable()
         self:Show()
     elseif flag == "RUN" and ( mount.flags.FLY or mount.flags.DRAGONRIDING ) then

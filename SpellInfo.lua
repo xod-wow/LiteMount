@@ -18,14 +18,15 @@ local tocVersion = select(4, GetBuildInfo())
 
 -- The values are sort order / UI display order
 LM.FLAG = { }
-LM.FLAG.SWIM            = 0
-LM.FLAG.RUN             = 1
-LM.FLAG.FLY             = 2
+LM.FLAG.SWIM                = 0
+LM.FLAG.RUN                 = 1
+LM.FLAG.FLY                 = 2
 if tocVersion >= 110000 and false then
-    LM.FLAG.RIDEALONG    = 3
+    LM.FLAG.RIDEALONG       = 3
 elseif tocVersion > 100000 then
     LM.FLAG.DRAGONRIDING    = 3
 end
+LM.FLAG.DRIVE               = 4
 
 LM.SPELL = { }
 LM.SPELL.TRAVEL_FORM = 783
@@ -56,6 +57,7 @@ LM.SPELL.AQUATIC_FORM_CLASSIC = 1066
 LM.SPELL.SOAR = 369536
 LM.SPELL.FLIGHT_STYLE_SKYRIDING = 404464
 LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT = 404468
+LM.SPELL.G_99_BREAKNECK = 460013
 
 LM.ITEM = { }
 LM.ITEM.MAGIC_BROOM = 37011

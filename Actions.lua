@@ -449,6 +449,11 @@ local smartActions = {
         debug       = 'Flying Mount',
     },
     {
+        condition   = "[drivable]",
+        arg         = LM.RuleArguments:Get('DRIVE'),
+        debug       = 'D.R.I.V.E.',
+    },
+    {
         condition   = "[floating,nowaterwalking]",
         arg         = LM.RuleArguments:Get('SWIM'),
         debug       = "Aquatic Mount (on the surface)",
