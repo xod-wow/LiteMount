@@ -21,12 +21,12 @@ LM.FLAG = { }
 LM.FLAG.SWIM                = 0
 LM.FLAG.RUN                 = 1
 LM.FLAG.FLY                 = 2
-if tocVersion >= 110000 and false then
-    LM.FLAG.RIDEALONG       = 3
-elseif tocVersion > 100000 then
+if tocVersion > 100000 then
     LM.FLAG.DRAGONRIDING    = 3
 end
-LM.FLAG.DRIVE               = 4
+if tocVersion >= 110000 and false then
+    LM.FLAG.DRIVE           = 4
+end
 
 LM.SPELL = { }
 LM.SPELL.TRAVEL_FORM = 783
