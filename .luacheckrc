@@ -118,6 +118,7 @@ globals = {
 
 read_globals = {
     "ACCEPT",
+    "ACCESSIBILITY_DRIVE_LABEL",
     "ADVANCED_LABEL",
     "ADVANCED_OPTIONS",
     "ALL",
@@ -300,6 +301,7 @@ read_globals = {
     "IsAdvancedFlyableArea",
     "IsAltKeyDown",
     "IsControlKeyDown",
+    "IsDrivableArea",
     "IsFalling",
     "IsFlyableArea",
     "IsFlying",
