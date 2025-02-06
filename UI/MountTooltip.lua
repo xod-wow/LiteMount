@@ -10,7 +10,6 @@ local _, LM = ...
 
 local L = LM.Localize
 
-local PREVIEW_SIZE_CLAMP = 250
 
 --[[------------------------------------------------------------------------]]--
 
@@ -18,29 +17,23 @@ LiteMountTooltipMixin = {}
 
 function LiteMountTooltipMixin:AttachPreview()
     local w, h = self:GetSize()
-    local clampedW = math.min(PREVIEW_SIZE_CLAMP, w)
-    local clampedH = math.min(PREVIEW_SIZE_CLAMP, h)
-
-    self.Preview:ClearAllPoints()
 
     local maxTop = self:GetTop() + h
     local maxLeft = self:GetLeft() - w
     local maxBottom = self:GetBottom() - h
     local maxRight = self:GetRight() + w
 
+    self.Preview:ClearAllPoints()
+
     -- Preferred attach: RIGHT, BOTTOM, TOP, LEFT
     if maxRight <= GetScreenWidth() then
         self.Preview:SetPoint("TOPLEFT", self, "TOPRIGHT")
-        self.Preview:SetSize(clampedW, h)
     elseif maxBottom >= 0 then
         self.Preview:SetPoint("TOP", self, "BOTTOM")
-        self.Preview:SetSize(w, clampedH)
     elseif maxTop <= GetScreenHeight() then
         self.Preview:SetPoint("BOTTOM", self, "TOP")
-        self.Preview:SetSize(w, clampedH)
     elseif maxLeft >= 0 then
         self.Preview:SetPoint("TOPRIGHT", self, "TOPLEFT")
-        self.Preview:SetSize(clampedW, h)
     end
 
 end

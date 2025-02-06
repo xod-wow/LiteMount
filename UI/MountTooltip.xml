@@ -10,6 +10,7 @@
     </Scripts>
     <Frames>
         <Frame parentKey="Preview" inherits="TooltipBackdropTemplate">
+            <Size x="282" y="360" />
             <Frames>
                 <ModelScene parentKey="ModelScene" inherits="NonInteractableModelSceneMixinTemplate">
                     <Anchors>
