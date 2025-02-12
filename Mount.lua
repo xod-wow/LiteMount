@@ -86,6 +86,9 @@ function LM.Mount.FilterToDisplay(f)
         else
             return TYPE .. " : " .. id
         end
+    elseif f:match('^prio:%d+$') then
+        local _, p = string.split(':', f, 2)
+        return L.LM_PRIORITY .. " : " .. p
     elseif LM.Options:IsGroup(f) then
         return L.LM_GROUP .. ' : ' .. f
     elseif LM.Options:IsFlag(f) then
@@ -126,6 +129,8 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
         return self.mountTypeID == tonumber(f:sub(4))
     elseif f:sub(1, 7) == 'family:' then
         return ( self.family == f:sub(8) or L[self.family] == f:sub(8) )
+    elseif f:sub(1, 5) == 'prio:' then
+        return self:GetPriority() == tonumber(f:sub(6))
     elseif f:sub(1, 1) == '~' then
         return not self:MatchesOneFilter(flags, groups, f:sub(2))
     elseif flags[f] ~= nil then

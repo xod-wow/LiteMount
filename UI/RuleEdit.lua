@@ -307,6 +307,7 @@ local function MountToInfo(m) return { val = m.spellID, text = m.name } end
 local function GroupToInfo(v) return { val = v, text = LM.UIFilter.GetGroupText(v) } end
 local function FlagToInfo(v) return { val = v, text = LM.UIFilter.GetFlagText(v) } end
 local function FamilyToInfo(v) return { val = "family:"..v, text = LM.UIFilter.GetFamilyText(v) } end
+local function PriorityToInfo(v) return { val = "prio:"..v, text = LM.UIFilter.GetPriorityText(v) } end
 local function TypeToInfo(v) return { val = "mt:"..v, text = LM.UIFilter.GetTypeText(v) } end
 
 local function MountArgsMenu()
@@ -322,6 +323,9 @@ local function MountArgsMenu()
     local flagMenuList = LM.tMap(LM.UIFilter.GetFlags(), FlagToInfo)
     flagMenuList.text = TYPE
 
+    local priorityMenuList = LM.tMap(LM.UIFilter.GetPriorities(), PriorityToInfo)
+    priorityMenuList.text = L.LM_PRIORITY
+
     local mountMenuList = { text=MOUNT, val="PICKER" }
 
     return {
@@ -329,6 +333,7 @@ local function MountArgsMenu()
         mountMenuList,
         groupMenuList,
         flagMenuList,
+        priorityMenuList,
 --      typeMenuList,
 --      familyMenuList,
         { val = "FAVORITES", text = FAVORITES:upper() },
