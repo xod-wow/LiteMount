@@ -82,13 +82,25 @@ function LM.Journal:Get(id)
         Mixin(m.flags, typeInfo.flags)
     end
 
+    -- Kua'fon is still weird, there are two spells that summon it, 267270 which
+    -- is what the journal returns, and 301841 which at least one of my alts gets
+    -- (Tandarin). Is that the toon that originally upgraded it to flying when that
+    -- was required? I have no idea how to tell.
+    if m.spellID == 267270 then
+        m.overrideSpellID = 301841
+    end
+
     return m
 end
+
+--[[
+
+-- Starting in TWW Kua'fon is no longer its own mount type and just a
+-- regular skyriding mount (id 424).
 
 function LM.Journal:GetFlags()
     local flags = LM.Mount.GetFlags(self)
 
-    -- XXX FIXME XXX is this still required at all? If so it should be fixed
     -- Dynamic Kua'fon flags
     if self.mountTypeID == 398 then
         flags = CopyTable(flags)
@@ -100,9 +112,9 @@ function LM.Journal:GetFlags()
             flags.RUN = true
         end
     end
-
     return flags
 end
+]]
 
 function LM.Journal:IsUsable()
     local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))

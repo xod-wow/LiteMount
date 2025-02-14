@@ -15,7 +15,7 @@ local C_Spell = LM.C_Spell
 
 local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
 
-local IndexAttributes = { 'mountID', 'name', 'spellID' }
+local IndexAttributes = { 'mountID', 'name', 'spellID', 'overrideSpellID' }
 
 LM.MountRegistry = CreateFrame("Frame", nil, UIParent)
 LM.MountRegistry.callbacks = CallbackHandler:New(LM.MountRegistry)
@@ -91,7 +91,7 @@ function LM.MountRegistry:OnEvent(event, ...)
         self.needRefresh = true
     elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
         local _, _, spellID = ...
-        local m = self.indexes.spellID[spellID]
+        local m = self.indexes.spellID[spellID] or self.indexes.overrideSpellID[spellID]
         if m then
             m:OnSummon()
             self.callbacks:Fire("OnMountSummoned", m)
