@@ -350,7 +350,7 @@ function LM.Options:SetPriority(m, v)
         v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
     end
     LM.db.profile.mountPriorities[m.spellID] = v
-    LM.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified", m)
 end
 
 -- Don't just loop over SetPriority because we don't want the UI to freeze up
@@ -444,7 +444,7 @@ function LM.Options:ResetMountFlags(m)
     LM.Debug("Defaulting flags for spell %s (%d).", m.name, m.spellID)
     LM.db.profile.flagChanges[m.spellID] = nil
     self.cachedMountFlags[m.spellID] = nil
-    LM.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified", m)
 end
 
 function LM.Options:ResetAllMountFlags()
@@ -456,7 +456,7 @@ end
 function LM.Options:SetMountFlags(m, flags)
     LM.db.profile.flagChanges[m.spellID] = FlagDiff(m.flags, flags)
     self.cachedMountFlags[m.spellID] = nil
-    LM.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified", m)
 end
 
 
@@ -601,7 +601,7 @@ function LM.Options:SetMountGroup(m, g)
         LM.db.global.groups[g][m.spellID] = true
     end
     self.cachedMountGroups[m.spellID] = nil
-    LM.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified", m)
 end
 
 function LM.Options:ClearMountGroup(m, g)
@@ -611,7 +611,7 @@ function LM.Options:ClearMountGroup(m, g)
         LM.db.global.groups[g][m.spellID] = nil
     end
     self.cachedMountGroups[m.spellID] = nil
-    LM.db.callbacks:Fire("OnOptionsModified")
+    LM.db.callbacks:Fire("OnOptionsModified", m)
 end
 
 

@@ -61,6 +61,9 @@ function LiteMount:Initialize()
 
     -- Setup actions for the initial profile
     LM.Options:OnProfile()
+
+    -- Filter has to register DB changed callback
+    LM.UIFilter.Initialize()
 end
 
 function LiteMount:PLAYER_LOGIN()

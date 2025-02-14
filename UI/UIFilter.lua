@@ -116,6 +116,17 @@ function LM.UIFilter.UpdateCache()
     LM.UIFilter.filteredMountList:Sort(LM.UIFilter.sortKey)
 end
 
+function LM.UIFilter.UpdateMountInCache(m)
+    local i = tIndexOf(LM.UIFilter.filteredMountList, m)
+    local isFiltered = LM.UIFilter.IsFilteredMount(m)
+    if isFiltered and i then
+        table.remove(LM.UIFilter.filteredMountList, i)
+    elseif not isFiltered and not i then
+        tinsert(LM.UIFilter.filteredMountList, m)
+        LM.UIFilter.filteredMountList:Sort(LM.UIFilter.sortKey)
+    end
+end
+
 function LM.UIFilter.ClearCache()
     table.wipe(LM.UIFilter.filteredMountList)
 end
@@ -584,4 +595,18 @@ function LM.UIFilter.IsFilteredMount(m)
     end
 
     return true
+end
+
+
+-- Initialize ------------------------------------------------------------------
+
+function LM.UIFilter.Initialize()
+    LM.db.RegisterCallback(LM.UIFilter, "OnOptionsModified",
+        function (e, m)
+            if m then
+                LM.UIFilter.UpdateMountInCache(m)
+            else
+                LM.UIFilter.ClearCache()
+            end
+        end)
 end
