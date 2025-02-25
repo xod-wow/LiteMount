@@ -44,12 +44,12 @@
     <Frames>
         <Frame parentKey="DropDown" name="$parentDropDown" />
 
-        <Button parentKey="ChangeProfile" inherits="LiteMountUISelectButtonTemplate" text="LM_CHANGE_PROFILE">
+        <DropDownButton parentKey="ChangeProfile" inherits="LiteMountUISelectButtonTemplate" text="LM_CHANGE_PROFILE">
             <Anchors>
                 <Anchor point="TOP" relativePoint="BOTTOM" relativeKey="$parent.CurrentProfile" y="-48" />
                 <Anchor point="LEFT" x="48" />
             </Anchors>
-        </Button>
+        </DropDownButton>
 
         <Button parentKey="NewProfile" inherits="LiteMountUISelectButtonTemplate" text="LM_NEW_PROFILE">
             <Anchors>

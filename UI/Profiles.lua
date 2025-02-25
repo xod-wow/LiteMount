@@ -10,8 +10,6 @@ local _, LM = ...
 
 local L = LM.Localize
 
-local LibDD = LibStub("LibUIDropDownMenu-4.0")
-
 --[[------------------------------------------------------------------------]]--
 
 StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
@@ -88,27 +86,9 @@ local function GetProfileNameText(p)
     end
 end
 
-local function ClickSetProfile(self, arg1, arg2, checked)
-    LM.db:SetProfile(self.value)
-    LibDD:UIDropDownMenu_RefreshAll(L_UIDROPDOWNMENU_OPEN_MENU, true)
-end
-
-local function ClickNewProfile(self, arg1, arg2, check)
-    StaticPopup_Show("LM_OPTIONS_NEW_PROFILE", arg1, nil, arg1)
-end
-
-local function ClickDeleteProfile(self, arg1, arg2, check)
-    StaticPopup_Show("LM_OPTIONS_DELETE_PROFILE", arg1, nil, arg1)
-end
-
 local function ClickResetProfile(self)
     local arg1 = LM.db:GetCurrentProfile()
     StaticPopup_Show("LM_OPTIONS_RESET_PROFILE", arg1, nil, arg1)
-end
-
-local function ClickExportProfile(self, arg1, arg2, check)
-    LiteMountProfileExport:SetProfile(arg1)
-    LiteMountOptionsPanel_PopOver(LiteMountProfilesPanel, LiteMountProfileExport)
 end
 
 local function ClickImportProfile(self, arg1, arg2, check)
@@ -117,44 +97,26 @@ end
 
 --[[------------------------------------------------------------------------]]--
 
--- function lib:ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset, yOffset, menuList, button, autoHideDelay)
-
 local function OnClick(self)
-    local dropDown = self:GetParent().DropDown
-    LibDD:UIDropDownMenu_Initialize(dropDown, self.Initialize, "MENU")
-    LibDD:UIDropDownMenu_SetAnchor(dropDown, 0, 8, "TOP", self, "BOTTOM")
-    LibDD:ToggleDropDownMenu(1, nil, dropDown, self)
+    MenuUtil.CreateContextMenu(self, self.Generate)
 end
 
-local function OnShow(self)
-    local parent = self:GetParent()
-end
 
 --[[------------------------------------------------------------------------]]--
 
 local ChangeProfileMixin = {}
 
-function ChangeProfileMixin.Initialize(dropDown, level)
+function ChangeProfileMixin.Generate(owner, rootDescription)
     local currentProfile = LM.db:GetCurrentProfile()
     local dbProfiles = LM.db:GetProfiles() or {}
     tDeleteItem(dbProfiles, "Default")
     sort(dbProfiles)
     tinsert(dbProfiles, 1, "Default")
 
-    if level == 1 then
-
-        for _,p in ipairs(dbProfiles) do
-            local info = LibDD:UIDropDownMenu_CreateInfo()
-            info.text = GetProfileNameText(p)
-            info.value = p
-            info.checked = function ()
-                    return (p == LM.db:GetCurrentProfile())
-                end
-            info.keepShownOnClick = 1
-            info.func = ClickSetProfile
-
-            LibDD:UIDropDownMenu_AddButton(info, level)
-        end
+    for i,p in ipairs(dbProfiles) do
+        local function IsSelected() return p == currentProfile end
+        local function SetSelected() LM.db:SetProfile(p) end
+        rootDescription:CreateRadio(GetProfileNameText(p), IsSelected, SetSelected, i)
     end
 end
 
@@ -163,43 +125,33 @@ end
 
 local NewProfileMixin = {}
 
-function NewProfileMixin.Initialize(dropDown, level)
-    if level == 1 then
-        local currentProfile = LM.db:GetCurrentProfile()
-        local info = LibDD:UIDropDownMenu_CreateInfo()
-        info.text = L.LM_CURRENT_SETTINGS
-        info.notCheckable = 1
-        info.arg1 = currentProfile
-        info.func = ClickNewProfile
-        LibDD:UIDropDownMenu_AddButton(info, level)
+function NewProfileMixin.Generate(owner, rootDescription)
+    local currentProfile = LM.db:GetCurrentProfile()
 
-        info = LibDD:UIDropDownMenu_CreateInfo()
-        info.text = L.LM_DEFAULT_SETTINGS
-        info.notCheckable = 1
-        info.func = ClickNewProfile
-        LibDD:UIDropDownMenu_AddButton(info, level)
+    local function OnClick(data)
+        StaticPopup_Show("LM_OPTIONS_NEW_PROFILE", data, nil, data)
     end
+
+    rootDescription:CreateButton(L.LM_CURRENT_SETTINGS, OnClick, currentProfile)
+    rootDescription:CreateButton(L.LM_DEFAULT_SETTINGS, OnClick)
 end
 
 --[[------------------------------------------------------------------------]]--
 
 local DeleteProfileMixin = {}
 
-function DeleteProfileMixin.Initialize(dropDown, level)
-    if level == 1 then
-        local currentProfile = LM.db:GetCurrentProfile()
-        local dbProfiles = LM.db:GetProfiles() or {}
-        tDeleteItem(dbProfiles, "Default")
-        tDeleteItem(dbProfiles, currentProfile)
+function DeleteProfileMixin.Generate(owner, rootDescription)
+    local currentProfile = LM.db:GetCurrentProfile()
+    local dbProfiles = LM.db:GetProfiles() or {}
+    tDeleteItem(dbProfiles, "Default")
+    tDeleteItem(dbProfiles, currentProfile)
 
-        for _, p in ipairs(dbProfiles) do
-            local info = LibDD:UIDropDownMenu_CreateInfo()
-            info.text = GetProfileNameText(p)
-            info.arg1 = p
-            info.notCheckable = 1
-            info.func = ClickDeleteProfile
-            LibDD:UIDropDownMenu_AddButton(info, level)
-        end
+    local function OnClick(data)
+        StaticPopup_Show("LM_OPTIONS_DELETE_PROFILE", data, nil, data)
+    end
+
+    for _, p in ipairs(dbProfiles) do
+        rootDescription:CreateButton(GetProfileNameText(p), OnClick, p)
     end
 end
 
@@ -207,15 +159,16 @@ end
 
 local ExportProfileMixin = {}
 
-function ExportProfileMixin.Initialize(dropDown, level)
+function ExportProfileMixin.Generate(owner, rootDescription)
     local dbProfiles = LM.db:GetProfiles() or {}
+
+    local function OnClick(data)
+        LiteMountProfileExport:SetProfile(data)
+        LiteMountOptionsPanel_PopOver(LiteMountProfilesPanel, LiteMountProfileExport)
+    end
+
     for _, p in ipairs(dbProfiles) do
-        local info = LibDD:UIDropDownMenu_CreateInfo()
-        info.text = GetProfileNameText(p)
-        info.arg1 = p
-        info.notCheckable = 1
-        info.func = ClickExportProfile
-        LibDD:UIDropDownMenu_AddButton(info, level)
+        rootDescription:CreateButton(p, OnClick, p)
     end
 end
 
@@ -243,26 +196,20 @@ function LiteMountProfilesPanelMixin:OnLoad()
 
     self.name = L.LM_PROFILES
 
-    LibDD:Create_UIDropDownMenu(self.DropDown)
-
     self.CurrentProfileLabel:SetText(L.LM_CURRENT_PROFILE .. " :")
 
     Mixin(self.ChangeProfile, ChangeProfileMixin)
-    self.ChangeProfile:SetScript("OnShow", OnShow)
     self.ChangeProfile:SetScript("OnClick", OnClick)
 
     self.ResetProfile:SetScript("OnClick", ClickResetProfile)
 
     Mixin(self.NewProfile, NewProfileMixin)
-    self.NewProfile:SetScript("OnShow", OnShow)
     self.NewProfile:SetScript("OnClick", OnClick)
 
     Mixin(self.DeleteProfile, DeleteProfileMixin)
-    self.DeleteProfile:SetScript("OnShow", OnShow)
     self.DeleteProfile:SetScript("OnClick", OnClick)
 
     Mixin(self.ExportProfile, ExportProfileMixin)
-    self.ExportProfile:SetScript("OnShow", OnShow)
     self.ExportProfile:SetScript("OnClick", OnClick)
 
     self.ImportProfile:SetScript("OnClick", ClickImportProfile)
