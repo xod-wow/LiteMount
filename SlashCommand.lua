@@ -126,14 +126,22 @@ COMMANDS['continents'] =
         end
     end
 
+local function MatchFunc(m, ...)
+    if m:MatchesFilters(...) then
+        return true
+    else
+        local n = string.lower(table.concat({ ... }, ' '))
+        return string.match(m.name:lower(), n)
+    end
+end
+
 COMMANDS['mounts'] =
     function (argstr, ...)
         if select('#', ...) == 0 then
             local m = LM.MountRegistry:GetActiveMount()
             if m then m:Dump() end
         else
-            local n = string.lower(table.concat({ ... }, ' '))
-            local mounts = LM.MountRegistry.mounts:Search(function (m) return string.match(strlower(m.name), n) end)
+            local mounts = LM.MountRegistry.mounts:Search(MatchFunc, ...)
             for _,m in ipairs(mounts) do
                 m:Dump()
             end

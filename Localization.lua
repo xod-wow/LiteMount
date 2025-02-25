@@ -162,6 +162,7 @@ L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
     L["LM_USE_DESCRIPTION"] = "Use an item. Enter an item name, item ID, or an equipment slot number."
     L["LM_USE_RARITY_WEIGHTS"] = "Summon mounts more or less often based on their rarity (instead of priority)."
     L["LM_WARN_REPLACE_COND"] = "The [%s] action list condition has been replaced by [%s] due to Blizzard changes."
+    L["LM_ZONEMATCH"] = "From current zone"
 
     -- Family
     L["Alpaca"] = "Alpaca"

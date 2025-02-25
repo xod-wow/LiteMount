@@ -16,7 +16,7 @@ local DefaultFilterList = {
     family = { },
     flag = { },
     group = { },
-    other = { HIDDEN=true, UNUSABLE=true },
+    other = { HIDDEN=true, UNUSABLE=true, ZONEMATCH=true },
     priority = { },
     source = { },
     typename = { }
@@ -526,6 +526,12 @@ function LM.UIFilter.IsFilteredMount(m)
         -- set to be unusable but we want to display them or not with just the
         -- HIDDEN filter and not UNUSABLE.
         if not m:IsHidden() and not m:IsFilterUsable() then
+            return true
+        end
+    end
+
+    if not LM.UIFilter.filterList.other.ZONEMATCH then
+        if not m:MatchesFilters("ZONEMATCH") then
             return true
         end
     end

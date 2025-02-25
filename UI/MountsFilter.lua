@@ -90,6 +90,12 @@ local DROPDOWNS = {
         checked = function () return LM.UIFilter.IsOtherChecked("HIDDEN") end,
         set = function (v) LM.UIFilter.SetOtherFilter("HIDDEN", v) end
     },
+    ['ZONEMATCH'] = {
+        value = 'ZONEMATCH',
+        text = L.LM_ZONEMATCH,
+        checked = function () return LM.UIFilter.IsOtherChecked("ZONEMATCH") end,
+        set = function (v) LM.UIFilter.SetOtherFilter("ZONEMATCH", v) end
+    },
     ['PRIORITY'] = {
         value = 'PRIORITY',
         text = L.LM_PRIORITY,
@@ -261,29 +267,32 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         ---- 4. HIDDEN ----
         InitDropDownSection(DROPDOWNS.HIDDEN, self, level, menuList)
 
-        ---- 5. GROUP ----
+        ---- 5. ZONEMATCH ----
+        InitDropDownSection(DROPDOWNS.ZONEMATCH, self, level, menuList)
+
+        ---- 6. GROUP ----
         InitDropDownSection(DROPDOWNS.GROUP, self, level, menuList)
 
-        ---- 6. FLAG ----
+        ---- 7. FLAG ----
         InitDropDownSection(DROPDOWNS.FLAG, self, level, menuList)
 
-        ---- 7. TYPENAME ----
+        ---- 8. TYPENAME ----
         InitDropDownSection(DROPDOWNS.TYPENAME, self, level, menuList)
 
-        ---- 8. FAMILY ----
+        ---- 9. FAMILY ----
         if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
             InitDropDownSection(DROPDOWNS.FAMILY, self, level, menuList)
         end
 
-        ---- 9. SOURCES ----
+        ---- 10. SOURCES ----
         if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
             InitDropDownSection(DROPDOWNS.SOURCES, self, level, menuList)
         end
 
-        ---- 10. PRIORITY ----
+        ---- 11. PRIORITY ----
         InitDropDownSection(DROPDOWNS.PRIORITY, self, level, menuList)
 
-        ---- 11. SORTBY ----
+        ---- 12. SORTBY ----
         InitDropDownSection(DROPDOWNS.SORTBY, self, level, menuList)
     else
         InitDropDownSection(DROPDOWNS[L_UIDROPDOWNMENU_MENU_VALUE], self, level, menuList)

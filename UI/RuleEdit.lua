@@ -336,6 +336,7 @@ local function MountArgsMenu()
         priorityMenuList,
 --      typeMenuList,
 --      familyMenuList,
+        { val = "ZONEMATCH", text = L.LM_ZONEMATCH },
         { val = "FAVORITES", text = FAVORITES:upper() },
         { val = "ALL", text = ALL:upper() },
         { val = "NONE", text = NONE:upper() },

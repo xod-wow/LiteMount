@@ -70,6 +70,8 @@ function LM.Mount.FilterToDisplay(f)
         return ALL
     elseif f == "FAVORITES" then
         return FAVORITES
+    elseif f == "ZONEMATCH" then
+        return L.LM_ZONEMATCH
     elseif f:sub(1,1) == '~' then
         return string.format(L.LM_NOT_FORMAT, LM.Mount.FilterToDisplay(f:sub(2)))
     elseif f:match('^id:%d+$') then
