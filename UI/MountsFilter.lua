@@ -268,7 +268,9 @@ function LiteMountFilterButtonMixin:Initialize(level, menuList)
         InitDropDownSection(DROPDOWNS.HIDDEN, self, level, menuList)
 
         ---- 5. ZONEMATCH ----
-        InitDropDownSection(DROPDOWNS.ZONEMATCH, self, level, menuList)
+        if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+            InitDropDownSection(DROPDOWNS.ZONEMATCH, self, level, menuList)
+        end
 
         ---- 6. GROUP ----
         InitDropDownSection(DROPDOWNS.GROUP, self, level, menuList)

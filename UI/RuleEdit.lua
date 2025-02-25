@@ -311,36 +311,40 @@ local function PriorityToInfo(v) return { val = "prio:"..v, text = LM.UIFilter.G
 local function TypeToInfo(v) return { val = "mt:"..v, text = LM.UIFilter.GetTypeText(v) } end
 
 local function MountArgsMenu()
+    local menuList = { nosort = true }
+
+    local mountMenuList = { text=MOUNT, val="PICKER" }
+    table.insert(menuList, mountMenuList)
+
     local groupMenuList = LM.tMap(LM.UIFilter.GetGroups(), GroupToInfo)
     groupMenuList.text = L.LM_GROUP
-
---  local familyMenuList = LM.tMap(LM.UIFilter.GetFamilies(), FamilyToInfo)
---  familyMenuList.text = L.LM_FAMILY
-
---  local typeMenuList = LM.tMap(LM.UIFilter.GetTypes(), TypeToInfo)
---  typeMenuList.text = TYPE
+    table.insert(menuList, groupMenuList)
 
     local flagMenuList = LM.tMap(LM.UIFilter.GetFlags(), FlagToInfo)
     flagMenuList.text = TYPE
+    table.insert(menuList, flagyMenuList)
 
     local priorityMenuList = LM.tMap(LM.UIFilter.GetPriorities(), PriorityToInfo)
     priorityMenuList.text = L.LM_PRIORITY
+    table.insert(menuList, priorityMenuList)
 
-    local mountMenuList = { text=MOUNT, val="PICKER" }
+--  local typeMenuList = LM.tMap(LM.UIFilter.GetTypes(), TypeToInfo)
+--  typeMenuList.text = TYPE
+--  table.insert(menuList, typeMenuList)
 
-    return {
-        nosort = true,
-        mountMenuList,
-        groupMenuList,
-        flagMenuList,
-        priorityMenuList,
---      typeMenuList,
---      familyMenuList,
-        { val = "ZONEMATCH", text = L.LM_ZONEMATCH },
-        { val = "FAVORITES", text = FAVORITES:upper() },
-        { val = "ALL", text = ALL:upper() },
-        { val = "NONE", text = NONE:upper() },
-    }
+--  local familyMenuList = LM.tMap(LM.UIFilter.GetFamilies(), FamilyToInfo)
+--  familyMenuList.text = L.LM_FAMILY
+--  table.insert(menuList, familyMenuList)
+
+    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+        table.insert(menuList, { val = "ZONEMATCH", text = L.LM_ZONEMATCH })
+    end
+
+    table.insert(menuList, { val = "FAVORITES", text = FAVORITES:upper() })
+    table.insert(menuList, { val = "ALL", text = ALL:upper() })
+    table.insert(menuList, { val = "NONE", text = NONE:upper() })
+
+    return menuList
 end
 
 local function ActionArgButtonClick(button, mouseButton)
