@@ -95,12 +95,6 @@ local function ClickImportProfile(self, arg1, arg2, check)
     LiteMountOptionsPanel_PopOver(LiteMountProfilesPanel, LiteMountProfileImport)
 end
 
---[[------------------------------------------------------------------------]]--
-
-local function OnClick(self)
-    MenuUtil.CreateContextMenu(self, self.Generate)
-end
-
 
 --[[------------------------------------------------------------------------]]--
 
@@ -197,6 +191,10 @@ function LiteMountProfilesPanelMixin:OnLoad()
     self.name = L.LM_PROFILES
 
     self.CurrentProfileLabel:SetText(L.LM_CURRENT_PROFILE .. " :")
+
+    local function OnClick(self)
+        MenuUtil.CreateContextMenu(self, self.Generate)
+    end
 
     Mixin(self.ChangeProfile, ChangeProfileMixin)
     self.ChangeProfile:SetScript("OnClick", OnClick)

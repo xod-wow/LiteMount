@@ -322,7 +322,7 @@ local function MountArgsMenu()
 
     local flagMenuList = LM.tMap(LM.UIFilter.GetFlags(), FlagToInfo)
     flagMenuList.text = TYPE
-    table.insert(menuList, flagyMenuList)
+    table.insert(menuList, flagMenuList)
 
     local priorityMenuList = LM.tMap(LM.UIFilter.GetPriorities(), PriorityToInfo)
     priorityMenuList.text = L.LM_PRIORITY

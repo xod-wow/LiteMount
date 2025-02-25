@@ -355,6 +355,7 @@ read_globals = {
     "MALE",
     "MAX_ACCOUNT_MACROS",
     "MAX_CHARACTER_MACROS",
+    "MenuUtil",
     "MOUNT",
     "MOUNTS",
     "MOUNT_JOURNAL_FILTER_AQUATIC",
