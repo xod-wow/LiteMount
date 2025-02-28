@@ -269,6 +269,16 @@ LM.MOUNT_TYPE_INFO = {
             DRAGONRIDING = true,
         },
     },
+    [446] = {
+        -- Unstable Rocket whatever that is
+        name = C_MountJournal.GetMountInfoByID(1796),
+        skip = true,
+    },
+    [447] = {
+        -- Unstable Rocket whatever that is
+        name = C_MountJournal.GetMountInfoByID(1796),
+        skip = true,
+    },
 }
 
 do

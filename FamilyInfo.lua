@@ -208,6 +208,7 @@ LM.MOUNTFAMILY["Cat"] = {
     [435153] = true, -- Purple Shado-Pan Riding Tiger
     [129935] = true, -- Red Shado-Pan Riding Tiger
     [288506] = true, -- Sandy Nightsaber
+   [1216430] = true, -- Sha-Warped Riding Tiger
     [ 42776] = true, -- Spectral Tiger
     [ 10789] = true, -- Spotted Frostsaber
     [454682] = true, -- Startouched Furline
@@ -273,6 +274,7 @@ LM.MOUNTFAMILY["Cloud Serpent"] = {
     [127154] = true, -- Onyx Cloud Serpent
     [148620] = true, -- Prideful Gladiator's Cloud Serpent
     [315427] = true, -- Rajani Warserpent
+   [1216422] = true, -- Sha-Warped Cloud Serpent
     [129918] = true, -- Thundering August Cloud Serpent
     [139442] = true, -- Thundering Cobalt Cloud Serpent
     [124408] = true, -- Thundering Jade Cloud Serpent
@@ -847,6 +849,7 @@ LM.MOUNTFAMILY["Hyena"] = {
     [466001] = true, -- Blackwater Bonecrusher
     [306423] = true, -- Caravan Hyena
     [465999] = true, -- Crimson Armored Growler
+    [466000] = true, -- Darkfuse Chompactor
     [237286] = true, -- Dune Scavenger
     [466002] = true, -- Violet Armored Growler
 }
@@ -1128,6 +1131,14 @@ LM.MOUNTFAMILY["Ottuk"] = {
     [376873] = true, -- Otto
     [376880] = true, -- Yellow Scouting Ottuk
     [376913] = true, -- Yellow War Ottuk
+}
+
+LM.MOUNTFAMILY["Panda"] = {
+    [473745] = true, -- Meeksi Brewthief
+    [473743] = true, -- Meeksi Rollingpaw
+    [473739] = true, -- Meeksi Rufflefur
+    [473741] = true, -- Meeksi Softpaw
+    [473744] = true, -- Meeksi Teatuft
 }
 
 LM.MOUNTFAMILY["Pandaren Kite"] = {
