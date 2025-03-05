@@ -72,7 +72,7 @@ local DefaultRulesByProject = LM.TableWithDefault({
         -- Vash'jir Seahorse
         "Mount [map:203,submerged] mt:232",
         -- Flying swimming mounts in Nazjatar with Budding Deepcoral
-        "Mount [map:1355,flyable,qfc:56766] mt:254",
+        -- "Mount [map:1355,flyable,qfc:56766] mt:254",
         -- AQ Battle Tanks in the raid instance
         "Mount [instance:531] mt:241",
         -- Arcanist's Manasaber to disguise you in Suramar
