@@ -442,7 +442,9 @@ end
 
 -- Blizzard's IsDrivableArea is always false so far
 function LM.Environment:IsDrivableArea(mapPath)
-    if C_ZoneAbility then
+    if self:InInstance(2769) then
+        return true
+    elseif C_ZoneAbility then
         local zoneAbilities = C_ZoneAbility.GetActiveAbilities()
         for _,info in ipairs(zoneAbilities) do
             local zoneSpellName = C_Spell.GetSpellName(info.spellID)

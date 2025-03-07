@@ -22,12 +22,18 @@ function LM.Drive:IsCollected()
 end
 
 function LM.Drive:IsCastable()
-    local zoneAbilities = C_ZoneAbility.GetActiveAbilities()
-    for _,info in ipairs(zoneAbilities) do
-        local zoneSpellName = C_Spell.GetSpellName(info.spellID)
-        local zoneSpellID = C_Spell.GetSpellInfo(zoneSpellName).spellID
-        if zoneSpellID == self.spellID then
-            return C_Spell.IsSpellUsable(info.spellID) and LM.Mount.IsCastable(self)
+    -- In the raid zone there seems to be a different copy of G-99 Breakneck
+    -- that obeys the normal rules for IsSpellUsable
+    if select(8, GetInstanceInfo()) == 2769 then
+        return C_Spell.IsSpellUsable(self.name)
+    else
+        local zoneAbilities = C_ZoneAbility.GetActiveAbilities()
+        for _,info in ipairs(zoneAbilities) do
+            local zoneSpellName = C_Spell.GetSpellName(info.spellID)
+            local zoneSpellID = C_Spell.GetSpellInfo(zoneSpellName).spellID
+            if zoneSpellID == self.spellID then
+                return C_Spell.IsSpellUsable(info.spellID) and LM.Mount.IsCastable(self)
+            end
         end
     end
     return false
