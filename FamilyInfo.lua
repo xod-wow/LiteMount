@@ -10,6 +10,20 @@ local _, LM = ...
 
 LM.MOUNTFAMILY = {}
 
+LM.MOUNTFAMILY["Aerial Unit"] = {
+    [290718] = true, -- Aerial Unit R-21/X
+    [466024] = true, -- Bilgewater Bombardier
+    [466027] = true, -- Darkfuse Spy-Eye
+    [466025] = true, -- Margin Manipulator
+    [466028] = true, -- Mean Green Flying Machine
+    [424082] = true, -- Mimiron's Jumpjets
+   [1221155] = true, -- Prototype A.S.M.R.
+    [299170] = true, -- Rustbolt Resistor
+    [466026] = true, -- Salvaged Goblin Gazillionaire's Flying Machine
+    [302795] = true, -- Swift Spectral Magnetocraft
+    [368158] = true, -- Zereth Overseer
+}
+
 LM.MOUNTFAMILY["Alpaca"] = {
     [316493] = true, -- Elusive Quickhoof
     [298367] = true, -- Mollie
@@ -132,6 +146,7 @@ LM.MOUNTFAMILY["Bird"] = {
     [253639] = true, -- Violet Spellwing
     [316275] = true, -- Waste Marauder
     [316276] = true, -- Wastewander Skyterror
+    [290328] = true, -- Wonderwing 2.0
 }
 
 LM.MOUNTFAMILY["Bloodswarmer"] = {
@@ -233,11 +248,23 @@ LM.MOUNTFAMILY["Cat"] = {
     [229512] = true, -- Vicious War Lion
     [281888] = true, -- Vicious White Warsaber
     [ 17229] = true, -- Winterspring Frostsaber
+    [294143] = true, -- X-995 Mechanocat
 }
 
 LM.MOUNTFAMILY["Charhound"] = {
     [253088] = true, -- Antoran Charhound
     [253087] = true, -- Antoran Gloomhound
+}
+
+LM.MOUNTFAMILY["Chopper"] = {
+    [179244] = true, -- Chauffeured Mechano-Hog
+    [179245] = true, -- Chauffeured Mekgineer's Chopper
+    [171846] = true, -- Champion's Treadblade
+    [428067] = true, -- Hatefored Blazecycle
+    [428013] = true, -- Incognitro, the Indecipherable Felcycle
+    [ 60424] = true, -- Mekgineer's Chopper
+    [ 55531] = true, -- Mechano-Hog
+    [171845] = true, -- Warlord's Deathwheel
 }
 
 LM.MOUNTFAMILY["Clefthoof"] = {
@@ -614,6 +641,18 @@ LM.MOUNTFAMILY["Flying Carpet"] = {
     [ 61309] = true, -- Magnificent Flying Carpet
 }
 
+LM.MOUNTFAMILY["Flying Machine"] = {
+    [247448] = true, -- Darkmoon Dirigible
+    [446052] = true, -- Delver's Dirigible
+    [466133] = true, -- Delver's Gob-Trotter
+    [307256] = true, -- Explorer's Jungle Hopper
+    [ 44153] = true, -- Flying Machine
+    [245725] = true, -- Orgrimmar Interceptor
+    [245723] = true, -- Stormwind Skychaser
+    [ 44151] = true, -- Turbo-Charged Flying Machine
+    [256123] = true, -- Xiwyllag ATV
+}
+
 LM.MOUNTFAMILY["Fox"] = {
     [427435] = true, -- Crimson Glimmerfur
     [431357] = true, -- Fur-endship Fox
@@ -917,7 +956,6 @@ LM.MOUNTFAMILY["Magic"] = {
     [472489] = true, -- Sky Witch's Sweeper
     [472487] = true, -- Silvermoon Sweeper
     [359318] = true, -- Soaring Spelltome
-    [473137] = true, -- Soweezi's Vintage Waveshredder
     [346554] = true, -- Tazavesh Gearglider
     [472488] = true, -- Twilight Witch's Sweeper
     [334352] = true, -- Wildseed Cradle
@@ -960,87 +998,28 @@ LM.MOUNTFAMILY["Mana Ray"] = {
     [253106] = true, -- Vibrant Mana Ray
 }
 
-LM.MOUNTFAMILY["Mechanical"] = {
-    [405623] = true, -- Armadillo Roller
-    [290718] = true, -- Aerial Unit R-21/X
-    [466023] = true, -- Asset Advocator
-    [ 71342] = true, -- Big Love Rocket
-    [466024] = true, -- Bilgewater Bombardier
-    [466019] = true, -- Blackwater Shredder Deluxe Mk 2
-    [473188] = true, -- Bronze Goblin Waveshredder
+LM.MOUNTFAMILY["Meat Wagon"] = {
+    [281554] = true, -- Meat Wagon
+}
+
+LM.MOUNTFAMILY["Mechacycle"] = {
+    [296788] = true, -- Mechacycle Model W
+    [297157] = true, -- Junkheap Drifter
+}
+
+LM.MOUNTFAMILY["Mechanical Head"] = {
+    [261437] = true, -- Mecha-Mogul Mk2
+    [ 63796] = true, -- Mimiron's Head
+   [1217760] = true, -- The Big G
+}
+
+LM.MOUNTFAMILY["Mechaspider"] = {
     [359545] = true, -- Carcinized Zerethsteed (but not)
-    [171846] = true, -- Champion's Treadblade
-    [179244] = true, -- Chauffeured Mechano-Hog
-    [179245] = true, -- Chauffeured Mekgineer's Chopper
    [1217235] = true, -- Crimson Shreddertank
    [1221694] = true, -- Enterprising Shreddertank
-    [448186] = true, -- Crowd Pummeler 2-30
-    [466018] = true, -- Darkfuse Demolisher
-    [466027] = true, -- Darkfuse Spy-Eye
-    [247448] = true, -- Darkmoon Dirigible
-    [446052] = true, -- Delver's Dirigible
-    [466133] = true, -- Delver's Gob-Trotter
-    [458335] = true, -- Diamond Mechsuit
-    [126507] = true, -- Depleted-Kyparium Rocket
-    [307256] = true, -- Explorer's Jungle Hopper
-    [182912] = true, -- Felsteel Annihilator
-    [466011] = true, -- Flarendo the Furious
-    [ 44153] = true, -- Flying Machine
-    [289083] = true, -- G.M.O.D.
-    [126508] = true, -- Geosynchronous World Spinner
-    [ 87090] = true, -- Goblin Trike
-    [ 87091] = true, -- Goblin Turbo-Trike
-    [428067] = true, -- Hatefored Blazecycle
-    [428013] = true, -- Incognitro, the Indecipherable Felcycle
-    [466017] = true, -- Innovation Investigator
-    [297157] = true, -- Junkheap Drifter
-    [468068] = true, -- Junkmaestro's Magnetomech
-    [239013] = true, -- Lightforged Warframe
-    [472253] = true, -- Lunar Launcher
-    [448188] = true, -- Machine Defense Unit 1-11
-    [466025] = true, -- Margin Manipulator
-    [466028] = true, -- Mean Green Flying Machine
-    [281554] = true, -- Meat Wagon
-    [261437] = true, -- Mecha-Mogul Mk2
-    [296788] = true, -- Mechacycle Model W
     [299158] = true, -- Mechagon Peacekeeper
-    [223814] = true, -- Mechanized Lumber Extractor
-    [ 55531] = true, -- Mechano-Hog
-    [ 60424] = true, -- Mekgineer's Chopper
-    [ 63796] = true, -- Mimiron's Head
-    [424082] = true, -- Mimiron's Jumpjets
-    [466013] = true, -- Ochre Delivery Rocket
-    [245725] = true, -- Orgrimmar Interceptor
-    [447413] = true, -- Pearlescent Goblin Wave Shredder
-    [466020] = true, -- Personalized Goblin S.C.R.A.Per
-   [1221155] = true, -- Prototype A.S.M.R.
-    [400733] = true, -- Rocket Shredder 9001
-    [299170] = true, -- Rustbolt Resistor
-    [291492] = true, -- Rusty Mechanocrawler
-    [466026] = true, -- Salvaged Goblin Gazillionaire's Flying Machine
     [299159] = true, -- Scrapforged Mechaspider
-    [134359] = true, -- Sky Golem
-    [245723] = true, -- Stormwind Skychaser
-    [302795] = true, -- Swift Spectral Magnetocraft
-    [466014] = true, -- Steamwheedle Supplier
-    [442358] = true, -- Stonevault Mechsuit
-   [1217760] = true, -- The Big G
-    [472752] = true, -- The Breaker's Song
-    [272770] = true, -- The Dreadwake
-    [466016] = true, -- The Topskimmer Special
-    [466012] = true, -- Thunderdrum Misfire
-    [ 44151] = true, -- Turbo-Charged Flying Machine
-    [466022] = true, -- Venture Coordinator
-    [223354] = true, -- Vicious War Trike
-    [466021] = true, -- Violet Goblin Shredder
-    [171845] = true, -- Warlord's Deathwheel
-    [290328] = true, -- Wonderwing 2.0
-    [ 46197] = true, -- X-51 Nether-Rocket
-    [ 46199] = true, -- X-51 Nether-Rocket X-TREME
-    [ 75973] = true, -- X-53 Touring Rocket
-    [294143] = true, -- X-995 Mechanocat
-    [256123] = true, -- Xiwyllag ATV
-    [368158] = true, -- Zereth Overseer
+    [291492] = true, -- Rusty Mechanocrawler
 }
 
 LM.MOUNTFAMILY["Mechanostrider"] = {
@@ -1060,6 +1039,25 @@ LM.MOUNTFAMILY["Mechanostrider"] = {
     [ 17454] = true, -- Unpainted Mechanostrider
     [183889] = true, -- Vicious War Mechanostrider
     [ 15779] = true, -- White Mechanostrider Mod B
+}
+
+LM.MOUNTFAMILY["Mechasaur"] = {
+    [466011] = true, -- Flarendo the Furious
+}
+
+LM.MOUNTFAMILY["Mechsuit"] = {
+    [466023] = true, -- Asset Advocator
+    [448186] = true, -- Crowd Pummeler 2-30
+    [466018] = true, -- Darkfuse Demolisher
+    [458335] = true, -- Diamond Mechsuit
+    [182912] = true, -- Felsteel Annihilator
+    [289083] = true, -- G.M.O.D.
+    [468068] = true, -- Junkmaestro's Magnetomech
+    [239013] = true, -- Lightforged Warframe
+    [448188] = true, -- Machine Defense Unit 1-11
+    [466020] = true, -- Personalized Goblin S.C.R.A.Per
+    [442358] = true, -- Stonevault Mechsuit
+    [466022] = true, -- Venture Coordinator
 }
 
 LM.MOUNTFAMILY["Mole"] = {
@@ -1187,6 +1185,11 @@ LM.MOUNTFAMILY["Phoenix"] = {
     [459784] = true, -- Golden Ashes of Al'ar
     [347812] = true, -- Sapphire Skyblazer
     [132119] = true, -- Violet Pandaren Phoenix
+}
+
+LM.MOUNTFAMILY["Pirate Ship"] = {
+    [472752] = true, -- The Breaker's Song
+    [272770] = true, -- The Dreadwake
 }
 
 LM.MOUNTFAMILY["Proto-Drake"] = {
@@ -1329,6 +1332,21 @@ LM.MOUNTFAMILY["Riverbeast"] = {
     [272481] = true, -- Vicious War Riverbeast
 }
 
+LM.MOUNTFAMILY["Rocket"] = {
+    [126507] = true, -- Depleted-Kyparium Rocket
+    [126508] = true, -- Geosynchronous World Spinner
+    [466017] = true, -- Innovation Investigator
+    [472253] = true, -- Lunar Launcher
+    [466013] = true, -- Ochre Delivery Rocket
+    [466014] = true, -- Steamwheedle Supplier
+    [466016] = true, -- The Topskimmer Special
+    [466012] = true, -- Thunderdrum Misfire
+    [ 71342] = true, -- X-45 Heartbreaker (Big Love Rocket)
+    [ 46197] = true, -- X-51 Nether-Rocket
+    [ 46199] = true, -- X-51 Nether-Rocket X-TREME
+    [ 75973] = true, -- X-53 Touring Rocket
+}
+
 LM.MOUNTFAMILY["Rooster"] = {
     [ 66124] = true, -- Magic Rooster
     [ 66123] = true, -- Magic Rooster
@@ -1439,6 +1457,14 @@ LM.MOUNTFAMILY["Shardhide"] = {
     [347810] = true, -- Crimson Shardhide
     [354357] = true, -- Beryl Shardhide
     [354358] = true, -- Darkmaul
+}
+
+LM.MOUNTFAMILY["Shredder"] = {
+    [466019] = true, -- Blackwater Shredder Deluxe Mk 2
+    [223814] = true, -- Mechanized Lumber Extractor
+    [400733] = true, -- Rocket Shredder 9001
+    [134359] = true, -- Sky Golem
+    [466021] = true, -- Violet Goblin Shredder
 }
 
 LM.MOUNTFAMILY["Skyrazor"] = {
@@ -1636,6 +1662,12 @@ LM.MOUNTFAMILY["Toad"] = {
     [347256] = true, -- Vicious War Croaker (Alliance)
 }
 
+LM.MOUNTFAMILY["Trike"] = {
+    [ 87090] = true, -- Goblin Trike
+    [ 87091] = true, -- Goblin Turbo-Trike
+    [223354] = true, -- Vicious War Trike
+}
+
 LM.MOUNTFAMILY["Turtle"] = {
     [ 30174] = true, -- Riding Turtle
     [473861] = true, -- Savage Alabaster Battle Turtle
@@ -1692,6 +1724,12 @@ LM.MOUNTFAMILY["Warp Stalker"] = {
 LM.MOUNTFAMILY["Water Strider"] = {
     [118089] = true, -- Azure Water Strider
     [127271] = true, -- Crimson Water Strider
+}
+
+LM.MOUNTFAMILY["Waveshredder"] = {
+    [473188] = true, -- Bronze Goblin Waveshredder
+    [447413] = true, -- Pearlescent Goblin Wave Shredder
+    [473137] = true, -- Soweezi's Vintage Waveshredder
 }
 
 LM.MOUNTFAMILY["Wilderling"] = {

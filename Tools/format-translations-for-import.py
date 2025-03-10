@@ -1,4 +1,4 @@
-#!/usr/bin/python3.7 -tt
+#!/usr/bin/python3 -tt
 
 import requests, sys
 import unicodecsv as csv
