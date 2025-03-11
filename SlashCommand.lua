@@ -243,7 +243,7 @@ COMMANDS['mockdata'] =
 --@end-debug@
 
 local function PrintUsage()
-    LM.Print(GAMEMENU_HELP .. ":")
+    LM.Print(L.LM_USAGE .. ':')
     LM.Print("  /litemount priority <0-4>")
     LM.Print("  /litemount mounts [<substring>]")
     LM.Print("  /litemount maps [<substring>]")
