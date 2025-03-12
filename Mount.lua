@@ -213,7 +213,8 @@ function LM.Mount:IsActive(buffTable)
 end
 
 function LM.Mount:IsCastable()
-    local info = C_Spell.GetSpellInfo(self.spellID)
+    local spellID = C_Spell.GetOverrideSpell(self.spellID)
+    local info = C_Spell.GetSpellInfo(spellID)
     if LM.Environment:IsMovingOrFalling() then
         if info.castTime > 0 then return false end
     elseif LM.Options:GetOption('instantOnlyMoving') then

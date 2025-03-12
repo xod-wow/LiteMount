@@ -15,26 +15,39 @@ local C_Spell = LM.C_Spell or C_Spell
 LM.Drive = setmetatable({ }, LM.Spell)
 LM.Drive.__index = LM.Drive
 
--- Check if the spell is in one of the zone spell slots.
-
-function LM.Drive:IsCollected()
-    return true
-end
+--
+-- G-99 Breakneck has all kinds of funky overriding going on. And despite the
+-- item that teaches it saying it's a mount, it's not in the journal.
+--
+-- The base spell ID is 1215279. This is what you can cast by ID (nothing
+-- else works).
+--
+-- By default (in places you can't D.R.I.V.E.) it is an instant-cast spell
+-- that displays an error message with a red X icon (iconID 4200126).
+--
+-- In the Undermine zone it is part of the zone abilities, and the zone ability
+-- spell ID is also 1215279. It is overridden to 460013, which seems to be the
+-- full version of the mount.
+--
+-- Inside the Liberation of Undermine raid it is overridden with a version
+-- that doesn't have boost enabled and no horn, 1218373.
+--
+-- C_Spell.GetOverrideSpell(1215279) works to get the actual ID.
+--
+-- FindBaseSpellByID(overrideID) returns 1215279 correctly.
+--
+-- IsPlayerSpell(1215279) works to see if you've unlocked it.
+--
+-- C_Spell.IsSpellUsable(1215279) works for both situations.
+--
 
 function LM.Drive:IsCastable()
-    -- In the raid zone there seems to be a different copy of G-99 Breakneck
-    -- that obeys the normal rules for IsSpellUsable
-    if select(8, GetInstanceInfo()) == 2769 then
-        return C_Spell.IsSpellUsable(self.name)
-    else
-        local zoneAbilities = C_ZoneAbility.GetActiveAbilities()
-        for _,info in ipairs(zoneAbilities) do
-            local zoneSpellName = C_Spell.GetSpellName(info.spellID)
-            local zoneSpellID = C_Spell.GetSpellInfo(zoneSpellName).spellID
-            if zoneSpellID == self.spellID then
-                return C_Spell.IsSpellUsable(info.spellID) and LM.Mount.IsCastable(self)
-            end
-        end
+    local overrideSpellID = C_Spell.GetOverrideSpell(self.spellID)
+
+    -- Default if not overridden is that it's the "doesn't work" version.
+    if overrideSpellID == self.spellID then
+        return false
     end
-    return false
+
+    return LM.Spell.IsCastable(self)
 end

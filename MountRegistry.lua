@@ -91,7 +91,10 @@ function LM.MountRegistry:OnEvent(event, ...)
         self.needRefresh = true
     elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
         local _, _, spellID = ...
-        local m = self.indexes.spellID[spellID] or self.indexes.overrideSpellID[spellID]
+        local baseSpellID = FindBaseSpellByID(spellID)
+        local m = self.indexes.spellID[spellID]
+                    or self.indexes.spellID[baseSpellID]
+                    or self.indexes.overrideSpellID[spellID]
         if m then
             m:OnSummon()
             self.callbacks:Fire("OnMountSummoned", m)

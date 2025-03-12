@@ -440,21 +440,10 @@ function LM.Environment:CanFly(mapPath)
     return self:IsFlyableArea(mapPath)
 end
 
--- Blizzard's IsDrivableArea is always false so far
+-- Blizzard's IsDrivableArea is always false so far. Check if the base spell has
+-- been overridden with one that works.
 function LM.Environment:IsDrivableArea(mapPath)
-    if self:InInstance(2769) then
-        return true
-    elseif C_ZoneAbility then
-        local zoneAbilities = C_ZoneAbility.GetActiveAbilities()
-        for _,info in ipairs(zoneAbilities) do
-            local zoneSpellName = C_Spell.GetSpellName(info.spellID)
-            local zoneSpellID = C_Spell.GetSpellInfo(zoneSpellName).spellID
-            if zoneSpellID == LM.SPELL.G_99_BREAKNECK then
-                return true
-            end
-        end
-    end
-    return false
+    return C_Spell.GetOverrideSpell(LM.SPELL.G_99_BREAKNECK) ~= LM.SPELL.G_99_BREAKNECK
 end
 
 function LM.Environment:CantBreathe()
