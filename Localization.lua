@@ -1087,6 +1087,10 @@ if locale == "frFR" then
     L["LM_STEADY_FLIGHT"] = "Vol régulier"
     L["LM_SUMMON_CHAT_MESSAGE"] = "%s (Priorité: %d, Invocations: %d)"
     L["LM_SUMMON_CHAT_MESSAGE_RARITY"] = "%s (Rareté: %s, Invocations: %d)"
+    L["LM_SUMMON_STYLE"] = "Comment choisir une monture aléatoire"
+    L["LM_SUMMON_STYLE_LEASTUSED"] = "Invoquez les montures que vous avez le moins utilisées"
+    L["LM_SUMMON_STYLE_PRIORITY"] = "Utiliser les priorités de montures définies manuellement"
+    L["LM_SUMMON_STYLE_RARITY"] = "Invoquer plus souvent des montures rares (moins de joueurs les possédant)"
     L["LM_TRANSLATORS"] = "Traducteurs"
     L["LM_USABLE"] = "Utilisable"
     L["LM_USAGE"] = "Utilisation"
@@ -1094,6 +1098,7 @@ if locale == "frFR" then
     L["LM_USE_DESCRIPTION"] = "Utilise un objet. Entrez le nom ou l'ID de l'objet, ou le numéro d'emplacement d'un équipement."
     L["LM_USE_RARITY_WEIGHTS"] = "Invoque les montures plus ou moins souvent en fonction de leur rareté (au lieu de la priorité)."
     L["LM_WARN_REPLACE_COND"] = "La condition de la liste d'actions [%s] a été remplacée par [%s] en raison de changements de Blizzard."
+    L["LM_ZONEMATCH"] = "À partir de la zone actuelle"
 
     -- Family
     L["Aerial Unit"] = "Unité aérienne"
@@ -1669,6 +1674,7 @@ if locale == "koKR" then
     L["LM_REPORT_BUG"] = "버그 제보"
     L["LM_REPORT_BUG_EXP"] = "LiteMount의 버그를 제보하려면, 경험한 내용을 아래 문자열 상단 질의에 맞게 입력해주세요. (영어로) 그런 다음, 입력한 내용을 포함한 문자열 전체를 복사하여 하단 URL주소에 남겨주세요."
     L["LM_RESET_PROFILE"] = "프로필 초기화"
+    L["LM_RESTORE_FORMS"] = "탈것에서 내릴 시 드루이드 폼 변신 유지하기"
     L["LM_RULES_EXP"] = "탈것 소환을 위한 규칙을 설정하세요. 각 규칙마다 최대 3개의 조건과 1개의 행동을 설정할 수 있습니다. 규칙들은 우선순위에 따라 차례대로 실행되며, 조건을 모두 만족시키는 규칙이 순서대로 적용됩니다."
     L["LM_RULES_INACTIVE"] = "단축키 %d 는 개별 설정에 'ApplyRules' 행동이 누락되어 있어 규칙을 적용할 수 없습니다. 규칙을 적용하려면 고급 설정에서 'ApplyRules'를 추가하세요."
     L["LM_SEASON"] = "계절"
