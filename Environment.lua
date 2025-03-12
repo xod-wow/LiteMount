@@ -440,10 +440,11 @@ function LM.Environment:CanFly(mapPath)
     return self:IsFlyableArea(mapPath)
 end
 
--- Blizzard's IsDrivableArea is always false so far. Check if the base spell has
--- been overridden with one that works.
-function LM.Environment:IsDrivableArea(mapPath)
-    return C_Spell.GetOverrideSpell(LM.SPELL.G_99_BREAKNECK) ~= LM.SPELL.G_99_BREAKNECK
+-- Blizzard's IsDrivableArea is always false so far. If the mount is usable
+-- then we are in the right area. Save duplicating all the code.
+
+function LM.Environment:IsDrivableArea()
+    return LM.Drive.IsUsable()
 end
 
 function LM.Environment:CantBreathe()

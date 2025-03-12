@@ -41,13 +41,44 @@ LM.Drive.__index = LM.Drive
 -- C_Spell.IsSpellUsable(1215279) works for both situations.
 --
 
-function LM.Drive:IsCastable()
-    local overrideSpellID = C_Spell.GetOverrideSpell(self.spellID)
-
-    -- Default if not overridden is that it's the "doesn't work" version.
-    if overrideSpellID == self.spellID then
-        return false
+function LM.Drive.IsUsable()
+    if C_Spell.GetOverrideSpell(LM.SPELL.G_99_BREAKNECK) ~= LM.SPELL.G_99_BREAKNECK then
+        return true
     end
 
+    -- Spell isn't overridden if you're in the mount, but obviously its usable.
+
+    local name = C_Spell.GetSpellName(LM.SPELL.G_99_BREAKNECK)
+    if LM.UnitAura('player', name) then
+        return true
+    end
+
+    -- Bug workarounds from here
+
+    -- Spell override sometimes get stuck in the client (I assume it's not cache
+    -- invalidating correctly) and the API returns no override. The Blizzard icon
+    -- also shows wrongly. Not sure of the exact circumstances but the two times
+    -- I've triggered it have been to do with raid group.
+
+    if LM.Environment:InInstance(2769) then
+        return true
+    end
+
+    if C_ZoneAbility then
+        local zoneAbilities = C_ZoneAbility.GetActiveAbilities()
+        for _,zoneAbility in ipairs(zoneAbilities) do
+            if zoneAbility.spellID == LM.SPELL.G_99_BREAKNECK then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+function LM.Drive:IsCastable()
+    if not self:IsUsable() then
+        return false
+    end
     return LM.Spell.IsCastable(self)
 end
