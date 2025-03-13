@@ -86,6 +86,13 @@ if not LM.C_Spell.GetSpellSubtext then
     LM.C_Spell.GetSpellSubtext = _G.GetSpellSubtext
 end
 
+if not LM.C_Spell.GetOverrideSpell then
+    function LM.C_Spell.GetOverrideSpell(spellIdentifier)
+        local info = LM.C_Spell.GetSpellInfo(spellIdentifier)
+        return info and FindSpellOverrideByID(info.spellID)
+    end
+end
+
 
 --[[ C_MountJournal ]]----------------------------------------------------------
 
