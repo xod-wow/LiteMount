@@ -11,6 +11,7 @@ end
 function mockButton:New(...)
     local b = mockFrame.New(self, ...)
     b.__wantClicks = {}
+    b.__hooks = {}
     return b
 end
 
@@ -30,6 +31,12 @@ function mockButton:ClickMatches(mouseButton, isDown)
     end
 end
 
+function mockButton:CallHooks(script, ...)
+    for _, f in ipairs(self.__hooks[script] or {}) do
+        f(self, ...)
+    end
+end
+
 function mockButton:Click(mouseButton, isDown)
     if not self:ClickMatches(mouseButton, isDown) then
         return
@@ -44,6 +51,7 @@ function mockButton:Click(mouseButton, isDown)
 
     if pre then
         pre(self, mouseButton, isDown)
+        self:CallHooks('PreClick', mouseButton, isDown)
     end
 
     -- SecureActionButton emulation
@@ -65,7 +73,15 @@ function mockButton:Click(mouseButton, isDown)
         end
     end
 
+    self:CallHooks('OnClick', mouseButton, isDown)
+
     if post then
         post(self, mouseButton, isDown)
+        self:CallHooks('PostClick', mouseButton, isDown)
     end
+end
+
+function mockButton:HookScript(scriptName, f)
+    self.__hooks[scriptName] = self.__hooks[scriptName] or {}
+    table.insert(self.__hooks[scriptName], f)
 end

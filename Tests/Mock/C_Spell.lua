@@ -16,6 +16,20 @@ function C_Spell.GetSpellName(spellIdentifier)
     end
 end
 
+function C_Spell.GetOverrideSpell(spellIdentifier)
+    local info = C_Spell.GetSpellInfo(spellIdentifier)
+    if info then
+        return info.spellID
+    end
+end
+
+function C_Spell.GetSpellName(spellIdentifier)
+    local info = C_Spell.GetSpellInfo(spellIdentifier)
+    if info then
+        return info.name
+    end
+end
+
 function C_Spell.GetSpellCooldown(id)
     return {
         isEnabled = true,
