@@ -497,25 +497,40 @@ ACTIONS['Mount'] = {
 
             if next(filteredList) == nil then return end
 
-            local randomStyle = context.rule.priority and LM.Options:GetOption('randomWeightStyle')
-
-            local m
-
             if context.rule.smart then
                 for _, info in ipairs(smartActions) do
-                    if not m and LM.Conditions:Check(info.condition, context) then
+                    if LM.Conditions:Check(info.condition, context) then
                         LM.Debug("  * trying " .. info.debug)
                         local expr = info.arg:ParseExpression()
                         local mounts = filteredList:ExpressionSearch(expr)
                         LM.Debug("  * found " .. #mounts .. " mounts.")
-                        m = mounts:Random(context.random, randomStyle)
-                        if context.rule.strict and info.condition ~= '[]' and not m then
-                            return
+                        if next(mounts) ~= nil then
+                            filteredList = mounts
+                            break
                         end
                     end
                 end
-            else
+            end
+
+            local m
+
+            -- If we are trying to persist a mount, do so only if it is in the
+            -- list of filter-matching mounts. Otherwise it could be the wrong
+            -- type for where we are or what the rules have picked, or not
+            -- castable. In theory we could keep a list of mounts used in the
+            -- persist time and iterate them in MRU order but this is already
+            -- slower than I'd like.
+
+            -- This tContains is slow. I think. It may not be any slower than
+            -- keeping an index since this is all dynamic anyway.
+
+            if context.forceSummon and tContains(filteredList, context.forceSummon) then
+                m = context.forceSummon
+            elseif context.rule.priority then
+                local randomStyle = LM.Options:GetOption('randomWeightStyle')
                 m = filteredList:Random(context.random, randomStyle)
+            else
+                m = filteredList:Random(context.random)
             end
 
             if m then

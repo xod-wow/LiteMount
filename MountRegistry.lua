@@ -96,6 +96,7 @@ function LM.MountRegistry:OnEvent(event, ...)
                     or self.indexes.spellID[baseSpellID]
                     or self.indexes.overrideSpellID[spellID]
         if m then
+            self.lastSummoned = m
             m:OnSummon()
             self.callbacks:Fire("OnMountSummoned", m)
         end
@@ -386,4 +387,9 @@ function LM.MountRegistry:GetJournalTotals()
         end
     end
     return c
+end
+
+
+function LM.MountRegistry:GetLastSummoned()
+    return self.lastSummoned
 end

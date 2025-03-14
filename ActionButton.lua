@@ -61,11 +61,18 @@ function LM.ActionButton:PreClick(inputButton, isDown)
 
     LM.MountRegistry:RefreshMounts()
 
-    -- Re-randomize if it's time
+    -- Re-randomize if it's time, and update the last mount. Previously I was just
+    -- relying on the random seed for the persistence, but "least summoned" isn't
+    -- random. On the other hand, the seed is better because it will pick the same
+    -- mount from each different set. So, now I have both I guess.
+
     local keepRandomForSeconds = LM.Options:GetOption('randomKeepSeconds')
     if GetTime() - (self.context.randomTime or 0) > keepRandomForSeconds then
         self.context.random = math.random()
         self.context.randomTime = GetTime()
+        self.context.forceSummon = nil
+    else
+        self.context.forceSummon = LM.MountRegistry:GetLastSummoned()
     end
 
     -- Set up the fresh run context for a new run.
