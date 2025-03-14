@@ -217,6 +217,7 @@ read_globals = {
     "FadingFrame_SetFadeOutTime",
     "FadingFrame_SetHoldTime",
     "FadingFrame_Show",
+    "FindBaseSpellByID",
     "FindSpellOverrideByID",
     "GAMEMENU_HELP",
     "GRAY_FONT_COLOR_CODE",
