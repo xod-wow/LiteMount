@@ -238,9 +238,9 @@ function LM.Environment:GetDruidForm()
             local _, _, _, spellID = GetShapeshiftFormInfo(index)
             if spellID then
                 return id, C_Spell.GetSpellInfo(spellID)
-            else
-                LM.PrintError('Uh-oh, druid form query failure please tell the author')
-                LM.PrintError('id=%d, index=%d, spellID=nil', id, index)
+--          else
+--              LM.PrintError('Uh-oh, druid form query failure please tell the author')
+--              LM.PrintError('id=%d, index=%d, spellID=nil', id, index)
             end
         end
     end
