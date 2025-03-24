@@ -140,6 +140,7 @@ LM.MOUNTFAMILY["Beetle"] = {
     [452779] = true, -- Ivory Goliathus
 }
 
+-- split
 LM.MOUNTFAMILY["Bird"] = {
     [414324] = true, -- Gold-Toed Albatross
     [471696] = true, -- Hooktalon
@@ -209,58 +210,6 @@ LM.MOUNTFAMILY["Camel"] = {
     [ 88750] = true, -- Grey Riding Camel
     [ 88749] = true, -- Tan Riding Camel
     [102488] = true, -- White Riding Camel
-}
-
-LM.MOUNTFAMILY["Cat"] = {
-    [366962] = true, -- Ash'adar, Harbinger of Dawn
-    [230987] = true, -- Arcanist's Manasaber
-    [ 16056] = true, -- Ancient Frostsaber
-    [229385] = true, -- Ban-Lu, Grandmaster's Companion
-    [ 16055] = true, -- Black Nightsaber
-    [449132] = true, -- Blackrock Warsaber
-    [ 22723] = true, -- Black War Tiger
-    [129934] = true, -- Blue Shado-Pan Riding Tiger
-    [ 63637] = true, -- Darnassian Nightsaber
-    [448979] = true, -- Dauntless Imperial Lynx
-    [200175] = true, -- Felsaber
-    [ 90621] = true, -- Golden King
-    [129932] = true, -- Green Shado-Pan Riding Tiger
-    [366791] = true, -- Jigglesworth Sr.
-    [288505] = true, -- Kaldorei Nightsaber
-    [449126] = true, -- Kor'kron Warsaber
-    [180545] = true, -- Mystic Runesaber
-    [258845] = true, -- Nightborne Manasaber
-    [288740] = true, -- Priestess' Moonsaber
-    [232405] = true, -- Primal Flamesaber
-    [435153] = true, -- Purple Shado-Pan Riding Tiger
-    [129935] = true, -- Red Shado-Pan Riding Tiger
-    [288506] = true, -- Sandy Nightsaber
-   [1216430] = true, -- Sha-Warped Riding Tiger
-    [ 42776] = true, -- Spectral Tiger
-    [ 10789] = true, -- Spotted Frostsaber
-    [454682] = true, -- Startouched Furline
-    [ 66847] = true, -- Striped Dawnsaber
-    [  8394] = true, -- Striped Frostsaber
-    [ 10793] = true, -- Striped Nightsaber
-    [317177] = true, -- Sunwarmed Furline
-    [ 23221] = true, -- Swift Frostsaber
-    [ 23219] = true, -- Swift Mistsaber
-    [ 65638] = true, -- Swift Moonsaber
-    [ 42777] = true, -- Swift Spectral Tiger
-    [ 23338] = true, -- Swift Stormsaber
-    [ 96499] = true, -- Swift Zulian Panther
-    [ 24252] = true, -- Swift Zulian Tiger
-    [ 10790] = true, -- Tiger
-    [288503] = true, -- Umber Nightsaber
-    [448978] = true, -- Vermillion Imperial Lynx
-    [281887] = true, -- Vicious Black Warsaber
-    [146615] = true, -- Vicious Kaldorei Warsaber
-    [394737] = true, -- Vicious Sabertooth
-    [394738] = true, -- Vicious Sabertooth
-    [229512] = true, -- Vicious War Lion
-    [281888] = true, -- Vicious White Warsaber
-    [ 17229] = true, -- Winterspring Frostsaber
-    [294143] = true, -- X-995 Mechanocat
 }
 
 LM.MOUNTFAMILY["Charhound"] = {
@@ -622,6 +571,10 @@ LM.MOUNTFAMILY["Felbat"] = {
     [272472] = true, -- Undercity Plaguebat
 }
 
+LM.MOUNTFAMILY["Felsaber"] = {
+    [200175] = true, -- Felsaber
+}
+
 LM.MOUNTFAMILY["Felstalker"] = {
     [189998] = true, -- Illidari Felstalker
 }
@@ -645,6 +598,10 @@ LM.MOUNTFAMILY["Fish"] = {
     [448851] = true, -- Underlight Corrupted Behemoth
     [448849] = true, -- Underlight Shorestalker
     [397406] = true, -- Wonderous Wavewhisker
+}
+
+LM.MOUNTFAMILY["Flamesaber"] = {
+    [232405] = true, -- Primal Flamesaber
 }
 
 LM.MOUNTFAMILY["Flying Carpet"] = {
@@ -680,6 +637,11 @@ LM.MOUNTFAMILY["Fox"] = {
     [242896] = true, -- Vicious War Fox
     [290133] = true, -- Vulpine Familiar
     [334366] = true, -- Wild Glimmerfur Prowler
+}
+
+LM.MOUNTFAMILY["Furline"] = {
+    [454682] = true, -- Startouched Furline
+    [317177] = true, -- Sunwarmed Furline
 }
 
 LM.MOUNTFAMILY["Gargon"] = {
@@ -927,6 +889,16 @@ LM.MOUNTFAMILY["Larion"] = {
     [334433] = true, -- Silverwind Larion
 }
 
+LM.MOUNTFAMILY["Lion"] = {
+    [ 90621] = true, -- Golden King
+    [229512] = true, -- Vicious War Lion
+}
+
+LM.MOUNTFAMILY["Lynx"] = {
+    [448979] = true, -- Dauntless Imperial Lynx
+    [448978] = true, -- Vermillion Imperial Lynx
+}
+
 -- Split?
 LM.MOUNTFAMILY["Magic"] = {
     [229376] = true, -- Archmage's Prismatic Disc
@@ -985,6 +957,12 @@ LM.MOUNTFAMILY["Mana Ray"] = {
     [253106] = true, -- Vibrant Mana Ray
 }
 
+LM.MOUNTFAMILY["Manasaber"] = {
+    [230987] = true, -- Arcanist's Manasaber
+    [180545] = true, -- Mystic Runesaber
+    [258845] = true, -- Nightborne Manasaber
+}
+
 LM.MOUNTFAMILY["Meat Wagon"] = {
     [281554] = true, -- Meat Wagon
 }
@@ -998,6 +976,10 @@ LM.MOUNTFAMILY["Mechanical Head"] = {
     [261437] = true, -- Mecha-Mogul Mk2
     [ 63796] = true, -- Mimiron's Head
    [1217760] = true, -- The Big G
+}
+
+LM.MOUNTFAMILY["Mechanocat"] = {
+    [294143] = true, -- X-995 Mechanocat
 }
 
 LM.MOUNTFAMILY["Mechaspider"] = {
@@ -1095,6 +1077,22 @@ LM.MOUNTFAMILY["Nether Ray"] = {
     [ 39801] = true, -- Purple Riding Nether Ray
     [ 39800] = true, -- Red Riding Nether Ray
     [ 39802] = true, -- Silver Riding Nether Ray
+}
+
+LM.MOUNTFAMILY["Nightsaber"] = {
+    [ 16056] = true, -- Ancient Frostsaber
+    [ 16055] = true, -- Black Nightsaber
+    [366791] = true, -- Jigglesworth Sr.
+    [288505] = true, -- Kaldorei Nightsaber
+    [288506] = true, -- Sandy Nightsaber
+    [ 10789] = true, -- Spotted Frostsaber
+    [ 66847] = true, -- Striped Dawnsaber
+    [  8394] = true, -- Striped Frostsaber
+    [ 10793] = true, -- Striped Nightsaber
+    [ 96499] = true, -- Swift Zulian Panther
+    [ 10790] = true, -- Tiger
+    [288503] = true, -- Umber Nightsaber
+    [ 17229] = true, -- Winterspring Frostsaber
 }
 
 LM.MOUNTFAMILY["Owl"] = {
@@ -1357,6 +1355,11 @@ LM.MOUNTFAMILY["Rylak"] = {
     [194046] = true, -- Swift Spectral Rylak
 }
 
+LM.MOUNTFAMILY["Sabertooth"] = {
+    [394737] = true, -- Vicious Sabertooth
+    [394738] = true, -- Vicious Sabertooth
+}
+
 LM.MOUNTFAMILY["Salamanther"] = {
     [374090] = true, -- Ancient Salamanther
     [374097] = true, -- Coralscale Salamanther
@@ -1412,6 +1415,14 @@ LM.MOUNTFAMILY["Shadehound"] = {
     [343635] = true, -- Deadsoul Hound Harness
     [343632] = true, -- Maw Seeker Harness
     [312762] = true, -- Mawsworn Soulhunter
+}
+
+LM.MOUNTFAMILY["Shado-Pan Riding Tiger"] = {
+    [129934] = true, -- Blue Shado-Pan Riding Tiger
+    [129932] = true, -- Green Shado-Pan Riding Tiger
+    [435153] = true, -- Purple Shado-Pan Riding Tiger
+    [129935] = true, -- Red Shado-Pan Riding Tiger
+   [1216430] = true, -- Sha-Warped Riding Tiger
 }
 
 LM.MOUNTFAMILY["Shalewing"] = {
@@ -1574,6 +1585,19 @@ LM.MOUNTFAMILY["Storm Dragon"] = {
     [227986] = true, -- Vindictive Gladiator's Storm Dragon
 }
 
+LM.MOUNTFAMILY["Swift Nightsaber"] = {
+    [229385] = true, -- Ban-Lu, Grandmaster's Companion
+    [ 22723] = true, -- Black War Tiger
+    [ 63637] = true, -- Darnassian Nightsaber
+    [ 42776] = true, -- Spectral Tiger
+    [ 23221] = true, -- Swift Frostsaber
+    [ 23219] = true, -- Swift Mistsaber
+    [ 65638] = true, -- Swift Moonsaber
+    [ 42777] = true, -- Swift Spectral Tiger
+    [ 23338] = true, -- Swift Stormsaber
+    [ 24252] = true, -- Swift Zulian Tiger
+}
+
 -- Split Ruinstrider?
 LM.MOUNTFAMILY["Talbuk"] = {
     [253004] = true, -- Amethyst Ruinstrider
@@ -1709,8 +1733,18 @@ LM.MOUNTFAMILY["Warframe"] = {
     [239013] = true, -- Lightforged Warframe
 }
 
+LM.MOUNTFAMILY["Warsaber"] = {
+    [366962] = true, -- Ash'adar, Harbinger of Dawn
+    [449132] = true, -- Blackrock Warsaber
+    [449126] = true, -- Kor'kron Warsaber
+    [288740] = true, -- Priestess' Moonsaber
+    [281887] = true, -- Vicious Black Warsaber
+    [146615] = true, -- Vicious Kaldorei Warsaber
+    [281888] = true, -- Vicious White Warsaber
+}
+
 -- The difference between horse/warhorse/dreadsteed is pretty tenuous.
--- This could possible be split into Charger as well.
+-- This could possibly be split into Charger as well.
 
 LM.MOUNTFAMILY["Warhorse"] = {
     [ 66906] = true, -- Argent Charger
