@@ -535,6 +535,8 @@ ACTIONS['Mount'] = {
                     end
                     if m then break end
                 end
+            else
+                m = filteredList:Random(context.random, randomStyle)
             end
 
             if m then
