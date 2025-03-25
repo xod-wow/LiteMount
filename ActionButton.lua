@@ -72,7 +72,9 @@ function LM.ActionButton:PreClick(inputButton, isDown)
         self.context.randomTime = GetTime()
         self.context.forceSummon = nil
     else
-        self.context.forceSummon = LM.MountRegistry:GetLastSummoned()
+        -- Note, can't store objects in context, they don't survive Clone()
+        local lastSummonedMount = LM.MountRegistry:GetLastSummoned()
+        self.context.forceSummon = lastSummonedMount and lastSummonedMount.spellID
     end
 
     -- Set up the fresh run context for a new run.
