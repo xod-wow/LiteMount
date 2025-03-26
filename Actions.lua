@@ -497,43 +497,19 @@ ACTIONS['Mount'] = {
 
             if next(filteredList) == nil then return end
 
-            local m, forceMount
+            local randomStyle = context.rule.priority and LM.Options:GetOption('randomWeightStyle')
 
-            if context.forceSummon then
-                forceMount = LM.MountRegistry:GetMountBySpell(context.forceSummon)
-            end
+            local m
 
             if context.rule.smart then
                 for _, info in ipairs(smartActions) do
-                    if LM.Conditions:Check(info.condition, context) then
+                    if not m and LM.Conditions:Check(info.condition, context) then
                         LM.Debug("  * trying " .. info.debug)
                         local expr = info.arg:ParseExpression()
                         local mounts = filteredList:ExpressionSearch(expr)
                         LM.Debug("  * found " .. #mounts .. " mounts.")
-
-                        -- If we are trying to persist a mount, do so only if it is in the
-                        -- list of filter-matching mounts. Otherwise it could be the wrong
-                        -- type for where we are or what the rules have picked, or not
-                        -- castable. In theory we could keep a list of mounts used in the
-                        -- persist time and iterate them in MRU order but this is already
-                        -- slower than I'd like.
-
-                        -- This tContains is slow. I think. It may not be any slower than
-                        -- keeping an index since this is all dynamic anyway.
-
-                        if forceMount and forceMount:GetPriority() > 0 then
-                            if tContains(mounts, forceMount) then
-                                LM.Debug("  * forcing persisted mount: %s", forceMount.name)
-                                m = forceMount
-                            end
-                        elseif context.rule.priority then
-                            local randomStyle = LM.Options:GetOption('randomWeightStyle')
-                            m = mounts:Random(context.random, randomStyle)
-                        else
-                            m = mounts:Random(context.random)
-                        end
+                        m = mounts:Random(context.random, randomStyle)
                     end
-                    if m then break end
                 end
             else
                 m = filteredList:Random(context.random, randomStyle)
