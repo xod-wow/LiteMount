@@ -137,26 +137,32 @@ function LM.Rule:Dispatch(context)
         return
     end
 
+    LM.Debug("  Evaluate rule: " .. (self.line or self:ToString()))
+
     local isTrue = self.conditions:Eval(context)
+
+    LM.Debug("  * immediate conditions are " .. tostring(isTrue))
 
     local handler = LM.Actions:GetFlowControlHandler(self.action)
     if handler then
-        LM.Debug("  Dispatching flow control action " .. (self.line or self:ToString()))
+        LM.Debug("  * found flow control action, dispatching")
         handler(self.args, context, isTrue)
         return
     end
 
     if not isTrue or LM.Actions:IsFlowSkipped(context) then
+        LM.Debug("  * skipping due to conditions or flow control")
         return
     end
 
     handler = LM.Actions:GetHandler(self.action)
     if not handler then
+        LM.Debug("  * handler not found, a bug in the addon")
         -- Shouldn't reach this due to Validate at compile time
         return
     end
 
-    LM.Debug("  Dispatching rule " .. (self.line or self:ToString()))
+    LM.Debug("  * try applying")
 
     return handler(self.args:ReplaceVars(), context)
 end
