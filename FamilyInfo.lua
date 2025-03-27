@@ -336,6 +336,13 @@ LM.MOUNTFAMILY["Darkhound"] = {
     [341766] = true, -- Warstitched Darkhound
 }
 
+LM.MOUNTFAMILY["Darkmoon Charger"] = {
+   [1217341] = true, -- Lively Darkmoon Charger
+   [1217340] = true, -- Midnight Darkmoon Charger
+   [1217343] = true, -- Snowy Darkmoon Charger
+   [1217342] = true, -- Violet Darkmoon Charger
+}
+
 LM.MOUNTFAMILY["Deathroc"] = {
     [336041] = true, -- Bonesewn Fleshroc
     [327405] = true, -- Colossal Slaughterclaw
@@ -1762,14 +1769,11 @@ LM.MOUNTFAMILY["Warhorse"] = {
     [231588] = true, -- Highlord's Vigilant Charger
     [ 72286] = true, -- Invincible
     [282682] = true, -- Kul Tiran Charger
-   [1217341] = true, -- Lively Darkmoon Charger
     [339956] = true, -- Mawsworn Charger
     [229499] = true, -- Midnight
-   [1217340] = true, -- Midnight Darkmoon Charger
     [193695] = true, -- Prestigious War Steed
     [354351] = true, -- Sanctum Gloomcharger
     [255695] = true, -- Seabraid Stallion
-   [1217343] = true, -- Snowy Darkmoon Charger
     [354352] = true, -- Soulbound Gloomcharger
     [ 63232] = true, -- Stormwind Steed
     [ 34767] = true, -- Thalassian Charger
@@ -1777,7 +1781,6 @@ LM.MOUNTFAMILY["Warhorse"] = {
     [107203] = true, -- Tyrael's Charger
     [223341] = true, -- Vicious Gilnean Warhorse
     [100332] = true, -- Vicious War Steed
-   [1217342] = true, -- Violet Darkmoon Charger
     [ 13819] = true, -- Warhorse
 }
 

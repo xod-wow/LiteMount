@@ -25,7 +25,7 @@ LM.Drive.__index = LM.Drive
 -- By default (in places you can't D.R.I.V.E.) it is an instant-cast spell
 -- that displays an error message with a red X icon (iconID 4200126).
 --
--- If you are mounted in G-99 Heartbreaker it is not overridden.
+-- If you are mounted in G-99 Breakneck it is not overridden.
 --
 -- In the Undermine zone it is part of the zone abilities, and the zone ability
 -- spell ID is also 1215279. It is overridden to 460013, which seems to be the

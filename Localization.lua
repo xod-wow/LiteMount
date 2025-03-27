@@ -34,7 +34,7 @@ L.SWIM                  = MOUNT_JOURNAL_FILTER_AQUATIC
 L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
 
 
---- :r! sh Tools/fetchlocale.sh -------------------------------------------------
+--- :r! sh Tools/fetchlocale.sh ------------------------------------------------
 
 -- enUS / enGB / Default -------------------------------------------------------
 
@@ -204,6 +204,7 @@ L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
     L["Crawg"] = "Crawg"
     L["Crocolisk"] = "Crocolisk"
     L["Darkhound"] = "Darkhound"
+    L["Darkmoon Charger"] = "Darkmoon Charger"
     L["Deathroc"] = "Deathroc"
     L["Devourer"] = "Devourer"
     L["Direhorn"] = "Direhorn"
@@ -517,6 +518,7 @@ if locale == "deDE" then
     L["Crawg"] = "Krogg"
     L["Crocolisk"] = "Krokilisk"
     L["Darkhound"] = "Schattenhund"
+    L["Darkmoon Charger"] = "Dunkelmondstreitross"
     L["Deathroc"] = "Todesroc"
     L["Devourer"] = "Verschlinger"
     L["Direhorn"] = "Terrorhorn"
@@ -842,6 +844,7 @@ if locale == "esES" or locale == "esMX" then
     L["Crawg"] = "Tragadón"
     L["Crocolisk"] = "Crocolisco"
     L["Darkhound"] = "Can oscuro"
+    L["Darkmoon Charger"] = "Destrero de la Luna"
     L["Deathroc"] = "Roc mortífero"
     L["Devourer"] = "Devorador"
     L["Direhorn"] = "Cuernoatroz"
@@ -1172,6 +1175,7 @@ if locale == "frFR" then
     L["Crawg"] = "Crogg"
     L["Crocolisk"] = "Crocilisque"
     L["Darkhound"] = "Sombredogue"
+    L["Darkmoon Charger"] = "Destrier de Sombrelune"
     L["Deathroc"] = "Rocmort"
     L["Devourer"] = "Dévoreur"
     L["Direhorn"] = "Navrecorne"
@@ -1481,6 +1485,7 @@ if locale == "itIT" then
     L["Crawg"] = "Crog"
     L["Crocolisk"] = "Crocolisco"
     L["Darkhound"] = "Segugio Oscuro"
+    L["Darkmoon Charger"] = "Gran Destriero di Lunacupa"
     L["Deathroc"] = "Grifalco della Morte"
     L["Devourer"] = "Divoratore"
     L["Direhorn"] = "Cornofurente"
@@ -1812,6 +1817,7 @@ if locale == "koKR" then
     L["Crawg"] = "크로그"
     L["Crocolisk"] = "악어"
     L["Darkhound"] = "암흑사냥개"
+    L["Darkmoon Charger"] = "다크문 군마"
     L["Deathroc"] = "대괴조"
     L["Devourer"] = "먹보"
     L["Direhorn"] = "공포뿔"
@@ -1956,6 +1962,7 @@ if locale == "koKR" then
     L["Warframe"] = "기갑전투복"
     L["Warhorse"] = "전투마"
     L["Warp Stalker"] = "차원의 추적자"
+    L["Warsaber"] = "전투 밤호랑이"
     L["Wasp"] = "말벌"
     L["Water Strider"] = "소금쟁이"
     L["Waveshredder"] = "파도분쇄기"
@@ -2113,6 +2120,7 @@ if locale == "ptBR" then
     L["Crawg"] = "Crorg"
     L["Crocolisk"] = "Crocolisco"
     L["Darkhound"] = "Cão das Trevas"
+    L["Darkmoon Charger"] = "Corcel de Negraluna"
     L["Deathroc"] = "Roca-da-morte"
     L["Devourer"] = "Devorador"
     L["Direhorn"] = "Escornante"
@@ -2443,6 +2451,7 @@ if locale == "ruRU" then
     L["Crawg"] = "Крог"
     L["Crocolisk"] = "Кроколиск"
     L["Darkhound"] = "Гончая Тьмы"
+    L["Darkmoon Charger"] = "Скакун Новолуния"
     L["Deathroc"] = "Некрорух"
     L["Devourer"] = "Пожиратель"
     L["Direhorn"] = "Дикорог"
@@ -2768,6 +2777,7 @@ if locale == "zhCN" then
     L["Crawg"] = "齿兽"
     L["Crocolisk"] = "鳄鱼"
     L["Darkhound"] = "黑暗犬"
+    L["Darkmoon Charger"] = "暗月战马"
     L["Deathroc"] = "死亡大鹏"
     L["Devourer"] = "吞噬者"
     L["Direhorn"] = "恐角龙"
@@ -2912,6 +2922,7 @@ if locale == "zhCN" then
     L["Warframe"] = "战争机甲"
     L["Warhorse"] = "战马"
     L["Warp Stalker"] = "迁跃捕猎者"
+    L["Warsaber"] = "戰刃豹"
     L["Wasp"] = "巨蜂"
     L["Water Strider"] = "水黾"
     L["Waveshredder"] = "斩浪者"
@@ -3092,6 +3103,7 @@ if locale == "zhTW" then
     L["Crawg"] = "克洛格"
     L["Crocolisk"] = "鱷魚"
     L["Darkhound"] = "黑暗犬"
+    L["Darkmoon Charger"] = "闇月戰馬"
     L["Deathroc"] = "死亡大鵬"
     L["Devourer"] = "吞噬者"
     L["Direhorn"] = "恐角龍"
@@ -3236,6 +3248,7 @@ if locale == "zhTW" then
     L["Warframe"] = "戰爭機甲"
     L["Warhorse"] = "戰馬"
     L["Warp Stalker"] = "扭曲行者"
+    L["Warsaber"] = "戰刃豹"
     L["Wasp"] = "黃蜂"
     L["Water Strider"] = "水黽"
     L["Waveshredder"] = "斬浪者"
