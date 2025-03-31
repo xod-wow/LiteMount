@@ -70,6 +70,10 @@ function LM.Mount.FilterToDisplay(f)
         return ALL
     elseif f == "FAVORITES" then
         return FAVORITES
+    elseif f == "ENABLED" then
+        return VIDEO_OPTIONS_ENABLED
+    elseif f == "DISABLED" then
+        return VIDEO_OPTIONS_DISABLED
     elseif f == "ZONEMATCH" then
         return L.LM_ZONEMATCH
     elseif f:sub(1,1) == '~' then
@@ -120,6 +124,10 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
         return self.mountTypeID ~= nil
     elseif f == "FAVORITES" then
         return self:IsFavorite()
+    elseif f == "ENABLED" then
+        return self:GetPriority() > 0
+    elseif f == "DISABLED" then
+        return self:GetPeiority() == 0
     elseif f == "ZONEMATCH" then
         local zone = GetZoneText()
         return self:IsFromZone(zone)

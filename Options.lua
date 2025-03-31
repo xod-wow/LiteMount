@@ -468,10 +468,16 @@ end
 -- let custom flags have the name.
 local PseudoFlags = {
     "CASTABLE",
+    "USABLE",
+    "COLLECTED",
     "SLOW",
+    "JOURNAL",
     "MAWUSABLE",
     "DRAGONRIDING",
+    "ZONEMATCH",
     "FAVORITES", FAVORITES,
+    "ENABLED", VIDEO_OPTIONS_ENABLED,
+    "DISABLED", VIDEO_OPTIONS_DISABLED,
     "ALL", ALL,
     "NONE", NONE
 }
