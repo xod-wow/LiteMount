@@ -8,6 +8,7 @@ auth = (os.environ['WOW_API_CLIENT_ID'], os.environ['WOW_API_CLIENT_SECRET'])
 
 parser = ArgumentParser()
 parser.add_argument('-t', '--type', default='item', nargs='?')
+parser.add_argument('-s', '--search', action='store_true')
 parser.add_argument('id', nargs='+')
 args = parser.parse_args()
 
@@ -26,14 +27,20 @@ for id in args.id:
     else:
         type = args.type
 
-    r = s.get('https://us.api.blizzard.com/data/wow/{}/{}'.format(type, id))
-    r.raise_for_status()
+    if args.search:
+        params = { 'name.en_US': id }
+        r = s.get('https://us.api.blizzard.com/data/wow/search/{}'.format(type), params=params)
+        r.raise_for_status()
+        data = [ x['data'] for x in r.json()['results'] ]
+    else:
+        r = s.get('https://us.api.blizzard.com/data/wow/{}/{}'.format(type, id))
+        r.raise_for_status()
+        data = [ r.json() ]
 
-    names = r.json()['name']
-
-    for locale, name in r.json()['name'].items():
-        if locale != 'en_US':
-            rows.append((locale, 'L["{}"] = "{}"'.format(names['en_US'], name)))
+    for d in data:
+        for locale, name in d['name'].items():
+            if locale != 'en_US':
+                rows.append((locale, 'L["{}"] = "{}"'.format(d['name']['en_US'], name)))
 
 current_locale = ''
 

@@ -171,6 +171,18 @@ LM.MOUNTFAMILY["Boar"] = {
     [171633] = true, -- Wild Goretusk
 }
 
+LM.MOUNTFAMILY["Bottom-Feeder"] = {
+    [214791] = true, -- Brinedeep Bottom-Feeder
+}
+
+LM.MOUNTFAMILY["Breezestrider"] = {
+    [171832] = true, -- Breezestrider Stallion
+    [171833] = true, -- Pale Thorngrazer
+    [171829] = true, -- Shadowmane Charger
+    [171830] = true, -- Swift Breezestrider
+    [171831] = true, -- Trained Silverpelt
+}
+
 LM.MOUNTFAMILY["Bruffalon"] = {
     [349935] = true, -- Noble Bruffalon
     [373967] = true, -- Stormtouched Bruffalon
@@ -269,6 +281,12 @@ LM.MOUNTFAMILY["Corpsefly"] = {
     [353884] = true, -- Regal Corpsefly
 }
 
+LM.MOUNTFAMILY["Corrupted Behemoth"] = {
+    [448850] = true, -- Kah, Legend of the Deep
+    [448851] = true, -- Underlight Corrupted Behemoth
+    [448849] = true, -- Underlight Shorestalker
+}
+
 LM.MOUNTFAMILY["Courser"] = {
     [342335] = true, -- Ascended Skymane
     [336064] = true, -- Dauntless Duskrunner
@@ -338,14 +356,6 @@ LM.MOUNTFAMILY["Deathroc"] = {
     [327405] = true, -- Colossal Slaughterclaw
     [336042] = true, -- Hulking Deathroc
     [336045] = true, -- Predatory Plagueroc
-}
-
--- Split, also check Animite, all types of Devourer
-LM.MOUNTFAMILY["Devourer"] = {
-    [333027] = true, -- Loyal Gorger
-    [356501] = true, -- Rampaging Mauler
-    [347536] = true, -- Tamed Mauler
-    [344659] = true, -- Voracious Gorger
 }
 
 LM.MOUNTFAMILY["Direhorn"] = {
@@ -590,17 +600,15 @@ LM.MOUNTFAMILY["Fire Hawk"] = {
     [ 97493] = true, -- Pureblood Fire Hawk
 }
 
--- Split?
-LM.MOUNTFAMILY["Fish"] = {
-    [214791] = true, -- Brinedeep Bottom-Feeder
-    [448850] = true, -- Kah, Legend of the Deep
-    [448851] = true, -- Underlight Corrupted Behemoth
-    [448849] = true, -- Underlight Shorestalker
-    [397406] = true, -- Wonderous Wavewhisker
-}
-
 LM.MOUNTFAMILY["Flamesaber"] = {
     [232405] = true, -- Primal Flamesaber
+}
+
+LM.MOUNTFAMILY["Flayedwing"] = {
+    [336038] = true, -- Callow Flayedwing
+    [318052] = true, -- Deathbringer's Flayedwing (removed)
+    [336039] = true, -- Gruesome Flayedwing
+    [336036] = true, -- Marrowfang
 }
 
 LM.MOUNTFAMILY["Flying Carpet"] = {
@@ -681,6 +689,11 @@ LM.MOUNTFAMILY["Goblin Shredder"] = {
     [466020] = true, -- Personalized Goblin S.C.R.A.Per
     [466022] = true, -- Venture Coordinator
     [466021] = true, -- Violet Goblin Shredder
+}
+
+LM.MOUNTFAMILY["Gorger"] = {
+    [333027] = true, -- Loyal Gorger
+    [344659] = true, -- Voracious Gorger
 }
 
 LM.MOUNTFAMILY["Gorm"] = {
@@ -963,6 +976,11 @@ LM.MOUNTFAMILY["Manasaber"] = {
     [230987] = true, -- Arcanist's Manasaber
     [180545] = true, -- Mystic Runesaber
     [258845] = true, -- Nightborne Manasaber
+}
+
+LM.MOUNTFAMILY["Mauler"] = {
+    [356501] = true, -- Rampaging Mauler
+    [347536] = true, -- Tamed Mauler
 }
 
 LM.MOUNTFAMILY["Mawrat"] = {
@@ -1359,6 +1377,18 @@ LM.MOUNTFAMILY["Rooster"] = {
     [ 65917] = true, -- Magic Rooster
 }
 
+LM.MOUNTFAMILY["Ruinstrider"] = {
+    [253004] = true, -- Amethyst Ruinstrider
+    [253005] = true, -- Beryl Ruinstrider
+    [254260] = true, -- Bleakhoof Ruinstrider
+    [253007] = true, -- Cerulean Ruinstrider
+    [363613] = true, -- Lightforged Ruinstrider
+    [253058] = true, -- Maddened Chaosrunner
+    [253006] = true, -- Russet Ruinstrider
+    [242305] = true, -- Sable Ruinstrider
+    [253008] = true, -- Umber Ruinstrider
+}
+
 LM.MOUNTFAMILY["Runedeer"] = {
     [312759] = true, -- Dreamlight Runedeer
     [312761] = true, -- Dreamlight Runestag
@@ -1370,14 +1400,9 @@ LM.MOUNTFAMILY["Runedeer"] = {
     [332245] = true, -- Winterborn Runedeer
 }
 
--- Split Flayedwing? Skyterror?
 LM.MOUNTFAMILY["Rylak"] = {
     [288495] = true, -- Ashenvale Chimaera
-    [336038] = true, -- Callow Flayedwing
-    [318052] = true, -- Deathbringer's Flayedwing
-    [336039] = true, -- Gruesome Flayedwing
     [153489] = true, -- Iron Skyreaver
-    [336036] = true, -- Marrowfang
    [1214920] = true, -- Nightfall Skyreaver
     [191633] = true, -- Soaring Skyterror
     [194046] = true, -- Swift Spectral Rylak
@@ -1632,36 +1657,23 @@ LM.MOUNTFAMILY["Swift Nightsaber"] = {
     [ 24252] = true, -- Swift Zulian Tiger
 }
 
--- Split Ruinstrider?
-LM.MOUNTFAMILY["Talbuk"] = {
-    [253004] = true, -- Amethyst Ruinstrider
+LM.MOUNTFAMILY["Protostag"] = {
     [359276] = true, -- Anointed Protostag
-    [253005] = true, -- Beryl Ruinstrider
-    [254260] = true, -- Bleakhoof Ruinstrider
-    [171832] = true, -- Breezestrider Stallion
-    [253007] = true, -- Cerulean Ruinstrider
+    [359278] = true, -- Deathrunner
+    [342671] = true, -- Pale Regak Cervid
+    [359277] = true, -- Sundered Zerethsteed
+}
+
+LM.MOUNTFAMILY["Talbuk"] = {
     [ 39315] = true, -- Cobalt Riding Talbuk
     [ 34896] = true, -- Cobalt War Talbuk
     [ 39316] = true, -- Dark Riding Talbuk
     [ 34790] = true, -- Dark War Talbuk
-    [359278] = true, -- Deathrunner
-    [356802] = true, -- Holy Lightstrider
-    [363613] = true, -- Lightforged Ruinstrider
-    [253058] = true, -- Maddened Chaosrunner
-    [171833] = true, -- Pale Thorngrazer
-    [342671] = true, -- Pale Regak Cervid
-    [253006] = true, -- Russet Ruinstrider
-    [242305] = true, -- Sable Ruinstrider
-    [171829] = true, -- Shadowmane Charger
     [ 39317] = true, -- Silver Riding Talbuk
     [ 34898] = true, -- Silver War Talbuk
-    [171830] = true, -- Swift Breezestrider
-    [359277] = true, -- Sundered Zerethsteed
     [ 39318] = true, -- Tan Riding Talbuk
     [ 34899] = true, -- Tan War Talbuk
     [165803] = true, -- Telaari Talbuk
-    [171831] = true, -- Trained Silverpelt
-    [253008] = true, -- Umber Ruinstrider
     [ 39319] = true, -- White Riding Talbuk
     [ 34897] = true, -- White War Talbuk
 }
@@ -1829,6 +1841,10 @@ LM.MOUNTFAMILY["Waveshredder"] = {
     [473188] = true, -- Bronze Goblin Waveshredder
     [447413] = true, -- Pearlescent Goblin Wave Shredder
     [473137] = true, -- Soweezi's Vintage Waveshredder
+}
+
+LM.MOUNTFAMILY["Wavewhisker"] = {
+    [397406] = true, -- Wondrous Wavewhisker
 }
 
 LM.MOUNTFAMILY["Wilderling"] = {
