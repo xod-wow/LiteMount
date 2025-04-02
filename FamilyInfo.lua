@@ -24,6 +24,11 @@ LM.MOUNTFAMILY["Aerial Unit"] = {
     [368158] = true, -- Zereth Overseer
 }
 
+LM.MOUNTFAMILY["Albatross"] = {
+    [414324] = true, -- Gold-Toed Albatross
+    [266925] = true, -- Siltwing Albatross
+}
+
 LM.MOUNTFAMILY["Alpaca"] = {
     [316493] = true, -- Elusive Quickhoof
     [298367] = true, -- Mollie
@@ -139,28 +144,6 @@ LM.MOUNTFAMILY["Bee"] = {
 LM.MOUNTFAMILY["Beetle"] = {
     [381529] = true, -- Telix the Stormhorn
     [452779] = true, -- Ivory Goliathus
-}
-
--- split
-LM.MOUNTFAMILY["Bird"] = {
-    [414324] = true, -- Gold-Toed Albatross
-    [471696] = true, -- Hooktalon
-    [366790] = true, -- Quawks
-    [437162] = true, -- Polly Roger
-    [254812] = true, -- Royal Seafeather
-    [231524] = true, -- Shadowblade's Baneful Omen
-    [231525] = true, -- Shadowblade's Crimson Omen
-    [231523] = true, -- Shadowblade's Lethal Omen
-    [231434] = true, -- Shadowblade's Murderous Omen
-    [254813] = true, -- Sharkbait
-    [266925] = true, -- Siltwing Albatross
-    [171828] = true, -- Solar Spirehawk
-    [254811] = true, -- Squawks
-    [471562] = true, -- Thrayir, Eyes of the Siren
-    [253639] = true, -- Violet Spellwing
-    [316275] = true, -- Waste Marauder
-    [316276] = true, -- Wastewander Skyterror
-    [290328] = true, -- Wonderwing 2.0
 }
 
 LM.MOUNTFAMILY["Bloodswarmer"] = {
@@ -327,6 +310,13 @@ LM.MOUNTFAMILY["Crane"] = {
 LM.MOUNTFAMILY["Crawg"] = {
     [250735] = true, -- Bloodgorged Crawg
     [273541] = true, -- Underrot Crawg
+}
+
+LM.MOUNTFAMILY["Crow"] = {
+    [231524] = true, -- Shadowblade's Baneful Omen
+    [231525] = true, -- Shadowblade's Crimson Omen
+    [231523] = true, -- Shadowblade's Lethal Omen
+    [231434] = true, -- Shadowblade's Murderous Omen
 }
 
 LM.MOUNTFAMILY["Darkhound"] = {
@@ -1158,6 +1148,16 @@ LM.MOUNTFAMILY["Panthara"] = {
     [243512] = true, -- Luminous Starseeker
 }
 
+LM.MOUNTFAMILY["Parrot"] = {
+    [471696] = true, -- Hooktalon
+    [437162] = true, -- Polly Roger
+    [366790] = true, -- Quawks
+    [254812] = true, -- Royal Seafeather
+    [254813] = true, -- Sharkbait
+    [254811] = true, -- Squawks
+    [290328] = true, -- Wonderwing 2.0
+}
+
 LM.MOUNTFAMILY["Peafowl"] = {
     [432562] = true, -- Brilliant Sunburst Peafowl
     [432558] = true, -- Majestic Azure Peafowl
@@ -1600,6 +1600,12 @@ LM.MOUNTFAMILY["Stone Panther"] = {
     [ 98727] = true, -- Winged Guardian
 }
 
+LM.MOUNTFAMILY["Stormcrow"] = {
+    [171828] = true, -- Solar Spirehawk
+    [471562] = true, -- Thrayir, Eyes of the Siren
+    [253639] = true, -- Violet Spellwing
+}
+
 LM.MOUNTFAMILY["Storm Dragon"] = {
     [227989] = true, -- Cruel Gladiator's Storm Dragon
     [243201] = true, -- Demonic Gladiator's Storm Dragon
@@ -1753,6 +1759,11 @@ LM.MOUNTFAMILY["Vorquin"] = {
     [394220] = true, -- Obsidian Vorquin
     [394218] = true, -- Sapphire Vorquin
     [385134] = true, -- Swift Armored Vorquin
+}
+
+LM.MOUNTFAMILY["Vulture"] = {
+    [316275] = true, -- Waste Marauder
+    [316276] = true, -- Wastewander Skyterror
 }
 
 LM.MOUNTFAMILY["Warframe"] = {
