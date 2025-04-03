@@ -10,6 +10,7 @@ local _, LM = ...
 
 LM.MOUNTFAMILY = {}
 
+-- Split
 LM.MOUNTFAMILY["Aerial Unit"] = {
     [290718] = true, -- Aerial Unit R-21/X
     [466024] = true, -- Bilgewater Bombardier
@@ -267,6 +268,10 @@ LM.MOUNTFAMILY["Cloud Serpent"] = {
     [127165] = true, -- Yu'lei, Daughter of Jade
 }
 
+LM.MOUNTFAMILY["Compass Rose"] = {
+    [431992] = true, -- Compass Rose
+}
+
 LM.MOUNTFAMILY["Core Hound"] = {
     [170347] = true, -- Core Hound
     [271646] = true, -- Dark Iron Core Hound
@@ -370,6 +375,13 @@ LM.MOUNTFAMILY["Direhorn"] = {
     [138425] = true, -- Slate Primordial Direhorn
     [136471] = true, -- Spawn of Horridon
     [263707] = true, -- Zandalari Direhorn
+}
+
+LM.MOUNTFAMILY["Discus"] = {
+    [435044] = true, -- Golden Discus
+    [435082] = true, -- Mogu Hazeblazer
+    [130092] = true, -- Red Flying Cloud
+    [435084] = true, -- Sky Surfer
 }
 
 LM.MOUNTFAMILY["Donkey"] = {
@@ -662,6 +674,11 @@ LM.MOUNTFAMILY["Gargon"] = {
     [332927] = true, -- Sinfall Gargon
 }
 
+LM.MOUNTFAMILY["Gearglider"] = {
+    [353263] = true, -- Cartel Master's Gearglider
+    [346554] = true, -- Tazavesh Gearglider
+}
+
 LM.MOUNTFAMILY["Glowmite"] = {
     [447176] = true, -- Cyan Glowmite
 }
@@ -911,25 +928,10 @@ LM.MOUNTFAMILY["Lynx"] = {
     [448978] = true, -- Vermillion Imperial Lynx
 }
 
--- Split?
-LM.MOUNTFAMILY["Magic"] = {
-    [229376] = true, -- Archmage's Prismatic Disc
-    [353263] = true, -- Cartel Master's Gearglider
-    [431992] = true, -- Compass Rose
+LM.MOUNTFAMILY["Magic Broom"] = {
     [419345] = true, -- Eve's Ghastly Rider
     [ 42667] = true, -- Flying Broom
-    [435044] = true, -- Golden Discus
-    [472479] = true, -- Love Witch's Sweeper
     [ 47977] = true, -- Magic Broom
-    [435082] = true, -- Mogu Hazeblazer
-    [130092] = true, -- Red Flying Cloud
-    [435084] = true, -- Sky Surfer
-    [472489] = true, -- Sky Witch's Sweeper
-    [472487] = true, -- Silvermoon Sweeper
-    [359318] = true, -- Soaring Spelltome
-    [346554] = true, -- Tazavesh Gearglider
-    [472488] = true, -- Twilight Witch's Sweeper
-    [334352] = true, -- Wildseed Cradle
 }
 
 LM.MOUNTFAMILY["Magmammoth"] = {
@@ -1210,6 +1212,10 @@ LM.MOUNTFAMILY["Phoenix"] = {
 LM.MOUNTFAMILY["Pirate Ship"] = {
     [472752] = true, -- The Breaker's Song
     [272770] = true, -- The Dreadwake
+}
+
+LM.MOUNTFAMILY["Prismatic Disc"] = {
+    [229376] = true, -- Archmage's Prismatic Disc
 }
 
 LM.MOUNTFAMILY["Proto-Drake"] = {
@@ -1586,6 +1592,10 @@ LM.MOUNTFAMILY["Soul Eater"] = {
     [440444] = true, -- Zovaal's Soul Eater
 }
 
+LM.MOUNTFAMILY["Spelltome"] = {
+    [359318] = true, -- Soaring Spelltome
+}
+
 LM.MOUNTFAMILY["Spider"] = {
     [213115] = true, -- Bloodfang Widow
     [359401] = true, -- Genesis Crawler
@@ -1642,6 +1652,13 @@ LM.MOUNTFAMILY["Storm Dragon"] = {
     [288721] = true, -- Island Thunderscale
     [242882] = true, -- Valarjar Stormwing
     [227986] = true, -- Vindictive Gladiator's Storm Dragon
+}
+
+LM.MOUNTFAMILY["Sweeper"] = {
+    [472479] = true, -- Love Witch's Sweeper
+    [472487] = true, -- Silvermoon Sweeper
+    [472489] = true, -- Sky Witch's Sweeper
+    [472488] = true, -- Twilight Witch's Sweeper
 }
 
 LM.MOUNTFAMILY["Swift Nightsaber"] = {
@@ -1853,6 +1870,10 @@ LM.MOUNTFAMILY["Wilderling"] = {
     [353859] = true, -- Summer Wilderling
     [439138] = true, -- Voyaging Wilderling
     [353858] = true, -- Winder Wilderling
+}
+
+LM.MOUNTFAMILY["Wildseed Cradle"] = {
+    [334352] = true, -- Wildseed Cradle
 }
 
 LM.MOUNTFAMILY["Windsteed"] = {

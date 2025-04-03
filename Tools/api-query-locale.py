@@ -22,8 +22,8 @@ s.headers['Battlenet-Namespace'] = 'static-us'
 rows = []
 
 for id in args.id:
-    if ':' in id:
-        type, id = id.split(':')
+    if '=' in id:
+        type, id = id.split('=')
     else:
         type = args.type
 
