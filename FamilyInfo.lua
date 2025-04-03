@@ -37,6 +37,10 @@ LM.MOUNTFAMILY["Alpaca"] = {
     [316802] = true, -- Springfur Alpaca
 }
 
+LM.MOUNTFAMILY["Amalgam of Rage"] = {
+    [369476] = true, -- Amalgam of Rage
+}
+
 LM.MOUNTFAMILY["Animite"] = {
     [312776] = true, -- Chittering Animite
     [332905] = true, -- Endmire Flyer
@@ -513,8 +517,6 @@ LM.MOUNTFAMILY["Eel"] = {
 
 LM.MOUNTFAMILY["Elderhorn"] = {
     [213339] = true, -- Great Northern Elderhorn
-    [193007] = true, -- Grove Defiler
-    [189999] = true, -- Grove Warden
     [242874] = true, -- Highmountain Elderhorn
     [258060] = true, -- Highmountain Thunderhoof
     [196681] = true, -- Spirit of Eche'ro
@@ -522,28 +524,10 @@ LM.MOUNTFAMILY["Elderhorn"] = {
 }
 
 LM.MOUNTFAMILY["Elekk"] = {
-    [171626] = true, -- Armored Irontusk
-    [254259] = true, -- Avenging Felcrusher
-    [294568] = true, -- Beastlord's Irontusk
-    [ 48027] = true, -- Black War Elekk
-    [254258] = true, -- Blessed Felcrusher
     [ 34406] = true, -- Brown Elekk
-    [171625] = true, -- Dusty Rockhide
     [ 73629] = true, -- Exarch's Elekk
-    [ 63639] = true, -- Exodar Elekk
-    [254069] = true, -- Glorious Felcrusher
     [ 35710] = true, -- Gray Elekk
-    [ 35713] = true, -- Great Blue Elekk
-    [ 73630] = true, -- Great Exarch's Elekk
-    [ 35712] = true, -- Great Green Elekk
-    [ 35714] = true, -- Great Purple Elekk
-    [ 65637] = true, -- Great Red Elekk
-    [258022] = true, -- Lightforged Felcrusher
-    [171622] = true, -- Mottled Meadowstomper
     [ 35711] = true, -- Purple Elekk
-    [171624] = true, -- Shadowhide Pearltusk
-    [171623] = true, -- Trained Meadowstomper
-    [223578] = true, -- Vicious War Elekk
 }
 
 -- SPlit?
@@ -584,6 +568,13 @@ LM.MOUNTFAMILY["Felbat"] = {
     [272472] = true, -- Undercity Plaguebat
 }
 
+LM.MOUNTFAMILY["Felcrusher"] = {
+    [254259] = true, -- Avenging Felcrusher
+    [254258] = true, -- Blessed Felcrusher
+    [254069] = true, -- Glorious Felcrusher
+    [258022] = true, -- Lightforged Felcrusher
+}
+
 LM.MOUNTFAMILY["Felsaber"] = {
     [200175] = true, -- Felsaber
 }
@@ -594,7 +585,6 @@ LM.MOUNTFAMILY["Felstalker"] = {
 
 LM.MOUNTFAMILY["Fey Dragon"] = {
     [142878] = true, -- Enchanted Fey Dragon
-    [425338] = true, -- Flourishing Whimsydrake
 }
 
 LM.MOUNTFAMILY["Fire Hawk"] = {
@@ -625,6 +615,7 @@ LM.MOUNTFAMILY["Flying Carpet"] = {
     [ 61309] = true, -- Magnificent Flying Carpet
 }
 
+-- Split
 LM.MOUNTFAMILY["Flying Machine"] = {
     [247448] = true, -- Darkmoon Dirigible
     [446052] = true, -- Delver's Dirigible
@@ -637,6 +628,7 @@ LM.MOUNTFAMILY["Flying Machine"] = {
     [256123] = true, -- Xiwyllag ATV
 }
 
+-- Split
 LM.MOUNTFAMILY["Fox"] = {
     [427435] = true, -- Crimson Glimmerfur
     [431357] = true, -- Fur-endship Fox
@@ -655,6 +647,7 @@ LM.MOUNTFAMILY["Furline"] = {
     [317177] = true, -- Sunwarmed Furline
 }
 
+-- Split
 LM.MOUNTFAMILY["Gargon"] = {
     [312754] = true, -- Battle Gargon Vrednic
     [332932] = true, -- Crypt Guardian
@@ -716,7 +709,6 @@ LM.MOUNTFAMILY["Gorm"] = {
 }
 
 LM.MOUNTFAMILY["Gravewing"] = {
-    [369476] = true, -- Amalgam of Rage
     [215545] = true, -- Mastercraft Gravewing
     [353866] = true, -- Obsidian Gravewing
     [353873] = true, -- Pale Gravewing
@@ -732,6 +724,15 @@ LM.MOUNTFAMILY["Great Dragon Turtle"] = {
     [120822] = true, -- Great Red Dragon Turtle
 }
 
+LM.MOUNTFAMILY["Great Elekk"] = {
+    [ 48027] = true, -- Black War Elekk
+    [ 63639] = true, -- Exodar Elekk
+    [ 35713] = true, -- Great Blue Elekk
+    [ 35712] = true, -- Great Green Elekk
+    [ 35714] = true, -- Great Purple Elekk
+    [ 65637] = true, -- Great Red Elekk
+}
+
 LM.MOUNTFAMILY["Gronnling"] = {
     [189364] = true, -- Coalfist Gronnling
     [171436] = true, -- Gorestrider Gronnling
@@ -741,6 +742,12 @@ LM.MOUNTFAMILY["Gronnling"] = {
     [189043] = true, -- Wild Gladiator's Felblood Gronnling
 }
 
+LM.MOUNTFAMILY["Grove Warden"] = {
+    [193007] = true, -- Grove Defiler
+    [189999] = true, -- Grove Warden
+}
+
+-- Split
 LM.MOUNTFAMILY["Gryphon"] = {
     [302361] = true, -- Alabaster Stormtalon
     [417888] = true, -- Algarian Stormrider
@@ -884,6 +891,7 @@ LM.MOUNTFAMILY["Jawcrawler"] = {
     [447957] = true, -- Ferocious Jawcrawler
 }
 
+-- Split
 LM.MOUNTFAMILY["Kodo"] = {
     [367875] = true, -- Armored Siege Kodo
     [ 22718] = true, -- Black War Kodo
@@ -995,6 +1003,15 @@ LM.MOUNTFAMILY["Mawrat"] = {
     [342780] = true, -- Mawrat Harness
 }
 
+LM.MOUNTFAMILY["Meadowstomper"] = {
+    [171626] = true, -- Armored Irontusk
+    [294568] = true, -- Beastlord's Irontusk
+    [171625] = true, -- Dusty Rockhide
+    [171622] = true, -- Mottled Meadowstomper
+    [171624] = true, -- Shadowhide Pearltusk
+    [171623] = true, -- Trained Meadowstomper
+}
+
 LM.MOUNTFAMILY["Meat Wagon"] = {
     [281554] = true, -- Meat Wagon
 }
@@ -1023,6 +1040,7 @@ LM.MOUNTFAMILY["Mechaspider"] = {
     [291492] = true, -- Rusty Mechanocrawler
 }
 
+-- Split
 LM.MOUNTFAMILY["Mechanostrider"] = {
     [ 22719] = true, -- Black Battlestrider
     [ 33630] = true, -- Blue Mechanostrider
@@ -1257,6 +1275,7 @@ LM.MOUNTFAMILY["Pterrordax"] = {
     [368899] = true, -- Windborn Velocidrake
 }
 
+-- Split
 LM.MOUNTFAMILY["Ram"] = {
     [  6896] = true, -- Black Ram
     [ 17461] = true, -- Black Ram
@@ -1796,6 +1815,11 @@ LM.MOUNTFAMILY["Vulture"] = {
     [316276] = true, -- Wastewander Skyterror
 }
 
+LM.MOUNTFAMILY["War Elekk"] = {
+    [ 73630] = true, -- Great Exarch's Elekk
+    [223578] = true, -- Vicious War Elekk
+}
+
 LM.MOUNTFAMILY["War Turtle"] = {
     [232525] = true, -- Vicious War Turtle
     [232523] = true, -- Vicious War Turtle
@@ -1868,6 +1892,10 @@ LM.MOUNTFAMILY["Waveshredder"] = {
 
 LM.MOUNTFAMILY["Wavewhisker"] = {
     [397406] = true, -- Wondrous Wavewhisker
+}
+
+LM.MOUNTFAMILY["Whimsydrake"] = {
+    [425338] = true, -- Flourishing Whimsydrake
 }
 
 LM.MOUNTFAMILY["Wilderling"] = {
