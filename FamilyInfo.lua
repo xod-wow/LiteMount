@@ -394,17 +394,9 @@ LM.MOUNTFAMILY["Dragon Turtle"] = {
     [127286] = true, -- Black Dragon Turtle
     [127287] = true, -- Blue Dragon Turtle
     [127288] = true, -- Brown Dragon Turtle
-    [127295] = true, -- Great Black Dragon Turtle
-    [127302] = true, -- Great Blue Dragon Turtle
-    [127308] = true, -- Great Brown Dragon Turtle
-    [127293] = true, -- Great Green Dragon Turtle
-    [127310] = true, -- Great Purple Dragon Turtle
-    [120822] = true, -- Great Red Dragon Turtle
     [120395] = true, -- Green Dragon Turtle
     [127289] = true, -- Purple Dragon Turtle
     [127290] = true, -- Red Dragon Turtle
-    [232525] = true, -- Vicious War Turtle
-    [232523] = true, -- Vicious War Turtle
 }
 
 LM.MOUNTFAMILY["Dragonhawk"] = {
@@ -729,6 +721,15 @@ LM.MOUNTFAMILY["Gravewing"] = {
     [353866] = true, -- Obsidian Gravewing
     [353873] = true, -- Pale Gravewing
     [353872] = true, -- Sinfall Gravewing
+}
+
+LM.MOUNTFAMILY["Great Dragon Turtle"] = {
+    [127295] = true, -- Great Black Dragon Turtle
+    [127302] = true, -- Great Blue Dragon Turtle
+    [127308] = true, -- Great Brown Dragon Turtle
+    [127293] = true, -- Great Green Dragon Turtle
+    [127310] = true, -- Great Purple Dragon Turtle
+    [120822] = true, -- Great Red Dragon Turtle
 }
 
 LM.MOUNTFAMILY["Gronnling"] = {
@@ -1793,6 +1794,11 @@ LM.MOUNTFAMILY["Vorquin"] = {
 LM.MOUNTFAMILY["Vulture"] = {
     [316275] = true, -- Waste Marauder
     [316276] = true, -- Wastewander Skyterror
+}
+
+LM.MOUNTFAMILY["War Turtle"] = {
+    [232525] = true, -- Vicious War Turtle
+    [232523] = true, -- Vicious War Turtle
 }
 
 LM.MOUNTFAMILY["Warframe"] = {
