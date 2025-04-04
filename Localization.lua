@@ -1928,8 +1928,7 @@ if locale == "koKR" then
     L["LM_RARITY_DATA_INFO"] = "희귀도 데이터(각 마운트를 수집한 유저 수 집계)는 DataForAzeroth에서 제공하며, LiteMount 버전이 출시될 때마다 업데이트됩니다. 더 자주 업데이트되는 데이터를 원하시면 MountsRarity 애드온도 설치해 주세요."
     L["LM_RARITY_DISABLES_PRIORITY"] = "일반 설정에서 희귀한 탈것 소환이 선택되었기 때문에 0(비활성화) 이외의 우선순위는 비활성화됩니다."
     L["LM_RARITY_FORMAT"] = "%0.1f%%"
-    L["LM_RARITY_FORMAT_LONG"] = [=[WoW 계정 수 %0.1f%에 의해 수집되었습니다.
-    ]=]
+    L["LM_RARITY_FORMAT_LONG"] = "WoW 계정 수 %0.1f%%에 의해 수집되었습니다."
     L["LM_RENAME_FLAG"] = "속성 이름 바꾸기"
     L["LM_RENAME_GROUP"] = "그룹 이름 변경"
     L["LM_REPORT_BUG"] = "버그 제보"
