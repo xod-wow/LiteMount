@@ -921,6 +921,14 @@ CONDITIONS["member"] = {
         end
 }
 
+local IS_MAC = IsMacClient()
+
+local function macModifiers()
+    if IS_MAC then 
+        return { val = "mod:cmd" }, { val = "mod:lcmd" }, { val = "mod:rcmd" }
+    end
+end
+
 CONDITIONS["mod"] = {
     name = L.LM_MODIFIER_KEY,
     toDisplay =
@@ -945,6 +953,7 @@ CONDITIONS["mod"] = {
         { val = "mod:shift" },
         { val = "mod:lshift" },
         { val = "mod:rshift" },
+        macModifiers(),
     },
     handler =
         function (cond, context, v)
@@ -955,10 +964,12 @@ CONDITIONS["mod"] = {
                 if IsLeftAltKeyDown() then i = i + 1 end
                 if IsLeftShiftKeyDown() then i = i + 1 end
                 if IsLeftControlKeyDown() then i = i + 1 end
+                if IS_MAC and IsLeftMetaKeyDown() then i = i + 1 end
                 if IsRightAltKeyDown() then i = i + 1 end
                 if IsRightShiftKeyDown() then i = i + 1 end
                 if IsRightControlKeyDown() then i = i + 1 end
-                if IsRightControlKeyDown() then i = i + 1 end
+                if IS_MAC and IsRightMetaKeyDown() then i = i + 1 end
+                -- if IsRightControlKeyDown() then i = i + 1 end -- XXX: twice?
                 return tonumber(v) == i
             elseif v == "alt" then
                 return IsAltKeyDown()
@@ -978,6 +989,12 @@ CONDITIONS["mod"] = {
                 return IsLeftShiftKeyDown()
             elseif v == "rshift" then
                 return IsRightShiftKeyDown()
+            elseif IS_MAC and v == "cmd" then
+                return IsMetaKeyDown()
+            elseif IS_MAC and v == "lcmd" then
+                return IsLeftMetaKeyDown()
+            elseif IS_MAC and v == "rcmd" then
+                return IsRightMetaKeyDown()
             else
                 return false
             end
