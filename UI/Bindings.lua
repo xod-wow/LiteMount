@@ -65,7 +65,7 @@ function LiteMountOptionsBindingsBinding_OnClick(self, button)
     LiteMountOptionsBindings_Update(LiteMountOptionsBindings)
 end
 
-local NOBINDKEYS = { "LeftButton", "RightButton", "LSHIFT", "RSHIFT", "LCTRL", "RCTRL", "LALT", "RALT" }
+local NOBINDKEYS = { "LeftButton", "RightButton", "LSHIFT", "RSHIFT", "LCTRL", "RCTRL", "LALT", "RALT", "LMETA", "RMETA" }
 
 function LiteMountOptionsBindings_OnKeyDown(self, keyOrButton)
 
@@ -100,6 +100,8 @@ function LiteMountOptionsBindings_OnKeyDown(self, keyOrButton)
         keyOrButton = "CTRL-" .. keyOrButton
     elseif IsAltKeyDown() then
         keyOrButton = "ALT-" .. keyOrButton
+    elseif IsMetaKeyDown() then
+        keyOrButton = "CMD-" .. keyOrButton
     end
 
     -- OK, let's bind something
