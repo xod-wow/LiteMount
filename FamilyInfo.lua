@@ -90,6 +90,7 @@ LM.MOUNTFAMILY["Aurelid"] = {
 }
 
 LM.MOUNTFAMILY["Bakar"] = {
+    [424601] = true, -- Brown-Furred Spiky Bakar
     [424607] = true, -- Taivan
 }
 
@@ -155,6 +156,7 @@ LM.MOUNTFAMILY["Bloodswarmer"] = {
     [447185] = true, -- Aquamarine Swarmite
     [275841] = true, -- Expedition Bloodswarmer
     [243795] = true, -- Leaping Veinseeker
+    [447189] = true, -- Nesting Swarmite
     [447190] = true, -- Shadowed Swarmite
     [447195] = true, -- Swarmite Skyhunter
     [449325] = true, -- Vicious Skyflayer (Alliance)
@@ -226,6 +228,7 @@ LM.MOUNTFAMILY["Chopper"] = {
     [428013] = true, -- Incognitro, the Indecipherable Felcycle
     [ 60424] = true, -- Mekgineer's Chopper
     [ 55531] = true, -- Mechano-Hog
+    [428068] = true, -- Voidfire Deathcycle
     [171845] = true, -- Warlord's Deathwheel
 }
 
@@ -248,6 +251,7 @@ LM.MOUNTFAMILY["Cloud Serpent"] = {
     [446022] = true, -- Astral Emperor's Serpent
     [123992] = true, -- Azure Cloud Serpent
     [127156] = true, -- Crimson Cloud Serpent
+   [1218316] = true, -- Corruption of the Aspects
     [123993] = true, -- Golden Cloud Serpent
     [148619] = true, -- Grievous Gladiator's Cloud Serpent
     [110051] = true, -- Heart of the Aspects
@@ -281,6 +285,13 @@ LM.MOUNTFAMILY["Core Hound"] = {
     [271646] = true, -- Dark Iron Core Hound
     [213209] = true, -- Steelbound Devourer
     [414327] = true, -- Sulfur Hound
+}
+
+LM.MOUNTFAMILY["Cormaera"] = {
+   [1226740] = true, -- Coldflame Cormaera
+   [1226851] = true, -- Felborn Cormaera
+   [1226856] = true, -- Lavaborn Cormaera
+   [1226855] = true, -- Molten Cormaera
 }
 
 LM.MOUNTFAMILY["Corpsefly"] = {
@@ -394,7 +405,6 @@ LM.MOUNTFAMILY["Donkey"] = {
 }
 
 LM.MOUNTFAMILY["Dragon Turtle"] = {
-    [227956] = true, -- Arcadian War Turtle
     [127286] = true, -- Black Dragon Turtle
     [127287] = true, -- Blue Dragon Turtle
     [127288] = true, -- Brown Dragon Turtle
@@ -673,6 +683,7 @@ LM.MOUNTFAMILY["Goat"] = {
     [130086] = true, -- Brown Riding Goat
     [435133] = true, -- Little Red Riding Goat
     [435131] = true, -- Snowy Riding Goat
+   [1219705] = true, -- Spotted Black Riding Goat
     [130137] = true, -- White Riding Goat
 }
 
@@ -773,6 +784,7 @@ LM.MOUNTFAMILY["Gryphon"] = {
     [ 32289] = true, -- Swift Red Gryphon
     [302796] = true, -- Swift Spectral Armored Gryphon
     [ 55164] = true, -- Swift Spectral Gryphon
+   [1218229] = true, -- Void-Scarred Gryphon
     [ 54729] = true, -- Winged Steed of the Ebon Blade
 }
 
@@ -782,6 +794,13 @@ LM.MOUNTFAMILY["Hand"] = {
     [354354] = true, -- Hand of Nilganihmaht
     [459193] = true, -- Hand of Reshkigaal
     [354355] = true, -- Hand of Salaranga
+}
+
+LM.MOUNTFAMILY["Harvesthog"] = {
+   [1226511] = true, -- Spring Harvesthog
+   [1226531] = true, -- Summer Harvesthog
+   [1226532] = true, -- Winter Harvesthog
+   [1226533] = true, -- Autumn Harvesthog
 }
 
 LM.MOUNTFAMILY["Hawkstrider"] = {
@@ -869,6 +888,7 @@ LM.MOUNTFAMILY["Horse"] = {
     [ 23228] = true, -- Swift White Steed
     [ 48954] = true, -- Swift Zhevra
     [ 49322] = true, -- Swift Zhevra
+   [1218305] = true, -- Void-Forged Stallion
     [   468] = true, -- White Stallion
     [ 16083] = true, -- White Stallion
 }
@@ -934,7 +954,9 @@ LM.MOUNTFAMILY["Lion"] = {
 
 LM.MOUNTFAMILY["Lynx"] = {
     [448979] = true, -- Dauntless Imperial Lynx
+   [1226421] = true, -- Radiant Imperial Lynx
     [448978] = true, -- Vermillion Imperial Lynx
+   [1228865] = true, -- Void-Scarred Lynx
 }
 
 LM.MOUNTFAMILY["Magic Broom"] = {
@@ -1446,6 +1468,13 @@ LM.MOUNTFAMILY["Salamanther"] = {
     [374098] = true, -- Stormhide Salamanther
 }
 
+LM.MOUNTFAMILY["Savage Battle Turtle"] = {
+    [473861] = true, -- Savage Alabaster Battle Turtle
+    [433281] = true, -- Savage Blue Battle Turtle
+    [453255] = true, -- Savage Ebony Battle Turtle
+    [367826] = true, -- Savage Green Battle Turtle
+}
+
 LM.MOUNTFAMILY["Scarab"] = {
     [428060] = true, -- Golden Regal Scarab
     [428005] = true, -- Jeweled Copper Scarab
@@ -1483,6 +1512,7 @@ LM.MOUNTFAMILY["Serpent"] = {
     [315987] = true, -- Mail Muncher
     [275623] = true, -- Nazjatar Blood Serpent
     [367676] = true, -- Nether-Gorged Greatwyrm
+   [1218314] = true, -- Ny'alothan Shadow Worm
     [243025] = true, -- Riddler's Mind-Worm
     [346141] = true, -- Slime Serpent
     [316343] = true, -- Wriggling Parasite
@@ -1652,6 +1682,7 @@ LM.MOUNTFAMILY["Stone Panther"] = {
     [121838] = true, -- Ruby Panther
     [121836] = true, -- Sapphire Panther
     [121839] = true, -- Sunstone Panther
+   [1218317] = true, -- Void-Crystal Panther
     [ 98727] = true, -- Winged Guardian
 }
 
@@ -1763,10 +1794,6 @@ LM.MOUNTFAMILY["Trike"] = {
 
 LM.MOUNTFAMILY["Turtle"] = {
     [ 30174] = true, -- Riding Turtle
-    [473861] = true, -- Savage Alabaster Battle Turtle
-    [433281] = true, -- Savage Blue Battle Turtle
-    [453255] = true, -- Savage Ebony Battle Turtle
-    [367826] = true, -- Savage Green Battle Turtle
     [ 64731] = true, -- Sea Turtle
 }
 
@@ -1783,6 +1810,11 @@ LM.MOUNTFAMILY["Vespoid"] = {
     [359366] = true, -- Buzz
     [359367] = true, -- Forged Spiteflyer
     [342678] = true, -- Vespoid Flutterer
+}
+
+LM.MOUNTFAMILY["Vicious War Turtle"] = {
+    [232525] = true, -- Vicious War Turtle
+    [232523] = true, -- Vicious War Turtle
 }
 
 LM.MOUNTFAMILY["Vile Fiend"] = {
@@ -1821,8 +1853,8 @@ LM.MOUNTFAMILY["War Elekk"] = {
 }
 
 LM.MOUNTFAMILY["War Turtle"] = {
-    [232525] = true, -- Vicious War Turtle
-    [232523] = true, -- Vicious War Turtle
+    [227956] = true, -- Arcadian War Turtle
+   [1227076] = true, -- Tyrannotort
 }
 
 LM.MOUNTFAMILY["Warframe"] = {
@@ -1941,6 +1973,7 @@ LM.MOUNTFAMILY["Wind Rider"] = {
     [ 32246] = true, -- Swift Red Wind Rider
     [ 32296] = true, -- Swift Yellow Wind Rider
     [ 32243] = true, -- Tawny Wind Rider
+   [1218307] = true, -- Void-Scarred Wind Rider
 }
 
 LM.MOUNTFAMILY["Wolf"] = {
@@ -1985,6 +2018,7 @@ LM.MOUNTFAMILY["Wolf"] = {
     [349823] = true, -- Vicious Warstalker (Alliance)
     [349824] = true, -- Vicious Warstalker (Horde)
     [100333] = true, -- Vicious War Wolf
+   [1218306] = true, -- Void-Scarred Pack Mother
     [171837] = true, -- Warsong Direfang
     [414316] = true, -- White War Wolf
     [   581] = true, -- Winter Wolf

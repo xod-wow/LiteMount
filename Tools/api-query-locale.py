@@ -39,7 +39,7 @@ for id in args.id:
 
     for d in data:
         for locale, name in d['name'].items():
-            if locale != 'en_US':
+            if locale not in [ 'en_US', 'en_GB' ]:
                 rows.append((locale, 'L["{}"] = "{}"'.format(d['name']['en_US'], name)))
 
 current_locale = ''
