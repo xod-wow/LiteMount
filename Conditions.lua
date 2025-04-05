@@ -921,13 +921,9 @@ CONDITIONS["member"] = {
         end
 }
 
-local IS_MAC = IsMacClient()
-
-local function macModifiers()
-    if IS_MAC then 
-        return { val = "mod:cmd" }, { val = "mod:lcmd" }, { val = "mod:rcmd" }
-    end
-end
+local ModifierKeys = IsMacClient()
+                        and { "alt", "cmd", "ctrl", "shift" }
+                        or { "alt", "ctrl", "shift" }
 
 CONDITIONS["mod"] = {
     name = L.LM_MODIFIER_KEY,
@@ -941,20 +937,16 @@ CONDITIONS["mod"] = {
                 return _G[v:upper().."_KEY_TEXT"] or v
             end
         end,
-    menu = {
-        nosort = true,
-        { val = "mod" },
-        { val = "mod:alt" },
-        { val = "mod:lalt" },
-        { val = "mod:ralt" },
-        { val = "mod:ctrl" },
-        { val = "mod:lctrl" },
-        { val = "mod:rctrl" },
-        { val = "mod:shift" },
-        { val = "mod:lshift" },
-        { val = "mod:rshift" },
-        macModifiers(),
-    },
+    menu =
+        function ()
+            local out = { nosort = true }
+            for _, m in ipairs(ModifierKeys) do
+                table.insert(out, { val = "mod:"..m })
+                table.insert(out, { val = "mod:l"..m })
+                table.insert(out, { val = "mod:r"..m })
+            end
+            return out
+        end,
     handler =
         function (cond, context, v)
             if not v then
@@ -964,12 +956,11 @@ CONDITIONS["mod"] = {
                 if IsLeftAltKeyDown() then i = i + 1 end
                 if IsLeftShiftKeyDown() then i = i + 1 end
                 if IsLeftControlKeyDown() then i = i + 1 end
-                if IS_MAC and IsLeftMetaKeyDown() then i = i + 1 end
+                if IsLeftMetaKeyDown() then i = i + 1 end
                 if IsRightAltKeyDown() then i = i + 1 end
                 if IsRightShiftKeyDown() then i = i + 1 end
                 if IsRightControlKeyDown() then i = i + 1 end
-                if IS_MAC and IsRightMetaKeyDown() then i = i + 1 end
-                -- if IsRightControlKeyDown() then i = i + 1 end -- XXX: twice?
+                if IsRightMetaKeyDown() then i = i + 1 end
                 return tonumber(v) == i
             elseif v == "alt" then
                 return IsAltKeyDown()
@@ -989,11 +980,11 @@ CONDITIONS["mod"] = {
                 return IsLeftShiftKeyDown()
             elseif v == "rshift" then
                 return IsRightShiftKeyDown()
-            elseif IS_MAC and v == "cmd" then
+            elseif v == "cmd" then
                 return IsMetaKeyDown()
-            elseif IS_MAC and v == "lcmd" then
+            elseif v == "lcmd" then
                 return IsLeftMetaKeyDown()
-            elseif IS_MAC and v == "rcmd" then
+            elseif v == "rcmd" then
                 return IsRightMetaKeyDown()
             else
                 return false
@@ -1649,6 +1640,10 @@ function LM.Conditions:GetConditions()
     table.sort(out, function (a, b) return a.name < b.name end)
     return out
 end
+
+-- This appears to have no terminating condition, but relies on the fact that
+-- the terminal items are purely text keys and ipairs() returns no elements.
+-- Probably a bit sketchy to be honest. Past me was a bit of a jerk.
 
 local function FillMenuTextsRecursive(t)
     for _,item in ipairs(t) do
