@@ -38,15 +38,18 @@ end
 LiteMountCombatMacroEnableButtonMixin = {}
 
 function LiteMountCombatMacroEnableButtonMixin:GetOption()
-    return LM.Options:GetOption('useCombatMacro')
+    return LM.Options:GetOption('useCombatMacro')[self:GetID()]
 end
 
 function LiteMountCombatMacroEnableButtonMixin:GetOptionDefault()
-    return LM.Options:GetOptionDefault('useCombatMacro')
+    return LM.Options:GetOptionDefault('useCombatMacro')[self:GetID()]
 end
 
 function LiteMountCombatMacroEnableButtonMixin:SetOption(v)
-    LM.Options:SetOption('useCombatMacro', v and true or false)
+    v = v and true or nil
+    local opt = LM.Options:GetOption('useCombatMacro')
+    opt[self:GetID()] = v
+    LM.Options:SetOption('useCombatMacro', opt)
 end
 
 --[[------------------------------------------------------------------------]]--
@@ -57,7 +60,16 @@ function LiteMountCombatMacroPanelMixin:OnLoad()
     self.name = MACRO .. " : " .. COMBAT
 
     LiteMountOptionsPanel_RegisterControl(self.EditBox)
-    LiteMountOptionsPanel_RegisterControl(self.EnableButton)
+
+    for i, b in ipairs(self.EnableButton) do
+        b.Text:SetText(i)
+        if i == 1 then
+            b:SetPoint("LEFT", self.Enable, "RIGHT", 8, 0)
+        else
+            b:SetPoint("LEFT", self.EnableButton[i-1], "RIGHT", 24, 0)
+        end
+        LiteMountOptionsPanel_RegisterControl(b)
+    end
 
     LiteMountOptionsPanel_OnLoad(self)
 end

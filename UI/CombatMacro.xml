@@ -30,10 +30,25 @@
             <FontString inherits="GameFontHighlight" />
         </EditBox>
 
-        <CheckButton parentKey="EnableButton" inherits="OptionsBaseCheckButtonTemplate" mixin="LiteMountCombatMacroEnableButtonMixin">
-            <Anchors>
-                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" y="32" />
-            </Anchors>
+        <CheckButton parentArray="EnableButton" inherits="OptionsBaseCheckButtonTemplate" mixin="LiteMountCombatMacroEnableButtonMixin" id="1">
+            <Scripts>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
+            </Scripts>
+        </CheckButton>
+
+        <CheckButton parentArray="EnableButton" inherits="OptionsBaseCheckButtonTemplate" mixin="LiteMountCombatMacroEnableButtonMixin" id="2">
+            <Scripts>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
+            </Scripts>
+        </CheckButton>
+
+        <CheckButton parentArray="EnableButton" inherits="OptionsBaseCheckButtonTemplate" mixin="LiteMountCombatMacroEnableButtonMixin" id="3">
+            <Scripts>
+                <OnClick function="LiteMountOptionsControl_OnChanged" />
+            </Scripts>
+        </CheckButton>
+
+        <CheckButton parentArray="EnableButton" inherits="OptionsBaseCheckButtonTemplate" mixin="LiteMountCombatMacroEnableButtonMixin" id="4">
             <Scripts>
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
@@ -71,11 +86,12 @@
             </FontString>
 
 
-            <FontString inherits="GameFontNormalLarge" parentKey="Enable" text="ENABLE">
+            <FontString inherits="GameFontNormalLarge" parentKey="Enable" text="ENABLE_FOR_KEYBINDS">
                 <Anchors>
-                    <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.EnableButton" x="4" />
+                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" y="32" />
                 </Anchors>
             </FontString>
+
             <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
                 <Anchors>
                     <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="8" y="3" />

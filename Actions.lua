@@ -644,8 +644,9 @@ ACTIONS['Combat'] = {
     argType = 'none',
     handler =
         function (args, context)
+            local useCombatMacro = LM.Options:GetOption('useCombatMacro')
             -- If specific combat macro is set always use it
-            if LM.Options:GetOption('useCombatMacro') then
+            if useCombatMacro[self.id] then
                 LM.Debug("  * setting action to options combat macro")
                 local macrotext = LM.Options:GetOption('combatMacro')
                 return LM.SecureAction:Macro(macrotext)

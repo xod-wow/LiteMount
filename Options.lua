@@ -112,9 +112,9 @@ local defaults = {
     },
     char = {
         unavailableMacro    = "",
-        useUnavailableMacro = false,
+        useUnavailableMacro = { },
         combatMacro         = "",
-        useCombatMacro      = false,
+        useCombatMacro      = { },
         debugEnabled        = false,
         uiDebugEnabled      = false,
     },
@@ -236,6 +236,24 @@ function LM.Options:VersionUpgrade10()
     return true
 end
 
+-- Version 11 changes useCombatMacro to be a table
+
+function LM.Options:VersionUpgrade11()
+    if (LM.db.global.configVersion or 11) >= 11 then
+        return
+    end
+
+    LM.Debug('VersionUpgrade: 11')
+    for n, c in pairs(LM.db.sv.char or {}) do
+        LM.Debug(' - upgrading char: ' .. n)
+        if c.useCombatMacro and type(c.useCombatMacro) ~= 'table' then
+            local val = c.useCombatMacro and true or nil
+            c.useCombatMacro = { val, val, val, val }
+        end
+    end
+    return true
+end
+
 function LM.Options:CleanDatabase()
     local changed
     for n,c in pairs(LM.db.sv.char or {}) do
@@ -269,8 +287,9 @@ function LM.Options:DatabaseMaintenance()
     if self:VersionUpgrade8() then changed = true end
     if self:VersionUpgrade9() then changed = true end
     if self:VersionUpgrade10() then changed = true end
+    if self:VersionUpgrade11() then changed = true end
     if self:CleanDatabase() then changed = true end
-    LM.db.global.configVersion = 10
+    LM.db.global.configVersion = 11
     return changed
 end
 
