@@ -972,8 +972,8 @@ CONDITIONS["mod"] = {
                 return IsControlKeyDown()
             elseif v == "lctrl" then
                 return IsLeftControlKeyDown()
-            elseif v == "rtrl" then
-                return IsRightoControlKeyDown()
+            elseif v == "rctrl" then
+                return IsRightControlKeyDown()
             elseif v == "shift" then
                 return IsShiftKeyDown()
             elseif v == "lshift" then
