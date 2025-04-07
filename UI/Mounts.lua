@@ -352,10 +352,6 @@ function LiteMountMountsPanelMixin:OnLoad()
 
     ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
 
-    -- Because we're the wrong size at the moment we'll only have 1 button after
-    -- this but that's enough to stop everything crapping out.
-    -- self.ScrollBox:CreateMoreButtons()
-
     self.name = MOUNTS
 
     self.allFlags = LM.Options:GetFlags()

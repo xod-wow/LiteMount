@@ -136,15 +136,11 @@
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
         </Frame>
-        <ScrollFrame name="$parentGroups" parentKey="Groups" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountGroupsPanelGroupsMixin">
+        <ScrollFrame parentKey="GroupScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountGroupsPanelGroupScrollBoxMixin">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.GroupsContainer" x="8" y="-8" />
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.GroupsContainer" x="-8" y="8" />
             </Anchors>
-            <Scripts>
-                <OnLoad inherit="append" method="OnLoad" />
-                <OnSizeChanged inherit="append" method="OnSizeChanged" />
-            </Scripts>
             <Frames>
                 <Button parentKey="AddGroupButton" inherits="UIPanelButtonTemplate" text="ADD" hidden="true">
                     <Size x="96" y="22" />
@@ -156,6 +152,12 @@
                 </Button>
             </Frames>
         </ScrollFrame>
+        <EventFrame parentKey="GroupScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.GroupScrollBox" relativePoint="TOPRIGHT" x="8" y="16"/>
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.GroupScrollBox" relativePoint="BOTTOMRIGHT" x="8" y="-16"/>
+            </Anchors>
+        </EventFrame>
         <ScrollFrame name="$parentMounts" parentKey="Mounts" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountGroupsPanelMountScrollMixin">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.MountsContainer" x="8" y="-8" />
@@ -195,7 +197,7 @@
         <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
             <Scripts>
                 <OnClick>
-                    local f = LiteMountGroupsPanel.Groups.selectedGroup
+                    local f = LiteMountGroupsPanel.GroupScrollBox.selectedGroup
                     if f then StaticPopup_Show("LM_OPTIONS_DELETE_GROUP", f, nil, f) end
                 </OnClick>
             </Scripts>
@@ -207,7 +209,7 @@
         <Button parentKey="RenameButton" inherits="UIPanelButtonTemplate" text="PET_RENAME">
             <Scripts>
                 <OnClick>
-                    local f = LiteMountGroupsPanel.Groups.selectedGroup
+                    local f = LiteMountGroupsPanel.GroupScrollBox.selectedGroup
                     if f then StaticPopup_Show("LM_OPTIONS_RENAME_GROUP", f, nil, f) end
                 </OnClick>
             </Scripts>
