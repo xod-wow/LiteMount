@@ -312,6 +312,10 @@ local SortFunctions = {
         function (a, b)
             return a.name < b.name
         end,
+    ['family'] =
+        function (a, b)
+            return a.family < b.family
+        end,
     ['rarity'] =
         function (a, b)
             return ( a:GetRarity() or 101 ) < ( b:GetRarity() or 101 )

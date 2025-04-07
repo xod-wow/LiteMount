@@ -26,7 +26,6 @@ LM.MOUNTFAMILY._AUTO_ = {
     [454682] = true, -- Startouched Furline
     [317177] = true, -- Sunwarmed Furline
     [370770] = true, -- Tuskarr Shoreglider
-    [370770] = true, -- Tuskarr Shoreglider
     [272481] = true, -- Vicious War Riverbeast
     [327408] = true, -- Vicious War Spider
     [327407] = true, -- Vicious War Spider
@@ -1396,7 +1395,7 @@ LM.MOUNTFAMILY["Ramolith"] = {
     [449418] = true, -- Shale Ramolith
     [449415] = true, -- Slatestone Ramolith
 }
- 
+
 -- Split
 LM.MOUNTFAMILY["Raptor"] = {
     [ 96491] = true, -- Armored Razzashi Raptor

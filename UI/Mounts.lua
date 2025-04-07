@@ -370,6 +370,15 @@ function LiteMountMountsPanelMixin:OnLoad()
     LiteMountOptionsPanel_RegisterControl(self.ScrollBox)
 
     LiteMountOptionsPanel_OnLoad(self)
+
+    --@debug@
+    self.NextFamily = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    self.NextFamily:SetSize(96, 22)
+    self.NextFamily:SetText("NextFamily")
+    self.NextFamily:SetPoint('TOPRIGHT', self, 'TOPRIGHT', -40, -54)
+    self.NextFamily:SetScript('OnClick', function () LM.SlashCommandFunc('nf') end)
+    self.NextFamily:Show()
+    --@end-debug@
 end
 
 function LiteMountMountsPanelMixin:OnShow()

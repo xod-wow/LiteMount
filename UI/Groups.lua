@@ -179,7 +179,7 @@ function LiteMountGroupsPanelGroupMixin:OnClick()
 end
 
 function LiteMountGroupsPanelGroupMixin:Initialize(elementData)
-     if type(elementData) == 'string' then 
+     if type(elementData) == 'string' then
         local groupText = elementData
         if LM.Options:IsGlobalGroup(groupText) then
             groupText = BLUE_FONT_COLOR:WrapTextInColorCode(groupText)
@@ -292,7 +292,7 @@ LiteMountGroupsPanelButtonMixin = {}
 function LiteMountGroupsPanelButtonMixin:Initialize(elementData)
     self.mount1:SetMount(elementData[1], elementData.selectedGroup)
     if elementData[2] then
-        self.mount2:SetMount(elementData[2], selectedGroup)
+        self.mount2:SetMount(elementData[2], elementData.selectedGroup)
         self.mount2:Show()
     else
         self.mount2:Hide()

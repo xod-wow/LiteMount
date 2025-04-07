@@ -48,8 +48,12 @@ globals = {
     "LiteMountMountButtonMixin",
     "LiteMountMountIconMixin",
     "LiteMountMountScrollMixin",
+    "LiteMountMountScrollBoxMixin",
     "LiteMountMountsPanel",
     "LiteMountMountsPanelMixin",
+    "LiteMountGroupsPanelMountScrollBoxMixin",
+    "LiteMountGroupsPanelGroupScrollBoxMixin",
+    "LiteMountGroupsPanelButtonMixin",
     "LiteMountOptions",
     "LiteMountOptionsBinding_OnLoad",
     "LiteMountOptionsBinding_Update",
@@ -117,6 +121,10 @@ globals = {
 }
 
 read_globals = {
+    "CreateDataProvider",
+    "ScrollUtil",
+    "CreateScrollBoxListLinearView",
+    "ScrollBoxConstants",
     "ACCEPT",
     "ACCESSIBILITY_DRIVE_LABEL",
     "ADVANCED_LABEL",
