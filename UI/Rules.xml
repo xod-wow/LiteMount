@@ -127,14 +127,11 @@
     </Layers>
 
     <Frames>
-        <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountRulesScrollMixin">
+        <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountRulesScrollMixin">
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-132" />
                 <Anchor point="BOTTOMRIGHT" x="-34" y="40" />
             </Anchors>
-            <Scripts>
-                <OnLoad method="OnLoad" />
-            </Scripts>
             <Layers>
                 <Layer level="OVERLAY">
                     <FontString parentKey="Inactive" inherits="GameFontNormalHuge">
@@ -147,18 +144,24 @@
                 </Layer>
             </Layers>
         </ScrollFrame>
+        <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="8" y="16"/>
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="8" y="-16"/>
+            </Anchors>
+        </EventFrame>
 
         <DropdownButton parentkey="BindingDropDown" inherits="WoWStyle1DropdownTemplate">
             <Size x="192" y="26" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.Scroll" x="8" />
+                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.ScrollBox" x="8" />
             </Anchors>
         </DropdownButton>
 
         <Button parentKey="AddButton" inherits="UIPanelButtonTemplate" text="ADD">
             <Size x="72" y="22" />
             <Anchors>
-                <Anchor point="TOPRIGHT" relativeKey="$parent.Scroll" relativePoint="BOTTOMRIGHT" x="-4" y="-8" />
+                <Anchor point="TOPRIGHT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="-4" y="-8" />
             </Anchors>
         </Button>
         <Button parentKey="EditButton" inherits="UIPanelButtonTemplate" text="EDIT">
@@ -179,7 +182,6 @@
         <OnLoad method="OnLoad" />
         <OnShow method="OnShow" inherit="prepend" />
         <OnHide method="OnHide" />
-        <OnSizeChanged method="OnSizeChanged" />
     </Scripts>
 </Frame>
 

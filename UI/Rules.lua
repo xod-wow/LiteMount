@@ -21,7 +21,7 @@ end
 LiteMountRuleButtonMixin = {}
 
 local function MoveRule(i, n)
-    local scroll = LiteMountRulesPanel.Scroll
+    local scroll = LiteMountRulesPanel.ScrollBox
     scroll.isDirty = true
     local rules = LM.Options:GetRules(scroll.tab)
     if i+n < 1 or i+n > #rules then return end
@@ -50,7 +50,7 @@ function LiteMountRuleButtonMixin:OnLoad()
     self.MoveDown:SetScript('OnClick', function () MoveRule(self.index, 1) end)
 end
 
-function LiteMountRuleButtonMixin:Update(index, rule, compiledRule)
+function LiteMountRuleButtonMixin:Initialize(index, rule, compiledRule)
     self.index = index
     self.rule = rule
     self.NumText:SetText(index)
@@ -83,25 +83,19 @@ end
 
 LiteMountRulesScrollMixin = {}
 
-function LiteMountRulesScrollMixin:Update()
-    if not self.buttons then return end
-
-    local offset = HybridScrollFrame_GetOffset(self)
-
+function LiteMountRulesScrollMixin:RefreshRules()
     local rules = LM.Options:GetRules(self.tab)
     local ruleSet = LM.Options:GetCompiledRuleSet(self.tab)
 
     local buttonRuleSet = LM.Options:GetCompiledButtonRuleSet(self.tab)
     local isEnabled = buttonRuleSet:HasApplyRules()
 
-    for i = 1, #self.buttons do
-        local button = self.buttons[i]
-        local index = offset + i
-        if isEnabled and index <= #ruleSet then
-            button:Update(index, rules[index], ruleSet[index])
-            button:Show()
-        else
-            button:Hide()
+    local dp = CreateDataProvider()
+
+    if isEnabled then
+        for i = 1, #rules do
+            -- this is the elementData from SetElementInitializer
+            dp:Insert({ index = i, rule = rules[i], compiledRule = ruleSet[i] })
         end
     end
 
@@ -116,8 +110,8 @@ function LiteMountRulesScrollMixin:Update()
         self.Inactive:SetText(string.format(L.LM_RULES_INACTIVE, self.tab))
         self.Inactive:Show()
     end
-    local totalHeight = #ruleSet* self.buttonHeight
-    HybridScrollFrame_Update(self, totalHeight, self:GetHeight())
+
+    self:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 end
 
 function LiteMountRulesScrollMixin:SetOption(v, i)
@@ -133,18 +127,11 @@ function LiteMountRulesScrollMixin:GetOptionDefault()
     return nil
 end
 
-function LiteMountRulesScrollMixin:OnLoad()
-    local track = _G[self.scrollBar:GetName().."Track"]
-    track:Hide()
-    self.ntabs = 4
-    self.update = self.Update
-    self.SetControl = self.Update
-end
 
 --[[------------------------------------------------------------------------]]--
 
 local function BindingGenerator(owner, rootDescription)
-    local scroll = LiteMountRulesPanel.Scroll
+    local scroll = LiteMountRulesPanel.ScrollBox
     local IsSelected = function (v) return scroll.tab == v end
     local SetSelected = function (v) LiteMountOptionsControl_SetTab(scroll, v) end
     for i = 1, 4 do
@@ -157,12 +144,12 @@ end
 LiteMountRulesPanelMixin = {}
 
 function LiteMountRulesPanelMixin:AddRuleCallback(rule)
-    local binding = self.Scroll.tab
+    local binding = self.ScrollBox.tab
     local rules = LM.Options:GetRules(binding)
     local insertPos = tIndexOf(rules, self.selectedRule) or 1
     table.insert(rules, insertPos, rule)
     self.selectedRule = rule
-    self.Scroll.isDirty = true
+    self.ScrollBox.isDirty = true
     LM.Options:SetRules(binding, rules)
 end
 
@@ -173,9 +160,9 @@ function LiteMountRulesPanelMixin:AddRule()
 end
 
 function LiteMountRulesPanelMixin:DeleteRule()
-    local binding = self.Scroll.tab
+    local binding = self.ScrollBox.tab
     if self.selectedRule then
-        self.Scroll.isDirty = true
+        self.ScrollBox.isDirty = true
         local rules = LM.Options:GetRules(binding)
         tDeleteItem(rules, self.selectedRule)
         self.selectedRule = nil
@@ -184,13 +171,13 @@ function LiteMountRulesPanelMixin:DeleteRule()
 end
 
 function LiteMountRulesPanelMixin:EditRuleCallback(rule)
-    local binding = self.Scroll.tab
+    local binding = self.ScrollBox.tab
     local rules = LM.Options:GetRules(binding)
     local index = tIndexOf(rules, self.selectedRule)
     if index then
         rules[index] = rule
         self.selectedRule = rule
-        self.Scroll.isDirty = true
+        self.ScrollBox.isDirty = true
         LM.Options:SetRules(binding, rules)
     end
 end
@@ -201,13 +188,6 @@ function LiteMountRulesPanelMixin:EditRule()
     LiteMountOptionsPanel_PopOver(self, LiteMountRuleEdit)
 end
 
--- function HybridScrollFrame_CreateButtons (self, buttonTemplate, initialOffsetX, initialOffsetY, initialPoint, initialRelative, offsetX, offsetY, point, relativePoint)
---
-function LiteMountRulesPanelMixin:OnSizeChanged(x, y)
-    HybridScrollFrame_CreateButtons(self.Scroll, "LiteMountRuleButtonTemplate")
-    self.Scroll:Update()
-end
-
 function LiteMountRulesPanelMixin:OnRefresh(trigger)
     self.DeleteButton:SetEnabled(self.selectedRule ~= nil)
     self.EditButton:SetEnabled(self.selectedRule ~= nil)
@@ -215,16 +195,51 @@ function LiteMountRulesPanelMixin:OnRefresh(trigger)
 end
 
 function LiteMountRulesPanelMixin:OnShow()
+    self.ScrollBox:RefreshRules()
 end
 
 function LiteMountRulesPanelMixin:OnLoad()
     self.BindingDropDown:SetupMenu(BindingGenerator)
 
+    local function ButtonInitializer(button, elementData)
+        button:Initialize(elementData.index, elementData.rule, elementData.compiledRule)
+    end
+
+    local view = CreateScrollBoxListLinearView()
+    view:SetElementInitializer("LiteMountRuleButtonTemplate", ButtonInitializer)
+    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
+
+    --[[
+    --
+    -- This is almost working, except the cursor frame is way out of position. Not
+    -- sure if this is my bug, or Blizzard's. Also needs whatever magic happens to
+    -- actually do the reorder, probably dragBehavior:SetPostDrop.
+    --
+
+    local function CursorInitializer(button, sourceButton, elementData)
+        button:Initialize(elementData.index, elementData.rule, elementData.compiledRule)
+        button.Selected:Hide()
+        button:SetWidth(sourceButton:GetWidth())
+    end
+
+    local function CursorFactory(elementData) return "LiteMountRuleButtonTemplate", CursorInitializer end
+
+    local dragBehavior = ScrollUtil.InitDefaultLinearDragBehavior(self.ScrollBox)
+    dragBehavior:SetReorderable(true)
+    dragBehavior:SetDragRelativeToCursor(true)
+    dragBehavior:SetCursorFactory(ScrollUtil.GenerateCursorFactory(self.ScrollBox))
+
+    ]]
+
+    self.ScrollBox.ntabs = 4
+    self.ScrollBox.update = self.ScrollBox.RefreshRules
+    self.ScrollBox.SetControl = self.ScrollBox.RefreshRules
+
     self.AddButton:SetScript('OnClick', function () self:AddRule() end)
     self.DeleteButton:SetScript('OnClick', function () self:DeleteRule() end)
     self.EditButton:SetScript('OnClick', function () self:EditRule() end)
 
-    LiteMountOptionsPanel_RegisterControl(self.Scroll)
+    LiteMountOptionsPanel_RegisterControl(self.ScrollBox)
 
     LiteMountOptionsPanel_OnLoad(self)
 end
