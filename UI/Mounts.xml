@@ -104,10 +104,7 @@
 </Button>
 
 <Button name="LiteMountMountButtonTemplate" virtual="true" mixin="LiteMountMountButtonMixin" inherits="LiteMountListButtonStyleTemplate">
-    <Scripts>
-        <OnShow method="OnShow" />
-    </Scripts>
-    <Size x="180" y="44" />
+    <Size y="44" />
     <Frames>
         <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">
             <Anchors>
@@ -174,16 +171,18 @@
 <Frame name="LiteMountMountsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMountsPanelMixin">
 
     <Frames>
-        <ScrollFrame name="$parentMountScroll" parentKey="MountScroll" inherits="MinimalHybridScrollFrameTemplate" mixin="LiteMountMountScrollMixin">
+        <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountMountScrollBoxMixin" frameStrata="HIGH">
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-115" />
-                <Anchor point="BOTTOMRIGHT" x="-32" y="40" />
+                <Anchor point="BOTTOMRIGHT" x="-32" y="46" />
             </Anchors>
-            <Scripts>
-                <OnLoad method="OnLoad" />
-                <OnSizeChanged method="OnSizeChanged" />
-            </Scripts>
         </ScrollFrame>
+        <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="8" y="16"/>
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="8" y="-16"/>
+            </Anchors>
+        </EventFrame>
     </Frames>
 
     <Layers>
@@ -191,7 +190,7 @@
             <FontString parentKey="BitLabel4" inherits="GameFontWhiteSmall" justifyH="CENTER">
                 <Size x="50" y="26" />
                 <Anchors>
-                    <Anchor point="CENTER" relativeKey="$parent.MountScroll" relativePoint="TOPRIGHT" x="-35" y="22" />
+                    <Anchor point="CENTER" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="-35" y="22" />
                 </Anchors>
             </FontString>
             <FontString parentKey="BitLabel3" inherits="GameFontWhiteSmall" justifyH="CENTER">
@@ -212,7 +211,7 @@
     <Frames>
         <Frame parentKey="AllPriority" inherits="LiteMountPriorityTemplate" mixin="LiteMountAllPriorityMixin">
             <Anchors>
-                <Anchor point="CENTER" relativeKey="$parent.MountScroll" relativePoint="TOPRIGHT" x="-276" y="22" />
+                <Anchor point="CENTER" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="-276" y="22" />
             </Anchors>
         </Frame>
 
@@ -229,7 +228,7 @@
         <Layer level="OVERLAY">
             <FontString parentKey="Counts" inherits="GameFontNormal">
                 <Anchors>
-                    <Anchor point="TOPRIGHT" relativePOint="BOTTOMRIGHT" relativeKEy="$parent.MountScroll" y="-12" />
+                    <Anchor point="TOPRIGHT" relativePOint="BOTTOMRIGHT" relativeKEy="$parent.ScrollBox" y="-12" />
                 </Anchors>
             </FontString>
         </Layer>

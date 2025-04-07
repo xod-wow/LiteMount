@@ -48,7 +48,7 @@ end
 function LiteMountPriorityMixin:Set(v)
     local mount = self:GetParent().mount
     if mount then
-        LiteMountMountsPanel.MountScroll.isDirty = true
+        LiteMountMountsPanel.ScrollBox.isDirty = true
         LM.Options:SetPriority(mount, v or LM.Options.DEFAULT_PRIORITY)
     end
 end
@@ -95,7 +95,7 @@ LiteMountAllPriorityMixin = {}
 
 function LiteMountAllPriorityMixin:Set(v)
     local mounts = LM.UIFilter.GetFilteredMountList()
-    LiteMountMountsPanel.MountScroll.isDirty = true
+    LiteMountMountsPanel.ScrollBox.isDirty = true
     LM.Options:SetPriorities(mounts, v or LM.Options.DEFAULT_PRIORITY)
 end
 
@@ -124,7 +124,7 @@ LiteMountFlagBitMixin = {}
 function LiteMountFlagBitMixin:OnClick()
     local mount = self:GetParent().mount
 
-    LiteMountMountsPanel.MountScroll.isDirty = true
+    LiteMountMountsPanel.ScrollBox.isDirty = true
     if self:GetChecked() then
         LM.Options:SetMountFlag(mount, self.flag)
     else
@@ -230,7 +230,7 @@ end
 
 LiteMountMountButtonMixin = {}
 
-function LiteMountMountButtonMixin:Update(bitFlags, mount)
+function LiteMountMountButtonMixin:Initialize(bitFlags, mount)
     self.mount = mount
     self.Icon:SetNormalTexture(mount.icon)
     self.Name:SetText(mount.name)
@@ -292,82 +292,35 @@ function LiteMountMountButtonMixin:Update(bitFlags, mount)
     self.Priority:Update()
 end
 
-function LiteMountMountButtonMixin:OnShow()
-    self:SetWidth(self:GetParent():GetWidth())
-end
-
 --[[------------------------------------------------------------------------]]--
 
-LiteMountMountScrollMixin = {}
+LiteMountMountScrollBoxMixin = {}
 
--- Because we get attached inside the blizzard options container, we
--- are size 0x0 on create and even after OnShow, we have to trap
--- OnSizeChanged on the scrollframe to make the buttons correctly.
-function LiteMountMountScrollMixin:CreateMoreButtons()
-    HybridScrollFrame_CreateButtons(self, "LiteMountMountButtonTemplate")
-end
-
-function LiteMountMountScrollMixin:OnLoad()
-    local track = _G[self.scrollBar:GetName().."Track"]
-    track:Hide()
-    self.update = self.Update
-end
-
-function LiteMountMountScrollMixin:OnSizeChanged()
-    self:CreateMoreButtons()
-    self:Update()
-end
-
-function LiteMountMountScrollMixin:Update()
-    if not self.buttons then return end
-
+function LiteMountMountScrollBoxMixin:RefreshMountList()
     -- Because the Icon is a SecureActionButton and a child of the scroll
     -- buttons, we can't show or hide them in combat. Rather than throw a
     -- LUA error, it's better just not to do anything at all.
-
     if InCombatLockdown() then return end
 
-    local offset = HybridScrollFrame_GetOffset(self)
-
     local mounts = LM.UIFilter.GetFilteredMountList()
-
-    for i = 1, #self.buttons do
-        local button = self.buttons[i]
-        local index = offset + i
-        if index <= #mounts then
-            button:Update(LiteMountMountsPanel.allFlags, mounts[index])
-            button:Show()
-            if button.Icon:IsMouseOver() then button.Icon:OnEnter() end
-        else
-            button:Hide()
-        end
-    end
-
-    -- It's really not clear exactly what these should be, and as far as I can
-    -- tell even the Blizzard usages are not consistent. I think it should probably
-    -- include the inter-button gaps from HybridScrollFrame_CreateButtons, so in
-    -- the end it was easier not to have gaps so this was right either way.
-
-    local totalHeight = #mounts * self.buttonHeight
-    local shownHeight = self:GetHeight()
-
-    HybridScrollFrame_Update(self, totalHeight, shownHeight)
+    local dp = CreateDataProvider(mounts)
+    self:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 end
 
-function LiteMountMountScrollMixin:GetOption()
+function LiteMountMountScrollBoxMixin:GetOption()
     return {
         LM.tCopyShallow(LM.Options:GetRawFlagChanges()),
         LM.tCopyShallow(LM.Options:GetRawMountPriorities())
     }
 end
 
-function LiteMountMountScrollMixin:SetOption(v)
+function LiteMountMountScrollBoxMixin:SetOption(v)
     LM.Options:SetRawFlagChanges(v[1])
     LM.Options:SetRawMountPriorities(v[2])
 end
 
 -- The only control: does all the triggered updating for the entire panel
-function LiteMountMountScrollMixin:SetControl(v)
+function LiteMountMountScrollBoxMixin:SetControl(v)
     self:GetParent():Update()
 end
 
@@ -377,22 +330,31 @@ LiteMountMountsPanelMixin = {}
 
 function LiteMountMountsPanelMixin:Update()
     LM.UIFilter.ClearCache()
-    self.MountScroll:Update()
+    self.ScrollBox:RefreshMountList()
     self.AllPriority:Update()
 end
 
 function LiteMountMountsPanelMixin:OnDefault()
     LM.UIDebug(self, 'Custom_Default')
-    self.MountScroll.isDirty = true
+    self.ScrollBox.isDirty = true
     LM.Options:ResetAllMountFlags()
     LM.Options:SetPriorities(LM.MountRegistry.mounts, nil)
 end
 
 function LiteMountMountsPanelMixin:OnLoad()
 
+    local view = CreateScrollBoxListLinearView()
+    view:SetElementInitializer("LiteMountMountButtonTemplate",
+        function (button, elementData)
+            button:Initialize(LiteMountMountsPanel.allFlags, elementData)
+        end)
+    view:SetPadding(0, 0, 0, 0, 0)
+
+    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
+
     -- Because we're the wrong size at the moment we'll only have 1 button after
     -- this but that's enough to stop everything crapping out.
-    self.MountScroll:CreateMoreButtons()
+    -- self.ScrollBox:CreateMoreButtons()
 
     self.name = MOUNTS
 
@@ -405,21 +367,23 @@ function LiteMountMountsPanelMixin:OnLoad()
         end
     end
 
-    self:SetScript('OnEvent', function () self.MountScroll:Update() end)
+    self:SetScript('OnEvent', function () self.ScrollBox:RefreshMountList() end)
 
-    -- We are using the MountScroll SetControl to do ALL the updating.
+    -- We are using the ScrollBox SetControl to do ALL the updating.
 
-    LiteMountOptionsPanel_RegisterControl(self.MountScroll)
+    LiteMountOptionsPanel_RegisterControl(self.ScrollBox)
 
     LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountMountsPanelMixin:OnShow()
-    LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.MountScroll, 'TOPLEFT', 0, 15)
+    LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.ScrollBox, 'TOPLEFT', 0, 15)
     LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "OnRefresh")
     LM.MountRegistry:RefreshMounts()
     LM.MountRegistry:UpdateFilterUsability()
     LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "OnRefresh")
+
+    self.ScrollBox:RefreshMountList()
 
     -- Update the counts, Journal-only
     local counts = LM.MountRegistry:GetJournalTotals()
