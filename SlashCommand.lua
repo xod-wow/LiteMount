@@ -240,7 +240,7 @@ COMMANDS['mockdata'] =
         C_UI.Reload()
     end
 
-COMMANDS['nf'] =
+COMMANDS['fam'] =
     function (argstr, ...)
         local name = table.concat({ ... }, ' ')
         local families = LM.UIFilter.GetFamilies()

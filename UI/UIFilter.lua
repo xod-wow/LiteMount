@@ -66,7 +66,6 @@ local SortKeysByProject = LM.TableWithDefault({
     [1] = {
         'default',
         'name',
-        'family',
         'rarity',
         'summons'
     },
@@ -80,7 +79,6 @@ local SortKeysByProject = LM.TableWithDefault({
 local SortKeyTexts = {
     ['default']     = DEFAULT,
     ['name']        = NAME,
-    ['family']      = L.LM_FAMILY,
     ['rarity']      = RARITY,
     ['summons']     = SUMMONS,
 }

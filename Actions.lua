@@ -497,6 +497,8 @@ ACTIONS['Mount'] = {
 
             if next(filteredList) == nil then return end
 
+            -- XXX FIXME XXX handle forceSummon
+
             local randomStyle = context.rule.priority and LM.Options:GetOption('randomWeightStyle')
 
             local m
