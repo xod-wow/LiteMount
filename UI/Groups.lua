@@ -138,8 +138,14 @@ function LiteMountGroupsPanelMixin:OnLoad()
     ScrollUtil.InitScrollBoxListWithScrollBar(self.GroupScrollBox, self.GroupScrollBar, view)
     self.GroupScrollBox.update = self.GroupScrollBox.RefreshGroupList
 
+    view = CreateScrollBoxListLinearView()
+    view:SetElementInitializer("LiteMountGroupsPanelButtonTemplate", function (button, elementData) button:Initialize(elementData) end)
+    view:SetPadding(0, 0, 0, 0, 0)
+    ScrollUtil.InitScrollBoxListWithScrollBar(self.MountScrollBox, self.MountScrollBar, view)
+    self.MountScrollBox.update = self.MountScrollBox.RefreshMountList
+
     LiteMountOptionsPanel_RegisterControl(self.GroupScrollBox)
-    LiteMountOptionsPanel_RegisterControl(self.Mounts)
+    LiteMountOptionsPanel_RegisterControl(self.MountScrollBox)
     LiteMountOptionsPanel_OnLoad(self)
 end
 
@@ -157,7 +163,7 @@ end
 
 function LiteMountGroupsPanelMixin:Update()
     self.GroupScrollBox:RefreshGroupList()
-    self.Mounts:Update()
+    self.MountScrollBox:RefreshMountList()
     self.ShowAll:SetChecked(self.showAll)
 end
 
@@ -281,9 +287,24 @@ end
 
 --[[------------------------------------------------------------------------]]--
 
-LiteMountGroupsPanelMountScrollMixin = {}
+LiteMountGroupsPanelButtonMixin = {}
 
-function LiteMountGroupsPanelMountScrollMixin:GetDisplayedMountList(group)
+function LiteMountGroupsPanelButtonMixin:Initialize(elementData)
+    self.mount1:SetMount(elementData[1], elementData.selectedGroup)
+    if elementData[2] then
+        self.mount2:SetMount(elementData[2], selectedGroup)
+        self.mount2:Show()
+    else
+        self.mount2:Hide()
+    end
+end
+
+
+--[[------------------------------------------------------------------------]]--
+
+LiteMountGroupsPanelMountScrollBoxMixin = {}
+
+function LiteMountGroupsPanelMountScrollBoxMixin:GetDisplayedMountList(group)
     if not group then
         return LM.MountList:New()
     end
@@ -297,51 +318,19 @@ function LiteMountGroupsPanelMountScrollMixin:GetDisplayedMountList(group)
     end
 end
 
-function LiteMountGroupsPanelMountScrollMixin:Update()
-    if not self.buttons then return end
+function LiteMountGroupsPanelMountScrollBoxMixin:RefreshMountList()
+    local selectedGroup = LiteMountGroupsPanel.GroupScrollBox.selectedGroup
+    local mounts = self:GetDisplayedMountList(selectedGroup)
 
-    local offset = HybridScrollFrame_GetOffset(self)
+    local dp = CreateDataProvider()
 
-    local group = LiteMountGroupsPanel.GroupScrollBox.selectedGroup
-    local mounts = self:GetDisplayedMountList(group)
-
-    for i, button in ipairs(self.buttons) do
-        local index = ( offset + i - 1 ) * 2 + 1
-        if index > #mounts then
-            button:Hide()
-        else
-            button.mount1:SetMount(mounts[index], group)
-            if button.mount1:IsMouseOver() then button.mount1:OnEnter() end
-            if mounts[index+1] then
-                button.mount2:SetMount(mounts[index+1], group)
-                button.mount2:Show()
-                if button.mount2:IsMouseOver() then button.mount2:OnEnter() end
-            else
-                button.mount2:Hide()
-            end
-            button:Show()
-        end
+    for i = 1, #mounts, 2 do
+        dp:Insert({ mounts[i], mounts[i+1], selectedGroup=selectedGroup })
     end
 
-    local totalHeight = math.ceil(#mounts/2) * self.buttons[1]:GetHeight()
-    local displayedHeight = #self.buttons * self.buttons[1]:GetHeight()
-
-    HybridScrollFrame_Update(self, totalHeight, displayedHeight)
+    self:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 end
 
-function LiteMountGroupsPanelMountScrollMixin:OnSizeChanged()
-    HybridScrollFrame_CreateButtons(self, 'LiteMountGroupsPanelButtonTemplate')
-    for _, b in ipairs(self.buttons) do
-        b:SetWidth(self:GetWidth())
-    end
-end
-
-function LiteMountGroupsPanelMountScrollMixin:OnLoad()
-    local track = _G[self.scrollBar:GetName().."Track"]
-    track:Hide()
-    self.update = self.Update
-end
-
-function LiteMountGroupsPanelMountScrollMixin:SetControl(v)
-    self:Update()
+function LiteMountGroupsPanelMountScrollBoxMixin:SetControl(v)
+    self:RefreshMountList()
 end
