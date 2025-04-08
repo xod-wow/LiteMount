@@ -39,7 +39,7 @@ end
 function LM.PairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
-    table.sort(a, f or tostringCompare)
+    table.sort(a, f)
     local i = 0      -- iterator variable
     local iter = function ()   -- iterator function
         i = i + 1

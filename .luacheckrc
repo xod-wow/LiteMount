@@ -494,4 +494,6 @@ read_globals = {
     "time",
     "tinsert",
     "wipe",
+    "GameTooltip_SetTitle",
+    "GameTooltip_AddNormalLine",
 }

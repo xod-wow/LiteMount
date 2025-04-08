@@ -62,19 +62,19 @@
                 </OnLeave>
             </Scripts>
         </CheckButton>
-        <Button parentkey="TypeDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate">
+        <DropdownButton parentkey="TypeDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate">
             <Size x="192" y="33" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.Negated" relativePoint="RIGHT" x="4" />
             </Anchors>
-        </Button>
-        <Button parentkey="ArgDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate" hidden="true">
+        </DropdownButton>
+        <DropdownButton parentkey="ArgDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate" hidden="true">
             <Size y="33" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.TypeDropDown" relativePoint="RIGHT" x="8" />
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
-        </Button>
+        </DropdownButton>
         <EditBox parentkey="ArgText" autofocus="false" letters="40" inherits="LargeInputBoxTemplate" hidden="true">
             <Size y="33" />
             <Anchors>
@@ -82,7 +82,6 @@
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
         </EditBox>
-        <Frame name="$parentDropDown" parentKey="DropDown" />
     </Frames>
 </Frame>
 
@@ -92,19 +91,19 @@
     </Scripts>
     <Size y="56" />
     <Frames>
-        <Button parentkey="TypeDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate">
+        <DropdownButton parentkey="TypeDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate">
             <Size x="210" y="33" />
             <Anchors>
                 <Anchor point="LEFT" x="40" />
             </Anchors>
-        </Button>
-        <Button parentkey="ArgDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate" hidden="true">
+        </DropdownButton>
+        <DropdownButton parentkey="ArgDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate" hidden="true">
             <Size y="33" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.TypeDropDown" relativePoint="RIGHT" x="8" />
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
-        </Button>
+        </DropdownButton>
         <EditBox parentkey="ArgText" autofocus="false" letters="40" inherits="LargeInputBoxTemplate" hidden="true">
             <Size y="33" />
             <Anchors>
@@ -112,7 +111,6 @@
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
         </EditBox>
-        <Frame name="$parentDropDown" parentKey="DropDown" />
     </Frames>
 </Frame>
 

@@ -14,19 +14,11 @@ local L = LM.Localize
 
 local MENU_SPLIT_SIZE = 20
 
-local LibDD = LibStub("LibUIDropDownMenu-4.0")
-
 --[[------------------------------------------------------------------------]]--
 
-local function SetArgFunction(button, arg1, owner)
-    LibDD:CloseDropDownMenus(1)
-    owner:SetArg(arg1)
-end
 
-local function SetArgFromPickerFunction(button, arg1, owner)
+local function SetArgFromPickerFunction(owner)
     local parent = owner:GetParent()
-
-    LibDD:CloseDropDownMenus(1)
     LiteMountPicker:SetParent(parent)
     LiteMountPicker:ClearAllPoints()
     LiteMountPicker:SetPoint("CENTER")
@@ -35,51 +27,22 @@ local function SetArgFromPickerFunction(button, arg1, owner)
     LiteMountPicker:Show()
 end
 
-local function ArgsInitialize(dropDown, level, menuList)
-    if not menuList then return end
+local function ArgsGenerate(dropdown, rootDescription, data)
+    if not data then return end
 
-    local info = LibDD:UIDropDownMenu_CreateInfo()
-    info.notCheckable = true
+    local parent = dropdown:GetParent()
 
-    if #menuList > MENU_SPLIT_SIZE * 1.5 then
-        info.notCheckable = true
-        info.hasArrow = true
-        info.func = nil
+    local _, y = GetPhysicalScreenSize()
 
-        local stride = 1
-        while #menuList/stride > MENU_SPLIT_SIZE do
-            stride = stride * MENU_SPLIT_SIZE
-        end
-
-        for i = 1, #menuList, stride do
-            local j = math.min(#menuList, i+stride-1)
-            info.menuList = LM.tSlice(menuList, i, j)
-            local f = info.menuList[1].text
-            if i + stride <= #menuList then
-                info.text = format("%s ...", f)
-            else
-                info.text = f
-            end
-            LibDD:UIDropDownMenu_AddButton(info, level)
-        end
-    else
-        info.arg2 = dropDown:GetParent()
-        for _,item in ipairs(menuList) do
-            if item.val == 'PICKER' then
-                info.func = SetArgFromPickerFunction
-            else
-                info.func = SetArgFunction
-            end
-            info.text = item.text
-            info.arg1 = item.val
-            if #item > 0 then
-                info.hasArrow = true
-                info.menuList = item
-            else
-                info.hasArrow = nil
-                info.menuList = nil
-            end
-            LibDD:UIDropDownMenu_AddButton(info, level)
+    for _,item in ipairs(data) do
+        if item.val == 'PICKER' then
+            rootDescription:CreateButton(item.text, function () SetArgFromPickerFunction(parent) end)
+        elseif #item > 0 then
+            local subMenu = rootDescription:CreateButton(item.text)
+            subMenu:SetScrollMode(math.floor(y/3))
+            ArgsGenerate(dropdown, subMenu, item)
+        else
+            rootDescription:CreateButton(item.text, function () parent:SetArg(item.val) end)
         end
     end
 end
@@ -89,51 +52,35 @@ end
 
 LiteMountRuleEditConditionMixin = { }
 
-local function ConditionTypeInitialize(dropDown, level, menuList)
-    if level == 1 then
-        local info = LibDD:UIDropDownMenu_CreateInfo()
-        local currentType = dropDown:GetParent():GetType()
-        -- info.minWidth = dropDown:GetParent():GetWidth() - 25 - 10
-        info.func = function (button, arg1, owner)
-            owner:SetType(arg1)
-        end
-        info.text = NONE:upper()
-        info.arg1 = nil
-        info.arg2 = dropDown:GetParent()
-        info.checked = ( currentType == nil )
-        LibDD:UIDropDownMenu_AddButton(info, level)
-        LibDD:UIDropDownMenu_AddSeparator(level)
-        for _,item in ipairs(LM.Conditions:GetConditions()) do
-            info.text = item.name
-            info.arg1 = item.condition
-            info.checked = ( currentType == item.condition )
-            LibDD:UIDropDownMenu_AddButton(info, level)
-        end
-        LibDD:UIDropDownMenu_AddSeparator(level)
-        info.text = ADVANCED_LABEL
-        info.arg1 = "advanced"
-        info.checked = ( currentType == "advanced" )
-        LibDD:UIDropDownMenu_AddButton(info, level)
+local function ConditionTypeGenerate(dropdown, rootDescription)
+    local parent = dropdown:GetParent()
+
+    rootDescription:CreateCheckbox(NONE:upper(),
+            function () return parent:GetType() == nil end,
+            function () parent:SetType(nil) return MenuResponse.CloseAll end
+        )
+
+    rootDescription:CreateSpacer()
+
+    for _, item in ipairs(LM.Conditions:GetConditions()) do
+        local function checked() return item.condition == parent:GetType() end
+        local function set() parent:SetType(item.condition) return MenuResponse.CloseAll end
+        rootDescription:CreateCheckbox(item.name, checked, set)
     end
+
+    rootDescription:CreateSpacer()
+
+    rootDescription:CreateCheckbox(ADVANCED_LABEL,
+            function () return parent:GetType() == "advanced" end,
+            function () parent:SetType("advanced") return MenuResponse.CloseAll end
+        )
 end
 
-local function ConditionTypeButtonClick(button, mouseButton)
-    local dropdown = button:GetParent().DropDown
-    LibDD:UIDropDownMenu_Initialize(dropdown, ConditionTypeInitialize, 'MENU')
-    LibDD:UIDropDownMenu_SetAnchor(dropdown, 5, 5, 'TOPLEFT', button, 'BOTTOMLEFT')
-    LibDD:ToggleDropDownMenu(1, nil, dropdown)
-end
-
-local function ConditionArgButtonClick(button, mouseButton)
-    local dropdown = button:GetParent().DropDown
-    local argType = button:GetParent().type
-
+local function ConditionArgGenerate(dropdown, rootDescription)
+    local argType = dropdown:GetParent().type
     local values = LM.Conditions:ArgsMenu(argType)
     if values then
-        LibDD:UIDropDownMenu_Initialize(dropdown, ArgsInitialize, 'MENU')
-        LibDD:UIDropDownMenu_SetAnchor(dropdown, 5, 0, 'TOPLEFT', button, 'BOTTOMLEFT')
-        LibDD:ToggleDropDownMenu(1, nil, dropdown, nil, 0, 0, values)
-        return
+        ArgsGenerate(dropdown, rootDescription, values)
     end
 end
 
@@ -226,11 +173,10 @@ function LiteMountRuleEditConditionMixin:SetArg(arg)
 end
 
 function LiteMountRuleEditConditionMixin:OnLoad()
-    LibDD:Create_UIDropDownMenu(self.DropDown)
     self.NumText:SetText(self:GetID())
     self.Negated:SetScript('OnClick', ConditionNegatedClick)
-    self.TypeDropDown:SetScript('OnClick', ConditionTypeButtonClick)
-    self.ArgDropDown:SetScript('OnClick', ConditionArgButtonClick)
+    self.TypeDropDown:SetupMenu(ConditionTypeGenerate)
+    self.ArgDropDown:SetupMenu(ConditionArgGenerate)
     self.ArgText:SetScript('OnTextChanged', ConditionOnTextChanged)
 end
 
@@ -257,32 +203,21 @@ local TextActionTypeMenu = {
 
 local TypeMenu = LM.tJoin(MountActionTypeMenu, TextActionTypeMenu)
 
-local function ActionTypeInitialize(dropDown, level, menuList)
-    if level == 1 then
-        local currentType = dropDown:GetParent().type
-        local info = LibDD:UIDropDownMenu_CreateInfo()
-        -- info.minWidth = dropDown.owner:GetWidth() - 25 - 10
-        info.func = function (button, arg1, owner)
-            owner:SetType(arg1)
+local function ActionTypeButtonGenerate(dropdown, rootDescription)
+    local parent = dropdown:GetParent()
+    for _,item in ipairs(TypeMenu) do
+        local text = LM.Actions:ToDisplay(item)
+        local ttTitle = item.text
+        local ttText = LM.Actions:GetDescription(item)
+        local function checked() return parent.type == item end
+        local function set() dropdown:GetParent():SetType(item) end
+        local button = rootDescription:CreateCheckbox(text, checked, set)
+        local function tt(tooltip)
+            GameTooltip_SetTitle(tooltip, ttTitle)
+            GameTooltip_AddNormalLine(tooltip, ttText)
         end
-        for _,item in ipairs(TypeMenu) do
-            info.text = LM.Actions:ToDisplay(item)
-            info.tooltipTitle = info.text
-            info.tooltipText = LM.Actions:GetDescription(item)
-            info.tooltipOnButton = true
-            info.arg1 = item
-            info.arg2 = dropDown:GetParent()
-            info.checked = ( currentType == item )
-            LibDD:UIDropDownMenu_AddButton(info, level)
-        end
+        button:SetTooltip(tt)
     end
-end
-
-local function ActionTypeButtonClick(button, mouseButton)
-    local dropdown = button:GetParent().DropDown
-    LibDD:UIDropDownMenu_Initialize(dropdown, ActionTypeInitialize, 'MENU')
-    LibDD:UIDropDownMenu_SetAnchor(dropdown, 5, 5, 'TOPLEFT', button, 'BOTTOMLEFT')
-    LibDD:ToggleDropDownMenu(1, nil, dropdown)
 end
 
 local function ActionTypeButtonOnEnter(button)
@@ -347,14 +282,10 @@ local function MountArgsMenu()
     return menuList
 end
 
-local function ActionArgButtonClick(button, mouseButton)
-    local dropdown = button:GetParent().DropDown
-    -- local values = LM.tMap(LM.MountRegistry.mounts, MountToInfo)
+local function ActionArgsGenerate(dropdown, rootDescription)
     local values = MountArgsMenu()
     if values then
-        LibDD:UIDropDownMenu_Initialize(dropdown, ArgsInitialize, 'MENU')
-        LibDD:UIDropDownMenu_SetAnchor(dropdown, 5, 5, 'TOPLEFT', button, 'BOTTOMLEFT')
-        LibDD:ToggleDropDownMenu(1, nil, dropdown, nil, 0, 0, values)
+        ArgsGenerate(dropdown, rootDescription, values)
     end
 end
 
@@ -403,11 +334,10 @@ function LiteMountRuleEditActionMixin:Update()
 end
 
 function LiteMountRuleEditActionMixin:OnLoad()
-    LibDD:Create_UIDropDownMenu(self.DropDown)
-    self.TypeDropDown:SetScript('OnClick', ActionTypeButtonClick)
+    self.TypeDropDown:SetupMenu(ActionTypeButtonGenerate)
     self.TypeDropDown:SetScript('OnEnter', ActionTypeButtonOnEnter)
     self.TypeDropDown:SetScript('OnLeave', GameTooltip_Hide)
-    self.ArgDropDown:SetScript('OnClick', ActionArgButtonClick)
+    self.ArgDropDown:SetupMenu(ActionArgsGenerate)
     self.ArgText:SetScript('OnTextChanged', ActionOnTextChanged)
 end
 
@@ -489,7 +419,6 @@ function LiteMountRuleEditMixin:Okay()
 end
 
 function LiteMountRuleEditMixin:OnLoad()
-    LibDD:Create_UIDropDownMenu(self.DropDown)
     LiteMountOptionsPanel_AutoLocalize(self)
     for i = 2, #self.Conditions do
         self.Conditions[i]:SetPoint('TOPLEFT', self.Conditions[i-1], 'BOTTOMLEFT', 0, -4)
