@@ -592,6 +592,10 @@ function LM.UIFilter.IsFilteredMount(m)
         return false
     end
 
+    if m:MatchesFilters(filtertext) then
+        return false
+    end
+
     if m.description and searchMatch(m.description, filtertext) then
         return false
     end
