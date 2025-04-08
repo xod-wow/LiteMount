@@ -127,7 +127,7 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
     elseif f == "ENABLED" then
         return self:GetPriority() > 0
     elseif f == "DISABLED" then
-        return self:GetPeiority() == 0
+        return self:GetPriority() == 0
     elseif f == "ZONEMATCH" then
         local zone = GetZoneText()
         return self:IsFromZone(zone)
