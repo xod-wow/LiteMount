@@ -149,15 +149,15 @@
                 <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
             </KeyValues>
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="8" y="16"/>
-                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="8" y="-16"/>
+                <Anchor point="TOPLEFT" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="8" y="0"/>
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="8" y="0"/>
             </Anchors>
         </EventFrame>
 
         <DropdownButton parentkey="BindingDropDown" inherits="WoWStyle1DropdownTemplate">
             <Size x="192" y="26" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.ScrollBox" x="8" />
+                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.ScrollBox" x="0" y="8" />
             </Anchors>
         </DropdownButton>
 
