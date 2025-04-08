@@ -179,8 +179,8 @@
         </ScrollFrame>
         <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="8" y="16"/>
-                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="8" y="-16"/>
+                <Anchor point="TOPLEFT" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="8" y="0"/>
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="8" y="0"/>
             </Anchors>
         </EventFrame>
     </Frames>
