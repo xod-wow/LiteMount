@@ -27,11 +27,6 @@ function LiteMountReportBugMixin:OnLoad()
     self.name = L.LM_REPORT_BUG
 end
 
-function LiteMountReportBugMixin:OnSizeChanged()
-    local x, y = self.Scroll:GetSize()
-    self.Scroll.EditBox:SetSize(x-28, y)
-end
-
 local function GetAnyLiteMountMacros()
     local macros = ''
     for i = 1, MAX_ACCOUNT_MACROS + MAX_CHARACTER_MACROS do

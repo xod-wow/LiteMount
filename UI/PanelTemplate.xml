@@ -146,4 +146,16 @@
     </Layers>
 </Frame>
 
+<Frame name="LiteMountInputScrollFrameTemplate" inherits="InputScrollFrameTemplate" virtual="true">
+    <Scripts>
+        <OnSizeChanged inherit="append">
+            -- Options panels have no size at OnLoad time, so the automatic width
+            -- sizing of the EditBox doesn't work, fix it up later. The -18 is
+            -- from UIPanelInputScrollFrame_OnLoad(). I feel like Blizzard should
+            -- probably have this in their code.
+            self.EditBox:SetWidth(self:GetWidth() - 18)
+        </OnSizeChanged>
+    </Scripts>
+</Frame>
+
 </Ui>

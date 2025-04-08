@@ -12,7 +12,6 @@
     <Scripts>
         <OnLoad inherit="append" method="OnLoad" />
         <OnShow inherit="append" method="OnShow" />
-        <OnSizeChanged inherit="append" method="OnSizeChanged" />
     </Scripts>
     <Layers>
         <Layer level="ARTWORK">
@@ -46,7 +45,7 @@
                 <OnEscapePressed function="EditBox_ClearFocus" />
             </Scripts>
         </EditBox>
-        <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="InputScrollFrameTemplate">
+        <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="LiteMountInputScrollFrameTemplate">
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
                 <KeyValue key="maxLetters" value="0" type="number" />

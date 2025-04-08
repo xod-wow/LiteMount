@@ -44,22 +44,9 @@ local function BindingGenerator(owner, rootDescription)
     local editBox = LiteMountAdvancedPanel.EditScroll.EditBox
     local IsSelected = function (v) return editBox.tab == v end
     local SetSelected = function (v) LiteMountOptionsControl_SetTab(editBox, v) end
-    for i = 1, 4 do
+    for i = 1, editBox.ntabs do
         rootDescription:CreateRadio(BindingText(i), IsSelected, SetSelected, i)
     end
-end
-
---[[------------------------------------------------------------------------]]--
-
-LiteMountAdvancedEditScrollMixin = {}
-
-function LiteMountAdvancedEditScrollMixin:OnLoad()
-    self.scrollBarHideable = 1
-    self.ScrollBar:Hide()
-end
-
-function LiteMountAdvancedEditScrollMixin:OnShow()
-    self.EditBox:SetWidth(self:GetWidth() - 18)
 end
 
 --[[------------------------------------------------------------------------]]--
@@ -67,17 +54,17 @@ end
 LiteMountAdvancedEditBoxMixin = {}
 
 function LiteMountAdvancedEditBoxMixin:CheckCompileErrors()
-    local parent = self:GetParent()
+    local errorMessage = LiteMountAdvancedPanel.ErrorMessage
     local ruleset = LM.RuleSet:Compile(self:GetText())
     if ruleset.errors then
         -- It's possible we should just show the first one
         local errs = LM.tMap(ruleset.errors, function (info) return info.err end)
         local msg = table.concat(errs, "\n")
-        parent.ErrorMessage:SetText(msg)
-        parent.ErrorMessage:Show()
+        errorMessage:SetText(msg)
+        errorMessage:Show()
         return false
     else
-        parent.ErrorMessage:Hide()
+        errorMessage:Hide()
         return true
     end
 end
@@ -96,17 +83,19 @@ function LiteMountAdvancedEditBoxMixin:GetOptionDefault()
     return LM.Options:GetButtonRuleSet('__default__')
 end
 
-function LiteMountAdvancedEditBoxMixin:OnLoad()
-    self.ntabs = 4
-end
-
 --[[------------------------------------------------------------------------]]--
 
 LiteMountAdvancedPanelMixin = {}
 
 function LiteMountAdvancedPanelMixin:OnLoad()
     self.name = ADVANCED_OPTIONS
+
+    Mixin(self.EditScroll.EditBox, LiteMountAdvancedEditBoxMixin)
+    self.EditScroll.EditBox:SetFontObject(LiteMountMonoFont)
+    self.EditScroll.EditBox.ntabs = 4
+    self.EditScroll.EditBox:SetScript('OnTextChanged', LiteMountOptionsControl_OnTextChanged)
     self.BindingDropDown:SetupMenu(BindingGenerator)
+
     LiteMountOptionsPanel_RegisterControl(self.EditScroll.EditBox, self)
     LiteMountOptionsPanel_OnLoad(self)
 end

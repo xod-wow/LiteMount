@@ -157,14 +157,14 @@
                 <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
             </KeyValues>
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.GroupScrollBox" relativePoint="TOPRIGHT" x="4" y="16"/>
-                <Anchor point="BOTTOMLEFT" relativeKey="$parent.GroupScrollBox" relativePoint="BOTTOMRIGHT" x="4" y="-16"/>
+                <Anchor point="TOPLEFT" relativeKey="$parent.GroupScrollBox" relativePoint="TOPRIGHT" x="4" y="0"/>
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.GroupScrollBox" relativePoint="BOTTOMRIGHT" x="4" y="0"/>
             </Anchors>
         </EventFrame>
         <ScrollFrame parentKey="MountScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountGroupsPanelMountScrollBoxMixin">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.MountsContainer" x="8" y="-8" />
-                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountsContainer" x="-30" y="8" />
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountsContainer" x="-22" y="8" />
             </Anchors>
         </ScrollFrame>
         <EventFrame parentKey="MountScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
@@ -172,8 +172,8 @@
                 <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
             </KeyValues>
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.MountScrollBox" relativePoint="TOPRIGHT" x="4" y="16"/>
-                <Anchor point="BOTTOMLEFT" relativeKey="$parent.MountScrollBox" relativePoint="BOTTOMRIGHT" x="4" y="-16"/>
+                <Anchor point="TOPLEFT" relativeKey="$parent.MountScrollBox" relativePoint="TOPRIGHT" x="4" y="0"/>
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.MountScrollBox" relativePoint="BOTTOMRIGHT" x="4" y="0"/>
             </Anchors>
         </EventFrame>
         <CheckButton parentKey="ShowAll">

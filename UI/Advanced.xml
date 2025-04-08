@@ -19,53 +19,15 @@
     </Layers>
 
     <Frames>
-        <Frame parentKey="EditBoxContainer" inherits="LiteMountContainerStyleTemplate">
+        <ScrollFrame name="$parentEditScroll" parentKey="EditScroll" inherits="LiteMountInputScrollFrameTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-160" />
                 <Anchor point="BOTTOMRIGHT" x="-16" y="48" />
             </Anchors>
-        </Frame>
-
-        <ScrollFrame name="$parentEditScroll" parentKey="EditScroll" inherits="UIPanelScrollFrameTemplate" mixin="LiteMountAdvancedEditScrollMixin">
-
-            <Anchors>
-                <Anchor point="TOPLEFT" x="8" y="-8" relativeKey="$parent.EditBoxContainer" />
-                <Anchor point="BOTTOMRIGHT" x="-28" y="8" relativeKey="$parent.EditBoxContainer" />
-            </Anchors>
-
-            <Scripts>
-                <OnLoad method="OnLoad" />
-                <OnShow method="OnShow" />
-            </Scripts>
-
-            <ScrollChild>
-                <EditBox parentKey="EditBox" multiLine="true" autoFocus="false" mixin="LiteMountAdvancedEditBoxMixin">
-                    <Size x="1" y="1" />
-                    <Anchors>
-                        <Anchor point="TOPLEFT" />
-                    </Anchors>
-                    <Scripts>
-                        <OnLoad method="OnLoad" />
-                        <OnTextChanged function="LiteMountOptionsControl_OnTextChanged" />
-                        <OnEscapePressed function="EditBox_ClearFocus" />
-                        <OnUpdate function="InputScrollFrame_OnUpdate" />
-                        <OnCursorChanged function="ScrollingEdit_OnCursorChanged" />
-                    </Scripts>
-                    <FontString inherits="LiteMountMonoFont" />
-                </EditBox>
-            </ScrollChild>
-
-            <Layers>
-                <Layer level="ARTWORK">
-                    <FontString parentKey="ErrorMessage" inherits="GameFontRed" justifyV="TOP" justifyH="MIDDLE" hidden="true">
-                        <Anchors>
-                            <Anchor point="TOP" relativePoint="BOTTOM"  y="-12" />
-                            <Anchor point="LEFT" />
-                            <Anchor point="RIGHT" />
-                        </Anchors>
-                    </FontString>
-                </Layer>
-            </Layers>
+            <KeyValues>
+                <KeyValue key="hideCharCount" value="true" type="boolean" />
+                <KeyValue key="maxLetters" value="0" type="number" />
+            </KeyValues>
         </ScrollFrame>
 
         <Button parentKey="UnlockButton" inherits="UIPanelButtonTemplate" mixin="LiteMountAdvancedUnlockButtonMixin" text="UNLOCK">
@@ -79,24 +41,10 @@
             </Scripts>
         </Button>
 
-<!--
-        <Button parentKey="PriorityImport" inherits="UIPanelButtonTemplate" text="Import Priorities">
-            <Scripts>
-                <OnClick>
-                    LiteMountOptionsPanel_PopOver(self:GetParent(), LiteMountPriorityImport)
-                </OnClick>
-            </Scripts>
-            <Size x="192" y="22" />
-            <Anchors>
-                <Anchor point="TOPRIGHT" relativeKey="$parent.EditBoxContainer" relativePoint="BOTTOMRIGHT" x="-8" y="-4" />
-            </Anchors>
-        </Button>
--->
-
         <DropdownButton parentkey="BindingDropDown" inherits="WoWStyle1DropdownTemplate">
             <Size x="192" y="26" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="8" />
+                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditScroll" x="0" y="8" />
             </Anchors>
         </DropdownButton>
 
@@ -129,6 +77,18 @@
         </EditBox>
 
     </Frames>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="ErrorMessage" inherits="GameFontRed" justifyV="TOP" justifyH="MIDDLE" hidden="true">
+                <Anchors>
+                    <Anchor relativeKey="$parent.EditScroll" point="TOP" relativePoint="BOTTOM"  y="-12" />
+                    <Anchor relativeKey="$parent.EditScroll" point="LEFT" />
+                    <Anchor relativeKey="$parent.EditScroll" point="RIGHT" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
 
     <Scripts>
         <OnLoad method="OnLoad" />
