@@ -4,38 +4,36 @@
 
 <Script file="Groups.lua" />
 
-<Button name="LiteMountGroupsPanelGroupTemplate" virtual="true" mixin="LiteMountGroupsPanelGroupMixin" inherits="LiteMountListButtonStyleTemplate">
+<Button name="LiteMountGroupsPanelGroupTemplate" virtual="true" mixin="LiteMountGroupsPanelGroupMixin">
     <Scripts>
         <OnClick method="OnClick" />
     </Scripts>
 
     <Size y="24" />
 
-    <HighlightTexture alphaMode="ADD">
-        <Color r="0.3" g="0.5" b="1" a="0.3" />
-    </HighlightTexture>
+    <NormalTexture atlas="auctionhouse-nav-button" useAtlasSize="false" />
+    <HighlightTexture atlas="auctionhouse-nav-button-highlight" useAtlasSize="false" />
 
     <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
+                <Anchors>
+                    <Anchor point="LEFT" x="6" />
+                    <Anchor point="RIGHT" x="-6" />
+                </Anchors>
+            </FontString>
+            <Texture parentKey="SelectedTexture" atlas="auctionhouse-nav-button-select" alphaMode="ADD" useAtlasSize="false" hidden="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" />
+                    <Anchor point="BOTTOMRIGHT" />
+                </Anchors>
+            </Texture>
+        </Layer>
         <Layer level="OVERLAY">
-            <Texture parentKey="SelectedTexture" hidden="true" setAllPoints="true">
-                <Color r="1" g="0.843" b="0" a="0.2" />
-            </Texture>
-            <Texture parentKey="Icon">
-                <Size x="18" y="18" />
-                <Anchors><Anchor point="LEFT" x="8" /></Anchors>
-            </Texture>
             <Texture parentKey="SelectedArrow" file="Interface\ChatFrame\ChatFrameExpandArrow" hidden="true">
                 <Size x="18" y="18" />
                 <Anchors><Anchor point="RIGHT" x="-4" /></Anchors>
             </Texture>
-        </Layer>
-        <Layer level="ARTWORK">
-            <FontString parentKey="Text" inherits="GameFontHighlight" justifyH="LEFT">
-                <Anchors>
-                    <Anchor point="LEFT" x="4" />
-                    <Anchor point="RIGHT" x="-4" />
-                </Anchors>
-            </FontString>
         </Layer>
     </Layers>
 </Button>
