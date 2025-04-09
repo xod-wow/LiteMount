@@ -627,7 +627,7 @@ end
 
 function LM.Options:GetRules(n)
     local rules = LM.db.profile.rules[n] or DefaultRules
-    return LM.tCopyShallow(rules)
+    return CopyTable(rules, true)
 end
 
 function LM.Options:GetCompiledRuleSet(n)
@@ -719,7 +719,7 @@ function LM.Options:RecordInstance()
 end
 
 function LM.Options:GetInstances(id)
-    return LM.tCopyShallow(LM.db.global.instances)
+    return CopyTable(LM.db.global.instances, true)
 end
 
 function LM.Options:GetInstanceNameByID(id)

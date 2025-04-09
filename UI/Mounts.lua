@@ -309,8 +309,8 @@ end
 
 function LiteMountMountScrollBoxMixin:GetOption()
     return {
-        LM.tCopyShallow(LM.Options:GetRawFlagChanges()),
-        LM.tCopyShallow(LM.Options:GetRawMountPriorities())
+        CopyTable(LM.Options:GetRawFlagChanges(), true),
+        CopyTable(LM.Options:GetRawMountPriorities(), true)
     }
 end
 
