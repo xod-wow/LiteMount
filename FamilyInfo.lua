@@ -46,10 +46,16 @@ LM.MOUNTFAMILY._AUTO_ = {
     [245723] = true, -- Stormwind Skychaser
     [317177] = true, -- Sunwarmed Furline
     [370770] = true, -- Tuskarr Shoreglider
+    [424534] = true, -- Vicious Moonbeast (Alliance)
+    [424535] = true, -- Vicious Moonbeast (Horde)
     [449325] = true, -- Vicious Skyflayer (Alliance)
     [447405] = true, -- Vicious Skyflayer (Horde)
+    [229486] = true, -- Vicious War Bear
+    [229487] = true, -- Vicious War Bear
     [242896] = true, -- Vicious War Fox
     [242897] = true, -- Vicious War Fox
+    [348769] = true, -- Vicious War Gorm
+    [348770] = true, -- Vicious War Gorm
     [183889] = true, -- Vicious War Mechanostrider
     [171834] = true, -- Vicious War Ram
     [272481] = true, -- Vicious War Riverbeast
@@ -57,6 +63,8 @@ LM.MOUNTFAMILY._AUTO_ = {
     [409034] = true, -- Vicious War Snail
     [327407] = true, -- Vicious War Spider
     [327408] = true, -- Vicious War Spider
+    [232523] = true, -- Vicious War Turtle
+    [232525] = true, -- Vicious War Turtle
     [223363] = true, -- Vicious Warstrider
     [348162] = true, -- Wandering Ancient
     [171845] = true, -- Warlord's Deathwheel
@@ -64,6 +72,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [ 54729] = true, -- Winged Steed of the Ebon Blade
     [ 75973] = true, -- X-53 Touring Rocket
     [256123] = true, -- Xiwyllag ATV
+    [368158] = true, -- Zereth Overseer
 }
 
 LM.MOUNTFAMILY["Abyss Worm"] = {
@@ -358,12 +367,6 @@ LM.MOUNTFAMILY["Corpsefly"] = {
     [353884] = true, -- Regal Corpsefly
 }
 
-LM.MOUNTFAMILY["Corrupted Behemoth"] = {
-    [448850] = true, -- Kah, Legend of the Deep
-    [448851] = true, -- Underlight Corrupted Behemoth
-    [448849] = true, -- Underlight Shorestalker
-}
-
 LM.MOUNTFAMILY["Courser"] = {
     [336064] = true, -- Dauntless Duskrunner
     [332252] = true, -- Shimmermist Runner
@@ -543,6 +546,17 @@ LM.MOUNTFAMILY["Dreadsteed"] = {
     [413922] = true, -- Valiance
 }
 
+-- Yes there are Dreadwing and Dredwing, it's not my fault blame Blizzard.
+-- Can't call this Dredwing because nearly all the localizations translate
+-- Dreadwing and Dredwing into the same word.
+
+LM.MOUNTFAMILY["Dreadbat"] = {
+    [332904] = true, -- Harvester's Dredwing
+    [332882] = true, -- Horrid Dredwing
+    [332903] = true, -- Rampart Screecher
+    [312777] = true, -- Silvertip Dredwing
+}
+
 LM.MOUNTFAMILY["Dreadwing"] = {
     [288714] = true, -- Bloodthirsty Dreadwing
     [279868] = true, -- Witherbark Direwing
@@ -571,14 +585,6 @@ LM.MOUNTFAMILY["Dreamtalon"] = {
     [427224] = true, -- Talont
     [434470] = true, -- Vicious Dreamtalon (Alliance)
     [434477] = true, -- Vicious Dreamtalon (Horde)
-}
-
--- Yes there are Dreadwing and Dredwing, it's not my fault blame Blizzard
-LM.MOUNTFAMILY["Dredwing"] = {
-    [332904] = true, -- Harvester's Dredwing
-    [332882] = true, -- Horrid Dredwing
-    [332903] = true, -- Rampart Screecher
-    [312777] = true, -- Silvertip Dredwing
 }
 
 -- Note DRIVE is translated in all all languages (from flag data)
@@ -729,7 +735,7 @@ LM.MOUNTFAMILY["Gladiator's Proto-Drake"] = {
     [262023] = true, -- Sinister Gladiator's Proto-Drake
 }
 
-LM.MOUNTFAMILY["Glimmerfur"] = {
+LM.MOUNTFAMILY["Glimmerfur Vulpin"] = {
     [427435] = true, -- Crimson Glimmerfur
     [290133] = true, -- Vulpine Familiar
     [334366] = true, -- Wild Glimmerfur Prowler
@@ -773,6 +779,12 @@ LM.MOUNTFAMILY["Goblin Shredder"] = {
     [466021] = true, -- Violet Goblin Shredder
 }
 
+LM.MOUNTFAMILY["Goblin Trike"] = {
+    [ 87090] = true, -- Goblin Trike
+    [ 87091] = true, -- Goblin Turbo-Trike
+    [223354] = true, -- Vicious War Trike
+}
+
 LM.MOUNTFAMILY["Gorger"] = {
     [333027] = true, -- Loyal Gorger
     [344659] = true, -- Voracious Gorger
@@ -784,6 +796,11 @@ LM.MOUNTFAMILY["Gorm"] = {
     [334364] = true, -- Spinemaw Gladechewer
     [340503] = true, -- Umbral Scythehorn
     [352441] = true, -- Wild Hunt Legsplitter
+}
+
+LM.MOUNTFAMILY["Grand Wyvern"] = {
+    [135418] = true, -- Grand Armored Wyvern
+    [136164] = true, -- Grand Wyvern
 }
 
 LM.MOUNTFAMILY["Gravewing"] = {
@@ -1901,12 +1918,6 @@ LM.MOUNTFAMILY["Toad"] = {
     [347256] = true, -- Vicious War Croaker (Alliance)
 }
 
-LM.MOUNTFAMILY["Trike"] = {
-    [ 87090] = true, -- Goblin Trike
-    [ 87091] = true, -- Goblin Turbo-Trike
-    [223354] = true, -- Vicious War Trike
-}
-
 LM.MOUNTFAMILY["Turtle"] = {
     [ 30174] = true, -- Riding Turtle
     [ 64731] = true, -- Sea Turtle
@@ -1916,6 +1927,12 @@ LM.MOUNTFAMILY["Undercrawler"] = {
     [448685] = true, -- Heritage Undercrawler
     [448689] = true, -- Royal Court Undercrawler
     [448680] = true, -- Widow's Undercrawler
+}
+
+LM.MOUNTFAMILY["Underlight Behemoth"] = {
+    [448850] = true, -- Kah, Legend of the Deep
+    [448851] = true, -- Underlight Corrupted Behemoth
+    [448849] = true, -- Underlight Shorestalker
 }
 
 LM.MOUNTFAMILY["Unknown"] = {
@@ -1933,30 +1950,10 @@ LM.MOUNTFAMILY["Vespoid"] = {
     [342678] = true, -- Vespoid Flutterer
 }
 
-LM.MOUNTFAMILY["Vicious Moonbeast"] = {
-    [424534] = true, -- Vicious Moonbeast (Alliance)
-    [424535] = true, -- Vicious Moonbeast (Horde)
-}
-
 LM.MOUNTFAMILY["Vicious Skeletal Warhorse"] = {
     [281890] = true, -- Vicious Black Bonesteed
     [146622] = true, -- Vicious Skeletal Warhorse
     [281889] = true, -- Vicious White Bonesteed
-}
-
-LM.MOUNTFAMILY["Vicious War Bear"] = {
-    [229486] = true, -- Vicious War Bear
-    [229487] = true, -- Vicious War Bear
-}
-
-LM.MOUNTFAMILY["Vicious War Gorm"] = {
-    [348769] = true, -- Vicious War Gorm
-    [348770] = true, -- Vicious War Gorm
-}
-
-LM.MOUNTFAMILY["Vicious War Turtle"] = {
-    [232525] = true, -- Vicious War Turtle
-    [232523] = true, -- Vicious War Turtle
 }
 
 LM.MOUNTFAMILY["Vile Fiend"] = {
@@ -2209,11 +2206,6 @@ LM.MOUNTFAMILY["Wyrm"] = {
     [ 71810] = true, -- Wrathful Gladiator's Frost Wyrm
 }
 
-LM.MOUNTFAMILY["Wyvern"] = {
-    [135418] = true, -- Grand Armored Wyvern
-    [136164] = true, -- Grand Wyvern
-}
-
 LM.MOUNTFAMILY["Yak"] = {
     [127209] = true, -- Black Riding Yak
     [127220] = true, -- Blonde Riding Yak
@@ -2226,10 +2218,6 @@ LM.MOUNTFAMILY["Yeti"] = {
     [171848] = true, -- Challenger's War Yeti
     [279467] = true, -- Craghorn Chasm-Leaper
     [191314] = true, -- Minion of Grumpus
-}
-
-LM.MOUNTFAMILY["Zereth Overseer"] = {
-    [368158] = true, -- Zereth Overseer
 }
 
 -- What on earth to do with this

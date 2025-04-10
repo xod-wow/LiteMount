@@ -26,10 +26,6 @@ function LM.tSlice(t, from, to)
     return { unpack(t, from, to) }
 end
 
-local function tostringCompare(a, b)
-    return tostring(a) < tostring(b)
-end
-
 function LM.PairsByKeys (t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
