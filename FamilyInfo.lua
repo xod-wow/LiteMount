@@ -135,11 +135,6 @@ LM.MOUNTFAMILY["Armored Bear"] = {
     [ 54753] = true, -- White Polar Bear
 }
 
-LM.MOUNTFAMILY["Armored Ram"] = {
-    [270562] = true, -- Darkforge Ram
-    [270564] = true, -- Dawnforge Ram
-}
-
 LM.MOUNTFAMILY["Armored Tauralus"] = {
     [332466] = true, -- Armored Bonehoof Tauralus
     [332467] = true, -- Armored Chosen Tauralus
@@ -967,6 +962,11 @@ LM.MOUNTFAMILY["Infernal"] = {
     [213349] = true, -- Flarecore Infernal
     [213350] = true, -- Frostshard Infernal
     [171827] = true, -- Hellfire Infernal
+}
+
+LM.MOUNTFAMILY["Ironforge Ram"] = {
+    [270562] = true, -- Darkforge Ram
+    [270564] = true, -- Dawnforge Ram
 }
 
 LM.MOUNTFAMILY["Jawcrawler"] = {
