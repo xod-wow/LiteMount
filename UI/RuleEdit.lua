@@ -16,6 +16,16 @@ local MENU_SPLIT_SIZE = 20
 
 --[[------------------------------------------------------------------------]]--
 
+-- Maximum height of dropdown menus before they scroll, 1/3 of screen. This
+-- might be too small for 1080p screens, not sure.
+
+local function GetScrollExtent()
+    local _, y = GetPhysicalScreenSize()
+    return math.floor(y/3)
+end
+
+--[[------------------------------------------------------------------------]]--
+
 
 local function SetArgFromPickerFunction(owner)
     local parent = owner:GetParent()
@@ -32,14 +42,14 @@ local function ArgsGenerate(dropdown, rootDescription, data)
 
     local parent = dropdown:GetParent()
 
-    local _, y = GetPhysicalScreenSize()
+    rootDescription:SetScrollMode(GetScrollExtent())
 
     for _,item in ipairs(data) do
         if item.val == 'PICKER' then
             rootDescription:CreateButton(item.text, function () SetArgFromPickerFunction(parent) end)
         elseif #item > 0 then
             local subMenu = rootDescription:CreateButton(item.text)
-            subMenu:SetScrollMode(math.floor(y/3))
+            subMenu:SetScrollMode(GetScrollExtent())
             ArgsGenerate(dropdown, subMenu, item)
         else
             rootDescription:CreateButton(item.text, function () parent:SetArg(item.val) end)
@@ -54,6 +64,8 @@ LiteMountRuleEditConditionMixin = { }
 
 local function ConditionTypeGenerate(dropdown, rootDescription)
     local parent = dropdown:GetParent()
+
+    rootDescription:SetScrollMode(GetScrollExtent())
 
     rootDescription:CreateCheckbox(NONE:upper(),
             function () return parent:GetType() == nil end,
@@ -204,6 +216,8 @@ local TextActionTypeMenu = {
 local TypeMenu = LM.tJoin(MountActionTypeMenu, TextActionTypeMenu)
 
 local function ActionTypeButtonGenerate(dropdown, rootDescription)
+    rootDescription:SetScrollMode(GetScrollExtent())
+
     local parent = dropdown:GetParent()
     for _,item in ipairs(TypeMenu) do
         local text = LM.Actions:ToDisplay(item)
