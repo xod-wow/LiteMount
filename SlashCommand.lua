@@ -259,6 +259,8 @@ COMMANDS['fam'] =
             newFamily = families[nextIndex]
         end
 
+        LM.UIFilter.SetOtherFilter('HIDDEN', true)
+        LM.UIFilter.SetOtherFilter('UNUSABLE', true)
         LM.UIFilter.SetAllFamilyFilters(false)
         LM.UIFilter.SetFamilyFilter(newFamily, true)
         LM.Print(newFamily)

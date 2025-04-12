@@ -14,7 +14,6 @@ from argparse import ArgumentParser
 auth = (os.environ['WOW_API_CLIENT_ID'], os.environ['WOW_API_CLIENT_SECRET'])
 
 parser = ArgumentParser()
-parser.add_argument('-t', '--type', default='item', nargs='?')
 parser.add_argument('-c', '--compact', action='store_true')
 parser.add_argument('-s', '--sort', action='store_true')
 parser.add_argument('id', nargs='+')
@@ -26,37 +25,59 @@ r.raise_for_status()
 s = requests.session()
 s.headers['Authorization'] = 'Bearer {}'.format(r.json()['access_token'])
 s.headers['Battlenet-Namespace'] = 'static-us'
+s.headers['Connection'] = 'close'
+
+def find_best(data, id):
+    exactMatch = [ x for x in data if x['name']['en_US'] == id ]
+    if exactMatch:
+        return exactMatch
+
+    subMatch = [ x for x in data if id in x['name']['en_US'] ]
+    if subMatch:
+        return subMatch
+
+    words = id.split(' ')
+    wordMatch = [ x for x in data if all(w in x['name']['en_US'] for w in words) ]
+    if wordMatch:
+        return wordMatch
+
+    patternMatch = [ x for x in data if re.match(id, x['name']['en_US']) ]
+    if patternMatch:
+        return patternMatch
+
+    return data
+
+def query_type(qtype, id):
+    params = { 'name.en_US': id }
+    r = s.get('https://us.api.blizzard.com/data/wow/search/{}'.format(qtype), params=params)
+    r.raise_for_status()
+    data = [ x['data'] for x in r.json()['results'] ]
+    return data
 
 rows = []
 
 for id in args.id:
+    qtype = None
     if '=' in id:
         qtype, id = id.split('=')
+        try:
+            id = int(id)
+        except:
+            pass
+
+    if qtype:
+        if type(id) == int:
+            r = s.get('https://us.api.blizzard.com/data/wow/{}/{}'.format(qtype, id))
+            r.raise_for_status()
+            data = [ r.json() ]
+        else:
+            data = query_type(qtype, id)
     else:
-        qtype = args.type
+        data = []
+        for qtype in [ 'creature', 'mount', 'journal-encounter' ]:
+            data.extend(query_type(qtype, id))
 
-    try:
-        id = int(id)
-    except:
-        pass
-
-    if type(id) == int:
-        r = s.get('https://us.api.blizzard.com/data/wow/{}/{}'.format(qtype, id))
-        r.raise_for_status()
-        data = [ r.json() ]
-    else:
-        params = { 'name.en_US': id }
-        r = s.get('https://us.api.blizzard.com/data/wow/search/{}'.format(qtype), params=params)
-        r.raise_for_status()
-        data = [ x['data'] for x in r.json()['results'] ]
-        exactMatch = [ x for x in data if x['name']['en_US'] == id ]
-        patternMatch = [ x for x in data if re.match(id, x['name']['en_US']) ]
-        if exactMatch:
-            data = exactMatch
-        elif patternMatch:
-            data = patternMatch
-
-    for d in data:
+    for d in find_best(data, id):
         for locale, name in d['name'].items():
             if locale not in [ 'en_US', 'en_GB' ]:
                 rows.append((locale, d['name']['en_US'], name))
