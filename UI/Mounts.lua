@@ -303,7 +303,16 @@ function LiteMountMountScrollBoxMixin:RefreshMountList()
     if InCombatLockdown() then return end
 
     local mounts = LM.UIFilter.GetFilteredMountList()
-    local dp = CreateDataProvider(mounts)
+    local dp = CreateDataProvider()
+    local sortKey = LM.UIFilter.GetSortKey()
+    local currentKey
+    for _, m in ipairs(mounts) do
+        if sortKey == 'family' and m[sortKey] ~= currentKey then
+            dp:Insert({ isHeader = true, name = LM.UIFilter.GetSortKeyText(sortKey) .. ': ' .. m[sortKey] })
+            currentKey = m[sortKey]
+        end
+        dp:Insert(m)
+    end
     self:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 end
 
@@ -344,9 +353,41 @@ end
 function LiteMountMountsPanelMixin:OnLoad()
 
     local view = CreateScrollBoxListLinearView()
+--[[
     view:SetElementInitializer("LiteMountMountButtonTemplate",
         function (button, elementData)
             button:Initialize(LiteMountMountsPanel.allFlags, elementData)
+        end)
+]]
+    view:SetElementFactory(
+        function (factory, elementData)
+            if elementData.isHeader then
+                factory("LiteMountMountHeaderTemplate",
+                    function (button, elementData)
+                        button.Name:SetText(elementData.name)
+                    end)
+            else
+                factory("LiteMountMountButtonTemplate",
+                    function (button, elementData)
+                        button:Initialize(LiteMountMountsPanel.allFlags, elementData)
+                    end)
+            end
+        end)
+    view:SetElementExtentCalculator(
+        function (dataIndex, elementData)
+            if elementData.isHeader then
+                return 22
+            else
+                return 44
+            end
+        end)
+    view:SetElementIndentCalculator(
+        function (elementData)
+            if elementData.isHeader then
+                return 0
+            else
+                return 8
+            end
         end)
     view:SetPadding(0, 0, 0, 0, 0)
 
