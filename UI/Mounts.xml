@@ -103,6 +103,20 @@
     </Scripts>
 </Button>
 
+<Button name="LiteMountMountHeaderTemplate" virtual="true" inherits="LiteMountListButtonStyleTemplate">
+    <Size y="44" />
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormal" justifyH="LEFT" wordwrap="false" parentKey="Name">
+                <Anchors>
+                    <Anchor point="LEFT" x="8" />
+                    <Anchor point="RIGHT" x="-8" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+</Button>
+
 <Button name="LiteMountMountButtonTemplate" virtual="true" mixin="LiteMountMountButtonMixin" inherits="LiteMountListButtonStyleTemplate">
     <Size y="44" />
     <Frames>
@@ -162,10 +176,6 @@
             </FontString>
         </Layer>
     </Layers>
-
-    <Frames>
-    </Frames>
-
 </Button>
 
 <Frame name="LiteMountMountsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMountsPanelMixin">

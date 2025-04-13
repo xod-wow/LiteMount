@@ -67,7 +67,8 @@ local SortKeysByProject = LM.TableWithDefault({
         'default',
         'name',
         'rarity',
-        'summons'
+        'summons',
+        'family',
     },
     DEFAULT = {
         'default',
@@ -81,6 +82,7 @@ local SortKeyTexts = {
     ['name']        = NAME,
     ['rarity']      = RARITY,
     ['summons']     = SUMMONS,
+    ['family']      = L.LM_FAMILY,
 }
 
 function LM.UIFilter.GetSortKey()
