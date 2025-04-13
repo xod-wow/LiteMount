@@ -734,7 +734,7 @@ LM.MOUNTFAMILY["Flamesaber"] = {
 
 LM.MOUNTFAMILY["Flayedwing"] = {
     [336038] = true, -- Callow Flayedwing
-    [318052] = true, -- Deathbringer's Flayedwing (removed)
+--  [318052] = true, -- Deathbringer's Flayedwing (removed)
     [336039] = true, -- Gruesome Flayedwing
     [336036] = true, -- Marrowfang
 }
@@ -923,7 +923,6 @@ LM.MOUNTFAMILY["Grrloc"] = {
 LM.MOUNTFAMILY["Gryphon"] = {
     [ 32239] = true, -- Ebon Gryphon
     [ 32235] = true, -- Golden Gryphon
-    [ 64749] = true, -- Loaned Gryphon
     [441324] = true, -- Remembered Golden Gryphon
     [ 32240] = true, -- Snowy Gryphon
     [107516] = true, -- Spectral Gryphon
@@ -1369,7 +1368,7 @@ LM.MOUNTFAMILY["Phoenix"] = {
     [312751] = true, -- Clutch of Ha-Li
     [139448] = true, -- Clutch of Ji-Kun
     [ 88990] = true, -- Dark Phoenix
-    [347813] = true, -- Fireplume Phoenix
+--  [347813] = true, -- Fireplume Phoenix (NYI)
     [459784] = true, -- Golden Ashes of Al'ar
 }
 
@@ -1615,8 +1614,8 @@ LM.MOUNTFAMILY["Savage Battle Turtle"] = {
 LM.MOUNTFAMILY["Scarab"] = {
     [428060] = true, -- Golden Regal Scarab
     [428005] = true, -- Jeweled Copper Scarab
-    [428065] = true, -- Jeweled Jade Scarab
-    [428062] = true, -- Jeweled Sapphire Scarab
+--  [428065] = true, -- Jeweled Jade Scarab (NYI)
+--  [428062] = true, -- Jeweled Sapphire Scarab (NYI)
 }
 
 LM.MOUNTFAMILY["Scorpid"] = {
@@ -1729,7 +1728,7 @@ LM.MOUNTFAMILY["Skitterfly"] = {
 }
 
 LM.MOUNTFAMILY["Skullboar"] = {
-    [332482] = true, -- Bonecleaver's Skullboar
+--  [332482] = true, -- Bonecleaver's Skullboar (NYI)
     [332480] = true, -- Gorespine
     [332484] = true, -- Lurid Bloodtusk
     [332478] = true, -- Umbral Bloodtusk
@@ -2204,7 +2203,6 @@ LM.MOUNTFAMILY["Wind Rider"] = {
     [302362] = true, -- Alabaster Thunderwing
     [ 32244] = true, -- Blue Wind Rider
     [ 32245] = true, -- Green Wind Rider
-    [ 64762] = true, -- Loaned Wind Rider
     [441325] = true, -- Remembered Wind Rider
     [107517] = true, -- Spectral Wind Rider
     [ 32243] = true, -- Tawny Wind Rider
@@ -2307,3 +2305,33 @@ do
     end
 end
 
+--@debug@
+
+-- This is an approximation to try to find wrong stuff. It will misflag things
+-- from anything but the curent client (classic, ptr, etc).
+
+function LM.AuditFamilyData()
+    local mountSpells = {}
+    for _, mountID in ipairs(C_MountJournal.GetMountIDs()) do
+        local name, spellID = C_MountJournal.GetMountInfoByID(mountID)
+        local typeID = select(5, C_MountJournal.GetMountInfoExtraByID(mountID))
+        local typeInfo = LM.MOUNT_TYPE_INFO[typeID]
+        if (not typeInfo or not typeInfo.skip) and not LM.MOUNTFAMILY_BY_SPELL_ID[spellID] then
+            print('MISSING MOUNT', spellID, name)
+        end
+       mountSpells[spellID] = name
+    end
+
+    for spellID, family in pairs(LM.MOUNTFAMILY_BY_SPELL_ID) do
+       if not mountSpells[spellID] then
+          local name = C_Spell.GetSpellName(spellID)
+          if not name then
+             -- print('NO SPELL', spellID, family)
+          else
+             print('EXTRA SPELL', spellID, C_Spell.GetSpellName(spellID))
+          end
+       end
+    end
+end
+
+--@end-debug@
