@@ -524,6 +524,7 @@ CONDITIONS["false"] = {
 
 CONDITIONS["flightstyle"] = {
     name = L.LM_FLIGHT_STYLE,
+    disabled = ( IsAdvancedFlyableArea == nil ),
     toDisplay =
         function (v)
             if v ==  "steady" then
