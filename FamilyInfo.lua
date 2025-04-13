@@ -2312,8 +2312,10 @@ LM.MOUNTFAMILY["Zodiac"] = {
 do
     for spellID in pairs(LM.MOUNTFAMILY._AUTO_) do
         local name = C_Spell.GetSpellName(spellID)
-        LM.MOUNTFAMILY[name] = LM.MOUNTFAMILY[name] or {}
-        LM.MOUNTFAMILY[name][spellID] = true
+        if name then
+            LM.MOUNTFAMILY[name] = LM.MOUNTFAMILY[name] or {}
+            LM.MOUNTFAMILY[name][spellID] = true
+        end
     end
     LM.MOUNTFAMILY._AUTO_ = nil
 end
