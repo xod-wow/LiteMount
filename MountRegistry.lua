@@ -142,7 +142,7 @@ end
 
 local CopyAttributesFromJournal = {
     'modelID', 'sceneID', 'mountID', 'isSelfMount', 'description',
-    'sourceType', 'sourceText'
+    'sourceType', 'sourceText', 'family'
 }
 
 function LM.MountRegistry:AddMount(m)
@@ -150,7 +150,7 @@ function LM.MountRegistry:AddMount(m)
 
     if existing then
         for _, attr in ipairs(CopyAttributesFromJournal) do
-            existing[attr] = existing[attr] or m[attr]
+            existing[attr] = m[attr]
         end
     else
         tinsert(self.mounts, m)
