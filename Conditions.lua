@@ -1323,6 +1323,12 @@ CONDITIONS["shapeshift"] = {
         end
 }
 
+-- This sort-of can work on classic, using 
+--      i = GetPrimaryTalentTree()
+--      GetTalentTabInfo(i)
+-- but there doesn't seem to be the concept of a global ID or any way to query
+-- the trees for a class you are not, so the menu can't work unless hardcoded.
+
 CONDITIONS["spec"] = {
     name = SPECIALIZATION,
     disabled = ( GetSpecialization == nil ),
