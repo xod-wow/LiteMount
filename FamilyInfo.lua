@@ -1091,8 +1091,6 @@ LM.MOUNTFAMILY["Lynx"] = {
 
 LM.MOUNTFAMILY["Magic Broom"] = {
     [419345] = true, -- Eve's Ghastly Rider
-    [ 42667] = true, -- Flying Broom
-    [ 47977] = true, -- Magic Broom
 }
 
 LM.MOUNTFAMILY["Magmammoth"] = {
@@ -1159,7 +1157,6 @@ LM.MOUNTFAMILY["Mawrat"] = {
     [363297] = true, -- Colossal Soulshredder Mawrat
     [363178] = true, -- Colossal Umbrahide Mawrat
     [368128] = true, -- Colossal Wraithbound Mawrat
-    [342780] = true, -- Mawrat Harness
 }
 
 LM.MOUNTFAMILY["Mawsworn Charger"] = {
@@ -1519,7 +1516,6 @@ LM.MOUNTFAMILY["Raptora"] = {
 
 LM.MOUNTFAMILY["Ratstallion"] = {
     [215558] = true, -- Ratstallion
-    [220123] = true, -- Ratstallion Harness
 }
 
 LM.MOUNTFAMILY["Ravager"] = {
@@ -1660,8 +1656,6 @@ LM.MOUNTFAMILY["Shackled Shadow"] = {
 LM.MOUNTFAMILY["Shadehound"] = {
     [344577] = true, -- Bound Shadehound
     [344578] = true, -- Corridor Creeper
-    [343635] = true, -- Deadsoul Hound Harness
-    [343632] = true, -- Maw Seeker Harness
     [312762] = true, -- Mawsworn Soulhunter
 }
 
@@ -1978,7 +1972,6 @@ LM.MOUNTFAMILY["Talbuk"] = {
     [ 39316] = true, -- Dark Riding Talbuk
     [ 39317] = true, -- Silver Riding Talbuk
     [ 39318] = true, -- Tan Riding Talbuk
-    [165803] = true, -- Telaari Talbuk
     [ 39319] = true, -- White Riding Talbuk
 }
 
