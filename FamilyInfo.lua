@@ -8,7 +8,9 @@
 
 local _, LM = ...
 
-LM.MOUNTFAMILY = {}
+LM.MOUNTFAMILY = {
+    [NONE] = {}
+}
 
 LM.MOUNTFAMILY._AUTO_ = {
     [302361] = true, -- Alabaster Stormtalon
@@ -626,11 +628,6 @@ LM.MOUNTFAMILY["Dreamtalon"] = {
     [427224] = true, -- Talont
     [434470] = true, -- Vicious Dreamtalon (Alliance)
     [434477] = true, -- Vicious Dreamtalon (Horde)
-}
-
--- Note DRIVE is translated in all all languages (from flag data)
-LM.MOUNTFAMILY["DRIVE"] = {
-   [1215279] = true, -- G-99 Breakneck
 }
 
 LM.MOUNTFAMILY["Eagle"] = {
@@ -1678,16 +1675,6 @@ LM.MOUNTFAMILY["Shalewing"] = {
     [408649] = true, -- Shadowflame Shalewing
 }
 
-LM.MOUNTFAMILY["Shapeshift"] = {
-    [165962] = true, -- Flight Form
-    [  2645] = true, -- Ghost Wolf
-    [210053] = true, -- Mount Form
-    [ 87840] = true, -- Running Wild
-    [369536] = true, -- Soar
-    [310143] = true, -- Soulshape
-    [   783] = true, -- Travel Form
-}
-
 LM.MOUNTFAMILY["Shardhide"] = {
     [354356] = true, -- Amber Shardhide
     [347810] = true, -- Crimson Shardhide
@@ -2311,5 +2298,12 @@ do
         end
     end
     LM.MOUNTFAMILY._AUTO_ = nil
+
+    LM.MOUNTFAMILY_BY_SPELL_ID = {}
+    for family, mounts in pairs(LM.MOUNTFAMILY) do
+        for spellID in pairs(mounts) do
+            LM.MOUNTFAMILY_BY_SPELL_ID[spellID] = family
+        end
+    end
 end
 

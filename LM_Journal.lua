@@ -90,6 +90,17 @@ function LM.Journal:Get(id)
         m.overrideSpellID = 301841
     end
 
+    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+        m.family = LM.MOUNTFAMILY_BY_SPELL_ID[m.spellID]
+
+        if not m.family then
+            m.family = UNKNOWN
+            --@debug@
+            LM.PrintError('No family: [%d] = true, -- %s', m.spellID, m.name)
+            --@end-debug@
+        end
+    end
+
     return m
 end
 
