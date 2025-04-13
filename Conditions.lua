@@ -1325,7 +1325,7 @@ CONDITIONS["shapeshift"] = {
 
 CONDITIONS["spec"] = {
     name = SPECIALIZATION,
-    disabled = ( GetSpecializationInfoByID == nil ),
+    disabled = ( GetSpecialization == nil ),
     toDisplay =
         function (v)
             local _, name, _, _, _, _, class = GetSpecializationInfoByID(v)
