@@ -1323,7 +1323,7 @@ CONDITIONS["shapeshift"] = {
         end
 }
 
--- This sort-of can work on classic, using 
+-- This sort-of can work on classic, using
 --      i = GetPrimaryTalentTree()
 --      GetTalentTabInfo(i)
 -- but there doesn't seem to be the concept of a global ID or any way to query
