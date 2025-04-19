@@ -3909,6 +3909,7 @@ if locale == "zhCN" then
     L["Great Kodo"] = "大型科多兽"
     L["Gronnling"] = "小戈隆"
     L["Grove Warden"] = "林地守卫者"
+    L["Grrloc"] = "奔波尔"
     L["Gryphon"] = "狮鹫"
     L["Hand"] = "手"
     L["Harbor Gryphon"] = "海港狮鹫"
