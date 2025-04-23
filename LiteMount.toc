@@ -1,4 +1,4 @@
-## Interface: 110105, 110100, 40402
+## Interface: 110105, 40402
 ## Title: LiteMount
 ## Version: @project-version@
 ## Author: Xodiv-Nagrand
@@ -9,6 +9,17 @@
 ## X-Curse-Project-ID: 30359
 ## X-WoWI-ID: 26329
 ## X-Wago-ID: b6mbPXKP
+## Category: Collections
+## Category-deDE: Kriegsmeutesammlungen
+## Category-esES: Colecciones de banda guerrera
+## Category-esMX: Colecciones de tropa
+## Category-frFR: Collections du bataillon
+## Category-itIT: Collezioni della Brigata
+## Category-koKR: 전투부대 수집품
+## Category-ptBR: Coleções do Bando de Guerra
+## Category-ruRU: Коллекции отряда
+## Category-zhCN: 战团藏品
+## Category-zhTW: 戰隊收藏
 
 Blizzard_Compat.lua
 
