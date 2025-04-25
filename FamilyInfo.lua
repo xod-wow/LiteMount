@@ -893,6 +893,11 @@ LM.MOUNTFAMILY["Great Elekk"] = {
     [ 65637] = true, -- Great Red Elekk
 }
 
+LM.MOUNTFAMILY["Great Raven"] = {
+   [1226983] = true, -- Archmage's Great Raven
+   [1226760] = true, -- Prophet's Great Raven
+}
+
 LM.MOUNTFAMILY["Great Kodo"] = {
     [ 22718] = true, -- Black War Kodo
     [ 49379] = true, -- Great Brewfest Kodo
