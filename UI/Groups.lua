@@ -252,7 +252,6 @@ function LiteMountGroupsPanelMountMixin:OnClick()
     else
         LM.Options:SetMountGroup(self.mount, group)
     end
-    LiteMountGroupsPanel.Mounts:Update()
 end
 
 function LiteMountGroupsPanelMountMixin:OnEnter()
