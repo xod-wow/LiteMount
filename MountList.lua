@@ -314,15 +314,31 @@ local SortFunctions = {
         end,
     ['family'] =
         function (a, b)
-            return a.family < b.family
+            if a.family ~= b.family then
+                return a.family < b.family
+            else
+                return a.name < b.name
+            end
         end,
     ['rarity'] =
         function (a, b)
-            return ( a:GetRarity() or 101 ) < ( b:GetRarity() or 101 )
+            local aR = a:GetRarity() or 101
+            local bR = b:GetRarity() or 101
+            if aR ~= bR then
+                return aR < bR
+            else
+                return a.name < b.name
+            end
         end,
     ['summons'] =
         function (a, b)
-            return a:GetSummonCount() > b:GetSummonCount()
+            local aS = a:GetSummonCount()
+            local bS = b:GetSummonCount()
+            if aS ~= bS then
+                return aS < bS
+            else
+                return a.name < b.name
+            end
         end,
 }
 
