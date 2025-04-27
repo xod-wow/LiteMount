@@ -41,7 +41,6 @@ LM.MOUNTFAMILY._AUTO_ = {
     [289555] = true, -- Glacial Tidestorm
     [122708] = true, -- Grand Expedition Yak
     [457485] = true, -- Grizzly Hills Packmaster
-    [110051] = true, -- Heart of the Aspects
     [229377] = true, -- High Priest's Lightsworn Seeker
     [360954] = true, -- Highland Drake
     [201098] = true, -- Infinite Timereaver
@@ -60,6 +59,7 @@ LM.MOUNTFAMILY._AUTO_ = {
    [1216430] = true, -- Sha-Warped Riding Tiger
     [279611] = true, -- Skullripper
     [341821] = true, -- Snowstorm
+    [259202] = true, -- Starcursed Voidstrider
     [454682] = true, -- Startouched Furline
     [308250] = true, -- Stormpike Battle Ram
     [245723] = true, -- Stormwind Skychaser
@@ -267,6 +267,7 @@ LM.MOUNTFAMILY["Beetle"] = {
 LM.MOUNTFAMILY["Blazecycle"] = {
     [428067] = true, -- Hatefored Blazecycle
     [428013] = true, -- Incognitro, the Indecipherable Felcycle
+    [428068] = true, -- Voidfire Deathcycle
 }
 
 LM.MOUNTFAMILY["Bloodswarmer"] = {
@@ -347,7 +348,6 @@ LM.MOUNTFAMILY["Chopper"] = {
     [179245] = true, -- Chauffeured Mekgineer's Chopper
     [ 60424] = true, -- Mekgineer's Chopper
     [ 55531] = true, -- Mechano-Hog
-    [428068] = true, -- Voidfire Deathcycle
 }
 
 LM.MOUNTFAMILY["Cinderbee"] = {
@@ -369,7 +369,6 @@ LM.MOUNTFAMILY["Clefthoof"] = {
 LM.MOUNTFAMILY["Cloud Serpent"] = {
     [123992] = true, -- Azure Cloud Serpent
     [127156] = true, -- Crimson Cloud Serpent
-   [1218316] = true, -- Corruption of the Aspects
     [123993] = true, -- Golden Cloud Serpent
     [148619] = true, -- Grievous Gladiator's Cloud Serpent
     [315014] = true, -- Ivory Cloud Serpent
@@ -993,6 +992,7 @@ LM.MOUNTFAMILY["Highlord's Charger"] = {
     [231588] = true, -- Highlord's Vigilant Charger
 }
 
+-- Split
 LM.MOUNTFAMILY["Hippogryph"] = {
     [ 63844] = true, -- Argent Hippogryph
     [ 74856] = true, -- Blazing Hippogryph
@@ -1248,15 +1248,22 @@ LM.MOUNTFAMILY["Moth"] = {
     [342667] = true, -- Vibrant Flutterwing
 }
 
+-- There's a fair bit of variation here, armors and mane and hoofguards,
+-- but they are all the same Kul Tiran Horse model with pointy ears and
+-- fluffy feet.
+
 LM.MOUNTFAMILY["Mountain Horse"] = {
     [259213] = true, -- Admiralty Stallion
     [295387] = true, -- Bloodflank Charger
     [279457] = true, -- Broken Highland Mustang
+    [341639] = true, -- Court Sinrunner
     [260172] = true, -- Dapple Gray
+    [260175] = true, -- Goldenmane
     [279456] = true, -- Highland Mustang
     [282682] = true, -- Kul Tiran Charger
     [103195] = true, -- Mountain Horse
     [255695] = true, -- Seabraid Stallion
+    [339588] = true, -- Sinrunner Blanchy
     [260173] = true, -- Smoky Charger
     [103196] = true, -- Swift Mountain Horse
    [1218305] = true, -- Void-Forged Stallion
@@ -1697,11 +1704,8 @@ LM.MOUNTFAMILY["Shreddertank"] = {
    [1221694] = true, -- Enterprising Shreddertank
 }
 
-LM.MOUNTFAMILY["Sinrunner"] = {
-    [341639] = true, -- Court Sinrunner
-    [260175] = true, -- Goldenmane
-    [339588] = true, -- Sinrunner Blanchy
-}
+-- Merged into Mountain Horse
+-- LM.MOUNTFAMILY["Sinrunner"] = { }
 
 LM.MOUNTFAMILY["Skeletal Horse"] = {
     [ 64977] = true, -- Black Skeletal Horse
@@ -1752,6 +1756,8 @@ LM.MOUNTFAMILY["Skyrazor"] = {
 }
 
 LM.MOUNTFAMILY["Slitherdrake"] = {
+   [1218316] = true, -- Corruption of the Aspects
+    [110051] = true, -- Heart of the Aspects
     [368893] = true, -- Winding Slitherdrake
 }
 
@@ -1874,7 +1880,6 @@ LM.MOUNTFAMILY["Swift Gryphon"] = {
 
 LM.MOUNTFAMILY["Swift Hawkstrider"] = {
     [ 63642] = true, -- Silvermoon Hawkstrider
-    [259202] = true, -- Starcursed Voidstrider
     [ 66091] = true, -- Sunreaver Hawkstrider
     [ 35025] = true, -- Swift Green Hawkstrider
     [ 33660] = true, -- Swift Pink Hawkstrider
@@ -2294,8 +2299,9 @@ LM.MOUNTFAMILY["Zodiac"] = {
 
 do
     for spellID in pairs(LM.MOUNTFAMILY._AUTO_) do
-        local name = C_Spell.GetSpellName(spellID)
-        if name then
+        local mountID = C_MountJournal.GetMountFromSpell(spellID)
+        if mountID then
+        local name = C_MountJournal.GetMountInfoByID(mountID)
             LM.MOUNTFAMILY[name] = LM.MOUNTFAMILY[name] or {}
             LM.MOUNTFAMILY[name][spellID] = true
         end
