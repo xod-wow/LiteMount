@@ -83,9 +83,17 @@ function LM.UIDebug(frame, ...)
     end
 end
 
--- This prints into the UI error box the same as Blizzards code
+-- This prints into the UI error box the same as Blizzards code. The weirdness
+-- here is to force it through the OnEvent handler so things like LeatrixPlus
+-- that try to suppress error messages can. Could also be "UI_INFO_MESSAGE"
+-- which is yellow color. LE_GAME_ERR_SPELL_FAILED_S is the error number (57)
+-- that the server sends for can't mount.
+
 function LM.Warning(msg)
-    UIErrorsFrame:AddMessage(msg, 1.0, 0.1, 0.1)
+    local method = UIErrorsFrame:GetScript('OnEvent')
+    if method then
+        method(UIErrorsFrame, "UI_ERROR_MESSAGE", LE_GAME_ERR_SPELL_FAILED_S, msg)
+    end
 end
 
 function LM.WarningAndPrint(...)
