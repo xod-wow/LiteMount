@@ -1339,6 +1339,7 @@ LM.MOUNTFAMILY["Pandaren Kite"] = {
 
 LM.MOUNTFAMILY["Pandaren Phoenix"] = {
     [132117] = true, -- Ashen Pandaren Phoenix
+    [446017] = true, -- August Phoenix
     [129552] = true, -- Crimson Pandaren Phoenix
     [132118] = true, -- Emerald Pandaren Phoenix
     [132119] = true, -- Violet Pandaren Phoenix
@@ -1376,7 +1377,6 @@ LM.MOUNTFAMILY["Phalynx"] = {
 
 LM.MOUNTFAMILY["Phoenix"] = {
     [ 40192] = true, -- Ashes of Al'ar
-    [446017] = true, -- August Phoenix
     [312751] = true, -- Clutch of Ha-Li
     [139448] = true, -- Clutch of Ji-Kun
     [ 88990] = true, -- Dark Phoenix
