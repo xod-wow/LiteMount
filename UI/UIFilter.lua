@@ -598,7 +598,7 @@ function LM.UIFilter.IsFilteredMount(m)
         return false
     end
 
-    if m.description and searchMatch(m.description, filtertext) then
+    if m.descriptionText and searchMatch(m.descriptionText, filtertext) then
         return false
     end
 

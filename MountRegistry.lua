@@ -141,8 +141,13 @@ end
 -- version (including preview) but the actions are all still LM.ItemSummoned.
 
 local CopyAttributesFromJournal = {
-    'modelID', 'sceneID', 'mountID', 'isSelfMount', 'description',
-    'sourceType', 'sourceText', 'family'
+    -- From C_MountJournal.GetMountInfoByID
+    'mountID', 'sourceType', 'isSteadyFlight',
+    -- From C_MountJournal.GetMountInfoExtraByID
+    'creatureDisplayID', 'descriptionText', 'sourceText', 'isSelfMount',
+    'mountTypeID', 'modelSceneID', 'animID', 'spellVisualKitID', 'disablePlayerMountPreview',
+    -- Other
+    'family',
 }
 
 function LM.MountRegistry:AddMount(m)

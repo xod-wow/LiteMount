@@ -39,15 +39,15 @@ function LiteMountTooltipMixin:AttachPreview()
 end
 
 function LiteMountTooltipMixin:SetupPreview(m)
-    if m.modelID and m.sceneID then
+    if m.creatureDisplayID and m.modelSceneID then
         -- Need width/height for ModelScene not to div/0
         self:AttachPreview()
 
-        self.Preview.ModelScene:SetFromModelSceneID(m.sceneID)
+        self.Preview.ModelScene:SetFromModelSceneID(m.modelSceneID)
 
         local mountActor = self.Preview.ModelScene:GetActorByTag("unwrapped")
         if mountActor then
-            mountActor:SetModelByCreatureDisplayID(m.modelID)
+            mountActor:SetModelByCreatureDisplayID(m.creatureDisplayID)
             if m.isSelfMount then
                 mountActor:SetAnimationBlendOperation(Enum.ModelBlendOperation.None)
                 mountActor:SetAnimation(618)
@@ -99,10 +99,10 @@ function LiteMountTooltipMixin:SetMount(m, canMount)
         end
     end
 
-    if m.description and m.description ~= "" then
+    if m.descriptionText and m.descriptionText ~= "" then
         self:AddLine(" ")
         self:AddLine("|cffffffff" .. DESCRIPTION .. "|r")
-        self:AddLine(m.description, nil, nil, nil, true)
+        self:AddLine(m.descriptionText, nil, nil, nil, true)
     end
 
     if m.sourceText and m.sourceText ~= "" then

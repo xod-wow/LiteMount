@@ -273,8 +273,8 @@ function LiteMountMountButtonMixin:Initialize(bitFlags, mount)
         if mount.flags[flag] then
             table.insert(flagTexts, L[flag])
         end
-        self.Types:SetText(strjoin(' ', unpack(flagTexts)))
     end
+    self.Types:SetText(strjoin(' ', unpack(flagTexts)))
 
     local rarity = mount:GetRarity()
     if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and rarity then
