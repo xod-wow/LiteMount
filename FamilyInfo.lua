@@ -155,10 +155,6 @@ LM.MOUNTFAMILY["Aquilon"] = {
     [353877] = true, -- Foresworn Aquilon
 }
 
-LM.MOUNTFAMILY["Arborwyrm"] = {
-    [418286] = true, -- Auspicious Arborwyrm
-}
-
 LM.MOUNTFAMILY["Armored Bear"] = {
     [ 60116] = true, -- Armored Brown Bear
     [ 60114] = true, -- Armored Brown Bear
@@ -1756,6 +1752,7 @@ LM.MOUNTFAMILY["Skyrazor"] = {
 }
 
 LM.MOUNTFAMILY["Slitherdrake"] = {
+    [418286] = true, -- Auspicious Arborwyrm
    [1218316] = true, -- Corruption of the Aspects
     [110051] = true, -- Heart of the Aspects
     [368893] = true, -- Winding Slitherdrake
