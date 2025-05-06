@@ -14,6 +14,11 @@ local C_Spell = LM.C_Spell or C_Spell
 
 local L = LM.Localize
 
+local TabNames = {
+    [1] = "List View",
+    [2] = "Model View",
+}
+
 --[[------------------------------------------------------------------------]]--
 
 LiteMountPriorityMixin = {}
@@ -303,6 +308,89 @@ function LiteMountMountButtonMixin:Initialize(bitFlags, mount)
     self.Priority:Update()
 end
 
+
+--[[------------------------------------------------------------------------]]--
+
+LiteMountMountGridButtonMixin = {}
+
+function LiteMountMountGridButtonMixin:Initialize(mount)
+    self.mount = mount
+    self.Icon:SetNormalTexture(mount.icon)
+    self.Name:SetText(mount.name)
+
+    local count = mount:GetSummonCount()
+    if count > 0 then
+        self.Icon.Count:SetText(count)
+        self.Icon.Count:Show()
+    else
+        self.Icon.Count:Hide()
+    end
+
+    local flagTexts = { }
+
+    for _, flag in ipairs(LM.Options:GetFlags()) do
+        if mount.flags[flag] then
+            table.insert(flagTexts, L[flag])
+        end
+    end
+    self.Types:SetText(strjoin(' ', unpack(flagTexts)))
+
+    if not InCombatLockdown() then
+        mount:GetCastAction():SetupActionButton(self.Icon, 2)
+    end
+
+    local rarity = mount:GetRarity()
+    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and rarity then
+        self.Rarity:SetFormattedText(L.LM_RARITY_FORMAT, rarity)
+        self.Rarity.toolTip = format(L.LM_RARITY_FORMAT_LONG, rarity)
+    else
+        self.Rarity:SetText('')
+        self.Rarity.toolTip = nil
+    end
+
+    if not mount:IsCollected() then
+        self.Name:SetFontObject("GameFontDisable")
+        self.Icon:GetNormalTexture():SetVertexColor(1, 1, 1)
+        self.Icon:GetNormalTexture():SetDesaturated(true)
+    elseif not mount:IsUsable() then
+        -- Mounts are made red if you can't use them
+        self.Name:SetFontObject("GameFontNormal")
+        self.Icon:GetNormalTexture():SetDesaturated(true)
+        self.Icon:GetNormalTexture():SetVertexColor(0.6, 0.2, 0.2)
+    else
+        self.Name:SetFontObject("GameFontNormal")
+        self.Icon:GetNormalTexture():SetVertexColor(1, 1, 1)
+        self.Icon:GetNormalTexture():SetDesaturated(false)
+    end
+
+    if mount.creatureDisplayID and mount.modelSceneID then
+        self.ModelScene:TransitionToModelSceneID(mount.modelSceneID, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, false)
+        local mountActor = self.ModelScene:GetActorByTag("unwrapped")
+        if mountActor then
+            mountActor:Hide()
+            mountActor:SetOnModelLoadedCallback(function () mountActor:Show() end)
+            mountActor:SetModelByCreatureDisplayID(mount.creatureDisplayID, true)
+            if mount.isSelfMount then
+                mountActor:SetAnimationBlendOperation(Enum.ModelBlendOperation.None)
+                mountActor:SetAnimation(618)
+            else
+                mountActor:SetAnimationBlendOperation(Enum.ModelBlendOperation.Anim)
+                mountActor:SetAnimation(0)
+            end
+        end
+        self.ModelScene:AttachPlayerToMount(mountActor, mount.animID, mount.isSelfMount, true, mount.spellVisualKitID, false)
+
+        -- I don't know why, but the playerActor affects the camera and the
+        -- camera is wrong for some mounts without this. I think?
+        -- local playerActor = self.ModelScene:GetActorByTag("player-rider")
+        -- if playerActor then playerActor:ClearModel() end
+        self.ModelScene:Show()
+    else
+        self.ModelScene:Hide()
+    end
+
+end
+
 --[[------------------------------------------------------------------------]]--
 
 LiteMountMountScrollBoxMixin = {}
@@ -314,23 +402,30 @@ function LiteMountMountScrollBoxMixin:RefreshMountList()
     if InCombatLockdown() then return end
 
     local mounts = LM.UIFilter.GetFilteredMountList()
-    local dp = CreateTreeDataProvider()
+    local dp
 
-    if LM.UIFilter.GetSortKey() == 'family' then
-        local familySubTrees = {}
-        for _, m in ipairs(mounts) do
-            if not familySubTrees[m.family] then
-                local data = {
-                    isHeader = true,
-                    name = LM.UIFilter.GetSortKeyText('family') .. ': ' .. m.family,
-                }
-                familySubTrees[m.family] = dp:Insert(data)
-            end
-            familySubTrees[m.family]:Insert(m)
-        end
+    local currentView = self:GetView()
+
+    if currentView.stride then
+        dp = CreateDataProvider(mounts)
     else
-        for _, m in ipairs(mounts) do
-            dp:Insert(m)
+        dp = CreateTreeDataProvider()
+        if LM.UIFilter.GetSortKey() == 'family' then
+            local familySubTrees = {}
+            for _, m in ipairs(mounts) do
+                if not familySubTrees[m.family] then
+                    local data = {
+                        isHeader = true,
+                        name = LM.UIFilter.GetSortKeyText('family') .. ': ' .. m.family,
+                    }
+                    familySubTrees[m.family] = dp:Insert(data)
+                end
+                familySubTrees[m.family]:Insert(m)
+            end
+        else
+            for _, m in ipairs(mounts) do
+                dp:Insert(m)
+            end
         end
     end
     self:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
@@ -370,16 +465,23 @@ function LiteMountMountsPanelMixin:OnDefault()
     LM.Options:SetPriorities(LM.MountRegistry.mounts, nil)
 end
 
-function LiteMountMountsPanelMixin:OnLoad()
+function LiteMountMountsPanelMixin:SetupFromTabbing()
+    local n = self.selectedTab or 1
+    for i, tabButton in ipairs(self.Tabs) do
+        if i == n then
+            PanelTemplates_SelectTab(tabButton)
+        else
+            PanelTemplates_DeselectTab(tabButton)
+        end
+    end
+    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, self.tabViews[n])
+end
 
-    local view = CreateScrollBoxListTreeListView()
---[[
-    view:SetElementInitializer("LiteMountMountButtonTemplate",
-        function (button, elementData)
-            button:Initialize(LiteMountMountsPanel.allFlags, elementData)
-        end)
-]]
-    view:SetElementFactory(
+function LiteMountMountsPanelMixin:OnLoad()
+    self.tabViews = {}
+
+    self.tabViews[1] = CreateScrollBoxListTreeListView()
+    self.tabViews[1]:SetElementFactory(
         function (factory, node)
             local data = node:GetData()
             if data.isHeader then
@@ -400,7 +502,7 @@ function LiteMountMountsPanelMixin:OnLoad()
                     end)
             end
         end)
-    view:SetElementExtentCalculator(
+    self.tabViews[1]:SetElementExtentCalculator(
         function (dataIndex, node)
             if node:GetData().isHeader then
                 return 22
@@ -408,7 +510,7 @@ function LiteMountMountsPanelMixin:OnLoad()
                 return 44
             end
         end)
-    view:SetElementIndentCalculator(
+    self.tabViews[1]:SetElementIndentCalculator(
         function (node)
             if node:GetData().isHeader then
                 return 0
@@ -416,9 +518,17 @@ function LiteMountMountsPanelMixin:OnLoad()
                 return 8
             end
         end)
-    view:SetPadding(0, 0, 0, 0, 0)
 
-    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
+    -- CreateScrollBoxListGridView(stride, top, bottom, left, right, horizontalSpacing, verticalSpacing)
+    self.tabViews[2] = CreateScrollBoxListGridView(3, 0, 0, 0, 0, 5, 5)
+    self.tabViews[2]:SetElementInitializer("LiteMountMountGridButtonTemplate",
+        function (button, elementData)
+            local w, h = self.ScrollBox:GetSize()
+            button:SetSize(w/3 - 10, h/2 - 5)
+            button:Initialize(elementData)
+        end)
+
+    self:SetupFromTabbing()
 
     self.name = MOUNTS
 
@@ -438,6 +548,24 @@ function LiteMountMountsPanelMixin:OnLoad()
     LiteMountOptionsPanel_RegisterControl(self.ScrollBox)
 
     LiteMountOptionsPanel_OnLoad(self)
+
+    -- Set up the tabs
+    for i, tabButton in ipairs(self.Tabs) do
+        if i == 1 then
+            tabButton:SetPoint("TOPLEFT", self.ScrollBox, "BOTTOMLEFT", 16, 4)
+        else
+            local prevTab = self.Tabs[i-1]
+            tabButton:SetPoint("LEFT", prevTab, "RIGHT", 0, 0)
+        end
+        tabButton:SetText(TabNames[i])
+        tabButton:SetScript('OnClick',
+            function ()
+                self.selectedTab = i
+                self:SetupFromTabbing()
+                self.ScrollBox:RefreshMountList()
+            end)
+    end
+    PanelTemplates_ResizeTabsToFit(self, self.ScrollBox:GetWidth() - 32)
 
     --@debug@
     self.NextFamily = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')

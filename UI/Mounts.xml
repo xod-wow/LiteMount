@@ -190,6 +190,50 @@
     </Layers>
 </Button>
 
+<Button name="LiteMountMountGridButtonTemplate" virtual="true" mixin="LiteMountMountGridButtonMixin" inherits="LiteMountListButtonStyleTemplate">
+    <Size x="204" y="214" />
+    <Frames>
+        <ModelScene parentKey="ModelScene" inherits="NonInteractableModelSceneMixinTemplate" frameStrata="ARTWORK" setAllPoints="true" />
+        <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="4" y="-4" />
+            </Anchors>
+        </Button>
+    </Frames>
+
+    <Layers>
+        <Layer level="OVERLAY">
+            <FontString inherits="GameFontNormal" justifyH="LEFT" parentKey="Name">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.Icon" relativePoint="TOPRIGHT" x="4" y="-4" />
+                    <Anchor point="RIGHT" x="-4" />
+                </Anchors>
+            </FontString>
+            <FontString inherits="GameFontWhiteTiny" justifyH="LEFT" parentKey="Types">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.Name" relativePoint="BOTTOMLEFT" y="-4" />
+                    <Anchor point="RIGHT" x="-4" />
+                </Anchors>
+            </FontString>
+            <FontString inherits="GameFontWhiteTiny" justifyH="RIGHT" parentKey="Rarity">
+                <Anchors>
+                    <Anchor point="RIGHT" relativeKey="$parent.Types" />
+                </Anchors>
+                <Scripts>
+                    <OnEnter>
+                        if self.toolTip then
+                            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                            GameTooltip:AddLine(self.toolTip)
+                            GameTooltip:Show()
+                        end
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide" />
+                </Scripts>
+            </FontString>
+        </Layer>
+    </Layers>
+</Button>
+
 <Frame name="LiteMountMountsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMountsPanelMixin">
 
     <Frames>
@@ -205,6 +249,9 @@
                 <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="8" y="0"/>
             </Anchors>
         </EventFrame>
+        <!-- PanelTabButtonTemplate adds to parent.Tabs automatically -->
+        <Button inherits="PanelTabButtonTemplate" id="1" />
+        <Button inherits="PanelTabButtonTemplate" id="2" />
     </Frames>
 
     <Layers>
