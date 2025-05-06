@@ -475,6 +475,13 @@ function LiteMountMountsPanelMixin:SetupFromTabbing()
         end
     end
     ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, self.tabViews[n])
+
+    self.AllPriority:SetShown(n==1)
+    self.PriorityLabel:SetShown(n==1)
+    for i = 1, 4 do
+        local label = self["BitLabel"..i]
+        label:SetShown(n==1)
+    end
 end
 
 function LiteMountMountsPanelMixin:OnLoad()
@@ -520,11 +527,11 @@ function LiteMountMountsPanelMixin:OnLoad()
         end)
 
     -- CreateScrollBoxListGridView(stride, top, bottom, left, right, horizontalSpacing, verticalSpacing)
-    self.tabViews[2] = CreateScrollBoxListGridView(3, 0, 0, 0, 0, 5, 5)
+    local stride = 3
+    self.tabViews[2] = CreateScrollBoxListGridView(stride, 0, 0, 0, 0, 5, 5)
     self.tabViews[2]:SetElementInitializer("LiteMountMountGridButtonTemplate",
         function (button, elementData)
             local w, h = self.ScrollBox:GetSize()
-            button:SetSize(w/3 - 10, h/2 - 5)
             button:Initialize(elementData)
         end)
 
