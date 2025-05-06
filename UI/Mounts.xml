@@ -104,7 +104,7 @@
 </Button>
 
 <Button name="LiteMountMountHeaderTemplate" virtual="true" inherits="LiteMountListButtonStyleTemplate" mixin="LiteMountMountHeaderMixin">
-    <Size y="44" />
+    <Size y="22" />
     <Layers>
         <Layer level="ARTWORK">
             <FontString inherits="GameFontNormal" justifyH="LEFT" wordwrap="false" parentKey="Name">
@@ -190,10 +190,31 @@
     </Layers>
 </Button>
 
+<!--
+    The whole panel is 665x601, and the mount scroll with current offsets is
+    617 * 440. In an ideal world we could dynamically size these in the lua
+    but I think WoWScrollBox pulls at least the height out of the template XML.
+
+    calcs for 3x2 grid
+        stride=3 padding=5
+        h = (617-10) / 3 = 202
+        w = (440-5) / 2 = 217
+
+    calcs for 4x3 grid
+        stride=4 padding=5
+        h = (617-15) / 4 = 150
+        w = (440-10 / 3 = 143
+-->
+
 <Button name="LiteMountMountGridButtonTemplate" virtual="true" mixin="LiteMountMountGridButtonMixin" inherits="LiteMountListButtonStyleTemplate">
-    <Size x="204" y="214" />
+    <Size x="202" y="217" />
     <Frames>
-        <ModelScene parentKey="ModelScene" inherits="NonInteractableModelSceneMixinTemplate" frameStrata="ARTWORK" setAllPoints="true" />
+        <ModelScene parentKey="ModelScene" inherits="NonInteractableModelSceneMixinTemplate" frameStrata="ARTWORK">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="4" y= "-4" />
+                <Anchor point="BOTTOMRIGHT" x="-4" y= "4" />
+            </Anchors>
+        </ModelScene>
         <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">
             <Anchors>
                 <Anchor point="TOPLEFT" x="4" y="-4" />
@@ -217,7 +238,7 @@
             </FontString>
             <FontString inherits="GameFontWhiteTiny" justifyH="RIGHT" parentKey="Rarity">
                 <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.Types" />
+                    <Anchor point="TOP" relativeKey="$parent.Icon" relativePoint="BOTTOM" />
                 </Anchors>
                 <Scripts>
                     <OnEnter>

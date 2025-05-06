@@ -531,7 +531,6 @@ function LiteMountMountsPanelMixin:OnLoad()
     self.tabViews[2] = CreateScrollBoxListGridView(stride, 0, 0, 0, 0, 5, 5)
     self.tabViews[2]:SetElementInitializer("LiteMountMountGridButtonTemplate",
         function (button, elementData)
-            local w, h = self.ScrollBox:GetSize()
             button:Initialize(elementData)
         end)
 
