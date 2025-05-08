@@ -295,6 +295,19 @@ function LM.Mount:GetRarity()
     end
 end
 
+function LM.Mount:GetTypeString()
+    if not self.typeString then
+        local flagTexts = {}
+        for _, flag in ipairs(LM.Options:GetFlags()) do
+            if self.flags[flag] then
+                table.insert(flagTexts, L[flag])
+            end
+        end
+        self.typeString = strjoin(' ', unpack(flagTexts))
+    end
+    return self.typeString
+end
+
 -- This is gross
 
 local MawUsableSpells = {
