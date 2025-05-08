@@ -88,11 +88,11 @@ function LiteMountTooltipMixin:SetMount(m, canMount)
 
     self:AddLine("|cffffffff"..SUMMONS..":|r "..tostring(m:GetSummonCount()))
 
-    if m.family then
-        self:AddLine("|cffffffff"..L.LM_FAMILY..":|r "..L[m.family])
-    end
-
     if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+        if m.family then
+            self:AddLine("|cffffffff"..L.LM_FAMILY..":|r "..L[m.family])
+        end
+
         local r = m:GetRarity()
         if r then
             self:AddLine("|cffffffff"..RARITY..":|r "..string.format(L.LM_RARITY_FORMAT, r))
