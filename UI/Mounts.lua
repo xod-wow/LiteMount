@@ -466,6 +466,7 @@ function LiteMountMountsPanelMixin:OnDefault()
 end
 
 function LiteMountMountsPanelMixin:SetupFromTabbing()
+    -- Note this is always 1 for classic with tabs disabled
     local n = self.selectedTab or 1
     for i, tabButton in ipairs(self.Tabs) do
         if i == n then
@@ -556,22 +557,29 @@ function LiteMountMountsPanelMixin:OnLoad()
     LiteMountOptionsPanel_OnLoad(self)
 
     -- Set up the tabs
-    for i, tabButton in ipairs(self.Tabs) do
-        if i == 1 then
-            tabButton:SetPoint("TOPLEFT", self.ScrollBox, "BOTTOMLEFT", 16, 4)
-        else
-            local prevTab = self.Tabs[i-1]
-            tabButton:SetPoint("LEFT", prevTab, "RIGHT", 0, 0)
+    if WOW_PROJECT_ID == 1 then
+        for i, tabButton in ipairs(self.Tabs) do
+            if i == 1 then
+                tabButton:SetPoint("TOPLEFT", self.ScrollBox, "BOTTOMLEFT", 16, 4)
+            else
+                local prevTab = self.Tabs[i-1]
+                tabButton:SetPoint("LEFT", prevTab, "RIGHT", 0, 0)
+            end
+            tabButton:SetText(TabNames[i])
+            tabButton:SetScript('OnClick',
+                function ()
+                    self.selectedTab = i
+                    self:SetupFromTabbing()
+                    self.ScrollBox:RefreshMountList()
+                end)
         end
-        tabButton:SetText(TabNames[i])
-        tabButton:SetScript('OnClick',
-            function ()
-                self.selectedTab = i
-                self:SetupFromTabbing()
-                self.ScrollBox:RefreshMountList()
-            end)
+        PanelTemplates_ResizeTabsToFit(self, self.ScrollBox:GetWidth() - 32)
+    else
+        -- Grid view doesn't work in classic because ModelScene won't clip
+        for _, tabButton in ipairs(self.Tabs) do
+            tabButton:Hide()
+        end
     end
-    PanelTemplates_ResizeTabsToFit(self, self.ScrollBox:GetWidth() - 32)
 
     --@debug@
     self.NextFamily = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')

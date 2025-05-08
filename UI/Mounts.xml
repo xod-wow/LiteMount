@@ -270,9 +270,9 @@
                 <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="8" y="0"/>
             </Anchors>
         </EventFrame>
-        <!-- PanelTabButtonTemplate adds to parent.Tabs automatically -->
-        <Button inherits="PanelTabButtonTemplate" id="1" />
-        <Button inherits="PanelTabButtonTemplate" id="2" />
+        <!-- PanelTabButtonTemplate adds to parent.Tabs automatically. Classic requires name. -->
+        <Button name="$parentTab1" inherits="PanelTabButtonTemplate" id="1" />
+        <Button name="$parentTab2" inherits="PanelTabButtonTemplate" id="2" />
     </Frames>
 
     <Layers>
