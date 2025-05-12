@@ -14,80 +14,11 @@ local C_Spell = LM.C_Spell or C_Spell
 
 local L = LM.Localize
 
---[[------------------------------------------------------------------------]]--
+local TabNames = {
+    [1] = L.LM_LIST_VIEW,
+    [2] = L.LM_MODEL_VIEW,
+}
 
-LiteMountPriorityMixin = {}
-
-function LiteMountPriorityMixin:Update()
-    local value = self:Get()
-    if value then
-        self.Minus:SetShown(value > LM.Options.MIN_PRIORITY)
-        self.Plus:SetShown(value < LM.Options.MAX_PRIORITY)
-        self.Priority:SetText(value)
-    else
-        self.Minus:Show()
-        self.Plus:Show()
-        self.Priority:SetText('')
-    end
-    if LM.Options:GetOption('randomWeightStyle') == 'Priority' or value == 0 then
-        local r, g, b = LM.UIFilter.GetPriorityColor(value):GetRGB()
-        self.Background:SetColorTexture(r, g, b, 0.33)
-    else
-        local r, g, b = LM.UIFilter.GetPriorityColor(''):GetRGB()
-        self.Background:SetColorTexture(r, g, b, 0.33)
-    end
-end
-
-function LiteMountPriorityMixin:Get()
-    local mount = self:GetParent().mount
-    if mount then
-        return mount:GetPriority()
-    end
-end
-
-function LiteMountPriorityMixin:Set(v)
-    local mount = self:GetParent().mount
-    if mount then
-        LiteMountMountsPanel.ScrollBox.isDirty = true
-        LM.Options:SetPriority(mount, v or LM.Options.DEFAULT_PRIORITY)
-    end
-end
-
-function LiteMountPriorityMixin:Increment()
-    local v = self:Get()
-    if v then
-        self:Set(v + 1)
-    else
-        self:Set(LM.Options.DEFAULT_PRIORITY)
-    end
-end
-
-function LiteMountPriorityMixin:Decrement()
-    local v = self:Get() or LM.Options.DEFAULT_PRIORITY
-    self:Set(v - 1)
-end
-
-function LiteMountPriorityMixin:OnEnter()
-    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-    GameTooltip:ClearLines()
-    GameTooltip:AddLine(L.LM_PRIORITY)
-
-    if LM.Options:GetOption('randomWeightStyle') ~= 'Priority' then
-        GameTooltip:AddLine(' ')
-        GameTooltip:AddLine(L.LM_RARITY_DISABLES_PRIORITY, 1, 1, 1, true)
-        GameTooltip:AddLine(' ')
-    end
-
-    for _,p in ipairs(LM.UIFilter.GetPriorities()) do
-        local t, d = LM.UIFilter.GetPriorityText(p)
-        GameTooltip:AddLine(t .. ' - ' .. d)
-    end
-    GameTooltip:Show()
-end
-
-function LiteMountPriorityMixin:OnLeave()
-    GameTooltip:Hide()
-end
 
 --[[------------------------------------------------------------------------]]--
 
@@ -117,191 +48,6 @@ function LiteMountAllPriorityMixin:Get()
     return allValue
 end
 
---[[------------------------------------------------------------------------]]--
-
-LiteMountFlagBitMixin = {}
-
-function LiteMountFlagBitMixin:OnClick()
-    local mount = self:GetParent().mount
-
-    LiteMountMountsPanel.ScrollBox.isDirty = true
-    if self:GetChecked() then
-        LM.Options:SetMountFlag(mount, self.flag)
-    else
-        LM.Options:ClearMountFlag(mount, self.flag)
-    end
-end
-
-function LiteMountFlagBitMixin:OnEnter()
-    if self.flag then
-        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:SetText(L[self.flag])
-        GameTooltip:Show()
-    end
-end
-
-function LiteMountFlagBitMixin:OnLeave()
-    if GameTooltip:GetOwner() == self then
-        GameTooltip:Hide()
-    end
-end
-
-function LiteMountFlagBitMixin:Update(flag, mount)
-    self.flag = flag
-
-    local cur = mount:GetFlags()
-
-    self:SetChecked(cur[flag] or false)
-
-    -- If we changed this from the default then color the background
-    self.Modified:SetShown(mount.flags[flag] ~= cur[flag])
-
-    -- You can turn off any flag, but the only ones you can turn on when they
-    -- were originally off are RUN for flying and dragonriding mounts and
-    -- SWIM for any mount.
-
-    if cur[flag] or mount.flags[flag] then
-        self:Enable()
-        self:Show()
-    elseif flag == "SWIM" and not mount.flags.DRIVE then
-        self:Enable()
-        self:Show()
-    elseif flag == "RUN" and ( mount.flags.FLY or mount.flags.DRAGONRIDING ) then
-        self:Enable()
-        self:Show()
-    elseif flag == "FLY" and mount.flags.DRAGONRIDING then
-        self:Enable()
-        self:Show()
-    else
-        self:Hide()
-        self:Disable()
-    end
-
-end
-
---[[------------------------------------------------------------------------]]--
-
--- This is a minimal emulation of LM.ActionButton
-
-LiteMountMountIconMixin = {}
-
-function LiteMountMountIconMixin:OnEnter()
-    local m = self:GetParent().mount
-    LiteMountTooltip:SetOwner(self, "ANCHOR_RIGHT", 8)
-    LiteMountTooltip:SetMount(m, true)
-end
-
-function LiteMountMountIconMixin:OnLeave()
-    LiteMountTooltip:Hide()
-end
-
-function LiteMountMountIconMixin:OnClickHook(mouseButton, isDown)
-    if self.clickHookFunction then
-        self.clickHookFunction()
-    end
-end
-
-function LiteMountMountIconMixin:PreClick(mouseButton, isDown)
-    if mouseButton == 'LeftButton' and IsModifiedClick("CHATLINK") then
-        local mount = self:GetParent().mount
-        ChatEdit_InsertLink(C_Spell.GetSpellLink(mount.spellID))
-    end
-end
-
-function LiteMountMountIconMixin:OnLoad()
-    self:SetAttribute("unit", "player")
-    self:RegisterForClicks("AnyUp")
-    self:RegisterForDrag("LeftButton")
-    self:SetScript('PreClick', self.PreClick)
-    self:HookScript('OnClick', self.OnClickHook)
-end
-
-function LiteMountMountIconMixin:OnDragStart()
-    local mount = self:GetParent().mount
-    if mount.spellID then
-        C_Spell.PickupSpell(mount.spellID)
-    elseif mount.itemID then
-        C_Item.PickupItem(mount.itemID)
-    end
-end
-
-
---[[------------------------------------------------------------------------]]--
-
-LiteMountMountHeaderMixin = {}
-
-function LiteMountMountHeaderMixin:SetCollapsedState(isCollapsed)
-    local atlas = isCollapsed and "Professions-recipe-header-expand" or "Professions-recipe-header-collapse"
-    self.CollapseIcon:SetAtlas(atlas, true)
-    self.CollapseIconAlphaAdd:SetAtlas(atlas, true)
-end
-
-
---[[------------------------------------------------------------------------]]--
-
-LiteMountMountButtonMixin = {}
-
-function LiteMountMountButtonMixin:Initialize(bitFlags, mount)
-    self.mount = mount
-    self.Icon:SetNormalTexture(mount.icon)
-    self.Name:SetText(mount.name)
---@debug@
-    self.Name:SetText(mount.name .. ' ' .. tostring(mount.mountTypeID))
---@end-debug@
-
-    local count = mount:GetSummonCount()
-    if count > 0 then
-        self.Icon.Count:SetText(count)
-        self.Icon.Count:Show()
-    else
-        self.Icon.Count:Hide()
-    end
-
-    if not InCombatLockdown() then
-        mount:GetCastAction():SetupActionButton(self.Icon, 2)
-    end
-
-    local i = 1
-    while self["Bit"..i] do
-        self["Bit"..i]:Update(bitFlags[i], mount)
-        i = i + 1
-    end
-
-    local flagTexts = { }
-
-    for _, flag in ipairs(LM.Options:GetFlags()) do
-        if mount.flags[flag] then
-            table.insert(flagTexts, L[flag])
-        end
-    end
-    self.Types:SetText(strjoin(' ', unpack(flagTexts)))
-
-    local rarity = mount:GetRarity()
-    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and rarity then
-        self.Rarity:SetFormattedText(L.LM_RARITY_FORMAT, rarity)
-        self.Rarity.toolTip = format(L.LM_RARITY_FORMAT_LONG, rarity)
-    else
-        self.Rarity:SetText('')
-        self.Rarity.toolTip = nil
-    end
-
-    if not mount:IsCollected() then
-        self.Name:SetFontObject("GameFontDisable")
-        self.Icon:GetNormalTexture():SetVertexColor(1, 1, 1)
-        self.Icon:GetNormalTexture():SetDesaturated(true)
-    elseif not mount:IsUsable() then
-        -- Mounts are made red if you can't use them
-        self.Name:SetFontObject("GameFontNormal")
-        self.Icon:GetNormalTexture():SetDesaturated(true)
-        self.Icon:GetNormalTexture():SetVertexColor(0.6, 0.2, 0.2)
-    else
-        self.Name:SetFontObject("GameFontNormal")
-        self.Icon:GetNormalTexture():SetVertexColor(1, 1, 1)
-        self.Icon:GetNormalTexture():SetDesaturated(false)
-    end
-
-    self.Priority:Update()
-end
 
 --[[------------------------------------------------------------------------]]--
 
@@ -314,23 +60,30 @@ function LiteMountMountScrollBoxMixin:RefreshMountList()
     if InCombatLockdown() then return end
 
     local mounts = LM.UIFilter.GetFilteredMountList()
-    local dp = CreateTreeDataProvider()
+    local dp
 
-    if LM.UIFilter.GetSortKey() == 'family' then
-        local familySubTrees = {}
-        for _, m in ipairs(mounts) do
-            if not familySubTrees[m.family] then
-                local data = {
-                    isHeader = true,
-                    name = LM.UIFilter.GetSortKeyText('family') .. ': ' .. m.family,
-                }
-                familySubTrees[m.family] = dp:Insert(data)
-            end
-            familySubTrees[m.family]:Insert(m)
-        end
+    local currentView = self:GetView()
+
+    if currentView.stride then
+        dp = CreateDataProvider(mounts)
     else
-        for _, m in ipairs(mounts) do
-            dp:Insert(m)
+        dp = CreateTreeDataProvider()
+        if LM.UIFilter.GetSortKey() == 'family' then
+            local familySubTrees = {}
+            for _, m in ipairs(mounts) do
+                if not familySubTrees[m.family] then
+                    local data = {
+                        isHeader = true,
+                        name = LM.UIFilter.GetSortKeyText('family') .. ': ' .. m.family,
+                    }
+                    familySubTrees[m.family] = dp:Insert(data)
+                end
+                familySubTrees[m.family]:Insert(m)
+            end
+        else
+            for _, m in ipairs(mounts) do
+                dp:Insert(m)
+            end
         end
     end
     self:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
@@ -370,16 +123,33 @@ function LiteMountMountsPanelMixin:OnDefault()
     LM.Options:SetPriorities(LM.MountRegistry.mounts, nil)
 end
 
-function LiteMountMountsPanelMixin:OnLoad()
+function LiteMountMountsPanelMixin:SetupFromTabbing()
+    -- Note this is always 1 for classic with tabs disabled
+    local n = self.selectedTab or 1
+    for i, tabButton in ipairs(self.Tabs) do
+        if i == n then
+            PanelTemplates_SelectTab(tabButton)
+        else
+            PanelTemplates_DeselectTab(tabButton)
+        end
+    end
+    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, self.tabViews[n])
 
-    local view = CreateScrollBoxListTreeListView()
---[[
-    view:SetElementInitializer("LiteMountMountButtonTemplate",
-        function (button, elementData)
-            button:Initialize(LiteMountMountsPanel.allFlags, elementData)
-        end)
-]]
-    view:SetElementFactory(
+    self.AllPriority:SetShown(n==1)
+    self.PriorityLabel:SetShown(n==1)
+    for i = 1, 4 do
+        local label = self["BitLabel"..i]
+        label:SetShown(n==1)
+    end
+end
+
+function LiteMountMountsPanelMixin:OnLoad()
+    self.tabViews = {}
+
+    local function dirtyFunc() self.ScrollBox.isDirty = true end
+
+    self.tabViews[1] = CreateScrollBoxListTreeListView()
+    self.tabViews[1]:SetElementFactory(
         function (factory, node)
             local data = node:GetData()
             if data.isHeader then
@@ -394,13 +164,14 @@ function LiteMountMountsPanelMixin:OnLoad()
                             end)
                     end)
             else
-                factory("LiteMountMountButtonTemplate",
+                factory("LiteMountMountListButtonTemplate",
                     function (button, node)
-                        button:Initialize(LiteMountMountsPanel.allFlags, data)
+                        button:Initialize(data, self.allFlags)
+                        button:SetDirtyCallback(dirtyFunc)
                     end)
             end
         end)
-    view:SetElementExtentCalculator(
+    self.tabViews[1]:SetElementExtentCalculator(
         function (dataIndex, node)
             if node:GetData().isHeader then
                 return 22
@@ -408,7 +179,7 @@ function LiteMountMountsPanelMixin:OnLoad()
                 return 44
             end
         end)
-    view:SetElementIndentCalculator(
+    self.tabViews[1]:SetElementIndentCalculator(
         function (node)
             if node:GetData().isHeader then
                 return 0
@@ -416,9 +187,17 @@ function LiteMountMountsPanelMixin:OnLoad()
                 return 8
             end
         end)
-    view:SetPadding(0, 0, 0, 0, 0)
 
-    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
+    -- CreateScrollBoxListGridView(stride, top, bottom, left, right, horizontalSpacing, verticalSpacing)
+    local stride = 3
+    self.tabViews[2] = CreateScrollBoxListGridView(stride, 0, 0, 0, 0, 5, 5)
+    self.tabViews[2]:SetElementInitializer("LiteMountMountGridButtonTemplate",
+        function (button, elementData)
+            button:Initialize(elementData, self.allFlags)
+            button:SetDirtyCallback(dirtyFunc)
+        end)
+
+    self:SetupFromTabbing()
 
     self.name = MOUNTS
 
@@ -438,6 +217,31 @@ function LiteMountMountsPanelMixin:OnLoad()
     LiteMountOptionsPanel_RegisterControl(self.ScrollBox)
 
     LiteMountOptionsPanel_OnLoad(self)
+
+    -- Set up the tabs
+    if WOW_PROJECT_ID == 1 then
+        for i, tabButton in ipairs(self.Tabs) do
+            if i == 1 then
+                tabButton:SetPoint("TOPLEFT", self.ScrollBox, "BOTTOMLEFT", 16, 4)
+            else
+                local prevTab = self.Tabs[i-1]
+                tabButton:SetPoint("LEFT", prevTab, "RIGHT", 0, 0)
+            end
+            tabButton:SetText(TabNames[i])
+            tabButton:SetScript('OnClick',
+                function ()
+                    self.selectedTab = i
+                    self:SetupFromTabbing()
+                    self.ScrollBox:RefreshMountList()
+                end)
+        end
+        PanelTemplates_ResizeTabsToFit(self, self.ScrollBox:GetWidth() - 32)
+    else
+        -- Grid view doesn't work in classic because ModelScene won't clip
+        for _, tabButton in ipairs(self.Tabs) do
+            tabButton:Hide()
+        end
+    end
 
     --@debug@
     self.NextFamily = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')

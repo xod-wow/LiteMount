@@ -1,0 +1,27 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011 Mike Battersby -->
+
+<Script file="MountIconTemplate.lua" />
+
+<Button name="LiteMountMountIconTemplate" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true" mixin="LiteMountMountIconMixin" virtual="true">
+    <Size x="36" y="36" />
+    <HighlightTexture parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString inherits="NumberFontNormalSmall" justifyH="RIGHT" hidden="true" parentKey="Count">
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT" x="0" y="2" />
+            </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Scripts>
+        <OnLoad method="OnLoad" />
+        <OnEnter method="OnEnter" />
+        <OnLeave method="OnLeave" />
+        <OnDragStart method="OnDragStart" />
+    </Scripts>
+</Button>
+
+</Ui>

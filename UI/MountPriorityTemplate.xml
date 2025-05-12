@@ -1,0 +1,57 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011 Mike Battersby -->
+
+<Script file="MountPriorityTemplate.lua" />
+
+<Frame name="LiteMountPriorityTemplate" virtual="true" mixin="LiteMountPriorityMixin">
+
+    <Size x="72" y="32" />
+
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture parentKey="Background">
+                <Size x="20" y="32" />
+                <Anchors> <Anchor point="CENTER" /> </Anchors>
+            </Texture>
+        </Layer>
+        <Layer level="OVERLAY">
+            <Fontstring parentKey="Priority" inherits="GameFontNormalLarge">
+                <Anchors> <Anchor point="CENTER" /> </Anchors>
+            </Fontstring>
+        </Layer>
+    </Layers>
+
+    <Frames>
+        <Button parentKey="Minus">
+            <Size x="12" y="12" />
+            <Scripts>
+                <OnClick> self:GetParent():Decrement() </OnClick>
+            </Scripts>
+            <Anchors>
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.Background" x="-2" y="0" />
+            </Anchors>
+            <NormalTexture file="Interface\Buttons\SquareButtonTextures">
+                <TexCoords left="0.25" right="0.37837837" bottom="0.01562500" top="0.20312500"/>
+            </NormalTexture>
+        </Button>
+        <Button parentKey="Plus">
+            <Size x="12" y="12" />
+            <Scripts>
+                <OnClick> self:GetParent():Increment() </OnClick>
+            </Scripts>
+            <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Background" x="2" y="0" />
+            </Anchors>
+            <NormalTexture file="Interface\Buttons\SquareButtonTextures">
+                <TexCoords right="0.25" left="0.37837837" bottom="0.01562500" top="0.20312500"/>
+            </NormalTexture>
+        </Button>
+    </Frames>
+    <Scripts>
+        <OnEnter method="OnEnter" />
+        <OnLeave method="OnLeave" />
+    </Scripts>
+</Frame>
+
+</Ui>

@@ -1,0 +1,164 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011 Mike Battersby -->
+
+<Script file="MountListButtonTemplate.lua" />
+
+<Button name="LiteMountMountListHeaderTemplate" virtual="true" inherits="LiteMountListButtonStyleTemplate" mixin="LiteMountMountListHeaderMixin">
+    <Size y="22" />
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormal" justifyH="LEFT" wordwrap="false" parentKey="Name">
+                <Anchors>
+                    <Anchor point="LEFT" x="28" />
+                    <Anchor point="RIGHT" x="-8" />
+                </Anchors>
+            </FontString>
+            <Texture parentKey="CollapseIcon">
+                <Anchors>
+                    <Anchor point="LEFT" x="10" />
+                </Anchors>
+            </Texture>
+        </Layer>
+        <Layer level="HIGHLIGHT">
+            <Texture parentKey="CollapseIconAlphaAdd" alphaMode="ADD">
+                <Anchors>
+                    <Anchor point="CENTER" relativeKey="$parent.CollapseIcon"/>
+                </Anchors>
+            </Texture>
+        </Layer>
+    </Layers>
+</Button>
+
+<Button name="LiteMountMountListButtonTemplate" virtual="true" mixin="LiteMountMountListButtonMixin" inherits="LiteMountListButtonStyleTemplate">
+    <Size y="44" />
+    <Frames>
+        <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">
+            <Anchors>
+                <Anchor point="LEFT" x="4" />
+            </Anchors>
+        </Button>
+
+        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit4" id="4">
+            <Anchors> <Anchor point="CENTER" relativePoint="RIGHT" x="-35" /> </Anchors>
+        </CheckButton>
+        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit3" id="3">
+            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit4" x="-53" /> </Anchors>
+        </CheckButton>
+        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit2" id="2">
+            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit3" x="-53" /> </Anchors>
+        </CheckButton>
+        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit1" id="1">
+            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit2" x="-53" /> </Anchors>
+        </CheckButton>
+
+        <Frame parentKey="Priority" inherits="LiteMountPriorityTemplate">
+            <Anchors> <Anchor point="CENTER" relativePoint="RIGHT" x="-276" /> </Anchors>
+        </Frame>
+    </Frames>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormal" justifyH="LEFT" wordwrap="false" parentKey="Name">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT" x="8" />
+                    <Anchor point="BOTTOMRIGHT" relativePoint="CENTER" y="2" />
+                </Anchors>
+            </FontString>
+            <FontString inherits="GameFontWhiteTiny" justifyH="LEFT" parentKey="Types">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT" x="8" />
+                    <Anchor point="TOP" relativePoint="CENTER" y="-2" />
+                </Anchors>
+            </FontString>
+            <FontString inherits="GameFontWhiteTiny" justifyH="RIGHT" parentKey="Rarity">
+                <Anchors>
+                    <Anchor point="RIGHT" relativeKey="$parent.Priority" relativePoint="LEFT" x="-8" />
+                    <Anchor point="TOP" relativePoint="CENTER" y="-2" />
+                </Anchors>
+                <Scripts>
+                    <OnEnter>
+                        if self.toolTip then
+                            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                            GameTooltip:AddLine(self.toolTip)
+                            GameTooltip:Show()
+                        end
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide" />
+                </Scripts>
+            </FontString>
+        </Layer>
+    </Layers>
+
+    <Scripts>
+        <OnLoad method="OnLoad" inherit="append" />
+    </Scripts>
+</Button>
+
+<!--
+    The whole panel is 665x601, and the mount scroll with current offsets is
+    617 * 440. In an ideal world we could dynamically size these in the lua
+    but I think WoWScrollBox pulls at least the height out of the template XML.
+
+    calcs for 3x2 grid
+        stride=3 padding=5
+        h = (617-10) / 3 = 202
+        w = (440-5) / 2 = 217
+
+    calcs for 4x3 grid
+        stride=4 padding=5
+        h = (617-15) / 4 = 150
+        w = (440-10 / 3 = 143
+-->
+
+<Button name="LiteMountMountGridButtonTemplate" virtual="true" mixin="LiteMountMountGridButtonMixin" inherits="LiteMountListButtonStyleTemplate">
+    <Size x="202" y="217" />
+    <Frames>
+        <ModelScene parentKey="ModelScene" inherits="LiteMountMountModelSceneTemplate" frameStrata="ARTWORK">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="4" y= "-4" />
+                <Anchor point="BOTTOMRIGHT" x="-4" y= "4" />
+            </Anchors>
+        </ModelScene>
+        <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="4" y="-4" />
+            </Anchors>
+        </Button>
+    </Frames>
+
+    <Layers>
+        <Layer level="OVERLAY">
+            <FontString inherits="GameFontNormal" justifyH="LEFT" parentKey="Name">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.Icon" relativePoint="TOPRIGHT" x="4" y="-4" />
+                    <Anchor point="RIGHT" x="-4" />
+                </Anchors>
+            </FontString>
+            <FontString inherits="GameFontWhiteTiny" justifyH="LEFT" parentKey="Types">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.Name" relativePoint="BOTTOMLEFT" y="-4" />
+                    <Anchor point="RIGHT" x="-4" />
+                </Anchors>
+            </FontString>
+            <FontString inherits="GameFontWhiteTiny" justifyH="RIGHT" parentKey="Rarity">
+                <Anchors>
+                    <Anchor point="TOP" relativeKey="$parent.Name" relativePoint="BOTTOM" y="-4" />
+                    <Anchor point="RIGHT" x="-4" />
+                </Anchors>
+                <Scripts>
+                    <OnEnter>
+                        if self.toolTip then
+                            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                            GameTooltip:AddLine(self.toolTip)
+                            GameTooltip:Show()
+                        end
+                    </OnEnter>
+                    <OnLeave function="GameTooltip_Hide" />
+                </Scripts>
+            </FontString>
+        </Layer>
+    </Layers>
+</Button>
+
+</Ui>

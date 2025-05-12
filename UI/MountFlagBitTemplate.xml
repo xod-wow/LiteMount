@@ -1,0 +1,36 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011 Mike Battersby -->
+
+<Script file="MountFlagBitTemplate.lua" />
+
+<!--
+    See OptionsBaseCheckButtonTemplate in FrameXML/OptionsPanelTemplates.xml
+    We don't use it directly because of the hitrect crap we don't want.
+ -->
+<CheckButton name="LiteMountFlagBitTemplate" virtual="true" mixin="LiteMountFlagBitMixin" motionScriptsWhileDisabled="true">
+    <Size x="26" y="26" />
+    <Scripts>
+        <OnClick method="OnClick" />
+        <OnEnter method="OnEnter" />
+        <OnLeave method="OnLeave" />
+    </Scripts>
+    <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+    <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+    <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+    <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+    <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture alphaMode="ADD" hidden="true" parentKey="Modified">
+                <Color r="0.5" g="0.0" b="0.0" />
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="5" y="-5" />
+                    <Anchor point="BOTTOMRIGHT" x="-6" y="6" />
+                </Anchors>
+            </Texture>
+        </Layer>
+    </Layers>
+</CheckButton>
+
+</Ui>
