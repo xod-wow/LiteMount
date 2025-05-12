@@ -839,6 +839,12 @@ LM.MOUNTFAMILY["Goblin Trike"] = {
     [223354] = true, -- Vicious War Trike
 }
 
+LM.MOUNTFAMILY["Goblin Waveshredder"] = {
+    [473188] = true, -- Bronze Goblin Waveshredder
+    [447413] = true, -- Pearlescent Goblin Wave Shredder
+    [473137] = true, -- Soweezi's Vintage Waveshredder
+}
+
 LM.MOUNTFAMILY["Gorger"] = {
     [333027] = true, -- Loyal Gorger
     [344659] = true, -- Voracious Gorger
@@ -2160,12 +2166,6 @@ LM.MOUNTFAMILY["Warsaber"] = {
 LM.MOUNTFAMILY["Water Strider"] = {
     [118089] = true, -- Azure Water Strider
     [127271] = true, -- Crimson Water Strider
-}
-
-LM.MOUNTFAMILY["Waveshredder"] = {
-    [473188] = true, -- Bronze Goblin Waveshredder
-    [447413] = true, -- Pearlescent Goblin Wave Shredder
-    [473137] = true, -- Soweezi's Vintage Waveshredder
 }
 
 LM.MOUNTFAMILY["Wavewhisker"] = {
