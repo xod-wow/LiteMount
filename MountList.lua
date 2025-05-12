@@ -320,6 +320,16 @@ local SortFunctions = {
                 return a.name < b.name
             end
         end,
+    ['priority'] =
+        function (a, b)
+            local aR = a:GetPriority()
+            local bR = b:GetPriority()
+            if aR ~= bR then
+                return aR > bR
+            else
+                return a.name < b.name
+            end
+        end,
     ['rarity'] =
         function (a, b)
             local aR = a:GetRarity() or 101
