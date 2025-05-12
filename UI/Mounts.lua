@@ -15,8 +15,8 @@ local C_Spell = LM.C_Spell or C_Spell
 local L = LM.Localize
 
 local TabNames = {
-    [1] = "List View",
-    [2] = "Model View",
+    [1] = L.LM_LIST_VIEW,
+    [2] = L.LM_MODEL_VIEW,
 }
 
 
