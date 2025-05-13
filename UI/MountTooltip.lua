@@ -110,11 +110,11 @@ function LiteMountTooltipMixin:SetMount(m, hasMenu)
     end
 
     if m:IsCastable() then
-        self:AddLine("|cffff00ff" .. LEFT_BUTTON_STRING .. ": " .. MOUNT .. "|r")
+        self:AddLine("|cffff00ff" .. L.LM_LEFT_CLICK .. ": " .. MOUNT .. "|r")
     end
 
     if hasMenu then
-        self:AddLine("|cffff00ff" .. RIGHT_BUTTON_STRING .. ": " .. CLICK_BINDING_OPEN_MENU .. "|r")
+        self:AddLine("|cffff00ff" .. L.LM_RIGHT_CLICK .. ": " .. CLICK_BINDING_OPEN_MENU .. "|r")
     end
 
     self:Show()
