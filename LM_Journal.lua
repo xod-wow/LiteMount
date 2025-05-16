@@ -206,17 +206,20 @@ local ForceSummonByID = {
     [1727] = true,  -- Tarecgosa's Visage
 }
 
+-- Summon (Thalassian) Charger and Summon (Thalassian) Warhorse are busted on
+-- Cata Classic. I believe this is because the Thalassian version and the base
+-- alliance versions share the same spell and Blizzard have fubared something.
+-- Summon (Great) Exarch's Elekk and Summon (Great) Sunwalker Kodo work fine.
+
+if WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
+    ForceSummonByID[41] = true  -- Warhorse
+    ForceSummonByID[84] = true  -- Charger
+    ForceSummonByID[149] = true -- Thalassian Charger
+    ForceSummonByID[150] = true -- Thalassian Warhorse
+end
+
 function LM.Journal:GetCastAction(context)
     local forceSummonByID = ForceSummonByID[self.mountID] or false
-
-    -- Summon Charger and Summon Warhorse are busted on Cata Classic, though
-    -- weirdly Summon (Great) Exarch's Elekk and Summon (Great) Sunwalker Kodo
-    -- work fine.
-    if WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
-        if self.mountID == 41 or self.mountID == 84 then
-            forceSummonByID = true
-        end
-    end
 
     local summonFunc = function () C_MountJournal.SummonByID(self.mountID) end
 
