@@ -26,6 +26,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [171846] = true, -- Champion's Treadblade
     [171847] = true, -- Cindermane Charger
     [463133] = true, -- Coldflame Tempest
+    [347812] = true, -- Sapphire Skyblazer (+ Coldflame Tempest)
     [431992] = true, -- Compass Rose
     [271646] = true, -- Dark Iron Core Hound
     [247448] = true, -- Darkmoon Dirigible
@@ -42,7 +43,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [122708] = true, -- Grand Expedition Yak
     [457485] = true, -- Grizzly Hills Packmaster
     [229377] = true, -- High Priest's Lightsworn Seeker
-    [360954] = true, -- Highland Drake
+    [360954] = true, -- Highland Drake [Swift Spectral Drake]
     [201098] = true, -- Infinite Timereaver
     [ 72286] = true, -- Invincible
     [142910] = true, -- Ironbound Wraithcharger
@@ -53,6 +54,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [305592] = true, -- Mechagon Mechanostrider
     [229499] = true, -- Midnight
     [367676] = true, -- Nether-Gorged Greatwyrm
+    [308814] = true, -- Ny'alotha Allseer
     [245725] = true, -- Orgrimmar Interceptor
    [1221155] = true, -- Prototype A.S.M.R.
     [424009] = true, -- Runebound Firelord
@@ -118,6 +120,7 @@ LM.MOUNTFAMILY["Aerial Unit"] = {
     [302795] = true, -- Swift Spectral Magnetocraft
 }
 
+-- These are the same model as Vulture. Hmm
 LM.MOUNTFAMILY["Albatross"] = {
     [414324] = true, -- Gold-Toed Albatross
     [266925] = true, -- Siltwing Albatross
@@ -139,6 +142,11 @@ LM.MOUNTFAMILY["Amani Bear"] = {
 LM.MOUNTFAMILY["Animite"] = {
     [312776] = true, -- Chittering Animite
     [332905] = true, -- Endmire Flyer
+}
+
+LM.MOUNTFAMILY["Antoran Hound"] = {
+    [253088] = true, -- Antoran Charhound
+    [253087] = true, -- Antoran Gloomhound
 }
 
 LM.MOUNTFAMILY["Aqir Drone"] = {
@@ -164,6 +172,7 @@ LM.MOUNTFAMILY["Armored Bear"] = {
     [ 54753] = true, -- White Polar Bear
 }
 
+-- These are the same model as Pterrordax in the db2
 LM.MOUNTFAMILY["Armored Pterrordax"] = {
     [368126] = true, -- Armored Golden Pterrordax
     [275837] = true, -- Cobalt Pterrordax
@@ -206,7 +215,6 @@ LM.MOUNTFAMILY["Aurelid"] = {
     [359381] = true, -- Cryptic Aurelid
     [342680] = true, -- Deepstar Aurelid
     [359380] = true, -- Depthstalker
-    [308814] = true, -- Ny'alotha Allseer
     [359379] = true, -- Shimmering Aurelid
 }
 
@@ -215,6 +223,7 @@ LM.MOUNTFAMILY["Bakar"] = {
     [424607] = true, -- Taivan
 }
 
+-- Split?
 LM.MOUNTFAMILY["Basilisk"] = {
     [230844] = true, -- Brawler's Burly Basilisk
     [289639] = true, -- Bruce
@@ -255,6 +264,7 @@ LM.MOUNTFAMILY["Bee"] = {
     [471538] = true, -- Timely Buzzbee
 }
 
+-- Delete?
 LM.MOUNTFAMILY["Beetle"] = {
     [381529] = true, -- Telix the Stormhorn
     [452779] = true, -- Ivory Goliathus
@@ -322,7 +332,7 @@ LM.MOUNTFAMILY["Butterfly"] = {
 
 LM.MOUNTFAMILY["Camel"] = {
     [ 88748] = true, -- Brown Riding Camel
-    [307263] = true, -- Explorer's Dunetrekker
+    [307263] = true, -- Explorer's Dunetrekker [diff model]
     [ 88750] = true, -- Grey Riding Camel
     [ 88749] = true, -- Tan Riding Camel
     [102488] = true, -- White Riding Camel
@@ -332,11 +342,6 @@ LM.MOUNTFAMILY["Charger"] = {
     [ 66906] = true, -- Argent Charger
     [ 23214] = true, -- Charger
     [ 34767] = true, -- Thalassian Charger
-}
-
-LM.MOUNTFAMILY["Charhound"] = {
-    [253088] = true, -- Antoran Charhound
-    [253087] = true, -- Antoran Gloomhound
 }
 
 LM.MOUNTFAMILY["Chopper"] = {
@@ -358,10 +363,11 @@ LM.MOUNTFAMILY["Clefthoof"] = {
     [171621] = true, -- Ironhoof Destroyer
     [171617] = true, -- Trained Icehoof
     [171619] = true, -- Tundra Icehoof
-    [270560] = true, -- Vicious War Clefthoof
+    [270560] = true, -- Vicious War Clefthoof [diff model]
     [171616] = true, -- Witherhide Cliffstomper
 }
 
+-- Gladiator's are very slightly different (beard)
 LM.MOUNTFAMILY["Cloud Serpent"] = {
     [123992] = true, -- Azure Cloud Serpent
     [127156] = true, -- Crimson Cloud Serpent
@@ -385,6 +391,7 @@ LM.MOUNTFAMILY["Cloudwing Hippogryph"] = {
     [242881] = true, -- Cloudwing Hippogryph
     [149801] = true, -- Emerald Hippogryph
     [225765] = true, -- Leyfeather Hippogryph
+    [239363] = true, -- Swift Spectral Hippogryph
     [359013] = true, -- Val'sharah Hippogryph
 }
 
@@ -512,20 +519,20 @@ LM.MOUNTFAMILY["Direhorn"] = {
 
 -- Split?
 LM.MOUNTFAMILY["Direwolf"] = {
-    [171838] = true, -- Armored Frostwolf
-    [171844] = true, -- Dustmane Direwolf
-    [306421] = true, -- Frostwolf Snarler
-    [171851] = true, -- Garn Nighthowl
-    [171836] = true, -- Garn Steelmaw
-    [186305] = true, -- Infernal Direwolf
-    [295386] = true, -- Ironclad Frostclaw
-    [171839] = true, -- Ironside Warwolf
-    [148396] = true, -- Kor'kron War Wolf
-    [171843] = true, -- Smoky Direwolf
-    [171842] = true, -- Swift Frostwolf
-    [171841] = true, -- Trained Snarler
-   [1218306] = true, -- Void-Scarred Pack Mother
-    [171837] = true, -- Warsong Direfang
+    [171838] = true, -- Armored Frostwolf wolfdraenormountarmored.m2
+    [171844] = true, -- Dustmane Direwolf wolfdraenormount.m2
+    [306421] = true, -- Frostwolf Snarler frostwolfhowler.m2
+    [171851] = true, -- Garn Nighthowl wolfdraenormount.m2
+    [171836] = true, -- Garn Steelmaw wolfdraenormountarmored.m2
+    [186305] = true, -- Infernal Direwolf wolfdraenor_felmount.m2
+    [295386] = true, -- Ironclad Frostclaw alliancewolfmount.m2
+    [171839] = true, -- Ironside Warwolf wolfdraenormountarmored.m2
+    [148396] = true, -- Kor'kron War Wolf korkronelitewolf.m2
+    [171843] = true, -- Smoky Direwolf wolfdraenormount.m2
+    [171842] = true, -- Swift Frostwolf wolfdraenormount.m2
+    [171841] = true, -- Trained Snarler wolfdraenormount.m2
+   [1218306] = true, -- Void-Scarred Pack Mother wolfdraenormount.m2
+    [171837] = true, -- Warsong Direfang wolfdraenormountarmored.m2
 }
 
 LM.MOUNTFAMILY["Discus"] = {
@@ -533,11 +540,6 @@ LM.MOUNTFAMILY["Discus"] = {
     [435082] = true, -- Mogu Hazeblazer
     [130092] = true, -- Red Flying Cloud
     [435084] = true, -- Sky Surfer
-}
-
-LM.MOUNTFAMILY["Donkey"] = {
-    [279608] = true, -- Lil' Donkey
-    [260174] = true, -- Terrified Pack Mule
 }
 
 LM.MOUNTFAMILY["Dragon Turtle"] = {
@@ -629,7 +631,6 @@ LM.MOUNTFAMILY["Eagle"] = {
     [385260] = true, -- Bestowed Ohuna Spotter
     [385262] = true, -- Duskwing Ohuna
     [395644] = true, -- Divine Kiss of Ohn'ahra
-    [347812] = true, -- Sapphire Skyblazer
     [385266] = true, -- Zenet Hatchling
 }
 
@@ -1005,7 +1006,6 @@ LM.MOUNTFAMILY["Hippogryph"] = {
     [452643] = true, -- Frayfeather Hippogryph
     [215159] = true, -- Long-Forgotten Hippogryph
     [ 66087] = true, -- Silver Covenant Hippogryph
-    [239363] = true, -- Swift Spectral Hippogryph
     [274610] = true, -- Teldrassil Hippogryph
 }
 
@@ -1252,22 +1252,24 @@ LM.MOUNTFAMILY["Moth"] = {
 
 -- There's a fair bit of variation here, armors and mane and hoofguards,
 -- but they are all the same Kul Tiran Horse model with pointy ears and
--- fluffy feet.
+-- fluffy feet. X here have a different model from the rest.
 
 LM.MOUNTFAMILY["Mountain Horse"] = {
     [259213] = true, -- Admiralty Stallion
-    [295387] = true, -- Bloodflank Charger
+    [295387] = true, -- Bloodflank Charger X
     [279457] = true, -- Broken Highland Mustang
     [341639] = true, -- Court Sinrunner
     [260172] = true, -- Dapple Gray
     [260175] = true, -- Goldenmane
     [279456] = true, -- Highland Mustang
-    [282682] = true, -- Kul Tiran Charger
-    [103195] = true, -- Mountain Horse
-    [255695] = true, -- Seabraid Stallion
+    [282682] = true, -- Kul Tiran Charger X
+    [279608] = true, -- Lil' Donkey
+    [103195] = true, -- Mountain Horse X
+    [255695] = true, -- Seabraid Stallion X
     [339588] = true, -- Sinrunner Blanchy
-    [260173] = true, -- Smoky Charger
-    [103196] = true, -- Swift Mountain Horse
+    [260173] = true, -- Smoky Charger X
+    [103196] = true, -- Swift Mountain Horse X
+    [260174] = true, -- Terrified Pack Mule
    [1218305] = true, -- Void-Forged Stallion
 }
 
