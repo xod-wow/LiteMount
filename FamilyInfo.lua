@@ -32,6 +32,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [247448] = true, -- Darkmoon Dirigible
     [229387] = true, -- Deathlord's Vilebrood Vanquisher
     [126507] = true, -- Depleted-Kyparium Rocket
+    [458335] = true, -- Diamond Mechsuit
     [ 23161] = true, -- Dreadsteed
     [307932] = true, -- Ensorcelled Everwyrm
     [307256] = true, -- Explorer's Jungle Hopper
@@ -48,6 +49,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [ 72286] = true, -- Invincible
     [142910] = true, -- Ironbound Wraithcharger
     [473472] = true, -- Jani's Trashpile
+    [366791] = true, -- Jigglesworth Sr.
     [363613] = true, -- Lightforged Ruinstrider
     [472253] = true, -- Lunar Launcher
     [267274] = true, -- Mag'har Direwolf
@@ -57,6 +59,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [308814] = true, -- Ny'alotha Allseer
     [245725] = true, -- Orgrimmar Interceptor
    [1221155] = true, -- Prototype A.S.M.R.
+    [400733] = true, -- Rocket Shredder 9001
     [424009] = true, -- Runebound Firelord
    [1216430] = true, -- Sha-Warped Riding Tiger
     [279611] = true, -- Skullripper
@@ -139,6 +142,7 @@ LM.MOUNTFAMILY["Amani Bear"] = {
     [ 43688] = true, -- Amani War Bear
 }
 
+-- Devourer Animite
 LM.MOUNTFAMILY["Animite"] = {
     [312776] = true, -- Chittering Animite
     [332905] = true, -- Endmire Flyer
@@ -503,6 +507,13 @@ LM.MOUNTFAMILY["Delver's Dirigible"] = {
     [466133] = true, -- Delver's Gob-Trotter
 }
 
+LM.MOUNTFAMILY["Direbeak"] = {
+    [213164] = true, -- Brilliant Direbeak
+    [213158] = true, -- Predatory Bloodgazer
+    [213163] = true, -- Snowfeather Hunter
+    [213165] = true, -- Viridian Sharptalon
+}
+
 LM.MOUNTFAMILY["Direhorn"] = {
     [138424] = true, -- Amber Primordial Direhorn
     [297560] = true, -- Child of Torcali
@@ -665,6 +676,13 @@ LM.MOUNTFAMILY["Enchanted Runestag"] = {
     [332248] = true, -- Enchanted Winterborn Runestag
 }
 
+LM.MOUNTFAMILY["Eternal Phalynx"] = {
+    [334406] = true, -- Eternal Phalynx of Courage
+    [334409] = true, -- Eternal Phalynx of Humility
+    [334408] = true, -- Eternal Phalynx of Loyalty
+    [334403] = true, -- Eternal Phalynx of Purity
+}
+
 LM.MOUNTFAMILY["Fathom Dweller"] = {
     [223018] = true, -- Fathom Dweller
     [253711] = true, -- Pond Nettle
@@ -680,6 +698,7 @@ LM.MOUNTFAMILY["Fathom Ray"] = {
     [291538] = true, -- Unshackled Waveray
 }
 
+-- Could split Glad
 LM.MOUNTFAMILY["Felbat"] = {
     [449466] = true, -- Forged Gladiator's Fel Bat
     [466144] = true, -- Prized Gladiator's Fel Bat
@@ -756,9 +775,9 @@ LM.MOUNTFAMILY["Fox"] = {
 }
 
 LM.MOUNTFAMILY["Gargon"] = {
-    [332932] = true, -- Crypt Guardian
-    [312753] = true, -- Harnessed Hopecrusher
-    [332923] = true, -- Inquisition Intimidator
+    [332932] = true, -- Crypt Gargon
+    [312753] = true, -- Hopecrusher Gargon
+    [332923] = true, -- Inquisition Gargon
     [332927] = true, -- Sinfall Gargon
 }
 
@@ -846,6 +865,7 @@ LM.MOUNTFAMILY["Goblin Waveshredder"] = {
     [473137] = true, -- Soweezi's Vintage Waveshredder
 }
 
+-- Devourer Gorger
 LM.MOUNTFAMILY["Gorger"] = {
     [333027] = true, -- Loyal Gorger
     [344659] = true, -- Voracious Gorger
@@ -868,6 +888,7 @@ LM.MOUNTFAMILY["Grand Gryphon"] = {
 LM.MOUNTFAMILY["Grand Wyvern"] = {
     [135418] = true, -- Grand Armored Wyvern
     [136164] = true, -- Grand Wyvern
+   [1218307] = true, -- Void-Scarred Windrider
 }
 
 LM.MOUNTFAMILY["Gravewing"] = {
@@ -945,9 +966,9 @@ LM.MOUNTFAMILY["Hand"] = {
 
 LM.MOUNTFAMILY["Harbor Gryphon"] = {
     [466811] = true, -- Chaos-Forged Gryphon
-    [413827] = true, -- Harbor Gryphon
     [275859] = true, -- Dusky Waycrest Gryphon
     [135416] = true, -- Grand Armored Gryphon
+    [413827] = true, -- Harbor Gryphon
     [275868] = true, -- Proudmoore Sea Scout
     [275866] = true, -- Stormsong Coastwatcher
 }
@@ -983,8 +1004,8 @@ LM.MOUNTFAMILY["Heavenly Cloud Serpent"] = {
 
 LM.MOUNTFAMILY["Helicid"] = {
     [359376] = true, -- Bronze Helicid
-    [346719] = true, -- Serenade
     [359378] = true, -- Scarlet Helicid
+    [346719] = true, -- Serenade
     [359377] = true, -- Unsuccessful Prototype Fleetpod
 }
 
@@ -1046,6 +1067,12 @@ LM.MOUNTFAMILY["Jawcrawler"] = {
     [447957] = true, -- Ferocious Jawcrawler
 }
 
+LM.MOUNTFAMILY["Kaldorei Nightsaber"] = {
+    [288505] = true, -- Kaldorei Nightsaber
+    [288506] = true, -- Sandy Nightsaber
+    [288503] = true, -- Umber Nightsaber
+}
+
 LM.MOUNTFAMILY["Kaldorei War Wolf"] = {
     [449142] = true, -- Kaldorei War Wolf
     [449140] = true, -- Sentinel War Wolf
@@ -1105,23 +1132,23 @@ LM.MOUNTFAMILY["Magmammoth"] = {
 }
 
 LM.MOUNTFAMILY["Mammoth"] = {
-    [374172] = true, -- Bestowed Trawling Mammoth
-    [ 59785] = true, -- Black War Mammoth
-    [ 59788] = true, -- Black War Mammoth
-    [ 61465] = true, -- Grand Black War Mammoth
-    [ 61467] = true, -- Grand Black War Mammoth
-    [ 60140] = true, -- Grand Caravan Mammoth
-    [ 60136] = true, -- Grand Caravan Mammoth
-    [ 61469] = true, -- Grand Ice Mammoth
-    [ 61470] = true, -- Grand Ice Mammoth
-    [ 59797] = true, -- Ice Mammoth
-    [ 59799] = true, -- Ice Mammoth
-    [374194] = true, -- Mossy Mammoth
-    [374196] = true, -- Plainswalker Bearer
-    [ 61447] = true, -- Traveler's Tundra Mammoth
-    [ 61425] = true, -- Traveler's Tundra Mammoth
-    [ 59791] = true, -- Wooly Mammoth
-    [ 59793] = true, -- Wooly Mammoth
+    [374172] = true, -- Bestowed Trawling Mammoth mammoth2mount.m2
+    [ 59785] = true, -- Black War Mammoth mammothmount_1seat.m2
+    [ 59788] = true, -- Black War Mammoth mammothmount_1seat.m2
+    [ 61465] = true, -- Grand Black War Mammoth mammothmount_3seat.m2
+    [ 61467] = true, -- Grand Black War Mammoth mammothmount_3seat.m2
+    [ 60140] = true, -- Grand Caravan Mammoth mammothmount_3seat.m2
+    [ 60136] = true, -- Grand Caravan Mammoth mammothmount_3seat.m2
+    [ 61469] = true, -- Grand Ice Mammoth mammothmount_3seat.m2
+    [ 61470] = true, -- Grand Ice Mammoth mammothmount_3seat.m2
+    [ 59797] = true, -- Ice Mammoth mammothmount_1seat.m2
+    [ 59799] = true, -- Ice Mammoth mammothmount_1seat.m2
+    [374194] = true, -- Mossy Mammoth mammoth2mount.m2
+    [374196] = true, -- Plainswalker Bearer mammoth2mount.m2
+    [ 61447] = true, -- Traveler's Tundra Mammoth mammothmount_3seat.m2
+    [ 61425] = true, -- Traveler's Tundra Mammoth mammothmount_3seat.m2
+    [ 59791] = true, -- Wooly Mammoth mammothmount_1seat.m2
+    [ 59793] = true, -- Wooly Mammoth mammothmount_1seat.m2
 }
 
 LM.MOUNTFAMILY["Mana Ray"] = {
@@ -1149,6 +1176,7 @@ LM.MOUNTFAMILY["Marsh Hopper"] = {
     [288589] = true, -- Yellow Marsh Hopper
 }
 
+-- Devourer Mauler
 LM.MOUNTFAMILY["Mauler"] = {
     [356501] = true, -- Rampaging Mauler
     [347536] = true, -- Tamed Mauler
@@ -1187,6 +1215,7 @@ LM.MOUNTFAMILY["Mechacycle"] = {
     [297157] = true, -- Junkheap Drifter
 }
 
+-- Probably delete this
 LM.MOUNTFAMILY["Mechanical Head"] = {
     [261437] = true, -- Mecha-Mogul Mk2
     [ 63796] = true, -- Mimiron's Head
@@ -1220,7 +1249,6 @@ LM.MOUNTFAMILY["Mechaspider"] = {
 
 LM.MOUNTFAMILY["Mechsuit"] = {
     [448186] = true, -- Crowd Pummeler 2-30
-    [458335] = true, -- Diamond Mechsuit
     [448188] = true, -- Machine Defense Unit 1-11
     [442358] = true, -- Stonevault Mechsuit
 }
@@ -1256,19 +1284,19 @@ LM.MOUNTFAMILY["Moth"] = {
 
 LM.MOUNTFAMILY["Mountain Horse"] = {
     [259213] = true, -- Admiralty Stallion
-    [295387] = true, -- Bloodflank Charger X
+    [295387] = true, -- Bloodflank Charger X1
     [279457] = true, -- Broken Highland Mustang
     [341639] = true, -- Court Sinrunner
     [260172] = true, -- Dapple Gray
     [260175] = true, -- Goldenmane
     [279456] = true, -- Highland Mustang
-    [282682] = true, -- Kul Tiran Charger X
+    [282682] = true, -- Kul Tiran Charger X2
     [279608] = true, -- Lil' Donkey
-    [103195] = true, -- Mountain Horse X
-    [255695] = true, -- Seabraid Stallion X
+    [103195] = true, -- Mountain Horse X3
+    [255695] = true, -- Seabraid Stallion X4
     [339588] = true, -- Sinrunner Blanchy
-    [260173] = true, -- Smoky Charger X
-    [103196] = true, -- Swift Mountain Horse X
+    [260173] = true, -- Smoky Charger
+    [103196] = true, -- Swift Mountain Horse X3
     [260174] = true, -- Terrified Pack Mule
    [1218305] = true, -- Void-Forged Stallion
 }
@@ -1307,24 +1335,20 @@ LM.MOUNTFAMILY["Nether Ray"] = {
 LM.MOUNTFAMILY["Nightsaber"] = {
     [ 16056] = true, -- Ancient Frostsaber
     [ 16055] = true, -- Black Nightsaber
-    [366791] = true, -- Jigglesworth Sr.
-    [288505] = true, -- Kaldorei Nightsaber
-    [288506] = true, -- Sandy Nightsaber
     [ 10789] = true, -- Spotted Frostsaber
     [ 66847] = true, -- Striped Dawnsaber
     [  8394] = true, -- Striped Frostsaber
     [ 10793] = true, -- Striped Nightsaber
     [ 96499] = true, -- Swift Zulian Panther
     [ 10790] = true, -- Tiger
-    [288503] = true, -- Umber Nightsaber
     [ 17229] = true, -- Winterspring Frostsaber
 }
 
 LM.MOUNTFAMILY["Ottuk"] = {
+    [376875] = true, -- Brown Scouting Ottuk
     [427222] = true, -- Delugen
     [359409] = true, -- Iskaara Trader's Ottuk
     [376879] = true, -- Ivory Trader's Ottuk
-    [376875] = true, -- Brown Ottuk
     [376873] = true, -- Otto
     [376880] = true, -- Yellow Scouting Ottuk
 }
@@ -1369,10 +1393,6 @@ LM.MOUNTFAMILY["Peafowl"] = {
 }
 
 LM.MOUNTFAMILY["Phalynx"] = {
-    [334406] = true, -- Eternal Phalynx of Courage
-    [334409] = true, -- Eternal Phalynx of Humility
-    [334408] = true, -- Eternal Phalynx of Loyalty
-    [334403] = true, -- Eternal Phalynx of Purity
     [334391] = true, -- Phalynx of Courage
     [334386] = true, -- Phalynx of Humility
     [334382] = true, -- Phalynx of Loyalty
@@ -1426,7 +1446,7 @@ LM.MOUNTFAMILY["Proto-Drake"] = {
 -- I think you could make a case this should be called Cervid to align
 -- with calling the protosnails Helecid
 LM.MOUNTFAMILY["Protostag"] = {
-    [359276] = true, -- Anointed Protostag
+    [359276] = true, -- Anointed Protostag (sic)
     [359278] = true, -- Deathrunner
     [342671] = true, -- Pale Regak Cervid
     [359277] = true, -- Sundered Zerethsteed
@@ -1440,6 +1460,7 @@ LM.MOUNTFAMILY["Pterrordax"] = {
     [275840] = true, -- Voldunai Dunescraper
 }
 
+-- These are the same model as Armored Pterrordax in the db2
 LM.MOUNTFAMILY["Pterrordax Skyscreamer"] = {
     [441794] = true, -- Amber Pterrordax
     [136400] = true, -- Armored Skyscreamer
@@ -1491,13 +1512,6 @@ LM.MOUNTFAMILY["Swift Raptor"] = {
     [ 23243] = true, -- Swift Orange Raptor
     [ 65644] = true, -- Swift Purple Raptor
     [ 24242] = true, -- Swift Razzashi Raptor
-}
-
-LM.MOUNTFAMILY["Direbeak"] = {
-    [213164] = true, -- Brilliant Direbeak
-    [213158] = true, -- Predatory Bloodgazer
-    [213163] = true, -- Snowfeather Hunter
-    [213165] = true, -- Viridian Sharptalon
 }
 
 LM.MOUNTFAMILY["Raptor"] = {
@@ -1634,6 +1648,7 @@ LM.MOUNTFAMILY["Scarab"] = {
 --  [428062] = true, -- Jeweled Sapphire Scarab (NYI)
 }
 
+-- Could split the Iron Juggernauts
 LM.MOUNTFAMILY["Scorpid"] = {
     [123886] = true, -- Amber Scorpion
     [435149] = true, -- Cobalt Juggernaut
@@ -1679,12 +1694,12 @@ LM.MOUNTFAMILY["Shado-Pan Riding Tiger"] = {
 }
 
 LM.MOUNTFAMILY["Shalewing"] = {
-    [408627] = true, -- Igneous Shalewing
-    [427549] = true, -- Imagiwing
+    [408653] = true, -- Boulder Hauler
     [408648] = true, -- Calescent Shalewing
     [408651] = true, -- Catalogued Shalewing
     [408647] = true, -- Cobalt Shalewing
-    [408653] = true, -- Boulder Hauler
+    [408627] = true, -- Igneous Shalewing
+    [427549] = true, -- Imagiwing
     [408655] = true, -- Morsel Sniffer
     [408654] = true, -- Sandy Shalewing
     [408649] = true, -- Shadowflame Shalewing
@@ -1699,7 +1714,6 @@ LM.MOUNTFAMILY["Shardhide"] = {
 
 LM.MOUNTFAMILY["Shredder"] = {
     [223814] = true, -- Mechanized Lumber Extractor
-    [400733] = true, -- Rocket Shredder 9001
     [134359] = true, -- Sky Golem
 }
 
@@ -1722,8 +1736,8 @@ LM.MOUNTFAMILY["Skeletal Horse"] = {
 
 LM.MOUNTFAMILY["Skeletal Warhorse"] = {
     [ 64656] = true, -- Blue Skeletal Warhorse
-    [ 17465] = true, -- Green Skeletal Warhorse
     [ 63643] = true, -- Forsaken Warhorse
+    [ 17465] = true, -- Green Skeletal Warhorse
     [ 66846] = true, -- Ochre Skeletal Warhorse
     [ 23246] = true, -- Purple Skeletal Warhorse
     [ 22722] = true, -- Red Skeletal Warhorse
@@ -1742,9 +1756,9 @@ LM.MOUNTFAMILY["Skitterfly"] = {
 
 LM.MOUNTFAMILY["Skullboar"] = {
 --  [332482] = true, -- Bonecleaver's Skullboar (NYI)
+    [332478] = true, -- Blisterback Bloodtusk
     [332480] = true, -- Gorespine
     [332484] = true, -- Lurid Bloodtusk
-    [332478] = true, -- Umbral Bloodtusk
 }
 
 LM.MOUNTFAMILY["Sky Fox"] = {
@@ -1868,6 +1882,7 @@ LM.MOUNTFAMILY["Swarmite"] = {
     [447195] = true, -- Swarmite Skyhunter
 }
 
+-- "Love Broom"
 LM.MOUNTFAMILY["Sweeper"] = {
     [472479] = true, -- Love Witch's Sweeper
     [472487] = true, -- Silvermoon Sweeper
@@ -2215,7 +2230,6 @@ LM.MOUNTFAMILY["Wind Rider"] = {
     [441325] = true, -- Remembered Wind Rider
     [107517] = true, -- Spectral Wind Rider
     [ 32243] = true, -- Tawny Wind Rider
-   [1218307] = true, -- Void-Scarred Wind Rider
 }
 
 LM.MOUNTFAMILY["Windsteed"] = {
