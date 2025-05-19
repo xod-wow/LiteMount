@@ -153,7 +153,7 @@ function LiteMountMountsPanelMixin:OnLoad()
         function (factory, node)
             local data = node:GetData()
             if data.isHeader then
-                factory("LiteMountMountHeaderTemplate",
+                factory("LiteMountMountListHeaderTemplate",
                     function (button, node)
                         button.Name:SetText(data.name .. ' (' .. #node:GetNodes() .. ')')
                         button:SetCollapsedState(node:IsCollapsed())
