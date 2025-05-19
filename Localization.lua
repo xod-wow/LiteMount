@@ -39,7 +39,6 @@ L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
 -- enUS / enGB / Default -------------------------------------------------------
 
     L = L or {}
-    L["Gladiator's Cloud Serpent"] = "Gladiator's Cloud Serpent"
     L["LM_ACTION"] = "Action"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "When Blizzard adds a new mount, set it to priority 0 (disabled)."
     L["LM_ADVANCED_EXP"] = "These settings allow you to customize the actions run by each of the LiteMount key bindings. Please read the documentation at the URL below before changing anything."
@@ -285,6 +284,7 @@ L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
     L["Furline"] = "Furline"
     L["Gargon"] = "Gargon"
     L["Gearglider"] = "Gearglider"
+    L["Gladiator's Cloud Serpent"] = "Gladiator's Cloud Serpent"
     L["Gladiator's Drake"] = "Gladiator's Drake"
     L["Gladiator's Proto-Drake"] = "Gladiator's Proto-Drake"
     L["Gladiator's Slitherdrake"] = "Gladiator's Slitherdrake"
@@ -305,6 +305,7 @@ L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
     L["Great Dragon Turtle"] = "Great Dragon Turtle"
     L["Great Elekk"] = "Great Elekk"
     L["Great Kodo"] = "Great Kodo"
+    L["Great Raven"] = "Great Raven"
     L["Gronnling"] = "Gronnling"
     L["Grove Warden"] = "Grove Warden"
     L["Grrloc"] = "Grrloc"
@@ -325,6 +326,7 @@ L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
     L["Hyena"] = "Hyena"
     L["Infernal"] = "Infernal"
     L["Jawcrawler"] = "Jawcrawler"
+    L["Kaldorei Nightsaber"] = "Kaldorei Nightsaber"
     L["Kaldorei War Wolf"] = "Kaldorei War Wolf"
     L["Kodo"] = "Kodo"
     L["Krolusk"] = "Krolusk"
@@ -506,7 +508,6 @@ L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
 
 if locale == "deDE" then
     L = L or {}
-    L["Gladiator's Cloud Serpent"] = "Wolkenschlange des Gladiators"
     L["LM_ACTION"] = "Aktion"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "Setze die Priorität auf 0 (deaktiviert), wenn Blizzard ein neues Reittier hinzufügt."
     L["LM_ADVANCED_EXP"] = "Mit diesen Einstellungen können Sie die Aktionen anpassen, die von den einzelnen LiteMount-Tastenbindungen ausgeführt werden. Bitte lesen Sie die Dokumentation unter der folgenden URL, bevor Sie etwas ändern."
@@ -738,6 +739,7 @@ if locale == "deDE" then
     L["Furline"] = "Fellknäuel"
     L["Gargon"] = "Gargon"
     L["Gearglider"] = "Gleitscheibe"
+    L["Gladiator's Cloud Serpent"] = "Wolkenschlange des Gladiators"
     L["Gladiator's Drake"] = "Drache des Gladiators"
     L["Gladiator's Proto-Drake"] = "Protodrache des Gladiators"
     L["Gladiator's Slitherdrake"] = "Kriecherdrache des Gladiators"
@@ -758,6 +760,7 @@ if locale == "deDE" then
     L["Great Dragon Turtle"] = "Große Drachenschildkröte"
     L["Great Elekk"] = "Großer Elekk"
     L["Great Kodo"] = "Großer Kodo"
+    L["Great Raven"] = "Großer Rabe"
     L["Gronnling"] = "Gronnling"
     L["Grove Warden"] = "Wächter des Hains"
     L["Grrloc"] = "Grrloc"
@@ -778,6 +781,7 @@ if locale == "deDE" then
     L["Hyena"] = "Hyäne"
     L["Infernal"] = "Höllenbestie"
     L["Jawcrawler"] = "Kieferkriecher"
+    L["Kaldorei Nightsaber"] = "Nachtsäbler der Kaldorei"
     L["Kaldorei War Wolf"] = "Kriegswolf der Kaldorei"
     L["Kodo"] = "Kodo"
     L["Krolusk"] = "Krolusk"
@@ -960,7 +964,6 @@ end
 
 if locale == "esES" or locale == "esMX" then
     L = L or {}
-    L["Gladiator's Cloud Serpent"] = "Dragón nimbo de Gladiador"
     L["LM_ACTION"] = "Acción"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "Cuando Blizzard añade una nueva montura, establecerla con prioridad 0 (desactivada)."
     L["LM_ADVANCED_EXP"] = "Estas configuraciones le permiten personalizar las acciones ejecutadas por cada uno de los acciones clave de LiteMount. Lea la documentación en la URL a continuación antes de cambiar cualquier cosa."
@@ -1199,6 +1202,7 @@ if locale == "esES" or locale == "esMX" then
     L["Furline"] = "Micifuz"
     L["Gargon"] = "Gargon"
     L["Gearglider"] = "Planeador"
+    L["Gladiator's Cloud Serpent"] = "Dragón nimbo de Gladiador"
     L["Gladiator's Drake"] = "Draco del Gladiador"
     L["Gladiator's Proto-Drake"] = "Protodraco de Gladiador"
     L["Gladiator's Slitherdrake"] = "Reptadraco de Gladiador"
@@ -1219,6 +1223,7 @@ if locale == "esES" or locale == "esMX" then
     L["Great Dragon Turtle"] = "Gran tortuga dragón"
     L["Great Elekk"] = "Gran elekk"
     L["Great Kodo"] = "Gran kodo"
+    L["Great Raven"] = "Gran cuervo"
     L["Gronnling"] = "Gronnito"
     L["Grove Warden"] = "Celador de arboleda"
     L["Grrloc"] = "Grrloc"
@@ -1239,6 +1244,7 @@ if locale == "esES" or locale == "esMX" then
     L["Hyena"] = "Hiena"
     L["Infernal"] = "Infernal"
     L["Jawcrawler"] = "Reptafauces"
+    L["Kaldorei Nightsaber"] = "Sable de la noche kaldorei"
     L["Kaldorei War Wolf"] = "Lobo de guerra kaldorei"
     L["Kodo"] = "Kodo"
     L["Krolusk"] = "Krolusko"
@@ -1421,7 +1427,6 @@ end
 
 if locale == "frFR" then
     L = L or {}
-    L["Gladiator's Cloud Serpent"] = "Serpent-nuage du gladiateur"
     L["LM_ACTION"] = "Action"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "Lorsque Blizzard ajoute une nouvelle monture, mettre la priorité à 0 (désactivé)."
     L["LM_ADVANCED_EXP"] = "Ces paramètres vous permettent de customiser les actions lancées par chacun des raccourcis de LiteMount. Veillez à lire la documentation jointe à l’URL ci-dessous avant de changer quoique ce soit."
@@ -1665,6 +1670,7 @@ if locale == "frFR" then
     L["Furline"] = "Féligre"
     L["Gargon"] = "Gargon"
     L["Gearglider"] = "Mécaplaneur"
+    L["Gladiator's Cloud Serpent"] = "Serpent-nuage du gladiateur"
     L["Gladiator's Drake"] = "Drake du gladiateur"
     L["Gladiator's Proto-Drake"] = "Proto-drake du gladiateur"
     L["Gladiator's Slitherdrake"] = "Glissedrake du gladiateur"
@@ -1685,6 +1691,7 @@ if locale == "frFR" then
     L["Great Dragon Turtle"] = "Grande tortue-dragon"
     L["Great Elekk"] = "Grand elekk"
     L["Great Kodo"] = "Grand kodo"
+    L["Great Raven"] = "Grand corbeau"
     L["Gronnling"] = "Gronnlin"
     L["Grove Warden"] = "Gardien du Bosquet"
     L["Grrloc"] = "Grrloc"
@@ -1705,6 +1712,7 @@ if locale == "frFR" then
     L["Hyena"] = "Hyène"
     L["Infernal"] = "Infernal"
     L["Jawcrawler"] = "Rampegueule"
+    L["Kaldorei Nightsaber"] = "Sabre-de-nuit kaldorei"
     L["Kaldorei War Wolf"] = "Loup de guerre kaldorei"
     L["Kodo"] = "Kodo"
     L["Krolusk"] = "Krolusk"
@@ -1887,7 +1895,6 @@ end
 
 if locale == "itIT" then
     L = L or {}
-    L["Gladiator's Cloud Serpent"] = "Serpe delle Nubi del Gladiatore"
     L["LM_ACTION"] = "Azione"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "Quando Blizzard aggiunge una nuova cavalcatura imposta la prioprità a 0 (disabilitata)"
     L["LM_ADVANCED_EXP"] = "Queste impostazioni consentono di personalizzare le azioni di ciascun binding dei tasti di LiteMount.\" Leggere la documentazione all'URL sottostante prima di modificare qualsiasi cosa."
@@ -2110,6 +2117,7 @@ if locale == "itIT" then
     L["Furline"] = "Sofficiotto"
     L["Gargon"] = "Gargon"
     L["Gearglider"] = "Meccaliante"
+    L["Gladiator's Cloud Serpent"] = "Serpe delle Nubi del Gladiatore"
     L["Gladiator's Drake"] = "Draco del Gladiatore"
     L["Gladiator's Proto-Drake"] = "Proto-Draco del Gladiatore"
     L["Gladiator's Slitherdrake"] = "Dracondoso del Gladiatore"
@@ -2130,6 +2138,7 @@ if locale == "itIT" then
     L["Great Dragon Turtle"] = "Testuggine Draconica Maestosa"
     L["Great Elekk"] = "Elekk Grande"
     L["Great Kodo"] = "Kodo Grande"
+    L["Great Raven"] = "Grancorvo"
     L["Gronnling"] = "Protogronn"
     L["Grove Warden"] = "Custode del Bosco"
     L["Grrloc"] = "Grrloc"
@@ -2150,6 +2159,7 @@ if locale == "itIT" then
     L["Hyena"] = "Iena"
     L["Infernal"] = "Infernale"
     L["Jawcrawler"] = "Strisciafauci"
+    L["Kaldorei Nightsaber"] = "Fiera della Notte dei Kaldorei"
     L["Kaldorei War Wolf"] = "Lupo da Guerra dei Kaldorei"
     L["Kodo"] = "Kodo"
     L["Krolusk"] = "Krolusk"
@@ -2332,7 +2342,6 @@ end
 
 if locale == "koKR" then
     L = L or {}
-    L["Gladiator's Cloud Serpent"] = "검투사의 운룡"
     L["LM_ACTION"] = "동작"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "블리자드가 신규 탈것 추가 시, 우선 순위 0으로 변경 (비활성화)."
     L["LM_ADVANCED_EXP"] = "이 설정을 통해 각각의 LiteMount 단축키마다 실행할 행동을 개별 설정할 수 있습니다. 변경 전 아래 URL의 설명서를 읽어보세요."
@@ -2576,6 +2585,7 @@ if locale == "koKR" then
     L["Furline"] = "복슬냥이"
     L["Gargon"] = "가르곤"
     L["Gearglider"] = "톱니글라이더"
+    L["Gladiator's Cloud Serpent"] = "검투사의 운룡"
     L["Gladiator's Drake"] = "검투사의 비룡"
     L["Gladiator's Proto-Drake"] = "검투사의 원시비룡"
     L["Gladiator's Slitherdrake"] = "검투사의 비단비룡"
@@ -2596,6 +2606,7 @@ if locale == "koKR" then
     L["Great Dragon Turtle"] = "거대한 용거북"
     L["Great Elekk"] = "거대한 엘레크"
     L["Great Kodo"] = "거대한 코도"
+    L["Great Raven"] = "큰까마귀"
     L["Gronnling"] = "그론링"
     L["Grove Warden"] = "숲 감시자"
     L["Grrloc"] = "그르옳"
@@ -2616,6 +2627,7 @@ if locale == "koKR" then
     L["Hyena"] = "하이에나"
     L["Infernal"] = "지옥불정령"
     L["Jawcrawler"] = "아귀벌레"
+    L["Kaldorei Nightsaber"] = "칼도레이 밤호랑이"
     L["Kaldorei War Wolf"] = "칼도레이 전쟁 늑대"
     L["Kodo"] = "코도"
     L["Krolusk"] = "크롤러스크"
@@ -2798,7 +2810,6 @@ end
 
 if locale == "ptBR" then
     L = L or {}
-    L["Gladiator's Cloud Serpent"] = "Serpente das Nuvens do Gladiador"
     L["LM_ACTION"] = "Açao"
     L["LM_ADVANCED_EXP"] = "Essas configurações permitem personalizar as ações executadas por cada uma das teclas de atalho do LiteMount. Por favor, leia a documentação no URL abaixo antes de alterar qualquer coisa."
     L["LM_ANNOUNCE_FLIGHT_STYLE"] = "Anuncie alternar no estilo de voo."
@@ -3014,6 +3025,7 @@ if locale == "ptBR" then
     L["Furline"] = "Pelino"
     L["Gargon"] = "Gargono"
     L["Gearglider"] = "Planador"
+    L["Gladiator's Cloud Serpent"] = "Serpente das Nuvens do Gladiador"
     L["Gladiator's Drake"] = "Draco do Gladiador"
     L["Gladiator's Proto-Drake"] = "Protodraco do Gladiador"
     L["Gladiator's Slitherdrake"] = "Dracoleante do Gladiador"
@@ -3034,6 +3046,7 @@ if locale == "ptBR" then
     L["Great Dragon Turtle"] = "Grande Tartalisca-dragão"
     L["Great Elekk"] = "Grande Elekk"
     L["Great Kodo"] = "Grande Kodo"
+    L["Great Raven"] = "Grande Corvo"
     L["Gronnling"] = "Gronnídeo"
     L["Grove Warden"] = "Guardião do Bosque"
     L["Grrloc"] = "Grrloc"
@@ -3054,6 +3067,7 @@ if locale == "ptBR" then
     L["Hyena"] = "Hiena"
     L["Infernal"] = "Infernal"
     L["Jawcrawler"] = "Rastaqueixo"
+    L["Kaldorei Nightsaber"] = "Sabre-da-noite Kaldorei"
     L["Kaldorei War Wolf"] = "Lobo de Guerra Kaldorei"
     L["Kodo"] = "Kodo"
     L["Krolusk"] = "Crolusco"
@@ -3236,7 +3250,6 @@ end
 
 if locale == "ruRU" then
     L = L or {}
-    L["Gladiator's Cloud Serpent"] = "Облачный змей гладиатора"
     L["LM_ACTION"] = "Действие"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "Когда Blizzard добавляет новый транспорт, установить приоритет 0 (отключить)."
     L["LM_ADVANCED_EXP"] = "Эти настройки позволяют настраивать действия, выполняемые назначенными клавишами LiteMount. Прочтите документацию по URL-адресу ниже, прежде чем что-либо менять."
@@ -3482,6 +3495,7 @@ if locale == "ruRU" then
     L["Furline"] = "мурмуровоз"
     L["Gargon"] = "Гаргон"
     L["Gearglider"] = "Техноглайдер"
+    L["Gladiator's Cloud Serpent"] = "Облачный змей гладиатора"
     L["Gladiator's Drake"] = "Дракон гладиатора"
     L["Gladiator's Proto-Drake"] = "Протодракон гладиатора"
     L["Gladiator's Slitherdrake"] = "Дракозмей гладиатора"
@@ -3502,6 +3516,7 @@ if locale == "ruRU" then
     L["Great Dragon Turtle"] = "Большая драконья черепаха"
     L["Great Elekk"] = "Большой элекк"
     L["Great Kodo"] = "Огромный кодо"
+    L["Great Raven"] = "Большой ворон"
     L["Gronnling"] = "Малый гронн"
     L["Grove Warden"] = "Хранитель рощи"
     L["Grrloc"] = "Гррлок"
@@ -3522,6 +3537,7 @@ if locale == "ruRU" then
     L["Hyena"] = "Гиена"
     L["Infernal"] = "Инфернал"
     L["Jawcrawler"] = "Червегрыз"
+    L["Kaldorei Nightsaber"] = "Калдорайский ночной саблезуб"
     L["Kaldorei War Wolf"] = "Калдорайский боевой волк"
     L["Kodo"] = "Кодо"
     L["Krolusk"] = "Кролуск"
@@ -3704,7 +3720,6 @@ end
 
 if locale == "zhCN" then
     L = L or {}
-    L["Gladiator's Cloud Serpent"] = "角斗士云端翔龙"
     L["LM_ACTION"] = "行动"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "当暴雪添加一个新的坐骑时，将其优先级设置为0（禁用）。"
     L["LM_ADVANCED_EXP"] = "这些设置允许您自定义每个LiteMount键绑定运行的操作。在更改任何内容之前，请阅读以下URL中的文档。"
@@ -3943,6 +3958,7 @@ if locale == "zhCN" then
     L["Furline"] = "绒猫"
     L["Gargon"] = "加尔贡"
     L["Gearglider"] = "齿轮滑翔器"
+    L["Gladiator's Cloud Serpent"] = "角斗士云端翔龙"
     L["Gladiator's Drake"] = "角斗士的"
     L["Gladiator's Proto-Drake"] = "角斗士的始祖幼龙"
     L["Gladiator's Slitherdrake"] = "角斗士的蜿变幼龙"
@@ -3963,6 +3979,7 @@ if locale == "zhCN" then
     L["Great Dragon Turtle"] = "巨型龙龟"
     L["Great Elekk"] = "重型雷象"
     L["Great Kodo"] = "大型科多兽"
+    L["Great Raven"] = "的巨鸦"
     L["Gronnling"] = "小戈隆"
     L["Grove Warden"] = "林地守卫者"
     L["Grrloc"] = "奔波尔"
@@ -3983,6 +4000,7 @@ if locale == "zhCN" then
     L["Hyena"] = "土狼"
     L["Infernal"] = "地狱火"
     L["Jawcrawler"] = "利颚爬行者"
+    L["Kaldorei Nightsaber"] = "卡多雷夜刃豹"
     L["Kaldorei War Wolf"] = "卡多雷战狼"
     L["Kodo"] = "科多兽"
     L["Krolusk"] = "三叶虫"
@@ -4165,7 +4183,6 @@ end
 
 if locale == "zhTW" then
     L = L or {}
-    L["Gladiator's Cloud Serpent"] = "鬥士雲蛟"
     L["LM_ACTION"] = "行動"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "當暴雪添加新的坐騎時，將其優先級設為0（已停用）。"
     L["LM_ADVANCED_EXP"] = "這些設定允許你為每一個LiteMount的按鍵綁定自定義行動。請在更改任何內容之前閱讀以下URL中的文件資料。"
@@ -4404,6 +4421,7 @@ if locale == "zhTW" then
     L["Furline"] = "絨貓"
     L["Gargon"] = "石獸"
     L["Gearglider"] = "滑行器"
+    L["Gladiator's Cloud Serpent"] = "鬥士雲蛟"
     L["Gladiator's Drake"] = "赤紅鬥士飛龍"
     L["Gladiator's Proto-Drake"] = "鬥士元龍"
     L["Gladiator's Slitherdrake"] = "鬥士的滑龍"
@@ -4424,6 +4442,7 @@ if locale == "zhTW" then
     L["Great Dragon Turtle"] = "巨龍龜"
     L["Great Elekk"] = "大型伊萊克"
     L["Great Kodo"] = "大型科多獸"
+    L["Great Raven"] = "的巨鴉"
     L["Gronnling"] = "小古羅"
     L["Grove Warden"] = "林地看守者"
     L["Grrloc"] = "鰭加洛克"
@@ -4444,6 +4463,7 @@ if locale == "zhTW" then
     L["Hyena"] = "土狼"
     L["Infernal"] = "煉獄火"
     L["Jawcrawler"] = "爬顎者"
+    L["Kaldorei Nightsaber"] = "卡多雷夜刃豹"
     L["Kaldorei War Wolf"] = "卡多雷戰狼"
     L["Kodo"] = "科多獸"
     L["Krolusk"] = "葉殼蟲"
