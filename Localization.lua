@@ -39,6 +39,7 @@ L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
 -- enUS / enGB / Default -------------------------------------------------------
 
     L = L or {}
+    L["Gladiator's Cloud Serpent"] = "Gladiator's Cloud Serpent"
     L["LM_ACTION"] = "Action"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "When Blizzard adds a new mount, set it to priority 0 (disabled)."
     L["LM_ADVANCED_EXP"] = "These settings allow you to customize the actions run by each of the LiteMount key bindings. Please read the documentation at the URL below before changing anything."
@@ -505,6 +506,7 @@ L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
 
 if locale == "deDE" then
     L = L or {}
+    L["Gladiator's Cloud Serpent"] = "Wolkenschlange des Gladiators"
     L["LM_ACTION"] = "Aktion"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "Setze die Priorität auf 0 (deaktiviert), wenn Blizzard ein neues Reittier hinzufügt."
     L["LM_ADVANCED_EXP"] = "Mit diesen Einstellungen können Sie die Aktionen anpassen, die von den einzelnen LiteMount-Tastenbindungen ausgeführt werden. Bitte lesen Sie die Dokumentation unter der folgenden URL, bevor Sie etwas ändern."
@@ -958,6 +960,7 @@ end
 
 if locale == "esES" or locale == "esMX" then
     L = L or {}
+    L["Gladiator's Cloud Serpent"] = "Dragón nimbo de Gladiador"
     L["LM_ACTION"] = "Acción"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "Cuando Blizzard añade una nueva montura, establecerla con prioridad 0 (desactivada)."
     L["LM_ADVANCED_EXP"] = "Estas configuraciones le permiten personalizar las acciones ejecutadas por cada uno de los acciones clave de LiteMount. Lea la documentación en la URL a continuación antes de cambiar cualquier cosa."
@@ -1418,6 +1421,7 @@ end
 
 if locale == "frFR" then
     L = L or {}
+    L["Gladiator's Cloud Serpent"] = "Serpent-nuage du gladiateur"
     L["LM_ACTION"] = "Action"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "Lorsque Blizzard ajoute une nouvelle monture, mettre la priorité à 0 (désactivé)."
     L["LM_ADVANCED_EXP"] = "Ces paramètres vous permettent de customiser les actions lancées par chacun des raccourcis de LiteMount. Veillez à lire la documentation jointe à l’URL ci-dessous avant de changer quoique ce soit."
@@ -1883,6 +1887,7 @@ end
 
 if locale == "itIT" then
     L = L or {}
+    L["Gladiator's Cloud Serpent"] = "Serpe delle Nubi del Gladiatore"
     L["LM_ACTION"] = "Azione"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "Quando Blizzard aggiunge una nuova cavalcatura imposta la prioprità a 0 (disabilitata)"
     L["LM_ADVANCED_EXP"] = "Queste impostazioni consentono di personalizzare le azioni di ciascun binding dei tasti di LiteMount.\" Leggere la documentazione all'URL sottostante prima di modificare qualsiasi cosa."
@@ -2327,6 +2332,7 @@ end
 
 if locale == "koKR" then
     L = L or {}
+    L["Gladiator's Cloud Serpent"] = "검투사의 운룡"
     L["LM_ACTION"] = "동작"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "블리자드가 신규 탈것 추가 시, 우선 순위 0으로 변경 (비활성화)."
     L["LM_ADVANCED_EXP"] = "이 설정을 통해 각각의 LiteMount 단축키마다 실행할 행동을 개별 설정할 수 있습니다. 변경 전 아래 URL의 설명서를 읽어보세요."
@@ -2792,6 +2798,7 @@ end
 
 if locale == "ptBR" then
     L = L or {}
+    L["Gladiator's Cloud Serpent"] = "Serpente das Nuvens do Gladiador"
     L["LM_ACTION"] = "Açao"
     L["LM_ADVANCED_EXP"] = "Essas configurações permitem personalizar as ações executadas por cada uma das teclas de atalho do LiteMount. Por favor, leia a documentação no URL abaixo antes de alterar qualquer coisa."
     L["LM_ANNOUNCE_FLIGHT_STYLE"] = "Anuncie alternar no estilo de voo."
@@ -3229,6 +3236,7 @@ end
 
 if locale == "ruRU" then
     L = L or {}
+    L["Gladiator's Cloud Serpent"] = "Облачный змей гладиатора"
     L["LM_ACTION"] = "Действие"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "Когда Blizzard добавляет новый транспорт, установить приоритет 0 (отключить)."
     L["LM_ADVANCED_EXP"] = "Эти настройки позволяют настраивать действия, выполняемые назначенными клавишами LiteMount. Прочтите документацию по URL-адресу ниже, прежде чем что-либо менять."
@@ -3696,6 +3704,7 @@ end
 
 if locale == "zhCN" then
     L = L or {}
+    L["Gladiator's Cloud Serpent"] = "角斗士云端翔龙"
     L["LM_ACTION"] = "行动"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "当暴雪添加一个新的坐骑时，将其优先级设置为0（禁用）。"
     L["LM_ADVANCED_EXP"] = "这些设置允许您自定义每个LiteMount键绑定运行的操作。在更改任何内容之前，请阅读以下URL中的文档。"
@@ -4156,6 +4165,7 @@ end
 
 if locale == "zhTW" then
     L = L or {}
+    L["Gladiator's Cloud Serpent"] = "鬥士雲蛟"
     L["LM_ACTION"] = "行動"
     L["LM_ADD_MOUNTS_AT_PRIORITY_0"] = "當暴雪添加新的坐騎時，將其優先級設為0（已停用）。"
     L["LM_ADVANCED_EXP"] = "這些設定允許你為每一個LiteMount的按鍵綁定自定義行動。請在更改任何內容之前閱讀以下URL中的文件資料。"

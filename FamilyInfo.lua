@@ -37,7 +37,9 @@ LM.MOUNTFAMILY._AUTO_ = {
     [307932] = true, -- Ensorcelled Everwyrm
     [307256] = true, -- Explorer's Jungle Hopper
     [  5784] = true, -- Felsteed
+    [182912] = true, -- Felsteel Annihilator
     [ 84751] = true, -- Fossilized Raptor
+    [289083] = true, -- G.M.O.D.
     [126508] = true, -- Geosynchronous World Spinner
     [136505] = true, -- Ghastly Charger
     [289555] = true, -- Glacial Tidestorm
@@ -51,6 +53,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [473472] = true, -- Jani's Trashpile
     [366791] = true, -- Jigglesworth Sr.
     [363613] = true, -- Lightforged Ruinstrider
+    [239013] = true, -- Lightforged Warframe
     [472253] = true, -- Lunar Launcher
     [267274] = true, -- Mag'har Direwolf
     [305592] = true, -- Mechagon Mechanostrider
@@ -123,11 +126,9 @@ LM.MOUNTFAMILY["Aerial Unit"] = {
     [302795] = true, -- Swift Spectral Magnetocraft
 }
 
--- These are the same model as Vulture. Hmm
-LM.MOUNTFAMILY["Albatross"] = {
-    [414324] = true, -- Gold-Toed Albatross
-    [266925] = true, -- Siltwing Albatross
-}
+-- Merged into vulture after DB2 showed they are the same
+-- LM.MOUNTFAMILY["Albatross"] = {
+-- }
 
 LM.MOUNTFAMILY["Alpaca"] = {
     [316493] = true, -- Elusive Quickhoof
@@ -177,12 +178,8 @@ LM.MOUNTFAMILY["Armored Bear"] = {
 }
 
 -- These are the same model as Pterrordax in the db2
-LM.MOUNTFAMILY["Armored Pterrordax"] = {
-    [368126] = true, -- Armored Golden Pterrordax
-    [275837] = true, -- Cobalt Pterrordax
-    [289101] = true, -- Dazar'alor Windreaver
-    [413825] = true, -- Scarlet Pterrordax
-}
+-- LM.MOUNTFAMILY["Armored Pterrordax"] = {
+-- }
 
 LM.MOUNTFAMILY["Armored Ram"] = {
     [270562] = true, -- Darkforge Ram
@@ -371,20 +368,15 @@ LM.MOUNTFAMILY["Clefthoof"] = {
     [171616] = true, -- Witherhide Cliffstomper
 }
 
--- Gladiator's are very slightly different (beard)
 LM.MOUNTFAMILY["Cloud Serpent"] = {
     [123992] = true, -- Azure Cloud Serpent
     [127156] = true, -- Crimson Cloud Serpent
     [123993] = true, -- Golden Cloud Serpent
-    [148619] = true, -- Grievous Gladiator's Cloud Serpent
     [315014] = true, -- Ivory Cloud Serpent
     [113199] = true, -- Jade Cloud Serpent
     [366647] = true, -- Magenta Cloud Serpent
-    [139407] = true, -- Malevolent Gladiator's Cloud Serpent
     [127154] = true, -- Onyx Cloud Serpent
-    [148620] = true, -- Prideful Gladiator's Cloud Serpent
    [1216422] = true, -- Sha-Warped Cloud Serpent
-    [148618] = true, -- Tyrannical Gladiator's Cloud Serpent
 }
 
 LM.MOUNTFAMILY["Cloudrook"] = {
@@ -784,6 +776,13 @@ LM.MOUNTFAMILY["Gargon"] = {
 LM.MOUNTFAMILY["Gearglider"] = {
     [353263] = true, -- Cartel Master's Gearglider
     [346554] = true, -- Tazavesh Gearglider
+}
+
+LM.MOUNTFAMILY["Gladiator's Cloud Serpent"] = {
+    [148619] = true, -- Grievous Gladiator's Cloud Serpent
+    [139407] = true, -- Malevolent Gladiator's Cloud Serpent
+    [148620] = true, -- Prideful Gladiator's Cloud Serpent
+    [148618] = true, -- Tyrannical Gladiator's Cloud Serpent
 }
 
 LM.MOUNTFAMILY["Gladiator's Drake"] = {
@@ -1453,14 +1452,17 @@ LM.MOUNTFAMILY["Protostag"] = {
 }
 
 LM.MOUNTFAMILY["Pterrordax"] = {
+    [368126] = true, -- Armored Golden Pterrordax
     [275838] = true, -- Captured Swampstalker
+    [275837] = true, -- Cobalt Pterrordax
+    [289101] = true, -- Dazar'alor Windreaver
     [267270] = true, -- Kua'fon
+    [413825] = true, -- Scarlet Pterrordax
     [244712] = true, -- Spectral Pterrorwing
     [302797] = true, -- Swift Spectral Pterrordax
     [275840] = true, -- Voldunai Dunescraper
 }
 
--- These are the same model as Armored Pterrordax in the db2
 LM.MOUNTFAMILY["Pterrordax Skyscreamer"] = {
     [441794] = true, -- Amber Pterrordax
     [136400] = true, -- Armored Skyscreamer
@@ -2004,7 +2006,7 @@ LM.MOUNTFAMILY["Tarachnid"] = {
     [359402] = true, -- Tarachnid Creeper
 }
 
--- Life-Binder Drake?
+-- Life-Binder Drake? Tarecgosa's Visage an outlier
 LM.MOUNTFAMILY["Tarecgosa Drake"] = {
     [107842] = true, -- Blazing Drake
     [107845] = true, -- Life-Binder's Handmaiden
@@ -2122,6 +2124,8 @@ LM.MOUNTFAMILY["Vorquin"] = {
 }
 
 LM.MOUNTFAMILY["Vulture"] = {
+    [414324] = true, -- Gold-Toed Albatross
+    [266925] = true, -- Siltwing Albatross
     [316275] = true, -- Waste Marauder
     [316276] = true, -- Wastewander Skyterror
 }
@@ -2151,12 +2155,9 @@ LM.MOUNTFAMILY["War Turtle"] = {
    [1227076] = true, -- Tyrannotort
 }
 
--- Deleteme?
-LM.MOUNTFAMILY["Warframe"] = {
-    [182912] = true, -- Felsteel Annihilator
-    [289083] = true, -- G.M.O.D.
-    [239013] = true, -- Lightforged Warframe
-}
+-- Deleted
+-- LM.MOUNTFAMILY["Warframe"] = {
+-- }
 
 LM.MOUNTFAMILY["Warhorse"] = {
     [ 67466] = true, -- Argent Warhorse
@@ -2170,14 +2171,15 @@ LM.MOUNTFAMILY["Warp Stalker"] = {
     [346136] = true, -- Viridian Phase-Hunter
 }
 
+-- Check
 LM.MOUNTFAMILY["Warsaber"] = {
-    [366962] = true, -- Ash'adar, Harbinger of Dawn
-    [449132] = true, -- Blackrock Warsaber
-    [449126] = true, -- Kor'kron Warsaber
-    [288740] = true, -- Priestess' Moonsaber
-    [281887] = true, -- Vicious Black Warsaber
-    [146615] = true, -- Vicious Kaldorei Warsaber
-    [281888] = true, -- Vicious White Warsaber
+    [366962] = true, -- Ash'adar, Harbinger of Dawn nightsaber2mountsunmoon.m2
+    [449132] = true, -- Blackrock Warsaber nightsaberhordemount.m2
+    [449126] = true, -- Kor'kron Warsaber nightsaberhordemount.m2
+    [288740] = true, -- Priestess' Moonsaber saber3mount.m2
+    [281887] = true, -- Vicious Black Warsaber warnightsabermount.m2
+    [146615] = true, -- Vicious Kaldorei Warsaber warnightsabermount.m2
+    [281888] = true, -- Vicious White Warsaber warnightsabermount.m2
 }
 
 LM.MOUNTFAMILY["Water Strider"] = {
@@ -2195,12 +2197,12 @@ LM.MOUNTFAMILY["Whimsydrake"] = {
 
 -- No saddle
 LM.MOUNTFAMILY["Wild Courser"] = {
-    [342335] = true, -- Ascended Skymane
-    [247402] = true, -- Lucid Nightmare
-    [354362] = true, -- Maelie, the Wanderer
-    [280730] = true, -- Pureheart Courser
-   [1217965] = true, -- Shimmermist Free Runner
-    [242875] = true, -- Wild Dreamrunner
+    [342335] = true, -- Ascended Skymane horse2bastion.m2
+    [247402] = true, -- Lucid Nightmare horse2.m2
+    [354362] = true, -- Maelie, the Wanderer horse2ardenweald.m2
+    [280730] = true, -- Pureheart Courser horse2.m2
+   [1217965] = true, -- Shimmermist Free Runner horse2ardenweald.m2
+    [242875] = true, -- Wild Dreamrunner horse2.m2
 }
 
 LM.MOUNTFAMILY["Wilderling"] = {
@@ -2269,14 +2271,14 @@ LM.MOUNTFAMILY["Wylderdrake"] = {
 }
 
 LM.MOUNTFAMILY["Wyrm"] = {
-    [ 72808] = true, -- Bloodbathed Frostbrood Vanquisher
-    [ 64927] = true, -- Deadly Gladiator's Frost Wyrm
-    [ 65439] = true, -- Furious Gladiator's Frost Wyrm
-    [ 72807] = true, -- Icebound Frostbrood Vanquisher
-    [ 67336] = true, -- Relentless Gladiator's Frost Wyrm
-    [414334] = true, -- Scourgebound Vanquisher
-    [231428] = true, -- Smoldering Ember Wyrm
-    [ 71810] = true, -- Wrathful Gladiator's Frost Wyrm
+    [ 72808] = true, -- Bloodbathed Frostbrood Vanquisher armoredridingundeaddrake.m2
+    [ 64927] = true, -- Deadly Gladiator's Frost Wyrm ridingundeaddrake.m2
+    [ 65439] = true, -- Furious Gladiator's Frost Wyrm ridingundeaddrake.m2
+    [ 72807] = true, -- Icebound Frostbrood Vanquisher armoredridingundeaddrake.m2
+    [ 67336] = true, -- Relentless Gladiator's Frost Wyrm ridingundeaddrake.m2
+    [414334] = true, -- Scourgebound Vanquisher armoredridingundeaddrake.m2
+    [231428] = true, -- Smoldering Ember Wyrm nightbane2mount.m2
+    [ 71810] = true, -- Wrathful Gladiator's Frost Wyrm ridingundeaddrake.m2
 }
 
 LM.MOUNTFAMILY["Yak"] = {
@@ -2301,6 +2303,7 @@ LM.MOUNTFAMILY["Zhevra"] = {
 
 -- What on earth to do with this
 LM.MOUNTFAMILY["Zodiac"] = {
+    doNotCombine = true,
     [290134] = true, -- Hogrus, Swine of Good Fortune
     [369451] = true, -- Jade, Bright Foreseer
     [308087] = true, -- Lucky Yun
@@ -2314,7 +2317,7 @@ do
     for spellID in pairs(LM.MOUNTFAMILY._AUTO_) do
         local mountID = C_MountJournal.GetMountFromSpell(spellID)
         if mountID then
-        local name = C_MountJournal.GetMountInfoByID(mountID)
+            local name = C_MountJournal.GetMountInfoByID(mountID)
             LM.MOUNTFAMILY[name] = LM.MOUNTFAMILY[name] or {}
             LM.MOUNTFAMILY[name][spellID] = true
         end
@@ -2324,7 +2327,9 @@ do
     LM.MOUNTFAMILY_BY_SPELL_ID = {}
     for family, mounts in pairs(LM.MOUNTFAMILY) do
         for spellID in pairs(mounts) do
-            LM.MOUNTFAMILY_BY_SPELL_ID[spellID] = family
+            if type(spellID) == 'number' then
+                LM.MOUNTFAMILY_BY_SPELL_ID[spellID] = family
+            end
         end
     end
 end
