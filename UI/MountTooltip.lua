@@ -54,17 +54,6 @@ end
 
 LiteMountTooltipMixin = {}
 
-function LiteMountTooltipMixin:SetupPreview(m)
-    if m.creatureDisplayID and m.modelSceneID then
-        -- Need width/height for ModelScene not to div/0
-        self:AttachPreview()
-        self.Preview.ModelScene:SetMount(m)
-        self.Preview:Show()
-    else
-        self.Preview:Hide()
-    end
-end
-
 function LiteMountTooltipMixin:SetMount(m, hasMenu)
     if m.mountID then
         self:SetMountBySpellID(m.spellID)

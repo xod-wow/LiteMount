@@ -99,9 +99,9 @@ function LiteMountMountIconMixin:OnLoad()
 end
 
 function LiteMountMountIconMixin:OnDragStart()
-    if self.ount.spellID then
-        C_Spell.PickupSpell(mount.spellID)
-    elseif self.ount.itemID then
-        C_Item.PickupItem(mount.itemID)
+    if self.mount.spellID then
+        C_Spell.PickupSpell(self.mount.spellID)
+    elseif self.mount.itemID then
+        C_Item.PickupItem(self.mount.itemID)
     end
 end

@@ -154,7 +154,7 @@ function LiteMountMountsPanelMixin:OnLoad()
             local data = node:GetData()
             if data.isHeader then
                 factory("LiteMountMountListHeaderTemplate",
-                    function (button, node)
+                    function (button)
                         button.Name:SetText(data.name .. ' (' .. #node:GetNodes() .. ')')
                         button:SetCollapsedState(node:IsCollapsed())
                         button:SetScript("OnClick",
@@ -165,7 +165,7 @@ function LiteMountMountsPanelMixin:OnLoad()
                     end)
             else
                 factory("LiteMountMountListButtonTemplate",
-                    function (button, node)
+                    function (button)
                         button:Initialize(data, self.allFlags)
                         button:SetDirtyCallback(dirtyFunc)
                     end)

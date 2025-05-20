@@ -47,12 +47,19 @@ local function ArgsGenerate(dropdown, rootDescription, data)
     for _,item in ipairs(data) do
         if item.val == 'PICKER' then
             rootDescription:CreateButton(item.text, function () SetArgFromPickerFunction(parent) end)
-        elseif #item > 0 then
-            local subMenu = rootDescription:CreateButton(item.text)
-            subMenu:SetScrollMode(GetScrollExtent())
-            ArgsGenerate(dropdown, subMenu, item)
         else
-            rootDescription:CreateButton(item.text, function () parent:SetArg(item.val) end)
+            local menuItem
+            if item.val then
+                local IsChecked = function () return parent.arg == item.val end
+                local SetChecked = item.val and function () parent:SetArg(item.val) return MenuResponse.Close end
+                menuItem = rootDescription:CreateCheckbox(item.text, IsChecked, SetChecked)
+            else
+                -- Non-selectable intermediate menu, use a button not checkbox
+                menuItem = rootDescription:CreateButton(item.text)
+            end
+            if #item > 0 then
+                ArgsGenerate(dropdown, menuItem, item)
+            end
         end
     end
 end
@@ -224,7 +231,7 @@ local function ActionTypeButtonGenerate(dropdown, rootDescription)
         local ttTitle = item.text
         local ttText = LM.Actions:GetDescription(item)
         local function checked() return parent.type == item end
-        local function set() dropdown:GetParent():SetType(item) end
+        local function set() dropdown:GetParent():SetType(item) return MenuResponse.Close end
         local button = rootDescription:CreateCheckbox(text, checked, set)
         local function tt(tooltip)
             GameTooltip_SetTitle(tooltip, ttTitle)
