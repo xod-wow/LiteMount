@@ -29,6 +29,8 @@ function LM.Soar:IsCastable()
     if IsSubmerged() then
         -- You can actually cast it but it bugs out.
         return false
+    elseif not IsFlyableArea() then
+        return false
     else
         return LM.Spell.IsCastable(self)
     end
