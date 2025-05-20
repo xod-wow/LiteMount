@@ -1105,6 +1105,29 @@ CONDITIONS["playermodel"] = {
 
 CONDITIONS["profession"] = {
     disabled = ( GetProfessions == nil ),
+    name = C_TradeSkillUI and GUILD_ROSTER_DROPDOWN_PROFESSION,
+    toDisplay =
+        function (v)
+            if tonumber(v) and C_TradeSkillUI then
+                local info = C_TradeSkillUI.GetProfessionInfoBySkillLineID(v)
+                if info then return info.professionName end
+            end
+            return v
+        end,
+    menu = {
+        -- Note: skill line IDs for only the base professions
+        { val = "profession:164" }, -- Blacksmithing
+        { val = "profession:165" }, -- Leatherworking
+        { val = "profession:171" }, -- Alchemy
+        { val = "profession:182" }, -- Herbalism
+        { val = "profession:186" }, -- Mining
+        { val = "profession:197" }, -- Tailoring
+        { val = "profession:202" }, -- Engineering
+        { val = "profession:333" }, -- Enchanting
+        { val = "profession:393" }, -- Skinning
+        { val = "profession:755" }, -- Jewelcrafting
+        { val = "profession:773" }, -- Inscription
+    },
     handler =
         function (cond, context, v)
             if not v then return end
