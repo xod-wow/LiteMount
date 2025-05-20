@@ -809,15 +809,19 @@ CONDITIONS["level"] = {
 
 
 CONDITIONS["loadout"] = {
-    name = L["Talent loadout"],
+    -- No name this is not enabled as menu
     disabled = ( C_ClassTalents == nil ),
     toDisplay =
         function (v)
             return v
         end,
+    -- This is very clever and all but given that the loadouts are character
+    -- specific and this matches by name I really don't know that it's anywhere
+    -- near useful enough to have as a menu.
     menu =
         function ()
             local loadoutMenu = {}
+            local loadoutNames = {}
             local _, _, classIndex = UnitClass('player')
             for specIndex = 1, 4 do
                 local specID = GetSpecializationInfoForClassID(classIndex, specIndex)
@@ -825,8 +829,11 @@ CONDITIONS["loadout"] = {
                 local configIDs = C_ClassTalents.GetConfigIDsBySpecID(specID)
                 for _, id in ipairs(configIDs) do
                     local info = C_Traits.GetConfigInfo(id)
-                    table.insert(loadoutMenu, { val = "loadout:"..info.name, text = info.name })
+                    loadoutNames[info.name] = true
                 end
+            end
+            for name in pairs(loadoutNames) do
+                table.insert(loadoutMenu, { val = "loadout:"..name, text = name })
             end
             return loadoutMenu
         end,
