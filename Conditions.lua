@@ -1111,15 +1111,10 @@ CONDITIONS["playermodel"] = {
 }
 
 CONDITIONS["profession"] = {
-    disabled = ( GetProfessions == nil ),
-    name = C_TradeSkillUI and GUILD_ROSTER_DROPDOWN_PROFESSION,
+    name = GUILD_ROSTER_DROPDOWN_PROFESSION,
     toDisplay =
         function (v)
-            if tonumber(v) and C_TradeSkillUI then
-                local info = C_TradeSkillUI.GetProfessionInfoBySkillLineID(v)
-                if info then return info.professionName end
-            end
-            return v
+            return C_TradeSkillUI.GetTradeSkillDisplayName(v) or v
         end,
     menu = {
         -- Note: skill line IDs for only the base professions
