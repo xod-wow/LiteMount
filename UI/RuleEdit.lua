@@ -50,11 +50,14 @@ local function ArgsGenerate(dropdown, rootDescription, data)
         else
             local menuItem
             if item.val then
+                -- We are using Checkbox here to make it obvious in the UI that you
+                -- can also select the submenus, not just the leaf items. Calling
+                -- CloseMenu here is evil but returning MenuResponse.CloseAll doesn't
+                -- work properly with nested menus.
                 local IsChecked = function () return parent.arg == item.val end
-                local SetChecked = item.val and function () parent:SetArg(item.val) return MenuResponse.Close end
-                menuItem = rootDescription:CreateCheckbox(item.text, IsChecked, SetChecked)
+                local Set = function () parent:SetArg(item.val) dropdown:CloseMenu() end
+                menuItem = rootDescription:CreateCheckbox(item.text, IsChecked, Set)
             else
-                -- Non-selectable intermediate menu, use a button not checkbox
                 menuItem = rootDescription:CreateButton(item.text)
             end
             if #item > 0 then
