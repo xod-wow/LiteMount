@@ -1,4 +1,4 @@
-## Interface: 110105, 40402
+## Interface: 110105, 50500, 40402
 ## Title: LiteMount
 ## Version: @project-version@
 ## Author: Xodiv-Nagrand
