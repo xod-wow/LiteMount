@@ -156,6 +156,13 @@ LM.MOUNT_TYPE_INFO = {
             SWIM = true,
         },
     },
+    [263] = {
+        -- MOP Classic: CLoud Serpents
+        name = MOUNT_JOURNAL_FILTER_FLYING,
+        flags = {
+            FLY = true,
+        },
+    },
     [284] = {
         -- Chauffeured Mekgineer's Chopper etc
         name = HEIRLOOMS,
