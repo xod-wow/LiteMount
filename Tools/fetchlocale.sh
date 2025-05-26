@@ -21,9 +21,9 @@ header "enUS / enGB / Default"
 fetch enUS
 echo
 
-for locale in "deDE" "esES" "frFR" "itIT" "koKR" "ptBR" "ruRU" "zhCN" "zhTW"; do
+for locale in "deDE" "esES" "esMX" "frFR" "itIT" "koKR" "ptBR" "ruRU" "zhCN" "zhTW"; do
 
-    # As far as I can tell everyone treats esES and esMX as identical
+    # esES includes esMX but is then overridden if a better translation is available
     case $locale in
     esES)
         header "esES / esMX"

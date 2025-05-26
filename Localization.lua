@@ -1423,6 +1423,14 @@ if locale == "esES" or locale == "esMX" then
     L["Zodiac"] = "Zodíaco"
 end
 
+-- esMX ------------------------------------------------------------------------
+
+if locale == "esMX" then
+    L = L or {}
+
+    -- Family
+end
+
 -- frFR ------------------------------------------------------------------------
 
 if locale == "frFR" then
