@@ -53,6 +53,11 @@ end
 
 function LiteMountGeneralPanelMixin:OnLoad()
 
+    -- Announce options L-R anchoring. Can't do this in the XML because we
+    -- want to anchor to the .Text region.
+    self.AnnounceUI:SetPoint("LEFT", self.AnnounceChat.Text, "RIGHT", 28, 0)
+    self.AnnounceColors:SetPoint("LEFT", self.AnnounceUI.Text, "RIGHT", 28, 0)
+
     -- CopyTargetsMount --
 
     self.CopyTargetsMount.Text:SetText(L.LM_COPY_TARGETS_MOUNT)

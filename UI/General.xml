@@ -77,17 +77,11 @@
             </Scripts>
         </CheckButton>
         <CheckButton parentKey="AnnounceUI" inherits="LiteMountOptionsCheckButtonTemplate">
-            <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.AnnounceChat" relativePoint="RIGHT" x="140" y="0" />
-            </Anchors>
             <Scripts>
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
         </CheckButton>
         <CheckButton parentKey="AnnounceColors" inherits="LiteMountOptionsCheckButtonTemplate">
-            <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.AnnounceUI" relativePoint="RIGHT" x="140" y="0" />
-            </Anchors>
             <Scripts>
                 <OnClick function="LiteMountOptionsControl_OnChanged" />
             </Scripts>
@@ -121,7 +115,7 @@
     </Layers>
     <Frames>
         <DropdownButton parentKey="RandomPersistDropDown" inherits="WoWStyle1DropdownTemplate">
-            <Size x="192" y="26" />
+            <Size x="448" y="26" />
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" x="16" y="-8" />
             </Anchors>
