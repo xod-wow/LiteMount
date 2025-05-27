@@ -74,6 +74,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [317177] = true, -- Sunwarmed Furline
     [290132] = true, -- Sylverian Dreamer
     [359843] = true, -- Tangled Dreamweaver
+   [1217760] = true, -- The Big G
     [370770] = true, -- Tuskarr Shoreglider
     [107203] = true, -- Tyrael's Charger
     [223341] = true, -- Vicious Gilnean Warhorse
@@ -1214,13 +1215,6 @@ LM.MOUNTFAMILY["Mechacycle"] = {
     [297157] = true, -- Junkheap Drifter
 }
 
--- Probably delete this
-LM.MOUNTFAMILY["Mechanical Head"] = {
-    [261437] = true, -- Mecha-Mogul Mk2
-    [ 63796] = true, -- Mimiron's Head
-   [1217760] = true, -- The Big G
-}
-
 LM.MOUNTFAMILY["Mechanocat"] = {
     [294143] = true, -- X-995 Mechanocat
 }
@@ -1258,6 +1252,11 @@ LM.MOUNTFAMILY["Meeksi"] = {
     [473739] = true, -- Meeksi Rufflefur
     [473741] = true, -- Meeksi Softpaw
     [473744] = true, -- Meeksi Teatuft
+}
+
+LM.MOUNTFAMILY["Mimiron's Head"] = {
+    [261437] = true, -- Mecha-Mogul Mk2
+    [ 63796] = true, -- Mimiron's Head
 }
 
 LM.MOUNTFAMILY["Mole"] = {
