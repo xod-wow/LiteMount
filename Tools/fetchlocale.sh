@@ -23,12 +23,7 @@ echo
 
 for locale in "deDE" "esES" "esMX" "frFR" "itIT" "koKR" "ptBR" "ruRU" "zhCN" "zhTW"; do
 
-    # esES includes esMX but is then overridden if a better translation is available
     case $locale in
-    esES)
-        header "esES / esMX"
-        echo 'if locale == "esES" or locale == "esMX" then'
-        ;;
     *)
         header $locale
         echo "if locale == \"$locale\" then"
