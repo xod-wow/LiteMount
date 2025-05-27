@@ -1765,8 +1765,7 @@ if locale == "esMX" then
     L["Peafowl"] = "Pavo real"
     L["Phalynx"] = "Falince"
     L["Phoenix"] = "Fénix"
-    L["Pirate Ship"] = [=[Barco pirata
-    ]=]
+    L["Pirate Ship"] = "Barco pirata"
     L["Prestigious Courser"] = "Trotador prestigioso"
     L["Prismatic Disc"] = "Disco prismático"
     L["Proto-Drake"] = "Protodraco"
