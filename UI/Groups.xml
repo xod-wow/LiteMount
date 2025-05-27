@@ -4,6 +4,10 @@
 
 <Script file="Groups.lua" />
 
+<Frame name="LiteMountGroupsPanelBlankTemplate" virtual="true" mixin="LiteMountGroupsPanelBlankMixin">
+    <Size y="24" />
+</Frame>
+
 <Button name="LiteMountGroupsPanelGroupTemplate" virtual="true" mixin="LiteMountGroupsPanelGroupMixin">
     <Scripts>
         <OnClick method="OnClick" />

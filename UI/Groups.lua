@@ -133,7 +133,16 @@ function LiteMountGroupsPanelMixin:OnLoad()
     self.showAll = true
 
     local view = CreateScrollBoxListLinearView()
-    view:SetElementInitializer("LiteMountGroupsPanelGroupTemplate", function (button, elementData) button:Initialize(elementData) end)
+    view:SetElementFactory(
+        function (factory, elementData)
+            if type(elementData) == 'string' then
+                factory("LiteMountGroupsPanelGroupTemplate", function (button) button:Initialize(elementData) end)
+            else
+                factory("LiteMountGroupsPanelBlankTemplate", function (button) button:Initialize(elementData) end)
+            end
+        end)
+
+    -- view:SetElementInitializer("LiteMountGroupsPanelGroupTemplate", function (button, elementData) button:Initialize(elementData) end)
     view:SetPadding(0, 0, 0, 0, 0)
     ScrollUtil.InitScrollBoxListWithScrollBar(self.GroupScrollBox, self.GroupScrollBar, view)
     self.GroupScrollBox.update = self.GroupScrollBox.RefreshGroupList
@@ -167,6 +176,19 @@ function LiteMountGroupsPanelMixin:Update()
     self.ShowAll:SetChecked(self.showAll)
 end
 
+
+--[[------------------------------------------------------------------------]]--
+
+LiteMountGroupsPanelBlankMixin = {}
+
+function LiteMountGroupsPanelBlankMixin:Initialize(elementData)
+    local addButton = elementData
+    addButton:SetParent(self)
+    addButton:ClearAllPoints()
+    addButton:SetPoint("CENTER")
+    addButton:Show()
+end
+
 --[[------------------------------------------------------------------------]]--
 
 LiteMountGroupsPanelGroupMixin = {}
@@ -179,23 +201,13 @@ function LiteMountGroupsPanelGroupMixin:OnClick()
 end
 
 function LiteMountGroupsPanelGroupMixin:Initialize(elementData)
-     if type(elementData) == 'string' then
-        local groupText = elementData
-        if LM.Options:IsGlobalGroup(groupText) then
-            groupText = BLUE_FONT_COLOR:WrapTextInColorCode(groupText)
-        end
-        self.Text:SetFormattedText(groupText)
-        self.Text:Show()
-        self.group = elementData
-    else
-        local addButton = elementData
-        self.Text:Hide()
-        addButton:SetParent(self)
-        addButton:ClearAllPoints()
-        addButton:SetPoint("CENTER")
-        addButton:Show()
-        self.group = nil
+    local groupText = elementData
+    if LM.Options:IsGlobalGroup(groupText) then
+        groupText = BLUE_FONT_COLOR:WrapTextInColorCode(groupText)
     end
+    self.Text:SetFormattedText(groupText)
+    self.Text:Show()
+    self.group = elementData
 
     local selected = self.group and self.group == LiteMountGroupsPanel.GroupScrollBox.selectedGroup
     self.SelectedTexture:SetShown(selected)
