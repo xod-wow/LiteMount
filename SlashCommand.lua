@@ -263,6 +263,7 @@ COMMANDS['fam'] =
         LM.UIFilter.SetOtherFilter('UNUSABLE', true)
         LM.UIFilter.SetAllFamilyFilters(false)
         LM.UIFilter.SetFamilyFilter(newFamily, true)
+        LM.UIFilter.SetFamilyFilter(UNKNOWN, true)
         LM.Print(newFamily)
     end
 

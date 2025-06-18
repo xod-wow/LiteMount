@@ -4,7 +4,7 @@ import requests, os, re
 from pprint import pprint
 from argparse import ArgumentParser
 
-SupportedLocales = [ "deDE", "esES", "esMX", "frFR", "itIT", "koKR", "ptBR", "ruRU", "zhCN", "zhTW" ]
+SupportedLocales = [ "enUS", "deDE", "esES", "esMX", "frFR", "itIT", "koKR", "ptBR", "ruRU", "zhCN", "zhTW" ]
 
 def GetFamiliesFromCurse(locale):
     headers = {

@@ -7,14 +7,14 @@
 
 set -e
 
-DBFILE=`mktemp`
+DBFILE=`mktemp -p .`
 trap "rm -f $DBFILE" 0
 
 fetch_db2 () {
     for f in Mount MountXDisplay CreatureDisplayInfo CreatureModelData
     do
         echo "=== Fetching $f ===" 1>&2
-        local T=`mktemp`
+        local T=`mktemp -p .`
         curl -s -o $T "https://wago.tools/db2/$f/csv?product=wow"
         sqlite3 $DBFILE -cmd ".mode csv" ".import $T $f"
         rm -f $T
@@ -24,16 +24,16 @@ fetch_db2 () {
 # Listfile is HUGE this takes a long long time
 fetch_listfile () {
     echo "=== Fetching listfile ===" 1>&2
-    local T=`mktemp`
+    local T=`mktemp -p .`
     echo "ID;FilePath" > $T
     curl -s -L 'https://github.com/wowdev/wow-listfile/releases/latest/download/community-listfile.csv' >> $T
-    sqlite3 $$.db -cmd ".mode csv" ".separator ;" ".import $T listfile"
+    sqlite3 $DBFILE -cmd ".mode csv" ".separator ;" ".import $T listfile"
     rm -f $T
 }
 
 print_join () {
     local MODE=$1
-    sqlite3 $$.db -cmd \
+    sqlite3 $DBFILE -cmd \
         ".mode $MODE" \
         'select * from
             Mount m LEFT JOIN MountXDisplay mxd ON m.ID = mxd.MountID

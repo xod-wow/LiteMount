@@ -24,6 +24,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [359545] = true, -- Carcinized Zerethsteed
     [ 75614] = true, -- Celestial Steed
     [171846] = true, -- Champion's Treadblade
+   [1226144] = true, -- Chrono Corsair
     [171847] = true, -- Cindermane Charger
     [463133] = true, -- Coldflame Tempest
     [347812] = true, -- Sapphire Skyblazer (+ Coldflame Tempest)
@@ -60,6 +61,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [229499] = true, -- Midnight
     [367676] = true, -- Nether-Gorged Greatwyrm
     [308814] = true, -- Ny'alotha Allseer
+   [1241263] = true, -- OC91 Chariot (kinda Diamond Mechsuit)
     [245725] = true, -- Orgrimmar Interceptor
    [1221155] = true, -- Prototype A.S.M.R.
     [400733] = true, -- Rocket Shredder 9001
@@ -76,7 +78,6 @@ LM.MOUNTFAMILY._AUTO_ = {
     [359843] = true, -- Tangled Dreamweaver
    [1217760] = true, -- The Big G
     [370770] = true, -- Tuskarr Shoreglider
-    [107203] = true, -- Tyrael's Charger
     [223341] = true, -- Vicious Gilnean Warhorse
     [424534] = true, -- Vicious Moonbeast (Alliance)
     [424535] = true, -- Vicious Moonbeast (Horde)
@@ -211,6 +212,7 @@ LM.MOUNTFAMILY["Armoredon"] = {
 LM.MOUNTFAMILY["Astral Cloud Serpent"] = {
     [127170] = true, -- Astral Cloud Serpent
     [446022] = true, -- Astral Emperor's Serpent
+   [1236262] = true, -- Shaohao's Sage Serpent
 }
 
 LM.MOUNTFAMILY["Aurelid"] = {
@@ -293,6 +295,7 @@ LM.MOUNTFAMILY["Boar"] = {
     [171635] = true, -- Giant Coldsnout
     [171636] = true, -- Great Greytusk
     [171637] = true, -- Trained Rocktusk
+   [1240003] = true, -- Unarmored Deathtusk Felboar
     [171633] = true, -- Wild Goretusk
 }
 
@@ -498,6 +501,12 @@ LM.MOUNTFAMILY["Deathwing Drake"] = {
 LM.MOUNTFAMILY["Delver's Dirigible"] = {
     [446052] = true, -- Delver's Dirigible
     [466133] = true, -- Delver's Gob-Trotter
+}
+
+-- This is a very unsexy name. Archangel Charger?
+LM.MOUNTFAMILY["Diablo Charger"] = {
+   [1241429] = true, -- Inarius' Charger
+    [107203] = true, -- Tyrael's Charger
 }
 
 LM.MOUNTFAMILY["Direbeak"] = {
@@ -762,6 +771,13 @@ LM.MOUNTFAMILY["Flying Machine"] = {
     [ 44151] = true, -- Turbo-Charged Flying Machine
 }
 
+LM.MOUNTFAMILY["Forsaken Charger"] = {
+   [1234859] = true, -- Banshee's Chilling Charger
+   [1235820] = true, -- Banshee's Sickening Charger
+   [1235817] = true, -- Forsaken's Grotesque Charger
+   [1235819] = true, -- Wailing Banshee's Charger
+}
+
 LM.MOUNTFAMILY["Fox"] = {
     [430225] = true, -- Gilnean Prowler
     [171850] = true, -- Llothien Prowler
@@ -861,6 +877,7 @@ LM.MOUNTFAMILY["Goblin Trike"] = {
 
 LM.MOUNTFAMILY["Goblin Waveshredder"] = {
     [473188] = true, -- Bronze Goblin Waveshredder
+    [446352] = true, -- Kickin' Kezan Wave Shredder
     [447413] = true, -- Pearlescent Goblin Wave Shredder
     [473137] = true, -- Soweezi's Vintage Waveshredder
 }
@@ -889,6 +906,13 @@ LM.MOUNTFAMILY["Grand Wyvern"] = {
     [135418] = true, -- Grand Armored Wyvern
     [136164] = true, -- Grand Wyvern
    [1218307] = true, -- Void-Scarred Windrider
+}
+
+LM.MOUNTFAMILY["Grandmaster's Board"] = {
+   [1235756] = true, -- Grandmaster's Prophetic Board
+   [1235763] = true, -- Grandmaster's Deep Board
+   [1235803] = true, -- Grandmaster's Royal Board
+      [1235806] = true, -- Grandmaster's Smokey Board
 }
 
 LM.MOUNTFAMILY["Gravewing"] = {
@@ -1069,6 +1093,7 @@ LM.MOUNTFAMILY["Jawcrawler"] = {
 
 LM.MOUNTFAMILY["Kaldorei Nightsaber"] = {
     [288505] = true, -- Kaldorei Nightsaber
+   [1237631] = true, -- Moonlit Nightsaber
     [288506] = true, -- Sandy Nightsaber
     [288503] = true, -- Umber Nightsaber
 }
@@ -2202,6 +2227,11 @@ LM.MOUNTFAMILY["Wild Courser"] = {
     [280730] = true, -- Pureheart Courser horse2.m2
    [1217965] = true, -- Shimmermist Free Runner horse2ardenweald.m2
     [242875] = true, -- Wild Dreamrunner horse2.m2
+}
+
+-- Again, no armor / saddle
+LM.MOUNTFAMILY["Wild Ravasaur"] = {
+   [1237703] = true, -- Ivory Savagemane
 }
 
 LM.MOUNTFAMILY["Wilderling"] = {
