@@ -252,7 +252,9 @@ COMMANDS['fam'] =
             for i, family in ipairs(families) do
                 if LM.UIFilter.IsFamilyChecked(family) then
                     currentIndex = i
-                    break
+                    if family ~= UNKNOWN then
+                        break
+                    end
                 end
             end
             local nextIndex = currentIndex % #families + 1

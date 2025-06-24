@@ -12,6 +12,50 @@ LM.MOUNTFAMILY = {
     [NONE] = {}
 }
 
+LM.MOUNTFAMILY["Voidwing"] = {
+   [1242272] = true, -- Royal Voidwing
+}
+
+-- XXX FIXME XXX
+LM.MOUNTFAMILY["Wind Gryphon"] = {
+   [1245358] = true, -- Akil'darah Windscarred
+   [1245361] = true, -- Darkfeather Eclipse
+   [1245359] = true, -- Ohn'ahran Windborne
+   [1245357] = true, -- Windmaster's Battlesworn
+}
+
+LM.MOUNTFAMILY["Void Flyer"] = {
+   [1246781] = true, -- Azure Void Flyer
+   [1245517] = true, -- Scarlet Void Flyer
+   [1223187] = true, -- Terror of the Wastes
+}
+
+LM.MOUNTFAMILY["K'aresh Slateback"] = {
+   [1233559] = true, -- Blue Barry
+   [1233561] = true, -- Curious Slateback
+}
+
+LM.MOUNTFAMILY["K'arroc"] = {
+   [1221132] = true, -- Resplendent K'arroc
+   [1233511] = true, -- Umbral K'arroc
+   [1233518] = true, -- Lavender K'arroc
+}
+
+LM.MOUNTFAMILY["Headless Horseman's Charger"] = {
+   [1245202] = true, -- The Headless Horseman's Burning Charger
+   [1245197] = true, -- The Headless Horseman's Chilling Charger
+   [1245205] = true, -- The Headless Horseman's Ghostly Charger
+   [1245198] = true, -- The Headless Horseman's Ghoulish Charger
+}
+
+-- Could be Burning Legion Elekk
+LM.MOUNTFAMILY["Fel Elekk"] = {
+   [1244259] = true, -- Cinder-seared Elekk
+   [1244261] = true, -- Legion Forged Elekk
+   [1244247] = true, -- Thunder-ridged Elekk
+   [1244260] = true, -- Void-Razed Elekk
+}
+
 LM.MOUNTFAMILY._AUTO_ = {
     [302361] = true, -- Alabaster Stormtalon
     [417888] = true, -- Algarian Stormrider
@@ -21,6 +65,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [294569] = true, -- Beastlord's Warwolf
     [288438] = true, -- Blackpaw
     [358072] = true, -- Bound Blizzard
+   [1247662] = true, -- Brewfest Barrel Bomber
     [359545] = true, -- Carcinized Zerethsteed
     [ 75614] = true, -- Celestial Steed
     [171846] = true, -- Champion's Treadblade
@@ -78,6 +123,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [359843] = true, -- Tangled Dreamweaver
    [1217760] = true, -- The Big G
     [370770] = true, -- Tuskarr Shoreglider
+   [1234573] = true, -- Unbound Star-Eater
     [223341] = true, -- Vicious Gilnean Warhorse
     [424534] = true, -- Vicious Moonbeast (Alliance)
     [424535] = true, -- Vicious Moonbeast (Horde)
@@ -501,6 +547,7 @@ LM.MOUNTFAMILY["Deathwing Drake"] = {
 LM.MOUNTFAMILY["Delver's Dirigible"] = {
     [446052] = true, -- Delver's Dirigible
     [466133] = true, -- Delver's Gob-Trotter
+   [1224048] = true, -- Delver's Mana-Skimmer
 }
 
 -- This is a very unsexy name. Archangel Charger?
@@ -793,6 +840,8 @@ LM.MOUNTFAMILY["Gargon"] = {
 LM.MOUNTFAMILY["Gearglider"] = {
     [353263] = true, -- Cartel Master's Gearglider
     [346554] = true, -- Tazavesh Gearglider
+    [353265] = true, -- Vandal's Gearglider
+    [353264] = true, -- Xy Trustee's Gearglider
 }
 
 LM.MOUNTFAMILY["Gladiator's Cloud Serpent"] = {
@@ -885,6 +934,7 @@ LM.MOUNTFAMILY["Goblin Waveshredder"] = {
 -- Devourer Gorger
 LM.MOUNTFAMILY["Gorger"] = {
     [333027] = true, -- Loyal Gorger
+   [1241070] = true, -- Translocated Gorger
     [344659] = true, -- Voracious Gorger
 }
 
@@ -1118,6 +1168,7 @@ LM.MOUNTFAMILY["Krolusk"] = {
     [288736] = true, -- Azureshell Krolusk
     [279454] = true, -- Conqueror's Scythemaw
     [239049] = true, -- Obsidian Krolusk
+   [1240632] = true, -- Pearlescent Krolusk
     [288735] = true, -- Rubyshell Krolusk
 }
 
@@ -1204,6 +1255,7 @@ LM.MOUNTFAMILY["Marsh Hopper"] = {
 -- Devourer Mauler
 LM.MOUNTFAMILY["Mauler"] = {
     [356501] = true, -- Rampaging Mauler
+   [1241076] = true, -- Sthaarbs's Last Lunch
     [347536] = true, -- Tamed Mauler
 }
 
@@ -1628,6 +1680,7 @@ LM.MOUNTFAMILY["Ruinstrider"] = {
     [254260] = true, -- Bleakhoof Ruinstrider
     [253007] = true, -- Cerulean Ruinstrider
     [253058] = true, -- Maddened Chaosrunner
+   [1245370] = true, -- Ornery Breezestrider
     [253006] = true, -- Russet Ruinstrider
     [242305] = true, -- Sable Ruinstrider
     [253008] = true, -- Umber Ruinstrider
@@ -2138,6 +2191,13 @@ LM.MOUNTFAMILY["Vombata"] = {
     [359230] = true, -- Curious Crystalsniffer
     [359231] = true, -- Darkened Vombata
     [359229] = true, -- Heartlight Vombata
+}
+
+LM.MOUNTFAMILY["Void Creeper"] = {
+   [1233546] = true, -- Ruby Void Creeper
+   [1233547] = true, -- Acidic Void Creeper
+   [1234820] = true, -- Vicious Void Creeper
+   [1234821] = true, -- Vicious Void Creeper
 }
 
 LM.MOUNTFAMILY["Vorquin"] = {
