@@ -160,7 +160,7 @@ function LM.MountList:PriorityWeights()
         priorityCounts[p] = ( priorityCounts[p] or 0 ) + 1
     end
 
-    local weights = { total=0 }
+    local weights = { }
 
     for i, m in ipairs(self) do
         local p, w  = m:GetPriority()
@@ -170,14 +170,13 @@ function LM.MountList:PriorityWeights()
         else
             weights[i] = w / ( priorityCounts[p] + 1 )
         end
-        weights.total = weights.total + weights[i]
     end
 
     return weights
 end
 
 function LM.MountList:RarityWeights()
-    local weights = { total=0 }
+    local weights = { }
 
     for i, m in ipairs(self) do
         if m:GetPriority() == LM.Options.DISABLED_PRIORITY then
@@ -188,14 +187,13 @@ function LM.MountList:RarityWeights()
             -- Math fudge to guard against 0% rarity.
             weights[i] = 101 / ( rarity + 1) - 1
         end
-        weights.total = weights.total + weights[i]
     end
 
     return weights
 end
 
 function LM.MountList:LFUWeights()
-    local weights = { total=0 }
+    local weights = { }
     local lowestSummonCount
 
     for i, m in ipairs(self) do
@@ -215,29 +213,29 @@ function LM.MountList:LFUWeights()
         else
             weights[i] = 0
         end
-        weights.total = weights.total + weights[i]
     end
 
     return weights
 end
 
 function LM.MountList:WeightedRandom(weights, r)
-    if weights.total == 0 then
+    local total = Accumulate(weights)
+    if total == 0 then
         LM.Debug('  * WeightedRandom n=%d all weights 0', #self)
         return
     end
 
-    local cutoff = (r or math.random()) * weights.total
+    local cutoff = (r or math.random()) * total
 
     local t = 0
     for i = 1, #self do
         t = t + weights[i]
         if t > cutoff then
             LM.Debug('  * WeightedRandom n=%d, t=%0.3f, c=%0.3f, w=%0.3f, p=%0.3f',
-                        #self, weights.total,
+                        #self, total,
                         cutoff,
                         weights[i],
-                        weights[i] / weights.total)
+                        weights[i] / total)
             return self[i]
         end
     end
