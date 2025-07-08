@@ -1720,6 +1720,10 @@ LM.MOUNTFAMILY["Savage Battle Turtle"] = {
     [367826] = true, -- Savage Green Battle Turtle
 }
 
+LM.MOUNTFAMILY["Savagemane Ravasaur"] = {
+   [1237703] = true, -- Ivory Savagemane
+}
+
 LM.MOUNTFAMILY["Scarab"] = {
     [428060] = true, -- Golden Regal Scarab
     [428005] = true, -- Jeweled Copper Scarab
@@ -2287,11 +2291,6 @@ LM.MOUNTFAMILY["Wild Courser"] = {
     [280730] = true, -- Pureheart Courser horse2.m2
    [1217965] = true, -- Shimmermist Free Runner horse2ardenweald.m2
     [242875] = true, -- Wild Dreamrunner horse2.m2
-}
-
--- Again, no armor / saddle
-LM.MOUNTFAMILY["Wild Ravasaur"] = {
-   [1237703] = true, -- Ivory Savagemane
 }
 
 LM.MOUNTFAMILY["Wilderling"] = {
