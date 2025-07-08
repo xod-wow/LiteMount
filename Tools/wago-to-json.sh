@@ -7,15 +7,16 @@
 
 set -e
 
-DBFILE=`mktemp -p .`
-trap "rm -f $DBFILE" 0
+DBFILE=`mktemp -p . `
+#trap "rm -f $DBFILE" 0
 
 fetch_db2 () {
     for f in Mount MountXDisplay CreatureDisplayInfo CreatureModelData
     do
         echo "=== Fetching $f ===" 1>&2
         local T=`mktemp -p .`
-        curl -s -o $T "https://wago.tools/db2/$f/csv?product=wow"
+        #curl -s -o $T "https://wago.tools/db2/$f/csv?product=wow"
+        curl -s -o $T "https://wago.tools/db2/$f/csv"
         sqlite3 $DBFILE -cmd ".mode csv" ".import $T $f"
         rm -f $T
     done
@@ -31,17 +32,28 @@ fetch_listfile () {
     rm -f $T
 }
 
+make_combined_view () {
+    echo "=== Creating view ===" 1>&2
+    sqlite3 $DBFILE <<_EOT
+        CREATE VIEW MountCombined
+        AS SELECT *
+            FROM Mount m
+            LEFT JOIN MountXDisplay mxd ON m.ID = mxd.MountID
+            LEFT JOIN CreatureDisplayInfo cdi ON mxd.CreatureDisplayInfoID = cdi.ID
+            LEFT JOIN CreatureModelData cmd ON cdi.ModelID = cmd.ID
+            LEFT JOIN listfile l ON cmd.FileDataID = l.ID;
+_EOT
+}
+
+
 print_join () {
     local MODE=$1
     sqlite3 $DBFILE -cmd \
         ".mode $MODE" \
-        'select * from
-            Mount m LEFT JOIN MountXDisplay mxd ON m.ID = mxd.MountID
-                LEFT JOIN CreatureDisplayInfo cdi ON mxd.CreatureDisplayInfoID = cdi.ID
-                    LEFT JOIN CreatureModelData cmd ON cdi.ModelID = cmd.ID
-                        LEFT JOIN listfile l ON cmd.FileDataID = l.ID;'
+        'select * from MountCombined;'
 }
 
 fetch_db2
 fetch_listfile
-print_join json
+make_combined_view
+print_join json | jq .
