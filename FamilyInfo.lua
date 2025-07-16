@@ -12,6 +12,8 @@ LM.MOUNTFAMILY = {
     [NONE] = {}
 }
 
+-- xxx 11.2 mounts to confirm ---
+
 LM.MOUNTFAMILY["Voidwing"] = {
    [1242272] = true, -- Royal Voidwing
 }
@@ -56,6 +58,8 @@ LM.MOUNTFAMILY["Fel Elekk"] = {
    [1244260] = true, -- Void-Razed Elekk
 }
 
+-- xxx ---
+
 LM.MOUNTFAMILY._AUTO_ = {
     [302361] = true, -- Alabaster Stormtalon
     [417888] = true, -- Algarian Stormrider
@@ -91,6 +95,7 @@ LM.MOUNTFAMILY._AUTO_ = {
     [289555] = true, -- Glacial Tidestorm
     [122708] = true, -- Grand Expedition Yak
     [457485] = true, -- Grizzly Hills Packmaster
+   [1227192] = true, -- Herald of Sa'bak
     [229377] = true, -- High Priest's Lightsworn Seeker
     [360954] = true, -- Highland Drake [Swift Spectral Drake]
     [201098] = true, -- Infinite Timereaver
