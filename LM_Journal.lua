@@ -211,7 +211,7 @@ local ForceSummonByID = {
 -- alliance versions share the same spell and Blizzard have fubared something.
 -- Summon (Great) Exarch's Elekk and Summon (Great) Sunwalker Kodo work fine.
 
-if WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
+if WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC then
     ForceSummonByID[41] = true  -- Warhorse
     ForceSummonByID[84] = true  -- Charger
     ForceSummonByID[149] = true -- Thalassian Charger
