@@ -376,7 +376,7 @@ function LM.Environment:IsFlyableArea(mapPath)
         return override
     end
 
-    if WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC then
+    if WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC then
         -- Northrend requires Cold Weather Flying
         if self:InInstance(571) then
             if not IsPlayerSpell(54197) then
@@ -386,6 +386,12 @@ function LM.Environment:IsFlyableArea(mapPath)
         -- Eastern Kingdoms, Kalimdor and Deepholm require Flight Master's License
         if self:InInstance(0, 1, 646) then
             if not IsPlayerSpell(90267) then
+                return false
+            end
+        end
+        -- Pandaria requires Wisdom of the Four Winds
+        if self:InInstance(870) then
+            if not IsPlayerSpell(115913) then
                 return false
             end
         end
