@@ -41,6 +41,7 @@ globals = {
     "LiteMountFlagBitMixin",
     "LiteMountGeneralPanelMixin",
     "LiteMountGroupsPanel",
+    "LiteMountGroupsPanelBlankMixin",
     "LiteMountGroupsPanelButtonMixin",
     "LiteMountGroupsPanelGroupMixin",
     "LiteMountGroupsPanelGroupScrollBoxMixin",
@@ -131,6 +132,7 @@ globals = {
 read_globals = {
     "ACCEPT",
     "ACCESSIBILITY_DRIVE_LABEL",
+    "Accumulate",
     "ADVANCED_LABEL",
     "ADVANCED_OPTIONS",
     "ALL",
