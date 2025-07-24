@@ -284,7 +284,16 @@ ACTIONS['LeaveVehicle'] = {
     argType = 'none',
     handler =
         function (args, context)
-            if CanExitVehicle() then
+            if UnitOnTaxi('player') then
+                if MainMenuBarVehicleLeaveButton then
+                    -- Clicking updates the state of the UI button which is nice
+                    LM.Debug("  * setting action to click MainMenuBarVehicleLeaveButton")
+                    return LM.SecureAction:Click(MainMenuBarVehicleLeaveButton)
+                else
+                    LM.Debug("  * setting action to TaxiRequestEarlyLanding")
+                    return LM.SecureAction:Execute(TaxiRequestEarlyLanding)
+                end
+            elseif CanExitVehicle() then
                 LM.Debug("  * setting action to leavevehicle")
                 return LM.SecureAction:LeaveVehicle()
             end
