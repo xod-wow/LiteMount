@@ -63,7 +63,7 @@ end
 -- IsSpellUsable doesn't return false for Travel Form indoors like it should,
 -- because you can swim indoors with it (apparently).
 function LM.TravelForm:IsCastable()
-    if self:IsAreaDenied() then return false end
+    -- if self:IsAreaDenied() then return false end
     if IsIndoors() and not IsSubmerged() then return false end
     local id = GetShapeshiftFormID()
     -- Don't recast over mount-like forms as it behaves as a dismount
