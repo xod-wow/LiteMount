@@ -105,6 +105,10 @@ function LM.Environment:IsMovingOrFalling()
     return (GetUnitSpeed("player") > 0 or IsFalling())
 end
 
+function LM.Environment:IsPhaseDiving(mapPath)
+    return C_UnitAura.GetPlayerAuraBySpellID(1214734) ~= nil
+end
+
 function LM.Environment:IsTheMaw(mapPath)
     local instanceID = select(8, GetInstanceInfo())
 

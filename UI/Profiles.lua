@@ -23,7 +23,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            local text = self.editBox:GetText()
+            local text = self:GetEditBox():GetText()
             if text and text ~= "" then
                 LM.db:SetProfile(text)
                 if self.data then
@@ -32,7 +32,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
             end
         end,
     EditBoxOnEnterPressed = function (self)
-            if self:GetParent().button1:IsEnabled() then
+            if self:GetParent():GetButton1():IsEnabled() then
                 StaticPopup_OnClick(self:GetParent(), 1)
             end
         end,
@@ -42,13 +42,13 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
             if text ~= "" and not LM.db.profiles[text] then
-                self:GetParent().button1:Enable()
+                self:GetParent():GetButton1():Enable()
             else
-                self:GetParent().button1:Disable()
+                self:GetParent():GetButton1():Disable()
             end
         end,
     OnShow = function (self)
-            self.editBox:SetFocus()
+            self:GetEditBox():SetFocus()
         end,
 }
 
