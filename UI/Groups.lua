@@ -120,7 +120,8 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_GROUP"] = {
             LM.Options:DeleteGroup(self.data)
         end,
     OnShow = function (self)
-            self.text:SetText(format("LiteMount : %s : %s", L.LM_DELETE_GROUP, self.data))
+            local fs = self:GetTextFontString()
+            fs:SetText(format("LiteMount : %s : %s", L.LM_DELETE_GROUP, self.data))
     end
 }
 
