@@ -41,21 +41,21 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             LiteMountGroupsPanel.GroupScrollBox.isDirty = true
-            local text = self.editBox:GetText()
+            local text = self:GetEditBox():GetText()
             LiteMountGroupsPanel.GroupScrollBox.selectedGroup = text
             LM.Options:CreateGroup(text)
         end,
     -- This is not "Cancel", it's "Global" == button2
     OnCancel = function (self)
             LiteMountGroupsPanel.GroupScrollBox.isDirty = true
-            local text = self.editBox:GetText()
+            local text = self:GetEditBox():GetText()
             LiteMountGroupsPanel.GroupScrollBox.selectedGroup = text
             LM.Options:CreateGroup(text, true)
         end,
     -- This is cancel (button3)
     OnAlt = function (self) end,
     EditBoxOnEnterPressed = function (self)
-            if self:GetParent().button1:IsEnabled() then
+            if self:GetParent():GetButton1():IsEnabled() then
                 StaticPopup_OnClick(self:GetParent(), 1)
             end
         end,
@@ -65,11 +65,11 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
             local valid = IsValidGroupName(text)
-            self:GetParent().button1:SetEnabled(valid)
-            self:GetParent().button2:SetEnabled(valid)
+            self:GetParent():GetButton1():SetEnabled(valid)
+            self:GetParent():GetButton2():SetEnabled(valid)
         end,
     OnShow = function (self)
-        self.editBox:SetFocus()
+        self:GetEditBox():SetFocus()
     end,
 }
 
@@ -85,12 +85,12 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_GROUP"] = {
     hideOnEscape = 1,
     OnAccept = function (self)
             LiteMountGroupsPanel.GroupScrollBox.isDirty = true
-            local text = self.editBox:GetText()
+            local text = self:GetEditBox():GetText()
             LiteMountGroupsPanel.GroupScrollBox.selectedGroup = text
             LM.Options:RenameGroup(self.data, text)
         end,
     EditBoxOnEnterPressed = function (self)
-            if self:GetParent().button1:IsEnabled() then
+            if self:GetParent():GetButton1():IsEnabled() then
                 StaticPopup_OnClick(self:GetParent(), 1)
             end
         end,
@@ -100,10 +100,10 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_GROUP"] = {
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
             local valid = text ~= self.data and IsValidGroupName(text)
-            self:GetParent().button1:SetEnabled(valid)
+            self:GetParent():GetButton1():SetEnabled(valid)
         end,
     OnShow = function (self)
-        self.editBox:SetFocus()
+        self:GetEditBox():SetFocus()
     end,
 }
 
