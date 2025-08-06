@@ -29,12 +29,14 @@ LM.MOUNTFAMILY["Wind Gryphon"] = {
 LM.MOUNTFAMILY["Void Flyer"] = {
    [1246781] = true, -- Azure Void Flyer
    [1245517] = true, -- Scarlet Void Flyer
+   [1223191] = true, -- Terror of the Night
    [1223187] = true, -- Terror of the Wastes
 }
 
 LM.MOUNTFAMILY["K'aresh Slateback"] = {
    [1233559] = true, -- Blue Barry
    [1233561] = true, -- Curious Slateback
+   [1250578] = true, -- Phase-Lost Slateback
 }
 
 LM.MOUNTFAMILY["K'arroc"] = {
@@ -754,6 +756,7 @@ LM.MOUNTFAMILY["Fathom Ray"] = {
 
 -- Could split Glad
 LM.MOUNTFAMILY["Felbat"] = {
+    [472157] = true, -- Astral Gladiator's Fel Bat
     [449466] = true, -- Forged Gladiator's Fel Bat
     [466144] = true, -- Prized Gladiator's Fel Bat
     [229417] = true, -- Slayer's Felbroken Shrieker
@@ -2203,8 +2206,9 @@ LM.MOUNTFAMILY["Vombata"] = {
 }
 
 LM.MOUNTFAMILY["Void Creeper"] = {
-   [1233546] = true, -- Ruby Void Creeper
    [1233547] = true, -- Acidic Void Creeper
+   [1233546] = true, -- Ruby Void Creeper
+   [1233542] = true, -- The Bone Freezer
    [1234820] = true, -- Vicious Void Creeper
    [1234821] = true, -- Vicious Void Creeper
 }
