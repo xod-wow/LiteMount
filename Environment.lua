@@ -401,10 +401,10 @@ function LM.Environment:IsFlyableArea(mapPath)
         end
     end
 
-    if self:InInstance(2552, 2601) then
-        -- In Khaz Algar (Surface) (2552) and Khaz Algar (2601) before you
-        -- unlock Steady Flight, IsFlyableArea() is false and I don't know of a
-        -- check to see if Skyriding would work.
+    if self:InInstance(2552, 2601, 2738) then
+        -- In Khaz Algar (Surface) (2552), Khaz Algar (2601) and K'aresh (2739)
+        -- before unlocking Steady Flight, IsFlyableArea() is false and I don't
+        -- know of a check to see if Skyriding would work.
         if select(4, GetAchievementInfo(40231)) == false then
             return true
         end
