@@ -12,56 +12,6 @@ LM.MOUNTFAMILY = {
     [NONE] = {}
 }
 
--- xxx 11.2 mounts to confirm ---
-
-LM.MOUNTFAMILY["Voidwing"] = {
-   [1242272] = true, -- Royal Voidwing
-}
-
--- XXX FIXME XXX
-LM.MOUNTFAMILY["Wind Gryphon"] = {
-   [1245358] = true, -- Akil'darah Windscarred
-   [1245361] = true, -- Darkfeather Eclipse
-   [1245359] = true, -- Ohn'ahran Windborne
-   [1245357] = true, -- Windmaster's Battlesworn
-}
-
-LM.MOUNTFAMILY["Void Flyer"] = {
-   [1246781] = true, -- Azure Void Flyer
-   [1245517] = true, -- Scarlet Void Flyer
-   [1223191] = true, -- Terror of the Night
-   [1223187] = true, -- Terror of the Wastes
-}
-
-LM.MOUNTFAMILY["K'aresh Slateback"] = {
-   [1233559] = true, -- Blue Barry
-   [1233561] = true, -- Curious Slateback
-   [1250578] = true, -- Phase-Lost Slateback
-}
-
-LM.MOUNTFAMILY["K'arroc"] = {
-   [1221132] = true, -- Resplendent K'arroc
-   [1233511] = true, -- Umbral K'arroc
-   [1233518] = true, -- Lavender K'arroc
-}
-
-LM.MOUNTFAMILY["Headless Horseman's Charger"] = {
-   [1245202] = true, -- The Headless Horseman's Burning Charger
-   [1245197] = true, -- The Headless Horseman's Chilling Charger
-   [1245205] = true, -- The Headless Horseman's Ghostly Charger
-   [1245198] = true, -- The Headless Horseman's Ghoulish Charger
-}
-
--- Could be Burning Legion Elekk
-LM.MOUNTFAMILY["Fel Elekk"] = {
-   [1244259] = true, -- Cinder-seared Elekk
-   [1244261] = true, -- Legion Forged Elekk
-   [1244247] = true, -- Thunder-ridged Elekk
-   [1244260] = true, -- Void-Razed Elekk
-}
-
--- xxx ---
-
 LM.MOUNTFAMILY._AUTO_ = {
     [302361] = true, -- Alabaster Stormtalon
     [417888] = true, -- Algarian Stormrider
@@ -754,6 +704,13 @@ LM.MOUNTFAMILY["Fathom Ray"] = {
     [291538] = true, -- Unshackled Waveray
 }
 
+LM.MOUNTFAMILY["Fel Elekk"] = {
+   [1244259] = true, -- Cinder-seared Elekk
+   [1244261] = true, -- Legion Forged Elekk
+   [1244247] = true, -- Thunder-ridged Elekk
+   [1244260] = true, -- Void-Razed Elekk
+}
+
 -- Could split Glad
 LM.MOUNTFAMILY["Felbat"] = {
     [472157] = true, -- Astral Gladiator's Fel Bat
@@ -1071,6 +1028,13 @@ LM.MOUNTFAMILY["Hawkstrider"] = {
     [ 34795] = true, -- Red Hawkstrider
 }
 
+LM.MOUNTFAMILY["Headless Horseman's Charger"] = {
+   [1245202] = true, -- The Headless Horseman's Burning Charger
+   [1245197] = true, -- The Headless Horseman's Chilling Charger
+   [1245205] = true, -- The Headless Horseman's Ghostly Charger
+   [1245198] = true, -- The Headless Horseman's Ghoulish Charger
+}
+
 LM.MOUNTFAMILY["Hearthsteed"] = {
     [278966] = true, -- Fiery Hearthsteed
     [142073] = true, -- Hearthsteed
@@ -1147,6 +1111,18 @@ LM.MOUNTFAMILY["Infernal"] = {
 
 LM.MOUNTFAMILY["Jawcrawler"] = {
     [447957] = true, -- Ferocious Jawcrawler
+}
+
+LM.MOUNTFAMILY["K'aresh Slateback"] = {
+   [1233559] = true, -- Blue Barry
+   [1233561] = true, -- Curious Slateback
+   [1250578] = true, -- Phase-Lost Slateback
+}
+
+LM.MOUNTFAMILY["K'arroc"] = {
+   [1221132] = true, -- Resplendent K'arroc
+   [1233511] = true, -- Umbral K'arroc
+   [1233518] = true, -- Lavender K'arroc
 }
 
 LM.MOUNTFAMILY["Kaldorei Nightsaber"] = {
@@ -2172,6 +2148,7 @@ LM.MOUNTFAMILY["Vespoid"] = {
 
 -- Voidwing Drake?
 LM.MOUNTFAMILY["Vexiona Drake"] = {
+   [1242272] = true, -- Royal Voidwing
     [302143] = true, -- Uncorrupted Voidwing
 }
 
@@ -2211,6 +2188,13 @@ LM.MOUNTFAMILY["Void Creeper"] = {
    [1233542] = true, -- The Bone Freezer
    [1234820] = true, -- Vicious Void Creeper
    [1234821] = true, -- Vicious Void Creeper
+}
+
+LM.MOUNTFAMILY["Void Flyer"] = {
+   [1246781] = true, -- Azure Void Flyer
+   [1245517] = true, -- Scarlet Void Flyer
+   [1223191] = true, -- Terror of the Night
+   [1223187] = true, -- Terror of the Wastes
 }
 
 LM.MOUNTFAMILY["Vorquin"] = {
@@ -2308,6 +2292,13 @@ LM.MOUNTFAMILY["Wilderling"] = {
     [353859] = true, -- Summer Wilderling
     [439138] = true, -- Voyaging Wilderling
     [353858] = true, -- Winder Wilderling
+}
+
+LM.MOUNTFAMILY["Wildhammer Gryphon"] = {
+   [1245358] = true, -- High Shaman's Aerie Gryphon
+   [1245361] = true, -- Emberwing Sky Guide
+   [1245359] = true, -- Cinder-Plumed HIghland Gryphon
+   [1245357] = true, -- Adorned Northeron Gryphon
 }
 
 LM.MOUNTFAMILY["Wildseed Cradle"] = {
