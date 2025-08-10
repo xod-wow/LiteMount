@@ -103,7 +103,7 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_GROUP"] = {
         end,
     EditBoxOnEnterPressed = function (self)
             local parent = self:GetParent()
-            local button1 = parent.button1 or parent:Getbutton1()
+            local button1 = parent.button1 or parent:GetButton1()
             if button1:IsEnabled() then
                 StaticPopup_OnClick(self:GetParent(), 1)
             end
@@ -115,7 +115,7 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_GROUP"] = {
             local text = self:GetText()
             local valid = text ~= self.data and IsValidGroupName(text)
             local parent = self:GetParent()
-            local button1 = parent.button1 or parent:Getbutton1()
+            local button1 = parent.button1 or parent:GetButton1()
             button1:SetEnabled(valid)
         end,
     OnShow = function (self)
