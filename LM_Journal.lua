@@ -47,11 +47,13 @@ function LM.Journal:Get(id)
     local name, spellID, icon, _, _, sourceType, _, _, faction, _, _, _, isSteadyFlight = C_MountJournal.GetMountInfoByID(id)
     local creatureDisplayID, descriptionText, sourceText, isSelfMount, mountTypeID, modelSceneID, animID, spellVisualKitID, disablePlayerMountPreview = C_MountJournal.GetMountInfoExtraByID(id)
 
-    if not creatureDisplayID then
-        local allCreatureDisplays = C_MountJournal.GetMountAllCreatureDisplayInfoByID(id)
-        if allCreatureDisplays and allCreatureDisplays[1] then
-            creatureDisplayID = allCreatureDisplays[1].creatureDisplayID
+    if C_MountJournal.GetMountAllCreatureDisplayInfoByID then
+        creatureDisplayID = {}
+        for _, info in ipairs(C_MountJournal.GetMountAllCreatureDisplayInfoByID(id)) do
+            table.insert(creatureDisplayID, info.creatureDisplayID)
         end
+    else
+        creatureDisplayID = { creatureDisplayID }
     end
 
     if not name then

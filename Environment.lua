@@ -488,9 +488,9 @@ ModelScanFrame:Hide()
 function LM.Environment:GetPlayerModel()
     ModelScanFrame:Show()
     ModelScanFrame:SetUnit('player')
-    local id = ModelScanFrame:GetModelFileID()
+    local modelFileID = ModelScanFrame:GetModelFileID()
     ModelScanFrame:Hide()
-    return id
+    return modelFileID
 end
 
 -- The level of black magic shenanigans here is off the charts. What on earth

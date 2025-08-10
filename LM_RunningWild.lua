@@ -11,10 +11,6 @@ local _, LM = ...
 LM.RunningWild = setmetatable({ }, LM.Spell)
 LM.RunningWild.__index = LM.RunningWild
 
-function LM.RunningWild:Get()
-    return LM.Spell.Get(self, LM.SPELL.RUNNING_WILD, 'RUN')
-end
-
 local worgenPlayerModels = {
     [ 307453] = true,       -- Worgen male
     [ 307454] = true,       -- Worgen female

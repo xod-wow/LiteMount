@@ -22,8 +22,10 @@ local MountsRarity = LibStub("MountsRarity-2.0")
 LM.Mount = { }
 LM.Mount.__index = LM.Mount
 
-function LM.Mount:new()
-    return setmetatable({ }, self)
+function LM.Mount:new(t)
+    local m = t and CopyTable(t) or {}
+    m.flags = m.flags or {}
+    return setmetatable(m, self)
 end
 
 function LM.Mount:Get(className, ...)

@@ -23,13 +23,12 @@ local C_Spell = LM.C_Spell or C_Spell
 LM.Nagrand = setmetatable({ }, LM.Spell)
 LM.Nagrand.__index = LM.Nagrand
 
-function LM.Nagrand:Get(spellID, faction, ...)
-    local m = LM.Spell.Get(self, spellID, ...)
+function LM.Nagrand:Get(data)
+    local m = LM.Spell.Get(self, data)
 
     if m then
         m.baseSpellID = LM.SPELL.GARRISON_ABILITY
         m.baseSpellName = C_Spell.GetSpellName(m.baseSpellID)
-        m.needsFaction = faction
     end
 
     return m

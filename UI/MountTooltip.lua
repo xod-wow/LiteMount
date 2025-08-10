@@ -16,7 +16,7 @@ local L = LM.Localize
 LiteMountTooltipPreviewMixin = {}
 
 function LiteMountTooltipPreviewMixin:SetAsMount(mount, parent)
-    if mount.creatureDisplayID and mount.modelSceneID then
+    if mount.creatureDisplayID then
         self:SetParent(parent)
         self:Attach(parent)
         self.ModelScene:SetMount(mount)

@@ -20,51 +20,166 @@ local IndexAttributes = { 'mountID', 'name', 'spellID', 'overrideSpellID' }
 LM.MountRegistry = CreateFrame("Frame", nil, UIParent)
 LM.MountRegistry.callbacks = CallbackHandler:New(LM.MountRegistry)
 
--- Type, type class create args
-local MOUNT_SPELLS = {
-    { "RunningWild", LM.SPELL.RUNNING_WILD },
-    { "GhostWolf", LM.SPELL.GHOST_WOLF, 'RUN', 'SLOW' },
-    { "Nagrand", LM.SPELL.FROSTWOLF_WAR_WOLF, 'Horde', 'RUN' },
-    { "Nagrand", LM.SPELL.TELAARI_TALBUK, 'Alliance', 'RUN' },
-    { "Soar", LM.SPELL.SOAR, 'FLY', 'DRAGONRIDING' },
-    { "Drive", LM.SPELL.G_99_BREAKNECK, 'DRIVE' },
---  { "Soulshape", LM.SPELL.SOULSHAPE, 'RUN', 'SLOW' },
+-- Type, TypeInitializerArgs
+local EXTRA_MOUNT_DATA = {
+    { "RunningWild",
+        {
+            spellID = LM.SPELL.RUNNING_WILD,
+            flags = { ['RUN'] = true },
+            creatureDisplayID = { UnitSex("player") == 2 and 34344 or 37389 },
+        },
+    },
+    { "GhostWolf",
+        {
+            spellID = LM.SPELL.GHOST_WOLF,
+            flags = { ['RUN'] = true, ['SLOW'] = true },
+            creatureDisplayID = { 72049, },
+            creatureDesaturation = 1,
+            creatureAlpha = 0.5,
+        }
+    },
+    { "Soar",
+        {
+            spellID = LM.SPELL.SOAR,
+            flags = { ['FLY'] = true, ['DRAGONRIDING'] = true },
+            creatureDisplayID = { UnitSex("player") == 2 and 110241 or 111204 },
+        }
+     },
+    { "Nagrand",
+        {
+            spellID = LM.SPELL.FROSTWOLF_WAR_WOLF,
+            needsFaction = 'Horde',
+            flags = { ['RUN'] = true },
+            creatureDisplayID = { 56964 },
+        }
+    },
+    { "Nagrand",
+        {
+            spellID = LM.SPELL.TELAARI_TALBUK,
+            needsFaction ='Alliance',
+            flags = { ['RUN'] = true },
+            creatureDisplayID = { 54406 },
+        }
+    },
+    { "Drive",
+        {
+            spellID = LM.SPELL.G_99_BREAKNECK,
+            flags = { ['DRIVE'] = true, },
+            creatureDisplayID = { 124253, 125048, 125048, 125049, 125050, 125051 },
+        }
+    },
     { "ItemSummoned",
-        LM.ITEM.MAGIC_BROOM, LM.SPELL.MAGIC_BROOM, 'RUN', 'FLY', },
+        {
+            itemID = LM.ITEM.MAGIC_BROOM,
+            spellID = LM.SPELL.MAGIC_BROOM,
+            flags = { ['RUN'] = true, ['FLY'] = true, },
+            creatureDisplayID = { 21939 },
+        }
+    },
     { "ItemSummoned",
-        LM.ITEM.SHIMMERING_MOONSTONE, LM.SPELL.MOONFANG, 'RUN', },
+        {
+            itemID = LM.ITEM.SHIMMERING_MOONSTONE,
+            spellID = LM.SPELL.MOONFANG,
+            flags = { ['RUN'] = true },
+            creatureDisplayID = { 49249 },
+        }
+    },
     { "ItemSummoned",
-        LM.ITEM.RATSTALLION_HARNESS, LM.SPELL.RATSTALLION_HARNESS, 'RUN', },
+        {
+            itemID = LM.ITEM.RATSTALLION_HARNESS,
+            spellID = LM.SPELL.RATSTALLION_HARNESS,
+            flags = { ['RUN'] = true },
+            creatureDisplayID = { 70619 },
+        }
+    },
     { "ItemSummoned",
-        LM.ITEM.SAPPHIRE_QIRAJI_RESONATING_CRYSTAL, LM.SPELL.BLUE_QIRAJI_WAR_TANK, 'RUN', },
+        {
+            itemID = LM.ITEM.SAPPHIRE_QIRAJI_RESONATING_CRYSTAL,
+            spellID = LM.SPELL.BLUE_QIRAJI_WAR_TANK,
+            flags = { ['RUN'] = true },
+        }
+    },
     { "ItemSummoned",
-        LM.ITEM.RUBY_QIRAJI_RESONATING_CRYSTAL, LM.SPELL.RED_QIRAJI_WAR_TANK, 'RUN', },
---  { "ItemSummoned",
---      LM.ITEM.DRAGONWRATH_TARECGOSAS_REST, LM.SPELL.TARECGOSAS_VISAGE, 'FLY' },
+        {
+            itemID = LM.ITEM.RUBY_QIRAJI_RESONATING_CRYSTAL,
+            spellID = LM.SPELL.RED_QIRAJI_WAR_TANK,
+            flags = { ['RUN'] = true },
+        }
+    },
     { "ItemSummoned",
-        LM.ITEM.MAWRAT_HARNESS, LM.SPELL.MAWRAT_HARNESS, 'RUN' },
+        {
+            itemID = LM.ITEM.MAWRAT_HARNESS,
+            spellID = LM.SPELL.MAWRAT_HARNESS,
+            flags = { ['RUN'] = true },
+            creatureDisplayID = { 96522 },
+        }
+    },
     { "ItemSummoned",
-        LM.ITEM.SPECTRAL_BRIDLE, LM.SPELL.SPECTRAL_BRIDLE, 'RUN' },
+        {
+            itemID = LM.ITEM.SPECTRAL_BRIDLE,
+            spellID = LM.SPELL.SPECTRAL_BRIDLE,
+            flags = { ['RUN'] = true },
+            creatureDisplayID = { 97000 },
+        }
+    },
     { "ItemSummoned",
-        LM.ITEM.DEADSOUL_HOUND_HARNESS, LM.SPELL.DEADSOUL_HOUND_HARNESS, 'RUN' },
+        {
+            itemID = LM.ITEM.DEADSOUL_HOUND_HARNESS,
+            spellID = LM.SPELL.DEADSOUL_HOUND_HARNESS,
+            flags = { ['RUN'] = true },
+            creatureDisplayID = { 93213 },
+        }
+    },
     { "ItemSummoned",
-        LM.ITEM.MAW_SEEKER_HARNESS, LM.SPELL.MAW_SEEKER_HARNESS, 'RUN' },
+        {
+            itemID = LM.ITEM.MAW_SEEKER_HARNESS,
+            spellID = LM.SPELL.MAW_SEEKER_HARNESS,
+            flags = { ['RUN'] = true },
+            creatureDisplayID = { 92631 },
+        }
+    },
+    { "TravelForm", disabled = ( WOW_PROJECT_ID ~= 1 ),
+        {
+            spellID = LM.SPELL.TRAVEL_FORM,
+            flags = {
+                ['DRAGONRIDING'] = true,
+                ['RUN'] = true,
+                ['FLY'] = true,
+                ['SWIM'] = true,
+            },
+        }
+    },
+    { "TravelForm", disabled = ( WOW_PROJECT_ID ~= 1 ),
+        {
+            spellID = LM.SPELL.MOUNT_FORM,
+            flags = { ['RUN'] = true },
+        }
+    },
+    { "TravelForm", disabled = ( WOW_PROJECT_ID == 1 ),
+        {
+            spellID = LM.SPELL.TRAVEL_FORM,
+            flags = { ['RUN'] = true, ['SLOW'] = true },
+        }
+    },
+    { "TravelForm", disabled = ( WOW_PROJECT_ID == 1 ),
+        {
+            spellID = LM.SPELL.AQUATIC_FORM_CLASSIC,
+            flags = { ['SWIM'] = true },
+        }
+    },
+    { "TravelForm", disabled = ( WOW_PROJECT_ID == 1 ),
+        {
+            spellID = LM.SPELL.FLIGHT_FORM_CLASSIC,
+            flags =  { ['FLY'] = true },
+        }
+    },
+    { "TravelForm", disabled = ( WOW_PROJECT_ID == 1 ),
+        {
+            spellID = LM.SPELL.SWIFT_FLIGHT_FORM_CLASSIC,
+            flags = { ['FLY'] = true },
+        }
+    },
 }
-
-local MOUNT_SPELLS_BY_PROJECT = LM.TableWithDefault({
-    [1] = {
-        { "TravelForm", LM.SPELL.TRAVEL_FORM, 'DRAGONRIDING', 'RUN', 'FLY', 'SWIM' },
-        { "TravelForm", LM.SPELL.MOUNT_FORM, 'RUN' },
-    },
-    DEFAULT = {
-        { "TravelForm", LM.SPELL.TRAVEL_FORM, 'RUN', 'SLOW' },
-        { "TravelForm", LM.SPELL.AQUATIC_FORM_CLASSIC, 'SWIM' },
-        { "TravelForm", LM.SPELL.FLIGHT_FORM_CLASSIC, 'FLY' },
-        { "TravelForm", LM.SPELL.SWIFT_FLIGHT_FORM_CLASSIC, 'FLY' },
-    },
-})
-
-tAppendAll(MOUNT_SPELLS, MOUNT_SPELLS_BY_PROJECT[WOW_PROJECT_ID])
 
 local RefreshEvents = {
     ["NEW_MOUNT_ADDED"] = true,
@@ -108,7 +223,7 @@ function LM.MountRegistry:Initialize()
     self.mounts = LM.MountList:New()
 
     -- These are in this order so custom stuff is prioritized
-    self:AddSpellMounts()
+    self:AddExtraMounts()
     self:AddJournalMounts()
     self:UpdateFilterUsability()
 
@@ -248,11 +363,13 @@ end
 
 -- The unpack function turns a table into a list. I.e.,
 --      unpack({ a, b, c }) == a, b, c
-function LM.MountRegistry:AddSpellMounts()
-    for _,typeAndArgs in ipairs(MOUNT_SPELLS) do
-        local m = LM.Mount:Get(unpack(typeAndArgs))
-        if m then
-            self:AddMount(m)
+function LM.MountRegistry:AddExtraMounts()
+    for _,typeAndArgs in ipairs(EXTRA_MOUNT_DATA) do
+        if not typeAndArgs.disabled then
+            local m = LM.Mount:Get(unpack(typeAndArgs))
+            if m then
+                self:AddMount(m)
+            end
         end
     end
 end

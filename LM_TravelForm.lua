@@ -19,6 +19,32 @@ local _, LM = ...
 LM.TravelForm = setmetatable({ }, LM.Spell)
 LM.TravelForm.__index = LM.TravelForm
 
+-- These are probably completely wrong for Classic
+
+local TravelFormDisplayID = {
+    HighmountainTauren  = { 81439 },
+    KulTiran            = { 88351 },
+    NightElf            = { 21243 },
+    Tauren              = { 21244 },
+    Troll               = { 37730 },
+    Worgen              = { 37729 },
+    ZandalariTroll      = { 91215 },
+}
+
+local MountFormDisplayID = {
+    NightElf            = { 40816 },
+}
+
+function LM.TravelForm:Get(...)
+    local m = LM.Spell.Get(self, ...)
+    local _, race = UnitRace('player')
+    if m.spellID == LM.SPELL.MOUNT_FORM then
+        m.creatureDisplayID = MountFormDisplayID[race] or MountFormDisplayID.NightElf
+    else
+        m.creatureDisplayID = TravelFormDisplayID[race] or TravelFormDisplayID.NightElf
+    end
+    return m
+end
 
 -- Druid forms don't reliably have a corresponding player buff, so we need
 -- to check the spell from GetShapeshiftFormInfo.
