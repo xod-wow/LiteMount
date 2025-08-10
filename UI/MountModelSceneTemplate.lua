@@ -15,10 +15,9 @@ function LiteMountMountModelSceneMixin:SetMount(mount)
         self:TransitionToModelSceneID(mount.modelSceneID, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, false)
         local mountActor = self:GetActorByTag("unwrapped")
         if mountActor then
-            local n = math.random(#mount.creatureDisplayID)
             mountActor:Hide()
             mountActor:SetOnModelLoadedCallback(function () mountActor:Show() end)
-            mountActor:SetModelByCreatureDisplayID(mount.creatureDisplayID[n], true)
+            mountActor:SetModelByCreatureDisplayID(mount.creatureDisplayID, true)
             if mount.isSelfMount then
                 mountActor:SetAnimationBlendOperation(Enum.ModelBlendOperation.None)
                 mountActor:SetAnimation(618)
