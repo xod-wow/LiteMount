@@ -19,29 +19,55 @@ local _, LM = ...
 LM.TravelForm = setmetatable({ }, LM.Spell)
 LM.TravelForm.__index = LM.TravelForm
 
--- These are probably completely wrong for Classic
-
 local TravelFormDisplayID = {
-    HighmountainTauren  = { 81439 },
-    KulTiran            = { 88351 },
-    NightElf            = { 21243 },
-    Tauren              = { 21244 },
-    Troll               = { 37730 },
-    Worgen              = { 37729 },
-    ZandalariTroll      = { 91215 },
+    40816,                          -- Night Elf/Worgen
+    45339,                          -- Tauren/Troll
+    81440,                          -- Hightmountain Tauren
+    87427, 87428, 87429, 87430,     -- Kul Tiran
+    82130,                          -- Zandalari Troll
 }
 
-local MountFormDisplayID = {
-    NightElf            = { 40816 },
+local FlightFormDisplayID = {
+    38022,                          -- Night Elf
+    38251,                          -- Tauren/Troll
+    81439,                          -- Hightmountain Tauren
+    88351, 83352, 83353, 83354,     -- Kul Tiran
+    91214,                          -- Zandalari Troll
+    37729,                          -- Worgen
+    74304, 74305, 74306, 74307,     -- The owl thing
+}
+
+local AquaticFormDisplayID = {
+    2428,                           -- Base sea lion
+    87879, 87880, 87881, 87882,     -- Kul Tiran
+    88747, 88748, 88749, 88750,     -- Zandalari Troll
+}
+
+local AllFormDisplayID = {
+    unpack(TravelFormDisplayID),
+    unpack(FlightFormDisplayID),
+    unpack(AquaticFormDisplayID)
 }
 
 function LM.TravelForm:Get(...)
     local m = LM.Spell.Get(self, ...)
     local _, race = UnitRace('player')
-    if m.spellID == LM.SPELL.MOUNT_FORM then
-        m.creatureDisplayID = MountFormDisplayID[race] or MountFormDisplayID.NightElf
+    if WOW_PROJECT_ID == 1 then
+        if m.spellID == LM.SPELL.MOUNT_FORM then
+            m.creatureDisplayID = TravelFormDisplayID
+        else
+            m.creatureDisplayID = AllFormDisplayID
+        end
     else
-        m.creatureDisplayID = TravelFormDisplayID[race] or TravelFormDisplayID.NightElf
+        if m.spellID == LM.SPELL.FLIGHT_FORM_CLASSIC then
+            m.creatureDisplayID = { FlightFormDisplayID[1], FlightFormDisplayID[2] }
+        elseif m.spellID == LM.SPELL.SWIFT_FLIGHT_FORM_CLASSIC then
+            m.creatureDisplayID = { FlightFormDisplayID[1], FlightFormDisplayID[2] }
+        elseif m.spellID == LM.SPELL.AQUATIC_FORM_CLASSIC then
+            m.creatureDisplayID = { AquaticFormDisplayID[1] }
+        else
+            m.creatureDisplayID = { TravelFormDisplayID[1], TravelFormDisplayID[2] }
+        end
     end
     return m
 end
