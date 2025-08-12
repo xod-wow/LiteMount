@@ -119,8 +119,9 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_GROUP"] = {
             button1:SetEnabled(valid)
         end,
     OnShow = function (self)
-        self:GetEditBox():SetFocus()
-    end,
+            local editBox = self.editBox or self:GetEditBox()
+            editBox:SetFocus()
+        end,
 }
 
 StaticPopupDialogs["LM_OPTIONS_DELETE_GROUP"] = {
