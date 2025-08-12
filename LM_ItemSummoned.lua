@@ -20,9 +20,7 @@ LM.ItemSummoned.__index = LM.ItemSummoned
 -- the spell as well isn't a burden.
 
 function LM.ItemSummoned:Get(data)
-
     local m = LM.Spell.Get(self, data)
-    if not m then print('fml', data.spellID, data.itemID) end
     -- Used to do GetItemInfo here, but it doesn't work the first
     -- time you log in until the server returns the info and
     -- GET_ITEM_INFO_RECEIVED fires, but I can't be bothered handling
