@@ -158,12 +158,30 @@ function LM.Journal:IsFilterUsable()
     return self.isFilterUsable
 end
 
+-- looks like anything with an NPC on it won't work
+local NotUsableInPhaseDiving = {
+     [470]  = true,     -- Grand Expedition Yak
+    [1039]  = true,     -- Mighty Caravan Brutosaur
+    [2237]  = true,     -- Grizzly Hills Packmaster
+    [2265]  = true,     -- Trader's Gilded Brutosaur
+}
+
 function LM.Journal:IsCastable()
     if not self:IsUsable() then
         return false
     end
     if not C_Spell.IsSpellUsable(self.spellID) then
         return false
+    end
+    -- Phase diving is weird. You can mount most mounts, but it turns them all
+    -- into Phase-Lost Slateback afterwards, kind of the same way the holly
+    -- does at Xmas time.
+    if LM.Environment:IsPhaseDiving() then
+        if NotUsableInPhaseDiving[self.mountID] then
+            return false
+        elseif not LM.Environment:CanMountInPhaseDiving() then
+            return false
+        end
     end
     return LM.Mount.IsCastable(self)
 end

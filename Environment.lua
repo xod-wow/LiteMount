@@ -105,8 +105,15 @@ function LM.Environment:IsMovingOrFalling()
     return (GetUnitSpeed("player") > 0 or IsFalling())
 end
 
-function LM.Environment:IsPhaseDiving(mapPath)
-    return C_UnitAura.GetPlayerAuraBySpellID(1214734) ~= nil
+function LM.Environment:IsPhaseDiving()
+    return C_UnitAuras.GetPlayerAuraBySpellID(1214734) ~= nil
+end
+
+-- "Orbs of Power", the third node unlock in the Reshii Wraps talent tree
+function LM.Environment:CanMountInPhaseDiving()
+    local configID = C_Traits.GetConfigIDByTreeID(1115)
+    local nodeInfo = C_Traits.GetNodeInfo(configID, 105869)
+    return nodeInfo.currentRank == 1
 end
 
 function LM.Environment:IsTheMaw(mapPath)
