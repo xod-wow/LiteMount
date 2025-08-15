@@ -633,6 +633,11 @@ local function CombatHandlerOverride(args, context)
         return LM.SecureAction:Execute(function () SummonJournalMountDirect('DRAGONRIDING') end)
     end
 
+    -- Dimensius, the All-Devouring, Manaforge Omega raid (The War Within)
+    if LM.Environment:IsMapInPath(2470) then
+        return LM.SecureAction:Execute(function () SummonJournalMountDirect('DRAGONRIDING') end)
+    end
+
     -- The Dawnbreaker dungeon (The War Within)
     -- Two boss fight (Speaker Shadowcrown and Rasha'nan) have flying in combat
     -- enabled by a debuff, Radiant Light.
