@@ -633,8 +633,8 @@ local function CombatHandlerOverride(args, context)
         return LM.SecureAction:Execute(function () SummonJournalMountDirect('DRAGONRIDING') end)
     end
 
-    -- Dimensius, the All-Devouring, Manaforge Omega raid (The War Within)
-    if LM.Environment:IsMapInPath(2470) then
+    -- Dimensius, Manaforge Omega raid (TWW)
+    if LM.Environment:IsMapInPath(2467) then
         return LM.SecureAction:Execute(function () SummonJournalMountDirect('DRAGONRIDING') end)
     end
 
