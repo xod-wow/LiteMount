@@ -575,9 +575,12 @@ LM.MOUNTFAMILY["Dragonhawk"] = {
     [ 61996] = true, -- Blue Dragonhawk
     [194464] = true, -- Eclipse Dragonhawk
     [ 62048] = true, -- Illidari Doomhawk
+   [1234305] = true, -- Lightwing Dragonhawk
     [ 61997] = true, -- Red Dragonhawk
     [ 66088] = true, -- Sunreaver Dragonhawk
     [351195] = true, -- Vengeance
+   [1239138] = true, -- Voidlight Surger
+   [1234303] = true, -- Voidwing Dragonhawk
 }
 
 LM.MOUNTFAMILY["Drake"] = {
