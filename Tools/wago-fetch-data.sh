@@ -7,7 +7,9 @@
 
 set -e
 
-DBFILE=`mktemp -p . `
+DBFILE=WAGO.sqlite
+JSONFILE=WAGO.json
+
 #trap "rm -f $DBFILE" 0
 
 fetch_db2 () {
@@ -56,4 +58,5 @@ print_join () {
 fetch_db2
 fetch_listfile
 make_combined_view
-print_join json | jq .
+echo "=== Writing $JSONFILE ==="
+print_join json | jq . > $JSONFILE
