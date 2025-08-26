@@ -350,7 +350,8 @@ function LM.Environment:KnowsRidingSkill()
 end
 
 function LM.Environment:KnowsFlyingSkill()
-    return IsPlayerSpell(54197)
+    return IsPlayerSpell(90265)
+        or IsPlayerSpell(54197)
         or IsPlayerSpell(34091)
         or IsPlayerSpell(34090)
 end
