@@ -620,6 +620,18 @@ local function SummonJournalMountDirect(...)
     end
 end
 
+local function GetCombatMountAction(flag)
+    -- Travel Form is preferred for druids as you might be in a shapeshift
+    -- form and then C_MountJournal.SummonByID will fail.
+    if select(2, UnitClass("player")) == "DRUID" then
+        local m = LM.MountRegistry:GetMountBySpell(LM.SPELL.TRAVEL_FORM)
+        if m and m:IsCollected() then
+            return m:GetCastAction()
+        end
+    end
+    return LM.SecureAction:Execute(function () SummonJournalMountDirect(flag) end)
+end
+
 local function CombatHandlerOverride(args, context)
     -- For speed these should try to return ASAP.
 
@@ -628,28 +640,31 @@ local function CombatHandlerOverride(args, context)
         LM.Debug("  * matched encounter %s (%d)", name, id)
     end
 
-    -- Tindral Sageswift, Amirdrassil raid (Dragonflight)
+    -- It seems obvious that you should use the encounter info here, but
+    -- if you are the one who pulled it's not set yet and doesn't work.
+
+    -- When selecting maps be sure to consider the case where you get
+    -- brezzed and are on a different map when entering combat anew.
+    -- Auras are also generally not useful because they aren't on you
+    -- when combat begins.
+
+    -- Tindral Sageswift, Amirdrassil (DF). 2234 is the parent of all the
+    -- relevant maps.
     if LM.Environment:IsMapInPath(2234) then
-        return LM.SecureAction:Execute(function () SummonJournalMountDirect('DRAGONRIDING') end)
+        return GetCombatMountAction('DRAGONRIDING')
     end
 
     -- Dimensius, Manaforge Omega raid (TWW)
-    if LM.Environment:IsMapInPath(2467) then
-        return LM.SecureAction:Execute(function () SummonJournalMountDirect('DRAGONRIDING') end)
+    if LM.Environment:InInstance(2810) then
+        local mapID = C_Map.GetBestMapForUnit('player')
+        if mapID >= 2467 and mapID <= 2470 then
+            return GetCombatMountAction('DRAGONRIDING')
+        end
     end
 
     -- The Dawnbreaker dungeon (The War Within)
-    -- Two boss fight (Speaker Shadowcrown and Rasha'nan) have flying in combat
-    -- enabled by a debuff, Radiant Light.
-    --      https://www.wowhead.com/spell=449042/radiant-light
-    -- Unfortunately it may not be enabled when you enter combat so we have to
-    -- override the whole instance.
-
-    local instanceID = select(8, GetInstanceInfo())
-    if instanceID == 2662 then
-        -- Because you can fly out of combat the CASTABLE checks work correctly
-        -- and there's no need to be fancy.
-        return LM.SecureAction:Execute(function () SummonJournalMountDirect('DRAGONRIDING') end)
+    if LM.Environment:InInstance(2662) then
+        return GetCombatMountAction('DRAGONRIDING')
     end
 end
 
