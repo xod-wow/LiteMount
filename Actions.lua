@@ -621,13 +621,11 @@ local function SummonJournalMountDirect(...)
 end
 
 local function GetCombatMountAction(flag)
-    -- Travel Form is preferred for druids as you might be in a shapeshift
-    -- form and then C_MountJournal.SummonByID will fail.
+    -- C_MountJournal.SummonByID will fail if you are in a shapeshift form.
     if select(2, UnitClass("player")) == "DRUID" then
-        local m = LM.MountRegistry:GetMountBySpell(LM.SPELL.TRAVEL_FORM)
-        if m and m:IsCollected() then
-            return m:GetCastAction()
-        end
+        local act = LM.SecureAction:Macro("/cancelform [form]")
+        act:AddExecute(function () SummonJournalMountDirect(flag) end)
+        return act
     end
     return LM.SecureAction:Execute(function () SummonJournalMountDirect(flag) end)
 end
