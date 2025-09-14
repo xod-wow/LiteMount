@@ -612,11 +612,17 @@ ACTIONS['CantMount'] = {
 
 local function SummonJournalMountDirect(...)
     if IsMounted() then
+        LM.Debug("  * calling dismount directly")
         Dismount()
     else
+        LM.Debug("  * summoning a journal mount directly")
         local mounts = LM.MountRegistry:FilterSearch(..., 'JOURNAL', 'CASTABLE')
+        LM.Debug("  * found %d suitable journal mounts", #mounts)
         local m = mounts:Random()
-        if m then C_MountJournal.SummonByID(m.mountID) end
+        if m then
+            LM.Debug("  * summoning %s (id=%d)", m.name, m.mountID)
+            C_MountJournal.SummonByID(m.mountID)
+        end
     end
 end
 
