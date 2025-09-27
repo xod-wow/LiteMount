@@ -105,6 +105,7 @@ L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
     L["LM_MODIFIER_KEY"] = "Modifier key"
     L["LM_MOUNT_ACTION"] = "Random Mount"
     L["LM_MOUNT_DESCRIPTION"] = "Summon a random mount."
+    L["LM_MOUNTSPECIAL_TIMER"] = "Automatically run %s when idle"
     L["LM_MOUSE_BUTTON_CLICKED"] = "Mouse button clicked"
     L["LM_NEW_FLAG"] = "New Flag"
     L["LM_NEW_GROUP"] = "New Group"

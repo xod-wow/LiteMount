@@ -30,6 +30,43 @@ _G.LiteMount = LM.CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureA
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 LiteMount.LM = LM
 
+function LiteMount:MountSpecialTicker(ticker)
+    local timerSeconds = LM.Options:GetOption('mountSpecialTimer')
+
+    -- Might have turned off the option while ticker is ticking
+    if not IsMounted() or timerSeconds == 0 then
+        self.mountSpecialCountdown = nil
+        ticker:Cancel()
+        return
+    end
+
+    if InCombatLockdown() or IsFlying() or LM.Environment:GetStationaryTime() < 5 then
+        -- Pause countdown if we are moving around
+        return
+    end
+
+    if self.mountSpecialCountdown and self.mountSpecialCountdown <= 0 then
+        -- Also EMOTE171_TOKEN
+        DoEmote("MOUNTSPECIAL")
+        self.mountSpecialCountdown = nil
+    end
+
+    if self.mountSpecialCountdown then
+        self.mountSpecialCountdown = self.mountSpecialCountdown - 1
+    else
+        timerSeconds = math.max(timerSeconds, 20)
+        -- Randomize between 0.5t and 1.5t
+        self.mountSpecialCountdown = math.ceil(0.5 * timerSeconds + math.random(timerSeconds))
+    end
+end
+
+function LiteMount:OnMountSummoned()
+    local timer = LM.Options:GetOption('mountSpecialTimer')
+    if timer ~= 0 then
+        C_Timer.NewTicker(1, function (ticker) self:MountSpecialTicker(ticker) end)
+    end
+end
+
 function LiteMount:Initialize()
 
     -- Do this first because LM.Debug doesn't work until it's loaded.
@@ -64,6 +101,8 @@ function LiteMount:Initialize()
 
     -- Filter has to register DB changed callback
     LM.UIFilter.Initialize()
+
+    LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "OnMountSummoned")
 end
 
 function LiteMount:PLAYER_LOGIN()

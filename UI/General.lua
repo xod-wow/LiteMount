@@ -10,12 +10,28 @@ local _, LM = ...
 
 local L = LM.Localize
 
+local mountSpecialTimerOptions = {
+    { 0,    NEVER },
+    { 20,   string.format(L.LM_EVERY_D_SECONDS, 20) },
+    { 30,   string.format(L.LM_EVERY_D_SECONDS, 30) },
+    { 45,   string.format(L.LM_EVERY_D_SECONDS, 45) },
+    { 120,  string.format(L.LM_EVERY_D_MINUTES, 2) },
+}
+
+local function MountSpecialTimerGenerator(owner, rootDescription)
+    local IsSelected = function (v) return v == LM.Options:GetOption('mountSpecialTimer') end
+    local SetSelected = function (v) LM.Options:SetOption('mountSpecialTimer', v) end
+    for _, info in ipairs(mountSpecialTimerOptions) do
+        rootDescription:CreateRadio(info[2], IsSelected, SetSelected, info[1])
+    end
+end
+
 local persistOptions = {
     { 0,    string.format("%s (%s)", L.LM_EVERY_TIME, DEFAULT) },
-    { 30,   format(L.LM_EVERY_D_SECONDS, 30) },
-    { 120,  format(L.LM_EVERY_D_MINUTES, 2) },
-    { 300,  format(L.LM_EVERY_D_MINUTES, 5) },
-    { 1800, format(L.LM_EVERY_D_MINUTES, 30) },
+    { 30,   string.format(L.LM_EVERY_D_SECONDS, 30) },
+    { 120,  string.format(L.LM_EVERY_D_MINUTES, 2) },
+    { 300,  string.format(L.LM_EVERY_D_MINUTES, 5) },
+    { 1800, string.format(L.LM_EVERY_D_MINUTES, 30) },
 }
 
 local function RandomPersistGenerator(owner, rootDescription)
@@ -49,6 +65,7 @@ LiteMountGeneralPanelMixin = {}
 function LiteMountGeneralPanelMixin:OnShow()
     self.RandomPersistDropDown:SetupMenu(RandomPersistGenerator)
     self.SummonStyleDropDown:SetupMenu(SummonStyleGenerator)
+    self.MountSpecialTimerDropDown:SetupMenu(MountSpecialTimerGenerator)
 end
 
 function LiteMountGeneralPanelMixin:OnLoad()
@@ -206,6 +223,10 @@ function LiteMountGeneralPanelMixin:OnLoad()
     else
         self.AnnounceFlightStyle:Hide()
     end
+
+    -- MountSpecialTimer
+
+    self.MountSpecialTimer:SetFormattedText(L.LM_MOUNTSPECIAL_TIMER, EMOTE171_CMD1)
 
     LiteMountOptionsPanel_OnLoad(self)
 end

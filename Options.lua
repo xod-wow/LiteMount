@@ -109,6 +109,7 @@ local defaults = {
         announceViaUI       = false,
         announceColors      = false,
         announceFlightStyle = true,
+        mountSpecialTimer   = 0,
     },
     char = {
         unavailableMacro    = "",
