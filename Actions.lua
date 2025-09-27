@@ -610,15 +610,16 @@ ACTIONS['CantMount'] = {
 --
 -- E.g, Mount [map:2234] DRAGONRIDING
 
-local function SummonJournalMountDirect(...)
+local function SummonJournalMountDirect(context, flag)
     if IsMounted() then
         LM.Debug("  * calling dismount directly")
         Dismount()
     else
         LM.Debug("  * summoning a journal mount directly")
-        local mounts = LM.MountRegistry:FilterSearch(..., 'JOURNAL', 'CASTABLE')
+        local mounts = LM.MountRegistry:FilterSearch(flag, 'JOURNAL', 'CASTABLE')
         LM.Debug("  * found %d suitable journal mounts", #mounts)
-        local m = mounts:Random()
+        local randomStyle = LM.Options:GetOption('randomWeightStyle')
+        local m = mounts:Random(context.random, randomStyle) or mounts:Random()
         if m then
             LM.Debug("  * summoning %s (id=%d)", m.name, m.mountID)
             C_MountJournal.SummonByID(m.mountID)
@@ -626,14 +627,14 @@ local function SummonJournalMountDirect(...)
     end
 end
 
-local function GetCombatMountAction(flag)
+local function GetCombatMountAction(context, flag)
     -- C_MountJournal.SummonByID will fail if you are in a shapeshift form.
     if select(2, UnitClass("player")) == "DRUID" then
         local act = LM.SecureAction:Macro("/cancelform [form]")
-        act:AddExecute(function () SummonJournalMountDirect(flag) end)
+        act:AddExecute(function () SummonJournalMountDirect(context, flag) end)
         return act
     end
-    return LM.SecureAction:Execute(function () SummonJournalMountDirect(flag) end)
+    return LM.SecureAction:Execute(function () SummonJournalMountDirect(context, flag) end)
 end
 
 local function CombatHandlerOverride(args, context)
@@ -655,20 +656,20 @@ local function CombatHandlerOverride(args, context)
     -- Tindral Sageswift, Amirdrassil (DF). 2234 is the parent of all the
     -- relevant maps.
     if LM.Environment:IsMapInPath(2234) then
-        return GetCombatMountAction('DRAGONRIDING')
+        return GetCombatMountAction(context, 'DRAGONRIDING')
     end
 
     -- Dimensius, Manaforge Omega raid (TWW)
     if LM.Environment:InInstance(2810) then
         local mapID = C_Map.GetBestMapForUnit('player')
         if mapID >= 2467 and mapID <= 2470 then
-            return GetCombatMountAction('DRAGONRIDING')
+            return GetCombatMountAction(context, 'DRAGONRIDING')
         end
     end
 
     -- The Dawnbreaker dungeon (The War Within)
     if LM.Environment:InInstance(2662) then
-        return GetCombatMountAction('DRAGONRIDING')
+        return GetCombatMountAction(context, 'DRAGONRIDING')
     end
 end
 
