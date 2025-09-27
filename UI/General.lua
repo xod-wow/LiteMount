@@ -207,22 +207,5 @@ function LiteMountGeneralPanelMixin:OnLoad()
         self.AnnounceFlightStyle:Hide()
     end
 
-    -- Debugging --
-
-    self.Debugging.Text:SetText(L.LM_ENABLE_DEBUGGING)
-    self.Debugging.SetOption =
-        function (self, setting)
-            if not setting or setting == "0" then
-                LM.Options:SetOption('debugEnabled', false)
-            else
-                LM.Options:SetOption('debugEnabled', true)
-            end
-        end
-    self.Debugging.GetOptionDefault =
-        function (self) return false end
-    self.Debugging.GetOption =
-        function (self) return LM.Options:GetOption('debugEnabled') end
-    LiteMountOptionsPanel_RegisterControl(self.Debugging)
-
     LiteMountOptionsPanel_OnLoad(self)
 end
