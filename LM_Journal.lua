@@ -116,7 +116,7 @@ function LM.Journal:Get(id)
         if not m.family then
             m.family = UNKNOWN
             --@debug@
-            LM.PrintError('No family: [%d] = true, -- %s', m.spellID, m.name)
+            LM.PrintError('No family: [%d] = true, -- % 4d %s', m.spellID, m.mountID, m.name)
             --@end-debug@
         end
     end
