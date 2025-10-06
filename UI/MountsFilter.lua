@@ -164,8 +164,8 @@ local function InitDropDownSection(info, dropdown, rootDescription)
                 box:SetTooltip(
                     function(tooltip, elementDescription)
                         GameTooltip_SetTitle(tooltip, MenuUtil.GetElementText(elementDescription))
-                        GameTooltip_AddInstructionLine(tooltip, LEFT_BUTTON_STRING .. ': ' .. L.LM_TOGGLE)
-                        GameTooltip_AddInstructionLine(tooltip, MIDDLE_BUTTON_STRING .. ': ' .. LFG_LIST_SELECT)
+                        GameTooltip_AddInstructionLine(tooltip, KEY_BUTTON1 .. ': ' .. L.LM_TOGGLE)
+                        GameTooltip_AddInstructionLine(tooltip, KEY_BUTTON3 .. ': ' .. LFG_LIST_SELECT)
                     end)
             end
         end

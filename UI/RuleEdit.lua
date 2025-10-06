@@ -296,11 +296,11 @@ local function MountArgsMenu()
 --  familyMenuList.text = L.LM_FAMILY
 --  table.insert(menuList, familyMenuList)
 
-    local expansionMenuList = LM.tMap(LM.UIFilter.GetExpansions(), ExpansionToInfo)
-    expansionMenuList.text = EXPANSION_FILTER_TEXT
-    table.insert(menuList, expansionMenuList)
-
     if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+        local expansionMenuList = LM.tMap(LM.UIFilter.GetExpansions(), ExpansionToInfo)
+        expansionMenuList.text = EXPANSION_FILTER_TEXT
+        table.insert(menuList, expansionMenuList)
+
         table.insert(menuList, { val = "ZONEMATCH", text = L.LM_ZONEMATCH })
     end
 
