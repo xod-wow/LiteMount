@@ -20,32 +20,38 @@ local MENU_SPLIT_SIZE = 20
 -- different if it were done natively for Blizzard_Menu.
 
 local DROPDOWNS = {
-    ['COLLECTED'] = {
+    {
+        order = 1,
         text = COLLECTED,
         checked = function () return LM.UIFilter.IsOtherChecked("COLLECTED") end,
         set = function (v) LM.UIFilter.SetOtherFilter("COLLECTED", v) end,
     },
-    ['NOT_COLLECTED'] = {
+    {
+        order = 2,
         text = NOT_COLLECTED,
         checked = function () return LM.UIFilter.IsOtherChecked("NOT_COLLECTED") end,
         set = function (v) LM.UIFilter.SetOtherFilter("NOT_COLLECTED", v) end,
     },
-    ['UNUSABLE'] = {
+    {
+        order = 3,
         text = MOUNT_JOURNAL_FILTER_UNUSABLE,
         checked = function () return LM.UIFilter.IsOtherChecked("UNUSABLE") end,
         set = function (v) LM.UIFilter.SetOtherFilter("UNUSABLE", v) end,
     },
-    ['HIDDEN'] = {
+    {
+        order = 4,
         text = L.LM_HIDDEN,
         checked = function () return LM.UIFilter.IsOtherChecked("HIDDEN") end,
         set = function (v) LM.UIFilter.SetOtherFilter("HIDDEN", v) end,
     },
-    ['ZONEMATCH'] = {
+    {
+        order = 5,
+        disable = ( WOW_PROJECT_ID ~= 1 ),
         text = L.LM_ZONEMATCH,
         checked = function () return LM.UIFilter.IsOtherChecked("ZONEMATCH") end,
         set = function (v) LM.UIFilter.SetOtherFilter("ZONEMATCH", v) end,
     },
-    ['PRIORITY'] = {
+    {
         text = L.LM_PRIORITY,
         checked = function (k) return LM.UIFilter.IsPriorityChecked(k) end,
         set = function (k, v) LM.UIFilter.SetPriorityFilter(k, v) end,
@@ -53,7 +59,7 @@ local DROPDOWNS = {
         menulist = function () return LM.UIFilter.GetPriorities() end,
         gettext = function (k) return LM.UIFilter.GetPriorityText(k) end,
     },
-    ['TYPENAME'] = {
+    {
         text = string.format('%s (%s)', TYPE, ID),
         checked = function (k) return LM.UIFilter.IsTypeNameChecked(k) end,
         set = function (k, v) LM.UIFilter.SetTypeNameFilter(k, v) end,
@@ -61,7 +67,7 @@ local DROPDOWNS = {
         menulist = function () return LM.UIFilter.GetTypeNames() end,
         gettext = function (k) return LM.UIFilter.GetTypeNameText(k) end,
     },
-    ['GROUP'] = {
+    {
         text = L.LM_GROUP,
         checked = function (k) return LM.UIFilter.IsGroupChecked(k) end,
         set = function (k, v) LM.UIFilter.SetGroupFilter(k, v) end,
@@ -69,7 +75,7 @@ local DROPDOWNS = {
         menulist = function () return LM.UIFilter.GetGroups() end,
         gettext = function (k) return LM.UIFilter.GetGroupText(k) end,
     },
-    ['FLAG'] = {
+    {
         text = TYPE,
         checked = function (k) return LM.UIFilter.IsFlagChecked(k) end,
         set = function (k, v) LM.UIFilter.SetFlagFilter(k, v) end,
@@ -77,15 +83,18 @@ local DROPDOWNS = {
         menulist = function () return LM.UIFilter.GetFlags() end,
         gettext = function (k) return LM.UIFilter.GetFlagText(k) end,
     },
-    ['FAMILY'] = {
-        text = L.LM_FAMILY,
+    {
+        disable = ( WOW_PROJECT_ID ~= 1 ),
+        -- text = L.LM_FAMILY,
+        text = MODEL,
         checked = function (k) return LM.UIFilter.IsFamilyChecked(k) end,
         set = function (k, v) LM.UIFilter.SetFamilyFilter(k, v) end,
         setall = function (v) LM.UIFilter.SetAllFamilyFilters(v) end,
         menulist = function () return LM.UIFilter.GetFamilies() end,
         gettext = function (k) return LM.UIFilter.GetFamilyText(k) end,
     },
-    ['SOURCES'] = {
+    {
+        disable = ( WOW_PROJECT_ID ~= 1 ),
         text = SOURCES,
         checked = function (k) return LM.UIFilter.IsSourceChecked(k) end,
         set = function (k, v) LM.UIFilter.SetSourceFilter(k, v) end,
@@ -93,7 +102,17 @@ local DROPDOWNS = {
         menulist = function () return LM.UIFilter.GetSources() end,
         gettext = function (k) return LM.UIFilter.GetSourceText(k) end,
     },
-    ['SORTBY'] = {
+    {
+        disable = ( WOW_PROJECT_ID ~= 1 ),
+        text = EXPANSION_FILTER_TEXT,
+        checked = function (k) return LM.UIFilter.IsExpansionChecked(k) end,
+        set = function (k, v) LM.UIFilter.SetExpansionFilter(k, v) end,
+        setall = function (v) LM.UIFilter.SetAllExpansionFilters(v) end,
+        menulist = function () return LM.UIFilter.GetExpansions() end,
+        gettext = function (k) return LM.UIFilter.GetExpansionText(k) end,
+    },
+    {
+        order = -1,
         text = BLUE_FONT_COLOR:WrapTextInColorCode(RAID_FRAME_SORT_LABEL),
         checked = function (k) return LM.UIFilter.GetSortKey() == k end,
         set = function (k) LM.UIFilter.SetSortKey(k) end,
@@ -101,6 +120,19 @@ local DROPDOWNS = {
         gettext = function (k) return LM.UIFilter.GetSortKeyText(k) end,
     },
 }
+
+table.sort(DROPDOWNS,
+    function (a, b)
+        if a.order and b.order then
+            return a.order % 10000 < b.order % 10000
+        elseif a.order then
+            return a.order > 0
+        elseif b.order then
+            return b.order < 0
+        else
+            return a.text < b.text
+        end
+    end)
 
 local function InitDropDownSection(info, dropdown, rootDescription)
     if info.menulist then
@@ -115,14 +147,27 @@ local function InitDropDownSection(info, dropdown, rootDescription)
             local text = info.gettext(v)
             local function checked() return info.checked(v) end
             local function set()
-                if IsShiftKeyDown() and info.setall then
+                local isMiddleButton = GetMouseButtonClicked() == 'MiddleButton'
+                if (IsShiftKeyDown() or isMiddleButton) and info.setall then
                     info.setall(false)
                     info.set(v, true)
                 else
                     info.set(v, not info.checked(v))
                 end
             end
-            subMenu:CreateCheckbox(text, checked, set)
+            local box = subMenu:CreateCheckbox(text, checked, set)
+            if info.setall then
+                box:AddInitializer(
+                    function (f)
+                        f:RegisterForClicks("LeftButtonUp", "MiddleButtonUp")
+                    end)
+                box:SetTooltip(
+                    function(tooltip, elementDescription)
+                        GameTooltip_SetTitle(tooltip, MenuUtil.GetElementText(elementDescription))
+                        GameTooltip_AddInstructionLine(tooltip, LEFT_BUTTON_STRING .. ': ' .. L.LM_TOGGLE)
+                        GameTooltip_AddInstructionLine(tooltip, MIDDLE_BUTTON_STRING .. ': ' .. LFG_LIST_SELECT)
+                    end)
+            end
         end
         if #options > 20 then
             local _, y = GetPhysicalScreenSize()
@@ -143,47 +188,12 @@ local function DropdownGenerate(dropdown, rootDescription)
 
     rootDescription:SetTag("MENU_MOUNT_COLLECTION_FILTER")
 
-    ---- 1. COLLECTED ----
-    InitDropDownSection(DROPDOWNS.COLLECTED, dropdown, rootDescription)
-
-    ---- 2. NOT COLLECTED ----
-    InitDropDownSection(DROPDOWNS.NOT_COLLECTED, dropdown, rootDescription)
-
-    ---- 3. UNUSABLE ----
-    InitDropDownSection(DROPDOWNS.UNUSABLE, dropdown, rootDescription)
-
-    ---- 4. HIDDEN ----
-    InitDropDownSection(DROPDOWNS.HIDDEN, dropdown, rootDescription)
-
-    ---- 5. ZONEMATCH ----
-    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-        InitDropDownSection(DROPDOWNS.ZONEMATCH, dropdown, rootDescription)
+    for _, info in ipairs(DROPDOWNS) do
+        if not info.disable then
+            InitDropDownSection(info, dropdown, rootDescription)
+        end
     end
 
-    ---- 6. GROUP ----
-    InitDropDownSection(DROPDOWNS.GROUP, dropdown, rootDescription)
-
-    ---- 7. FLAG ----
-    InitDropDownSection(DROPDOWNS.FLAG, dropdown, rootDescription)
-
-    ---- 8. TYPENAME ----
-    InitDropDownSection(DROPDOWNS.TYPENAME, dropdown, rootDescription)
-
-    ---- 9. FAMILY ----
-    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-        InitDropDownSection(DROPDOWNS.FAMILY, dropdown, rootDescription)
-    end
-
-    ---- 10. SOURCES ----
-    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-        InitDropDownSection(DROPDOWNS.SOURCES, dropdown, rootDescription)
-    end
-
-    ---- 11. PRIORITY ----
-    InitDropDownSection(DROPDOWNS.PRIORITY, dropdown, rootDescription)
-
-    ---- 12. SORTBY ----
-    InitDropDownSection(DROPDOWNS.SORTBY, dropdown, rootDescription)
 end
 
 --[[------------------------------------------------------------------------]]--

@@ -19,6 +19,7 @@ local DefaultFilterList = {
     other = { HIDDEN=true, UNUSABLE=true, ZONEMATCH=true },
     priority = { },
     source = { },
+    expansion = { },
     typename = { }
 }
 
@@ -209,15 +210,67 @@ function LM.UIFilter.GetSourceText(i)
 end
 
 
+-- Expansions ------------------------------------------------------------------
+
+function LM.UIFilter.GetExpansions()
+    local out = { 'NONE' }
+    for i = 0, GetExpansionLevel() do
+        out[#out+1] = i
+    end
+    return out
+end
+
+function LM.UIFilter.GetNumExpansions()
+    return GetNumExpansions()
+end
+
+function LM.UIFilter.SetAllExpansionFilters(v)
+    LM.UIFilter.ClearCache()
+    if v then
+        table.wipe(LM.UIFilter.filterList.expansion)
+    else
+        for _,i in ipairs(LM.UIFilter.GetExpansions()) do
+            LM.UIFilter.filterList.expansion[i] = true
+        end
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.SetExpansionFilter(i, v)
+    LM.UIFilter.ClearCache()
+    if v then
+        LM.UIFilter.filterList.expansion[i] = nil
+    else
+        LM.UIFilter.filterList.expansion[i] = true
+    end
+    callbacks:Fire('OnFilterChanged')
+end
+
+function LM.UIFilter.IsExpansionChecked(i)
+    return not LM.UIFilter.filterList.expansion[i]
+end
+
+function LM.UIFilter.IsValidExpansionFilter(i)
+    if i == 'NONE' then
+        return true
+    else
+        return i >= 0 and i <= GetExpansionLevel()
+    end
+end
+
+function LM.UIFilter.GetExpansionText(name)
+    if name == 'NONE' then
+        return NONE:upper()
+    else
+        return GetExpansionName(name)
+    end
+end
+
+
 -- Families --------------------------------------------------------------------
 
 function LM.UIFilter.GetFamilies()
-    local out = {}
-    for k in pairs(LM.MOUNTFAMILY) do
-        table.insert(out, k)
-    end
-    table.sort(out, function (a, b) return L[a] < L[b] end)
-    return out
+    return LM.MountDB.GetModelList()
 end
 
 function LM.UIFilter.SetAllFamilyFilters(v)
@@ -225,8 +278,8 @@ function LM.UIFilter.SetAllFamilyFilters(v)
     if v then
         table.wipe(LM.UIFilter.filterList.family)
     else
-        for k in pairs(LM.MOUNTFAMILY) do
-            LM.UIFilter.filterList.family[k] = true
+        for _, modelName in ipairs(LM.UIFilter.GetFamilies()) do
+            LM.UIFilter.filterList.family[modelName] = true
         end
     end
     callbacks:Fire('OnFilterChanged')
@@ -247,7 +300,7 @@ function LM.UIFilter.IsFamilyChecked(i)
 end
 
 function LM.UIFilter.IsValidFamilyFilter(i)
-    return LM.MOUNTFAMILY[i] ~= nil
+    return LM.ModelDB.IsValidModel(i)
 end
 
 function LM.UIFilter.GetFamilyText(i)
@@ -374,13 +427,13 @@ end
 
 function LM.UIFilter.GetGroups()
     local groups = LM.Options:GetGroupNames()
-    table.insert(groups, NONE)
+    table.insert(groups, 'NONE')
     return groups
 end
 
 function LM.UIFilter.GetGroupText(f)
-    if f == NONE then
-        return f:upper()
+    if f == 'NONE' then
+        return NONE:upper()
     else
         return f
     end
@@ -486,6 +539,17 @@ end
 
 function LM.UIFilter.IsFilteredMount(m)
 
+    -- Expansion filters
+    if not m.expansion then
+        if LM.UIFilter.filterList.expansion['NONE'] == true then
+            return true
+        end
+    else
+        if LM.UIFilter.filterList.expansion[m.expansion] == true then
+            return true
+        end
+    end
+
     -- Source filters
 
     local source = m.sourceType
@@ -551,7 +615,7 @@ function LM.UIFilter.IsFilteredMount(m)
     -- Groups filter has a magic NONE for anything with no groups
     local mountGroups = m:GetGroups()
     if not next(mountGroups) then
-        if LM.UIFilter.filterList.group[NONE] then return true end
+        if LM.UIFilter.filterList.group['NONE'] then return true end
     else
         local isFiltered = true
         for g in pairs(mountGroups) do

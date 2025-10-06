@@ -35,8 +35,9 @@ Print.lua
 Developer.lua
 #@end-debug@
 
+MountDB\MountDB.xml
+
 SpellInfo.lua
-FamilyInfo.lua
 Environment.lua
 Options.lua
 SecureAction.lua

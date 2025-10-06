@@ -262,7 +262,7 @@ local CopyAttributesFromJournal = {
     'creatureDisplayID', 'descriptionText', 'sourceText', 'isSelfMount',
     'mountTypeID', 'modelSceneID', 'animID', 'spellVisualKitID', 'disablePlayerMountPreview',
     -- Other
-    'family',
+    'family', 'expansion',
 }
 
 function LM.MountRegistry:AddMount(m)

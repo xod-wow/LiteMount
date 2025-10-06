@@ -36,12 +36,12 @@ def GetFamiliesFromFile(fileName):
     out = []
     with open(fileName) as f:
         for line in f:
-            m = re.match('^LM\.MOUNTFAMILY\["(.+)"\] = ', line)
+            m = re.match('^Model\["(.+)"\] = ', line)
             if m and m.group(1) not in [ 'DRIVE', 'Unknown' ]:
                 out.append(m.group(1))
     return out
 
-allFamilies = GetFamiliesFromFile('../FamilyInfo.lua')
+allFamilies = GetFamiliesFromFile('../MountDB/Model.lua')
 
 translatedFamilies =  {}
 

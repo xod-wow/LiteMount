@@ -266,6 +266,7 @@ local function MountToInfo(m) return { val = m.spellID, text = m.name } end
 local function GroupToInfo(v) return { val = v, text = LM.UIFilter.GetGroupText(v) } end
 local function FlagToInfo(v) return { val = v, text = LM.UIFilter.GetFlagText(v) } end
 local function FamilyToInfo(v) return { val = "family:"..v, text = LM.UIFilter.GetFamilyText(v) } end
+local function ExpansionToInfo(v) return { val = "expansion:"..v, text = LM.UIFilter.GetExpansionText(v) } end
 local function PriorityToInfo(v) return { val = "prio:"..v, text = LM.UIFilter.GetPriorityText(v) } end
 local function TypeToInfo(v) return { val = "mt:"..v, text = LM.UIFilter.GetTypeText(v) } end
 
@@ -294,6 +295,10 @@ local function MountArgsMenu()
 --  local familyMenuList = LM.tMap(LM.UIFilter.GetFamilies(), FamilyToInfo)
 --  familyMenuList.text = L.LM_FAMILY
 --  table.insert(menuList, familyMenuList)
+
+    local expansionMenuList = LM.tMap(LM.UIFilter.GetExpansions(), ExpansionToInfo)
+    expansionMenuList.text = EXPANSION_FILTER_TEXT
+    table.insert(menuList, expansionMenuList)
 
     if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
         table.insert(menuList, { val = "ZONEMATCH", text = L.LM_ZONEMATCH })
