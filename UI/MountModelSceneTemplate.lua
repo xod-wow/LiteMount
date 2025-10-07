@@ -32,7 +32,7 @@ function LiteMountMountModelSceneMixin:SetMount(mount)
                 mountActor:SetAnimation(0)
             end
         end
-        self:AttachPlayerToMount(mountActor, mount.animID, mount.isSelfMount, true, mount.spellVisualKitID, false)
+        self:AttachPlayerToMount(mountActor, mount.animID or 0, mount.isSelfMount, true, mount.spellVisualKitID, false)
 
         -- I don't know why, but the playerActor affects the camera and the
         -- camera is wrong for some mounts without this. I think?

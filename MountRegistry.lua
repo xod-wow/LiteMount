@@ -66,6 +66,7 @@ local EXTRA_MOUNT_DATA = {
             spellID = LM.SPELL.G_99_BREAKNECK,
             flags = { ['DRIVE'] = true, },
             creatureDisplayID = { 124253, 125048, 125048, 125049, 125050, 125051 },
+            animID = 484
         }
     },
     { "ItemSummoned",
