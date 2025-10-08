@@ -85,8 +85,8 @@ local DROPDOWNS = {
     },
     {
         disable = ( WOW_PROJECT_ID ~= 1 ),
-        -- text = L.LM_FAMILY,
-        text = MODEL,
+        text = L.LM_FAMILY,
+        -- text = MODEL,
         checked = function (k) return LM.UIFilter.IsFamilyChecked(k) end,
         set = function (k, v) LM.UIFilter.SetFamilyFilter(k, v) end,
         setall = function (v) LM.UIFilter.SetAllFamilyFilters(v) end,
