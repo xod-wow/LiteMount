@@ -4,5 +4,5 @@
     <Include file="Libs\AceDB-3.0\AceDB-3.0.xml" />
     <Include file="Libs\AceSerializer-3.0\AceSerializer-3.0.xml" />
     <Include file="Libs\LibDeflate\LibDeflate.lua" />
-    <Script file="Libs\MountsRarity-2.0\MountsRarity-2.0.lua" />
+    <Script file="Libs\MountsRarity-2.0\MountsRarity.lua" />
 </Ui>
