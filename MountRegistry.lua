@@ -51,6 +51,7 @@ local EXTRA_MOUNT_DATA = {
             needsFaction = 'Horde',
             flags = { ['RUN'] = true },
             creatureDisplayID = { 56964 },
+            expansion = 5,
         }
     },
     { "Nagrand",
@@ -59,6 +60,7 @@ local EXTRA_MOUNT_DATA = {
             needsFaction ='Alliance',
             flags = { ['RUN'] = true },
             creatureDisplayID = { 54406 },
+            expansion = 5,
         }
     },
     { "Drive",
@@ -66,7 +68,8 @@ local EXTRA_MOUNT_DATA = {
             spellID = LM.SPELL.G_99_BREAKNECK,
             flags = { ['DRIVE'] = true, },
             creatureDisplayID = { 124253, 125048, 125048, 125049, 125050, 125051 },
-            animID = 484
+            animID = 484,
+            expansion = 10,
         }
     },
     { "ItemSummoned",
@@ -75,6 +78,7 @@ local EXTRA_MOUNT_DATA = {
             spellID = LM.SPELL.MAGIC_BROOM,
             flags = { ['RUN'] = true, ['FLY'] = true, },
             creatureDisplayID = { 21939 },
+            expansion = 1,
         }
     },
     { "ItemSummoned",
@@ -83,6 +87,7 @@ local EXTRA_MOUNT_DATA = {
             spellID = LM.SPELL.MOONFANG,
             flags = { ['RUN'] = true },
             creatureDisplayID = { 49249 },
+            expansion = 4,
         }
     },
     { "ItemSummoned",
@@ -91,6 +96,7 @@ local EXTRA_MOUNT_DATA = {
             spellID = LM.SPELL.RATSTALLION_HARNESS,
             flags = { ['RUN'] = true },
             creatureDisplayID = { 70619 },
+            expansion = 10,
         }
     },
     { "ItemSummoned",
@@ -113,6 +119,7 @@ local EXTRA_MOUNT_DATA = {
             spellID = LM.SPELL.MAWRAT_HARNESS,
             flags = { ['RUN'] = true },
             creatureDisplayID = { 96522 },
+            expansion = 10,
         }
     },
     { "ItemSummoned",
@@ -121,6 +128,7 @@ local EXTRA_MOUNT_DATA = {
             spellID = LM.SPELL.SPECTRAL_BRIDLE,
             flags = { ['RUN'] = true },
             creatureDisplayID = { 97000 },
+            expansion = 10,
         }
     },
     { "ItemSummoned",
@@ -129,6 +137,7 @@ local EXTRA_MOUNT_DATA = {
             spellID = LM.SPELL.DEADSOUL_HOUND_HARNESS,
             flags = { ['RUN'] = true },
             creatureDisplayID = { 93213 },
+            expansion = 10,
         }
     },
     { "ItemSummoned",
@@ -137,6 +146,7 @@ local EXTRA_MOUNT_DATA = {
             spellID = LM.SPELL.MAW_SEEKER_HARNESS,
             flags = { ['RUN'] = true },
             creatureDisplayID = { 92631 },
+            expansion = 10,
         }
     },
     { "TravelForm", disabled = ( WOW_PROJECT_ID ~= 1 ),
