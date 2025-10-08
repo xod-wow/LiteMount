@@ -1,14 +1,10 @@
 #!/usr/bin/python3 -tt
 
-import ssl
-
-import warnings
-warnings.simplefilter("ignore", Exception, append=True)
-import requests
-warnings.resetwarnings()
+from warnings import catch_warnings
+with catch_warnings(record=True) as w:
+    import requests
 
 import os, re
-from pprint import pprint
 from argparse import ArgumentParser
 
 auth = (os.environ['WOW_API_CLIENT_ID'], os.environ['WOW_API_CLIENT_SECRET'])
