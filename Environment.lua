@@ -428,6 +428,21 @@ function LM.Environment:IsFlyableArea(mapPath)
         end
     end
 
+    -- Detect Legion: Remix with aura and require unlock for dragonriding.
+    -- This is a massive mess by Blizzard. You can steady fly from the start
+    -- but you can't skyride (opposite of normal). The game says Skyriding
+    -- is unlocked by completing quest A Fixed Point In Time (89418) but it's
+    -- unlocked a handful of quests earlier by Eternal Gratitude (89416). All
+    -- of this might be different if you never unlocked Steady Flight on your
+    -- account.
+
+    if PlayerIsTimerunning() and LM.UnitAura('player', 1213439) then
+        local _, flightStyle = self:GetFlightStyle()
+        if flightStyle == 'skyriding' and not C_QuestLog.IsQuestFlaggedCompleted(89416) then
+            return false
+        end
+    end
+
     -- Can't fly in Warfronts
     if C_Scenario and C_Scenario.IsInScenario() then
         local scenarioType = select(10, C_Scenario.GetInfo())
