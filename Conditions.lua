@@ -1437,6 +1437,15 @@ CONDITIONS["swimming"] = {
         end
 }
 
+CONDITIONS["timerunning"] = {
+    name = C_Spell.GetSpellName(1242245),
+    disabled = PlayerIsTimerunning == nil,
+    handler =
+        function (cond, context)
+            return PlayerIsTimerunning()
+        end
+}
+
 CONDITIONS["tracking"] = {
     disabled = not ( C_Minimap and C_Minimap.GetNumTrackingTypes ),
     handler =
