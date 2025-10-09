@@ -392,7 +392,7 @@ function LM.Environment:IsFlyableArea(mapPath)
         return override
     end
 
-    if WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC then
+    if false and WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC then
         -- Northrend requires Cold Weather Flying
         if self:InInstance(571) then
             if not IsPlayerSpell(54197) then
@@ -436,7 +436,7 @@ function LM.Environment:IsFlyableArea(mapPath)
     -- of this might be different if you never unlocked Steady Flight on your
     -- account.
 
-    if PlayerIsTimerunning() and LM.UnitAura('player', 1213439) then
+    if PlayerIsTimerunning and PlayerIsTimerunning() and LM.UnitAura('player', 1213439) then
         local _, flightStyle = self:GetFlightStyle()
         if flightStyle == 'skyriding' and not C_QuestLog.IsQuestFlaggedCompleted(89416) then
             return false
