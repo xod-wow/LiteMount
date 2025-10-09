@@ -322,9 +322,9 @@ local steadyInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_STEADY_FLIGHT)
 local skyridingInfo = C_Spell.GetSpellInfo(LM.SPELL.FLIGHT_STYLE_SKYRIDING)
 
 function LM.Environment:GetFlightStyle()
-    if not steadyInfo and skyridingInfo then return end
+    if not (steadyInfo and skyridingInfo) then return end
 
-    if IsAdvancedFlyableArea() == false then
+    if LM.UnitAura('player', steadyInfo.spellID) then
         return steadyInfo.name, "steady"
     else
         return skyridingInfo.name, "skyriding"
@@ -441,6 +441,11 @@ function LM.Environment:IsFlyableArea(mapPath)
         return false
     end
 
+    -- You would think, if anything was sensible at all, that IsFlyableArea()
+    -- would return whether you could steady fly, and IsAdvancedFlyableArea()
+    -- would return whether you could skyride. You would be wrong. Huge amounts
+    -- of the world are not marked for advanced flying, despite it working fine.
+
     return IsFlyableArea()
 end
 
@@ -450,7 +455,7 @@ function LM.Environment:CanFly(mapPath)
     if IsAdvancedFlyableArea and IsAdvancedFlyableArea() then
         -- This has a compat for Cataclysm Classic to return false always
         if not C_MountJournal.IsDragonridingUnlocked() then
-            -- This enables soar for Dracthyr on new accounts withouth Skyriding
+            -- This enables soar for Dracthyr on new accounts without Skyriding
             if not C_Spell.IsSpellUsable(LM.SPELL.SOAR) then
                 return false
             end
