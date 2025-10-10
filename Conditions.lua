@@ -560,7 +560,7 @@ CONDITIONS["flyable"] = {
     name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_FLYING),
     handler =
         function (cond, context)
-            return LM.Environment:CanFly(context.mapPath)
+            return LM.Environment:CanFly()
         end,
 }
 
@@ -891,7 +891,7 @@ CONDITIONS["map"] = {
                 if v:sub(1,1) == '*' then
                     return LM.Environment:IsOnMap(tonumber(v:sub(2)))
                 else
-                    return LM.Environment:IsMapInPath(tonumber(v), context.mapPath, true)
+                    return LM.Environment:IsMapInPath(tonumber(v), true)
                 end
             end
         end,
@@ -900,7 +900,7 @@ CONDITIONS["map"] = {
 CONDITIONS["maw"] = {
     handler =
         function (cond, context, v)
-            return LM.Environment:IsTheMaw(context.mapPath)
+            return LM.Environment:IsTheMaw()
         end
 }
 

@@ -109,8 +109,6 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
         return self:IsUsable() == true
     elseif f == "COLLECTED" then
         return self:IsCollected() == true
-    elseif f == "MAWUSABLE" then
-        return self:MawUsable() == true
     elseif f == "JOURNAL" then
         return self.mountTypeID ~= nil
     elseif f == "FAVORITES" then
@@ -221,6 +219,10 @@ function LM.Mount:IsCastable()
     elseif LM.Options:GetOption('instantOnlyMoving') then
         if info.castTime == 0 then return false end
     end
+    -- This is so annoying, the performance impact of having to check this forever
+    if LM.Environment:IsTheMaw() then
+        if not self:IsMawCastable() then return false end
+    end
     return true
 end
 
@@ -328,7 +330,7 @@ local MawUsableSpells = {
     [344577] = true,                -- Bound Shadehound
 }
 
-function LM.Mount:MawUsable()
+function LM.Mount:IsMawCastable()
     -- The True Maw Walker unlocks all mounts, but the spell (353214) doesn't
     -- seem to return true for IsPlayerSpell(). The unlock is not account-wide
     -- so the quest is good enough (for now).

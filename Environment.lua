@@ -120,20 +120,22 @@ function LM.Environment:CanMountInPhaseDiving()
     end
 end
 
-function LM.Environment:IsTheMaw(mapPath)
-    local instanceID = select(8, GetInstanceInfo())
+function LM.Environment:IsTheMaw()
+    if WOW_PROJECT_ID == 1 then
+        local instanceID = select(8, GetInstanceInfo())
 
-    -- This is the instanced starting experience
-    if instanceID == 2364 then return true end
+        -- This is the instanced starting experience
+        if instanceID == 2364 then return true end
 
-    -- This is the instanced post-Maldraxxus questing
-    if instanceID == 2456 then return true end
+        -- This is the instanced post-Maldraxxus questing
+        if instanceID == 2456 then return true end
 
-    -- Sanctum of Domination raid allows mounting normally
-    if instanceID == 2450 then return false end
+        -- Sanctum of Domination raid allows mounting normally
+        if instanceID == 2450 then return false end
 
-    -- Otherwise, The Maw is just zones in instance 2222
-    return LM.Environment:IsMapInPath(1543, mapPath)
+        -- Otherwise, The Maw is just zones in instance 2222
+        return LM.Environment:IsMapInPath(1543)
+    end
 end
 
 function LM.Environment:PLAYER_LOGIN()
@@ -282,22 +284,27 @@ function LM.Environment:IsOnMap(mapID, checkGroup)
     end
 end
 
+-- C_Map.GetMapInfo use a terrific amount of (garbage collected) memory, so
+-- cache the map paths for efficiency. This is absoluately required because
+-- this is called many times during activation.
+
+LM.Environment.mapPathCache = {}
+
 function LM.Environment:GetMapPath()
-    local out = {}
     local mapID = C_Map.GetBestMapForUnit('player')
-    while mapID and mapID > 0 do
-        table.insert(out, mapID)
-        mapID = C_Map.GetMapInfo(mapID).parentMapID
+    if not self.mapPathCache[mapID] then
+        self.mapPathCache[mapID] = {}
+        local id = mapID
+        while id and id > 0 do
+            table.insert(self.mapPathCache[mapID], id)
+            id = C_Map.GetMapInfo(id).parentMapID
+        end
     end
-    return out
+    return self.mapPathCache[mapID]
 end
 
--- C_Map.GetMapInfo use a terrific amount of (garbage collected) memory, which
--- is why this takes a mapPath optional argument so we can save the mapPath in
--- the context for actions.
-
-function LM.Environment:IsMapInPath(mapID, mapPath, checkGroup)
-    for _, pathMapID in ipairs(mapPath or self:GetMapPath()) do
+function LM.Environment:IsMapInPath(mapID, checkGroup)
+    for _, pathMapID in ipairs(self:GetMapPath()) do
         if self:MapIsMap(mapID, pathMapID, checkGroup) then return true end
     end
     return false
@@ -374,20 +381,20 @@ local InstanceFlyableOverride = {
     [2662] = true,      -- The Dawnbreaker (Dungeon) after /reload it goes wrong
 }
 
-function LM.Environment:GetFlyableOverride(mapPath)
+function LM.Environment:GetFlyableOverride()
     local instanceID = select(8, GetInstanceInfo())
     local override = InstanceFlyableOverride[instanceID]
     if type(override) == 'function' then
-        local value = override(mapPath)
+        local value = override()
         if value ~= nil then return value end
     else
         if override ~= nil then return override end
     end
 end
 
-function LM.Environment:IsFlyableArea(mapPath)
+function LM.Environment:IsFlyableArea()
 
-    local override = self:GetFlyableOverride(mapPath)
+    local override = self:GetFlyableOverride()
     if override ~= nil then
         return override
     end
@@ -420,7 +427,7 @@ function LM.Environment:IsFlyableArea(mapPath)
         if select(4, GetAchievementInfo(40231)) == false then
             return true
         end
-    elseif self:IsMapInPath(1978, mapPath) then
+    elseif self:IsMapInPath(1978) then
         -- In Dragon Isles (1978) IsFlyableArea() is false until you unlock
         -- Dragon Isles Pathfinder.
         if select(4, GetAchievementInfo(19307)) == false then
@@ -465,7 +472,7 @@ function LM.Environment:IsFlyableArea(mapPath)
 end
 
 -- Area allows flying and you know how to fly
-function LM.Environment:CanFly(mapPath)
+function LM.Environment:CanFly()
 
     if IsAdvancedFlyableArea and IsAdvancedFlyableArea() then
         -- This has a compat for Cataclysm Classic to return false always
@@ -479,7 +486,7 @@ function LM.Environment:CanFly(mapPath)
         return false
     end
 
-    return self:IsFlyableArea(mapPath)
+    return self:IsFlyableArea()
 end
 
 -- Blizzard's IsDrivableArea is always false so far. If the mount is usable

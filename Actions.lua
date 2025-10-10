@@ -431,7 +431,6 @@ ACTIONS['SwitchFlightStyle'] = {
         end
 }
 
-local mawCastableArg = LM.RuleArguments:Get("MAWUSABLE", ",", "CASTABLE")
 local castableArg = LM.RuleArguments:Get("CASTABLE")
 
 local smartActions = {
@@ -487,11 +486,7 @@ ACTIONS['Mount'] = {
     handler =
         function (args, context)
             local limits = CopyTable(context.limits)
-            if LM.Conditions:Check("[maw]", context) then
-                table.insert(limits, mawCastableArg)
-            else
-                table.insert(limits, castableArg)
-            end
+            table.insert(limits, castableArg)
             if #args > 0 then
                 table.insert(limits, args)
             end

@@ -473,7 +473,6 @@ local PseudoFlags = {
     "COLLECTED",
     "SLOW",
     "JOURNAL",
-    "MAWUSABLE",
     "DRAGONRIDING",
     "ZONEMATCH",
     "FAVORITES", FAVORITES,
