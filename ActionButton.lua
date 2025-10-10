@@ -94,7 +94,7 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     end
 
     local handler = LM.Actions:GetHandler('CantMount')
-    handler():SetupActionButton(self)
+    handler(nil, context):SetupActionButton(self)
     LM.Debug("[%d] PreClick fail time %0.2fms", self.id, debugprofilestop() - startTime)
 end
 

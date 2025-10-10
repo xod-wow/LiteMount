@@ -510,7 +510,11 @@ ACTIONS['Mount'] = {
 
             local randomStyle = context.rule.priority and LM.Options:GetOption('randomWeightStyle')
 
-            local m
+            local m, allDisabled
+
+            if context.allMountsDisabled == nil then
+                context.allMountsDisabled = true
+            end
 
             if context.rule.smart then
                 for _, info in ipairs(smartActions) do
@@ -519,11 +523,13 @@ ACTIONS['Mount'] = {
                         local expr = info.arg:ParseExpression()
                         local mounts = filteredList:ExpressionSearch(expr)
                         LM.Debug("  * found " .. #mounts .. " mounts.")
-                        m = mounts:Random(context.random, randomStyle)
+                        m, allDisabled = mounts:Random(context.random, randomStyle)
+                        context.allMountsDisabled = context.allMountsDisabled and allDisabled
                     end
                 end
             else
-                m = filteredList:Random(context.random, randomStyle)
+                m, allDisabled = filteredList:Random(context.random, randomStyle)
+                context.allMountsDisabled = context.allMountsDisabled and allDisabled
             end
 
             if m then
@@ -592,12 +598,16 @@ ACTIONS['CantMount'] = {
     argType = 'none',
     handler =
         function (args, context)
-            -- This isn't a great message, but there isn't a better one that
-            -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
-            -- LM.Warning("You don't know any mounts you can use right now.")
-            LM.Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
-
-            LM.Debug("  * setting action to can't mount now")
+            if context.allMountsDisabled then
+                LM.Warning(L.LM_ERR_ALL_MOUNTS_DISABLED)
+                LM.Debug("  * setting action to NoAction due to all mounts disabled")
+            else
+                -- This isn't a great message, but there isn't a better one that
+                -- Blizzard have already localized. See FrameXML/GlobalStrings.lua.
+                -- LM.Warning("You don't know any mounts you can use right now.")
+                LM.Warning(SPELL_FAILED_NO_MOUNTS_ALLOWED)
+                LM.Debug("  * setting action to NoAction due to situation")
+            end
             return LM.SecureAction:NoAction()
         end
 }

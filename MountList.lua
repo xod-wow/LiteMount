@@ -218,11 +218,14 @@ function LM.MountList:LFUWeights()
     return weights
 end
 
+-- Second return value is 'true' if all weights were zero, to allow
+-- a different error message.
+
 function LM.MountList:WeightedRandom(weights, r)
     local total = Accumulate(weights)
     if total == 0 then
         LM.Debug('  * WeightedRandom n=%d all weights 0', #self)
-        return
+        return nil, true
     end
 
     local cutoff = (r or math.random()) * total
