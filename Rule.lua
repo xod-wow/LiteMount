@@ -139,19 +139,25 @@ function LM.Rule:Dispatch(context)
 
     LM.Debug("  Evaluate rule: " .. (self.line or self:ToString()))
 
-    local isTrue = self.conditions:Eval(context)
-
-    LM.Debug("  * immediate conditions are " .. tostring(isTrue))
-
     local handler = LM.Actions:GetFlowControlHandler(self.action)
     if handler then
+        local isTrue = self.conditions:Eval(context)
         LM.Debug("  * found flow control action, dispatching")
         handler(self.args, context, isTrue)
         return
     end
 
-    if not isTrue or LM.Actions:IsFlowSkipped(context) then
-        LM.Debug("  * skipping due to conditions or flow control")
+    if LM.Actions:IsFlowSkipped(context) then
+        LM.Debug("  * skipping due flow control")
+        return
+    end
+
+    local isTrue = self.conditions:Eval(context)
+
+    if isTrue then
+        LM.Debug("  * action conditions true, continuing")
+    else
+        LM.Debug("  * action conditions false, skipping")
         return
     end
 
