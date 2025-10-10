@@ -33,7 +33,8 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
             end
         end,
     EditBoxOnEnterPressed = function (self)
-            local button1 = self.button1 or self:GetButton1()
+            local parent = self:GetParent()
+            local button1 = parent.button1 or parent:GetButton1()
             if button1:IsEnabled() then
                 StaticPopup_OnClick(self:GetParent(), 1)
             end
@@ -43,7 +44,8 @@ StaticPopupDialogs["LM_OPTIONS_NEW_PROFILE"] = {
         end,
     EditBoxOnTextChanged = function (self)
             local text = self:GetText()
-            local button1 = self.button1 or self:GetButton1()
+            local parent = self:GetParent()
+            local button1 = parent.button1 or parent:GetButton1()
             if text ~= "" and not LM.db.profiles[text] then
                 button1:Enable()
             else
