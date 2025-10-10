@@ -56,6 +56,7 @@ Model._AUTO_ = {
     [142910] = true, -- Ironbound Wraithcharger
     [473472] = true, -- Jani's Trashpile
     [366791] = true, -- Jigglesworth Sr.
+   [1233925] = true, -- Lana'thel's Crimson Cascade
     [363613] = true, -- Lightforged Ruinstrider
     [239013] = true, -- Lightforged Warframe
     [472253] = true, -- Lunar Launcher
