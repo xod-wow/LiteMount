@@ -291,8 +291,8 @@ end
 LM.Environment.mapPathCache = {}
 
 function LM.Environment:GetMapPath()
-    local mapID = C_Map.GetBestMapForUnit('player')
-    if not self.mapPathCache[mapID] then
+    local mapID = C_Map.GetBestMapForUnit('player') or 0
+    if mapID and not self.mapPathCache[mapID] then
         self.mapPathCache[mapID] = {}
         local id = mapID
         while id and id > 0 do
