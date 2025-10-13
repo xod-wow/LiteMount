@@ -4,9 +4,18 @@
 
 <Script file="PanelTemplate.lua" />
 
-<Frame name="LiteMountContainerStyleTemplate" virtual="true" inherits="BackdropTemplate">
+<Frame name="LiteMountContainerStyleTemplate" virtual="true" inherits="BackdropTemplate" useParentLevel="true">
     <KeyValues>
         <KeyValue key="backdropInfo" value="LM_CONTAINER_BACKDROP_INFO" type="global"/>
+        <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropColor" value="VERY_DARK_GRAY_COLOR" type="global"/>
+        <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
+    </KeyValues>
+</Frame>
+
+<Frame name="LiteMountPopOverStyleTemplate" virtual="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="LM_POPOVER_BACKDROP_INFO" type="global"/>
         <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
         <KeyValue key="backdropColor" value="VERY_DARK_GRAY_COLOR" type="global"/>
     </KeyValues>
@@ -15,16 +24,34 @@
 <Button name="LiteMountListButtonStyleTemplate" virtual="true" inherits="BackdropTemplate">
     <KeyValues>
         <KeyValue key="backdropInfo" value="LM_LISTBUTTON_BACKDROP_INFO" type="global" />
-        <KeyValue key="backdropBorderColor" value="BLACK_FONT_COLOR" type="global"/>
+        <KeyValue key="backdropColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropColorAlpha" value="0.4" type="number"/>
+        <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
     </KeyValues>
 </Button>
 
 <Button name="LiteMountButtonStyleTemplate" virtual="true" inherits="BackdropTemplate">
     <KeyValues>
         <KeyValue key="backdropInfo" value="LM_BUTTON_BACKDROP_INFO" type="global"/>
-        <KeyValue key="backdropColor" value="VERY_DARK_GRAY_COLOR" type="global"/>
+        <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
         <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
     </KeyValues>
+</Button>
+
+<Button name="LiteMountListSelectButtonTemplate" virtual="true">
+    <Size y="20" />
+    <ButtonText inherits="GameFontWhite" parentKey="Text" />
+    <HighlightTexture atlas="Options_List_Hover" />
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture parentKey="SelectedTexture" atlas="Options_List_Active" useAtlasSize="true" hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </Texture>
+        </Layer>
+    </Layers>
 </Button>
 
 <Button name="LiteMountUIButtonTemplate" virtual="true">
@@ -129,7 +156,7 @@
     </Frames>
 </Frame>
 
-<Frame name="LiteMountPopOverPanelTemplate" virtual="true" inherits="LiteMountContainerStyleTemplate">
+<Frame name="LiteMountPopOverPanelTemplate" virtual="true" inherits="LiteMountPopOverStyleTemplate">
     <Scripts>
         <OnLoad inherit="prepend" function="LiteMountPopOverPanel_OnLoad" />
         <OnShow inherit="prepend" function="LiteMountPopOverPanel_OnShow" />
