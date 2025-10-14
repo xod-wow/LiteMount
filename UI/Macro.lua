@@ -131,7 +131,7 @@ function LiteMountMacroPanelMixin:GetOption()
 end
 
 function LiteMountMacroPanelMixin:OnLoad()
-    self.name = MACRO .. " : " .. UNAVAILABLE
+    self.name = MACROS
 
     PanelTemplates_SetNumTabs(self, 2)
     PanelTemplates_AnchorTabs(self)
@@ -170,6 +170,7 @@ function LiteMountMacroPanelMixin:OnShow()
     table.sort(self.classMenu, function (a, b) return a.name < b.name end)
     local playerName = string.join('-', UnitFullName('player'))
     table.insert(self.classMenu, 1, { name=playerName, key='PLAYER', id=0, color=WHITE_FONT_COLOR })
+    -- GRAY, GREEN, HIGHLIGHT, ITEM_LEGENDARY, GOLD
 
     LiteMountOptionsPanel_OnShow(self)
 end

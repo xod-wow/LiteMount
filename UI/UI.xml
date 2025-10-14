@@ -21,7 +21,6 @@
     <Include file="Rules.xml" />
     <Include file="Groups.xml" />
     <Include file="Macro.xml" />
-    <Include file="CombatMacro.xml" />
     <Include file="Advanced.xml" />
     <Include file="Profiles.xml" />
     <Include file="ReportBug.xml" />
