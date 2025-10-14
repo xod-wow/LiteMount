@@ -225,6 +225,10 @@ Model["Aurelid"] = {
     [359379] = true, -- Shimmering Aurelid
 }
 
+Model["Aurochs"] = {
+   [1245604] = true, -- 2632 Astral Aurochs
+}
+
 Model["Bakar"] = {
     [424601] = true, -- Brown-Furred Spiky Bakar
     [424607] = true, -- Taivan
