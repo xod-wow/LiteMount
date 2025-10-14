@@ -563,8 +563,8 @@ ACTIONS['Macro'] = {
     argType = 'none',
     handler =
         function (args, context)
-            local macrotext = LM.Options:GetOption('unavailableMacro')
-            if macrotext ~= "" then
+            local macrotext = LM.Macro:GetMacro()
+            if macrotext then
                 if GetRunningMacro() then
                     LM.Debug("  * unavailable macro not possible from actionbar")
                 else
@@ -688,7 +688,7 @@ ACTIONS['Combat'] = {
             -- If specific combat macro is set always use it
             if LM.Options:GetOption('useCombatMacro') then
                 LM.Debug("  * setting action to options combat macro")
-                local macrotext = LM.Options:GetOption('combatMacro')
+                local macrotext = LM.Macro:GetMacro(true)
                 return LM.SecureAction:Macro(macrotext)
             end
             -- Check for an override combat setting

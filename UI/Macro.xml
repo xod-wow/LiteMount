@@ -21,7 +21,7 @@
         <Frame parentKey="Class" inherits="LiteMountContainerStyleTemplate">
             <Size x="172" />
             <Anchors>
-                <Anchor point="TOPLEFT" x="0" y="-164" />
+                <Anchor point="TOPLEFT" x="0" y="-128" />
                 <Anchor point="BOTTOM" y="16" />
             </Anchors>
             <Frames>
@@ -68,7 +68,23 @@
                         </Frame>
                     </Frames>
                 </EditBox>
-
+                <CheckButton parentKey="EnableButton" inherits="OptionsBaseCheckButtonTemplate" mixin="LiteMountMacroEnableButtonMixin">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.EditBox" x="-4" y="6" />
+                    </Anchors>
+                    <Layers>
+                        <Layer level="ARTWORK">
+                            <FontString inherits="GameFontNormal" text="ENABLE">
+                                <Anchors>
+                                    <Anchor point="RIGHT" relativePoint="LEFT" x="-4" />
+                                </Anchors>
+                            </FontString>
+                        </Layer>
+                    </Layers>
+                    <Scripts>
+                        <OnClick method="OnClick" />
+                    </Scripts>
+                </CheckButton>
                 <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
                     <Size x="96" y="22" />
                     <Anchors>

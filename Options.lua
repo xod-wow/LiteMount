@@ -87,10 +87,19 @@ local DefaultRules = DefaultRulesByProject[WOW_PROJECT_ID]
 -- A lot of things need to be cleaned up when flags are deleted/renamed
 
 local defaults = {
-    global = {
-        groups              = { },
-        instances           = { },
-        summonCounts        = { },
+    char = {
+        unavailableMacro    = nil,
+        useUnavailableMacro = false,
+        combatMacro         = "",
+        useCombatMacro      = false,
+        debugEnabled        = false,
+        uiDebugEnabled      = false,
+    },
+    class = {
+        unavailableMacro    = nil,
+        useUnavailableMacro = false,
+        combatMacro         = nil,
+        useCombatMacro      = false,
     },
     profile = {
         flagChanges         = { },
@@ -111,13 +120,10 @@ local defaults = {
         announceFlightStyle = true,
         mountSpecialTimer   = 0,
     },
-    char = {
-        unavailableMacro    = "",
-        useUnavailableMacro = false,
-        combatMacro         = "",
-        useCombatMacro      = false,
-        debugEnabled        = false,
-        uiDebugEnabled      = false,
+    global = {
+        groups              = { },
+        instances           = { },
+        summonCounts        = { },
     },
 }
 
@@ -273,6 +279,10 @@ function LM.Options:DatabaseMaintenance()
     if self:CleanDatabase() then changed = true end
     LM.db.global.configVersion = 10
     return changed
+end
+
+function LM.Options:NotifyChanged()
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 function LM.Options:OnProfile()
@@ -653,7 +663,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetOption(name)
-    for _, k in ipairs({ 'char', 'profile', 'global' }) do
+    for _, k in ipairs({ 'char', 'class', 'profile', 'global' }) do
         if defaults[k][name] ~= nil then
             return LM.db[k][name]
         end
@@ -661,7 +671,7 @@ function LM.Options:GetOption(name)
 end
 
 function LM.Options:GetOptionDefault(name)
-    for _, k in ipairs({ 'char', 'profile', 'global' }) do
+    for _, k in ipairs({ 'char', 'class', 'profile', 'global' }) do
         if defaults[k][name] then
             return defaults[k][name]
         end
@@ -669,7 +679,7 @@ function LM.Options:GetOptionDefault(name)
 end
 
 function LM.Options:SetOption(name, val)
-    for _, k in ipairs({ 'char', 'profile', 'global' }) do
+    for _, k in ipairs({ 'char', 'class', 'profile', 'global' }) do
         if defaults[k][name] ~= nil then
             if val == nil then val = defaults[k][name] end
             local valType, expectedType = type(val), type(defaults[k][name])
