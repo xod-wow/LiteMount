@@ -118,15 +118,15 @@ end
 function LiteMountMacroPanelMixin:SetOption(t)
     local classKey = select(2, UnitClass('player'))
     LM.db.char = t.char
-    LM.db.class = t.class[classKey]
+    LM.db.class = t.class and t.class[classKey] or nil
     LM.db.sv.class = t.class
     LM.Options:NotifyChanged()
 end
 
 function LiteMountMacroPanelMixin:GetOption()
     return {
-        char = CopyTable(LM.db.char),
-        class = CopyTable(LM.db.sv.class),
+        char = LM.db.char and CopyTable(LM.db.char),
+        class = LM.db.sv.class and CopyTable(LM.db.sv.class),
     }
 end
 
