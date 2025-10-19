@@ -41,7 +41,7 @@ local DefaultMacroByClass = {
     WARRIOR     = formatSpell("/cast [harm] %s; [@cursor] %s\n", 100, 6544), -- Charge, Heroic Leap
 }
 
-local function GetCombatVersionIndex(t, k)
+local function GetCombatMacroIndex(t, k)
     local text = DefaultMacroByClass[k]
     return text and string.format(M_COMBAT_S, text)
 end
@@ -50,7 +50,7 @@ DefaultCombatMacroByClass = {
     DRUID       = string.format(M_COMBAT_S, formatSpell("/cast [indoors,noswimming] %s; %s\n", 768, 783)),
 }
 
-setmetatable(DefaultCombatMacroByClass, { __index = GetCombatVersionIndex })
+setmetatable(DefaultCombatMacroByClass, { __index = GetCombatMacroIndex })
 
 local function GetSettingsTable(class)
     if class == 'PLAYER' then
