@@ -1,0 +1,16 @@
+<Ui>
+
+<!-- Copyright 2011 Mike Battersby -->
+
+<Script file="KeyBindings.lua" />
+
+<Frame name="LiteMountKeyBindingsPanel" hidden="true" mixin="LiteMountKeyBindingsPanelMixin">
+    <KeyValues>
+        <KeyValue key="name" value="KEY_BINDINGS" type="global" />
+    </KeyValues>
+    <Scripts>
+        <OnLoad method="OnLoad" inherit="append" />
+    </Scripts>
+</Frame>
+
+</Ui>

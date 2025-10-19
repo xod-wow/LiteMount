@@ -16,6 +16,7 @@
     <Include file="Base.xml" />
 
     <!-- The order of these is the order of the settings tabs -->
+    <Include file="KeyBindings.xml" />
     <Include file="General.xml" />
     <Include file="Mounts.xml" />
     <Include file="Rules.xml" />
@@ -24,5 +25,4 @@
     <Include file="Advanced.xml" />
     <Include file="Profiles.xml" />
     <Include file="ReportBug.xml" />
--->
 </Ui>

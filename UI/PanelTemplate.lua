@@ -197,7 +197,7 @@ function LiteMountOptionsPanel_OnLoad(self)
 
     if self ~= LiteMountOptions then
         self.name = L[self.name] or self.name
-        self.Title:SetText("LiteMount : " .. self.name)
+        self.Title:SetText(self.name)
         local topCategory = LiteMountOptions.category
         self.category = Settings.RegisterCanvasLayoutSubcategory(topCategory, self, self.name)
     else
