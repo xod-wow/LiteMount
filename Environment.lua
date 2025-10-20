@@ -247,7 +247,7 @@ function LM.Environment:IsCombatTravelForm()
 end
 
 function LM.Environment:GetDruidForm()
-    if select(2, UnitClass("player")) == "DRUID" then
+    if UnitClassBase("player") == "DRUID" then
         local id = GetShapeshiftFormID()
         if id then
             local index = GetShapeshiftForm()

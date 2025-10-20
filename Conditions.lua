@@ -822,7 +822,7 @@ CONDITIONS["loadout"] = {
         function ()
             local loadoutMenu = {}
             local loadoutNames = {}
-            local _, _, classIndex = UnitClass('player')
+            local _, classIndex = UnitClassBase('player')
             for specIndex = 1, 4 do
                 local specID = GetSpecializationInfoForClassID(classIndex, specIndex)
                 if not specID then break end

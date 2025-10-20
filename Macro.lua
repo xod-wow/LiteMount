@@ -55,11 +55,11 @@ setmetatable(DefaultCombatMacroByClass, { __index = GetCombatMacroIndex })
 local function GetSettingsTable(class)
     if class == 'PLAYER' then
         return LM.db.char
-    elseif class == select(2, UnitClass('player')) then
+    elseif class == UnitClassBase('player') then
         return LM.db.class
     else
-        LM.db.global.class = LM.db.sv.class or {}
-        LM.db.global.class[class] = LM.db.sv.class[class] or {}
+        LM.db.sv.class = LM.db.sv.class or {}
+        LM.db.sv.class[class] = LM.db.sv.class[class] or {}
         return LM.db.sv.class[class]
     end
 end
@@ -115,7 +115,7 @@ function LM.Macro:SetEnabledOption(isCombat, class, v)
 end
 
 function LM.Macro:GetMacro(isCombat)
-    local class = select(2, UnitClass('player'))
+    local class = UnitClassBase('player')
     if isCombat then
         local default = DefaultCombatMacroByClass[class]
         if LM.db.char.useCombatMacro then

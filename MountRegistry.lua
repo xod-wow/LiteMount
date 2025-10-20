@@ -460,7 +460,7 @@ end
 function LM.MountRegistry:GetMountByShapeshiftForm(i)
     if not i then
         return
-    elseif i == 1 and select(2, UnitClass("player")) == "SHAMAN" then
+    elseif i == 1 and UnitClassBase("player") == "SHAMAN" then
          return self:GetMountBySpell(LM.SPELL.GHOST_WOLF)
     else
         local spellID

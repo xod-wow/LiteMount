@@ -633,7 +633,7 @@ end
 
 local function GetCombatMountAction(context, flag)
     -- C_MountJournal.SummonByID will fail if you are in a shapeshift form.
-    if select(2, UnitClass("player")) == "DRUID" then
+    if UnitClassBase("player") == "DRUID" then
         local act = LM.SecureAction:Macro("/cancelform [form]")
         act:AddExecute(function () SummonJournalMountDirect(context, flag) end)
         return act
@@ -875,7 +875,7 @@ function LM.Actions:DefaultCombatMacro()
 
     local mt = "/dismount [mounted]\n/stopmacro [mounted]\n"
 
-    local _, playerClass = UnitClass("player")
+    local playerClass = UnitClassBase("player")
 
     if playerClass ==  "DRUID" then
         local forms = GetDruidMountForms()
