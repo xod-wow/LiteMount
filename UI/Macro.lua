@@ -14,6 +14,12 @@ local L = LM.Localize
 
 --[[------------------------------------------------------------------------]]--
 
+local PanelTemplates_AnchorTabs = PanelTemplates_AnchorTabs or LM.PanelTemplates_AnchorTabs
+local C_ClassColor = C_ClassColor or LM.C_ClassColor
+
+
+--[[------------------------------------------------------------------------]]--
+
 LiteMountMacroEditBoxMixin = {}
 
 function LiteMountMacroEditBoxMixin:OnTextChanged(userInput)

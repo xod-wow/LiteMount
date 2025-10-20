@@ -12,7 +12,6 @@
 local _, LM = ...
 
 local C_Spell = LM.C_Spell or C_Spell
-local C_MountJournal = LM.C_MountJournal or C_MountJournal
 
 LM.Environment = LM.CreateAutoEventFrame("Frame")
 LM.Environment:RegisterEvent("PLAYER_LOGIN")
