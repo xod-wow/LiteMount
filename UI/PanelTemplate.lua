@@ -204,7 +204,7 @@ function LiteMountOptionsPanel_OnLoad(self)
         self.name = "LiteMount"
         self.Title:SetText("LiteMount")
         self.category = Settings.RegisterCanvasLayoutCategory(self, "LiteMount")
-        Settings.RegisterAddOnCategory(self.category);
+        Settings.RegisterAddOnCategory(self.category)
     end
 
     if self.hideDefaultsButton then

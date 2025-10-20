@@ -145,7 +145,7 @@ function LiteMountMacroPanelMixin:OnLoad()
     PanelTemplates_SetTab(self, 1)
 
     local layout = NineSliceUtil.GetLayout("ChatBubble")
-    NineSliceUtil.ApplyLayout(self.Macro.EditBox.NineSlice, layout);
+    NineSliceUtil.ApplyLayout(self.Macro.EditBox.NineSlice, layout)
 
     self.selectedClass = 'PLAYER'
 

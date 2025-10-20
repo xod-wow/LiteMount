@@ -65,11 +65,11 @@
     <Scripts>
         <OnEnter>
             self.HighlightTexture:SetAlpha(0)
-            self.NormalTexture:SetAtlas("charactercreate-customize-dropdownbox-hover");
+            self.NormalTexture:SetAtlas("charactercreate-customize-dropdownbox-hover")
         </OnEnter>
         <OnLeave>
             self.HighlightTexture:SetAlpha(0.2)
-            self.NormalTexture:SetAtlas("charactercreate-customize-dropdownbox");
+            self.NormalTexture:SetAtlas("charactercreate-customize-dropdownbox")
         </OnLeave>
     </Scripts>
 </Button>
