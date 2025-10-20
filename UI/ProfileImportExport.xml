@@ -17,16 +17,22 @@
         <Anchor point="CENTER" />
     </Anchors>
     <Frames>
-        <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="InputScrollFrameTemplate">
+        <ScrollFrame parentKey="Scroll" inherits="ScrollingEditBoxTemplate">
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
                 <KeyValue key="maxLetters" value="0" type="number" />
             </KeyValues>
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-88" />
-                <Anchor point="BOTTOMRIGHT" x="-16" y="48" />
+                <Anchor point="BOTTOMRIGHT" x="-32" y="48" />
             </Anchors>
         </ScrollFrame>
+        <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.Scroll" relativePoint="TOPRIGHT" x="8" />
+                <Anchor point="BOTTOM" relativeKey="$parent.Scroll" />
+            </Anchors>
+        </EventFrame>
         <Button parentKey="OkayButton" inherits="UIPanelButtonTemplate" text="OKAY">
             <Size x="96" y="22" />
             <Anchors>

@@ -45,15 +45,30 @@
                 <OnEscapePressed function="EditBox_ClearFocus" />
             </Scripts>
         </EditBox>
-        <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="LiteMountInputScrollFrameTemplate">
+        <Frame parentKey="Container" inherits="LiteMountContainerStyleTemplate">
+            <Anchors>
+                <Anchor point="TOP" relativeKey="$parent.CreateIssueURL" relativePoint="BOTTOM" y="-16" />
+                <Anchor point="LEFT" x="16" />
+                <Anchor point="BOTTOMRIGHT" x="-16" y="42" />
+            </Anchors>
+        </Frame>
+        <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar">
+            <KeyValues>
+                <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
+            </KeyValues>
+            <Anchors>
+                <Anchor relativeKey="$parent.Container" point="TOPRIGHT" x="-16" y="-16" />
+                <Anchor relativeKey="$parent.Container" point="BOTTOMRIGHT" x="-16" y="16" />
+            </Anchors>
+        </EventFrame>
+        <ScrollFrame parentKey="Scroll" inherits="ScrollingEditBoxTemplate">
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
                 <KeyValue key="maxLetters" value="0" type="number" />
             </KeyValues>
             <Anchors>
-                <Anchor point="TOP" relativeKey="$parent.CreateIssueURL" relativePoint="BOTTOM" y="-16" />
-                <Anchor point="LEFT" x="16" />
-                <Anchor point="BOTTOMRIGHT" x="-16" y="42" />
+                <Anchor relativeKey="$parent.Container" point="TOPLEFT" x="16" y="-16" />
+                <Anchor relativeKey="$parent.ScrollBar" point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="-8" />
             </Anchors>
         </ScrollFrame>
         <Button parentKey="RefreshButton" inherits="UIPanelButtonTemplate" text="REFRESH">
