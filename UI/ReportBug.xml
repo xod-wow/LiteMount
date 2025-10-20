@@ -45,11 +45,11 @@
                 <OnEscapePressed function="EditBox_ClearFocus" />
             </Scripts>
         </EditBox>
-        <Frame parentKey="Container" inherits="LiteMountContainerStyleTemplate">
+        <Frame parentKey="Container" inherits="LiteMountEditBoxStyleTemplate">
             <Anchors>
-                <Anchor point="TOP" relativeKey="$parent.CreateIssueURL" relativePoint="BOTTOM" y="-16" />
-                <Anchor point="LEFT" x="16" />
-                <Anchor point="BOTTOMRIGHT" x="-16" y="42" />
+                <Anchor point="TOP" relativeKey="$parent.CreateIssueURL" relativePoint="BOTTOM" y="-24" />
+                <Anchor point="LEFT" x="24" />
+                <Anchor point="BOTTOMRIGHT" x="-24" y="50" />
             </Anchors>
         </Frame>
         <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar">
@@ -57,8 +57,8 @@
                 <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
             </KeyValues>
             <Anchors>
-                <Anchor relativeKey="$parent.Container" point="TOPRIGHT" x="-16" y="-16" />
-                <Anchor relativeKey="$parent.Container" point="BOTTOMRIGHT" x="-16" y="16" />
+                <Anchor relativeKey="$parent.Container" point="TOPRIGHT" x="-8" y="-8" />
+                <Anchor relativeKey="$parent.Container" point="BOTTOMRIGHT" x="-8" y="8" />
             </Anchors>
         </EventFrame>
         <ScrollFrame parentKey="Scroll" inherits="ScrollingEditBoxTemplate">
@@ -67,7 +67,7 @@
                 <KeyValue key="maxLetters" value="0" type="number" />
             </KeyValues>
             <Anchors>
-                <Anchor relativeKey="$parent.Container" point="TOPLEFT" x="16" y="-16" />
+                <Anchor relativeKey="$parent.Container" point="TOPLEFT" x="8" y="-8" />
                 <Anchor relativeKey="$parent.ScrollBar" point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="-8" />
             </Anchors>
         </ScrollFrame>

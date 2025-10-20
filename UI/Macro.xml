@@ -49,24 +49,16 @@
                 <Anchor point="BOTTOMRIGHT" x="-16" y="16" />
             </Anchors>
             <Frames>
-                <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true" mixin="LiteMountMacroEditBoxMixin">
+                <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true" mixin="LiteMountMacroEditBoxMixin" inherits="LiteMountEditBoxStyleTemplate">
                     <Scripts>
                         <OnEscapePressed function="EditBox_ClearFocus" />
                         <OnTextChanged method="OnTextChanged" />
                     </Scripts>
                     <Anchors>
-                        <Anchor point="TOPLEFT" x="16" y="-96" />
-                        <Anchor point="BOTTOMRIGHT" x="-16" y="64" />
+                        <Anchor point="TOPLEFT" x="24" y="-108" />
+                        <Anchor point="BOTTOMRIGHT" x="-24" y="72" />
                     </Anchors>
                     <FontString inherits="GameFontHighlight" />
-                    <Frames>
-                        <Frame parentKey="NineSlice" inherits="NineSlicePanelTemplate" useParentLevel="true" alpha="0.4">
-                            <Anchors>
-                                <Anchor point="TOPLEFT" x="-8" y="8" />
-                                <Anchor point="BOTTOMRIGHT" x="8" y="-8" />
-                            </Anchors>
-                        </Frame>
-                    </Frames>
                 </EditBox>
                 <CheckButton parentKey="EnableButton" inherits="OptionsBaseCheckButtonTemplate" mixin="LiteMountMacroEnableButtonMixin">
                     <Anchors>

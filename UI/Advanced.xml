@@ -19,10 +19,10 @@
     </Layers>
 
     <Frames>
-        <Frame parentKey="Container" inherits="LiteMountContainerStyleTemplate">
+        <Frame parentKey="Container" inherits="LiteMountEditBoxStyleTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" x="16" y="-160" />
-                <Anchor point="BOTTOMRIGHT" x="-16" y="48" />
+                <Anchor point="TOPLEFT" x="24" y="-168" />
+                <Anchor point="BOTTOMRIGHT" x="-24" y="50" />
             </Anchors>
         </Frame>
 
@@ -31,14 +31,14 @@
                 <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
             </KeyValues>
             <Anchors>
-                <Anchor relativeKey="$parent.Container" point="TOPRIGHT" x="-16" y="-16" />
-                <Anchor relativeKey="$parent.Container" point="BOTTOMRIGHT" x="-16" y="16" />
+                <Anchor relativeKey="$parent.Container" point="TOPRIGHT" x="-8" y="-8" />
+                <Anchor relativeKey="$parent.Container" point="BOTTOMRIGHT" x="-8" y="8" />
             </Anchors>
         </EventFrame>
 
         <ScrollFrame parentKey="EditScroll" inherits="ScrollingEditBoxTemplate">
             <Anchors>
-                <Anchor relativeKey="$parent.Container" point="TOPLEFT" x="16" y="-16" />
+                <Anchor relativeKey="$parent.Container" point="TOPLEFT" x="8" y="-8" />
                 <Anchor relativeKey="$parent.ScrollBar" point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="-8" />
             </Anchors>
             <KeyValues>

@@ -144,9 +144,6 @@ function LiteMountMacroPanelMixin:OnLoad()
     PanelTemplates_ResizeTabsToFit(self)
     PanelTemplates_SetTab(self, 1)
 
-    local layout = NineSliceUtil.GetLayout("ChatBubble")
-    NineSliceUtil.ApplyLayout(self.Macro.EditBox.NineSlice, layout)
-
     self.selectedClass = 'PLAYER'
 
     self.Macro.DeleteButton:SetScript("OnClick", function () self:SetAppropriateMacro(nil) end)

@@ -54,6 +54,23 @@
     </Layers>
 </Button>
 
+<Frame name="LiteMountEditBoxStyleTemplate" virtual="true">
+    <Frames>
+        <Frame parentKey="NineSlice" inherits="NineSlicePanelTemplate" alpha="0.4" useParentLevel="true">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="-8" y="8" />
+                <Anchor point="BOTTOMRIGHT" x="8" y="-8" />
+            </Anchors>
+        </Frame>
+    </Frames>
+    <Scripts>
+        <OnLoad inherit="append">
+            local layout = NineSliceUtil.GetLayout("ChatBubble")
+            NineSliceUtil.ApplyLayout(self.NineSlice, layout)
+        </OnLoad>
+    </Scripts>
+</Frame>
+
 <Button name="LiteMountUIButtonTemplate" virtual="true">
     <Size x="192" y="36" />
     <NormalTexture parentKey="NormalTexture" atlas="charactercreate-customize-dropdownbox" />
