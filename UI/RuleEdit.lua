@@ -432,7 +432,7 @@ function LiteMountRuleEditMixin:MakeRule()
 end
 
 function LiteMountRuleEditMixin:Cancel()
-    self:Hide()
+    LiteMountOptionsPanel_RemovePopOver(self)
 end
 
 function LiteMountRuleEditMixin:Okay()
@@ -442,7 +442,7 @@ function LiteMountRuleEditMixin:Okay()
             self.callback(self.callbackFrame, rule)
         end
     end
-    self:Hide()
+    LiteMountOptionsPanel_RemovePopOver(self)
 end
 
 function LiteMountRuleEditMixin:OnLoad()

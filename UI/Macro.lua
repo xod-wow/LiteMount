@@ -162,7 +162,6 @@ function LiteMountMacroPanelMixin:OnLoad()
     ScrollUtil.InitScrollBoxListWithScrollBar(self.Class.ScrollBox, self.Class.ScrollBar, view)
 
     LiteMountOptionsPanel_RegisterControl(self, self)
-    LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountMacroPanelMixin:OnShow()

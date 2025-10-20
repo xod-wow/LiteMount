@@ -13,8 +13,8 @@
 <Frame name="LiteMountMacroPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMacroPanelMixin">
 
     <Scripts>
-        <OnLoad method="OnLoad" />
-        <OnShow method="OnShow" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
     </Scripts>
 
     <Frames>

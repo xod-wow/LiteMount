@@ -9,8 +9,8 @@
         <KeyValue key="name" value="LM_EXPORT_PROFILE" type="string" />
     </KeyValues>
     <Scripts>
-        <OnLoad inherit="append" method="OnLoad" />
-        <OnShow inherit="append" method="OnShow" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
     </Scripts>
     <Size x="480" y="360" />
     <Anchors>
@@ -58,8 +58,8 @@
         <KeyValue key="name" value="LM_IMPORT_PROFILE" type="string" />
     </KeyValues>
     <Scripts>
-        <OnLoad inherit="append" method="OnLoad" />
-        <OnShow inherit="append" method="OnShow" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
     </Scripts>
     <Size x="480" y="180" />
     <Anchors>
@@ -108,7 +108,7 @@
         </EditBox>
         <Button parentKey="CancelButton" inherits="UIPanelButtonTemplate" text="CANCEL">
             <Scripts>
-                <OnClick> self:GetParent():Hide() </OnClick>
+                <OnClick> self:GetParent():UnPop() </OnClick>
             </Scripts>
             <Size x="96" y="22" />
             <Anchors>

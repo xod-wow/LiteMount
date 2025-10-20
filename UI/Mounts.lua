@@ -216,8 +216,6 @@ function LiteMountMountsPanelMixin:OnLoad()
 
     LiteMountOptionsPanel_RegisterControl(self.ScrollBox)
 
-    LiteMountOptionsPanel_OnLoad(self)
-
     -- Set up the tabs
     if WOW_PROJECT_ID == 1 then
         for i, tabButton in ipairs(self.Tabs) do

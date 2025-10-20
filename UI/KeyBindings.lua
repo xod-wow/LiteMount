@@ -1,3 +1,15 @@
+--[[----------------------------------------------------------------------------
+
+  LiteMount/UI/KeyBindings.lua
+
+  Options frame to plug in to the Blizzard interface menu.
+
+  Copyright 2011 Mike Battersby
+
+----------------------------------------------------------------------------]]--
+
+local _, LM = ...
+
 LiteMountKeyBindingsPanelMixin = {}
 
 -- GetBindingIndex doesn't work in OnLoad, have to let the Settings handle it

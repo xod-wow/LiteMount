@@ -235,6 +235,7 @@ function LiteMountOptionsPanel_UpdatePopOverDisplay(self)
     self.Disable:Hide()
     for i, f in ipairs(self.popOverStack) do
         if i == #self.popOverStack then
+            print('Show', i, f:GetName())
             f:SetParent(self)
             f:SetFrameLevel(self.Disable:GetFrameLevel() + 4)
             f:ClearAllPoints()
@@ -242,18 +243,21 @@ function LiteMountOptionsPanel_UpdatePopOverDisplay(self)
             f:Show()
             self.Disable:Show()
         else
+            print('Hide', i, f:GetName())
             f:Hide()
         end
     end
 end
 
 function LiteMountOptionsPanel_PopOver(f, self)
+print('LiteMountOptionsPanel_PopOver', f:GetName())
     self.popOverStack = self.popOverStack or {}
     table.insert(self.popOverStack, f)
     LiteMountOptionsPanel_UpdatePopOverDisplay(self)
 end
 
 function LiteMountOptionsPanel_RemovePopOver(f, self)
+print('LiteMountOptionsPanel_RemovePopOver', f:GetName())
     self = self or f:GetParent()
     if f.OnClose then
         f:OnClose()
@@ -377,4 +381,5 @@ end
 function LiteMountPopOverPanel_OnLoad(self)
     self.name = L[self.name] or self.name
     self.Title:SetText(self.name)
+    self.UnPop = LiteMountOptionsPanel_RemovePopOver
 end

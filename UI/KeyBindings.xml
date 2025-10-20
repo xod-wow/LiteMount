@@ -4,6 +4,13 @@
 
 <Script file="KeyBindings.lua" />
 
+<Frame name="LiteMountCheckboxControlTemplate" inherits="SettingsListElementTemplate" mixin="LiteMountCheckboxControlMixin" virtual="true">
+    <Size x="280" y="26"/>
+    <Scripts>
+        <OnLoad method="OnLoad"/>
+    </Scripts>
+</Frame>
+
 <Frame name="LiteMountKeyBindingsPanel" hidden="true" mixin="LiteMountKeyBindingsPanelMixin">
     <KeyValues>
         <KeyValue key="name" value="KEY_BINDINGS" type="global" />

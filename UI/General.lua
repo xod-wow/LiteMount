@@ -227,6 +227,4 @@ function LiteMountGeneralPanelMixin:OnLoad()
     -- MountSpecialTimer
 
     self.MountSpecialTimer:SetFormattedText(L.LM_MOUNTSPECIAL_TIMER, EMOTE171_CMD1)
-
-    LiteMountOptionsPanel_OnLoad(self)
 end

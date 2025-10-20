@@ -28,7 +28,7 @@
     <Size y="44" />
 
     <Scripts>
-        <OnLoad inherit="prepend" method="OnLoad" />
+        <OnLoad method="OnLoad" inherit="append" />
     </Scripts>
 
     <Layers>
@@ -87,7 +87,7 @@
 
 <Frame name="LiteMountRuleEditAction" mixin="LiteMountRuleEditActionMixin" inherits="LiteMountListButtonStyleTemplate" virtual="true">
     <Scripts>
-        <OnLoad method="OnLoad" inherit="prepend" />
+        <OnLoad method="OnLoad" inherit="append" />
     </Scripts>
     <Size y="44" />
     <Frames>
@@ -121,8 +121,8 @@
     </KeyValues>
 
     <Scripts>
-        <OnLoad inherit="prepend" method="OnLoad" />
-        <OnShow inherit="prepend" method="OnShow" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
     </Scripts>
 
     <Size x="580" y="360" />

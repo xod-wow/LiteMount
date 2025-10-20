@@ -10,8 +10,8 @@
         <KeyValue key="hideDefaultsButton" value="true" type="boolean" />
     </KeyValues>
     <Scripts>
-        <OnLoad inherit="append" method="OnLoad" />
-        <OnShow inherit="append" method="OnShow" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
     </Scripts>
     <Layers>
         <Layer level="ARTWORK">

@@ -173,7 +173,6 @@ function LiteMountGroupsPanelMixin:OnLoad()
 
     LiteMountOptionsPanel_RegisterControl(self.GroupScrollBox)
     LiteMountOptionsPanel_RegisterControl(self.MountScrollBox)
-    LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountGroupsPanelMixin:OnShow()

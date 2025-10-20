@@ -100,7 +100,6 @@ function LiteMountAdvancedPanelMixin:OnLoad()
     ScrollUtil.RegisterScrollBoxWithScrollBar(self.EditScroll.ScrollBox, self.ScrollBar)
 
     LiteMountOptionsPanel_RegisterControl(editBox, self)
-    LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountAdvancedPanelMixin:OnShow()

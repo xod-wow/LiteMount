@@ -240,8 +240,6 @@ function LiteMountRulesPanelMixin:OnLoad()
     self.EditButton:SetScript('OnClick', function () self:EditRule() end)
 
     LiteMountOptionsPanel_RegisterControl(self.ScrollBox)
-
-    LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountRulesPanelMixin:OnHide()

@@ -217,6 +217,4 @@ function LiteMountProfilesPanelMixin:OnLoad()
     self.ExportProfile:SetScript("OnClick", OnClick)
 
     self.ImportProfile:SetScript("OnClick", ClickImportProfile)
-
-    LiteMountOptionsPanel_OnLoad(self)
 end

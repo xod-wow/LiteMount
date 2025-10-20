@@ -65,7 +65,7 @@ end
 
 local function OnClick(button)
     LiteMountPicker:RunCallback(button.mount)
-    LiteMountPicker:Hide()
+    LiteMountOptionsPanel_RemovePopOver(LiteMountPicker)
 end
 
 function LiteMountPickerMixin:OnSizeChanged()
