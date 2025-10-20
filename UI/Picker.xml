@@ -33,7 +33,6 @@
     <Scripts>
         <OnLoad inherit="prepend" method="OnLoad" />
         <OnShow inherit="prepend" method="OnShow" />
-        <OnHide inherit="prepend" method="OnHide" />
         <OnSizeChanged inherit="prepend" method="OnSizeChanged" />
     </Scripts>
     <Frames>

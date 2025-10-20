@@ -123,7 +123,6 @@
     <Scripts>
         <OnLoad inherit="prepend" method="OnLoad" />
         <OnShow inherit="prepend" method="OnShow" />
-        <OnHide inherit="prepend" method="OnHide" />
     </Scripts>
 
     <Size x="580" y="360" />

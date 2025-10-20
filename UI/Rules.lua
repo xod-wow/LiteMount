@@ -156,7 +156,7 @@ end
 function LiteMountRulesPanelMixin:AddRule()
     LiteMountRuleEdit:Clear()
     LiteMountRuleEdit:SetCallback(self.AddRuleCallback, self)
-    LiteMountOptionsPanel_PopOver(self, LiteMountRuleEdit)
+    LiteMountOptionsPanel_PopOver(LiteMountRuleEdit, self)
 end
 
 function LiteMountRulesPanelMixin:DeleteRule()
@@ -185,7 +185,7 @@ end
 function LiteMountRulesPanelMixin:EditRule()
     LiteMountRuleEdit:SetRule(self.selectedRule)
     LiteMountRuleEdit:SetCallback(self.EditRuleCallback, self)
-    LiteMountOptionsPanel_PopOver(self, LiteMountRuleEdit)
+    LiteMountOptionsPanel_PopOver(LiteMountRuleEdit, self)
 end
 
 function LiteMountRulesPanelMixin:OnRefresh(trigger)

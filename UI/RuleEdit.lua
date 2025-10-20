@@ -32,8 +32,7 @@ local function SetArgFromPickerFunction(owner)
         function (m)
             owner:SetArg(m.name)
         end)
-    LiteMountRuleEdit:Hide()
-    LiteMountOptionsPanel_PopOver(LiteMountRulesPanel, LiteMountPicker)
+    LiteMountOptionsPanel_PopOver(LiteMountPicker, LiteMountRulesPanel)
 end
 
 local function ArgsGenerate(dropdown, rootDescription, data)
@@ -499,8 +498,7 @@ function LiteMountRuleEditMixin:OnShow()
     self:Update()
 end
 
-function LiteMountRuleEditMixin:OnHide()
+function LiteMountRuleEditMixin:OnClose()
     self.callback = nil
     self.callbackFrame = nil
-    LiteMountPicker:Hide()
 end

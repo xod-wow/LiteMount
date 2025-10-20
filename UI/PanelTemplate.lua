@@ -188,6 +188,11 @@ function LiteMountOptionsPanel_OnHide(self)
     LM.UIDebug(self, "Panel_OnHide")
     LM.db.UnregisterAllCallbacks(self)
 
+    while self.popOverStack and next(self.popOverStack) do
+        local f = self.popOverStack[1]
+        LiteMountOptionsPanel_RemovePopOver(f, self)
+    end
+
     -- Seems like the InterfacePanel calls all the OnCommit for
     -- anything that's been opened when the appropriate button is clicked
     -- LiteMountOptionsPanel_OnCommit(self)
@@ -225,7 +230,8 @@ function LiteMountOptionsPanel_OnLoad(self)
     LiteMountOptionsPanel_AutoLocalize(self)
 end
 
-function LiteMountOptionsPanel_UpdatePopOver(self)
+function LiteMountOptionsPanel_UpdatePopOverDisplay(self)
+    print('LiteMountOptionsPanel_UpdatePopOverDisplay')
     self.Disable:Hide()
     for i, f in ipairs(self.popOverStack) do
         if i == #self.popOverStack then
@@ -241,15 +247,21 @@ function LiteMountOptionsPanel_UpdatePopOver(self)
     end
 end
 
-function LiteMountOptionsPanel_PopOver(self, f)
+function LiteMountOptionsPanel_PopOver(f, self)
     self.popOverStack = self.popOverStack or {}
     table.insert(self.popOverStack, f)
-    LiteMountOptionsPanel_UpdatePopOver(self)
+    LiteMountOptionsPanel_UpdatePopOverDisplay(self)
 end
 
-function LiteMountOptionsPanel_RemovePopOver(self, f)
+function LiteMountOptionsPanel_RemovePopOver(f, self)
+    self = self or f:GetParent()
+    if f.OnClose then
+        f:OnClose()
+    end
+    f:Hide()
+    f:SetParent(nil)
     tDeleteItem(self.popOverStack, f)
-    LiteMountOptionsPanel_UpdatePopOver(self)
+    LiteMountOptionsPanel_UpdatePopOverDisplay(self)
 end
 
 function LiteMountOptionsControl_OnRefresh(self, trigger)
@@ -365,16 +377,4 @@ end
 function LiteMountPopOverPanel_OnLoad(self)
     self.name = L[self.name] or self.name
     self.Title:SetText(self.name)
-end
-
-function LiteMountPopOverPanel_OnShow(self)
-    local parent = self:GetParent()
-    self:SetFrameLevel(parent:GetFrameLevel() + 4)
-    self:GetParent().Disable:Show()
-end
-
-function LiteMountPopOverPanel_OnHide(self)
-    local parent = self:GetParent()
-    self:SetParent(nil)
-    LiteMountOptionsPanel_RemovePopOver(parent, self)
 end

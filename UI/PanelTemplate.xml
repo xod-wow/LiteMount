@@ -159,8 +159,6 @@
 <Frame name="LiteMountPopOverPanelTemplate" virtual="true" inherits="LiteMountPopOverStyleTemplate">
     <Scripts>
         <OnLoad inherit="prepend" function="LiteMountPopOverPanel_OnLoad" />
-        <OnShow inherit="prepend" function="LiteMountPopOverPanel_OnShow" />
-        <OnHide inherit="prepend" function="LiteMountPopOverPanel_OnHide" />
     </Scripts>
     <Layers>
         <Layer level="ARTWORK">

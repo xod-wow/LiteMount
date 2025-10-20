@@ -88,7 +88,7 @@ function LiteMountPickerMixin:OnShow()
     self:Update()
 end
 
-function LiteMountPickerMixin:OnHide()
+function LiteMountPickerMixin:OnClose()
     self.callback = nil
     LM.UIFilter.UnregisterAllCallbacks(self)
 end
