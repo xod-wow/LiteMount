@@ -108,7 +108,7 @@ function LiteMountTooltipMixin:SetMount(m, hasMenu)
     end
 
     if hasMenu then
-        self:AddLine("|cffff00ff" .. L.LM_RIGHT_CLICK .. ": " .. CLICK_BINDING_OPEN_MENU .. "|r")
+        self:AddLine("|cffff00ff" .. L.LM_RIGHT_CLICK .. ": " .. OPTIONS_MENU .. "|r")
     end
 
     self:Show()
