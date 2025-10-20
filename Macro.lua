@@ -10,8 +10,8 @@ local _, LM = ...
 
 LM.Macro = { }
 
-local M_CAST_S  = "/cast %s\n"
-local M_COMBAT_S  = "/dismount [mounted]\n/stopmacro [mounted]\n%s/leavevehicle"
+local M_CAST_S  = "/cast %s"
+local M_COMBAT_S  = "/dismount [mounted]\n/stopmacro [mounted]\n/leavevehicle [unithasvehicleui]\n%s"
 
 local function formatSpell(fmt, ...)
     local args = { }
@@ -20,7 +20,11 @@ local function formatSpell(fmt, ...)
         if type(arg) == 'number' then
             arg = C_Spell.GetSpellName(arg)
         end
-        table.insert(args, arg)
+        if arg then
+            table.insert(args, arg)
+        else
+            return nil
+        end
     end
     return string.format(fmt, unpack(args))
 end
