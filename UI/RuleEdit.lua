@@ -28,13 +28,12 @@ end
 
 
 local function SetArgFromPickerFunction(owner)
-    local parent = owner:GetParent()
-    LiteMountPicker:SetParent(parent)
-    LiteMountPicker:ClearAllPoints()
-    LiteMountPicker:SetPoint("CENTER")
-    LiteMountPicker:SetFrameLevel(parent:GetFrameLevel() + 3)
-    LiteMountPicker:SetCallback(function (self, m) owner:SetArg(m.name) end, owner)
-    LiteMountPicker:Show()
+    LiteMountPicker:SetCallback(
+        function (m)
+            owner:SetArg(m.name)
+        end)
+    LiteMountRuleEdit:Hide()
+    LiteMountOptionsPanel_PopOver(LiteMountRulesPanel, LiteMountPicker)
 end
 
 local function ArgsGenerate(dropdown, rootDescription, data)

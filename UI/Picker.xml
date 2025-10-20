@@ -25,7 +25,7 @@
     </Frames>
 </Button>
 
-<Frame name="LiteMountPicker" mixin="LiteMountPickerMixin" inherits="LiteMountContainerStyleTemplate" hidden="true">
+<Frame name="LiteMountPicker" mixin="LiteMountPickerMixin" inherits="LiteMountPopOverPanelTemplate" hidden="true">
     <Size x="580" y="420" />
     <Anchors>
         <Anchor point="CENTER" y="80" />

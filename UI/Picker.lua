@@ -90,7 +90,6 @@ end
 
 function LiteMountPickerMixin:OnHide()
     self.callback = nil
-    self.callbackFrame = nil
     LM.UIFilter.UnregisterAllCallbacks(self)
 end
 
@@ -99,13 +98,12 @@ function LiteMountPickerMixin:OnLoad()
     self.Scroll.update = UpdateScroll
 end
 
-function LiteMountPickerMixin:SetCallback(callback, frame)
+function LiteMountPickerMixin:SetCallback(callback)
     self.callback = callback
-    self.callbackFrame = frame
 end
 
 function LiteMountPickerMixin:RunCallback(mount)
     if self.callback then
-        self.callback(self.callbackFrame, mount)
+        self.callback(mount)
     end
 end

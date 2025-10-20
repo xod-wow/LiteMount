@@ -225,12 +225,31 @@ function LiteMountOptionsPanel_OnLoad(self)
     LiteMountOptionsPanel_AutoLocalize(self)
 end
 
+function LiteMountOptionsPanel_UpdatePopOver(self)
+    self.Disable:Hide()
+    for i, f in ipairs(self.popOverStack) do
+        if i == #self.popOverStack then
+            f:SetParent(self)
+            f:SetFrameLevel(self.Disable:GetFrameLevel() + 4)
+            f:ClearAllPoints()
+            f:SetPoint("CENTER", self, "CENTER")
+            f:Show()
+            self.Disable:Show()
+        else
+            f:Hide()
+        end
+    end
+end
+
 function LiteMountOptionsPanel_PopOver(self, f)
-    f.overFrame = self
-    f:SetParent(self)
-    f:ClearAllPoints()
-    f:SetPoint("CENTER", self, "CENTER")
-    f:Show()
+    self.popOverStack = self.popOverStack or {}
+    table.insert(self.popOverStack, f)
+    LiteMountOptionsPanel_UpdatePopOver(self)
+end
+
+function LiteMountOptionsPanel_RemovePopOver(self, f)
+    tDeleteItem(self.popOverStack, f)
+    LiteMountOptionsPanel_UpdatePopOver(self)
 end
 
 function LiteMountOptionsControl_OnRefresh(self, trigger)
@@ -349,13 +368,13 @@ function LiteMountPopOverPanel_OnLoad(self)
 end
 
 function LiteMountPopOverPanel_OnShow(self)
-    self:SetFrameLevel(self.overFrame:GetFrameLevel() + 4)
-    self.overFrame.Disable:Show()
+    local parent = self:GetParent()
+    self:SetFrameLevel(parent:GetFrameLevel() + 4)
+    self:GetParent().Disable:Show()
 end
 
 function LiteMountPopOverPanel_OnHide(self)
-    self.overFrame.Disable:Hide()
-    self.overFrame = nil
-    self:Hide()
+    local parent = self:GetParent()
     self:SetParent(nil)
+    LiteMountOptionsPanel_RemovePopOver(parent, self)
 end
