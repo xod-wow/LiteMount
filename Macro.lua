@@ -10,10 +10,13 @@ local _, LM = ...
 
 LM.Macro = { }
 
-local M_CAST_S  = "/cast %s"
-local M_COMBAT_S  = "/dismount [mounted]\n/stopmacro [mounted]\n/leavevehicle [unithasvehicleui]\n%s"
+-- This is all poorly thought through but at least it's in one place.
 
-local function formatSpell(fmt, ...)
+local M_CAST_S  = "/cast %s"
+local M_CAST_KNOWN_S  = "/cast [known:%1] %1"
+local M_COMBAT_S  = "/dismount [mounted]\n/stopmacro [mounted]\n%s\n/leavevehicle"
+
+local function formatSpells(fmt, ...)
     local args = { }
     for i = 1, select('#', ...) do
         local arg = select(i, ...)
@@ -29,20 +32,48 @@ local function formatSpell(fmt, ...)
     return string.format(fmt, unpack(args))
 end
 
+local function formatSpellMulti(fmt, ...)
+    local out = {}
+    for i = 1, select('#', ...) do
+        local arg = select(i, ...)
+        local name = C_Spell.GetSpellName(arg)
+        if name then
+            local line = fmt:gsub('%%1', name)
+            table.insert(out, line)
+        end
+    end
+    if next(out) then
+        return table.concat(out, "\n")
+    end
+end
+
 local DefaultMacroByClass = {
-    DEATHKNIGHT = formatSpell(M_CAST_S, 218999),        -- Wraith Walk
-    DEMONHUNTER = formatSpell(M_CAST_S, 192611),        -- Fel Rush
-    DRUID       = formatSpell(M_CAST_S, 768),           -- Cat Form
-    EVOKER      = formatSpell(M_CAST_S, 358267),        -- Hover
-    HUNTER      = formatSpell(M_CAST_S, 186257),        -- Aspect of the Cheetah
-    MAGE        = formatSpell(M_CAST_S, 1953),          -- Blink
-    MONK        = formatSpell(M_CAST_S, 109132),        -- Roll
-    PALADIN     = formatSpell(M_CAST_S, 190784),        -- Divine Steed
-    PRIEST      = formatSpell("/cast [@player] %s\n", 121536),  -- Angelic Feather
-    ROGUE       = formatSpell(M_CAST_S, 2983),          -- Sprint
-    SHAMAN      = formatSpell(M_CAST_S, 2645),          -- Ghost Wolf
-    WARLOCK     = formatSpell(M_CAST_S, 111400),        -- Burning Rush
-    WARRIOR     = formatSpell("/cast [harm] %s; [@cursor] %s\n", 100, 6544), -- Charge, Heroic Leap
+    DEATHKNIGHT =               -- Wraith Walk
+        formatSpells(M_CAST_S, 218999),
+    DEMONHUNTER =               -- Fel Rush
+        formatSpells(M_CAST_S, 192611),
+    DRUID =                     -- Cat Form
+        formatSpells(M_CAST_S, 768),
+    EVOKER =                    -- Hover
+        formatSpells(M_CAST_S, 358267),
+    HUNTER =                    -- Aspect of the Cheetah
+        formatSpells(M_CAST_S, 186257),
+    MAGE =                      -- Blink
+        formatSpells(M_CAST_S, 1953),
+    MONK =                      -- Roll
+        formatSpells(M_CAST_S, 109132),
+    PALADIN =                   -- Divine Steed
+        formatSpells(M_CAST_S, 190784),
+    PRIEST =                    -- Angelic Feather
+        formatSpells("/cast [@player] %s\n", 121536),
+    ROGUE =                     -- Sprint
+        formatSpells(M_CAST_S, 2983),
+    SHAMAN =                    -- Gust of Wind, Spirit Walk
+        formatSpellMulti(M_CAST_KNOWN_S, 192063, 58875),
+    WARLOCK =                   -- Burning Rush
+        formatSpells(M_CAST_S, 111400),
+    WARRIOR =                   -- Charge, Heroic Leap
+        formatSpells("/cast [harm] %s; [@cursor] %s\n", 100, 6544),
 }
 
 local function GetCombatMacroIndex(t, k)
@@ -50,8 +81,11 @@ local function GetCombatMacroIndex(t, k)
     return text and string.format(M_COMBAT_S, text)
 end
 
-DefaultCombatMacroByClass = {
-    DRUID       = string.format(M_COMBAT_S, formatSpell("/cast [indoors,noswimming] %s; %s\n", 768, 783)),
+local DefaultCombatMacroByClass = {
+    DRUID =                     -- Travel Form since it can't be selected from mounts
+        string.format(M_COMBAT_S, formatSpells("/cast [indoors,noswimming] %s; %s\n", 768, 783)),
+    SHAMAN =                    -- Ghost Wolf
+        string.format(M_COMBAT_S, formatSpells(M_CAST_S, 2645)),
 }
 
 setmetatable(DefaultCombatMacroByClass, { __index = GetCombatMacroIndex })
