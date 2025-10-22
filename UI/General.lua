@@ -2,6 +2,8 @@
 
   LiteMount/UI/General.lua
 
+  Options frame to plug in to the Blizzard interface menu.
+
   Copyright 2011 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
@@ -10,221 +12,253 @@ local _, LM = ...
 
 local L = LM.Localize
 
-local mountSpecialTimerOptions = {
-    { 0,    NEVER },
-    { 20,   string.format(L.LM_EVERY_D_SECONDS, 20) },
-    { 30,   string.format(L.LM_EVERY_D_SECONDS, 30) },
-    { 45,   string.format(L.LM_EVERY_D_SECONDS, 45) },
-    { 120,  string.format(L.LM_EVERY_D_MINUTES, 2) },
-}
-
-local function MountSpecialTimerGenerator(owner, rootDescription)
-    local IsSelected = function (v) return v == LM.Options:GetOption('mountSpecialTimer') end
-    local SetSelected = function (v) LM.Options:SetOption('mountSpecialTimer', v) end
-    for _, info in ipairs(mountSpecialTimerOptions) do
-        rootDescription:CreateRadio(info[2], IsSelected, SetSelected, info[1])
-    end
-end
-
-local persistOptions = {
-    { 0,    string.format("%s (%s)", L.LM_EVERY_TIME, DEFAULT) },
-    { 30,   string.format(L.LM_EVERY_D_SECONDS, 30) },
-    { 120,  string.format(L.LM_EVERY_D_MINUTES, 2) },
-    { 300,  string.format(L.LM_EVERY_D_MINUTES, 5) },
-    { 1800, string.format(L.LM_EVERY_D_MINUTES, 30) },
-}
-
-local function RandomPersistGenerator(owner, rootDescription)
-    local IsSelected = function (v) return v == LM.Options:GetOption('randomKeepSeconds') end
-    local SetSelected = function (v) LM.Options:SetOption('randomKeepSeconds', v) end
-    for _, info in ipairs(persistOptions) do
-        rootDescription:CreateRadio(info[2], IsSelected, SetSelected, info[1])
-    end
-end
-
-local styleOptions = {
-    { 'Priority', string.format("%s (%s)", L.LM_SUMMON_STYLE_PRIORITY, DEFAULT)  },
-    { 'Rarity', L.LM_SUMMON_STYLE_RARITY, disabled=(WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) },
-    { 'LeastUsed', L.LM_SUMMON_STYLE_LEASTUSED },
-}
-
-local function SummonStyleGenerator(owner, rootDescription)
-    local IsSelected = function (v) return v == LM.Options:GetOption('randomWeightStyle') end
-    local SetSelected = function (v) LM.Options:SetOption('randomWeightStyle', v) end
-    for _, info in ipairs(styleOptions) do
-        if not info.disabled then
-            rootDescription:CreateRadio(info[2], IsSelected, SetSelected, info[1])
-        end
-    end
-end
+--[[------------------------------------------------------------------------]]--
 
 --[[------------------------------------------------------------------------]]--
 
 LiteMountGeneralPanelMixin = {}
 
-function LiteMountGeneralPanelMixin:OnShow()
-    self.RandomPersistDropDown:SetupMenu(RandomPersistGenerator)
-    self.SummonStyleDropDown:SetupMenu(SummonStyleGenerator)
-    self.MountSpecialTimerDropDown:SetupMenu(MountSpecialTimerGenerator)
+-- GetBindingIndex doesn't work in OnLoad, have to let the Settings handle it
+-- with a callback.
+function LiteMountGeneralPanelMixin:Register()
+
+    -- Section : Key Bindings --
+    self.layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(KEY_BINDINGS))
+
+    for i = 1, 4 do
+        local bindingName = string.format("CLICK LM_B%d:LeftButton", i)
+        local bindingIndex = C_KeyBindings.GetBindingIndex(bindingName)
+        local initializer = CreateKeybindingEntryInitializer(bindingIndex, true)
+        self.layout:AddInitializer(initializer)
+    end
+
+    -- Section : Settings --
+    self.layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(SETTINGS))
+
+    local checkboxTemplate = "LiteMountCheckboxControlTemplate"
+    local dropdownTemplate = "LiteMountDropdownControlTemplate"
+
+    -- Copy Targets Mount --
+    do
+        local setting = Settings.RegisterProxySetting(
+            self.category,
+            "LiteMountCopyTargetsMount",
+            Settings.VarType.Boolean,
+            L.LM_COPY_TARGETS_MOUNT,
+            LM.Options:GetOptionDefault("copyTargetsMount"),
+            function () return LM.Options:GetOption("copyTargetsMount") end,
+            function (v) LM.Options:SetOption("copyTargetsMount", v) end
+        )
+        local initializer = Settings.CreateControlInitializer(checkboxTemplate, setting)
+        self.layout:AddInitializer(initializer)
+    end
+
+    -- Default Priority --
+    do
+        local setting = Settings.RegisterProxySetting(
+            self.category,
+            "LiteMountDefaultPriority",
+            Settings.VarType.Boolean,
+            L.LM_ADD_MOUNTS_AT_PRIORITY_0,
+            LM.Options:GetOptionDefault("defaultPriority") == 0,
+            function () return LM.Options:GetOption("defaultPriority") == 0 end,
+            function (v) LM.Options:SetOption("defaultPriority", v and 0 or 1) end
+        )
+        local initializer = Settings.CreateControlInitializer(checkboxTemplate, setting)
+        self.layout:AddInitializer(initializer)
+    end
+
+    -- Instant Only Moving --
+    do
+        local setting = Settings.RegisterProxySetting(
+            self.category,
+            "LiteMountInstantOnlyMoving",
+            Settings.VarType.Boolean,
+            L.LM_INSTANT_ONLY_MOVING,
+            LM.Options:GetOptionDefault("instantOnlyMoving"),
+            function () return LM.Options:GetOption("instantOnlyMoving") end,
+            function (v) LM.Options:SetOption("instantOnlyMoving", v) end
+        )
+        local initializer = Settings.CreateControlInitializer(checkboxTemplate, setting)
+        self.layout:AddInitializer(initializer)
+    end
+
+    -- Restore Forms --
+    do
+        local setting = Settings.RegisterProxySetting(
+            self.category,
+            "LiteMountRestoreForms",
+            Settings.VarType.Boolean,
+            L.LM_RESTORE_FORMS,
+            LM.Options:GetOptionDefault("restoreForms"),
+            function () return LM.Options:GetOption("restoreForms") end,
+            function (v) LM.Options:SetOption("restoreForms", v) end
+        )
+        local initializer = Settings.CreateControlInitializer(checkboxTemplate, setting)
+        self.layout:AddInitializer(initializer)
+    end
+
+    -- Random Style --
+    do
+        local function GetOptions()
+            local container = Settings.CreateControlTextContainer()
+            container:Add('Priority', string.format("%s (%s)", L.LM_SUMMON_STYLE_PRIORITY, DEFAULT))
+            if WOW_PROJECT_ID == 1 then
+                container:Add('Rarity', L.LM_SUMMON_STYLE_RARITY)
+            end
+            container:Add('LeastUsed', L.LM_SUMMON_STYLE_LEASTUSED)
+            return container:GetData()
+        end
+
+        local function GetValueDefault() return LM.Options:GetOptionDefault("randomWeightStyle") end
+        local function GetValue() return LM.Options:GetOption("randomWeightStyle") end
+        local function SetValue(v) LM.Options:SetOption("randomWeightStyle", v) end
+
+        local setting = Settings.RegisterProxySetting(
+            self.category,
+            "LiteMountRandomWeightStyle",
+            Settings.VarType.String,
+            L.LM_SUMMON_STYLE,
+            GetValueDefault(),
+            GetValue,
+            SetValue
+        )
+        local initializer = Settings.CreateControlInitializer(dropdownTemplate, setting, GetOptions)
+        self.layout:AddInitializer(initializer)
+    end
+
+    -- Random Persistence --
+    do
+        local function GetOptions()
+            local container = Settings.CreateControlTextContainer()
+            container:Add(0,    string.format("%s (%s)", L.LM_EVERY_TIME, DEFAULT))
+            container:Add(30,   string.format(L.LM_EVERY_D_SECONDS, 30))
+            container:Add(120,  string.format(L.LM_EVERY_D_MINUTES, 2))
+            container:Add(300,  string.format(L.LM_EVERY_D_MINUTES, 5))
+            container:Add(1800, string.format(L.LM_EVERY_D_MINUTES, 30))
+            return container:GetData()
+        end
+
+        local function GetValueDefault() return LM.Options:GetOptionDefault("randomKeepSeconds") end
+        local function GetValue() return LM.Options:GetOption("randomKeepSeconds") end
+        local function SetValue(v) LM.Options:SetOption("randomKeepSeconds", v) end
+
+        local setting = Settings.RegisterProxySetting(
+            self.category,
+            "LiteMountRandomKeepSeconds",
+            Settings.VarType.Number,
+            L.LM_RANDOM_PERSISTENCE,
+            GetValueDefault(),
+            GetValue,
+            SetValue
+        )
+        local initializer = Settings.CreateControlInitializer(dropdownTemplate, setting, GetOptions)
+        self.layout:AddInitializer(initializer)
+    end
+
+    -- Mountspecial Timer --
+    do
+        local function GetOptions()
+            local container = Settings.CreateControlTextContainer()
+            container:Add(0,    NEVER)
+            container:Add(20,   string.format(L.LM_EVERY_D_SECONDS, 20))
+            container:Add(30,   string.format(L.LM_EVERY_D_SECONDS, 30))
+            container:Add(45,   string.format(L.LM_EVERY_D_SECONDS, 45))
+            container:Add(120,  string.format(L.LM_EVERY_D_MINUTES, 2))
+            return container:GetData()
+        end
+
+        local function GetValueDefault() return LM.Options:GetOptionDefault("mountSpecialTimer") end
+        local function GetValue() return LM.Options:GetOption("mountSpecialTimer") end
+        local function SetValue(v) LM.Options:SetOption("mountSpecialTimer", v) end
+
+        local setting = Settings.RegisterProxySetting(
+            self.category,
+            "LiteMountMountSpecialTimer",
+            Settings.VarType.Number,
+            string.format(L.LM_MOUNTSPECIAL_TIMER, EMOTE171_CMD1),
+            GetValueDefault(),
+            GetValue,
+            SetValue
+        )
+        local initializer = Settings.CreateControlInitializer(dropdownTemplate, setting, GetOptions)
+        self.layout:AddInitializer(initializer)
+    end
+
+    -- Section : Announce --
+    self.layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(CHAT_ANNOUNCE))
+
+    -- Announce Via --
+    do
+        local function GetOptions()
+            local container = Settings.CreateControlTextContainer()
+            container:Add(0, NONE)
+            container:Add(1, CHAT)
+            container:Add(2, L.LM_ON_SCREEN_DISPLAY)
+            container:Add(3, CHAT .. ' + ' .. L.LM_ON_SCREEN_DISPLAY)
+            return container:GetData()
+        end
+
+        local function GetValue()
+            local chatV = LM.Options:GetOption("announceViaChat") and 1 or 0
+            local uiV = LM.Options:GetOption("announceViaUI") and 2 or 0
+            return chatV + uiV
+        end
+
+        local function GetValueDefault()
+            local chatV = LM.Options:GetOptionDefault("announceViaChat") and 1 or 0
+            local uiV = LM.Options:GetOptionDefault("announceViaUI") and 2 or 0
+            return chatV + uiV
+        end
+
+        local function SetValue(v)
+            LM.Options:SetOption("announceViaChat", v == 1 or v == 3)
+            LM.Options:SetOption("announceViaUI", v == 2 or v == 3)
+        end
+
+        local setting = Settings.RegisterProxySetting(
+            self.category,
+            "LiteMountAnnounceVia",
+            Settings.VarType.Number,
+            L.LM_ANNOUNCE_MOUNTS,
+            GetValueDefault(),
+            GetValue,
+            SetValue
+        )
+        Settings.CreateDropdown(self.category, setting, GetOptions)
+    end
+
+    -- Color By Priority --
+    do 
+        local setting = Settings.RegisterProxySetting(
+            self.category,
+            "LiteMountAnnounceColors",
+            Settings.VarType.Boolean,
+            L.LM_COLOR_BY_PRIORITY,
+            LM.Options:GetOptionDefault("announceColors"),
+            function () return LM.Options:GetOption("announceColors") end,
+            function (v) LM.Options:SetOption("announceColors", v) end
+        )
+        Settings.CreateCheckbox(self.category, setting)
+    end
+
+    -- Announce Flight Style --
+    if WOW_PROJECT_ID == 1 then
+        local setting = Settings.RegisterProxySetting(
+            self.category,
+            "LiteMountAnnounceFlightStyle",
+            Settings.VarType.Boolean,
+            L.LM_ANNOUNCE_FLIGHT_STYLE,
+            LM.Options:GetOptionDefault("announceFlightStyle"),
+            function () return LM.Options:GetOption("announceFlightStyle") end,
+            function (v) LM.Options:SetOption("announceFlightStyle", v) end
+        )
+        Settings.CreateCheckbox(self.category, setting)
+    end
 end
 
 function LiteMountGeneralPanelMixin:OnLoad()
-
-    -- Announce options L-R anchoring. Can't do this in the XML because we
-    -- want to anchor to the .Text region.
-    self.AnnounceUI:SetPoint("LEFT", self.AnnounceChat.Text, "RIGHT", 28, 0)
-    self.AnnounceColors:SetPoint("LEFT", self.AnnounceUI.Text, "RIGHT", 28, 0)
-
-    -- CopyTargetsMount --
-
-    self.CopyTargetsMount.Text:SetText(L.LM_COPY_TARGETS_MOUNT)
-    self.CopyTargetsMount.SetOption =
-        function (self, setting)
-            if not setting or setting == "0" then
-                LM.Options:SetOption('copyTargetsMount', false)
-            else
-                LM.Options:SetOption('copyTargetsMount', true)
-            end
-        end
-    self.CopyTargetsMount.GetOption =
-        function (self) return LM.Options:GetOption('copyTargetsMount') end
-    self.CopyTargetsMount.GetOptionDefault =
-        function (self) return true end
-    LiteMountOptionsPanel_RegisterControl(self.CopyTargetsMount)
-
-    -- DefaultPriority --
-
-    self.DefaultPriority.Text:SetText(L.LM_ADD_MOUNTS_AT_PRIORITY_0)
---[[
-    self.DefaultPriority.Text:SetText(
-        string.format(L.LM_SET_DEFAULT_MOUNT_PRIORITY_TO,
-                        LM.Options.DISABLED_PRIORITY,
-                        L.LM_PRIORITY_DESC0,
-                        LM.Options.DEFAULT_PRIORITY,
-                        L.LM_PRIORITY_DESC1
-                        )
-        )
-]]
-    self.DefaultPriority.SetOption =
-        function (self, setting)
-            if not setting or setting == "0" then
-                LM.Options:SetOption('defaultPriority', 1)
-            else
-                LM.Options:SetOption('defaultPriority', 0)
-            end
-        end
-    self.DefaultPriority.GetOptionDefault =
-        function (self) return LM.Options:GetOptionDefault('defaultPriority') end
-    self.DefaultPriority.GetOption =
-        function (self) return LM.Options:GetOption('defaultPriority') end
-    self.DefaultPriority.SetControl =
-        function (self, v) self:SetChecked(v == 0) end
-    LiteMountOptionsPanel_RegisterControl(self.DefaultPriority)
-
-    -- AnnounceChat --
-    self.AnnounceChat.Text:SetText(CHAT)
-    self.AnnounceChat.SetOption =
-        function (self, setting)
-            if not setting or setting == "0" then
-                LM.Options:SetOption('announceViaChat', false)
-            else
-                LM.Options:SetOption('announceViaChat', true)
-            end
-        end
-    self.AnnounceChat.GetOption =
-        function (self) return LM.Options:GetOption('announceViaChat') end
-    self.AnnounceChat.GetOptionDefault =
-        function (self) return LM.Options:GetOptionDefault('announceViaChat') end
-    LiteMountOptionsPanel_RegisterControl(self.AnnounceChat)
-
-    -- AnnounceUI --
-    self.AnnounceUI.Text:SetText(L.LM_ON_SCREEN_DISPLAY)
-    self.AnnounceUI.SetOption =
-        function (self, setting)
-            if not setting or setting == "0" then
-                LM.Options:SetOption('announceViaUI', false)
-            else
-                LM.Options:SetOption('announceViaUI', true)
-            end
-        end
-    self.AnnounceUI.GetOption =
-        function (self) return LM.Options:GetOption('announceViaUI') end
-    self.AnnounceUI.GetOptionDefault =
-        function (self) return LM.Options:GetOptionDefault('announceViaUI') end
-    LiteMountOptionsPanel_RegisterControl(self.AnnounceUI)
-
-    -- AnnounceColors --
-    self.AnnounceColors.Text:SetText(L.LM_COLOR_BY_PRIORITY)
-    self.AnnounceColors.SetOption =
-        function (self, setting)
-            if not setting or setting == "0" then
-                LM.Options:SetOption('announceColors', false)
-            else
-                LM.Options:SetOption('announceColors', true)
-            end
-        end
-    self.AnnounceColors.GetOption =
-        function (self) return LM.Options:GetOption('announceColors') end
-    self.AnnounceColors.GetOptionDefault =
-        function (self) return LM.Options:GetOptionDefault('announceColors') end
-    LiteMountOptionsPanel_RegisterControl(self.AnnounceColors)
-
-    -- InstantOnlyMoving --
-
-    self.InstantOnlyMoving.Text:SetText(L.LM_INSTANT_ONLY_MOVING)
-    self.InstantOnlyMoving.SetOption =
-        function (self, setting)
-            if not setting or setting == "0" then
-                LM.Options:SetOption('instantOnlyMoving', false)
-            else
-                LM.Options:SetOption('instantOnlyMoving', true)
-            end
-        end
-    self.InstantOnlyMoving.GetOptionDefault =
-        function (self) return LM.Options:GetOptionDefault('instantOnlyMoving') end
-    self.InstantOnlyMoving.GetOption =
-        function (self) return LM.Options:GetOption('instantOnlyMoving') end
-    LiteMountOptionsPanel_RegisterControl(self.InstantOnlyMoving)
-
-    -- RestoreForms --
-
-    self.RestoreForms.Text:SetText(L.LM_RESTORE_FORMS)
-    self.RestoreForms.SetOption =
-        function (self, setting)
-            if not setting or setting == "0" then
-                LM.Options:SetOption('restoreForms', false)
-            else
-                LM.Options:SetOption('restoreForms', true)
-            end
-        end
-    self.RestoreForms.GetOptionDefault =
-        function (self) return LM.Options:GetOptionDefault('restoreForms') end
-    self.RestoreForms.GetOption =
-        function (self) return LM.Options:GetOption('restoreForms') end
-    LiteMountOptionsPanel_RegisterControl(self.RestoreForms)
-
-    -- AnnounceFlightStyle (only on retail) --
-
-    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-        self.AnnounceFlightStyle.Text:SetText(L.LM_ANNOUNCE_FLIGHT_STYLE)
-        self.AnnounceFlightStyle.SetOption =
-            function (self, setting)
-                if not setting or setting == "0" then
-                    LM.Options:SetOption('announceFlightStyle', false)
-                else
-                    LM.Options:SetOption('announceFlightStyle', true)
-                end
-            end
-        self.AnnounceFlightStyle.GetOptionDefault =
-            function (self) return LM.Options:GetOptionDefault('announceFlightStyle') end
-        self.AnnounceFlightStyle.GetOption =
-            function (self) return LM.Options:GetOption('announceFlightStyle') end
-        LiteMountOptionsPanel_RegisterControl(self.AnnounceFlightStyle)
-    else
-        self.AnnounceFlightStyle:Hide()
-    end
-
-    -- MountSpecialTimer
-
-    self.MountSpecialTimer:SetFormattedText(L.LM_MOUNTSPECIAL_TIMER, EMOTE171_CMD1)
+    local topCategory = LiteMountOptions.category
+    self.category, self.layout = Settings.RegisterVerticalLayoutSubcategory(topCategory, self.name)
+    SettingsRegistrar:AddRegistrant(function () self:Register() end)
 end

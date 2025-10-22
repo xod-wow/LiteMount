@@ -46,6 +46,41 @@
 
 ----------------------------------------------------------------------------]]--
 
+-- These two control widgets are for using with Blizzards Settings
+
+LiteMountCheckboxControlMixin = CreateFromMixins(SettingsCheckboxControlMixin)
+
+function LiteMountCheckboxControlMixin:Init(initializer)
+    SettingsCheckboxControlMixin.Init(self, initializer)
+
+    local leftPad = self:GetIndent() + 37
+
+    self.Checkbox:ClearAllPoints()
+    self.Checkbox:SetPoint("LEFT", self, "LEFT", leftPad, 0)
+
+    leftPad = leftPad + self.Checkbox:GetWidth() + 8
+    self.Text:ClearAllPoints()
+    self.Text:SetPoint("LEFT", self, "LEFT", leftPad, 0)
+end
+
+LiteMountDropdownControlMixin = CreateFromMixins(SettingsDropdownControlMixin)
+
+function LiteMountDropdownControlMixin:Init(initializer)
+    SettingsDropdownControlMixin.Init(self, initializer)
+
+    local leftPad = self:GetIndent() + 37
+
+    self.Text:ClearAllPoints()
+    self.Text:SetPoint("TOPLEFT", self, "TOPLEFT", leftPad, -4)
+
+    self.Control:ClearAllPoints()
+    self.Control:SetPoint("BOTTOM", self, "BOTTOM", 0, 4)
+    self.Control.Dropdown:SetWidth(440)
+end
+
+
+--[[------------------------------------------------------------------------]]--
+
 LM_CONTAINER_BACKDROP_INFO = {
     bgFile = "Interface/ChatFrame/ChatFrameBackground",
     edgeFile = "Interface/Tooltips/UI-Tooltip-Border",

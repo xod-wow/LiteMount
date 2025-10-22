@@ -83,23 +83,21 @@
     </Scripts>
 </Button>
 
-<CheckButton name="LiteMountOptionsCheckButtonTemplate" virtual="true">
-    <Size x="32" y="32" />
-    <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
-    <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
-    <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
-    <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
-    <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString parentKey="Text" inherits="GameFontNormal">
-                <Anchors>
-                    <Anchor point="LEFT" relativePoint="RIGHT" x="4" y="1" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-</CheckButton>
+<!-- Checkbox on the left, text to the right full width -->
+<Frame name="LiteMountCheckboxControlTemplate" inherits="SettingsListElementTemplate" mixin="LiteMountCheckboxControlMixin" virtual="true">
+    <Size x="280" y="26"/>
+    <Scripts>
+        <OnLoad method="OnLoad"/>
+    </Scripts>
+</Frame>
+
+<!-- Label above, full width dropdown below -->
+<Frame name="LiteMountDropdownControlTemplate" inherits="SettingsListElementTemplate" mixin="LiteMountDropdownControlMixin" virtual="true">
+    <Size x="560" y="60"/>
+    <Scripts>
+        <OnLoad method="OnLoad"/>
+    </Scripts>
+</Frame>
 
 <Frame name="LiteMountOptionsPanelTemplate" hidden="true" virtual="true">
     <Scripts>
