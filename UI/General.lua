@@ -229,7 +229,7 @@ function LiteMountGeneralPanelMixin:Register()
     end
 
     -- Color By Priority --
-    do 
+    do
         local setting = Settings.RegisterProxySetting(
             self.category,
             "LiteMountAnnounceColors",
