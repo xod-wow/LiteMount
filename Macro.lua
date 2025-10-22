@@ -138,3 +138,40 @@ function LM.Macro:GetMacro(isCombat)
         end
     end
 end
+
+local function GetDruidMountForms()
+    local forms = {}
+    for i = 1, GetNumShapeshiftForms() do
+        local spell = select(4, GetShapeshiftFormInfo(i))
+        if LM.MountRegistry:GetMountBySpell(spell) then
+            tinsert(forms, i)
+        end
+    end
+    return table.concat(forms, "/")
+end
+
+function LM.Macro:DefaultCombatMacro()
+    local mt = "/dismount [mounted]\n/stopmacro [mounted]\n"
+
+    local playerClass = UnitClassBase("player")
+
+    if playerClass ==  "DRUID" then
+        local forms = GetDruidMountForms()
+        local mount = LM.MountRegistry:GetMountBySpell(LM.SPELL.TRAVEL_FORM)
+        if mount and mount:GetPriority() > 0 then
+            mt = mt .. string.format("/cast [noform:%s] %s\n", forms, mount.name)
+            mt = mt .. string.format("/cancelform [form:%s]\n", forms)
+        end
+    elseif playerClass == "SHAMAN" then
+        local mount = LM.MountRegistry:GetMountBySpell(LM.SPELL.GHOST_WOLF)
+        if mount and mount:GetPriority() > 0 then
+            local s = C_Spell.GetSpellName(LM.SPELL.GHOST_WOLF)
+            mt = mt .. "/cast [noform] " .. s .. "\n"
+            mt = mt .. "/cancelform [form]\n"
+        end
+    end
+
+    mt = mt .. "/leavevehicle\n"
+
+    return mt
+end

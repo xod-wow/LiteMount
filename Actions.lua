@@ -698,7 +698,7 @@ ACTIONS['Combat'] = {
             end
             -- Otherwise use the default actions
             LM.Debug("  * setting action to default combat macro")
-            local macrotext = LM.Actions:DefaultCombatMacro()
+            local macrotext = LM.Macro:DefaultCombatMacro()
             return LM.SecureAction:Macro(macrotext)
         end
 }
@@ -854,49 +854,6 @@ end
 --[[------------------------------------------------------------------------]]--
 
 LM.Actions = { }
-
-local function GetDruidMountForms()
-    local forms = {}
-    for i = 1,GetNumShapeshiftForms() do
-        local spell = select(4, GetShapeshiftFormInfo(i))
-        if spell == LM.SPELL.TRAVEL_FORM or spell == LM.SPELL.MOUNT_FORM then
-            tinsert(forms, i)
-        end
-    end
-    return table.concat(forms, "/")
-end
-
--- This is the macro that gets set as the default and will trigger if
--- we are in combat.  Don't put anything in here that isn't specifically
--- combat-only, because out of combat we've got proper code available.
--- Note that macros are limited to 255 chars, even inside a SecureActionButton.
-
-function LM.Actions:DefaultCombatMacro()
-
-    local mt = "/dismount [mounted]\n/stopmacro [mounted]\n"
-
-    local playerClass = UnitClassBase("player")
-
-    if playerClass ==  "DRUID" then
-        local forms = GetDruidMountForms()
-        local mount = LM.MountRegistry:GetMountBySpell(LM.SPELL.TRAVEL_FORM)
-        if mount and mount:GetPriority() > 0 then
-            mt = mt .. format("/cast [noform:%s] %s\n", forms, mount.name)
-            mt = mt .. format("/cancelform [form:%s]\n", forms)
-        end
-    elseif playerClass == "SHAMAN" then
-        local mount = LM.MountRegistry:GetMountBySpell(LM.SPELL.GHOST_WOLF)
-        if mount and mount:GetPriority() > 0 then
-            local s = C_Spell.GetSpellName(LM.SPELL.GHOST_WOLF)
-            mt = mt .. "/cast [noform] " .. s .. "\n"
-            mt = mt .. "/cancelform [form]\n"
-        end
-    end
-
-    mt = mt .. "/leavevehicle\n"
-
-    return mt
-end
 
 function LM.Actions:GetArgType(action)
     if FLOWCONTROLS[action] then
