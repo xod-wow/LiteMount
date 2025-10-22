@@ -83,7 +83,7 @@ end
 
 local DefaultCombatMacroByClass = {
     DRUID =                     -- Travel Form since it can't be selected from mounts
-        string.format(M_COMBAT_S, formatSpells("/cast [indoors,noswimming] %s; %s\n", 768, 783)),
+        string.format(M_COMBAT_S, formatSpells("/cast [indoors,noswimming] %s; %s", 768, 783)),
     SHAMAN =                    -- Ghost Wolf
         string.format(M_COMBAT_S, formatSpells(M_CAST_S, 2645)),
 }
