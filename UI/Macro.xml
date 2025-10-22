@@ -112,7 +112,7 @@
              a top tab that looks and works reasonably on both. MinimalTabTemplate is way
              too washed out. -->
 
-        <Button id="1" name="$parentTab1" inherits="LiteMountMacroTabTemplate" text="Unavailable">
+        <Button id="1" name="$parentTab1" inherits="LiteMountMacroTabTemplate" text="UNAVAILABLE">
             <KeyValues>
                 <Keyvalue key="minWidth" value="57" type="number" />
             </KeyValues>
@@ -120,7 +120,7 @@
                 <Anchor point="BOTTOMLEFT" relativeKey="$parent.Macro" relativePoint="TOPLEFT" x="16" />
             </Anchors>
         </Button>
-        <Button id="2" name="$parentTab2" inherits="LiteMountMacroTabTemplate" text="Combat">
+        <Button id="2" name="$parentTab2" inherits="LiteMountMacroTabTemplate" text="COMBAT">
             <KeyValues>
                 <Keyvalue key="minWidth" value="57" type="number" />
             </KeyValues>
