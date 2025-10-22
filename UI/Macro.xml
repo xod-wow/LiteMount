@@ -4,11 +4,11 @@
 
 <Script file="Macro.lua" />
 
-<Frame name="LiteMountMacroTabTemplate" inherits="PanelTopTabButtonTemplate" mixin="LiteMountMacroTabMixin" virtual="true">
+<Button name="LiteMountMacroTabTemplate" inherits="PanelTopTabButtonTemplate" mixin="LiteMountMacroTabMixin" virtual="true">
     <Scripts>
         <OnClick method="OnClick" />
     </Scripts>
-</Frame>
+</Button>
 
 <Frame name="LiteMountMacroPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMacroPanelMixin">
 
@@ -107,6 +107,10 @@
                 </Layer>
             </Layers>
         </Frame>
+
+        <!-- These tabs look like warmed vom on classic, but Blizzard don't seem to have
+             a top tab that looks and works reasonably on both. MinimalTabTemplate is way
+             too washed out. -->
 
         <Button id="1" name="$parentTab1" inherits="LiteMountMacroTabTemplate" text="Unavailable">
             <KeyValues>
