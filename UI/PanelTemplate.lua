@@ -64,17 +64,7 @@ LM_POPOVER_BACKDROP_INFO = {
     insets = { left = 3, right = 3, top = 3, bottom = 3 },
 }
 
-LM_BUTTON_BACKDROP_INFO = {
-    bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-    edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-    tile = true,
-    tileEdge = true,
-    tileSize = 8,
-    edgeSize = 8,
-    insets = { left = 4, right = 4, top = 4, bottom = 4 },
-}
-
-LM_LISTBUTTON_BACKDROP_INFO = {
+LM_LIST_ITEM_BACKDROP_INFO = {
     bgFile = "Interface/Buttons/UI-SliderBar-Background",
     edgeFile = "Interface/Buttons/UI-SliderBar-Border",
     tile = true,

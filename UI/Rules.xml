@@ -23,7 +23,7 @@
     </Scripts>
 </Frame>
 
-<Button name="LiteMountRuleButtonTemplate" virtual="true" mixin="LiteMountRuleButtonMixin" inherits="LiteMountListButtonStyleTemplate">
+<Button name="LiteMountRuleButtonTemplate" virtual="true" mixin="LiteMountRuleButtonMixin" inherits="LiteMountListItemStyleTemplate">
     <Size y="66" />
     <Scripts>
         <OnShow method="OnShow" inherit="prepend" />

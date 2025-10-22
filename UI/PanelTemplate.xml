@@ -21,21 +21,13 @@
     </KeyValues>
 </Frame>
 
-<Button name="LiteMountListButtonStyleTemplate" virtual="true" inherits="BackdropTemplate">
+<Button name="LiteMountListItemStyleTemplate" virtual="true" inherits="BackdropTemplate">
     <KeyValues>
-        <KeyValue key="backdropInfo" value="LM_LISTBUTTON_BACKDROP_INFO" type="global" />
+        <KeyValue key="backdropInfo" value="LM_LIST_ITEM_BACKDROP_INFO" type="global" />
         <KeyValue key="backdropColor" value="DARKGRAY_COLOR" type="global"/>
-        <KeyValue key="backdropColorAlpha" value="0.4" type="number"/>
-        <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColorAlpha" value="0.5" type="number"/>
-    </KeyValues>
-</Button>
-
-<Button name="LiteMountButtonStyleTemplate" virtual="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="LM_BUTTON_BACKDROP_INFO" type="global"/>
         <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
         <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.7" type="number"/>
     </KeyValues>
 </Button>
 

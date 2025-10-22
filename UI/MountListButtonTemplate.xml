@@ -4,7 +4,7 @@
 
 <Script file="MountListButtonTemplate.lua" />
 
-<Button name="LiteMountMountListHeaderTemplate" virtual="true" inherits="LiteMountListButtonStyleTemplate" mixin="LiteMountMountListHeaderMixin">
+<Button name="LiteMountMountListHeaderTemplate" virtual="true" inherits="LiteMountListItemStyleTemplate" mixin="LiteMountMountListHeaderMixin">
     <Size y="22" />
     <Layers>
         <Layer level="ARTWORK">
@@ -30,7 +30,7 @@
     </Layers>
 </Button>
 
-<Button name="LiteMountMountListButtonTemplate" virtual="true" mixin="LiteMountMountListButtonMixin" inherits="LiteMountListButtonStyleTemplate">
+<Button name="LiteMountMountListButtonTemplate" virtual="true" mixin="LiteMountMountListButtonMixin" inherits="LiteMountListItemStyleTemplate">
     <Size y="44" />
     <Frames>
         <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">
@@ -111,7 +111,7 @@
         w = (440-10 / 3 = 143
 -->
 
-<Button name="LiteMountMountGridButtonTemplate" virtual="true" mixin="LiteMountMountGridButtonMixin" inherits="LiteMountListButtonStyleTemplate">
+<Button name="LiteMountMountGridButtonTemplate" virtual="true" mixin="LiteMountMountGridButtonMixin" inherits="LiteMountListItemStyleTemplate">
     <Size x="202" y="217" />
     <Frames>
         <ModelScene parentKey="ModelScene" inherits="LiteMountMountModelSceneTemplate" frameStrata="ARTWORK">

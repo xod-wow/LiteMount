@@ -4,27 +4,7 @@
 
 <Script file="RuleEdit.lua" />
 
-<Button name="LiteMountRuleEditDropDownButtonTemplate" inherits="LiteMountButtonStyleTemplate" virtual="true">
-    <ButtonText parentKey="Text" justifyH="left">
-        <Anchors>
-            <Anchor point="LEFT" x="16" />
-            <Anchor point="RIGHT" x="-16" />
-        </Anchors>
-    </ButtonText>
-    <NormalFont style="GameFontHighlight" />
-    <HighlightFont style="GameFontHighlight" />
-    <Layers>
-        <Layer level="ARTWORK">
-            <Texture atlas="hud-MainMenuBar-arrowdown-down" useAtlasSize="true">
-                <Anchors>
-                    <Anchor point="RIGHT" x="-4" y="1" />
-                </Anchors>
-            </Texture>
-        </Layer>
-    </Layers>
-</Button>
-
-<Frame name="LiteMountRuleEditCondition" mixin="LiteMountRuleEditConditionMixin" inherits="LiteMountListButtonStyleTemplate" virtual="true">
+<Frame name="LiteMountRuleEditCondition" mixin="LiteMountRuleEditConditionMixin" inherits="LiteMountListItemStyleTemplate" virtual="true">
     <Size y="44" />
 
     <Scripts>
@@ -85,7 +65,7 @@
     </Frames>
 </Frame>
 
-<Frame name="LiteMountRuleEditAction" mixin="LiteMountRuleEditActionMixin" inherits="LiteMountListButtonStyleTemplate" virtual="true">
+<Frame name="LiteMountRuleEditAction" mixin="LiteMountRuleEditActionMixin" inherits="LiteMountListItemStyleTemplate" virtual="true">
     <Scripts>
         <OnLoad method="OnLoad" inherit="append" />
     </Scripts>

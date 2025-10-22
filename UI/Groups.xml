@@ -14,7 +14,7 @@
     </Scripts>
 </Button>
 
-<Button name="LiteMountGroupsPanelMountTemplate" inherits="LiteMountListButtonStyleTemplate" virtual="true" mixin="LiteMountGroupsPanelMountMixin">
+<Button name="LiteMountGroupsPanelMountTemplate" inherits="LiteMountListItemStyleTemplate" virtual="true" mixin="LiteMountGroupsPanelMountMixin">
     <Scripts>
         <OnClick method="OnClick" />
         <OnEnter method="OnEnter" />
