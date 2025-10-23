@@ -75,7 +75,11 @@ local EXTRA_MOUNT_DATA = {
         {
             itemID = LM.ITEM.MAGIC_BROOM,
             spellID = LM.SPELL.MAGIC_BROOM,
-            flags = { ['RUN'] = true, ['FLY'] = true, },
+            flags = {
+                ['RUN'] = true,
+                ['FLY'] = true,
+                ['DRAGONRIDING'] = true,
+            },
             creatureDisplayID = { 21939 },
             expansion = 1,
         }
