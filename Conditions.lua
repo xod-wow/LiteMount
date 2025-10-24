@@ -1076,6 +1076,7 @@ CONDITIONS["mounted"] = {
 }
 
 CONDITIONS["moving"] = {
+    -- name = L.LM_MOVING_OR_FALLING,
     handler =
         function (cond, context)
             return LM.Environment:IsMovingOrFalling()
@@ -1142,6 +1143,7 @@ CONDITIONS["party"] = {
 }
 
 CONDITIONS["pet"] = {
+    -- name = L.LM_HAS_PET,
     handler =
         function (cond, context, v)
             local petunit
@@ -1835,7 +1837,7 @@ function LM.Conditions:ToDisplay(text)
     end
 
     if not c.toDisplay then
-        return c.name, nil
+        return c.name, c.textentry and valuestr or nil
     end
 
     local values
