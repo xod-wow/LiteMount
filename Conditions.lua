@@ -179,7 +179,12 @@ CONDITIONS["class"] = {
     menu = function ()
         local out = { }
         for _, v in ipairs(CLASS_SORT_ORDER) do
-            table.insert(out, { val = "class:" .. v})
+            local name = LOCALIZED_CLASS_NAMES_FEMALE[v]
+            local atlas = GetClassAtlas(v)
+            if atlas then
+                name = string.format("|A:%s:18:18|a %s", atlas, name)
+            end
+            table.insert(out, { val = "class:" .. v, text=name, sortKey=v })
         end
         return out
     end,
