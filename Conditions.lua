@@ -1509,7 +1509,7 @@ CONDITIONS["title"] = {
         end,
     handler =
         function (cond, context, v)
-            return GetCurrentTitle() == v
+            return GetCurrentTitle() == tonumber(v)
         end
 }
 
