@@ -65,17 +65,18 @@ local DefaultMacroByClass = {
     PALADIN =                   -- Divine Steed
         formatSpells(M_CAST_S, 190784),
     PRIEST =                    -- Angelic Feather
-        formatSpells("/cast [@player] %s\n", 121536),
+        formatSpells("/cast [@player] %s", 121536),
     ROGUE =                     -- Sprint
         formatSpells(M_CAST_S, 2983),
     SHAMAN =                    -- Gust of Wind, Spirit Walk
         formatSpellMulti(M_CAST_KNOWN_S, 192063, 58875),
     WARLOCK =                   -- Burning Rush
         formatSpells(M_CAST_S, 111400),
-    WARRIOR =                   -- Charge, Heroic Leap
-        formatSpells("/cast [harm] %s; [@cursor] %s\n", 100, 6544),
+    WARRIOR =                   -- Heroic Leap
+        formatSpells("/cast [@cursor] %s", 6544),
 }
 
+-- The default combat macro is the regular macro wrappered
 local function GetCombatMacroIndex(t, k)
     local text = DefaultMacroByClass[k]
     return text and string.format(M_COMBAT_S, text)
