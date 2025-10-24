@@ -55,6 +55,13 @@ local function ArgsGenerate(dropdown, rootDescription, data)
                 local IsChecked = function () return parent.arg == item.val end
                 local Set = function () parent:SetArg(item.val) dropdown:CloseMenu() end
                 menuItem = rootDescription:CreateCheckbox(item.text, IsChecked, Set)
+                if type(item.tooltip) == 'string' then
+                    menuItem:SetTooltip(
+                        function(tt)
+                            GameTooltip_SetTitle(tt, item.text)
+                            GameTooltip_AddNormalLine(tt, item.tooltip)
+                        end)
+                end
             else
                 menuItem = rootDescription:CreateButton(item.text)
             end

@@ -617,7 +617,12 @@ CONDITIONS["friend"] = {
                 local info = C_BattleNet.GetFriendAccountInfo(i)
                 local name = BATTLENET_FONT_COLOR:WrapTextInColorCode(info.accountName)
                 local text = string.format('%s (%s)', name, info.battleTag)
-                table.insert(out, { val='friend:'..info.battleTag, text=text })
+                table.insert(out,
+                    {
+                        val = 'friend:'..info.battleTag,
+                        text = text,
+                        tooltip = info.note ~= "" and ( NOTE_COLON .. ' ' .. info.note)
+                    })
             end
             return out
         end,
