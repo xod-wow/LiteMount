@@ -499,8 +499,8 @@ CONDITIONS["faction"] = {
     menu =
         function ()
             return {
-                { val = "faction:" .. PLAYER_FACTION_GROUP[0] },
-                { val = "faction:" .. PLAYER_FACTION_GROUP[1] },
+                { val = "faction:" .. PLAYER_FACTION_GROUP[0], text=string.format("|T%s:18:18|t %s", FACTION_LOGO_TEXTURES[0], PLAYER_FACTION_GROUP[0]) },
+                { val = "faction:" .. PLAYER_FACTION_GROUP[1], text=string.format("|T%s:18:18|t %s", FACTION_LOGO_TEXTURES[1], PLAYER_FACTION_GROUP[1]) },
             }
         end,
     handler =
