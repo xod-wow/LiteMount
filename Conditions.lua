@@ -42,19 +42,19 @@ local ANY_TEXT = CLUB_FINDER_ANY_FLAG or SPELL_TARGET_TYPE1_DESC:upper()
 ]]
 
 local function IterateGroupUnits()
-   local unit, numMembers
-   if IsInRaid() then
-      unit, numMembers = 'raid', GetNumGroupMembers()
-   else
-      unit, numMembers = 'party', GetNumSubgroupMembers()
-   end
-   local i = 0
-   return function ()
-      i = i + 1
-      if i <= numMembers then
-         return unit..i
-      end
-   end
+    local unit, numMembers
+    if IsInRaid() then
+        unit, numMembers = 'raid', GetNumGroupMembers()
+    else
+        unit, numMembers = 'party', GetNumSubgroupMembers()
+    end
+    local i = 0
+    return function ()
+        i = i + 1
+        if i <= numMembers then
+            return unit..i
+        end
+    end
 end
 
 -- If any condition starts with "no" we're screwed
@@ -580,6 +580,50 @@ CONDITIONS["form"] = {
                 return GetShapeshiftForm() == tonumber(v)
             else
                 return GetShapeshiftForm() > 0
+            end
+        end
+}
+
+-- This has signifant overlap with "member", and I suspect "member" should be
+-- removed, but for now I'll leave both,
+--
+-- Note that info.accountName is a kstring, but this seems to work for display
+-- purposes. You can't match/compare info.accountName.
+
+CONDITIONS["friend"] = {
+    name = L.LM_FRIEND_IN_GROUP,
+    toDisplay =
+        function (v)
+            if not v then
+                return ANY_TEXT
+            end
+            for i = 1, BNGetNumFriends() do
+                local info = C_BattleNet.GetFriendAccountInfo(i)
+                if info and info.battleTag == v then
+                    return BATTLENET_FONT_COLOR:WrapTextInColorCode(info.accountName)
+                end
+            end
+            return v
+        end,
+    menu =
+        function ()
+            local out = { nosort=true, { val="friend", text=ANY_TEXT } }
+            for i = 1, BNGetNumFriends() do
+                local info = C_BattleNet.GetFriendAccountInfo(i)
+                local name = BATTLENET_FONT_COLOR:WrapTextInColorCode(info.accountName)
+                local text = string.format('%s (%s)', name, info.battleTag)
+                table.insert(out, { val='friend:'..info.battleTag, text=text })
+            end
+            return out
+        end,
+    handler =
+        function (cond, context, v)
+            for unit in IterateGroupUnits() do
+                local guid = UnitGUID(unit)
+                local info = C_BattleNet.GetAccountInfoByGUID(guid)
+                if info and info.isFriend and ( not v or v == info.battleTag ) then
+                    return true
+                end
             end
         end
 }
