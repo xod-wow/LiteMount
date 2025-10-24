@@ -818,6 +818,8 @@ CONDITIONS["keybind"] = {
 }
 
 CONDITIONS["known"] = {
+    name = L.LM_SPELL_KNOWN,
+    textentry = true,
     handler =
         function (cond, context, v)
             if v then
@@ -1055,6 +1057,7 @@ CONDITIONS["mod"] = {
 }
 
 CONDITIONS["mounted"] = {
+    name = L.LM_MOUNTED,
     handler =
         function (cond, context, v)
             if not v then
@@ -1524,7 +1527,22 @@ CONDITIONS["title"] = {
 }
 
 CONDITIONS["tracking"] = {
+    name = TRACKING,
     disabled = not ( C_Minimap and C_Minimap.GetNumTrackingTypes ),
+    toDisplay =
+        function (v)
+            local info = C_Minimap.GetTrackingInfo(v)
+            if info then return info.name end
+        end,
+    menu =
+        function ()
+            local out = { }
+            for i = 1, C_Minimap.GetNumTrackingTypes() do
+                local info = C_Minimap.GetTrackingInfo(i)
+                table.insert(out, { val="tracking:"..i, text=string.format("|T%d:18:18|t %s", info.texture, info.name), sortKey=info.name })
+            end
+            return out
+        end,
     handler =
         function (cond, context, v)
             local name, active, _
@@ -1771,7 +1789,7 @@ local function FillMenuTextsRecursive(t)
         FillMenuTextsRecursive(item)
     end
     if not t.nosort then
-        table.sort(t, function (a,b) return a.text < b.text end)
+        table.sort(t, function (a,b) return (a.sortKey or a.text) < (b.sortKey or b.text) end)
     end
     return t
 end

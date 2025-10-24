@@ -145,11 +145,16 @@ function LiteMountRuleEditConditionMixin:SetCondition(condition)
 end
 
 local function ConditionOnTextChanged(self)
+    local parent = self:GetParent()
     local text = self:GetText()
     if text == "" then
-        self:GetParent():SetArg(nil)
+        parent:SetArg(nil)
     else
-        self:GetParent():SetArg(text)
+        if parent.type == 'advanced' then
+            parent:SetArg(text)
+        else
+            parent:SetArg(parent.type..':'..text)
+        end
     end
 end
 
@@ -169,10 +174,20 @@ function LiteMountRuleEditConditionMixin:Update()
         self.ArgText:SetText(self.arg or "")
         self.ArgText:Show()
         self.ArgDropDown:Hide()
+    elseif info.textentry then
+        self.TypeDropDown:SetText(info.name)
+        if self.arg then
+            local _, text = strsplit(':', self.arg)
+            self.ArgText:SetText(text or "")
+        else
+            self.ArgText:SetText("")
+        end
+        self.ArgText:Show()
+        self.ArgDropDown:Hide()
     elseif info.menu then
         self.TypeDropDown:SetText(info.name)
         if self.arg then
-            local text = select(2, LM.Conditions:ToDisplay(self.arg))
+            local _, text = LM.Conditions:ToDisplay(self.arg)
             self.ArgDropDown:SetText(text)
         else
             self.ArgDropDown:SetText("")
