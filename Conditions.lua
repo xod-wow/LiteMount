@@ -1490,6 +1490,29 @@ CONDITIONS["timerunning"] = {
         end
 }
 
+CONDITIONS["title"] = {
+    name = HONOR_REWARD_TITLE_TOOLTIP,
+    toDisplay =
+        function (v)
+            return GetTitleName(v)
+        end,
+    menu =
+        function ()
+            local out = {}
+            for i = 1, GetNumTitles() do
+                local name, isPlayerTitle = GetTitleName(i)
+                if isPlayerTitle then
+                    table.insert(out, { val="title:"..i, text=name })
+                end
+            end
+            return out
+        end,
+    handler =
+        function (cond, context, v)
+            return GetCurrentTitle() == v
+        end
+}
+
 CONDITIONS["tracking"] = {
     disabled = not ( C_Minimap and C_Minimap.GetNumTrackingTypes ),
     handler =
