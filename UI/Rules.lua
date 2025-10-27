@@ -33,15 +33,14 @@ local function ReorderRulesFromDataProvider(dataProvider)
 end
 
 function LiteMountRuleButtonMixin:OnEnter()
-    GameTooltip:SetOwner(self, "ANCHOR_CURSOR_RIGHT")
-    GameTooltip:AddLine(L.LM_DRAG_TO_REORDER)
     if self.errorLines then
+        GameTooltip:SetOwner(self, "ANCHOR_CURSOR_RIGHT")
         GameTooltip:AddLine(ERRORS, 1, 1, 1)
         for _, line in ipairs(self.errorLines) do
             GameTooltip:AddLine(line)
         end
+        GameTooltip:Show()
     end
-    GameTooltip:Show()
 end
 
 function LiteMountRuleButtonMixin:Initialize(index, rule, compiledRule)
