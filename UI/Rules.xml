@@ -26,8 +26,6 @@
 <Button name="LiteMountRuleButtonTemplate" virtual="true" mixin="LiteMountRuleButtonMixin" inherits="LiteMountListItemStyleTemplate">
     <Size y="66" />
     <Scripts>
-        <OnShow method="OnShow" inherit="prepend" />
-        <OnLoad method="OnLoad" inherit="prepend" />
         <OnClick method="OnClick" inherit="prepend" />
         <OnEnter method="OnEnter" />
         <OnLeave function="GameTooltip_Hide" />
@@ -56,44 +54,6 @@
         </Layer>
     </Layers>
     <Frames>
-        <Button parentKey="MoveUp">
-            <Scripts>
-                <OnEnter inherit="prepend">
-                    GameTooltip:SetOwner(self, "ANCHOR_CURSOR_RIGHT")
-                    GameTooltip:AddLine(TRACKER_SORT_MANUAL_UP)
-                    GameTooltip:Show()
-                </OnEnter>
-                <OnLeave inherit="prepend">
-                    GameTooltip:Hide()
-                </OnLeave>
-            </Scripts>
-            <Anchors>
-                <Anchor point="BOTTOMRIGHT" relativePoint="RIGHT" x="-8" />
-            </Anchors>
-            <Size x="22" y="22"/>
-            <NormalTexture atlas="hud-MainMenuBar-arrowup-up" />
-            <PushedTexture atlas="hud-MainMenuBar-arrowup-down" />
-            <HighlightTexture atlas="hud-MainMenuBar-arrowup-highlight" alphaMode="ADD" />
-        </Button>
-        <Button parentKey="MoveDown">
-            <Scripts>
-                <OnEnter inherit="prepend">
-                    GameTooltip:SetOwner(self, "ANCHOR_CURSOR_RIGHT")
-                    GameTooltip:AddLine(TRACKER_SORT_MANUAL_DOWN)
-                    GameTooltip:Show()
-                </OnEnter>
-                <OnLeave inherit="prepend">
-                    GameTooltip:Hide()
-                </OnLeave>
-            </Scripts>
-            <Anchors>
-                <Anchor point="TOPRIGHT" relativePoint="RIGHT" x="-8" />
-            </Anchors>
-            <Size x="22" y="22"/>
-            <NormalTexture atlas="hud-MainMenuBar-arrowdown-up" />
-            <PushedTexture atlas="hud-MainMenuBar-arrowdown-down" />
-            <HighlightTexture atlas="hud-MainMenuBar-arrowdown-highlight" alphaMode="ADD" />
-        </Button>
         <Frame parentKey="Condition" inherits="LiteMountRulePartTemplate">
             <Size x="260" y="58" />
             <!-- Anchors adjusted in code for Error or not -->
@@ -113,18 +73,6 @@
     <KeyValues>
         <KeyValue key="name" value="BRAWL_TOOLTIP_RULES" type="global" />
     </KeyValues>
-
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_RULES_EXP">
-                <Anchors>
-                    <Anchor point="TOP" y="-60" />
-                    <Anchor point="LEFT" x="24" />
-                    <Anchor point="RIGHT" x="-24" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
 
     <Frames>
         <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountRulesScrollMixin">
@@ -180,6 +128,23 @@
             </Anchors>
         </Button>
     </Frames>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_RULES_EXP">
+                <Anchors>
+                    <Anchor point="TOP" y="-60" />
+                    <Anchor point="LEFT" x="24" />
+                    <Anchor point="RIGHT" x="-24" />
+                </Anchors>
+            </FontString>
+            <FontString parentKey="DragText" inherits="GameFontWhiteSmall" text="LM_DRAG_TO_REORDER">
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" y="4" x="-8" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
 
     <Scripts>
         <OnLoad method="OnLoad" inherit="append"/>
