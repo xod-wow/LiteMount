@@ -51,7 +51,9 @@ end
 
 function LiteMountProfileImportMixin:OnShow()
     self.ProfileName:SetText("")
+    self.ProfileName:SetScript('OnEscapePressed', function () self:UnPop() end)
     self.ProfileData:SetText("")
+    self.ProfileData:SetScript('OnEscapePressed', function () self:UnPop() end)
 end
 
 function LiteMountProfileImportMixin:OnLoad()
