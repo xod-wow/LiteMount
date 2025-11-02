@@ -108,7 +108,7 @@
         </EditBox>
         <Button parentKey="CancelButton" inherits="UIPanelButtonTemplate" text="CANCEL">
             <Scripts>
-                <OnClick> self:GetParent():UnPop() </OnClick>
+                <OnClick> self:GetParent():Hide() </OnClick>
             </Scripts>
             <Size x="96" y="22" />
             <Anchors>

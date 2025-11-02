@@ -65,7 +65,7 @@ end
 
 local function OnClick(button)
     LiteMountPicker:RunCallback(button.mount)
-    LiteMountOptionsPanel_RemovePopOver(LiteMountPicker)
+    LiteMountPicker:Hide()
 end
 
 function LiteMountPickerMixin:OnSizeChanged()
@@ -88,7 +88,7 @@ function LiteMountPickerMixin:OnShow()
     self:Update()
 end
 
-function LiteMountPickerMixin:OnClose()
+function LiteMountPickerMixin:OnHide()
     self.callback = nil
     LM.UIFilter.UnregisterAllCallbacks(self)
 end

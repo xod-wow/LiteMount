@@ -273,16 +273,19 @@ end
 
 function LiteMountOptionsPanel_PopOver(f, self)
     self.popOverStack = self.popOverStack or {}
+    f:SetParent(self)
     table.insert(self.popOverStack, f)
+    local fOnHide = f:GetScript('OnHide')
+    f:SetScript('OnHide',
+        function ()
+            if fOnHide then fOnHide(f) end
+            f:SetScript('OnHide', fOnHide)
+            LiteMountOptionsPanel_RemovePopOver(f, self)
+        end)
     LiteMountOptionsPanel_UpdatePopOverDisplay(self)
 end
 
 function LiteMountOptionsPanel_RemovePopOver(f, self)
-    self = self or f:GetParent()
-    if f.OnClose then
-        f:OnClose()
-    end
-    f:Hide()
     f:SetParent(nil)
     tDeleteItem(self.popOverStack, f)
     LiteMountOptionsPanel_UpdatePopOverDisplay(self)
@@ -401,5 +404,4 @@ end
 function LiteMountPopOverPanel_OnLoad(self)
     self.name = L[self.name] or self.name
     self.Title:SetText(self.name)
-    self.UnPop = LiteMountOptionsPanel_RemovePopOver
 end

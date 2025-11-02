@@ -29,8 +29,8 @@ end
 
 function LiteMountProfileExportMixin:OnLoad()
     LiteMountOptionsPanel_AutoLocalize(self)
-    self.OkayButton:SetScript('OnClick', function () self:UnPop() end)
-    self.Scroll.ScrollBox.EditBox:SetScript('OnEscapePressed', function () self:UnPop() end)
+    self.OkayButton:SetScript('OnClick', function () self:Hide() end)
+    self.Scroll.ScrollBox.EditBox:SetScript('OnEscapePressed', function () self:Hide() end)
     self.Scroll.ScrollBox.EditBox:SetAutoFocus(true)
     ScrollUtil.RegisterScrollBoxWithScrollBar(self.Scroll.ScrollBox, self.ScrollBar)
 end
@@ -45,15 +45,15 @@ function LiteMountProfileImportMixin:ImportProfile()
 
     local ok = LM.Options:ImportProfile(profileName, profileData)
     if ok then
-        self:UnPop()
+        self:Hide()
     end
 end
 
 function LiteMountProfileImportMixin:OnShow()
     self.ProfileName:SetText("")
-    self.ProfileName:SetScript('OnEscapePressed', function () self:UnPop() end)
+    self.ProfileName:SetScript('OnEscapePressed', function () self:Hide() end)
     self.ProfileData:SetText("")
-    self.ProfileData:SetScript('OnEscapePressed', function () self:UnPop() end)
+    self.ProfileData:SetScript('OnEscapePressed', function () self:Hide() end)
 end
 
 function LiteMountProfileImportMixin:OnLoad()
