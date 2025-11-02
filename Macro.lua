@@ -146,9 +146,9 @@ end
 function LM.Macro:SetEnabledOption(isCombat, class, v)
     local sv = GetSettingsTable(class)
     if isCombat then
-        sv.useCombatMacro = ValueToBoolean(v)
+        sv.useCombatMacro = ValueToBoolean(v) or nil
     else
-        sv.useUnavailableMacro = ValueToBoolean(v)
+        sv.useUnavailableMacro = ValueToBoolean(v) or nil
     end
     LM.Options:NotifyChanged()
 end

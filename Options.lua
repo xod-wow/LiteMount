@@ -97,9 +97,9 @@ local defaults = {
     },
     class = {
         unavailableMacro    = nil,
-        useUnavailableMacro = false,
+        useUnavailableMacro = nil,
         combatMacro         = nil,
-        useCombatMacro      = false,
+        useCombatMacro      = nil,
     },
     profile = {
         flagChanges         = { },
