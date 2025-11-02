@@ -214,8 +214,7 @@ function LiteMountOptionsPanel_OnHide(self)
     LM.db.UnregisterAllCallbacks(self)
 
     while self.popOverStack and next(self.popOverStack) do
-        local f = self.popOverStack[1]
-        LiteMountOptionsPanel_RemovePopOver(f, self)
+        LiteMountOptionsPanel_RemoveTopPopOver(self)
     end
 
     -- Seems like the InterfacePanel calls all the OnCommit for
@@ -263,9 +262,13 @@ function LiteMountOptionsPanel_UpdatePopOverDisplay(self)
             f:SetFrameLevel(self.Disable:GetFrameLevel() + 4)
             f:ClearAllPoints()
             f:SetPoint("CENTER", self, "CENTER")
+            f:SetScript('OnHide', function () LiteMountOptionsPanel_RemoveTopPopOver(self) end)
             f:Show()
             self.Disable:Show()
         else
+            f:SetParent(nil)
+            f:ClearAllPoints()
+            f:SetScript('OnHide', nil)
             f:Hide()
         end
     end
@@ -273,22 +276,22 @@ end
 
 function LiteMountOptionsPanel_PopOver(f, self)
     self.popOverStack = self.popOverStack or {}
-    f:SetParent(self)
+    f.origOnHide = f:GetScript('OnHide')
     table.insert(self.popOverStack, f)
-    local fOnHide = f:GetScript('OnHide')
-    f:SetScript('OnHide',
-        function ()
-            if fOnHide then fOnHide(f) end
-            f:SetScript('OnHide', fOnHide)
-            LiteMountOptionsPanel_RemovePopOver(f, self)
-        end)
     LiteMountOptionsPanel_UpdatePopOverDisplay(self)
 end
 
-function LiteMountOptionsPanel_RemovePopOver(f, self)
-    f:SetParent(nil)
-    tDeleteItem(self.popOverStack, f)
-    LiteMountOptionsPanel_UpdatePopOverDisplay(self)
+function LiteMountOptionsPanel_RemoveTopPopOver(self)
+    local f = table.remove(self.popOverStack)
+    if f then
+        f:SetParent(nil)
+        f:ClearAllPoints()
+        if f.origOnHide then f.origOnHide(f) end
+        f:SetScript('OnHide', f.origOnHide)
+        f.origOnHide = nil
+        LiteMountOptionsPanel_UpdatePopOverDisplay(self)
+    end
+    return f
 end
 
 function LiteMountOptionsControl_OnRefresh(self, trigger)
