@@ -179,7 +179,12 @@ CONDITIONS["class"] = {
     menu = function ()
         local out = { }
         for _, v in ipairs(CLASS_SORT_ORDER) do
-            table.insert(out, { val = "class:" .. v})
+            local name = LOCALIZED_CLASS_NAMES_FEMALE[v]
+            local atlas = GetClassAtlas(v)
+            if atlas then
+                name = string.format("|A:%s:18:18|a %s", atlas, name)
+            end
+            table.insert(out, { val = "class:" .. v, text=name, sortKey=v })
         end
         return out
     end,
@@ -494,8 +499,8 @@ CONDITIONS["faction"] = {
     menu =
         function ()
             return {
-                { val = "faction:" .. PLAYER_FACTION_GROUP[0] },
-                { val = "faction:" .. PLAYER_FACTION_GROUP[1] },
+                { val = "faction:" .. PLAYER_FACTION_GROUP[0], text=string.format("|T%s:18:18|t %s", FACTION_LOGO_TEXTURES[0], PLAYER_FACTION_GROUP[0]) },
+                { val = "faction:" .. PLAYER_FACTION_GROUP[1], text=string.format("|T%s:18:18|t %s", FACTION_LOGO_TEXTURES[1], PLAYER_FACTION_GROUP[1]) },
             }
         end,
     handler =
@@ -612,7 +617,12 @@ CONDITIONS["friend"] = {
                 local info = C_BattleNet.GetFriendAccountInfo(i)
                 local name = BATTLENET_FONT_COLOR:WrapTextInColorCode(info.accountName)
                 local text = string.format('%s (%s)', name, info.battleTag)
-                table.insert(out, { val='friend:'..info.battleTag, text=text })
+                table.insert(out,
+                    {
+                        val = 'friend:'..info.battleTag,
+                        text = text,
+                        tooltip = info.note ~= "" and ( NOTE_COLON .. ' ' .. info.note)
+                    })
             end
             return out
         end,
@@ -808,6 +818,8 @@ CONDITIONS["keybind"] = {
 }
 
 CONDITIONS["known"] = {
+    name = L.LM_SPELL_KNOWN,
+    textentry = true,
     handler =
         function (cond, context, v)
             if v then
@@ -866,7 +878,7 @@ CONDITIONS["loadout"] = {
         function ()
             local loadoutMenu = {}
             local loadoutNames = {}
-            local _, _, classIndex = UnitClass('player')
+            local _, classIndex = UnitClassBase('player')
             for specIndex = 1, 4 do
                 local specID = GetSpecializationInfoForClassID(classIndex, specIndex)
                 if not specID then break end
@@ -1045,6 +1057,7 @@ CONDITIONS["mod"] = {
 }
 
 CONDITIONS["mounted"] = {
+    name = L.LM_MOUNTED,
     handler =
         function (cond, context, v)
             if not v then
@@ -1063,6 +1076,7 @@ CONDITIONS["mounted"] = {
 }
 
 CONDITIONS["moving"] = {
+    -- name = L.LM_MOVING_OR_FALLING,
     handler =
         function (cond, context)
             return LM.Environment:IsMovingOrFalling()
@@ -1129,6 +1143,7 @@ CONDITIONS["party"] = {
 }
 
 CONDITIONS["pet"] = {
+    -- name = L.LM_HAS_PET,
     handler =
         function (cond, context, v)
             local petunit
@@ -1514,7 +1529,22 @@ CONDITIONS["title"] = {
 }
 
 CONDITIONS["tracking"] = {
+    name = TRACKING,
     disabled = not ( C_Minimap and C_Minimap.GetNumTrackingTypes ),
+    toDisplay =
+        function (v)
+            local info = C_Minimap.GetTrackingInfo(v)
+            if info then return info.name end
+        end,
+    menu =
+        function ()
+            local out = { }
+            for i = 1, C_Minimap.GetNumTrackingTypes() do
+                local info = C_Minimap.GetTrackingInfo(i)
+                table.insert(out, { val="tracking:"..i, text=string.format("|T%d:18:18|t %s", info.texture, info.name), sortKey=info.name })
+            end
+            return out
+        end,
     handler =
         function (cond, context, v)
             local name, active, _
@@ -1761,7 +1791,7 @@ local function FillMenuTextsRecursive(t)
         FillMenuTextsRecursive(item)
     end
     if not t.nosort then
-        table.sort(t, function (a,b) return a.text < b.text end)
+        table.sort(t, function (a,b) return (a.sortKey or a.text) < (b.sortKey or b.text) end)
     end
     return t
 end
@@ -1807,7 +1837,7 @@ function LM.Conditions:ToDisplay(text)
     end
 
     if not c.toDisplay then
-        return c.name, nil
+        return c.name, c.textentry and valuestr or nil
     end
 
     local values

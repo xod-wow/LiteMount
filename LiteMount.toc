@@ -42,6 +42,7 @@ Environment.lua
 Options.lua
 SecureAction.lua
 Mount.lua
+Macro.lua
 LM_Journal.lua
 LM_Spell.lua
 LM_Drive.lua

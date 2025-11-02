@@ -7,10 +7,16 @@
 <Frame name="LiteMountMountsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMountsPanelMixin">
 
     <Frames>
+        <Frame parentKey="MountsContainer" inherits="LiteMountContainerStyleTemplate">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="8" y="-60" />
+                <Anchor point="BOTTOMRIGHT" x="-8" y="48" />
+            </Anchors>
+        </Frame>
         <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountMountScrollBoxMixin" frameStrata="HIGH">
             <Anchors>
-                <Anchor point="TOPLEFT" x="16" y="-115" />
-                <Anchor point="BOTTOMRIGHT" x="-32" y="46" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.MountsContainer" x="12" y="-64" />
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountsContainer" x="-30" y="8" />
             </Anchors>
         </ScrollFrame>
         <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
@@ -74,9 +80,9 @@
     </Layers>
 
     <Scripts>
-        <OnLoad method="OnLoad" />
-        <OnShow method="OnShow" />
-        <OnHide method="OnHide" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
+        <OnHide method="OnHide" inherit="append" />
     </Scripts>
 
 </Frame>

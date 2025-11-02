@@ -22,16 +22,17 @@ end
 
 function LiteMountProfileExportMixin:OnShow()
     local text = LM.Options:ExportProfile(self.profileName or 'Default')
-    self.Scroll.EditBox:SetText(text)
-    self.Scroll.EditBox:HighlightText()
+    self.Scroll:SetText(text)
+    self.Scroll.ScrollBox.EditBox:HighlightText()
     self.profileName = nil
 end
 
 function LiteMountProfileExportMixin:OnLoad()
     LiteMountOptionsPanel_AutoLocalize(self)
     self.OkayButton:SetScript('OnClick', function () self:Hide() end)
-    self.Scroll.EditBox:SetScript('OnEscapePressed', function () self:Hide() end)
-    self.Scroll.EditBox:SetAutoFocus(true)
+    self.Scroll.ScrollBox.EditBox:SetScript('OnEscapePressed', function () self:Hide() end)
+    self.Scroll.ScrollBox.EditBox:SetAutoFocus(true)
+    ScrollUtil.RegisterScrollBoxWithScrollBar(self.Scroll.ScrollBox, self.ScrollBar)
 end
 
 --[[ Import  ---------------------------------------------------------------]]--
@@ -50,7 +51,9 @@ end
 
 function LiteMountProfileImportMixin:OnShow()
     self.ProfileName:SetText("")
+    self.ProfileName:SetScript('OnEscapePressed', function () self:Hide() end)
     self.ProfileData:SetText("")
+    self.ProfileData:SetScript('OnEscapePressed', function () self:Hide() end)
 end
 
 function LiteMountProfileImportMixin:OnLoad()
@@ -96,7 +99,7 @@ function LiteMountProfileInspectMixin:Apply()
     local isValid, data = Serializer:Deserialize(deflated)
     if not isValid then return end
 
-    self.Scroll.EditBox:SetText(LM.TableToString({ LiteMountDB = data }))
+    self.Scroll:SetText(LM.TableToString({ LiteMountDB = data }))
 end
 
 --@end-debug@

@@ -4,28 +4,64 @@
 
 <Script file="PanelTemplate.lua" />
 
-<Frame name="LiteMountContainerStyleTemplate" virtual="true" inherits="BackdropTemplate">
+<Frame name="LiteMountContainerStyleTemplate" virtual="true" inherits="BackdropTemplate" useParentLevel="true">
     <KeyValues>
         <KeyValue key="backdropInfo" value="LM_CONTAINER_BACKDROP_INFO" type="global"/>
+        <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropColor" value="VERY_DARK_GRAY_COLOR" type="global"/>
+        <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
+    </KeyValues>
+</Frame>
+
+<Frame name="LiteMountPopOverStyleTemplate" virtual="true" inherits="BackdropTemplate">
+    <KeyValues>
+        <KeyValue key="backdropInfo" value="LM_POPOVER_BACKDROP_INFO" type="global"/>
         <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
         <KeyValue key="backdropColor" value="VERY_DARK_GRAY_COLOR" type="global"/>
     </KeyValues>
 </Frame>
 
-<Button name="LiteMountListButtonStyleTemplate" virtual="true" inherits="BackdropTemplate">
+<Button name="LiteMountListItemStyleTemplate" virtual="true" inherits="BackdropTemplate">
     <KeyValues>
-        <KeyValue key="backdropInfo" value="LM_LISTBUTTON_BACKDROP_INFO" type="global" />
-        <KeyValue key="backdropBorderColor" value="BLACK_FONT_COLOR" type="global"/>
+        <KeyValue key="backdropInfo" value="LM_LIST_ITEM_BACKDROP_INFO" type="global" />
+        <KeyValue key="backdropColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropColorAlpha" value="0.5" type="number"/>
+        <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
+        <KeyValue key="backdropBorderColorAlpha" value="0.7" type="number"/>
     </KeyValues>
 </Button>
 
-<Button name="LiteMountButtonStyleTemplate" virtual="true" inherits="BackdropTemplate">
-    <KeyValues>
-        <KeyValue key="backdropInfo" value="LM_BUTTON_BACKDROP_INFO" type="global"/>
-        <KeyValue key="backdropColor" value="VERY_DARK_GRAY_COLOR" type="global"/>
-        <KeyValue key="backdropBorderColor" value="DARKGRAY_COLOR" type="global"/>
-    </KeyValues>
+<Button name="LiteMountListSelectButtonTemplate" virtual="true">
+    <Size y="20" />
+    <ButtonText inherits="GameFontWhite" parentKey="Text" />
+    <HighlightTexture atlas="Options_List_Hover" />
+    <Layers>
+        <Layer level="BACKGROUND">
+            <Texture parentKey="SelectedTexture" atlas="Options_List_Active" useAtlasSize="true" hidden="true">
+                <Anchors>
+                    <Anchor point="CENTER"/>
+                </Anchors>
+            </Texture>
+        </Layer>
+    </Layers>
 </Button>
+
+<Frame name="LiteMountEditBoxStyleTemplate" virtual="true">
+    <Frames>
+        <Frame parentKey="NineSlice" inherits="NineSlicePanelTemplate" alpha="0.4" useParentLevel="true">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="-8" y="8" />
+                <Anchor point="BOTTOMRIGHT" x="8" y="-8" />
+            </Anchors>
+        </Frame>
+    </Frames>
+    <Scripts>
+        <OnLoad inherit="append">
+            local layout = NineSliceUtil.GetLayout("ChatBubble")
+            NineSliceUtil.ApplyLayout(self.NineSlice, layout)
+        </OnLoad>
+    </Scripts>
+</Frame>
 
 <Button name="LiteMountUIButtonTemplate" virtual="true">
     <Size x="192" y="36" />
@@ -38,32 +74,30 @@
     <Scripts>
         <OnEnter>
             self.HighlightTexture:SetAlpha(0)
-            self.NormalTexture:SetAtlas("charactercreate-customize-dropdownbox-hover");
+            self.NormalTexture:SetAtlas("charactercreate-customize-dropdownbox-hover")
         </OnEnter>
         <OnLeave>
             self.HighlightTexture:SetAlpha(0.2)
-            self.NormalTexture:SetAtlas("charactercreate-customize-dropdownbox");
+            self.NormalTexture:SetAtlas("charactercreate-customize-dropdownbox")
         </OnLeave>
     </Scripts>
 </Button>
 
-<CheckButton name="LiteMountOptionsCheckButtonTemplate" virtual="true">
-    <Size x="32" y="32" />
-    <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
-    <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
-    <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
-    <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
-    <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
-    <Layers>
-        <Layer level="ARTWORK">
-            <FontString parentKey="Text" inherits="GameFontNormal">
-                <Anchors>
-                    <Anchor point="LEFT" relativePoint="RIGHT" x="4" y="1" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-</CheckButton>
+<!-- Checkbox on the left, text to the right full width -->
+<Frame name="LiteMountCheckboxControlTemplate" inherits="SettingsListElementTemplate" mixin="LiteMountCheckboxControlMixin" virtual="true">
+    <Size x="280" y="26"/>
+    <Scripts>
+        <OnLoad method="OnLoad"/>
+    </Scripts>
+</Frame>
+
+<!-- Label above, full width dropdown below -->
+<Frame name="LiteMountDropdownControlTemplate" inherits="SettingsListElementTemplate" mixin="LiteMountDropdownControlMixin" virtual="true">
+    <Size x="560" y="60"/>
+    <Scripts>
+        <OnLoad method="OnLoad"/>
+    </Scripts>
+</Frame>
 
 <Frame name="LiteMountOptionsPanelTemplate" parent="UIParent" hidden="true" virtual="true">
     <Scripts>
@@ -129,11 +163,9 @@
     </Frames>
 </Frame>
 
-<Frame name="LiteMountPopOverPanelTemplate" virtual="true" inherits="LiteMountContainerStyleTemplate">
+<Frame name="LiteMountPopOverPanelTemplate" virtual="true" inherits="LiteMountPopOverStyleTemplate">
     <Scripts>
         <OnLoad inherit="prepend" function="LiteMountPopOverPanel_OnLoad" />
-        <OnShow inherit="prepend" function="LiteMountPopOverPanel_OnShow" />
-        <OnHide inherit="prepend" function="LiteMountPopOverPanel_OnHide" />
     </Scripts>
     <Layers>
         <Layer level="ARTWORK">
@@ -144,18 +176,6 @@
             </FontString>
         </Layer>
     </Layers>
-</Frame>
-
-<Frame name="LiteMountInputScrollFrameTemplate" inherits="InputScrollFrameTemplate" virtual="true">
-    <Scripts>
-        <OnSizeChanged inherit="append">
-            -- Options panels have no size at OnLoad time, so the automatic width
-            -- sizing of the EditBox doesn't work, fix it up later. The -18 is
-            -- from UIPanelInputScrollFrame_OnLoad(). I feel like Blizzard should
-            -- probably have this in their code.
-            self.EditBox:SetWidth(self:GetWidth() - 18)
-        </OnSizeChanged>
-    </Scripts>
 </Frame>
 
 </Ui>

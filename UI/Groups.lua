@@ -150,7 +150,7 @@ LiteMountGroupsPanelMixin = {}
 function LiteMountGroupsPanelMixin:OnLoad()
     self.showAll = true
 
-    local view = CreateScrollBoxListLinearView()
+    local view = CreateScrollBoxListLinearView(0, 0, 0, 0, 2)
     view:SetElementFactory(
         function (factory, elementData)
             if type(elementData) == 'string' then
@@ -173,7 +173,6 @@ function LiteMountGroupsPanelMixin:OnLoad()
 
     LiteMountOptionsPanel_RegisterControl(self.GroupScrollBox)
     LiteMountOptionsPanel_RegisterControl(self.MountScrollBox)
-    LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountGroupsPanelMixin:OnShow()
@@ -229,7 +228,6 @@ function LiteMountGroupsPanelGroupMixin:Initialize(elementData)
 
     local selected = self.group and self.group == LiteMountGroupsPanel.GroupScrollBox.selectedGroup
     self.SelectedTexture:SetShown(selected)
-    self.SelectedArrow:SetShown(selected)
 end
 
 
@@ -299,7 +297,6 @@ end
 function LiteMountGroupsPanelMountMixin:SetMount(mount, group)
     self.mount = mount
 
-    self.Name:SetText(mount.name)
     if group and LM.Options:IsMountInGroup(self.mount, group) then
         self.Checked:Show()
     else
@@ -311,6 +308,7 @@ function LiteMountGroupsPanelMountMixin:SetMount(mount, group)
     else
         self.Name:SetFontObject("GameFontNormalSmall")
     end
+    self.Name:SetText(mount.name)
 end
 
 

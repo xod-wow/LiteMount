@@ -4,36 +4,16 @@
 
 <Script file="RuleEdit.lua" />
 
-<Button name="LiteMountRuleEditDropDownButtonTemplate" inherits="LiteMountButtonStyleTemplate" virtual="true">
-    <ButtonText parentKey="Text" justifyH="left">
-        <Anchors>
-            <Anchor point="LEFT" x="16" />
-            <Anchor point="RIGHT" x="-16" />
-        </Anchors>
-    </ButtonText>
-    <NormalFont style="GameFontHighlight" />
-    <HighlightFont style="GameFontHighlight" />
-    <Layers>
-        <Layer level="ARTWORK">
-            <Texture atlas="hud-MainMenuBar-arrowdown-down" useAtlasSize="true">
-                <Anchors>
-                    <Anchor point="RIGHT" x="-4" y="1" />
-                </Anchors>
-            </Texture>
-        </Layer>
-    </Layers>
-</Button>
-
-<Frame name="LiteMountRuleEditCondition" mixin="LiteMountRuleEditConditionMixin" inherits="LiteMountListButtonStyleTemplate" virtual="true">
-    <Size y="56" />
+<Frame name="LiteMountRuleEditCondition" mixin="LiteMountRuleEditConditionMixin" inherits="LiteMountListItemStyleTemplate" virtual="true">
+    <Size y="44" />
 
     <Scripts>
-        <OnLoad inherit="prepend" method="OnLoad" />
+        <OnLoad method="OnLoad" inherit="append" />
     </Scripts>
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="NumText" inherits="GameFontNormalLarge" justifyH="CENTER">
+            <FontString parentKey="NumText" inherits="GameFontNormalMed2" justifyH="CENTER">
                 <Size x="24" />
                 <Anchors>
                     <Anchor point="LEFT" x="8" />
@@ -43,7 +23,7 @@
     </Layers>
     <Frames>
         <CheckButton parentKey="Negated">
-            <Size x="33" y="33" />
+            <Size x="26" y="26" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.NumText" relativePoint="RIGHT" x="8" />
             </Anchors>
@@ -62,13 +42,13 @@
                 </OnLeave>
             </Scripts>
         </CheckButton>
-        <DropdownButton parentkey="TypeDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate">
+        <DropdownButton parentkey="TypeDropDown" inherits="LiteMountUISelectButtonTemplate">
             <Size x="192" y="33" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.Negated" relativePoint="RIGHT" x="4" />
             </Anchors>
         </DropdownButton>
-        <DropdownButton parentkey="ArgDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate" hidden="true">
+        <DropdownButton parentkey="ArgDropDown" inherits="LiteMountUISelectButtonTemplate" hidden="true">
             <Size y="33" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.TypeDropDown" relativePoint="RIGHT" x="8" />
@@ -85,19 +65,19 @@
     </Frames>
 </Frame>
 
-<Frame name="LiteMountRuleEditAction" mixin="LiteMountRuleEditActionMixin" inherits="LiteMountListButtonStyleTemplate" virtual="true">
+<Frame name="LiteMountRuleEditAction" mixin="LiteMountRuleEditActionMixin" inherits="LiteMountListItemStyleTemplate" virtual="true">
     <Scripts>
-        <OnLoad method="OnLoad" inherit="prepend" />
+        <OnLoad method="OnLoad" inherit="append" />
     </Scripts>
-    <Size y="56" />
+    <Size y="44" />
     <Frames>
-        <DropdownButton parentkey="TypeDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate">
+        <DropdownButton parentkey="TypeDropDown" inherits="LiteMountUISelectButtonTemplate">
             <Size x="210" y="33" />
             <Anchors>
                 <Anchor point="LEFT" x="40" />
             </Anchors>
         </DropdownButton>
-        <DropdownButton parentkey="ArgDropDown" inherits="LiteMountRuleEditDropDownButtonTemplate" hidden="true">
+        <DropdownButton parentkey="ArgDropDown" inherits="LiteMountUISelectButtonTemplate" hidden="true">
             <Size y="33" />
             <Anchors>
                 <Anchor point="LEFT" relativeKey="$parent.TypeDropDown" relativePoint="RIGHT" x="8" />
@@ -121,12 +101,11 @@
     </KeyValues>
 
     <Scripts>
-        <OnLoad inherit="prepend" method="OnLoad" />
-        <OnShow inherit="prepend" method="OnShow" />
-        <OnHide inherit="prepend" method="OnHide" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
     </Scripts>
 
-    <Size x="580" y="420" />
+    <Size x="580" y="360" />
 
     <Layers>
         <Layer level="ARTWORK">
@@ -151,7 +130,7 @@
     <Layers>
         <Layer level="ARTWORK">
             <FontString parentKey="ActionHeader" inherits="GameFontNormalLarge" text="LM_ACTION">
-                <Anchors> <Anchor point="TOPLEFT" x="24" y="-284" /> </Anchors>
+                <Anchors> <Anchor point="TOPLEFT" x="24" y="-232" /> </Anchors>
             </FontString>
         </Layer>
     </Layers>

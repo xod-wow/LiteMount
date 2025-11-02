@@ -149,7 +149,7 @@ end
 function LiteMountRulesPanelMixin:AddRule()
     LiteMountRuleEdit:Clear()
     LiteMountRuleEdit:SetCallback(self.AddRuleCallback, self)
-    LiteMountOptionsPanel_PopOver(self, LiteMountRuleEdit)
+    LiteMountOptionsPanel_PopOver(LiteMountRuleEdit, self)
 end
 
 function LiteMountRulesPanelMixin:DeleteRule()
@@ -178,7 +178,7 @@ end
 function LiteMountRulesPanelMixin:EditRule()
     LiteMountRuleEdit:SetRule(self.selectedRule)
     LiteMountRuleEdit:SetCallback(self.EditRuleCallback, self)
-    LiteMountOptionsPanel_PopOver(self, LiteMountRuleEdit)
+    LiteMountOptionsPanel_PopOver(LiteMountRuleEdit, self)
 end
 
 function LiteMountRulesPanelMixin:OnRefresh(trigger)
@@ -219,6 +219,22 @@ function LiteMountRulesPanelMixin:OnLoad()
         function (sourceElementData, contextData)
             return contextData.area ~= DragIntersectionArea.Inside 
         end)
+    dragBehavior:SetDropEnter(
+        function (factory, candidate)
+            local candidateArea = candidate.area
+            local candidateFrame = candidate.frame
+            local w, h = candidateFrame:GetSize()
+            local frame = factory("ScrollBoxDragBoxTemplate")
+            frame:SetSize(w, h/4)
+            if candidateArea == DragIntersectionArea.Above then
+                frame:SetPoint("CENTER", candidateFrame, "TOP")
+            elseif candidateArea == DragIntersectionArea.Below then
+                frame:SetPoint("CENTER", candidateFrame, "BOTTOM")
+            elseif candidateArea == DragIntersectionArea.Inside then
+                frame:SetPoint("CENTER", candidateFrame, "CENTER")
+            end
+
+        end)
     dragBehavior:SetPostDrop(
         function (contextData)
             ReorderRulesFromDataProvider(contextData.dataProvider)
@@ -233,8 +249,6 @@ function LiteMountRulesPanelMixin:OnLoad()
     self.EditButton:SetScript('OnClick', function () self:EditRule() end)
 
     LiteMountOptionsPanel_RegisterControl(self.ScrollBox)
-
-    LiteMountOptionsPanel_OnLoad(self)
 end
 
 function LiteMountRulesPanelMixin:OnHide()

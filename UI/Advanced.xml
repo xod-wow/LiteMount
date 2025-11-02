@@ -19,10 +19,27 @@
     </Layers>
 
     <Frames>
-        <ScrollFrame name="$parentEditScroll" parentKey="EditScroll" inherits="LiteMountInputScrollFrameTemplate">
+        <Frame parentKey="Container" inherits="LiteMountEditBoxStyleTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" x="16" y="-160" />
-                <Anchor point="BOTTOMRIGHT" x="-16" y="48" />
+                <Anchor point="TOPLEFT" x="24" y="-168" />
+                <Anchor point="BOTTOMRIGHT" x="-24" y="50" />
+            </Anchors>
+        </Frame>
+
+        <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar">
+            <KeyValues>
+                <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
+            </KeyValues>
+            <Anchors>
+                <Anchor relativeKey="$parent.Container" point="TOPRIGHT" x="-8" y="-8" />
+                <Anchor relativeKey="$parent.Container" point="BOTTOMRIGHT" x="-8" y="8" />
+            </Anchors>
+        </EventFrame>
+
+        <ScrollFrame parentKey="EditScroll" inherits="ScrollingEditBoxTemplate">
+            <Anchors>
+                <Anchor relativeKey="$parent.Container" point="TOPLEFT" x="8" y="-8" />
+                <Anchor relativeKey="$parent.ScrollBar" point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="-8" />
             </Anchors>
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
@@ -44,7 +61,7 @@
         <DropdownButton parentkey="BindingDropDown" inherits="WoWStyle1DropdownTemplate">
             <Size x="192" y="26" />
             <Anchors>
-                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditScroll" x="0" y="8" />
+                <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.Container" x="0" y="8" />
             </Anchors>
         </DropdownButton>
 
@@ -75,7 +92,6 @@
                 <OnEscapePressed function="EditBox_ClearFocus" />
             </Scripts>
         </EditBox>
-
     </Frames>
 
     <Layers>
@@ -91,8 +107,8 @@
     </Layers>
 
     <Scripts>
-        <OnLoad method="OnLoad" />
-        <OnShow inherit="prepend" method="OnShow" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
     </Scripts>
 </Frame>
 

@@ -2,7 +2,7 @@
 
 <Script file="Picker.lua" />
 
-<Button name="LiteMountPickerMountButtonTemplate" virtual="true" inherits="LiteMountListButtonStyleTemplate">
+<Button name="LiteMountPickerMountButtonTemplate" virtual="true" inherits="LiteMountListItemStyleTemplate">
     <Size y="22" />
     <NormalFont style="GameFontNormal" />
     <ButtonText justifyH="LEFT" wordWrap="false">
@@ -25,16 +25,15 @@
     </Frames>
 </Button>
 
-<Frame name="LiteMountPicker" mixin="LiteMountPickerMixin" inherits="LiteMountContainerStyleTemplate" hidden="true">
+<Frame name="LiteMountPicker" mixin="LiteMountPickerMixin" inherits="LiteMountPopOverPanelTemplate" hidden="true">
     <Size x="580" y="420" />
     <Anchors>
         <Anchor point="CENTER" y="80" />
     </Anchors>
     <Scripts>
-        <OnLoad inherit="prepend" method="OnLoad" />
-        <OnShow inherit="prepend" method="OnShow" />
-        <OnHide inherit="prepend" method="OnHide" />
-        <OnSizeChanged inherit="prepend" method="OnSizeChanged" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
+        <OnSizeChanged method="OnSizeChanged" inherit="append" />
     </Scripts>
     <Frames>
         <Button inherits="UIPanelCloseButton">

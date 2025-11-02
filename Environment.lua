@@ -12,7 +12,6 @@
 local _, LM = ...
 
 local C_Spell = LM.C_Spell or C_Spell
-local C_MountJournal = LM.C_MountJournal or C_MountJournal
 
 LM.Environment = LM.CreateAutoEventFrame("Frame")
 LM.Environment:RegisterEvent("PLAYER_LOGIN")
@@ -248,7 +247,7 @@ function LM.Environment:IsCombatTravelForm()
 end
 
 function LM.Environment:GetDruidForm()
-    if select(2, UnitClass("player")) == "DRUID" then
+    if UnitClassBase("player") == "DRUID" then
         local id = GetShapeshiftFormID()
         if id then
             local index = GetShapeshiftForm()
@@ -366,6 +365,7 @@ end
 
 -- Overrides have 3 possible return values, true, false, nil (no override)
 local InstanceFlyableOverride = {
+    [1662] = false,     -- Suramar campaign scenario
     [2275] = false,     -- Lesser Vision Vale of Eternal Twilight
     [2512] = true,      -- The Primalist Future
     [2549] =            -- Amirdrassil Raid

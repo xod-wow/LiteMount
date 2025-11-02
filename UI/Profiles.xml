@@ -12,9 +12,9 @@
     </KeyValues>
 
     <Scripts>
-        <OnLoad method="OnLoad" />
-        <OnShow method="OnShow" />
-        <OnHide method="OnHide" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
+        <OnHide method="OnHide" inherit="append" />
     </Scripts>
 
     <Layers>

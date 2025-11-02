@@ -22,7 +22,7 @@ LiteMountAdvancedUnlockButtonMixin = {}
 
 function LiteMountAdvancedUnlockButtonMixin:OnShow()
     local parent = self:GetParent()
-    local editBox = parent.EditScroll.EditBox
+    local editBox = parent.EditScroll.ScrollBox.EditBox
     editBox:SetAlpha(0.5)
     editBox:Disable()
     parent.DefaultsButton:Disable()
@@ -31,7 +31,7 @@ end
 
 function LiteMountAdvancedUnlockButtonMixin:OnClick()
     local parent = self:GetParent()
-    local editBox = parent.EditScroll.EditBox
+    local editBox = parent.EditScroll.ScrollBox.EditBox
     editBox:SetAlpha(1.0)
     editBox:Enable()
     parent.DefaultsButton:Enable()
@@ -41,7 +41,7 @@ end
 --[[------------------------------------------------------------------------]]--
 
 local function BindingGenerator(owner, rootDescription)
-    local editBox = LiteMountAdvancedPanel.EditScroll.EditBox
+    local editBox = LiteMountAdvancedPanel.EditScroll.ScrollBox.EditBox
     local IsSelected = function (v) return editBox.tab == v end
     local SetSelected = function (v) LiteMountOptionsControl_SetTab(editBox, v) end
     for i = 1, editBox.ntabs do
@@ -90,17 +90,19 @@ LiteMountAdvancedPanelMixin = {}
 function LiteMountAdvancedPanelMixin:OnLoad()
     self.name = ADVANCED_OPTIONS
 
-    Mixin(self.EditScroll.EditBox, LiteMountAdvancedEditBoxMixin)
-    self.EditScroll.EditBox:SetFontObject(LiteMountMonoFont)
-    self.EditScroll.EditBox.ntabs = 4
-    self.EditScroll.EditBox:SetScript('OnTextChanged', LiteMountOptionsControl_OnTextChanged)
+    local editBox = self.EditScroll.ScrollBox.EditBox
+    Mixin(editBox, LiteMountAdvancedEditBoxMixin)
+    editBox:SetFontObject(LiteMountMonoFont)
+    editBox.ntabs = 4
+    editBox:SetScript('OnTextChanged', LiteMountOptionsControl_OnTextChanged)
     self.BindingDropDown:SetupMenu(BindingGenerator)
 
-    LiteMountOptionsPanel_RegisterControl(self.EditScroll.EditBox, self)
-    LiteMountOptionsPanel_OnLoad(self)
+    ScrollUtil.RegisterScrollBoxWithScrollBar(self.EditScroll.ScrollBox, self.ScrollBar)
+
+    LiteMountOptionsPanel_RegisterControl(editBox, self)
 end
 
 function LiteMountAdvancedPanelMixin:OnShow()
-    self.EditScroll.EditBox:CheckCompileErrors()
+    self.EditScroll.ScrollBox.EditBox:CheckCompileErrors()
     self.UnlockButton:Show()
 end

@@ -1,143 +1,16 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+<Ui>
 
 <!-- Copyright 2011 Mike Battersby -->
 
 <Script file="General.lua" />
 
-<Frame name="LiteMountGeneralPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountGeneralPanelMixin">
-
+<Frame name="LiteMountGeneralPanel" hidden="true" mixin="LiteMountGeneralPanelMixin">
     <KeyValues>
         <KeyValue key="name" value="GENERAL" type="global" />
     </KeyValues>
-
     <Scripts>
-        <OnLoad method="OnLoad" />
-        <OnShow method="OnShow" inherit="prepend" />
+        <OnLoad method="OnLoad" inherit="append" />
     </Scripts>
-
-    <Frames>
-        <CheckButton parentKey="CopyTargetsMount" inherits="LiteMountOptionsCheckButtonTemplate">
-            <Anchors>
-                <Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" y="-24" />
-                <Anchor point="LEFT" x="24" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsControl_OnChanged" />
-            </Scripts>
-        </CheckButton>
-        <CheckButton parentKey="DefaultPriority" inherits="LiteMountOptionsCheckButtonTemplate">
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.CopyTargetsMount" relativePoint="BOTTOMLEFT" x="0" y="-8" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsControl_OnChanged" />
-            </Scripts>
-        </CheckButton>
-        <CheckButton parentKey="InstantOnlyMoving" inherits="LiteMountOptionsCheckButtonTemplate">
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.DefaultPriority" relativePoint="BOTTOMLEFT" x="0" y="-8" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsControl_OnChanged" />
-            </Scripts>
-        </CheckButton>
-        <CheckButton parentKey="RestoreForms" inherits="LiteMountOptionsCheckButtonTemplate">
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.InstantOnlyMoving" relativePoint="BOTTOMLEFT" x="0" y="-8" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsControl_OnChanged" />
-            </Scripts>
-        </CheckButton>
-        <CheckButton parentKey="AnnounceFlightStyle" inherits="LiteMountOptionsCheckButtonTemplate">
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.RestoreForms" relativePoint="BOTTOMLEFT" x="0" y="-8" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsControl_OnChanged" />
-            </Scripts>
-        </CheckButton>
-    </Frames>
-    <Layers>
-        <Layer level="OVERLAY">
-            <FontString parentKey="AnnounceMount" text="LM_ANNOUNCE_MOUNTS" inherits="GameFontHighlight">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceFlightStyle" relativePoint="BOTTOMLEFT" y="-16" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-    <Frames>
-        <CheckButton parentKey="AnnounceChat" inherits="LiteMountOptionsCheckButtonTemplate">
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceMount" relativePoint="BOTTOMLEFT" x="16" y="-8" />
-            </Anchors>
-            <Scripts>
-                <OnClick function="LiteMountOptionsControl_OnChanged" />
-            </Scripts>
-        </CheckButton>
-        <CheckButton parentKey="AnnounceUI" inherits="LiteMountOptionsCheckButtonTemplate">
-            <Scripts>
-                <OnClick function="LiteMountOptionsControl_OnChanged" />
-            </Scripts>
-        </CheckButton>
-        <CheckButton parentKey="AnnounceColors" inherits="LiteMountOptionsCheckButtonTemplate">
-            <Scripts>
-                <OnClick function="LiteMountOptionsControl_OnChanged" />
-            </Scripts>
-        </CheckButton>
-    </Frames>
-    <Layers>
-        <Layer level="OVERLAY">
-            <FontString parentKey="SummonStyle" text="LM_SUMMON_STYLE" inherits="GameFontHighlight">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.AnnounceMount" relativePoint="BOTTOMLEFT" y="-56" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-    <Frames>
-        <DropdownButton parentKey="SummonStyleDropDown" inherits="WoWStyle1DropdownTemplate">
-            <Size x="448" y="26" />
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.SummonStyle" relativePoint="BOTTOMLEFT" x="16" y="-8" />
-            </Anchors>
-        </DropdownButton>
-    </Frames>
-    <Layers>
-        <Layer level="OVERLAY">
-            <FontString parentKey="RandomPersist" text="LM_RANDOM_PERSISTENCE" inherits="GameFontHighlight">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.SummonStyle" relativePoint="BOTTOMLEFT" y="-56" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-    <Frames>
-        <DropdownButton parentKey="RandomPersistDropDown" inherits="WoWStyle1DropdownTemplate">
-            <Size x="448" y="26" />
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" x="16" y="-8" />
-            </Anchors>
-        </DropdownButton>
-    </Frames>
-    <Layers>
-        <Layer level="OVERLAY">
-            <FontString parentKey="MountSpecialTimer" inherits="GameFontHighlight">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeKey="$parent.RandomPersist" relativePoint="BOTTOMLEFT" y="-56" />
-                </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-    <Frames>
-        <DropdownButton parentKey="MountSpecialTimerDropDown" inherits="WoWStyle1DropdownTemplate">
-            <Size x="448" y="26" />
-            <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.MountSpecialTimer" relativePoint="BOTTOMLEFT" x="16" y="-8" />
-            </Anchors>
-        </DropdownButton>
-    </Frames>
 </Frame>
 
 </Ui>

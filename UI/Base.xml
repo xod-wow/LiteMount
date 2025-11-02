@@ -120,7 +120,7 @@
     </Layers>
 
     <Scripts>
-        <OnLoad>
+        <OnLoad inherit="append">
             local translators = {
                 "deDE - Bullseify, Flanll88, pas06, Salty, Selthi, sense_ce, staratnight, wiggelator, xStopho",
                 "esES - HelpTranslate, milotic03, neosaro, TradOrtiz, valdesca",
@@ -140,8 +140,6 @@
 
             self.HelpURL.url = 'https://github.com/xod-wow/LiteMount/wiki'
             self.TranslateURL.url = 'https://www.curseforge.com/wow/addons/litemount/localization'
-
-            LiteMountOptionsPanel_OnLoad(self)
         </OnLoad>
     </Scripts>
 </Frame>

@@ -10,8 +10,8 @@
         <KeyValue key="hideDefaultsButton" value="true" type="boolean" />
     </KeyValues>
     <Scripts>
-        <OnLoad inherit="append" method="OnLoad" />
-        <OnShow inherit="append" method="OnShow" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
     </Scripts>
     <Layers>
         <Layer level="ARTWORK">
@@ -45,15 +45,30 @@
                 <OnEscapePressed function="EditBox_ClearFocus" />
             </Scripts>
         </EditBox>
-        <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="LiteMountInputScrollFrameTemplate">
+        <Frame parentKey="Container" inherits="LiteMountEditBoxStyleTemplate">
+            <Anchors>
+                <Anchor point="TOP" relativeKey="$parent.CreateIssueURL" relativePoint="BOTTOM" y="-24" />
+                <Anchor point="LEFT" x="24" />
+                <Anchor point="BOTTOMRIGHT" x="-24" y="50" />
+            </Anchors>
+        </Frame>
+        <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar">
+            <KeyValues>
+                <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
+            </KeyValues>
+            <Anchors>
+                <Anchor relativeKey="$parent.Container" point="TOPRIGHT" x="-8" y="-8" />
+                <Anchor relativeKey="$parent.Container" point="BOTTOMRIGHT" x="-8" y="8" />
+            </Anchors>
+        </EventFrame>
+        <ScrollFrame parentKey="Scroll" inherits="ScrollingEditBoxTemplate">
             <KeyValues>
                 <KeyValue key="hideCharCount" value="true" type="boolean" />
                 <KeyValue key="maxLetters" value="0" type="number" />
             </KeyValues>
             <Anchors>
-                <Anchor point="TOP" relativeKey="$parent.CreateIssueURL" relativePoint="BOTTOM" y="-16" />
-                <Anchor point="LEFT" x="16" />
-                <Anchor point="BOTTOMRIGHT" x="-16" y="42" />
+                <Anchor relativeKey="$parent.Container" point="TOPLEFT" x="8" y="-8" />
+                <Anchor relativeKey="$parent.ScrollBar" point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="-8" />
             </Anchors>
         </ScrollFrame>
         <Button parentKey="RefreshButton" inherits="UIPanelButtonTemplate" text="REFRESH">

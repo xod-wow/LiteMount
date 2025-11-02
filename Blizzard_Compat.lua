@@ -17,75 +17,6 @@ local _, LM = ...
 
 LM.C_Spell = CopyTable(C_Spell or {})
 
-if not LM.C_Spell.GetSpellInfo then
-
-    local GetSpellInfo = _G.GetSpellInfo
-
-    function LM.C_Spell.GetSpellInfo(spellIdentifier)
-        local name, _, iconID, castTime, minRange, maxRange, spellID, originalIconID = GetSpellInfo(spellIdentifier)
-        if name then
-            return {
-                name = name,
-                iconID = iconID,
-                originalIconID = originalIconID,
-                castTime = castTime,
-                minRange = minRange,
-                maxRange = maxRange,
-                spellID = spellID,
-            }
-        end
-    end
-end
-
-if not LM.C_Spell.GetSpellName then
-
-    local GetSpellInfo = _G.GetSpellInfo
-
-    function LM.C_Spell.GetSpellName(spellIdentifier)
-        local name = GetSpellInfo(spellIdentifier)
-        return name
-    end
-end
-
-if not LM.C_Spell.GetSpellTexture then
-
-    local GetSpellInfo = _G.GetSpellInfo
-
-    function LM.C_Spell.GetSpellTexture(spellIdentifier)
-        local _, _, iconID = GetSpellInfo(spellIdentifier)
-        return iconID
-    end
-end
-
-if not LM.C_Spell.GetSpellCooldown then
-
-    local GetSpellCooldown = _G.GetSpellCooldown
-
-    function LM.C_Spell.GetSpellCooldown(spellIdentifier)
-        local startTime, duration, isEnabled, modRate = GetSpellCooldown(spellIdentifier)
-        if startTime then
-            return {
-                startTime = startTime,
-                duration = duration,
-                isEnabled = isEnabled,
-                modRate = modRate,
-            }
-        end
-    end
-end
-
-if not LM.C_Spell.IsSpellUsable then
-    LM.C_Spell.IsSpellUsable = _G.IsUsableSpell
-end
-
-if not LM.C_Spell.PickupSpell then
-    LM.C_Spell.PickupSpell = _G.PickupSpell
-end
-
-if not LM.C_Spell.GetSpellSubtext then
-    LM.C_Spell.GetSpellSubtext = _G.GetSpellSubtext
-end
-
 if not LM.C_Spell.GetOverrideSpell then
     function LM.C_Spell.GetOverrideSpell(spellIdentifier)
         local info = LM.C_Spell.GetSpellInfo(spellIdentifier)
@@ -94,23 +25,25 @@ if not LM.C_Spell.GetOverrideSpell then
 end
 
 
---[[ C_MountJournal ]]----------------------------------------------------------
+--[[ C_ClassColor ]]------------------------------------------------------------
 
-LM.C_MountJournal = CopyTable(C_MountJournal or {})
-
-if not LM.C_MountJournal.IsDragonridingUnlocked then
-
-    local IsPlayerSpell = _G.IsPlayerSpell
-
-    function LM.C_MountJournal.IsDragonridingUnlocked()
-        return IsPlayerSpell(376777)
-    end
+if not C_ClassColor then
+    LM.C_ClassColor = {}
+    LM.C_ClassColor.GetClassColor = GetClassColorObj
 end
 
-if not LM.C_MountJournal.GetDynamicFlightModeSpellID then
+--[[ PanelTemplates ]]----------------------------------------------------------
 
-    function LM.C_MountJournal.GetDynamicFlightModeSpellID()
-        return 436854
+if not PanelTemplates_AnchorTabs then
+    local function GetTabByIndex(frame, index)
+        return frame.Tabs and frame.Tabs[index] or _G[frame:GetName().."Tab"..index]
     end
 
+    function LM.PanelTemplates_AnchorTabs(frame)
+        for i = 2, frame.numTabs do
+            local lastTab = GetTabByIndex(frame, i - 1)
+            local thisTab = GetTabByIndex(frame, i)
+            thisTab:SetPoint("TOPLEFT", lastTab, "TOPRIGHT", 3, 0)
+        end
+    end
 end

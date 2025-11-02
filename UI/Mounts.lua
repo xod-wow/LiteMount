@@ -181,7 +181,7 @@ function LiteMountMountsPanelMixin:OnLoad()
         end)
     self.tabViews[1]:SetElementIndentCalculator(
         function (node)
-            if node:GetData().isHeader then
+            if LM.UIFilter.GetSortKey() ~= 'family' or node:GetData().isHeader then
                 return 0
             else
                 return 8
@@ -216,13 +216,11 @@ function LiteMountMountsPanelMixin:OnLoad()
 
     LiteMountOptionsPanel_RegisterControl(self.ScrollBox)
 
-    LiteMountOptionsPanel_OnLoad(self)
-
     -- Set up the tabs
     if WOW_PROJECT_ID == 1 then
         for i, tabButton in ipairs(self.Tabs) do
             if i == 1 then
-                tabButton:SetPoint("TOPLEFT", self.ScrollBox, "BOTTOMLEFT", 16, 4)
+                tabButton:SetPoint("TOPLEFT", self.MountsContainer, "BOTTOMLEFT", 16, 0)
             else
                 local prevTab = self.Tabs[i-1]
                 tabButton:SetPoint("LEFT", prevTab, "RIGHT", 0, 0)

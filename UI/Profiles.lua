@@ -98,7 +98,7 @@ local function ClickResetProfile(self)
 end
 
 local function ClickImportProfile(self, arg1, arg2, check)
-    LiteMountOptionsPanel_PopOver(LiteMountProfilesPanel, LiteMountProfileImport)
+    LiteMountOptionsPanel_PopOver(LiteMountProfileImport, LiteMountProfilesPanel)
 end
 
 
@@ -164,7 +164,7 @@ function ExportProfileMixin.Generate(owner, rootDescription)
 
     local function OnClick(data)
         LiteMountProfileExport:SetProfile(data)
-        LiteMountOptionsPanel_PopOver(LiteMountProfilesPanel, LiteMountProfileExport)
+        LiteMountOptionsPanel_PopOver(LiteMountProfileExport, LiteMountProfilesPanel)
     end
 
     for _, p in ipairs(dbProfiles) do
@@ -217,6 +217,4 @@ function LiteMountProfilesPanelMixin:OnLoad()
     self.ExportProfile:SetScript("OnClick", OnClick)
 
     self.ImportProfile:SetScript("OnClick", ClickImportProfile)
-
-    LiteMountOptionsPanel_OnLoad(self)
 end

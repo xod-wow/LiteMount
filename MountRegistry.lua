@@ -10,7 +10,6 @@
 
 local _, LM = ...
 
-local C_MountJournal = LM.C_MountJournal or C_MountJournal
 local C_Spell = LM.C_Spell
 
 local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
@@ -465,7 +464,7 @@ end
 function LM.MountRegistry:GetMountByShapeshiftForm(i)
     if not i then
         return
-    elseif i == 1 and select(2, UnitClass("player")) == "SHAMAN" then
+    elseif i == 1 and UnitClassBase("player") == "SHAMAN" then
          return self:GetMountBySpell(LM.SPELL.GHOST_WOLF)
     else
         local spellID

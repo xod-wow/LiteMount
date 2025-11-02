@@ -25,6 +25,7 @@ LiteMountReportBugMixin = {}
 
 function LiteMountReportBugMixin:OnLoad()
     self.name = L.LM_REPORT_BUG
+    ScrollUtil.RegisterScrollBoxWithScrollBar(self.Scroll.ScrollBox, self.ScrollBar)
 end
 
 local function GetAnyLiteMountMacros()
@@ -56,7 +57,7 @@ function LiteMountReportBugMixin:OnShow()
 
     local macros = GetAnyLiteMountMacros()
 
-    self.Scroll.EditBox:SetText([[
+    self.Scroll:SetText([[
 |cff00ff00What happens?|r
 
 
@@ -103,5 +104,5 @@ function LiteMountReportBugMixin:OnShow()
         "\n" ..
          linefold(data, 80)
     )
-    self.Scroll.EditBox:SetCursorPosition(0)
+    self.Scroll:SetCursorPosition(0)
 end

@@ -4,67 +4,137 @@
 
 <Script file="Macro.lua" />
 
+<Button name="LiteMountMacroTabTemplate" inherits="PanelTopTabButtonTemplate" mixin="LiteMountMacroTabMixin" virtual="true">
+    <Scripts>
+        <OnClick method="OnClick" />
+    </Scripts>
+</Button>
+
 <Frame name="LiteMountMacroPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMacroPanelMixin">
 
     <Scripts>
-        <OnLoad method="OnLoad" />
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
     </Scripts>
 
     <Frames>
-        <Frame parentKey="EditBoxContainer" inherits="LiteMountContainerStyleTemplate">
-            <Size x="400" y="200" />
+        <Frame parentKey="Class" inherits="LiteMountContainerStyleTemplate">
+            <Size x="172" />
             <Anchors>
-                <Anchor point="CENTER" />
+                <Anchor point="TOPLEFT" x="0" y="-128" />
+                <Anchor point="BOTTOM" y="16" />
             </Anchors>
+            <Frames>
+                <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountGroupsPanelGroupScrollBoxMixin">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="8" y="-8" />
+                        <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
+                    </Anchors>
+                </ScrollFrame>
+                <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
+                    <KeyValues>
+                        <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
+                    </KeyValues>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeKey="$parent.ScrollBox" x="-2" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollBox" x="-2" y="0"/>
+                    </Anchors>
+                </EventFrame>
+            </Frames>
         </Frame>
 
-        <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true" mixin="LiteMountMacroEditBoxMixin">
-            <Scripts>
-                <OnEscapePressed function="EditBox_ClearFocus" />
-                <OnTextChanged method="OnTextChanged" />
-            </Scripts>
+        <Frame parentKey="Macro" inherits="LiteMountContainerStyleTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="8" y="-8" />
-                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="8" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.Class" relativePoint="TOPRIGHT" />
+                <Anchor point="BOTTOMRIGHT" x="-16" y="16" />
             </Anchors>
-            <FontString inherits="GameFontHighlight" />
-        </EditBox>
+            <Frames>
+                <EditBox parentKey="EditBox" multiLine="true" letters="255" autoFocus="false" countInvisibleLetters="true" mixin="LiteMountMacroEditBoxMixin" inherits="LiteMountEditBoxStyleTemplate">
+                    <Scripts>
+                        <OnEscapePressed function="EditBox_ClearFocus" />
+                        <OnTextChanged method="OnTextChanged" />
+                    </Scripts>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="24" y="-108" />
+                        <Anchor point="BOTTOMRIGHT" x="-24" y="72" />
+                    </Anchors>
+                    <FontString inherits="GameFontHighlight" />
+                </EditBox>
+                <CheckButton parentKey="EnableButton" inherits="OptionsBaseCheckButtonTemplate" mixin="LiteMountMacroEnableButtonMixin">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeKey="$parent.EditBox" x="-4" y="6" />
+                    </Anchors>
+                    <Layers>
+                        <Layer level="ARTWORK">
+                            <FontString inherits="GameFontNormal" text="ENABLE">
+                                <Anchors>
+                                    <Anchor point="RIGHT" relativePoint="LEFT" x="-4" />
+                                </Anchors>
+                            </FontString>
+                        </Layer>
+                    </Layers>
+                    <Scripts>
+                        <OnClick method="OnClick" />
+                    </Scripts>
+                </CheckButton>
+                <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
+                    <Size x="96" y="22" />
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.EditBox" x="-8" y="-11" />
+                    </Anchors>
+                </Button>
+            </Frames>
+            <Layers>
+                <Layer level="ARTWORK">
+                    <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT">
+                        <Anchors>
+                            <Anchor point="TOP" y="-16" />
+                            <Anchor point="LEFT" x="24" />
+                            <Anchor point="RIGHT" x="-24" />
+                        </Anchors>
+                    </FontString>
+                    <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
+                        <Anchors>
+                            <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBox" x="8" y="11" />
+                        </Anchors>
+                    </FontString>
 
-        <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
-            <Size x="96" y="22" />
+                    <FontString parentKey="Count" inherits="GameFontHighlightSmall">
+                        <Anchors>
+                            <Anchor point="TOP" relativePoint="BOTTOM" relativeKey="$parent.EditBox" y="-11" />
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
+        </Frame>
+
+        <!-- These tabs look like warmed vom on classic, but Blizzard don't seem to have
+             a top tab that looks and works reasonably on both. MinimalTabTemplate is way
+             too washed out. -->
+
+        <Button id="1" name="$parentTab1" inherits="LiteMountMacroTabTemplate" text="UNAVAILABLE">
+            <KeyValues>
+                <Keyvalue key="minWidth" value="57" type="number" />
+            </KeyValues>
             <Anchors>
-                <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.EditBoxContainer" x="-8" y="-3" />
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.Macro" relativePoint="TOPLEFT" x="16" />
             </Anchors>
+        </Button>
+        <Button id="2" name="$parentTab2" inherits="LiteMountMacroTabTemplate" text="COMBAT">
+            <KeyValues>
+                <Keyvalue key="minWidth" value="57" type="number" />
+            </KeyValues>
         </Button>
     </Frames>
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="explainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_MACRO_EXP">
+            <FontString parentKey="WarnText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_MACRO_NOT_ALLOWED">
+                <Color r="1" g="0.5" b="0.5" />
                 <Anchors>
                     <Anchor point="TOP" y="-60" />
                     <Anchor point="LEFT" x="24" />
                     <Anchor point="RIGHT" x="-24" />
-                </Anchors>
-            </FontString>
-
-            <FontString parentKey="warnText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_MACRO_NOT_ALLOWED">
-                <Color r="1" g="0.5" b="0.5" />
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeKey="$parent.explainText" y="-8" />
-                    <Anchor point="RIGHT" relativeKey="$parent.explainText" />
-                </Anchors>
-            </FontString>
-
-            <FontString inherits="GameFontHighlightSmall" text="ENTER_MACRO_LABEL">
-                <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" relativeKey="$parent.EditBoxContainer" x="8" y="3" />
-                </Anchors>
-            </FontString>
-
-            <FontString parentKey="Count" inherits="GameFontHighlightSmall">
-                <Anchors>
-                    <Anchor point="TOP" relativePoint="BOTTOM" relativeKey="$parent.EditBoxContainer" y="-3" />
                 </Anchors>
             </FontString>
         </Layer>

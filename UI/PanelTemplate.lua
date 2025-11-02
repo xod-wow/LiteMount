@@ -46,27 +46,60 @@
 
 ----------------------------------------------------------------------------]]--
 
+-- These two control widgets are for using with Blizzards Settings
+
+LiteMountCheckboxControlMixin = CreateFromMixins(SettingsCheckboxControlMixin)
+
+function LiteMountCheckboxControlMixin:Init(initializer)
+    SettingsCheckboxControlMixin.Init(self, initializer)
+
+    local leftPad = self:GetIndent() + 37
+
+    self.Checkbox:ClearAllPoints()
+    self.Checkbox:SetPoint("LEFT", self, "LEFT", leftPad, 0)
+
+    leftPad = leftPad + self.Checkbox:GetWidth() + 8
+    self.Text:ClearAllPoints()
+    self.Text:SetPoint("LEFT", self, "LEFT", leftPad, 0)
+end
+
+LiteMountDropdownControlMixin = CreateFromMixins(SettingsDropdownControlMixin)
+
+function LiteMountDropdownControlMixin:Init(initializer)
+    SettingsDropdownControlMixin.Init(self, initializer)
+
+    local leftPad = self:GetIndent() + 37
+
+    self.Text:ClearAllPoints()
+    self.Text:SetPoint("TOPLEFT", self, "TOPLEFT", leftPad, -4)
+
+    self.Control:ClearAllPoints()
+    self.Control:SetPoint("BOTTOM", self, "BOTTOM", 0, 4)
+    self.Control.Dropdown:SetWidth(440)
+end
+
+
+--[[------------------------------------------------------------------------]]--
+
 LM_CONTAINER_BACKDROP_INFO = {
-    bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+    bgFile = "Interface/ChatFrame/ChatFrameBackground",
     edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
     tile = true,
-    tileEdge = true,
     tileSize = 16,
     edgeSize = 16,
-    insets = { left = 4, right = 4, top = 4, bottom = 4 },
+    insets = { left = 3, right = 3, top = 3, bottom = 3 },
 }
 
-LM_BUTTON_BACKDROP_INFO = {
+LM_POPOVER_BACKDROP_INFO = {
     bgFile = "Interface/Tooltips/UI-Tooltip-Background",
     edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
     tile = true,
-    tileEdge = true,
-    tileSize = 8,
-    edgeSize = 8,
-    insets = { left = 4, right = 4, top = 4, bottom = 4 },
+    tileSize = 16,
+    edgeSize = 16,
+    insets = { left = 3, right = 3, top = 3, bottom = 3 },
 }
 
-LM_LISTBUTTON_BACKDROP_INFO = {
+LM_LIST_ITEM_BACKDROP_INFO = {
     bgFile = "Interface/Buttons/UI-SliderBar-Background",
     edgeFile = "Interface/Buttons/UI-SliderBar-Border",
     tile = true,
@@ -180,6 +213,11 @@ function LiteMountOptionsPanel_OnHide(self)
     LM.UIDebug(self, "Panel_OnHide")
     LM.db.UnregisterAllCallbacks(self)
 
+    while self.popOverStack and next(self.popOverStack) do
+        local f = self.popOverStack[1]
+        LiteMountOptionsPanel_RemovePopOver(f, self)
+    end
+
     -- Seems like the InterfacePanel calls all the OnCommit for
     -- anything that's been opened when the appropriate button is clicked
     -- LiteMountOptionsPanel_OnCommit(self)
@@ -189,14 +227,14 @@ function LiteMountOptionsPanel_OnLoad(self)
 
     if self ~= LiteMountOptions then
         self.name = L[self.name] or self.name
-        self.Title:SetText("LiteMount : " .. self.name)
+        self.Title:SetText(self.name)
         local topCategory = LiteMountOptions.category
         self.category = Settings.RegisterCanvasLayoutSubcategory(topCategory, self, self.name)
     else
         self.name = "LiteMount"
         self.Title:SetText("LiteMount")
         self.category = Settings.RegisterCanvasLayoutCategory(self, "LiteMount")
-        Settings.RegisterAddOnCategory(self.category);
+        Settings.RegisterAddOnCategory(self.category)
     end
 
     if self.hideDefaultsButton then
@@ -217,12 +255,40 @@ function LiteMountOptionsPanel_OnLoad(self)
     LiteMountOptionsPanel_AutoLocalize(self)
 end
 
-function LiteMountOptionsPanel_PopOver(self, f)
-    f.overFrame = self
+function LiteMountOptionsPanel_UpdatePopOverDisplay(self)
+    self.Disable:Hide()
+    for i, f in ipairs(self.popOverStack) do
+        if i == #self.popOverStack then
+            f:SetParent(self)
+            f:SetFrameLevel(self.Disable:GetFrameLevel() + 4)
+            f:ClearAllPoints()
+            f:SetPoint("CENTER", self, "CENTER")
+            f:Show()
+            self.Disable:Show()
+        else
+            f:Hide()
+        end
+    end
+end
+
+function LiteMountOptionsPanel_PopOver(f, self)
+    self.popOverStack = self.popOverStack or {}
     f:SetParent(self)
-    f:ClearAllPoints()
-    f:SetPoint("CENTER", self, "CENTER")
-    f:Show()
+    table.insert(self.popOverStack, f)
+    local fOnHide = f:GetScript('OnHide')
+    f:SetScript('OnHide',
+        function ()
+            if fOnHide then fOnHide(f) end
+            f:SetScript('OnHide', fOnHide)
+            LiteMountOptionsPanel_RemovePopOver(f, self)
+        end)
+    LiteMountOptionsPanel_UpdatePopOverDisplay(self)
+end
+
+function LiteMountOptionsPanel_RemovePopOver(f, self)
+    f:SetParent(nil)
+    tDeleteItem(self.popOverStack, f)
+    LiteMountOptionsPanel_UpdatePopOverDisplay(self)
 end
 
 function LiteMountOptionsControl_OnRefresh(self, trigger)
@@ -338,16 +404,4 @@ end
 function LiteMountPopOverPanel_OnLoad(self)
     self.name = L[self.name] or self.name
     self.Title:SetText(self.name)
-end
-
-function LiteMountPopOverPanel_OnShow(self)
-    self:SetFrameLevel(self.overFrame:GetFrameLevel() + 4)
-    self.overFrame.Disable:Show()
-end
-
-function LiteMountPopOverPanel_OnHide(self)
-    self.overFrame.Disable:Hide()
-    self.overFrame = nil
-    self:Hide()
-    self:SetParent(nil)
 end
