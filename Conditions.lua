@@ -299,14 +299,13 @@ CONDITIONS["cursor"] = {
 
 --- Note that this diverges from the macro [dead] defaults to "target".
 CONDITIONS["dead"] = {
-    -- name = DEAD,
     handler =
         function (cond, context)
             return UnitIsDead(context.rule.unit or "player")
         end
 }
 
--- https://wow.gamepedia.com/DifficultyID
+-- https://warcraft.wiki.gg/wiki/DifficultyID
 CONDITIONS["difficulty"] = {
     name = LFG_LIST_DIFFICULTY,
     toDisplay =
@@ -437,6 +436,14 @@ CONDITIONS["encounter"] = {
 }
 
 CONDITIONS["equipped"] = {
+    name = L.LM_ITEM_EQUIPPED,
+    textentry = true,
+    toDisplay =
+        function (v)
+            if v then
+                return C_Item.GetItemName(v) or v
+            end
+        end,
     handler =
         function (cond, context, v)
             if not v then
@@ -470,6 +477,19 @@ CONDITIONS["exists"] = {
 
 -- Check for an extraactionbutton, optionally with a specific spell id
 CONDITIONS["extra"] = {
+    name = BINDING_NAME_EXTRAACTIONBUTTON1,
+    textentry = true,
+    toDisplay =
+        function (v)
+            if v then
+                local name = C_Spell.GetSpellName(v)
+                if name then
+                    return string.format("%s (%d)", name, v)
+                else
+                    return v
+                end
+            end
+        end,
     handler =
         function (cond, context, v)
             if HasExtraActionBar and HasExtraActionBar() then
@@ -576,6 +596,7 @@ CONDITIONS["flying"] = {
         end
 }
 
+-- You would think this would be easy to add a menu to. It is not.
 CONDITIONS["form"] = {
     handler =
         function (cond, context, v)
@@ -820,6 +841,12 @@ CONDITIONS["keybind"] = {
 CONDITIONS["known"] = {
     name = L.LM_SPELL_KNOWN,
     textentry = true,
+    toDisplay =
+        function (v)
+            if v then
+                return C_Spell.GetSpellName(v) or v
+            end
+        end,
     handler =
         function (cond, context, v)
             if v then
@@ -1084,6 +1111,8 @@ CONDITIONS["moving"] = {
 }
 
 CONDITIONS["name"] = {
+    name = CHARACTER_NAME_PROMPT,
+    textentry = true,
     handler =
         function (cond, context, v)
             if v then
