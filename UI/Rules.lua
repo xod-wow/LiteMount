@@ -219,6 +219,22 @@ function LiteMountRulesPanelMixin:OnLoad()
         function (sourceElementData, contextData)
             return contextData.area ~= DragIntersectionArea.Inside 
         end)
+    dragBehavior:SetDropEnter(
+        function (factory, candidate)
+            local candidateArea = candidate.area
+            local candidateFrame = candidate.frame
+            local w, h = candidateFrame:GetSize()
+            local frame = factory("ScrollBoxDragBoxTemplate")
+            frame:SetSize(w, h/4)
+            if candidateArea == DragIntersectionArea.Above then
+                frame:SetPoint("CENTER", candidateFrame, "TOP")
+            elseif candidateArea == DragIntersectionArea.Below then
+                frame:SetPoint("CENTER", candidateFrame, "BOTTOM")
+            elseif candidateArea == DragIntersectionArea.Inside then
+                frame:SetPoint("CENTER", candidateFrame, "CENTER")
+            end
+
+        end)
     dragBehavior:SetPostDrop(
         function (contextData)
             ReorderRulesFromDataProvider(contextData.dataProvider)
