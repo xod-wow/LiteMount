@@ -840,7 +840,7 @@ CONDITIONS["keybind"] = {
 
 CONDITIONS["keystone"] = {
     name = WEEKLY_REWARDS_MYTHIC_KEYSTONE,
-    disabled = C_ChallengeMode == nil or C_ChallengeMode.GetActiveKeystoneInfo == nil,
+    disabled = C_ChallengeMode.GetActiveKeystoneInfo == nil,
     args = true,
     toDisplay =
         function (minLevel, maxLevel)
