@@ -217,7 +217,7 @@ function LiteMountRulesPanelMixin:OnLoad()
         end)
     dragBehavior:SetDropPredicate(
         function (sourceElementData, contextData)
-            return contextData.area ~= DragIntersectionArea.Inside 
+            return contextData.area ~= DragIntersectionArea.Inside
         end)
     dragBehavior:SetDropEnter(
         function (factory, candidate)

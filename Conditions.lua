@@ -838,6 +838,45 @@ CONDITIONS["keybind"] = {
         end
 }
 
+CONDITIONS["keystone"] = {
+    name = WEEKLY_REWARDS_MYTHIC_KEYSTONE,
+    disabled = C_ChallengeMode == nil or C_ChallengeMode.GetActiveKeystoneInfo == nil,
+    args = true,
+    toDisplay =
+        function (minLevel, maxLevel)
+            if not minLevel then
+                return ANY_TEXT
+            elseif not maxLevel then
+                return string.format(MYTHIC_PLUS_POWER_LEVEL, minLevel) .. '+'
+            elseif minLevel == maxLevel then
+                return string.format(MYTHIC_PLUS_POWER_LEVEL, minLevel)
+            else
+                return string.format(MEETINGSTONE_LEVEL, minLevel, maxLevel)
+            end
+        end,
+    menu =
+        function ()
+            local out = {
+                nosort = true,
+                { val = "keystone" },
+                { val = "keystone:2/5" },
+                { val = "keystone:6/9" },
+                { val = "keystone:10/11" },
+            }
+            for i = 12, 25 do
+                table.insert(out, { val = "keystone:"..i })
+            end
+            return out
+        end,
+    handler =
+        function (cond, context, minLevel, maxLevel)
+            minLevel = tonumber(minLevel) or 0
+            maxLevel = tonumber(maxLevel) or math.huge
+            local keyLevel = C_ChallengeMode.GetActiveKeystoneInfo()
+            return (keyLevel >= minLevel) and (keyLevel <= maxLevel)
+        end
+}
+
 CONDITIONS["known"] = {
     name = L.LM_SPELL_KNOWN,
     textentry = true,
