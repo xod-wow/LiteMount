@@ -158,7 +158,7 @@ function LM.Macro:GetMacro(isCombat)
     if isCombat then
         local default = DefaultCombatMacroByClass[class]
         if LM.db.char.useCombatMacro then
-            return LM.db.char.combatMacro or default
+            return LM.db.char.combatMacro
         end
         if LM.db.class.useCombatMacro then
             return LM.db.class.combatMacro or default
@@ -166,7 +166,7 @@ function LM.Macro:GetMacro(isCombat)
     else
         local default = DefaultMacroByClass[class]
         if LM.db.char.useUnavailableMacro then
-            return LM.db.char.unavailableMacro or default
+            return LM.db.char.unavailableMacro
         end
         if LM.db.class.useUnavailableMacro then
             return LM.db.class.unavailableMacro or default

@@ -122,7 +122,7 @@ function LiteMountMacroPanelMixin:Update()
 end
 
 function LiteMountMacroPanelMixin:SetOption(t)
-    local classKey = select(2, UnitClass('player'))
+    local classKey = UnitClassBase('player')
     LM.db.char = t.char
     LM.db.class = t.class and t.class[classKey] or nil
     LM.db.sv.class = t.class
