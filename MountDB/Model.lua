@@ -35,7 +35,6 @@ Model._AUTO_ = {
     [431992] = true, -- Compass Rose
     [271646] = true, -- Dark Iron Core Hound
     [247448] = true, -- Darkmoon Dirigible
-    [126507] = true, -- Depleted-Kyparium Rocket
     [458335] = true, -- Diamond Mechsuit
     [ 23161] = true, -- Dreadsteed
     [307932] = true, -- Ensorcelled Everwyrm
@@ -169,6 +168,7 @@ Model["Aqir Drone"] = {
 Model["Aquilon"] = {
     [353880] = true, -- Ascendant's Aquilon
     [343550] = true, -- Battle-Hardened Aquilon
+   [1261671] = true, -- Bronze Aquilon
     [353875] = true, -- Elysian Aquilon
     [353877] = true, -- Foresworn Aquilon
 }
@@ -238,6 +238,7 @@ Model["Bakar"] = {
 Model["Basilisk"] = {
    [1250881] = true, -- Aquamarine Basilisk
     [230844] = true, -- Brawler's Burly Basilisk
+   [1264621] = true, -- Brawlin' Bruno
     [289639] = true, -- Bruce
    [1250880] = true, -- Felslate Basilisk
    [1250879] = true, -- Leystone Basilisk
@@ -429,6 +430,7 @@ Model["Cormaera"] = {
 
 Model["Corpsefly"] = {
     [353885] = true, -- Battlefield Swarmer
+   [1261677] = true, -- Bronze Corpsefly
     [347250] = true, -- Lord of the Corpseflies
     [353883] = true, -- Maldraxxian Corpsefly
     [353884] = true, -- Regal Corpsefly
@@ -876,6 +878,8 @@ Model["Gladiator's Twilight Drake"] = {
 
 Model["Glimmerfur Vulpin"] = {
     [427435] = true, -- Crimson Glimmerfur
+   [1263369] = true, -- Skypaw Glimmerfur
+   [1264988] = true, -- Snowpaw Glimmerfur Prowler
     [290133] = true, -- Vulpine Familiar
     [334366] = true, -- Wild Glimmerfur Prowler
 }
@@ -922,6 +926,11 @@ Model["Goblin Trike"] = {
     [ 87090] = true, -- Goblin Trike
     [ 87091] = true, -- Goblin Turbo-Trike
     [223354] = true, -- Vicious War Trike
+}
+
+Model["Goblin Rocket"] = {
+   [1264643] = true, -- Ballistic Bronco
+    [126507] = true, -- Depleted-Kyparium Rocket
 }
 
 Model["Goblin Waveshredder"] = {
@@ -971,6 +980,7 @@ Model["Grandmaster's Board"] = {
 }
 
 Model["Gravewing"] = {
+   [1261681] = true, -- Bronze Gravewing
     [215545] = true, -- Mastercraft Gravewing
     [353866] = true, -- Obsidian Gravewing
     [353873] = true, -- Pale Gravewing
@@ -1172,6 +1182,7 @@ Model["K'aresh Slateback"] = {
 }
 
 Model["K'arroc"] = {
+   [1233516] = true, -- K'arroc Swiftwing
    [1221132] = true, -- Resplendent K'arroc
    [1233511] = true, -- Umbral K'arroc
    [1233518] = true, -- Lavender K'arroc
@@ -1228,6 +1239,7 @@ Model["Longhorned Talbuk"] = {
 
 -- Proto-wolf?
 Model["Lupine"] = {
+   [1263387] = true, -- Crimson Lupine
     [367673] = true, -- Heartbond Lupine
 }
 
@@ -1331,6 +1343,7 @@ Model["Meadowstomper"] = {
 }
 
 Model["Meat Wagon"] = {
+   [1262886] = true, -- Geargrinder Mk. 11
     [281554] = true, -- Meat Wagon
 }
 
@@ -1688,6 +1701,7 @@ Model["Ray"] = {
 }
 
 Model["Razorwing"] = {
+   [1266579] = true, -- Cloudborn Razorwing
     [354361] = true, -- Dusklight Razorwing
     [354359] = true, -- Fierce Razorwing
     [354360] = true, -- Garnet Razorwing
@@ -1766,6 +1780,7 @@ Model["Salamanther"] = {
 Model["Savage Battle Turtle"] = {
     [473861] = true, -- Savage Alabaster Battle Turtle
     [433281] = true, -- Savage Blue Battle Turtle
+   [1266248] = true, -- Savage Crimson Battle Turtle
     [453255] = true, -- Savage Ebony Battle Turtle
     [367826] = true, -- Savage Green Battle Turtle
 }
@@ -1888,7 +1903,7 @@ Model["Skitterfly"] = {
 }
 
 Model["Skullboar"] = {
---  [332482] = true, -- Bonecleaver's Skullboar (NYI)
+    [332482] = true, -- Bonecleaver's Skullboar
     [332478] = true, -- Blisterback Bloodtusk
     [332480] = true, -- Gorespine
     [332484] = true, -- Lurid Bloodtusk
@@ -2381,6 +2396,7 @@ Model["Wild Manasaber"] = {
 Model["Wilderling"] = {
     [353856] = true, -- Ardenweald Wilderling
     [353857] = true, -- Autumnal Wilderling
+   [1261668] = true, -- Bronze Wilderling
     [353859] = true, -- Summer Wilderling
     [439138] = true, -- Voyaging Wilderling
     [353858] = true, -- Winder Wilderling

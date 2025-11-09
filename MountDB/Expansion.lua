@@ -144,6 +144,7 @@ local Expansion = {
         ["maxID"] = math.huge,
         [1550] = true, -- Depthstalker
         [1792] = true, -- Algarian Stormrider
+        [1374] = true, -- Bonecleaver's Skullboar
         [1945] = true, -- Jeweled Sapphire Scarab
     }
 }
