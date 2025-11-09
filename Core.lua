@@ -67,6 +67,18 @@ function LiteMount:OnMountSummoned()
     end
 end
 
+function LiteMount:ForceNewRandomMount()
+    if not self.actions then
+        return
+    end
+
+    for _, actionButton in ipairs(self.actions) do
+        if actionButton.ForceNewRandom then
+            actionButton:ForceNewRandom()
+        end
+    end
+end
+
 function LiteMount:Initialize()
 
     -- Do this first because LM.Debug doesn't work until it's loaded.
@@ -122,6 +134,6 @@ function LiteMount:PLAYER_REGEN_ENABLED()
     self:Initialize()
 end
 
---@debug@
+--[==[@debug@
 _G.LM = LM
---@end-debug@
+--@end-debug@]==]

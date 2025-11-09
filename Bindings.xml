@@ -21,4 +21,8 @@
     <Binding name="CLICK LM_B4:LeftButton" category="LiteMount">
     </Binding>
 
+    <Binding name="LM_FORCE_NEW_RANDOM" category="LiteMount">
+      LiteMount:ForceNewRandomMount()
+    </Binding>
+
 </Bindings>

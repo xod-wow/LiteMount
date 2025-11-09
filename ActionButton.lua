@@ -118,6 +118,14 @@ function LM.ActionButton:PostClick(inputButton, isDown)
     LM.Debug("[%d] PostClick finish time %0.2fms", self.id, debugprofilestop() - startTime)
 end
 
+function LM.ActionButton:ForceNewRandom()
+    -- Ensure the next PreClick picks a fresh random value regardless of persistence
+    LM.Debug("[%d] ForceNewRandom", self.id)
+    self.context.random = nil
+    self.context.randomTime = nil
+    self.context.forceSummon = nil
+end
+
 -- Combat actions trigger on PLAYER_REGEN_DISABLED which happens before
 -- lockdown starts so we can still do secure things. Unlike other places
 -- it's possible this will do SecureHandlerWrapScript if it's being called
