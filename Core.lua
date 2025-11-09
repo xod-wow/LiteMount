@@ -134,6 +134,6 @@ function LiteMount:PLAYER_REGEN_ENABLED()
     self:Initialize()
 end
 
---[==[@debug@
+--@debug@
 _G.LM = LM
---@end-debug@]==]
+--@end-debug@
