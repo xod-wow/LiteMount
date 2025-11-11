@@ -169,7 +169,7 @@ function LiteMountGeneralPanelMixin:Register()
             self.category,
             "LiteMountForceRandomResummon",
             Settings.VarType.Boolean,
-            L.LM_FORCE_RANDOM_RESUMMON,
+            L.LM_FORCE_NEW_RANDOM_RESUMMON,
             LM.Options:GetOptionDefault("forceRandomResummon"),
             function () return LM.Options:GetOption("forceRandomResummon") end,
             function (v) LM.Options:SetOption("forceRandomResummon", v) end
