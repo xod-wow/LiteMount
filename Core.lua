@@ -72,9 +72,12 @@ function LiteMount:ForceNewRandomMount()
         return
     end
 
+    local allowResummon = true
     for _, actionButton in ipairs(self.actions) do
         if actionButton.ForceNewRandom then
-            actionButton:ForceNewRandom()
+            if actionButton:ForceNewRandom(allowResummon) and allowResummon then
+                allowResummon = false
+            end
         end
     end
 end
