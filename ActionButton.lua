@@ -118,12 +118,57 @@ function LM.ActionButton:PostClick(inputButton, isDown)
     LM.Debug("[%d] PostClick finish time %0.2fms", self.id, debugprofilestop() - startTime)
 end
 
-function LM.ActionButton:ForceNewRandom()
+function LM.ActionButton:ForceNewRandom(allowResummon)
     -- Ensure the next PreClick picks a fresh random value regardless of persistence
-    LM.Debug("[%d] ForceNewRandom", self.id)
+    LM.Debug("[%d] ForceNewRandom (allowResummon=%s)", self.id, tostring(allowResummon))
     self.context.random = nil
     self.context.randomTime = nil
     self.context.forceSummon = nil
+
+    -- Extra check to prevent duplicate resummons.
+    if not allowResummon then
+        return
+    end
+
+    if not LM.Options:GetOption('forceRandomResummon') then
+        return
+    end
+
+    if InCombatLockdown() then
+        LM.Debug("[%d] ForceNewRandom resummon skipped (combat)", self.id)
+        return
+    end
+
+    local wasMounted = IsMounted()
+    local canExitVehicle = not wasMounted and CanExitVehicle()
+
+    if not wasMounted and not canExitVehicle then
+        LM.Debug("[%d] ForceNewRandom resummon skipped (not mounted)", self.id)
+        return
+    end
+
+    if wasMounted then
+        Dismount()
+    else
+        VehicleExit()
+    end
+
+    local button = self
+    -- Delay briefly so the dismiss finishes before we click again.
+    C_Timer.After(0.1, function()
+        if InCombatLockdown() then
+            LM.Debug("[%d] ForceNewRandom resummon skipped (combat after delay)", button.id)
+            return
+        end
+        if not (button:IsVisible() and button:IsShown()) then
+            LM.Debug("[%d] ForceNewRandom resummon skipped (button hidden)", button.id)
+            return
+        end
+        LM.Debug("[%d] ForceNewRandom resummoning new mount", button.id)
+        button:Click("LeftButton")
+    end)
+
+    return true
 end
 
 -- Combat actions trigger on PLAYER_REGEN_DISABLED which happens before
