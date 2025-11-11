@@ -155,7 +155,7 @@ function LM.ActionButton:ForceNewRandom(allowResummon)
 
     local button = self
     -- Delay briefly so the dismiss finishes before we click again.
-    C_Timer.After(0.1, function()
+    C_Timer.After(0.3, function()
         if InCombatLockdown() then
             LM.Debug("[%d] ForceNewRandom resummon skipped (combat after delay)", button.id)
             return
