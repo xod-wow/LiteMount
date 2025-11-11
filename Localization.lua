@@ -82,6 +82,7 @@ L.DRIVE                 = ACCESSIBILITY_DRIVE_LABEL
     L["LM_FLAG"] = "Flag"
     L["LM_FLAGS"] = "Flags"
     L["LM_FLIGHT_STYLE"] = "Flight Style"
+    L["LM_FORCE_RANDOM_RESUMMON"] = "Dismiss current mount before picking a different random one."
     L["LM_FRIEND_IN_GROUP"] = "Friend in group"
     L["LM_GATHERED_RECENTLY"] = "Gathered recently"
     L["LM_GROUND"] = "Ground"

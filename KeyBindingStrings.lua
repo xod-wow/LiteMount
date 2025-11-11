@@ -13,4 +13,4 @@ _G["BINDING_NAME_CLICK LM_B1:LeftButton"] = format('LiteMount %s %d', KEY_BINDIN
 _G["BINDING_NAME_CLICK LM_B2:LeftButton"] = format('LiteMount %s %d', KEY_BINDING, 2)
 _G["BINDING_NAME_CLICK LM_B3:LeftButton"] = format('LiteMount %s %s', KEY_BINDING, 3)
 _G["BINDING_NAME_CLICK LM_B4:LeftButton"] = format('LiteMount %s %s', KEY_BINDING, 4)
-_G["BINDING_NAME_LM_FORCE_NEW_RANDOM"] = "LiteMount force select new random mount"
+_G["BINDING_NAME_LM_FORCE_NEW_RANDOM"] = "LiteMount: Switch to a different random mount"
