@@ -88,18 +88,12 @@ local DefaultRules = DefaultRulesByProject[WOW_PROJECT_ID]
 
 local defaults = {
     char = {
-        unavailableMacro    = nil,
+        unavailableMacro    = "",
         useUnavailableMacro = false,
         combatMacro         = "",
         useCombatMacro      = false,
         debugEnabled        = false,
         uiDebugEnabled      = false,
-    },
-    class = {
-        unavailableMacro    = nil,
-        useUnavailableMacro = nil,
-        combatMacro         = nil,
-        useCombatMacro      = nil,
     },
     profile = {
         flagChanges         = { },
@@ -663,7 +657,7 @@ end
 ----------------------------------------------------------------------------]]--
 
 function LM.Options:GetOption(name)
-    for _, k in ipairs({ 'char', 'class', 'profile', 'global' }) do
+    for _, k in ipairs({ 'char', 'profile', 'global' }) do
         if defaults[k][name] ~= nil then
             return LM.db[k][name]
         end
@@ -671,7 +665,7 @@ function LM.Options:GetOption(name)
 end
 
 function LM.Options:GetOptionDefault(name)
-    for _, k in ipairs({ 'char', 'class', 'profile', 'global' }) do
+    for _, k in ipairs({ 'char', 'profile', 'global' }) do
         if defaults[k][name] then
             return defaults[k][name]
         end
@@ -679,7 +673,7 @@ function LM.Options:GetOptionDefault(name)
 end
 
 function LM.Options:SetOption(name, val)
-    for _, k in ipairs({ 'char', 'class', 'profile', 'global' }) do
+    for _, k in ipairs({ 'char', 'profile', 'global' }) do
         if defaults[k][name] ~= nil then
             if val == nil then val = defaults[k][name] end
             local valType, expectedType = type(val), type(defaults[k][name])
@@ -693,6 +687,31 @@ function LM.Options:SetOption(name, val)
         end
     end
     LM.PrintError("Bad option: %s", name)
+end
+
+function LM.Options:GetClassOption(class, name)
+    if class == 'PLAYER' then
+        return LM.db.char[name]
+    elseif class == UnitClassBase('player') then
+        return LM.db.class[name]
+    elseif LM.db.sv.class and LM.db.sv.class[class] then
+        return LM.db.sv.class[class][name]
+    end
+end
+
+function LM.Options:SetClassOption(class, name, val)
+    if class == 'PLAYER' then
+        LM.db.char[name] = val
+        LM.db.callbacks:Fire("OnOptionsModified")
+    elseif class == UnitClassBase('player') then
+        LM.db.class[name] = val
+        LM.db.callbacks:Fire("OnOptionsModified")
+    else
+        LM.db.sv.class = LM.db.sv.class or {}
+        LM.db.sv.class[class] = LM.db.sv.class[class] or {}
+        LM.db.sv.class[class][name] = val
+        LM.db.callbacks:Fire("OnOptionsModified")
+    end
 end
 
 

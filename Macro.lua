@@ -10,7 +10,8 @@ local _, LM = ...
 
 LM.Macro = { }
 
--- This is all poorly thought through but at least it's in one place.
+-- This is all poorly thought through but at least it's in one place. A great
+-- deal of this probably belongs in Options.
 
 local M_CAST_S  = "/cast %s"
 local M_CAST_KNOWN_S  = "/cast [known:%1] %1"
@@ -91,66 +92,13 @@ local DefaultCombatMacroByClass = {
 
 setmetatable(DefaultCombatMacroByClass, { __index = GetCombatMacroIndex })
 
-local function GetSettingsTable(class)
-    if class == 'PLAYER' then
-        return LM.db.char
-    elseif class == UnitClassBase('player') then
-        return LM.db.class
-    else
-        LM.db.sv.class = LM.db.sv.class or {}
-        LM.db.sv.class[class] = LM.db.sv.class[class] or {}
-        return LM.db.sv.class[class]
-    end
-end
-
-function LM.Macro:GetMacroOptionDefault(isCombat, class)
+-- This is reliant on DefaultXByClass['PLAYER'] being nil
+function LM.Macro:GetDefault(isCombat, class)
     if isCombat then
         return DefaultCombatMacroByClass[class]
     else
         return DefaultMacroByClass[class]
     end
-end
-
-function LM.Macro:GetEnabledOptionDefault(isCombat, class)
-    return false
-end
-
-function LM.Macro:GetMacroOption(isCombat, class)
-    local sv = GetSettingsTable(class)
-    if isCombat then
-        return sv.combatMacro
-    else
-        return sv.unavailableMacro
-    end
-end
-
-function LM.Macro:GetEnabledOption(isCombat, class)
-    local sv = GetSettingsTable(class)
-    if isCombat then
-        return ValueToBoolean(sv.useCombatMacro)
-    else
-        return ValueToBoolean(sv.useUnavailableMacro)
-    end
-end
-
-function LM.Macro:SetMacroOption(isCombat, class, text)
-    local sv = GetSettingsTable(class)
-    if isCombat then
-        sv.combatMacro = text
-    else
-        sv.unavailableMacro = text
-    end
-    LM.Options:NotifyChanged()
-end
-
-function LM.Macro:SetEnabledOption(isCombat, class, v)
-    local sv = GetSettingsTable(class)
-    if isCombat then
-        sv.useCombatMacro = ValueToBoolean(v) or nil
-    else
-        sv.useUnavailableMacro = ValueToBoolean(v) or nil
-    end
-    LM.Options:NotifyChanged()
 end
 
 function LM.Macro:GetMacro(isCombat)

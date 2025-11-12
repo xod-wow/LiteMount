@@ -24,20 +24,16 @@ LiteMountMacroEditBoxMixin = {}
 
 function LiteMountMacroEditBoxMixin:OnTextChanged(userInput)
     local parent = self:GetParent()
-    local c = strlen(self:GetText())
-    parent.Count:SetText(format(MACROFRAME_CHAR_LIMIT, c))
     local text = self:GetText()
-    local isCombat, class = LiteMountMacroPanel.selectedClass
+    local c = strlen(text)
+    parent.Count:SetText(format(MACROFRAME_CHAR_LIMIT, c))
     if LiteMountMacroPanel:IsDefaultMacro(text) then
         self:SetTextColor(0.5, 0.5, 0.5)
-        if userInput then
-            LiteMountMacroPanel:SetAppropriateMacro(nil)
-        end
     else
         self:SetTextColor(1, 1, 1)
-        if userInput then
-            LiteMountMacroPanel:SetAppropriateMacro(text)
-        end
+    end
+    if userInput then
+        LiteMountMacroPanel:WriteSettingsForTab()
     end
 end
 
@@ -46,7 +42,7 @@ end
 LiteMountMacroEnableButtonMixin = {}
 
 function LiteMountMacroEnableButtonMixin:OnClick()
-    LiteMountMacroPanel:SetAppropriateEnabled(self:GetChecked())
+    LiteMountMacroPanel:WriteSettingsForTab()
 end
 
 --[[------------------------------------------------------------------------]]--
@@ -61,61 +57,51 @@ end
 
 LiteMountMacroPanelMixin = {}
 
-local OptionKeyByTab = {
-    [1] = 'unavailableMacro',
-    [2] = 'combatMacro',
+local OptionKeysByTab = {
+    [1] = { 'unavailableMacro', 'useUnavailableMacro', L.LM_MACRO_EXP },
+    [2] = { 'combatMacro', 'useCombatMacro', L.LM_COMBAT_MACRO_EXP },
 }
 
 function LiteMountMacroPanelMixin:SetControl()
     self:Update()
 end
 
-function LiteMountMacroPanelMixin:GetAppropriateEnabled()
-    local isCombat = PanelTemplates_GetSelectedTab(self) == 2
-    return LM.Macro:GetEnabledOption(isCombat, self.selectedClass)
-        or LM.Macro:GetEnabledOptionDefault(isCombat, self.selectedClass)
+function LiteMountMacroPanelMixin:GetSettingsForTab()
+    local selectedTab = PanelTemplates_GetSelectedTab(self)
+    local macroKey, useKey, helpText = unpack(OptionKeysByTab[selectedTab])
+    local macro = LM.Options:GetClassOption(self.selectedClass, macroKey)
+    local use = LM.Options:GetClassOption(self.selectedClass, useKey)
+    if macro == nil then
+        local isCombat = selectedTab == 2
+        macro = LM.Macro:GetDefault(isCombat, self.selectedClass)
+    end
+    return macro, use, helpText
 end
 
-function LiteMountMacroPanelMixin:SetAppropriateEnabled(v)
-    local isCombat = PanelTemplates_GetSelectedTab(self) == 2
+function LiteMountMacroPanelMixin:WriteSettingsForTab()
+    local selectedTab = PanelTemplates_GetSelectedTab(self)
+    local macroKey, useKey = unpack(OptionKeysByTab[selectedTab])
+    local macro = self.Macro.EditBox:GetText()
+    if macro == "" or self:IsDefaultMacro(macro) then
+        macro = nil
+    end
+    local use = self.Macro.EnableButton:GetChecked() and true or nil
     self.isDirty = true
-    return LM.Macro:SetEnabledOption(isCombat, self.selectedClass, v)
-end
-
-function LiteMountMacroPanelMixin:GetAppropriateMacro()
-    local isCombat = PanelTemplates_GetSelectedTab(self) == 2
-    return LM.Macro:GetMacroOption(isCombat, self.selectedClass)
-        or LM.Macro:GetMacroOptionDefault(isCombat, self.selectedClass)
-end
-
-function LiteMountMacroPanelMixin:SetAppropriateMacro(text)
-    local isCombat = PanelTemplates_GetSelectedTab(self) == 2
-    self.isDirty = true
-    if text == "" then text = nil end
-    return LM.Macro:SetMacroOption(isCombat, self.selectedClass, text)
+    LM.Options:SetClassOption(self.selectedClass, macroKey, macro)
+    LM.Options:SetClassOption(self.selectedClass, useKey, use)
 end
 
 function LiteMountMacroPanelMixin:IsDefaultMacro(text)
     local isCombat = PanelTemplates_GetSelectedTab(self) == 2
-    local default = LM.Macro:GetMacroOptionDefault(isCombat, self.selectedClass)
+    local default = LM.Macro:GetDefault(isCombat, self.selectedClass)
     return text == default
 end
 
 function LiteMountMacroPanelMixin:Update()
-    local selectedTab = PanelTemplates_GetSelectedTab(self)
-    local optionKey = OptionKeyByTab[selectedTab]
-
-    local text = self:GetAppropriateMacro()
+    local text, isEnabled, helpText = self:GetSettingsForTab()
     self.Macro.EditBox:SetText(text or "")
-
-    local isEnabled = self:GetAppropriateEnabled()
     self.Macro.EnableButton:SetChecked(isEnabled)
-
-    if selectedTab == 1 then
-        self.Macro.ExplainText:SetText(L.LM_MACRO_EXP)
-    else
-        self.Macro.ExplainText:SetText(L.LM_COMBAT_MACRO_EXP)
-    end
+    self.Macro.ExplainText:SetText(helpText)
 
     local dp = CreateDataProvider(self.classMenu)
     self.Class.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
@@ -146,7 +132,12 @@ function LiteMountMacroPanelMixin:OnLoad()
 
     self.selectedClass = 'PLAYER'
 
-    self.Macro.DeleteButton:SetScript("OnClick", function () self:SetAppropriateMacro(nil) end)
+    self.Macro.DeleteButton:SetScript("OnClick",
+        function ()
+            self.Macro.EditBox:SetText("")
+            -- Need to call this directly because userInput is false in OnTextChanged
+            self:WriteSettingsForTab()
+        end)
 
     local view = CreateScrollBoxListLinearView(0, 0, 0, 0, 2)
     view:SetElementInitializer("LiteMountListSelectButtonTemplate",
