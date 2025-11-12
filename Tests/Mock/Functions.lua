@@ -25,7 +25,9 @@ function GetRunningMacro() end
 
 function UnitName() return MockState.playerName end
 
-function UnitClass() return MockState.playerClass end
+function UnitClass() return MockState.playerClassInfo end
+
+function UnitClassBase() return select(2, MockState.playerClassInfo) end
 
 function UnitFullName(unit) return MockState.playerName, MockState.realmName end
 
@@ -52,6 +54,7 @@ function UnitIsPVP(unit) return false end
 function UnitIsUnit(unit1, unit2) return unit1 == unit2 end
 
 function UnitSex(unit) return math.random(2) + 1 end
+function UnitOnTaxi(unit) return math.random() <= 0.5 end
 
 function GetLocale() return MockState.locale end
 
@@ -97,7 +100,7 @@ function IsStealthed()
     end
 end
 
-function IsResting() return math.random() < 0.5 end
+function IsResting() return math.random() <= 0.5 end
 
 function CanExitVehicle() return MockState.inVehicle end
 
@@ -108,6 +111,8 @@ function InCombatLockdown() return MockState.inCombat end
 function UnitLevel(unit) return MockState.playerLevel end
 
 function GetMaxLevelForExpansionLevel(expansion) return 70 end
+
+function IsMacClient() return math.random() <= 0.5 end
 
 local roles = { 'TANK', 'HEALER', 'DAMAGER' }
 
@@ -290,6 +295,14 @@ function GetValuesArray(t)
     local out = { }
     for _,v in pairs(t) do table.insert(out, v) end
     return out
+end
+
+function Accumulate(t)
+    local total = 0
+    for _, v in pairs(t) do
+        total = total + v
+    end
+    return total
 end
 
 function strsplit(sep, str)
