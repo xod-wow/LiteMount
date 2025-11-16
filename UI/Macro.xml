@@ -4,6 +4,19 @@
 
 <Script file="Macro.lua" />
 
+<Button name="LiteMountMacroListSelectButtonTemplate" inherits="LiteMountListSelectButtonTemplate" virtual="true">
+    <Layers>
+        <Layer level="ARTWORK">
+            <Texture parentKey="EnabledTexture" atlas="checkmark-minimal" hidden="true">
+                <Size x="16" y="16" />
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Text" relativePoint="RIGHT" x="2" />
+                </Anchors>
+            </Texture>
+        </Layer>
+    </Layers>
+</Button>
+
 <Button name="LiteMountMacroTabTemplate" inherits="PanelTopTabButtonTemplate" mixin="LiteMountMacroTabMixin" virtual="true">
     <Scripts>
         <OnClick method="OnClick" />

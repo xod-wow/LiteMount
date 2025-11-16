@@ -63,7 +63,9 @@ local OptionKeysByTab = {
 }
 
 function LiteMountMacroPanelMixin:SetControl()
-    self:Update()
+    if self:IsVisible() then
+        self:Update()
+    end
 end
 
 function LiteMountMacroPanelMixin:GetSettingsForTab()
@@ -97,13 +99,33 @@ function LiteMountMacroPanelMixin:IsDefaultMacro(text)
     return text == default
 end
 
+function LiteMountMacroPanelMixin:GenerateClassMenu()
+    local selectedTab = PanelTemplates_GetSelectedTab(self)
+    local _, useKey = unpack(OptionKeysByTab[selectedTab])
+
+    local classMenu = { }
+
+    for i = 1, GetNumClasses() do
+        local name, key, id = GetClassInfo(i)
+        local color = C_ClassColor.GetClassColor(key)
+        local enabled =  LM.Options:GetClassOption(key, useKey)
+        table.insert(classMenu, { name=name, key=key, id=id, color=color, enabled=enabled })
+    end
+    table.sort(classMenu, function (a, b) return a.name < b.name end)
+    local name = string.join('-', UnitFullName('player'))
+    local enabled = LM.Options:GetClassOption('PLAYER', useKey)
+    table.insert(classMenu, 1, { name=name, key='PLAYER', id=0, color=WHITE_FONT_COLOR, enabled=enabled })
+    -- GRAY, GREEN, HIGHLIGHT, ITEM_LEGENDARY, GOLD
+    return classMenu
+end
+
 function LiteMountMacroPanelMixin:Update()
     local text, isEnabled, helpText = self:GetSettingsForTab()
     self.Macro.EditBox:SetText(text or "")
     self.Macro.EnableButton:SetChecked(isEnabled)
     self.Macro.ExplainText:SetText(helpText)
 
-    local dp = CreateDataProvider(self.classMenu)
+    local dp = CreateDataProvider(self:GenerateClassMenu())
     self.Class.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 end
 
@@ -140,10 +162,11 @@ function LiteMountMacroPanelMixin:OnLoad()
         end)
 
     local view = CreateScrollBoxListLinearView(0, 0, 0, 0, 2)
-    view:SetElementInitializer("LiteMountListSelectButtonTemplate",
+    view:SetElementInitializer("LiteMountMacroListSelectButtonTemplate",
         function (button, elementData)
             local isSelected = self.selectedClass == elementData.key
             button.SelectedTexture:SetShown(isSelected)
+            button.EnabledTexture:SetShown(elementData.enabled)
             button:SetText(elementData.color:WrapTextInColorCode(elementData.name))
             button:SetScript('OnClick', function () self:SetClass(elementData.key) end)
         end)
@@ -153,18 +176,6 @@ function LiteMountMacroPanelMixin:OnLoad()
 end
 
 function LiteMountMacroPanelMixin:OnShow()
-    self.classMenu = { }
-
-    for i = 1, GetNumClasses() do
-        local name, key, id = GetClassInfo(i)
-        local color = C_ClassColor.GetClassColor(key)
-        table.insert(self.classMenu, { name=name, key=key, id=id, color=color })
-    end
-    table.sort(self.classMenu, function (a, b) return a.name < b.name end)
-    local playerName = string.join('-', UnitFullName('player'))
-    table.insert(self.classMenu, 1, { name=playerName, key='PLAYER', id=0, color=WHITE_FONT_COLOR })
-    -- GRAY, GREEN, HIGHLIGHT, ITEM_LEGENDARY, GOLD
-
     LiteMountOptionsPanel_OnShow(self)
 end
 
