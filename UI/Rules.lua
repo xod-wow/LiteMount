@@ -24,9 +24,9 @@ local function ReorderRulesFromDataProvider(dataProvider)
     local scroll = LiteMountRulesPanel.ScrollBox
     local oldRules = LM.Options:GetRules(scroll.tab)
     local newRules = {}
-    for i, elementData in dataProvider:EnumerateEntireRange() do
+    for i, node in dataProvider:EnumerateEntireRange() do
+        local elementData = node:GetData()
         newRules[i] = oldRules[elementData.index]
-        elementData.index = i
     end
     LM.Options:SetRules(scroll.tab, newRules)
     scroll.isDirty = true
@@ -43,13 +43,13 @@ function LiteMountRuleButtonMixin:OnEnter()
     end
 end
 
-function LiteMountRuleButtonMixin:Initialize(index, rule, compiledRule)
-    self.index = index
-    self.rule = rule
-    self.NumText:SetText(index)
-    if next(compiledRule.errors) then
+function LiteMountRuleButtonMixin:Initialize(elementData)
+    self.index = elementData.index
+    self.rule =  elementData.rule
+    self.NumText:SetText(elementData.index)
+    if next(elementData.compiledRule.errors) then
         self.Error:Show()
-        self.errorLines = compiledRule.errors
+        self.errorLines = elementData.compiledRule.errors
         self.Condition:ClearAllPoints()
         self.Condition:SetPoint("LEFT", self.Error, "RIGHT", 4, 0)
         self.Condition:SetPoint("RIGHT", self, "CENTER")
@@ -60,7 +60,7 @@ function LiteMountRuleButtonMixin:Initialize(index, rule, compiledRule)
         self.Condition:SetPoint("LEFT", self.NumText, "RIGHT", 4, 0)
         self.Condition:SetPoint("RIGHT", self, "CENTER")
     end
-    local conditions, action = compiledRule:ToDisplay()
+    local conditions, action = elementData.compiledRule:ToDisplay()
     self.Action:SetText(action)
     self.Condition:SetText(table.concat(conditions, '\n'))
     self.Selected:SetShown(self.rule == LiteMountRulesPanel.selectedRule)
@@ -83,16 +83,13 @@ function LiteMountRulesScrollMixin:RefreshRules()
     local buttonRuleSet = LM.Options:GetCompiledButtonRuleSet(self.tab)
     local isEnabled = buttonRuleSet:HasApplyRules()
 
-    local dp = CreateDataProvider()
+    local dp = CreateTreeDataProvider()
 
     if isEnabled then
         for i = 1, #rules do
             -- this is the elementData from SetElementInitializer
             dp:Insert({ index = i, rule = rules[i], compiledRule = ruleSet[i] })
         end
-    end
-
-    if isEnabled then
         self.Inactive:Hide()
         LiteMountRulesPanel.AddButton:Enable()
         LiteMountRulesPanel.DefaultsButton:Enable()
@@ -194,11 +191,12 @@ end
 function LiteMountRulesPanelMixin:OnLoad()
     self.BindingDropDown:SetupMenu(BindingGenerator)
 
-    local function ButtonInitializer(button, elementData)
-        button:Initialize(elementData.index, elementData.rule, elementData.compiledRule)
+    local function ButtonInitializer(button, node)
+        local elementData = node:GetData()
+        button:Initialize(elementData)
     end
 
-    local view = CreateScrollBoxListLinearView()
+    local view = CreateScrollBoxListTreeListView()
     view:SetElementInitializer("LiteMountRuleButtonTemplate", ButtonInitializer)
     ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
 
@@ -209,12 +207,13 @@ function LiteMountRulesPanelMixin:OnLoad()
 
     local templateInfo = C_XMLUtil.GetTemplateInfo("LiteMountRuleButtonTemplate")
 
-    local dragBehavior = ScrollUtil.InitDefaultLinearDragBehavior(self.ScrollBox)
+    local dragBehavior = ScrollUtil.InitDefaultTreeDragBehavior(self.ScrollBox)
     dragBehavior:SetReorderable(true)
     dragBehavior:SetAreaIntersectMargin(
         function (destinationElementData, sourceElementData, contextData)
             return templateInfo.height * 0.5
         end)
+    -- I think this is unused in TreeDragBehavior
     dragBehavior:SetDropPredicate(
         function (sourceElementData, contextData)
             return contextData.area ~= DragIntersectionArea.Inside
