@@ -366,6 +366,7 @@ end
 -- Overrides have 3 possible return values, true, false, nil (no override)
 local InstanceFlyableOverride = {
     [1662] = false,     -- Suramar campaign scenario
+    [1750] = false,     -- Azuremyst Isle
     [2275] = false,     -- Lesser Vision Vale of Eternal Twilight
     [2512] = true,      -- The Primalist Future
     [2549] =            -- Amirdrassil Raid
