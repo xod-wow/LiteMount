@@ -106,7 +106,6 @@ local defaults = {
         defaultPriority     = 1,
         priorityWeights     = { 1, 2, 6, 1 },
         randomKeepSeconds   = 0,
-        forceRandomResummon = true,
         instantOnlyMoving   = false,
         restoreForms        = false,
         announceViaChat     = false,
