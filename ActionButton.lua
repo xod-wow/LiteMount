@@ -125,7 +125,6 @@ function LM.ActionButton:ForceNewRandom()
     self.context.randomTime = nil
     self.context.forceSummon = nil
 
-
     return true
 end
 
