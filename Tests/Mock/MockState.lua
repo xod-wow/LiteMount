@@ -1,6 +1,6 @@
 local StateInfo = {
     playerName = 'Xodiv',
-    playerClass = 'Warrior',
+    playerClassInfo = { 'Warrior', 'WARRIOR', 1 },
     playerRace = 'NightElf',
     playerFactionGroup = 'Alliance',
     playerLevel = 120,

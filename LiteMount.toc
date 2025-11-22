@@ -1,10 +1,10 @@
-## Interface: 110205, 50502
+## Interface: 120000, 110205, 50502
 ## Title: LiteMount
 ## Version: @project-version@
 ## Author: Xodiv-Nagrand
 ## Email: mib@post.com
 ## IconTexture: 132247
-## OptionalDeps: AceDB-3.0, AceSerializer-3.0, CallbackHandler-1.0, LibDeflate, LibStub, LibUIDropDownMenu, MountsRarity-2.0
+## OptionalDeps: AceDB-3.0, AceSerializer-3.0, CallbackHandler-1.0, LibDeflate, LibStub, MountsRarity-2.0
 ## SavedVariables: LiteMountDB, LiteMountBackupDB
 ## X-Curse-Project-ID: 30359
 ## X-WoWI-ID: 26329

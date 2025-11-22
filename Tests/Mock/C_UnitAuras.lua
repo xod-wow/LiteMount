@@ -26,13 +26,13 @@ function C_UnitAuras.GetAuraDataBySpellName(unitToken, spellName, filter)
     end
 end
 
-function C_UnitAuras.GetPlayerAuraDataBySpellID(spellID, filter)
-    local tbl = filter and filter:find('HARMFUL') and MockState.debuffs or MockState.buffs
-
-    for id in pairs(tbl) do
-        if id == spellID then
-            local spellName = C_Spell.GetSpellName(id)
-            return { name = name, spellId = id, }
+function C_UnitAuras.GetPlayerAuraBySpellID(spellID)
+    for _, tbl in ipairs({ MockState.debuffs or MockState.buffs }) do
+        for id in pairs(tbl) do
+            if id == spellID then
+                local spellName = C_Spell.GetSpellName(id)
+                return { name = name, spellId = id, }
+            end
         end
     end
 end

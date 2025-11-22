@@ -80,3 +80,11 @@ function C_MountJournal.GetAppliedMountEquipmentID()
     -- Angler's Water Striders
     return 168416
 end
+
+function C_MountJournal.GetDynamicFlightModeSpellID()
+    return 436854
+end
+
+function C_MountJournal. IsDragonridingUnlocked()
+    return math.random() <= 0.05
+end
