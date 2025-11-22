@@ -32,13 +32,6 @@ function LiteMountGeneralPanelMixin:Register()
         self.layout:AddInitializer(initializer)
     end
 
-    do
-        local bindingName = "LM_FORCE_NEW_RANDOM"
-        local bindingIndex = C_KeyBindings.GetBindingIndex(bindingName)
-        local initializer = CreateKeybindingEntryInitializer(bindingIndex, true)
-        self.layout:AddInitializer(initializer)
-    end
-
     -- Section : Settings --
     self.layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(SETTINGS))
 
@@ -160,21 +153,6 @@ function LiteMountGeneralPanelMixin:Register()
             SetValue
         )
         local initializer = Settings.CreateControlInitializer(dropdownTemplate, setting, GetOptions)
-        self.layout:AddInitializer(initializer)
-    end
-
-    -- Force New Random Resummon --
-    do
-        local setting = Settings.RegisterProxySetting(
-            self.category,
-            "LiteMountForceRandomResummon",
-            Settings.VarType.Boolean,
-            L.LM_FORCE_NEW_RANDOM_RESUMMON,
-            LM.Options:GetOptionDefault("forceRandomResummon"),
-            function () return LM.Options:GetOption("forceRandomResummon") end,
-            function (v) LM.Options:SetOption("forceRandomResummon", v) end
-        )
-        local initializer = Settings.CreateControlInitializer(checkboxTemplate, setting)
         self.layout:AddInitializer(initializer)
     end
 
