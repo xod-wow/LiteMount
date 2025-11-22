@@ -708,6 +708,33 @@ ACTIONS['Stop'] = {
         end
 }
 
+ACTIONS['ForceNewRandom'] = {
+    name = L.LM_FORCE_NEW_RANDOM_ACTION,
+    description = L.LM_FORCE_NEW_RANDOM_DESCRIPTION,
+    argType = 'expression',
+    handler =
+        function (args)
+            local buttonList = (args and #args > 0) and args:ParseList() or nil
+            if not buttonList then
+                for idx, actionButton in ipairs(LiteMount.actions) do
+                    actionButton:ForceNewRandom()
+                    LM.Debug("  * forced new random selection for button %s", tostring(idx))
+                end
+            else
+                for _, buttonNum in ipairs(buttonList) do
+                    local idx = tonumber(buttonNum)
+                    local button = idx and LiteMount.actions[idx]
+                    if button then
+                        button:ForceNewRandom()
+                        LM.Debug("  * forced new random selection for button %s", buttonNum)
+                    else
+                        LM.Debug("  * Invalid ForceNewRandom arg '%s'", buttonNum)
+                    end
+                end
+            end
+        end
+}
+
 local function IsCastableItem(itemID)
     if not itemID then
         return false
