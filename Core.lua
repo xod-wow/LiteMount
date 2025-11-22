@@ -67,21 +67,6 @@ function LiteMount:OnMountSummoned()
     end
 end
 
-function LiteMount:ForceNewRandomMount()
-    if not self.actions then
-        return
-    end
-
-    local allowResummon = true
-    for _, actionButton in ipairs(self.actions) do
-        if actionButton.ForceNewRandom then
-            if actionButton:ForceNewRandom(allowResummon) and allowResummon then
-                allowResummon = false
-            end
-        end
-    end
-end
-
 function LiteMount:Initialize()
 
     -- Do this first because LM.Debug doesn't work until it's loaded.
