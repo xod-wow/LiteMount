@@ -55,6 +55,7 @@ print_join () {
         'select * from MountCombined;'
 }
 
+rm -f $DBFILE
 fetch_db2
 fetch_listfile
 make_combined_view
