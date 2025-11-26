@@ -644,11 +644,6 @@ end
 local function CombatHandlerOverride(args, context)
     -- For speed these should try to return ASAP.
 
-    local id, name = LM.Environment:GetEncounterInfo()
-    if id and name then
-        LM.Debug("  * matched encounter %s (%d)", name, id)
-    end
-
     -- It seems obvious that you should use the encounter info here, but
     -- if you are the one who pulled it's not set yet and doesn't work.
 

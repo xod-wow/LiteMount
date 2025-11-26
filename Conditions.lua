@@ -420,21 +420,6 @@ CONDITIONS["elapsed"] = {
         end
 }
 
--- This is here in case I want to use it in the combat handler code, it doesn't work
--- for player actions because you're in combat at the time. In general it's not reliable
--- because if you are the first hit you will start combat before the encounter info is
--- available.
-
-CONDITIONS["encounter"] = {
-    handler =
-        function (cond, context, v)
-            v = tonumber(v)
-            if v then
-                return LM.Environment:GetEncounterInfo() == v
-            end
-        end
-}
-
 CONDITIONS["equipped"] = {
     name = L.LM_ITEM_EQUIPPED,
     textentry = true,
@@ -1745,19 +1730,17 @@ local function GetTransmogOutfitsMenu()
 end
 
 local function GetTransmogSetsMenu()
-    C_AddOns.LoadAddOn("Blizzard_EncounterJournal")
     local byExpansion = { }
-    for _,info in ipairs(C_TransmogSets.GetUsableSets()) do
-        local expansion = info.expansionID + 1
-        if not byExpansion[expansion] then
-            local name = EJ_GetTierInfo(expansion) or NONE
-            byExpansion[expansion] = { text = name }
+    for _,info in ipairs(C_TransmogSets.GetAllSets()) do
+        if not byExpansion[info.expansionID] then
+            local name = GetExpansionName(info.expansionID)
+            byExpansion[info.expansionID] = { text = name }
         end
         local text = info.name
         if info.description then
             text = text .. " (" .. info.description .. ")"
         end
-        table.insert(byExpansion[expansion], { val = "xmog:"..info.setID, text = text })
+        table.insert(byExpansion[info.expansionID], { val = "xmog:"..info.setID, text = text })
     end
     local sets = { nosort = true, text = WARDROBE_SETS }
     for _,t in LM.PairsByKeys(byExpansion) do

@@ -36,9 +36,7 @@ function LM.Environment:Initialize()
     self:RegisterEvent("PLAYER_STARTED_MOVING")
     self:RegisterEvent("PLAYER_STOPPED_MOVING")
     self:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
-    self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
-    self:RegisterEvent("ENCOUNTER_START")
-    self:RegisterEvent("ENCOUNTER_END")
+    self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player")
 end
 
 -- I hate OnUpdate handlers but there are just no good events for determining
@@ -169,52 +167,12 @@ function LM.Environment:ZONE_CHANGED_NEW_AREA()
     LM.Options:RecordInstance()
 end
 
--- encounterID, encounterName, difficultyID, groupSize
-function LM.Environment:ENCOUNTER_START(event, ...)
-    LM.Debug("Encounter started: %d (%s)", ...)
-    self.currentEncounter = { ... }
-end
-
-function LM.Environment:ENCOUNTER_END(event, ...)
-    self.currentEncounter = nil
-end
-
--- If you do the pulling then you get ENCOUNTER_START after PLAYER_REGEN_DISABLED
--- and the combat setup doesn't work. Hopefully in this case you are targeting the
--- boss so we can fake it up. This is pretty much all for Tindral Sageswift and I
--- hope never gets needed again.
-
-local function GetUnitNPCID(unit)
-    local guid = UnitGUID(unit)
-    if guid then
-        local _, _, _, _, _, id = strsplit('-', guid)
-        -- No check for unitType because id will be nil and tonumber(nil) == nil
-        return tonumber(id)
-    end
-end
-
-local EncounterByNPCID = {
-    -- Tindral Sageswift, Amirdrassil (Dragonflight)
-    [209539] = 2786,
-}
-
-function LM.Environment:GetEncounterInfo()
-    if self.currentEncounter then
-        return unpack(self.currentEncounter)
-    end
-    local npcid = GetUnitNPCID('target')
-    if npcid and EncounterByNPCID[npcid] then
-        local name = UnitName('target')
-        local _, _, difficultyID, _, _, _, _, _, groupSize = GetInstanceInfo()
-        return EncounterByNPCID[npcid], name, difficultyID, groupSize
-    end
-end
-
 local herbSpellName = C_Spell.GetSpellName(2366)
 local mineSpellName = C_Spell.GetSpellName(2575)
 -- local mineSpellName2 = C_Spell.GetSpellName(195122)
 
 function LM.Environment:UNIT_SPELLCAST_SUCCEEDED(ev, unit, guid, spellID)
+    -- Strictly speaking this check isn't needed because of RegisterUnitEvent
     if unit == 'player' then
         local spellName = C_Spell.GetSpellName(spellID)
         if spellName == herbSpellName then
