@@ -49,9 +49,7 @@ function LM.Drive.IsUsable()
     end
 
     -- Spell isn't overridden if you're in the mount, but obviously it's usable.
-
-    local name = C_Spell.GetSpellName(LM.SPELL.G_99_BREAKNECK)
-    if LM.UnitAura('player', name) then
+    if GetOverrideBarSkin() == 534041 then
         return true
     end
 
