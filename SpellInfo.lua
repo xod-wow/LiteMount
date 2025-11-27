@@ -298,6 +298,8 @@ do
     end
 end
 
+local issecretvalue = issecretvalue or function () return false end
+
 function LM.UnitAura(unit, aura, filter)
     local i = 1
     while true do
@@ -305,7 +307,10 @@ function LM.UnitAura(unit, aura, filter)
         if not auraInfo then
             return
         end
-        if auraInfo.name == aura or auraInfo.spellId == tonumber(aura) then
+        if not issecretvalue(auraInfo.name) and auraInfo.name == aura then
+            return auraInfo
+        end
+        if not issecretvalue(auraInfo.spellId) and auraInfo.spellId == tonumber(aura) then
             return auraInfo
         end
         i = i + 1
