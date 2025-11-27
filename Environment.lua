@@ -104,7 +104,7 @@ end
 
 function LM.Environment:IsPhaseDiving()
     if WOW_PROJECT_ID == 1 then
-        return C_UnitAuras.GetPlayerAuraBySpellID(1214374) ~= nil
+        return LM.UnitAura('player', 1214374) ~= nil
     end
 end
 
