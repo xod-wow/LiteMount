@@ -419,12 +419,18 @@ local function MatchMountToBuff(m, buffNames)
     if spellName and buffNames[spellName] then return true end
 end
 
+local issecretvalue = issecretvalue or function () return false end
+
 function LM.MountRegistry:GetMountFromUnitAura(unitid)
     local buffNames = { }
     local i = 1
     while true do
         local auraInfo = C_UnitAuras.GetAuraDataByIndex(unitid, i)
-        if auraInfo then buffNames[auraInfo.name] = true else break end
+        if auraInfo == nil then
+            break
+        elseif not issecretvalue(auraInfo.name) then
+            buffNames[auraInfo.name] = true
+        end
         i = i + 1
     end
     return self.mounts:Find(MatchMountToBuff, buffNames)
@@ -439,7 +445,11 @@ function LM.MountRegistry:GetActiveMount()
     local i = 1
     while true do
         local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
-        if auraInfo then buffIDs[auraInfo.spellId] = true else break end
+        if auraInfo == nil then
+            break
+        elseif not issecretvalue(auraInfo.spellId) then
+            buffIDs[auraInfo.spellId] = true
+        end
         i = i + 1
     end
     return self.mounts:Find(function (m) return m:IsActive(buffIDs) end)
