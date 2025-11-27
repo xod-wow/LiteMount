@@ -18,10 +18,10 @@ function LM.GhostWolf:IsCancelable()
 end
 
 function LM.GhostWolf:IsCastable()
-    if LM.UnitAura('player', self.spellID) then
-        return false
-    end
-    return LM.Spell.IsCastable(self)
+    -- Not castable if we are already in ghost wolf form. Assumption is that
+    -- if the spell is castable then you are a shaman with ghost wolf, and
+    -- since there is only one form GetShapeshiftForm tests if you're in it.
+    return LM.Spell.IsCastable(self) and GetShapeshiftForm(true) == 0
 end
 
 function LM.GhostWolf:IsHidden()
