@@ -15,6 +15,8 @@ local C_Spell = LM.C_Spell or C_Spell
 LM.Journal = setmetatable({ }, LM.Mount)
 LM.Journal.__index = LM.Journal
 
+local Env = LM.Environment
+
 --  [1] name,
 --  [2] spellID,
 --  [3] icon,
@@ -174,16 +176,18 @@ function LM.Journal:IsCastable()
     if not C_Spell.IsSpellUsable(self.spellID) then
         return false
     end
+
     -- Phase diving is weird. You can mount most mounts, but it turns them all
     -- into Phase-Lost Slateback afterwards, kind of the same way the holly
     -- does at Xmas time.
-    if LM.Environment:IsPhaseDiving() then
+    if Env.isPhaseDiving then
         if NotUsableInPhaseDiving[self.mountID] then
             return false
-        elseif not LM.Environment:CanMountInPhaseDiving() then
+        elseif not Env.canMountInPhaseDiving then
             return false
         end
     end
+
     return LM.Mount.IsCastable(self)
 end
 
@@ -248,8 +252,8 @@ function LM.Journal:GetCastAction(context)
     -- which need to be cancelled. Unfortunately this overrides preX but can't
     -- do anything about it.
 
-    local druidFormID, druidFormSpellInfo = LM.Environment:GetDruidForm()
-    local needsCancelForm = NeedsCancelFormIDs[druidFormID]
+    local info = Env.druidFormInfo
+    local needsCancelForm = info and NeedsCancelFormIDs[info.formID]
 
     if context and context.preCast and not needsCancelForm then
         local act = LM.SecureAction:Spell(context.preCast)
@@ -266,7 +270,7 @@ function LM.Journal:GetCastAction(context)
     if forceSummonByID then
         local act
         if needsCancelForm then
-            act = LM.SecureAction:CancelAura(druidFormSpellInfo.name)
+            act = LM.SecureAction:CancelAura(info.name)
         else
             act = LM.SecureAction:NoAction()
         end

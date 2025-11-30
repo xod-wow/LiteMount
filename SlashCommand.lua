@@ -10,6 +10,8 @@
 
 local _, LM = ...
 
+local Env = LM.Environment
+
 local L = LM.Localize
 
 -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
@@ -105,7 +107,7 @@ COMMANDS['priority'] =
 COMMANDS['location'] =
     function ()
         LM.Print(LOCATION_COLON)
-        for _,line in ipairs(LM.Environment:GetLocation()) do
+        for _,line in ipairs(Env:GetLocation()) do
             LM.Print("  " .. line)
         end
     end
@@ -113,7 +115,7 @@ COMMANDS['location'] =
 COMMANDS['maps'] =
     function (argstr, ...)
         local str = table.concat({ ... }, ' ')
-        for _,line in ipairs(LM.Environment:GetMaps(str)) do
+        for _,line in ipairs(Env:GetMaps(str)) do
             LM.Print(line)
         end
     end
@@ -121,7 +123,7 @@ COMMANDS['maps'] =
 COMMANDS['continents'] =
     function (argstr, ...)
         local str = table.concat({ ... }, ' ')
-        for _,line in ipairs(LM.Environment:GetContinents(str)) do
+        for _,line in ipairs(Env:GetContinents(str)) do
             LM.Print(line)
         end
     end
@@ -165,7 +167,7 @@ COMMANDS['group'] =
 
 COMMANDS['playermodel'] =
     function ()
-        LM.Print("Player model file ID: " .. LM.Environment:GetPlayerModel())
+        LM.Print("Player model file ID: " .. Env:GetPlayerModel())
     end
 
 COMMANDS['profile'] =
@@ -219,7 +221,7 @@ COMMANDS['uidebug'] =
 
 COMMANDS['savebtn'] =
     function ()
-        LM.Environment:SaveMouseButtonClicked()
+        Env:SaveMouseButtonClicked()
     end
 
 --@debug@

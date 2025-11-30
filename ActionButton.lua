@@ -60,6 +60,7 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     end
 
     LM.MountRegistry:RefreshMounts()
+    LM.Environment:RefreshState()
 
     -- Re-randomize if it's time, and update the last mount. Previously I was just
     -- relying on the random seed for the persistence, but "least summoned" isn't

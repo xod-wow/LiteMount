@@ -8,6 +8,8 @@
 
 local _, LM = ...
 
+local Env = LM.Environment
+
 LM.RunningWild = setmetatable({ }, LM.Spell)
 LM.RunningWild.__index = LM.RunningWild
 
@@ -21,9 +23,8 @@ local worgenPlayerModels = {
 -- Running Wild doesn't work if you're shapeshifted in any way.
 
 function LM.RunningWild:IsCastable()
-    local id = LM.Environment:GetPlayerModel()
-    return worgenPlayerModels[id]
-        and LM.Environment:KnowsRidingSkill()
+    return worgenPlayerModels[Env.playerModel]
+        and Env.knowsRidingSkill
         and LM.Spell.IsCastable(self)
 end
 

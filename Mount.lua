@@ -10,6 +10,8 @@
 
 local _, LM = ...
 
+local Env = LM.Environment
+
 local C_Spell = LM.C_Spell or C_Spell
 
 local L = LM.Localize
@@ -213,13 +215,13 @@ end
 function LM.Mount:IsCastable()
     local spellID = C_Spell.GetOverrideSpell(self.spellID)
     local info = C_Spell.GetSpellInfo(spellID)
-    if LM.Environment:IsMovingOrFalling() then
+    if Env.isMovingOrFalling then
         if info.castTime > 0 then return false end
     elseif LM.Options:GetOption('instantOnlyMoving') then
         if info.castTime == 0 then return false end
     end
     -- This is so annoying, the performance impact of having to check this forever
-    if LM.Environment:IsTheMaw() then
+    if Env.isTheMaw then
         if not self:IsMawCastable() then return false end
     end
     return true
