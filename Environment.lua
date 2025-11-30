@@ -73,11 +73,12 @@ local StateUpdateFunctions = {
             -- "Orbs of Power", the third node unlock in the Reshii Wraps talent tree
             if WOW_PROJECT_ID == 1 then
                 local configID = C_Traits.GetConfigIDByTreeID(1115)
-                local nodeInfo = C_Traits.GetNodeInfo(configID, 105869)
-                return nodeInfo.currentRank == 1
-            else
-                return false
+                if configID then
+                    local nodeInfo = C_Traits.GetNodeInfo(configID, 105869)
+                    return nodeInfo and nodeInfo.currentRank == 1
+                end
             end
+            return false
         end,
     druidFormInfo =
         function ()
@@ -92,9 +93,8 @@ local StateUpdateFunctions = {
                         return info
                     end
                 end
-            else
-                return {}
             end
+            return {}
         end,
     flightStyle =
         function (self)
@@ -153,9 +153,8 @@ local StateUpdateFunctions = {
 
                 -- Otherwise, The Maw is just zones in instance 2222
                 return self:IsMapInPath(1543)
-            else
-                return false
             end
+            return false
         end,
     jumpTime =
         function (self)
