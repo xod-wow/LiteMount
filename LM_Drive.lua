@@ -60,7 +60,7 @@ function LM.Drive.IsUsable()
     -- also shows wrongly. Not sure of the exact circumstances but the two times
     -- I've triggered it have been to do with raid group.
 
-    if LM.Environment:InInstance(2769) then
+    if LM.Environment:IsInInstance(2769) then
         return true
     end
 

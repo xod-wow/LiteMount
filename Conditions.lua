@@ -404,7 +404,7 @@ CONDITIONS["driving"] = {
         function (cond, context)
             -- Only one D.R.I.V.E. mount so far. Maybe in the future Blizzard will
             -- add IsDriving(), otherwise it'll be vehicle UI detection of some kind.
-            return LM.UnitAura('player', LM.SPELL.G_99_BREAKNECK) ~= nil
+            return Env.playerBuffIDs[LM.SPELL.G_99_BREAKNECK] or false
         end,
 }
 
@@ -1639,15 +1639,15 @@ CONDITIONS["waterwalking"] = {
             end
 
             -- Water Walking (546)
-            if LM.UnitAura('player', 546) then
+            if Env.playerBuffIds[546] then
                 return true
             end
             -- Elixir of Water Walking (11319)
-            if LM.UnitAura('player', 11319) then
+            if Env.playerBuffIds[11319] then
                 return true
             end
             --  Path of Frost (3714)
-            if LM.UnitAura('player', 3714) then
+            if Env.playerBuffIds[3714] then
                 return true
             end
         end

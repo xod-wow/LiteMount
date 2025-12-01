@@ -17,6 +17,8 @@ local C_Spell = LM.C_Spell or C_Spell
 LM.Environment = LM.CreateAutoEventFrame("Frame")
 LM.Environment:RegisterEvent("PLAYER_LOGIN")
 
+local issecretvalue = issecretvalue or function () return false end
+
 function LM.Environment:Initialize()
     self:InitializeHolidays()
     self:UpdateSwimTimes()
@@ -134,8 +136,8 @@ local StateUpdateFunctions = {
             return (GetUnitSpeed("player") > 0 or IsFalling())
         end,
     isPhaseDiving =
-        function ()
-            return WOW_PROJECT_ID == 1 and LM.UnitAura('player', 1214374) ~= nil
+        function (self)
+            return WOW_PROJECT_ID == 1 and self.playerBuffIDs[1214374] ~= nil
         end,
     isTheMaw =
         function (self)
@@ -176,6 +178,36 @@ local StateUpdateFunctions = {
     mineTime =
         function (self)
             return self.lastMineTime or 0
+        end,
+    playerBuffIDs =
+        function ()
+            local buffIDs = {}
+            local i = 1
+            while true do
+                local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
+                if auraInfo == nil then
+                    break
+                elseif not issecretvalue(auraInfo.spellId) then
+                    buffIDs[auraInfo.spellId] = true
+                end
+                i = i + 1
+            end
+            return buffIDs
+        end,
+    playerDebuffIDs =
+        function ()
+            local debuffIDs = {}
+            local i = 1
+            while true do
+                local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i, 'HARMFUL')
+                if auraInfo == nil then
+                    break
+                elseif not issecretvalue(auraInfo.spellId) then
+                    debuffIDs[auraInfo.spellId] = true
+                end
+                i = i + 1
+            end
+            return debuffIDs
         end,
     playerModel =
         function (self)
@@ -254,7 +286,6 @@ function LM.Environment:UPDATE_SHAPESHIFT_FORM()
     end
 end
 
-
 function LM.Environment:MapIsMap(a, b, checkGroup)
     if a == b then
         return true
@@ -302,7 +333,7 @@ function LM.Environment:IsMapInPath(mapID, checkGroup)
     return false
 end
 
-function LM.Environment:InInstance(...)
+function LM.Environment:IsInInstance(...)
     local currentID = select(8, GetInstanceInfo())
     for i = 1, select('#', ...) do
         local id = select(i, ...)
@@ -362,12 +393,12 @@ local InstanceFlyableOverride = {
     [2275] = false,     -- Lesser Vision Vale of Eternal Twilight
     [2512] = true,      -- The Primalist Future
     [2549] =            -- Amirdrassil Raid
-        function ()
+        function (self)
             -- Skyriding debuff Blessing of the Emerald Dream (429226)
             -- This is an approximation, it doesn't make the area skyriding
             -- it just forces the journal skyriding mounts to work. Notably
             -- Soar does not work with it, so there is a hack there too.
-            if LM.UnitAura('player', 429226, 'HARMFUL') then return true end
+            if self.playerDebuffIDs[429226] then return true end
         end,
     [2597] = false,     -- Zaralek Caverns - Chapter 1 Scenario
                         -- The debuff "Hostile Airways" (406608) but it's always up
@@ -378,7 +409,7 @@ function LM.Environment:GetFlyableOverride()
     local instanceID = select(8, GetInstanceInfo())
     local override = InstanceFlyableOverride[instanceID]
     if type(override) == 'function' then
-        local value = override()
+        local value = override(self)
         if value ~= nil then return value end
     else
         if override ~= nil then return override end
@@ -394,26 +425,26 @@ function LM.Environment:IsFlyableArea()
 
     if false and WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC then
         -- Northrend requires Cold Weather Flying
-        if self:InInstance(571) then
+        if self:IsInInstance(571) then
             if not IsPlayerSpell(54197) then
                 return false
             end
         end
         -- Eastern Kingdoms, Kalimdor and Deepholm require Flight Master's License
-        if self:InInstance(0, 1, 646) then
+        if self:IsInInstance(0, 1, 646) then
             if not IsPlayerSpell(90267) then
                 return false
             end
         end
         -- Pandaria requires Wisdom of the Four Winds
-        if self:InInstance(870) then
+        if self:IsInInstance(870) then
             if not IsPlayerSpell(115913) then
                 return false
             end
         end
     end
 
-    if self:InInstance(2552, 2601, 2738) then
+    if self:IsInInstance(2552, 2601, 2738) then
         -- In Khaz Algar (Surface) (2552), Khaz Algar (2601) and K'aresh (2739)
         -- before unlocking Steady Flight, IsFlyableArea() is false and I don't
         -- know of a check to see if Skyriding would work.
@@ -436,7 +467,7 @@ function LM.Environment:IsFlyableArea()
     -- of this might be different if you never unlocked Steady Flight on your
     -- account.
 
-    if PlayerIsTimerunning and PlayerIsTimerunning() and LM.UnitAura('player', 1213439) then
+    if PlayerIsTimerunning and PlayerIsTimerunning() and self.playerBuffIDs[1213439] then
         local _, flightStyle = self:GetFlightStyle()
         if flightStyle == 'skyriding' and not C_QuestLog.IsQuestFlaggedCompleted(89416) then
             return false
@@ -452,7 +483,7 @@ function LM.Environment:IsFlyableArea()
     end
 
     -- TWW intro area has this debuff preventing flying
-    if LM.UnitAura('player', 456486, 'HARMFUL') then
+    if self.playerDebuffIDs[456486] then
         return false
     end
 
@@ -791,12 +822,13 @@ function LM.Environment:ClearMouseButtonClicked()
     self.mouseButtonClicked = nil
 end
 
-function LM.Environment:GetMouseButtonClicked()
-    return self.mouseButtonClicked
-end
-
 function LM.Environment:RefreshState()
+    -- Update first so the other updaters can use them.
+    self.playerBuffIDs = StateUpdateFunctions.playerBuffIDs(self)
+    self.playerDebuffIDs = StateUpdateFunctions.playerDebuffIDs(self)
     for k, f in pairs(StateUpdateFunctions) do
-        self[k] = f(self)
+        if k ~= 'playerBuffIDs' and k ~= 'playerDebuffIDs' then
+            self[k] = f(self)
+        end
     end
 end

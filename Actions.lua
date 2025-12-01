@@ -659,7 +659,7 @@ local function CombatHandlerOverride(args, context)
     end
 
     -- Dimensius, Manaforge Omega raid (TWW)
-    if LM.Environment:InInstance(2810) then
+    if LM.Environment:IsInInstance(2810) then
         local mapID = C_Map.GetBestMapForUnit('player')
         if mapID >= 2467 and mapID <= 2470 then
             return GetCombatMountAction(context, 'DRAGONRIDING')
@@ -667,7 +667,7 @@ local function CombatHandlerOverride(args, context)
     end
 
     -- The Dawnbreaker dungeon (The War Within)
-    if LM.Environment:InInstance(2662) then
+    if LM.Environment:IsInInstance(2662) then
         return GetCombatMountAction(context, 'DRAGONRIDING')
     end
 end
