@@ -138,13 +138,9 @@ function LM.MountList:Shuffle()
     end
 end
 
-function LM.MountList:SimpleRandom(r)
+function LM.MountList:SimpleRandom()
     if #self > 0 then
-        if r then
-            r = math.ceil(r * #self)
-        else
-            r = math.random(#self)
-        end
+        local r = math.random(#self)
         return self[r]
     end
 end
@@ -218,17 +214,14 @@ function LM.MountList:LFUWeights()
     return weights
 end
 
--- Second return value is 'true' if all weights were zero, to allow
--- a different error message.
-
-function LM.MountList:WeightedRandom(weights, r)
+function LM.MountList:WeightedRandom(weights)
     local total = Accumulate(weights)
     if total == 0 then
         LM.Debug('  * WeightedRandom n=%d all weights 0', #self)
-        return nil, true
+        return nil
     end
 
-    local cutoff = (r or math.random()) * total
+    local cutoff = math.random() * total
 
     local t = 0
     for i = 1, #self do
@@ -244,19 +237,19 @@ function LM.MountList:WeightedRandom(weights, r)
     end
 end
 
-function LM.MountList:Random(r, style)
+function LM.MountList:Random(style)
     if #self == 0 then return end
     if style == 'Priority' then
         local weights = self:PriorityWeights()
-        return self:WeightedRandom(weights, r)
+        return self:WeightedRandom(weights)
     elseif style == 'Rarity' then
         local weights = self:RarityWeights()
-        return self:WeightedRandom(weights, r)
+        return self:WeightedRandom(weights)
     elseif style == 'LeastUsed' then
         local weights = self:LFUWeights()
-        return self:WeightedRandom(weights, r)
+        return self:WeightedRandom(weights)
     else
-        return self:SimpleRandom(r)
+        return self:SimpleRandom()
     end
 end
 

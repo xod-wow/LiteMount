@@ -62,16 +62,16 @@ function LM.ActionButton:PreClick(inputButton, isDown)
         return
     end
 
-    -- Re-randomize if it's time, and update the last mount. Previously I was just
-    -- relying on the random seed for the persistence, but "least summoned" isn't
-    -- random. On the other hand, the seed is better because it will pick the same
-    -- mount from each different set. So, now I have both I guess.
+    -- Update the last mount if it's time. Previously I was relying on the random
+    -- seed for the persistence, but "least summoned" isn't random.
+
+    -- XXX FIXME XXX doesn't work because resets RandomTime even if we didn't mount
+    -- and then we go back to the previously summoned mount for another keepSeconds.
 
     local keepRandomForSeconds = LM.Options:GetOption('randomKeepSeconds')
     if GetTime() - (self.context.randomTime or 0) > keepRandomForSeconds then
-        self.context.random = math.random()
-        self.context.randomTime = GetTime()
         self.context.forceSummon = nil
+        self.context.randomTime = GetTime()
     else
         -- Note, can't store objects in context, they don't survive Clone()
         local lastSummonedMount = LM.MountRegistry:GetLastSummoned()
@@ -120,12 +120,8 @@ function LM.ActionButton:PostClick(inputButton, isDown)
 end
 
 function LM.ActionButton:ForceNewRandom()
-    -- Ensure the next PreClick picks a fresh random value regardless of persistence
-    self.context.random = nil
+    -- Ensure the next PreClick picks a fresh mount regardless of persistence
     self.context.randomTime = nil
-    self.context.forceSummon = nil
-
-    return true
 end
 
 -- Combat actions trigger on PLAYER_REGEN_DISABLED which happens before
