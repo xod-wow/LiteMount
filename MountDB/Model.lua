@@ -72,6 +72,7 @@ Model._AUTO_ = {
     [279611] = true, -- Skullripper
     [341821] = true, -- Snowstorm
     [259202] = true, -- Starcursed Voidstrider
+   [1255246] = true, -- Starspark Netherdrake
     [454682] = true, -- Startouched Furline
     [308250] = true, -- Stormpike Battle Ram
     [245723] = true, -- Stormwind Skychaser
