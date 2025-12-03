@@ -665,8 +665,8 @@ CONDITIONS["gather"] = {
     args = true,
     handler =
         function (cond, context, what, n)
-            local sinceHerb = GetTime() - Env.herbTime
-            local sinceMine = GetTime() - Env.mineTime
+            local sinceHerb = GetTime() - (Env.herbTime or 0)
+            local sinceMine = GetTime() - (Env.mineTime or 0)
             n = tonumber(n) or 30
             if what == "herb" then
                 return sinceHerb < n
@@ -1639,15 +1639,15 @@ CONDITIONS["waterwalking"] = {
             end
 
             -- Water Walking (546)
-            if Env.playerBuffIds[546] then
+            if Env.playerBuffIDs[546] then
                 return true
             end
             -- Elixir of Water Walking (11319)
-            if Env.playerBuffIds[11319] then
+            if Env.playerBuffIDs[11319] then
                 return true
             end
             --  Path of Frost (3714)
-            if Env.playerBuffIds[3714] then
+            if Env.playerBuffIDs[3714] then
                 return true
             end
         end
@@ -1868,6 +1868,7 @@ function LM.Conditions:IsValidCondition(text)
 end
 
 function LM.Conditions:TestAllConditions()
+    LM.Environment:RefreshState()
     local context = LM.RuleContext:New({ id = 99 })
     for name, cond in pairs(CONDITIONS) do
         if not cond.disabled then
