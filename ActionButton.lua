@@ -45,6 +45,9 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     LM.Debug("[%d] PreClick handler (inputButton=%s, isDown=%s)",
              self.id, tostring(inputButton), tostring(isDown))
 
+    LM.MountRegistry:RefreshMounts()
+    LM.Environment:RefreshState()
+
     if InCombatLockdown() then
         if GetRunningMacro() and self:GetAttribute("type") == 'macro' then
             if IsMounted() then
@@ -58,9 +61,6 @@ function LM.ActionButton:PreClick(inputButton, isDown)
         end
         return
     end
-
-    LM.MountRegistry:RefreshMounts()
-    LM.Environment:RefreshState()
 
     -- Re-randomize if it's time, and update the last mount. Previously I was just
     -- relying on the random seed for the persistence, but "least summoned" isn't
