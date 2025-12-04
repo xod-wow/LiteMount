@@ -173,6 +173,7 @@ function LM.Journal:IsCastable()
     if not self:IsUsable() then
         return false
     end
+
     if not C_Spell.IsSpellUsable(self.spellID) then
         return false
     end

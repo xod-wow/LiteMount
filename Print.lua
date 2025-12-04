@@ -89,7 +89,8 @@ end
 -- which is yellow color. LE_GAME_ERR_SPELL_FAILED_S is the error number (57)
 -- that the server sends for can't mount.
 
-function LM.Warning(msg)
+function LM.Warning(...)
+    local msg = format(...)
     local method = UIErrorsFrame:GetScript('OnEvent')
     if method then
         method(UIErrorsFrame, "UI_ERROR_MESSAGE", LE_GAME_ERR_SPELL_FAILED_S, msg)
