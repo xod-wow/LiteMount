@@ -524,8 +524,17 @@ ACTIONS['Mount'] = {
 
             local m
 
-            if context.persistMount then
-                m = mounts:Find(function (x) return x.spellID == context.persistMount end)
+            -- Clear the persisted mount if it's time. This logic is fairly
+            -- wasteful in the common case of keepTime == 0, but also it needs
+            -- to deal with the case where you turn keepTime from non-0 to 0.
+
+            local keepTime = LM.Options:GetOption('randomKeepSeconds')
+            local persistTime = GetTime() - (context.persistTime or 0)
+            if  persistTime > keepTime then
+                context.base.persistMount = nil
+                context.base.persistTime = GetTime()
+            elseif context.persistMount then
+                m = mounts:Find(function (x) return x == context.persistMount end)
                 LM.Debug('  * persistMount found %s', m and m.name or 'nil')
             end
 
@@ -536,6 +545,7 @@ ACTIONS['Mount'] = {
 
             if m then
                 LM.Debug("  * setting action to mount %s", m.name)
+                context.base.persistMount = m
                 return m:GetCastAction(context), m
             end
         end
@@ -719,19 +729,13 @@ ACTIONS['Stop'] = {
 ACTIONS['ForceNewRandom'] = {
     name = L.LM_FORCE_NEW_RANDOM_ACTION,
     description = L.LM_FORCE_NEW_RANDOM_DESCRIPTION,
-    argType = 'list',
+    argType = 'none',
     handler =
         function (args, context)
-            local buttonList = #args > 0 and args:ParseList() or { context.id }
-            for _, buttonID in ipairs(buttonList) do
-                local button = LiteMount.actions[tonumber(buttonID)]
-                if button then
-                    button:ForceNewRandom()
-                    LM.Debug("  * forced new random selection for button %s", buttonID)
-                else
-                    LM.Debug("  * invalid ForceNewRandom arg '%s'", tostring(buttonID))
-                end
-            end
+            -- Is it useful to be able to reset the global persistance somehow?
+            context.base.persistTime = GetTime()
+            context.base.persistMount = nil
+            LM.Debug("  * forced new random selection for button %s", context.id)
         end
 }
 

@@ -60,7 +60,6 @@ Conditions.lua
 Vars.lua
 RuleArguments.lua
 RuleBoolean.lua
-RuleContext.lua
 Rule.lua
 RuleSet.lua
 Actions.lua
