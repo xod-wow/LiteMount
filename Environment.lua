@@ -123,8 +123,8 @@ local StateUpdateFunctions = {
     isFloating =
         function (self)
             local name, _, _, rate = GetMirrorTimerInfo(2)
-            return IsSubmerged() and
-                name == "BREATH" and rate < 0 and
+            local cantBreathe = ( name == "BREATH" and rate < 0 )
+            return IsSubmerged() and not cantBreathe and
                 ( GetTime() - (self.lastDryTime or 0 ) < 1.0)
         end,
     isFlyableArea =
