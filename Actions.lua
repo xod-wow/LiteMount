@@ -524,9 +524,9 @@ ACTIONS['Mount'] = {
 
             local m
 
-            if context.forceSummon then
-                m = mounts:Find(function (x) return x.spellID == context.forceSummon end)
-                LM.Debug('  * forceSummon found %s', m and m.name or 'nil')
+            if context.persistMount then
+                m = mounts:Find(function (x) return x.spellID == context.persistMount end)
+                LM.Debug('  * persistMount found %s', m and m.name or 'nil')
             end
 
             if not m then

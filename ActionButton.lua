@@ -65,17 +65,14 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     -- Update the last mount if it's time. Previously I was relying on the random
     -- seed for the persistence, but "least summoned" isn't random.
 
-    -- XXX FIXME XXX doesn't work because resets RandomTime even if we didn't mount
-    -- and then we go back to the previously summoned mount for another keepSeconds.
-
     local keepRandomForSeconds = LM.Options:GetOption('randomKeepSeconds')
     if GetTime() - (self.context.randomTime or 0) > keepRandomForSeconds then
-        self.context.forceSummon = nil
+        self.context.persistMount = nil
         self.context.randomTime = GetTime()
-    else
+    elseif not self.context.persistMount then
         -- Note, can't store objects in context, they don't survive Clone()
         local lastSummonedMount = LM.MountRegistry:GetLastSummoned()
-        self.context.forceSummon = lastSummonedMount and lastSummonedMount.spellID
+        self.context.persistMount = lastSummonedMount and lastSummonedMount.spellID
     end
 
     -- Set up the fresh run context for a new run.
