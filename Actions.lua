@@ -719,22 +719,17 @@ ACTIONS['Stop'] = {
 ACTIONS['ForceNewRandom'] = {
     name = L.LM_FORCE_NEW_RANDOM_ACTION,
     description = L.LM_FORCE_NEW_RANDOM_DESCRIPTION,
-    argType = 'expression',
+    argType = 'list',
     handler =
         function (args, context)
-            local buttonList = (args and #args > 0) and args:ParseList() or nil
-            if not buttonList then
-                buttonList = { context.id }
-            end
-
-            for _, buttonNum in ipairs(buttonList) do
-                local idx = tonumber(buttonNum)
-                local button = idx and LiteMount.actions[idx]
+            local buttonList = #args > 0 and args:ParseList() or { context.id }
+            for _, buttonID in ipairs(buttonList) do
+                local button = LiteMount.actions[tonumber(buttonID)]
                 if button then
                     button:ForceNewRandom()
-                    LM.Debug("  * forced new random selection for button %s", buttonNum)
+                    LM.Debug("  * forced new random selection for button %s", buttonID)
                 else
-                    LM.Debug("  * Invalid ForceNewRandom arg '%s'", buttonNum)
+                    LM.Debug("  * invalid ForceNewRandom arg '%s'", tostring(buttonID))
                 end
             end
         end
