@@ -91,8 +91,8 @@ function LiteMountMountListButtonMixin:OnLoad()
 end
 
 function LiteMountMountListButtonMixin:Initialize(mount)
-
-    LiteMountMountCommonButtonMixin.Initialize(self, mount)
+    local hasMenu = true
+    LiteMountMountCommonButtonMixin.Initialize(self, mount, hasMenu)
 
     local i = 1
     while self["Bit"..i] do
