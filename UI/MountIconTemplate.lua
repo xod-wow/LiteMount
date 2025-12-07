@@ -22,6 +22,26 @@ LiteMountMountIconMixin = {}
 
 function LiteMountMountIconMixin.MenuGenerator(owner, rootDescription)
     rootDescription:CreateTitle(owner.mount.name)
+
+    local mountGroups = owner.mount:GetGroups()
+    local allGroups = LM.Options:GetGroupNames()
+
+    local groupMenu = rootDescription:CreateButton(GROUPS)
+    for _, g in pairs(allGroups) do
+        local function IsSelected() return mountGroups[g] end
+        local function SetSelected(...)
+            if mountGroups[g] then
+                LM.Options:ClearMountGroup(owner.mount, g)
+            else
+                LM.Options:SetMountGroup(owner.mount, g)
+            end
+        end
+        if LM.Options:IsGlobalGroup(g) then
+            g = BLUE_FONT_COLOR:WrapTextInColorCode(g)
+        end
+        groupMenu:CreateRadio(g, IsSelected, SetSelected)
+    end
+
     local priorityMenu = rootDescription:CreateButton(L.LM_PRIORITY)
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
         local t, d = LM.UIFilter.GetPriorityText(p)
