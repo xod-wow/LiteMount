@@ -1869,7 +1869,7 @@ end
 
 function LM.Conditions:TestAllConditions()
     LM.Environment:RefreshState()
-    local context = LM.RuleContext:New({ id = 99 })
+    local context = { id = 99 }
     for name, cond in pairs(CONDITIONS) do
         if not cond.disabled then
             cond:handler(context)

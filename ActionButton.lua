@@ -62,25 +62,24 @@ function LM.ActionButton:PreClick(inputButton, isDown)
         return
     end
 
-    -- Re-randomize if it's time, and update the last mount. Previously I was just
-    -- relying on the random seed for the persistence, but "least summoned" isn't
-    -- random. On the other hand, the seed is better because it will pick the same
-    -- mount from each different set. So, now I have both I guess.
+    -- Update the last mount if it's time. Previously I was relying on the random
+    -- seed for the persistence, but "least summoned" isn't random.
 
     local keepRandomForSeconds = LM.Options:GetOption('randomKeepSeconds')
-    if GetTime() - (self.context.randomTime or 0) > keepRandomForSeconds then
-        self.context.random = math.random()
-        self.context.randomTime = GetTime()
-        self.context.forceSummon = nil
-    else
-        -- Note, can't store objects in context, they don't survive Clone()
-        local lastSummonedMount = LM.MountRegistry:GetLastSummoned()
-        self.context.forceSummon = lastSummonedMount and lastSummonedMount.spellID
+    if GetTime() - (self.context.persistTime or 0) >= keepRandomForSeconds then
+        self.context.persistMount = nil
+        self.context.persistTime = GetTime()
     end
 
     -- Set up the fresh run context for a new run.
-    local context = self.context:Clone()
-    context.inputButton = inputButton
+    local context = {
+        base = self.context,
+        inputButton = inputButton,
+        limits = {},
+        flowControl = {},
+        rule = {},
+    }
+    setmetatable(context, { __index = self.context })
 
     local ruleSet = LM.Options:GetCompiledButtonRuleSet(self.id)
 
@@ -127,8 +126,7 @@ function LM.ActionButton:OnEvent(e, ...)
     if e == "PLAYER_REGEN_DISABLED" then
         LM.Debug('[%d] Combat started', self.id)
         local args = LM.RuleArguments:Get()
-        local context = self.context:Clone()
-        local act = LM.Actions:GetHandler('Combat')(args, context)
+        local act = LM.Actions:GetHandler('Combat')(args, self.context)
         if act then
             act:SetupActionButton(self)
         end
@@ -149,7 +147,7 @@ function LM.ActionButton:Create(n)
     b.id = n
 
     -- Global context
-    b.context = LM.RuleContext:New({ id = n })
+    b.context = { id = n }
 
     -- b:RegisterForClicks("AnyDown", "AnyUp")
     -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497

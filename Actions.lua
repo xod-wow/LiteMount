@@ -421,8 +421,7 @@ ACTIONS['SwitchFlightStyle'] = {
         function (args, context)
             if IsPlayerSpell(switchSpellID) then
                 local argList = args:ParseList()
-                local _, currentStyle = LM.Environment.flightStyle
-                if #argList == 0 or currentStyle ~= argList[1] then
+                if #argList == 0 or LM.Environment.flightStyle  ~= argList[1] then
                     LM.Debug("  * setting action to spell " .. switchSpellInfo.name)
                     return LM.SecureAction:Spell(switchSpellID, context.rule.unit)
                 end
@@ -431,6 +430,7 @@ ACTIONS['SwitchFlightStyle'] = {
 }
 
 local castableArg = LM.RuleArguments:Get("CASTABLE")
+local enabledArg = LM.RuleArguments:Get("ENABLED")
 
 local smartActions = {
     {
@@ -486,6 +486,9 @@ ACTIONS['Mount'] = {
         function (args, context)
             local limits = CopyTable(context.limits)
             table.insert(limits, castableArg)
+            if context.rule.priority then
+                table.insert(limits, enabledArg)
+            end
             if #args > 0 then
                 table.insert(limits, args)
             end
@@ -498,36 +501,51 @@ ACTIONS['Mount'] = {
             end
             LM.Debug("  * filtered list contains " .. #filteredList .. " mounts")
 
+            -- XXX FIXME XXX set context.allMountsDisabled somehow?
             if next(filteredList) == nil then return end
 
-            -- XXX FIXME XXX handle forceSummon
-
-            local randomStyle = context.rule.priority and LM.Options:GetOption('randomWeightStyle')
-
-            local m, allDisabled
-
-            if context.allMountsDisabled == nil then
-                context.allMountsDisabled = true
-            end
+            local mounts
 
             if context.rule.smart then
                 for _, info in ipairs(smartActions) do
-                    if not m and LM.Conditions:Check(info.condition, context) then
+                    if LM.Conditions:Check(info.condition, context) then
                         LM.Debug("  * trying " .. info.debug)
                         local expr = info.arg:ParseExpression()
-                        local mounts = filteredList:ExpressionSearch(expr)
+                        mounts = filteredList:ExpressionSearch(expr)
                         LM.Debug("  * found " .. #mounts .. " mounts.")
-                        m, allDisabled = mounts:Random(context.random, randomStyle)
-                        context.allMountsDisabled = context.allMountsDisabled and allDisabled
+                        if #mounts > 0 then
+                            break
+                        end
                     end
                 end
             else
-                m, allDisabled = filteredList:Random(context.random, randomStyle)
-                context.allMountsDisabled = context.allMountsDisabled and allDisabled
+                mounts = filteredList
+            end
+
+            local m
+
+            -- Clear the persisted mount if it's time. This logic is fairly
+            -- wasteful in the common case of keepTime == 0, but also it needs
+            -- to deal with the case where you turn keepTime from non-0 to 0.
+
+            local keepTime = LM.Options:GetOption('randomKeepSeconds')
+            local persistTime = GetTime() - (context.persistTime or 0)
+            if  persistTime > keepTime then
+                context.base.persistMount = nil
+                context.base.persistTime = GetTime()
+            elseif context.persistMount then
+                m = mounts:Find(function (x) return x == context.persistMount end)
+                LM.Debug('  * persistMount found %s', m and m.name or 'nil')
+            end
+
+            if not m then
+                local randomStyle = context.rule.priority and LM.Options:GetOption('randomWeightStyle')
+                m = mounts:Random(randomStyle)
             end
 
             if m then
                 LM.Debug("  * setting action to mount %s", m.name)
+                context.base.persistMount = m
                 return m:GetCastAction(context), m
             end
         end
@@ -623,7 +641,7 @@ local function SummonJournalMountDirect(context, flag)
         local mounts = LM.MountRegistry:FilterSearch(flag, 'JOURNAL', 'CASTABLE')
         LM.Debug("  * found %d suitable journal mounts", #mounts)
         local randomStyle = LM.Options:GetOption('randomWeightStyle')
-        local m = mounts:Random(context.random, randomStyle) or mounts:Random()
+        local m = mounts:Random(randomStyle) or mounts:Random()
         if m then
             LM.Debug("  * summoning %s (id=%d)", m.name, m.mountID)
             C_MountJournal.SummonByID(m.mountID)
@@ -693,7 +711,7 @@ ACTIONS['Combat'] = {
             end
             -- Otherwise use the default actions
             LM.Debug("  * setting action to default combat macro")
-            local macrotext = LM.Macro:DefaultCombatMacro()
+            macrotext = LM.Macro:DefaultCombatMacro()
             return LM.SecureAction:Macro(macrotext)
         end
 }
@@ -705,6 +723,19 @@ ACTIONS['Stop'] = {
             -- return true and set up to do nothing
             LM.Debug("  * setting action to nothing for stop")
             return LM.SecureAction:NoAction()
+        end
+}
+
+ACTIONS['ForceNewRandom'] = {
+    name = L.LM_FORCE_NEW_RANDOM_ACTION,
+    description = L.LM_FORCE_NEW_RANDOM_DESCRIPTION,
+    argType = 'none',
+    handler =
+        function (args, context)
+            -- Is it useful to be able to reset the global persistance somehow?
+            context.base.persistTime = GetTime()
+            context.base.persistMount = nil
+            LM.Debug("  * forced new random selection for button %s", context.id)
         end
 }
 
