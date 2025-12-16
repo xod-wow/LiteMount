@@ -26,7 +26,7 @@ function LiteMountMountIconMixin.MenuGenerator(owner, rootDescription)
     local mountGroups = owner.mount:GetGroups()
     local allGroups = LM.Options:GetGroupNames()
 
-    local groupMenu = rootDescription:CreateButton(GROUPS)
+    local groupMenu = rootDescription:CreateButton(L.LM_GROUPS)
     for _, g in pairs(allGroups) do
         local function IsSelected() return mountGroups[g] end
         local function SetSelected(...)
