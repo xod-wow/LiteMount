@@ -531,8 +531,8 @@ ACTIONS['Mount'] = {
             local keepTime = LM.Options:GetOption('randomKeepSeconds')
             local persistTime = GetTime() - (context.persistTime or 0)
             if  persistTime > keepTime then
-                context.base.persistMount = nil
-                context.base.persistTime = GetTime()
+                context.self.persistMount = nil
+                context.self.persistTime = GetTime()
             elseif context.persistMount then
                 m = mounts:Find(function (x) return x == context.persistMount end)
                 LM.Debug('  * persistMount found %s', m and m.name or 'nil')
@@ -545,7 +545,7 @@ ACTIONS['Mount'] = {
 
             if m then
                 LM.Debug("  * setting action to mount %s", m.name)
-                context.base.persistMount = m
+                context.self.persistMount = m
                 return m:GetCastAction(context), m
             end
         end
@@ -727,15 +727,28 @@ ACTIONS['Stop'] = {
 }
 
 ACTIONS['ForceNewRandom'] = {
+    -- Note these strings do not exist yet and need to be added before this
+    -- could be added to rules, if that was even a good idea.
     name = L.LM_FORCE_NEW_RANDOM_ACTION,
     description = L.LM_FORCE_NEW_RANDOM_DESCRIPTION,
-    argType = 'none',
+    argType = 'list',
     handler =
         function (args, context)
-            -- Is it useful to be able to reset the global persistance somehow?
-            context.base.persistTime = GetTime()
-            context.base.persistMount = nil
-            LM.Debug("  * forced new random selection for button %s", context.id)
+            local buttons = args:ParseList()
+            if next(buttons) == nil then
+                LM.Debug("  * forced new random selection for button: %d", context.id)
+                context.self.persistMount = nil
+                context.self.persistTime = GetTime()
+            else
+                LM.Debug("  * forced new random selection for buttons: %s", args:ToString())
+                for _, n in ipairs(buttons) do
+                    n = tonumber(n)
+                    if n and context.button[n] then
+                        context.button[n].persistMount = nil
+                        context.button[n].persistTime = GetTime()
+                    end
+                end
+            end
         end
 }
 

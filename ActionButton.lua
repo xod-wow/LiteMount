@@ -14,9 +14,9 @@
 
 local _, LM = ...
 
-local L = LM.Localize
-
 LM.ActionButton = { }
+
+local ButtonContexts = { }
 
 -- inputButton here is not real, because only LeftButton comes through the
 -- keybinding interface. But, you can pass arbitrary text as this argument
@@ -72,18 +72,18 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     end
 
     -- Set up the fresh run context for a new run.
-    local context = {
-        base = self.context,
-        inputButton = inputButton,
-        limits = {},
-        flowControl = {},
-        rule = {},
-    }
-    setmetatable(context, { __index = self.context })
+    local runContext = setmetatable({
+            ['self'] = self.context,
+            button = ButtonContexts,
+            inputButton = inputButton,
+            limits = {},
+            flowControl = {},
+            rule = {},
+        }, { __index = self.context })
 
     local ruleSet = LM.Options:GetCompiledButtonRuleSet(self.id)
 
-    local act = ruleSet:Run(context)
+    local act = ruleSet:Run(runContext)
     if act then
         act:SetupActionButton(self)
         LM.Debug("[%d] PreClick ok time %0.2fms", self.id, debugprofilestop() - startTime)
@@ -91,7 +91,7 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     end
 
     local handler = LM.Actions:GetHandler('CantMount')
-    handler(nil, context):SetupActionButton(self)
+    handler(nil, runContext):SetupActionButton(self)
     LM.Debug("[%d] PreClick fail time %0.2fms", self.id, debugprofilestop() - startTime)
 end
 
@@ -146,8 +146,9 @@ function LM.ActionButton:Create(n)
     -- So we can look up action lists in LM.Options
     b.id = n
 
-    -- Global context
+    -- Button context
     b.context = { id = n }
+    ButtonContexts[n] = b.context
 
     -- b:RegisterForClicks("AnyDown", "AnyUp")
     -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
