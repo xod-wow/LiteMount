@@ -775,18 +775,31 @@ CONDITIONS["instance"] = {
     name = INSTANCE,
     toDisplay =
         function (v)
-            local n = LM.Options:GetInstanceNameByID(tonumber(v))
+            local n = Env:GetInstanceNameByID(tonumber(v))
             if n then
                 return string.format("%s (%s)", n, v)
             end
         end,
     menu =
         function ()
-            local out = { }
-            for id, name in pairs(Env:GetInstances()) do
-                table.insert(out, { val = "instance:" .. id })
+            local seen = {}
+            local dungeon = { text=LFG_TYPE_DUNGEON }
+            local raid = { text=LFG_TYPE_RAID }
+            for _, info in pairs(Env:GetEJInstances()) do
+                if info.isRaid then
+                    table.insert(raid, { val = "instance:"..info.id })
+                else
+                    table.insert(dungeon, { val = "instance:"..info.id })
+                end
+                seen[info.id] = true
             end
-            return out
+            local other = { text=OTHER }
+            for id, name in pairs(Env:GetInstances()) do
+                if not seen[id] then
+                    table.insert(other, { val = "instance:"..id })
+                end
+            end
+            return { nosort=true, dungeon, raid, other }
         end,
     handler =
         function (cond, context, v)

@@ -751,18 +751,6 @@ function LM.Options:GetInstances(id)
     return CopyTable(LM.db.global.instances, true)
 end
 
-function LM.Options:GetInstanceNameByID(id)
-    if LM.db.global.instances[id] then
-        return LM.db.global.instances[id]
-    end
-
-    -- AQ is hard-coded in the default rules. This is not really the right
-    -- name but it's close enough.
-    if id == 531 then
-        return C_Map.GetMapInfo(319).name
-    end
-end
-
 
 --[[----------------------------------------------------------------------------
     Summon counts

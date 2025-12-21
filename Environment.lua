@@ -21,6 +21,7 @@ local issecretvalue = issecretvalue or function () return false end
 
 function LM.Environment:Initialize()
     self:InitializeHolidays()
+    self:InitializeEJInstances()
     self:UpdateSwimTimes()
 
     self.combatTravelForm = nil
@@ -640,6 +641,20 @@ function LM.Environment:GetMaps(str)
     return lines
 end
 
+function LM.Environment:GetMapContinent(mapID)
+    while true do
+        local info = C_Map.GetMapInfo(mapID)
+        if not info then return end
+        if info.mapType == Enum.UIMapType.Continent then
+            return mapID, info.name
+        elseif mapid == info.parentMapID then
+            return
+        else
+            mapID = info.parentMapID
+        end
+    end
+end
+
 function LM.Environment:GetContinents(str)
     local searchStr = string.lower(str or "")
 
@@ -685,51 +700,26 @@ function LM.Environment:GetMapTree()
     return mapTree
 end
 
--- It's possible to pull the GetInstanceInfo() instance number from the
--- encounter journal, but it's buried down in the encounter info and not
--- in the actual instance info return which is annoying.
--- This really FUBARs the Encounter journal, but I'm not sure if it's
--- taint-safe to put it back. Wah!
-
-function LM.Environment:GetEJInstances()
-    C_AddOns.LoadAddOn("Blizzard_EncounterJournal")
-
-    -- Save EJ state
-    EncounterJournal:UnregisterEvent("EJ_DIFFICULTY_UPDATE")
-    local originalTier = EJ_GetCurrentTier()
-    local origInstanceID = EncounterJournal.instanceID
-
-    local out = {}
-
-    for tier = 1, EJ_GetNumTiers() do
-        EJ_SelectTier(tier)
-        for _, isRaid in ipairs({ true, false }) do
-            local index = 1
-            while true do
-                local id, name, _, _, _, _, _, _, showDifficulty  = EJ_GetInstanceByIndex(index, isRaid)
-                if not name or not showDifficulty then break end
-                EJ_SelectInstance(id)
-                local i = 1
-                while true do
-                    local n, _, _, _, _, _, _, instanceID = EJ_GetEncounterInfoByIndex(i)
-                    if not n then break end
-                    if instanceID then
-                        out[instanceID] = name
-                        break
-                    end
-                    i = i + 1
-                end
-                index = index + 1
-            end
+function LM.Environment:InitializeEJInstances()
+    self.instancesByID = {}
+    for ejID = 1, 10000 do 
+        local name, _, _, _, _, _, _, _, hasDifficulty, instanceID, _, isRaid = EJ_GetInstanceInfo(ejID)
+        if name and hasDifficulty then
+            self.instancesByID[instanceID] = { id=instanceID, name=name, isRaid=isRaid }
         end
     end
+end
 
-    -- Restore EJ state
-    EJ_SelectTier(originalTier)
-    if origInstanceID then EJ_SelectInstance(origInstanceID) end
-    EncounterJournal:RegisterEvent("EJ_DIFFICULTY_UPDATE")
+function LM.Environment:GetEJInstances()
+    return self.instancesByID
+end
 
-    return out
+function LM.Environment:GetInstanceNameByID(id)
+    if self.instancesByID[id] then
+        return self.instancesByID[id].name
+    else
+        return LM.db.global.instances[id]
+    end
 end
 
 local CALENDAR_FILTER_CVARS = {
