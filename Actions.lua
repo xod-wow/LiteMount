@@ -477,6 +477,21 @@ local smartActions = {
     },
 }
 
+ACTIONS['Downshift'] = {
+    handler =
+        function (args, context)
+            if LM.Conditions:Check("[submerged]", context) then
+                table.insert(context.limits, LM.RuleArguments:Get("-", "SWIM"))
+            elseif LM.Conditions:Check("[flyable]") then
+                table.insert(context.limits, LM.RuleArguments:Get("-", "DRAGONRIDING", "/", "FLY"))
+            elseif LM.Conditions:Check("[drivable]") then
+                table.insert(context.limits, LM.RuleArguments:Get("-", "DRIVE"))
+            elseif LM.Conditions:Check("[floating]") then
+                table.insert(context.limits, LM.RuleArguments:Get("-", "SWIM"))
+            end
+        end,
+}
+
 ACTIONS['Mount'] = {
     name = L.LM_MOUNT_ACTION,
     description = L.LM_MOUNT_DESCRIPTION,
