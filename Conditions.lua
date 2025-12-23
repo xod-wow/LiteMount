@@ -12,7 +12,8 @@ local _, LM = ...
 
 local Env = LM.Environment
 
-local C_Spell = LM.C_Spell or C_Spell
+local C_Spell = C_Spell or LM.C_Spell
+local C_ClassColor = C_ClassColor or LM.C_ClassColor
 
 local L = LM.Localize
 
@@ -181,8 +182,9 @@ CONDITIONS["class"] = {
     menu = function ()
         local out = { }
         for _, v in ipairs(CLASS_SORT_ORDER) do
-            local name = LOCALIZED_CLASS_NAMES_FEMALE[v]
-            local atlas = GetClassAtlas(v)
+            local color = C_ClassColor.GetClassColor(v)
+            local name = color:WrapTextInColorCode(LOCALIZED_CLASS_NAMES_FEMALE[v])
+            local atlas = WOW_PROJECT_ID == 1 and GetClassAtlas(v)
             if atlas then
                 name = string.format("|A:%s:18:18|a %s", atlas, name)
             end
@@ -1749,7 +1751,8 @@ local function GetTransmogSetsMenu()
     local byExpansion = { }
     for _,info in ipairs(C_TransmogSets.GetAllSets()) do
         if not byExpansion[info.expansionID] then
-            local name = GetExpansionName(info.expansionID)
+            -- Classic doesn't have GetExpansionName
+            local name = _G["EXPANSION_NAME"..tostring(info.expansionID)]
             byExpansion[info.expansionID] = { text = name }
         end
         local text = info.name
@@ -1787,7 +1790,14 @@ CONDITIONS["xmog"] = {
         end,
     menu =
         function ()
-            return { GetTransmogOutfitsMenu(), GetTransmogSetsMenu() }
+            if WOW_PROJECT_ID == 1 then
+                return { GetTransmogOutfitsMenu(), GetTransmogSetsMenu() }
+            else
+                -- Transmog outfits do work I just don't have a translation for
+                -- "Outfit" and midnight is too close to do any fixups before I
+                -- handle its complete redo.
+                return { GetTransmogSetsMenu() }
+            end
         end,
     handler =
         function (cond, context, arg1, arg2)
