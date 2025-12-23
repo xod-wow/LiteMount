@@ -40,17 +40,7 @@ Dismount [nofalling]
 CopyTargetsMount
 ApplyRules
 SwitchFlightStyle [mod:rshift]
-IF [mod:shift]
-    IF [submerged]
-        Limit -SWIM
-    ELSEIF [flyable]
-        Limit -DRAGONRIDING/FLY
-    ELSEIF [floating]
-        Limit -SWIM
-    ELSEIF [drivable]
-        Limit -DRIVE
-    END
-END
+Downshift [mod:shift]
 SmartMount
 IF [falling]
   # Slow Fall, Levitate, Zen Flight, Glide, Flap

@@ -480,10 +480,12 @@ local smartActions = {
 ACTIONS['Downshift'] = {
     handler =
         function (args, context)
+            LM.Debug("  * adding mount downshift limit.")
             if LM.Conditions:Check("[submerged]", context) then
                 table.insert(context.limits, LM.RuleArguments:Get("-", "SWIM"))
             elseif LM.Conditions:Check("[flyable]") then
-                table.insert(context.limits, LM.RuleArguments:Get("-", "DRAGONRIDING", "/", "FLY"))
+                table.insert(context.limits, LM.RuleArguments:Get("-", "DRAGONRIDING"))
+                table.insert(context.limits, LM.RuleArguments:Get("-", "FLY"))
             elseif LM.Conditions:Check("[drivable]") then
                 table.insert(context.limits, LM.RuleArguments:Get("-", "DRIVE"))
             elseif LM.Conditions:Check("[floating]") then
@@ -536,6 +538,10 @@ ACTIONS['Mount'] = {
             else
                 mounts = filteredList
             end
+
+            -- It is only by good luck rather than good programming that we
+            -- always reach here with mounts ~= nil and I should do something
+            -- about that sometime.
 
             local m
 
