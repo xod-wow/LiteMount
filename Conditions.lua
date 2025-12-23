@@ -778,6 +778,8 @@ CONDITIONS["instance"] = {
             local n = Env:GetInstanceNameByID(tonumber(v))
             if n then
                 return string.format("%s (%s)", n, v)
+            else
+                return v
             end
         end,
     menu =
