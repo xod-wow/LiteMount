@@ -1315,6 +1315,7 @@ local RACE_STRINGS = {
     "EarthenDwarf",
     "Gnome",
     "Goblin",
+    "Harronir", -- Haranir
     "HighmountainTauren",
     "Human",
     "KulTiran",
