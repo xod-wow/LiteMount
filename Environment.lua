@@ -705,8 +705,11 @@ function LM.Environment:InitializeEJInstances()
     for ejID = 1, 10000 do 
         local name, _, _, _, _, _, _, _, hasDifficulty, instanceID, isRaidClassic, isRaid = EJ_GetInstanceInfo(ejID)
         if name and hasDifficulty then
-            isRaid = WOW_PROJECT_ID == 1 and isRaid or isRaidClassic
-            self.instancesByID[instanceID] = { id=instanceID, name=name, isRaid=isRaid }
+            if WOW_PROJECT_ID == 1 then
+                self.instancesByID[instanceID] = { id=instanceID, name=name, isRaid=isRaid }
+            else
+                self.instancesByID[instanceID] = { id=instanceID, name=name, isRaid=isRaidClassic }
+            end
         end
     end
 end
