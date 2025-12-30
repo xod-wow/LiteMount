@@ -478,17 +478,18 @@ local smartActions = {
 }
 
 ACTIONS['Downshift'] = {
+    argType = 'none',
     handler =
         function (args, context)
             LM.Debug("  * adding mount downshift limit.")
             if LM.Conditions:Check("[submerged]", context) then
                 table.insert(context.limits, LM.RuleArguments:Get("-", "SWIM"))
-            elseif LM.Conditions:Check("[flyable]") then
+            elseif LM.Conditions:Check("[flyable]", context) then
                 table.insert(context.limits, LM.RuleArguments:Get("-", "DRAGONRIDING"))
                 table.insert(context.limits, LM.RuleArguments:Get("-", "FLY"))
-            elseif LM.Conditions:Check("[drivable]") then
+            elseif LM.Conditions:Check("[drivable]", context) then
                 table.insert(context.limits, LM.RuleArguments:Get("-", "DRIVE"))
-            elseif LM.Conditions:Check("[floating]") then
+            elseif LM.Conditions:Check("[floating]", context) then
                 table.insert(context.limits, LM.RuleArguments:Get("-", "SWIM"))
             end
         end,
@@ -905,9 +906,33 @@ ACTIONS['PreUse'] = {
         end
 }
 
+ACTIONS['Falling'] = {
+    name = L.LM_FALLING_ACTION,
+    description = L.LM_SPELL_DESCRIPTION,
+    argType = 'none',
+    handler =
+        function (args, context)
+            for _, action in ipairs(LM.Options:GetOption('falling')) do
+                local type, id = string.split(':', action)
+                if type == 'spell' then
+                    local _, _, nameWithSubtext = GetUsableSpell(id)
+                    if nameWithSubtext then
+                        return LM.SecureAction:Spell(nameWithSubtext, context.rule.unit)
+                    end
+                elseif type == 'item' then
+                    local name, itemID = UsableItemParse(id)
+                    if IsCastableItem(itemID) then
+                        return LM.SecureAction:Item(name, context.rule.unit)
+                    end
+                end
+            end
+        end
+}
+
 do
-    for a, info in pairs(ACTIONS) do
-        info.action = a
+    -- Add the name from the table key to the info table
+    for actionName, info in pairs(ACTIONS) do
+        info.action = actionName
     end
 end
 

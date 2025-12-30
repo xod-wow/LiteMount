@@ -42,14 +42,8 @@ ApplyRules
 SwitchFlightStyle [mod:rshift]
 Downshift [mod:shift]
 SmartMount
-IF [falling]
-  # Slow Fall, Levitate, Zen Flight, Glide, Flap
-  Spell 130, 1706, 125883, 131347, 164862
-  # Hearty Dragon Plume, Rocfeather Skyhorn Kite
-  Use 182729, 131811
-  # Last resort dismount even if falling
-  Dismount
-END
+Falling [falling]
+Dismount
 Macro
 ]]
 
@@ -89,6 +83,15 @@ local defaults = {
         flagChanges         = { },
         mountPriorities     = { },
         buttonActions       = { ['*'] = DefaultButtonAction },
+        falling             = {
+            "spell:130",    -- Slow Fall
+            "spell:1706",   -- Levitate
+            "spell:125883", -- Zen Flight
+            "spell:131347", -- Glide
+            "spell:164862", -- Flap
+            "item:182729",  -- Hearty Dragon Plume
+            "item:131811",  -- Rocfeather Skyhorn Kite
+        },
         groups              = { },
         rules               = { }, -- Note: tables as * don't work
         copyTargetsMount    = true,
