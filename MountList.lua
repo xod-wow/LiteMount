@@ -344,6 +344,18 @@ local SortFunctions = {
                 return a.name < b.name
             end
         end,
+    ['expansion'] =
+        function (a, b)
+            return (a.expansion or -1) < (b.expansion or -1)
+        end,
+    ['mountid'] =
+        function (a, b)
+            return (a.mountID or 0) < (b.mountID or 0)
+        end,
+    ['spellid'] =
+        function (a, b)
+            return (a.spellID or 0) < (b.spellID or 0)
+        end,
 }
 
 function LM.MountList:Sort(key)

@@ -80,6 +80,17 @@ function LiteMountMountScrollBoxMixin:RefreshMountList()
                 end
                 familySubTrees[m.family]:Insert(m)
             end
+        elseif LM.UIFilter.GetSortKey() == 'expansion' then
+            local subTrees = {}
+            for _, m in ipairs(mounts) do
+                local expansion = m.expansion or -1
+                if not subTrees[expansion] then
+                    local name = _G["EXPANSION_NAME"..tostring(expansion)] or NONE
+                    local data = { isHeader = true, name = name }
+                    subTrees[expansion] = dp:Insert(data)
+                end
+                subTrees[expansion]:Insert(m)
+            end
         else
             for _, m in ipairs(mounts) do
                 dp:Insert(m)
