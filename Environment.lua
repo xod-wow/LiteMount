@@ -647,7 +647,7 @@ function LM.Environment:GetMapContinent(mapID)
         if not info then return end
         if info.mapType == Enum.UIMapType.Continent then
             return mapID, info.name
-        elseif mapid == info.parentMapID then
+        elseif mapID == info.parentMapID then
             return
         else
             mapID = info.parentMapID
