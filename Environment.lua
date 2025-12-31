@@ -702,7 +702,7 @@ end
 
 function LM.Environment:InitializeEJInstances()
     self.instancesByID = {}
-    for ejID = 1, 10000 do 
+    for ejID = 1, 10000 do
         local name, _, _, _, _, _, _, _, hasDifficulty, instanceID, isRaidClassic, isRaid = EJ_GetInstanceInfo(ejID)
         if name and hasDifficulty then
             if WOW_PROJECT_ID == 1 then
