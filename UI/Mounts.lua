@@ -116,7 +116,7 @@ function LiteMountMountsPanelMixin:SetupFromTabbing()
     end
     ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, self.tabViews[n])
 
-    self.RarityLabel:SetShown(n==1)
+    self.RarityLabel:SetShown(n==1 and WOW_PROJECT_ID == 1)
     self.GroundLabel:SetShown(n==1)
     self.PriorityLabel:SetShown(n==1)
 end

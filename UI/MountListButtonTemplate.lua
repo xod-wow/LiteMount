@@ -47,7 +47,7 @@ function LiteMountMountCommonButtonMixin:Initialize(mount, hasMenu)
     self.Types:SetText(mount:GetTypeString())
 
     local rarity = mount:GetRarity()
-    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and rarity then
+    if WOW_PROJECT_ID == 1 and rarity then
         self.Rarity:SetFormattedText(L.LM_RARITY_FORMAT, rarity)
         self.Rarity.toolTip = format(L.LM_RARITY_FORMAT_LONG, rarity)
     else

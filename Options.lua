@@ -68,6 +68,23 @@ local DefaultRulesByProject = LM.TableWithDefault({
 
 local DefaultRules = DefaultRulesByProject[WOW_PROJECT_ID]
 
+local DefaultFallingByProject = LM.TableWithDefault({
+    DEFAULT = {
+        "spell:130",    -- Slow Fall
+        "spell:1706",   -- Levitate
+        "spell:125883", -- Zen Flight
+    },
+    [1] = { -- Retail
+        "spell:130",    -- Slow Fall
+        "spell:1706",   -- Levitate
+        "spell:125883", -- Zen Flight
+        "spell:131347", -- Glide
+        "spell:164862", -- Flap
+        "item:182729",  -- Hearty Dragon Plume
+        "item:131811",  -- Rocfeather Skyhorn Kite
+    },
+})
+
 -- A lot of things need to be cleaned up when flags are deleted/renamed
 
 local defaults = {
@@ -84,15 +101,7 @@ local defaults = {
         useOnGround         = { },
         mountPriorities     = { },
         buttonActions       = { ['*'] = DefaultButtonAction },
-        falling             = {
-            "spell:130",    -- Slow Fall
-            "spell:1706",   -- Levitate
-            "spell:125883", -- Zen Flight
-            "spell:131347", -- Glide
-            "spell:164862", -- Flap
-            "item:182729",  -- Hearty Dragon Plume
-            "item:131811",  -- Rocfeather Skyhorn Kite
-        },
+        falling             = DefaultFallingByProject[WOW_PROJECT_ID],
         groups              = { },
         rules               = { }, -- Note: tables as * don't work
         copyTargetsMount    = true,

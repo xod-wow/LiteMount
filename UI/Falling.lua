@@ -27,9 +27,11 @@ function LiteMountItemSpellMixin:Initialize(elementData, DeleteCallback)
         else
             spell:ContinueOnSpellLoad(
                 function ()
+                    -- SpellMixin is lacking in Classic
                     self.link = C_Spell.GetSpellLink(id)
-                    self.Icon:SetTexture(spell:GetSpellTexture())
-                    self.Name:SetText(spell:GetSpellName())
+                    local info = C_Spell.GetSpellInfo(id)
+                    self.Icon:SetTexture(info.iconID)
+                    self.Name:SetText(info.name)
                 end)
         end
     elseif type == 'item' then
@@ -82,9 +84,17 @@ function LiteMountFallingAddMixin:Update()
         self.Name:SetText('')
         return self.AddButton:Disable()
     elseif self.type == 'item' then
-        local name = C_Item.GetItemNameByID(text)
-        self.Name:SetText(name or '')
-        self.AddButton:SetEnabled(name ~= nil)
+        local itemID = C_Item.GetItemInfoInstant(text)
+        if not itemID then
+            self.Name:SetText(name or '')
+            self.AddButton:Disable()
+        else
+            local isUsable = C_Item.IsUsableItem(itemID)
+            local toyUsable = C_ToyBox.GetToyInfo(itemID) and C_ToyBox.IsToyUsable(itemID)
+            local name = C_Item.GetItemNameByID(itemID)
+            self.Name:SetText(name)
+            self.AddButton:SetEnabled(isUsable or toyUsable)
+        end
     elseif self.type == 'spell' then
         local name = C_Spell.GetSpellName(text)
         self.Name:SetText(name or '')
@@ -94,8 +104,19 @@ end
 
 function LiteMountFallingAddMixin:Add()
     local falling = CopyTable(LM.Options:GetOption('falling'))
-    local entry = self.type .. ':' .. self.EditBox:GetText()
-    if not tContains(falling, entry) then
+    local entry
+    if self.type == 'item' then
+        local itemID = C_Item.GetItemInfoInstant(self.EditBox:GetText())
+        if itemID then
+            entry = self.type .. ':' .. itemID
+        end
+    elseif self.type == 'spell' then
+        local info = C_Spell.GetSpellInfo(self.EditBox:GetText())
+        if info then
+            entry = self.type .. ':' .. info.spellID
+        end
+    end
+    if entry and not tContains(falling, entry) then
         table.insert(falling, entry)
         LM.Options:SetOption('falling', falling)
     end
