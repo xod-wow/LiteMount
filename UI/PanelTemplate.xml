@@ -31,6 +31,15 @@
     </KeyValues>
 </Button>
 
+<CheckButton name="LiteMountCheckButtonTemplate" virtual="true" motionScriptsWhileDisabled="true">
+    <Size x="26" y="26" />
+    <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+    <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+    <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+    <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+    <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+</CheckButton>
+
 <Button name="LiteMountListSelectButtonTemplate" virtual="true">
     <Size y="20" />
     <ButtonText inherits="GameFontWhite" parentKey="Text" />

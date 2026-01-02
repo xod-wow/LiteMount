@@ -9,13 +9,13 @@
     <Frames>
         <Frame parentKey="MountsContainer" inherits="LiteMountContainerStyleTemplate">
             <Anchors>
-                <Anchor point="TOPLEFT" x="8" y="-60" />
+                <Anchor point="TOPLEFT" x="8" y="-61" />
                 <Anchor point="BOTTOMRIGHT" x="-8" y="48" />
             </Anchors>
         </Frame>
         <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountMountScrollBoxMixin" frameStrata="HIGH">
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.MountsContainer" x="12" y="-64" />
+                <Anchor point="TOPLEFT" relativeKey="$parent.MountsContainer" x="12" y="-44" />
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountsContainer" x="-30" y="8" />
             </Anchors>
         </ScrollFrame>
@@ -28,52 +28,40 @@
         <!-- PanelTabButtonTemplate adds to parent.Tabs automatically. Classic requires name. -->
         <Button name="$parentTab1" inherits="PanelTabButtonTemplate" id="1" />
         <Button name="$parentTab2" inherits="PanelTabButtonTemplate" id="2" />
+        <DropdownButton parentKey="ActionDropdown" inherits="WoWStyle1FilterDropdownTemplate">
+            <Size x="93" y="22" />
+            <Anchors>
+                <Anchor point="TOPRIGHT" relativeKey="$parent.MountsContainer" relativePoint="BOTTOMRIGHT" x="-8" y="-4" />
+            </Anchors>
+            <KeyValues>
+                <KeyValue key="resizeToText" type="boolean" value="false"/>
+            </KeyValues>
+        </DropdownButton>
+
     </Frames>
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="BitLabel4" inherits="GameFontWhiteSmall" justifyH="CENTER">
-                <Size x="50" y="26" />
+            <FontString parentKey="RarityLabel" inherits="GameFontWhiteSmall" justifyH="CENTER" text="LM_RARITY">
                 <Anchors>
-                    <Anchor point="CENTER" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="-35" y="22" />
+                    <Anchor point="BOTTOM" relativeKey="$parent.ScrollBox" relativePoint="TOP" x="0" y="4" />
                 </Anchors>
             </FontString>
-            <FontString parentKey="BitLabel3" inherits="GameFontWhiteSmall" justifyH="CENTER">
-                <Size x="50" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitLabel4" x="-53" /> </Anchors>
+            <FontString parentKey="GroundLabel" inherits="GameFontWhiteSmall" justifyH="CENTER" text="LM_GROUND">
+                <Anchors>
+                    <Anchor point="BOTTOM" relativeKey="$parent.ScrollBox" relativePoint="TOP" x="64" y="4" />
+                </Anchors>
             </FontString>
-            <FontString parentKey="BitLabel2" inherits="GameFontWhiteSmall" justifyH="CENTER">
-                <Size x="50" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitLabel3" x="-53" /> </Anchors>
-            </FontString>
-            <FontString parentKey="BitLabel1" inherits="GameFontWhiteSmall" justifyH="CENTER">
-                <Size x="50" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitLabel2" x="-53" /> </Anchors>
-            </FontString>
-        </Layer>
-    </Layers>
-
-    <Frames>
-        <Frame parentKey="AllPriority" inherits="LiteMountPriorityTemplate" mixin="LiteMountAllPriorityMixin">
-            <Anchors>
-                <Anchor point="CENTER" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="-276" y="22" />
-            </Anchors>
-        </Frame>
-
-    </Frames>
-
-    <Layers>
-        <Layer level="ARTWORK">
             <FontString parentKey="PriorityLabel" inherits="GameFontWhiteSmall" justifyH="CENTER" text="LM_PRIORITY">
                 <Anchors>
-                    <Anchor point="BOTTOM" relativePoint="TOP" relativeKey="$parent.AllPriority" y="8" />
+                    <Anchor point="BOTTOM" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="-102" y="4" />
                 </Anchors>
             </FontString>
         </Layer>
         <Layer level="OVERLAY">
             <FontString parentKey="Counts" inherits="GameFontNormal">
                 <Anchors>
-                    <Anchor point="TOPRIGHT" relativePOint="BOTTOMRIGHT" relativeKEy="$parent.ScrollBox" y="-12" />
+                    <Anchor point="BOTTOM" y="8" />
                 </Anchors>
             </FontString>
         </Layer>

@@ -287,7 +287,7 @@ local function GroupToInfo(v) return { val = v, text = LM.UIFilter.GetGroupText(
 local function FlagToInfo(v) return { val = v, text = LM.UIFilter.GetFlagText(v) } end
 local function FamilyToInfo(v) return { val = "family:"..v, text = LM.UIFilter.GetFamilyText(v) } end
 local function ExpansionToInfo(v) return { val = "expansion:"..v, text = LM.UIFilter.GetExpansionText(v) } end
-local function PriorityToInfo(v) return { val = "prio:"..v, text = LM.UIFilter.GetPriorityText(v) } end
+local function PriorityToInfo(v) return { val = "prio:"..v, text = string.join(' - ', LM.UIFilter.GetPriorityColorTexts(v)) } end
 local function TypeToInfo(v) return { val = "mt:"..v, text = LM.UIFilter.GetTypeText(v) } end
 
 local function MountArgsMenu()

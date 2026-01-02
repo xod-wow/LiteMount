@@ -41,7 +41,11 @@ function LM.Mount:Get(className, ...)
 end
 
 function LM.Mount:GetFlags()
-    return LM.Options:GetMountFlags(self)
+    local flags = CopyTable(self.flags)
+    if flags.FLY and LM.Options:GetUseOnGround(self) then
+        flags.RUN = true
+    end
+    return flags
 end
 
 function LM.Mount:GetGroups()

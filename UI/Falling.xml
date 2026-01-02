@@ -1,0 +1,148 @@
+<Ui>
+
+<!-- Copyright 2011 Mike Battersby -->
+
+<Script file="Falling.lua" />
+
+<Button name="LiteMountItemSpellTemplate" mixin="LiteMountItemSpellMixin" virtual="true">
+    <Size y="33" />
+    <Layers>
+        <Layer level="ARTWORK">
+            <Texture parentKey="Icon">
+                <Size x="16" y="16" />
+                <Anchors>
+                    <Anchor point="LEFT" x="4" />
+                </Anchors>
+            </Texture>
+            <FontString parentKey="Name" inherits="GameFontNormal" justifyH="LEFT">
+                <Anchors>
+                    <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Icon" x="4" />
+                    <Anchor point="RIGHT" x="-4" />
+                </Anchors>
+            </FontString>
+            <Texture parentKey="Stripe" setAllPoints="true">
+              <Color r="1" g="1" b="1" a="0.1" />
+            </Texture>
+        </Layer>
+    </Layers>
+    <Frames>
+        <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
+            <Size x="72" y="22" />
+            <Anchors>
+                <Anchor point="RIGHT" x="-4" />
+            </Anchors>
+        </Button>
+    </Frames>
+    <Scripts>
+        <OnEnter method="OnEnter" />
+        <OnLeave method="OnLeave" />
+    </Scripts>
+</Button>
+
+<Frame name="LiteMountFallingAdd" hidden="true" inherits="LiteMountPopoverPanelTemplate" mixin="LiteMountFallingAddMixin">
+    <KeyValues>
+        <KeyValue key="name" value="LM_ADD_SPELL_OR_ITEM" type="string" />
+    </KeyValues>
+    <Size x="400" y="110" />
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="Name" inherits="GameFontNormal" justifyH="LEFT">
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" x="20" y="12" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Frames>
+        <DropdownButton parentKey="Dropdown" inherits="WoWStyle1DropdownTemplate">
+            <Size x="200" y="33" />
+            <Anchors>
+                <Anchor point="LEFT" x="8" y="-8" />
+            </Anchors>
+       </DropdownButton>
+       <EditBox parentKey="EditBox" autofocus="false" letters="40" inherits="LargeInputBoxTemplate">
+            <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Dropdown" x="8" />
+                <Anchor point="RIGHT" x="-8" />
+            </Anchors>
+        </EditBox>
+        <Button parentKey="AddButton" inherits="UIPanelButtonTemplate" text="ADD">
+            <Size x="72" y="22" />
+            <Anchors>
+                <Anchor point="BOTTOMRIGHT" x="-12" y="8" />
+            </Anchors>
+        </Button>
+        <Button parentKey="CancelButton" inherits="UIPanelButtonTemplate" text="CANCEL">
+            <Size x="72" y="22" />
+            <Anchors>
+                <Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.AddButton" x="-4" />
+            </Anchors>
+        </Button>
+    </Frames>
+    <Scripts>
+        <OnLoad method="OnLoad" inherit="append" />
+        <OnShow method="OnShow" inherit="append" />
+    </Scripts>
+</Frame>
+
+<Frame name="LiteMountFallingPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountFallingPanelMixin">
+
+    <KeyValues>
+        <KeyValue key="name" value="STRING_ENVIRONMENTAL_DAMAGE_FALLING" type="global" />
+    </KeyValues>
+
+    <Frames>
+        <Frame parentKey="Container" inherits="LiteMountContainerStyleTemplate">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="32" y="-132" />
+                <Anchor point="BOTTOMRIGHT" x="-50" y="40" />
+            </Anchors>
+        </Frame>
+        <ScrollFrame parentKey="Scroll" inherits="WoWScrollBoxList">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.Container" x="8" y="-8" />
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Container" x="-24" y="8" />
+            </Anchors>
+        </ScrollFrame>
+        <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
+            <KeyValues>
+                <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
+            </KeyValues>
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.Scroll" relativePoint="TOPRIGHT" x="8" y="0"/>
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.Scroll" relativePoint="BOTTOMRIGHT" x="8" y="0"/>
+            </Anchors>
+        </EventFrame>
+        <Button parentKey="AddButton" inherits="UIPanelButtonTemplate" text="ADD">
+            <Size x="72" y="22" />
+            <Anchors>
+                <Anchor point="TOPRIGHT" relativeKey="$parent.Scroll" relativePoint="BOTTOMRIGHT" x="-4" y="-8" />
+            </Anchors>
+        </Button>
+    </Frames>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_FALLING_EXP">
+                <Anchors>
+                    <Anchor point="TOP" y="-60" />
+                    <Anchor point="LEFT" x="24" />
+                    <Anchor point="RIGHT" x="-24" />
+                </Anchors>
+            </FontString>
+            <FontString parentKey="DragText" inherits="GameFontWhiteSmall" text="LM_DRAG_TO_REORDER">
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Container" relativePoint="TOPRIGHT" y="4" x="-8" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+
+    <Scripts>
+        <OnLoad method="OnLoad" inherit="append"/>
+        <OnShow method="OnShow" inherit="append" />
+        <OnHide method="OnHide" inherit="append"/>
+    </Scripts>
+</Frame>
+
+</Ui>

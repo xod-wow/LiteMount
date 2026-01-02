@@ -22,35 +22,6 @@ local TabNames = {
 
 --[[------------------------------------------------------------------------]]--
 
-LiteMountAllPriorityMixin = {}
-
-function LiteMountAllPriorityMixin:Set(v)
-    local mounts = LM.UIFilter.GetFilteredMountList()
-    LiteMountMountsPanel.ScrollBox.isDirty = true
-    LM.Options:SetPriorities(mounts, v or LM.Options.DEFAULT_PRIORITY)
-end
-
-function LiteMountAllPriorityMixin:Get()
-    local mounts = LM.UIFilter.GetFilteredMountList()
-
-    local allValue
-
-    for _,mount in ipairs(mounts) do
-        local v = mount:GetPriority()
-        if (allValue or v) ~= v then
-            allValue = nil
-            break
-        else
-            allValue = v
-        end
-    end
-
-    return allValue
-end
-
-
---[[------------------------------------------------------------------------]]--
-
 LiteMountMountScrollBoxMixin = {}
 
 function LiteMountMountScrollBoxMixin:RefreshMountList()
@@ -102,13 +73,13 @@ end
 
 function LiteMountMountScrollBoxMixin:GetOption()
     return {
-        CopyTable(LM.Options:GetRawFlagChanges(), true),
+        CopyTable(LM.Options:GetRawUseOnGround(), true),
         CopyTable(LM.Options:GetRawMountPriorities(), true)
     }
 end
 
 function LiteMountMountScrollBoxMixin:SetOption(v)
-    LM.Options:SetRawFlagChanges(v[1])
+    LM.Options:SetRawUseOnGround(v[1])
     LM.Options:SetRawMountPriorities(v[2])
 end
 
@@ -124,14 +95,13 @@ LiteMountMountsPanelMixin = {}
 function LiteMountMountsPanelMixin:Update()
     LM.UIFilter.ClearCache()
     self.ScrollBox:RefreshMountList()
-    self.AllPriority:Update()
 end
 
 function LiteMountMountsPanelMixin:OnDefault()
     LM.UIDebug(self, 'Custom_Default')
     self.ScrollBox.isDirty = true
-    LM.Options:ResetAllMountFlags()
-    LM.Options:SetPriorities(LM.MountRegistry.mounts, nil)
+    LM.Options:ResetUseOnGround()
+    LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil)
 end
 
 function LiteMountMountsPanelMixin:SetupFromTabbing()
@@ -146,12 +116,68 @@ function LiteMountMountsPanelMixin:SetupFromTabbing()
     end
     ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, self.tabViews[n])
 
-    self.AllPriority:SetShown(n==1)
+    self.RarityLabel:SetShown(n==1)
+    self.GroundLabel:SetShown(n==1)
     self.PriorityLabel:SetShown(n==1)
-    for i = 1, 4 do
-        local label = self["BitLabel"..i]
-        label:SetShown(n==1)
+end
+
+-- This should be kept roughly in sync with the menu in MountIconTemplate
+
+local function ActionMenuGenerate(owner, rootDescription)
+    local parent = owner:GetParent()
+    local function dirtyFunc() parent.ScrollBox.isDirty = true end
+
+    rootDescription:CreateTitle(L.LM_ACTION_MENU_TITLE)
+
+    local allGroups = LM.Options:GetGroupNames()
+
+    local groupMenu = rootDescription:CreateButton(L.LM_GROUPS)
+    for _, g in pairs(allGroups) do
+        local function Add()
+            dirtyFunc()
+            local mounts = LM.UIFilter.GetFilteredMountList()
+            LM.Options:SetMountGroupList(mounts, g)
+        end
+        local function Clear()
+            dirtyFunc()
+            local mounts = LM.UIFilter.GetFilteredMountList()
+            LM.Options:ClearMountGroupList(mounts, g)
+        end
+        if LM.Options:IsGlobalGroup(g) then
+            g = BLUE_FONT_COLOR:WrapTextInColorCode(g)
+        end
+        local thisGroupMenu = groupMenu:CreateButton(g)
+        thisGroupMenu:CreateButton(ADD, Add)
+        thisGroupMenu:CreateButton(REMOVE, Clear)
     end
+
+    local priorityMenu = rootDescription:CreateButton(L.LM_PRIORITY)
+    for _,p in ipairs(LM.UIFilter.GetPriorities()) do
+        local t, d = LM.UIFilter.GetPriorityColorTexts(p)
+        local function Set()
+            dirtyFunc()
+            local mounts = LM.UIFilter.GetFilteredMountList()
+            LM.Options:SetPriorityList(mounts, p)
+        end
+        priorityMenu:CreateButton(t..' - '..d, Set)
+    end
+
+    local function SetUseOnGround()
+        dirtyFunc()
+        local mounts = LM.UIFilter.GetFilteredMountList()
+        LM.Options:SetUseOnGroundList(mounts, true)
+    end
+
+    local function ClearUseOnGround()
+        dirtyFunc()
+        local mounts = LM.UIFilter.GetFilteredMountList()
+        LM.Options:SetUseOnGroundList(mounts, false)
+    end
+
+    local groundMenu = rootDescription:CreateButton(L. LM_USE_FLYING_AS_GROUND)
+    groundMenu:CreateButton(ENABLE, SetUseOnGround)
+    groundMenu:CreateButton(DISABLE, ClearUseOnGround)
+
 end
 
 function LiteMountMountsPanelMixin:OnLoad()
@@ -177,7 +203,7 @@ function LiteMountMountsPanelMixin:OnLoad()
             else
                 factory("LiteMountMountListButtonTemplate",
                     function (button)
-                        button:Initialize(data, self.allFlags)
+                        button:Initialize(data)
                         button:SetDirtyCallback(dirtyFunc)
                     end)
             end
@@ -204,22 +230,13 @@ function LiteMountMountsPanelMixin:OnLoad()
     self.tabViews[2] = CreateScrollBoxListGridView(stride, 0, 0, 0, 0, 5, 5)
     self.tabViews[2]:SetElementInitializer("LiteMountMountGridButtonTemplate",
         function (button, elementData)
-            button:Initialize(elementData, self.allFlags)
+            button:Initialize(elementData)
             button:SetDirtyCallback(dirtyFunc)
         end)
 
     self:SetupFromTabbing()
 
     self.name = MOUNTS
-
-    self.allFlags = LM.Options:GetFlags()
-
-    for i = 1, 4 do
-        local label = self["BitLabel"..i]
-        if self.allFlags[i] then
-            label:SetText(L[self.allFlags[i]])
-        end
-    end
 
     self:SetScript('OnEvent', function () self.ScrollBox:RefreshMountList() end)
 
@@ -252,6 +269,8 @@ function LiteMountMountsPanelMixin:OnLoad()
         end
     end
 
+    self.ActionDropdown:SetText(L.LM_ACTIONS)
+
     --@debug@
     self.NextFamily = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
     self.NextFamily:SetSize(96, 22)
@@ -263,7 +282,7 @@ function LiteMountMountsPanelMixin:OnLoad()
 end
 
 function LiteMountMountsPanelMixin:OnShow()
-    LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.ScrollBox, 'TOPLEFT', 0, 15)
+    LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.ScrollBox, 'TOPLEFT', 0, 4)
     LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "OnRefresh")
     LM.MountRegistry:RefreshMounts()
     LM.MountRegistry:UpdateFilterUsability()
@@ -284,6 +303,8 @@ function LiteMountMountsPanelMixin:OnShow()
                 WHITE_FONT_COLOR:WrapTextInColorCode(counts.usable)
             )
         )
+
+    self.ActionDropdown:SetupMenu(ActionMenuGenerate)
 
     self:RegisterEvent('MOUNT_JOURNAL_USABILITY_CHANGED')
 

@@ -6,17 +6,17 @@
 
 <Frame name="LiteMountPriorityTemplate" virtual="true" mixin="LiteMountPriorityMixin">
 
-    <Size x="72" y="32" />
+    <Size x="188" y="32" />
 
     <Layers>
         <Layer level="BACKGROUND">
             <Texture parentKey="Background">
-                <Size x="20" y="32" />
+                <Size x="160" y="20" />
                 <Anchors> <Anchor point="CENTER" /> </Anchors>
             </Texture>
         </Layer>
         <Layer level="OVERLAY">
-            <Fontstring parentKey="Priority" inherits="GameFontNormalLarge">
+            <Fontstring parentKey="Priority" inherits="GameFontWhite">
                 <Anchors> <Anchor point="CENTER" /> </Anchors>
             </Fontstring>
         </Layer>

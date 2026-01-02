@@ -1,7 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
     <Include file="PanelTemplate.xml" />
     <Include file="AnnounceFrame.xml" />
-    <Include file="MountFlagBitTemplate.xml" />
     <Include file="MountIconTemplate.xml" />
     <Include file="MountModelSceneTemplate.xml" />
     <Include file="MountListButtonTemplate.xml" />
@@ -21,6 +20,7 @@
     <Include file="Rules.xml" />
     <Include file="Groups.xml" />
     <Include file="Macro.xml" />
+    <Include file="Falling.xml" />
     <Include file="Advanced.xml" />
     <Include file="Profiles.xml" />
     <Include file="ReportBug.xml" />
