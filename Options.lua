@@ -138,80 +138,12 @@ LM.Options = {
 -- jammed into it and all the other don't. You can't assume the profile has
 -- any values in it at all.
 
--- From 7 onwards flagChanges is only the base flags, groups are stored
--- in the groups attribute, renamed from customFlags and having the spellID
--- members as keys with true as value.
-
-function LM.Options:VersionUpgrade7()
-    if (LM.db.global.configVersion or 7) >= 7 then
-        return
+function LM.Options:DatabaseWipeIfTooOld()
+    if LM.db.global.configVersion < 9 then
+        LiteMountDB = nil
+        LM.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
+        return true
     end
-
-    LM.Debug('VersionUpgrade: 7')
-
-    for n, p in pairs(LM.db.sv.profiles or {}) do
-        if p.customFlags and p.flagChanges then
-            LM.Debug(' - upgrading profile: ' .. n)
-            p.groups = p.customFlags or {}
-            p.customFlags = nil
-            for spellID,changes in pairs(p.flagChanges) do
-                for g,c in pairs(changes) do
-                    if p.groups[g] then
-                        p.groups[g][spellID] = true
-                        changes[g] = nil
-                    end
-                    if next(changes) == nil then
-                        p.flagChanges[spellID] = nil
-                    end
-                end
-            end
-        end
-    end
-    return true
-end
-
--- Version 8 moves to storing the user rules as action lines and compiling
--- them rather than trying to store them as raw rules, which caused all
--- sorts of grief.
-
-function LM.Options:VersionUpgrade8()
-    if (LM.db.global.configVersion or 8) >= 8 then
-        return
-    end
-
-    LM.Debug('VersionUpgrade: 8')
-    for n, p in pairs(LM.db.sv.profiles or {}) do
-        LM.Debug('   - upgrading profile: ' .. n)
-        if p.rules then
-            for k, ruleset in pairs(p.rules) do
-                LM.Debug('   - ruleset ' .. k)
-                for i, rule in pairs(ruleset) do
-                    if type(rule) == 'table' then
-                        ruleset[i] = LM.Rule:MigrateFromTable(rule)
-                    end
-                end
-            end
-        end
-    end
-    return true
-end
-
--- Version 9 changes excludeNewMounts (true/false) to defaultPriority
-
-function LM.Options:VersionUpgrade9()
-    if (LM.db.global.configVersion or 9) >= 9 then
-        return
-    end
-
-    LM.Debug('VersionUpgrade: 9')
-    for n, p in pairs(LM.db.sv.profiles or {}) do
-        LM.Debug(' - upgrading profile: ' .. n)
-        if p.excludeNewMounts then
-            p.defaultPriority = 0
-            p.excludeNewMounts = nil
-        end
-    end
-    return true
 end
 
 -- Version 10 removes [dragonridable]
@@ -290,9 +222,7 @@ end
 
 function LM.Options:DatabaseMaintenance()
     local changed
-    if self:VersionUpgrade7() then changed = true end
-    if self:VersionUpgrade8() then changed = true end
-    if self:VersionUpgrade9() then changed = true end
+    if self:DatabaseWipeIfTooOld() then changed = true end
     if self:VersionUpgrade10() then changed = true end
     if self:VersionUpgrade11() then changed = true end
     if self:CleanDatabase() then changed = true end
