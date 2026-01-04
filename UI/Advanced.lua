@@ -53,9 +53,9 @@ end
 
 LiteMountAdvancedEditBoxMixin = {}
 
-function LiteMountAdvancedEditBoxMixin:CheckCompileErrors()
+function LiteMountAdvancedEditBoxMixin:CheckCompileErrors(text)
     local errorMessage = LiteMountAdvancedPanel.ErrorMessage
-    local ruleset = LM.RuleSet:Compile(self:GetText())
+    local ruleset = LM.RuleSet:Compile(text)
     if ruleset.errors then
         -- It's possible we should just show the first one
         local errs = LM.tMap(ruleset.errors, function (info) return info.err end)
@@ -70,7 +70,7 @@ function LiteMountAdvancedEditBoxMixin:CheckCompileErrors()
 end
 
 function LiteMountAdvancedEditBoxMixin:SetOption(v, i)
-    if self:CheckCompileErrors() then
+    if self:CheckCompileErrors(v) then
         LM.Options:SetButtonRuleSet(i, v)
     end
 end
@@ -81,6 +81,11 @@ end
 
 function LiteMountAdvancedEditBoxMixin:GetOptionDefault()
     return LM.Options:GetButtonRuleSet('__default__')
+end
+
+function LiteMountAdvancedEditBoxMixin:SetControl(v)
+    self:SetText(v)
+    self:CheckCompileErrors(v)
 end
 
 --[[------------------------------------------------------------------------]]--
@@ -103,6 +108,5 @@ function LiteMountAdvancedPanelMixin:OnLoad()
 end
 
 function LiteMountAdvancedPanelMixin:OnShow()
-    self.EditScroll.ScrollBox.EditBox:CheckCompileErrors()
     self.UnlockButton:Show()
 end
