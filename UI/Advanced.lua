@@ -70,7 +70,7 @@ function LiteMountAdvancedEditBoxMixin:CheckCompileErrors()
 end
 
 function LiteMountAdvancedEditBoxMixin:SetOption(v, i)
-    if self:CheckCompileErrors() then
+    if v == self:GetOptionDefault() or self:CheckCompileErrors() then
         LM.Options:SetButtonRuleSet(i, v)
     end
 end
