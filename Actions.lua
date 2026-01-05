@@ -213,27 +213,6 @@ ACTIONS['Spell'] = {
         end
 }
 
--- Buff is the same as Spell but checks if you have a matching aura and
--- doesn't recast. Note that it checks only for buffs on the assumption
--- that you can't cast a debuff on yourself, and that it checks by name
--- because for some spells (e.g., Levitate) the ID doesn't match.
-
-ACTIONS['Buff'] = {
-    toDisplay = SpellArgsToDisplay,
-    argType = 'list',
-    handler =
-        function (args, context)
-            for _, arg in ipairs(args:ParseList()) do
-                LM.Debug('  * trying buff: ' .. tostring(arg))
-                local name, id, nameWithSubtext = GetUsableSpell(arg)
-                if name and not LM.UnitAura(context.rule.unit or 'player', name) then
-                    LM.Debug("  * setting action to spell " .. nameWithSubtext)
-                    return LM.SecureAction:Spell(nameWithSubtext, context.rule.unit)
-                end
-            end
-        end
-}
-
 -- Set context.precast to a spell name to try to macro in before mounting journal
 -- mounts. This is a bit less strict than Spell and Buff because the macro
 -- still works even if the spell isn't usable, and has the advantage of
@@ -253,26 +232,6 @@ ACTIONS['PreCast'] = {
                     context.preCast = info.name
                     context.preUse = nil
                     return
-                end
-            end
-        end
-}
-
-ACTIONS['CancelAura'] = {
-    toDisplay = SpellArgsToDisplay,
-    argType = 'list',
-    handler =
-        function (args, context)
-            for _, arg in ipairs(args:ParseList()) do
-                local info = LM.UnitAura('player', arg)
-                if info then
-                    -- Levitate (for example) is marked canApplyAura == false so this is a
-                    -- half-workaround. You still won't cancel Levitate somone else put on you.
-                    if info.canApplyAura then
-                        return LM.SecureAction:CancelAura(info.name)
-                    elseif info.sourceUnit == 'player' and C_Spell.GetSpellInfo(info.name) then
-                        return LM.SecureAction:CancelAura(info.name)
-                    end
                 end
             end
         end
@@ -359,12 +318,6 @@ ACTIONS['Dismount'] = {
                 end
             end
         end
-}
-
--- CancelForm has been absorbed into Dismount
-ACTIONS['CancelForm'] = {
-    argType = 'none',
-    handler = function (args, context) end
 }
 
 -- Got a player target, try copying their mount
