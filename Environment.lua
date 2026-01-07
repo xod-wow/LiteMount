@@ -700,18 +700,36 @@ function LM.Environment:GetMapTree()
     return mapTree
 end
 
+-- This is altering client state (hopefully temporarily). This has to happen
+-- during login, otherwise Blizzard_EncounterJournal will be super confused.
+
 function LM.Environment:InitializeEJInstances()
     self.instancesByID = {}
-    for ejID = 1, 10000 do
-        local name, _, _, _, _, _, _, _, hasDifficulty, instanceID, isRaidClassic, isRaid = EJ_GetInstanceInfo(ejID)
-        if name and hasDifficulty then
-            if WOW_PROJECT_ID == 1 then
-                self.instancesByID[instanceID] = { id=instanceID, name=name, isRaid=isRaid }
-            else
-                self.instancesByID[instanceID] = { id=instanceID, name=name, isRaid=isRaidClassic }
+    local savedTier = EJ_GetCurrentTier()
+    for tierID = 1, EJ_GetNumTiers() do
+        if tierID > GetNumExpansions() then
+            break
+        end
+        EJ_SelectTier(tierID)
+        for _, queryRaid in ipairs({ true, false }) do
+            local i = 1
+            while true do
+                local instanceID, name, _, _, _, _, _, _, _, hasDifficulty, _, isRaidClassic, isRaid = EJ_GetInstanceByIndex(i, queryRaid)
+                if not instanceID then break end
+                if WOW_PROJECT_ID ~= 1 then
+                    isRaid = isRaidClassic
+                end
+                self.instancesByID[instanceID] = {
+                    id = instanceID,
+                    name = name,
+                    isRaid = isRaid,
+                    tierID = tierID,
+                }
+                i = i + 1
             end
         end
     end
+    EJ_SelectTier(savedTier)
 end
 
 function LM.Environment:GetEJInstances()

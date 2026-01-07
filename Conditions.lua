@@ -787,13 +787,19 @@ CONDITIONS["instance"] = {
     menu =
         function ()
             local seen = {}
-            local dungeon = { text=LFG_TYPE_DUNGEON }
-            local raid = { text=LFG_TYPE_RAID }
+            local dungeonByTier, raidByTier = {}, {}
             for _, info in pairs(Env:GetEJInstances()) do
+                local tierName = EJ_GetTierInfo(info.tierID)
                 if info.isRaid then
-                    table.insert(raid, { val = "instance:"..info.id })
+                    if not raidByTier[info.tierID] then
+                        raidByTier[info.tierID] = { text=tierName, id=info.tierID }
+                    end
+                    table.insert(raidByTier[info.tierID], { val = "instance:"..info.id })
                 else
-                    table.insert(dungeon, { val = "instance:"..info.id })
+                    if not dungeonByTier[info.tierID] then
+                        dungeonByTier[info.tierID] = { text=tierName, id=info.tierID }
+                    end
+                    table.insert(dungeonByTier[info.tierID], { val = "instance:"..info.id })
                 end
                 seen[info.id] = true
             end
@@ -803,7 +809,15 @@ CONDITIONS["instance"] = {
                     table.insert(other, { val = "instance:"..id })
                 end
             end
-            return { nosort=true, dungeon, raid, other }
+            -- this is assuming dungeonByTier and raidByTier are indexed tables
+            -- (with no gaps) even though above we are initializing them by key
+            local dungeons = GetValuesArray(dungeonByTier)
+            dungeons.text = LFG_TYPE_DUNGEON
+            dungeons.nosort = true
+            local raids = GetValuesArray(raidByTier)
+            raids.text = LFG_TYPE_RAID
+            raids.nosort = true
+            return { nosort=true, dungeons, raids, other }
         end,
     handler =
         function (cond, context, v)
