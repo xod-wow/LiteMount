@@ -1686,80 +1686,24 @@ CONDITIONS["waterwalking"] = {
 }
 
 -- See WardrobeSetsTransmogMixin:GetFirstMatchingSetID
+-- The level of black magic shenanigans here is off the charts.
 
-local function GetTransmogLocationSourceID(location)
-    local baseSourceID, _, appliedSourceID = C_Transmog.GetSlotVisualInfo(location)
-    if appliedSourceID == Constants.Transmog.NoTransmogID then
-        return baseSourceID
-    else
-        return appliedSourceID
-    end
-end
-
-local function GetTransmogSetIDByName(name)
-    local usableSets = C_TransmogSets.GetAllSets()
-    for _,info in ipairs(usableSets) do
-        if info.name == name then
-            return info.setID
-        end
-    end
-end
-
-local function GetTransmogOutfitIDByName(name)
-    for _, id in ipairs(C_TransmogCollection.GetOutfits()) do
-        if name == C_TransmogCollection.GetOutfitInfo(id) then
-            return id
-        end
-    end
-end
+local ModelActor = CreateFrame('ModelScene'):CreateActor()
 
 local function IsTransmogSetActive(setID)
     if not C_TransmogSets.GetSetInfo(setID) then
         return false
     end
-    for key, slotInfo in pairs(TRANSMOG_SLOTS) do
-        if not slotInfo.location:IsSecondary() then
-            local sourceIDs = C_TransmogSets.GetSourceIDsForSlot(setID, slotInfo.location.slotID)
-            local activeSourceID = GetTransmogLocationSourceID(slotInfo.location)
-            if #sourceIDs > 0 and not tContains(sourceIDs, activeSourceID) then
+    ModelActor:SetModelByUnit("player")
+    for slotID, slotInfo in ipairs(ModelActor:GetItemTransmogInfoList()) do
+        if slotInfo.appearanceID > 0 then
+            local sourceIDs = C_TransmogSets.GetSourceIDsForSlot(setID, slotID)
+            if #sourceIDs > 0 and not tContains(sourceIDs, slotInfo.appearanceID) then
                 return false
             end
         end
     end
     return true
-end
-
--- This makes me want to kill myself instantly.
--- See WardrobeOutfitDropDownMixin:IsOutfitDressed()
-
-local ExcludeOutfitSlot = {
-    [INVSLOT_MAINHAND] = true, [INVSLOT_OFFHAND] = true, [INVSLOT_RANGED] = true,
-}
-
-local function IsTransmogOutfitActive(outfitID)
-    local outfitInfoList = C_TransmogCollection.GetOutfitItemTransmogInfoList(outfitID)
-    if not outfitInfoList then return end
-
-    local currentInfoList = Env:GetPlayerTransmogInfo()
-    if not currentInfoList then return end
-
-    for slotID, info in ipairs(currentInfoList) do
-        if info.appearanceID ~= Constants.Transmog.NoTransmogID then
-            if not ExcludeOutfitSlot[slotID] and not info:IsEqual(outfitInfoList[slotID]) then
-                return false
-            end
-        end
-    end
-    return true
-end
-
-local function GetTransmogOutfitsMenu()
-    local outfits = { text = TRANSMOG_OUTFIT_HYPERLINK_TEXT:match("|t(.*)") }
-    for _, id in ipairs(C_TransmogCollection.GetOutfits()) do
-        local name = C_TransmogCollection.GetOutfitInfo(id)
-        table.insert(outfits, { val = "xmog:"..name, text = name })
-    end
-    return outfits
 end
 
 local function GetTransmogSetsMenu()
@@ -1805,24 +1749,13 @@ CONDITIONS["xmog"] = {
         end,
     menu =
         function ()
-            if WOW_PROJECT_ID == 1 then
-                return { GetTransmogOutfitsMenu(), GetTransmogSetsMenu() }
-            else
-                -- Transmog outfits do work I just don't have a translation for
-                -- "Outfit" and midnight is too close to do any fixups before I
-                -- handle its complete redo.
-                return { GetTransmogSetsMenu() }
-            end
+            return { GetTransmogSetsMenu() }
         end,
     handler =
         function (cond, context, arg1, arg2)
-            local setID = tonumber(arg1) or GetTransmogSetIDByName(arg1)
+            local setID = tonumber(arg1)
             if setID then
                 return IsTransmogSetActive(setID)
-            end
-            local outfitID = GetTransmogOutfitIDByName(arg1)
-            if outfitID then
-                return IsTransmogOutfitActive(outfitID)
             end
         end
 }

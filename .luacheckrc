@@ -320,6 +320,7 @@ read_globals = {
     "GetTime",
     "GetTitleName",
     "GetUnitSpeed",
+    "GetValuesArray",
     "GetZoneText",
     "HANDSSLOT",
     "HEADSLOT",

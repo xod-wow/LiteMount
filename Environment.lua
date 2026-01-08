@@ -542,34 +542,10 @@ function LM.Environment:GetLocation()
 end
 
 local ModelScanFrame = CreateFrame('PlayerModel')
-ModelScanFrame:Hide()
 
 function LM.Environment:GetPlayerModel()
-    ModelScanFrame:Show()
     ModelScanFrame:SetUnit('player')
-    local modelFileID = ModelScanFrame:GetModelFileID()
-    ModelScanFrame:Hide()
-    return modelFileID
-end
-
--- The level of black magic shenanigans here is off the charts. What on earth
--- is ModelSceneID 596? I don't know but it's what DressUpFrame uses so ...
--- This used in conditions to check if we're wearing a transmog outfit.
-
-local ModelSceneScanFrame = CreateFrame('ModelScene', nil, nil, 'ModelSceneMixinTemplate')
-ModelSceneScanFrame:SetSize(100, 100)
-
-function LM.Environment:GetPlayerTransmogInfo()
-    ModelSceneScanFrame:Show()
-    ModelSceneScanFrame:ClearScene()
-    ModelSceneScanFrame:SetViewInsets(0, 0, 0, 0)
-    ModelSceneScanFrame:ReleaseAllActors()
-    ModelSceneScanFrame:TransitionToModelSceneID(596, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, true)
-    local actor = ModelSceneScanFrame:GetPlayerActor()
-    actor:SetModelByUnit("player")
-    local infoList = actor:GetItemTransmogInfoList()
-    ModelSceneScanFrame:Hide()
-    return infoList
+    return ModelScanFrame:GetModelFileID()
 end
 
 local maxMapID
