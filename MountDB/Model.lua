@@ -21,6 +21,7 @@ Model._AUTO_ = {
     [417888] = true, -- Algarian Stormrider
     [369476] = true, -- Amalgam of Rage
     [367875] = true, -- Armored Siege Kodo
+   [1242904] = true, -- Ashes of Belo'ren (2607) - reskin Coldflame Tempest?
     [294569] = true, -- Beastlord's Warwolf
     [288438] = true, -- Blackpaw
     [358072] = true, -- Bound Blizzard
@@ -35,7 +36,6 @@ Model._AUTO_ = {
     [431992] = true, -- Compass Rose
     [271646] = true, -- Dark Iron Core Hound
     [247448] = true, -- Darkmoon Dirigible
-    [458335] = true, -- Diamond Mechsuit
     [ 23161] = true, -- Dreadsteed
     [307932] = true, -- Ensorcelled Everwyrm
     [307256] = true, -- Explorer's Jungle Hopper
@@ -63,11 +63,12 @@ Model._AUTO_ = {
     [305592] = true, -- Mechagon Mechanostrider
     [367676] = true, -- Nether-Gorged Greatwyrm
     [308814] = true, -- Ny'alotha Allseer
-   [1241263] = true, -- OC91 Chariot (kinda Diamond Mechsuit)
     [245725] = true, -- Orgrimmar Interceptor
    [1221155] = true, -- Prototype A.S.M.R.
+   [1261391] = true, -- Relinquished Scarlet Charger (2785)
     [400733] = true, -- Rocket Shredder 9001
     [424009] = true, -- Runebound Firelord
+   [1247422] = true, -- Scorching Valor (2634)
    [1216430] = true, -- Sha-Warped Riding Tiger
     [279611] = true, -- Skullripper
     [341821] = true, -- Snowstorm
@@ -148,6 +149,23 @@ Model["Amani Bear"] = {
     [ 43688] = true, -- Amani War Bear
 }
 
+Model["Amani Eagle"] = {
+   [1261316] = true, --  2760 Amani Sharptalon
+   [1251433] = true, --  2693 Amani Sunfeather
+   [1261576] = true, --  2786 Hexed Vilefeather Eagle
+   [1251630] = true, --  2694 Amani Windcaller
+}
+
+Model["Amani Pango"] = {
+   [1261348] = true, --  2772 Blessed Amani Burrower
+   [1261351] = true, --  2775 Witherbark Pango
+}
+
+Model["Amani War Bear"] = {
+   [1261357] = true, --  2776 Amani Blessed Bear
+   [1261360] = true, --  2778 Ancestral War Bear
+}
+
 -- Devourer Animite
 Model["Animite"] = {
     [312776] = true, -- Chittering Animite
@@ -172,6 +190,13 @@ Model["Aquilon"] = {
    [1261671] = true, -- Bronze Aquilon
     [353875] = true, -- Elysian Aquilon
     [353877] = true, -- Foresworn Aquilon
+}
+
+-- Model file is Arcane Golem
+Model["Arcane Guardian"] = {
+   [1268949] = true, --  2842 Arcanovoid Construct
+   [1268926] = true, --  2841 Elven Arcane Guardian
+   [1268924] = true, --  2840 Silvermoon's Arcane Defender
 }
 
 Model["Armored Bear"] = {
@@ -364,10 +389,19 @@ Model["Camel"] = {
     [102488] = true, -- White Riding Camel
 }
 
+Model["Carrion"] = {
+   [1257058] = true, --  2733 Calamitous Carrion
+   [1257081] = true, --  2734 Convalescent Carrion
+}
+
 Model["Charger"] = {
     [ 66906] = true, -- Argent Charger
     [ 23214] = true, -- Charger
     [ 34767] = true, -- Thalassian Charger
+}
+
+Model["Chloroceros"] = {
+   [1270675] = true, --  2913 Vivid Chloroceros
 }
 
 Model["Chopper"] = {
@@ -396,6 +430,7 @@ Model["Clefthoof"] = {
 Model["Cloud Serpent"] = {
     [123992] = true, -- Azure Cloud Serpent
     [127156] = true, -- Crimson Cloud Serpent
+   [1260356] = true, -- Echo of Aln'sharan (2749)
     [123993] = true, -- Golden Cloud Serpent
     [315014] = true, -- Ivory Cloud Serpent
     [113199] = true, -- Jade Cloud Serpent
@@ -414,6 +449,13 @@ Model["Cloudwing Hippogryph"] = {
     [225765] = true, -- Leyfeather Hippogryph
     [239363] = true, -- Swift Spectral Hippogryph
     [359013] = true, -- Val'sharah Hippogryph
+}
+
+Model["Comfy Flying Quilt"] = {
+   [1270520] = true, --  2850 Fluffy Comfy Flying Quilt
+   [1270521] = true, --  2851 Gruffy Comfy Flying Quilt
+   [1270522] = true, --  2852 Comfy Bel'ameth Flying Quilt
+   [1270523] = true, --  2853 Comfy Silvermoon Flying Quilt
 }
 
 Model["Core Hound"] = {
@@ -487,6 +529,13 @@ Model["Crow"] = {
    [1255477] = true, -- Shadowblade's Felscorned Omen
     [231523] = true, -- Shadowblade's Lethal Omen
     [231434] = true, -- Shadowblade's Murderous Omen
+}
+
+-- Unused models are Amethyst and Citrine Mechsuit
+Model["Crystal Mechsuit"] = {
+    [458335] = true, -- Diamond Mechsuit
+   [1243003] = true, -- Light-Forged Mechsuit
+   [1241263] = true, -- OC91 Chariot
 }
 
 Model["Darkhound"] = {
@@ -595,15 +644,21 @@ Model["Dragon Turtle"] = {
     [127290] = true, -- Red Dragon Turtle
 }
 
+-- This could be split into two/three
 Model["Dragonhawk"] = {
     [ 96503] = true, -- Amani Dragonhawk
     [142478] = true, -- Armored Blue Dragonhawk
     [142266] = true, -- Armored Red Dragonhawk
     [ 61996] = true, -- Blue Dragonhawk
+   [1253929] = true, -- 2710 Cerulean Sporeglider
+   [1261298] = true, -- 2756 Crimson Dragonhawk
+   [1261302] = true, -- 2758 Cobalt Dragonhawk
     [194464] = true, -- Eclipse Dragonhawk
+   [1261291] = true, -- 2753 Fiery Dragonhawk
     [ 62048] = true, -- Illidari Doomhawk
    [1234305] = true, -- Lightwing Dragonhawk
     [ 61997] = true, -- Red Dragonhawk
+   [1253938] = true, -- 2713 Ruddy Sporeglider
     [ 66088] = true, -- Sunreaver Dragonhawk
     [351195] = true, -- Vengeance
    [1239138] = true, -- Voidlight Surger
@@ -679,6 +734,12 @@ Model["Eagle"] = {
     [385262] = true, -- Duskwing Ohuna
     [395644] = true, -- Divine Kiss of Ohn'ahra
     [385266] = true, -- Zenet Hatchling
+}
+
+Model["Earthen Mechsuit"] = {
+    [448186] = true, -- Crowd Pummeler 2-30
+    [448188] = true, -- Machine Defense Unit 1-11
+    [442358] = true, -- Stonevault Mechsuit
 }
 
 Model["Eel"] = {
@@ -887,6 +948,7 @@ Model["Glimmerfur Vulpin"] = {
 
 Model["Glowmite"] = {
     [447176] = true, -- Cyan Glowmite
+    [447173] = true, -- 2161 Elder Glowmite
 }
 
 Model["Goat"] = {
@@ -913,6 +975,11 @@ Model["Goblin Hyena"] = {
     [466002] = true, -- Violet Armored Growler
 }
 
+Model["Goblin Rocket"] = {
+   [1264643] = true, -- Ballistic Bronco
+    [126507] = true, -- Depleted-Kyparium Rocket
+}
+
 Model["Goblin Shredder"] = {
     [466023] = true, -- Asset Advocator
     [466019] = true, -- Blackwater Shredder Deluxe Mk 2
@@ -927,11 +994,6 @@ Model["Goblin Trike"] = {
     [ 87090] = true, -- Goblin Trike
     [ 87091] = true, -- Goblin Turbo-Trike
     [223354] = true, -- Vicious War Trike
-}
-
-Model["Goblin Rocket"] = {
-   [1264643] = true, -- Ballistic Bronco
-    [126507] = true, -- Depleted-Kyparium Rocket
 }
 
 Model["Goblin Waveshredder"] = {
@@ -962,11 +1024,6 @@ Model["Grand Gryphon"] = {
    [1218229] = true, -- Void-Scarred Gryphon
 }
 
-Model["Grandmaster's Companion"] = {
-    [229385] = true, -- Ban-Lu, Grandmaster's Companion
-   [1255467] = true, -- Felscorned Grandmaster's Companion
-}
-
 Model["Grand Wyvern"] = {
     [135418] = true, -- Grand Armored Wyvern
     [136164] = true, -- Grand Wyvern
@@ -978,6 +1035,11 @@ Model["Grandmaster's Board"] = {
    [1235763] = true, -- Grandmaster's Deep Board
    [1235803] = true, -- Grandmaster's Royal Board
       [1235806] = true, -- Grandmaster's Smokey Board
+}
+
+Model["Grandmaster's Companion"] = {
+    [229385] = true, -- Ban-Lu, Grandmaster's Companion
+   [1255467] = true, -- Felscorned Grandmaster's Companion
 }
 
 Model["Gravewing"] = {
@@ -1006,11 +1068,6 @@ Model["Great Elekk"] = {
     [ 65637] = true, -- Great Red Elekk
 }
 
-Model["Great Raven"] = {
-   [1226983] = true, -- Archmage's Great Raven
-   [1226760] = true, -- Prophet's Great Raven
-}
-
 Model["Great Kodo"] = {
     [ 22718] = true, -- Black War Kodo
     [ 49379] = true, -- Great Brewfest Kodo
@@ -1021,10 +1078,25 @@ Model["Great Kodo"] = {
     [ 63641] = true, -- Thunder Bluff Kodo
 }
 
+Model["Great Raven"] = {
+   [1226983] = true, -- Archmage's Great Raven
+   [1226760] = true, -- Prophet's Great Raven
+}
+
+-- Harronir Cat
+Model["Grimlynx"] = {
+   [1243593] = true, --  2614 Fierce Grimlynx
+   [1243597] = true, --  2615 Rootstalker Grimlynx
+}
+
 Model["Gronnling"] = {
     [189364] = true, -- Coalfist Gronnling
     [171436] = true, -- Gorestrider Gronnling
     [171849] = true, -- Sunhide Gronnling
+}
+
+Model["Grove Crawler"]  = {
+   [1260354] = true, -- 2747 Untained Grove Crawler
 }
 
 Model["Grove Warden"] = {
@@ -1062,6 +1134,13 @@ Model["Harbor Gryphon"] = {
     [413827] = true, -- Harbor Gryphon
     [275868] = true, -- Proudmoore Sea Scout
     [275866] = true, -- Stormsong Coastwatcher
+}
+
+-- This is a cheap reskin of Skyrazor is lore-wise unrelated.
+Model["Harrower"] = {
+   [1261332] = true, --  2764 Duskbrute Harrower
+   [1266700] = true, --  2827 Sanguine Harrower
+   [1266980] = true, --  2831 Tenebrous Harrower
 }
 
 Model["Harvesthog"] = {
@@ -1107,6 +1186,11 @@ Model["Helicid"] = {
     [359377] = true, -- Unsuccessful Prototype Fleetpod
 }
 
+Model["High Priest's Seeker"] = {
+   [1255475] = true, -- High Priest's Felscorned Seeker
+    [229377] = true, -- High Priest's Lightsworn Seeker
+}
+
 Model["Highlord's Charger"] = {
    [1255471] = true, -- Felscorned Highlord's Charger
     [231435] = true, -- Highlord's Golden Charger
@@ -1118,11 +1202,6 @@ Model["Highlord's Charger"] = {
 Model["Highmountain Eagle"] = {
    [1235513] = true, -- Snowy Highmountain Eagle
    [1251255] = true, -- Treetop Highmountain Eagle
-}
-
-Model["High Priest's Seeker"] = {
-   [1255475] = true, -- High Priest's Felscorned Seeker
-    [229377] = true, -- High Priest's Lightsworn Seeker
 }
 
 -- Split
@@ -1299,6 +1378,12 @@ Model["Mana Ray"] = {
     [253106] = true, -- Vibrant Mana Ray
 }
 
+Model["Mana Wyrm"] = {
+   [1261336] = true, --  2769 Preyseeker's Hubris
+   [1261338] = true, --  2771 Preyseeker's Nightmare
+   [1261337] = true, --  2770 Preyseeker's Wrath
+}
+
 Model["Manasaber"] = {
     [230987] = true, -- Arcanist's Manasaber
     [180545] = true, -- Mystic Runesaber
@@ -1378,12 +1463,6 @@ Model["Mechaspider"] = {
     [291492] = true, -- Rusty Mechanocrawler
 }
 
-Model["Mechsuit"] = {
-    [448186] = true, -- Crowd Pummeler 2-30
-    [448188] = true, -- Machine Defense Unit 1-11
-    [442358] = true, -- Stonevault Mechsuit
-}
-
 Model["Meeksi"] = {
     [473745] = true, -- Meeksi Brewthief
     [473743] = true, -- Meeksi Rollingpaw
@@ -1453,6 +1532,7 @@ Model["Nether Drake"] = {
     [ 41514] = true, -- Azure Netherwing Drake
     [ 41515] = true, -- Cobalt Netherwing Drake
     [412088] = true, -- Grotto Netherwing Drake
+      [3363] = true, -- Lost Nether Drake (16)
     [ 28828] = true, -- Nether Drake
     [ 41513] = true, -- Onyx Netherwing Drake
     [ 41516] = true, -- Purple Netherwing Drake
@@ -1461,6 +1541,7 @@ Model["Nether Drake"] = {
 }
 
 Model["Nether Ray"] = {
+   [1261155] = true, -- 2751 Augmented Stormray
     [ 39803] = true, -- Blue Riding Nether Ray
     [ 39798] = true, -- Green Riding Nether Ray
     [ 39801] = true, -- Purple Riding Nether Ray
@@ -1491,6 +1572,7 @@ Model["Ottuk"] = {
 
 Model["Owl"] = {
     [424484] = true, -- Anu'relos, Flame's Guidance
+   [1276650] = true, --  2917 Anu'shalla, Shadow's Guidance
     [443660] = true, -- Charming Courier
 }
 
@@ -1526,6 +1608,10 @@ Model["Parrot"] = {
 Model["Peafowl"] = {
     [432562] = true, -- Brilliant Sunburst Peafowl
     [432558] = true, -- Majestic Azure Peafowl
+}
+
+Model["Petalwing"] = {
+   [1253927] = true, --  2708 Vibrant Petalwing
 }
 
 Model["Phalynx"] = {
@@ -1570,6 +1656,7 @@ Model["Proto-Drake"] = {
     [ 59996] = true, -- Blue Proto-Drake
    [1255482] = true, -- Felscorned War Wyrm
     [386452] = true, -- Frostbrood Proto-Wyrm
+   [1262840] = true, -- Galactic Gladiator's Goredrake (2801)
     [ 61294] = true, -- Green Proto-Drake
     [ 63956] = true, -- Ironbound Proto-Drake
     [ 60021] = true, -- Plagued Proto-Drake
@@ -1590,6 +1677,21 @@ Model["Protostag"] = {
     [359277] = true, -- Sundered Zerethsteed
 }
 
+Model["Pseudoshell"] = {
+   [1267004] = true, --  2836 Accented Pseudoshell
+   [1266993] = true, --  2833 Arboreal Pseudoshell
+   [1266997] = true, --  2834 Cabbage Pseudoshell
+   [1267002] = true, --  2835 Lavender Pseudoshell
+}
+
+Model["Pterrordax Skyscreamer"] = {
+    [441794] = true, -- Amber Pterrordax
+    [136400] = true, -- Armored Skyscreamer
+    [435145] = true, -- Bloody Skyscreamer
+    [435147] = true, -- Jade Pterrordax
+    [435146] = true, -- Night Pterrorwing
+}
+
 Model["Pterrordax"] = {
     [368126] = true, -- Armored Golden Pterrordax
     [275838] = true, -- Captured Swampstalker
@@ -1600,14 +1702,6 @@ Model["Pterrordax"] = {
     [244712] = true, -- Spectral Pterrorwing
     [302797] = true, -- Swift Spectral Pterrordax
     [275840] = true, -- Voldunai Dunescraper
-}
-
-Model["Pterrordax Skyscreamer"] = {
-    [441794] = true, -- Amber Pterrordax
-    [136400] = true, -- Armored Skyscreamer
-    [435145] = true, -- Bloody Skyscreamer
-    [435147] = true, -- Jade Pterrordax
-    [435146] = true, -- Night Pterrorwing
 }
 
 Model["Qiraji Battle Tank"] = {
@@ -1643,18 +1737,6 @@ Model["Ramolith"] = {
     [449415] = true, -- Slatestone Ramolith
 }
 
-Model["Swift Raptor"] = {
-    [ 96491] = true, -- Armored Razzashi Raptor
-    [ 22721] = true, -- Black War Raptor
-    [ 63635] = true, -- Darkspear Raptor
-    [279569] = true, -- Swift Albino Raptor
-    [ 23241] = true, -- Swift Blue Raptor
-    [ 23242] = true, -- Swift Olive Raptor
-    [ 23243] = true, -- Swift Orange Raptor
-    [ 65644] = true, -- Swift Purple Raptor
-    [ 24242] = true, -- Swift Razzashi Raptor
-}
-
 Model["Raptor"] = {
     [138642] = true, -- Black Primal Raptor
     [138640] = true, -- Bone-White Primal Raptor
@@ -1670,11 +1752,6 @@ Model["Raptor"] = {
     [ 10799] = true, -- Violet Raptor
 }
 
-Model["Ravasaur"] = {
-    [255696] = true, -- Gilded Ravasaur
-    [266058] = true, -- Tomb Stalker
-}
-
 Model["Raptora"] = {
     [342668] = true, -- Desertwing Hunter
     [359372] = true, -- Mawdapted Raptora
@@ -1687,6 +1764,11 @@ Model["Ratstallion"] = {
 
 Model["Ravager"] = {
     [163025] = true, -- Grinning Reaver
+}
+
+Model["Ravasaur"] = {
+    [255696] = true, -- Gilded Ravasaur
+    [266058] = true, -- Tomb Stalker
 }
 
 Model["Raven"] = {
@@ -1793,7 +1875,7 @@ Model["Savagemane Ravasaur"] = {
 Model["Scarab"] = {
     [428060] = true, -- Golden Regal Scarab
     [428005] = true, -- Jeweled Copper Scarab
---  [428065] = true, -- Jeweled Jade Scarab (NYI)
+    [428065] = true, -- Jeweled Jade Scarab (1946)
     [428062] = true, -- Jeweled Sapphire Scarab
 }
 
@@ -1861,6 +1943,11 @@ Model["Shardhide"] = {
     [354358] = true, -- Darkmaul
 }
 
+Model["Shredclaw"] = {
+   [1261585] = true, -- Frenzied Shredclaw (2792)
+   [1261584] = true, -- Prowling Shredclaw (2791)
+}
+
 Model["Shredder"] = {
     [223814] = true, -- Mechanized Lumber Extractor
     [134359] = true, -- Sky Golem
@@ -1869,6 +1956,15 @@ Model["Shredder"] = {
 Model["Shreddertank"] = {
    [1217235] = true, -- Crimson Shreddertank
    [1221694] = true, -- Enterprising Shreddertank
+}
+
+-- This is annoying because there is a mount "Silvermoon Hawkstrider" which
+-- is not one of these but a Swift Hawkstrider, but this is clearly the
+-- right name from the flavor text.
+Model["Silvermoon Hawkstrider"]= {
+   [1261323] = true, --  2762 Cerulean Hawkstrider
+   [1261322] = true, --  2761 Crimson Silvermoon Hawkstrider
+   [1265784] = true, --  2817 Lucent Hawkstrider
 }
 
 -- Merged into Mountain Horse
@@ -1918,6 +2014,7 @@ Model["Sky Fox"] = {
 
 Model["Skyrazor"] = {
     [451491] = true, -- Ascendant Skyrazor
+    [451487] = true, -- 2220 Retrained Skyrazor
     [451489] = true, -- Siesbarg
     [451486] = true, -- Sureki Skyrazor
 }
@@ -1955,6 +2052,18 @@ Model["Snapdragon"] = {
     [474086] = true, -- Prismatic Snapdragon
     [294038] = true, -- Royal Snapdragon
     [300146] = true, -- Snapdragon Kelpstalker
+}
+
+Model["Snaplizard"] = {
+   [1261629] = true, --  2793 Vicious Snaplizard
+   [1261648] = true, --  2794 Vicious Snaplizard
+}
+
+Model["Snapvine"] = {
+   [1269279] = true, --  2847 Blooded Snapvine
+   [1269277] = true, --  2846 Ferocious Snapvine
+   [1269280] = true, --  2848 Savage Snapvine
+   [1269273] = true, --  2845 Vicious Snapvine
 }
 
 Model["Soul Eater"] = {
@@ -2108,6 +2217,18 @@ Model["Swift Ram"] = {
     [ 23239] = true, -- Swift Gray Ram
     [ 65643] = true, -- Swift Violet Ram
     [ 23240] = true, -- Swift White Ram
+}
+
+Model["Swift Raptor"] = {
+    [ 96491] = true, -- Armored Razzashi Raptor
+    [ 22721] = true, -- Black War Raptor
+    [ 63635] = true, -- Darkspear Raptor
+    [279569] = true, -- Swift Albino Raptor
+    [ 23241] = true, -- Swift Blue Raptor
+    [ 23242] = true, -- Swift Olive Raptor
+    [ 23243] = true, -- Swift Orange Raptor
+    [ 65644] = true, -- Swift Purple Raptor
+    [ 24242] = true, -- Swift Razzashi Raptor
 }
 
 Model["Swift Wind Rider"] = {
@@ -2271,13 +2392,6 @@ Model["Vilebrood Vanquisher"] = {
    [1255264] = true, -- Felscorned Vilebrood Vanquisher
 }
 
-Model["Vombata"] = {
-    [359232] = true, -- Adorned Vombata
-    [359230] = true, -- Curious Crystalsniffer
-    [359231] = true, -- Darkened Vombata
-    [359229] = true, -- Heartlight Vombata
-}
-
 Model["Void Creeper"] = {
    [1233547] = true, -- Acidic Void Creeper
    [1233546] = true, -- Ruby Void Creeper
@@ -2291,6 +2405,13 @@ Model["Void Flyer"] = {
    [1245517] = true, -- Scarlet Void Flyer
    [1223191] = true, -- Terror of the Night
    [1223187] = true, -- Terror of the Wastes
+}
+
+Model["Vombata"] = {
+    [359232] = true, -- Adorned Vombata
+    [359230] = true, -- Curious Crystalsniffer
+    [359231] = true, -- Darkened Vombata
+    [359229] = true, -- Heartlight Vombata
 }
 
 Model["Vorquin"] = {
