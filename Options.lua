@@ -53,6 +53,9 @@ local DefaultRulesByProject = LM.TableWithDefault({
         "Mount [instance:531] mt:241",
     },
     [1] = { -- Retail
+        "LeaveVehicle",
+        "Dismount [nofalling]",
+        "CopyTargetsMount",
         -- Vash'jir Seahorse
         "Mount [map:203,submerged] mt:232",
         -- Flying swimming mounts in Nazjatar with Budding Deepcoral
@@ -63,6 +66,12 @@ local DefaultRulesByProject = LM.TableWithDefault({
         "Mount [extra:202477,nosubmerged] id:881",
         -- Rustbolt Resistor and Aerial Unit R-21/X avoid being shot down
         -- "Mount [map:1462,flyable] MECHAGON"
+        "SwitchFlightStyle [mod:rshift]",
+        "Downshift [mod:shift]",
+        "SmartMount",
+        "Falling [falling]",
+        "Dismount",
+        "Macro",
     },
 })
 
