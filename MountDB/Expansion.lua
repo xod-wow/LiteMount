@@ -1438,6 +1438,7 @@ local Expansion = {
         [2631] = true, -- Scarlet Void Flyer
         [2632] = true, -- Astral Aurochs
         [2633] = true, -- Azure Void Flyer
+        [2634] = true, -- Scorching Valor
         [2640] = true, -- Brewfest Bomber
         [2645] = true, -- Kalu'ak Crest-Horn
         [2653] = true, -- Ghastly Ur'zul
@@ -1493,6 +1494,7 @@ local Expansion = {
         [2807] = true, -- Brawlin' Bruno
         [2808] = true, -- Ballistic Bronco
         [2815] = true, -- Snowpaw Glimmerfur Prowler
+        [2823] = true, -- Savage Crimson Battle Turtle
     },
 
     [11] = { -- Midnight
@@ -1523,7 +1525,6 @@ local Expansion = {
         [2697] = true, -- Quirky Turkey
         [2698] = true, -- Murky Turkey
         [2803] = true, -- Skypaw Glimmerfur
-        [2823] = true, -- Savage Crimson Battle Turtle
         [2825] = true, -- Cloudborn Razorwing
     },
 
