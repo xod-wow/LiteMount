@@ -148,7 +148,7 @@ end
 LiteMountFallingPanelMixin = {}
 
 function LiteMountFallingPanelMixin:OnLoad()
-    local view = CreateScrollBoxListLinearView(0, 0, 0, 0, 2)
+    local view = CreateScrollBoxListLinearView()
     view:SetElementInitializer("LiteMountItemSpellTemplate",
         function (button, elementData)
             local function Delete()
@@ -158,10 +158,6 @@ function LiteMountFallingPanelMixin:OnLoad()
                 LM.Options:SetOption('falling', falling)
             end
             button:Initialize(elementData, Delete)
-        end)
-    ScrollUtil.RegisterAlternateRowBehavior(self.Scroll,
-        function (button, isAlternate)
-            button.Stripe:SetShown(isAlternate)
         end)
     ScrollUtil.InitScrollBoxListWithScrollBar(self.Scroll, self.ScrollBar, view)
 

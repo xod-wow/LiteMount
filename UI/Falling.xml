@@ -4,7 +4,7 @@
 
 <Script file="Falling.lua" />
 
-<Button name="LiteMountItemSpellTemplate" mixin="LiteMountItemSpellMixin" virtual="true">
+<Button name="LiteMountItemSpellTemplate" inherits="LiteMountListItemStyleTemplate" mixin="LiteMountItemSpellMixin" virtual="true">
     <Size y="33" />
     <Layers>
         <Layer level="ARTWORK">
@@ -20,9 +20,6 @@
                     <Anchor point="RIGHT" x="-4" />
                 </Anchors>
             </FontString>
-            <Texture parentKey="Stripe" setAllPoints="true">
-              <Color r="1" g="1" b="1" a="0.1" />
-            </Texture>
         </Layer>
     </Layers>
     <Frames>
@@ -101,22 +98,19 @@
         <ScrollFrame parentKey="Scroll" inherits="WoWScrollBoxList">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.Container" x="8" y="-8" />
-                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Container" x="-24" y="8" />
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Container" x="-28" y="8" />
             </Anchors>
         </ScrollFrame>
         <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
-            <KeyValues>
-                <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
-            </KeyValues>
             <Anchors>
-                <Anchor point="TOPLEFT" relativeKey="$parent.Scroll" relativePoint="TOPRIGHT" x="8" y="0"/>
-                <Anchor point="BOTTOMLEFT" relativeKey="$parent.Scroll" relativePoint="BOTTOMRIGHT" x="8" y="0"/>
+                <Anchor point="TOPLEFT" relativeKey="$parent.Scroll" relativePoint="TOPRIGHT" x="8" y="2"/>
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.Scroll" relativePoint="BOTTOMRIGHT" x="8" y="2"/>
             </Anchors>
         </EventFrame>
         <Button parentKey="AddButton" inherits="UIPanelButtonTemplate" text="ADD">
             <Size x="72" y="22" />
             <Anchors>
-                <Anchor point="TOPRIGHT" relativeKey="$parent.Scroll" relativePoint="BOTTOMRIGHT" x="-4" y="-8" />
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.Scroll" relativePoint="TOPLEFT" x="8" y="8" />
             </Anchors>
         </Button>
     </Frames>
