@@ -68,7 +68,6 @@ Model._AUTO_ = {
    [1261391] = true, -- Relinquished Scarlet Charger (2785)
     [400733] = true, -- Rocket Shredder 9001
     [424009] = true, -- Runebound Firelord
-   [1247422] = true, -- Scorching Valor (2634)
    [1216430] = true, -- Sha-Warped Riding Tiger
     [279611] = true, -- Skullripper
     [341821] = true, -- Snowstorm
@@ -2020,7 +2019,6 @@ Model["Skyrazor"] = {
 }
 
 Model["Slitherdrake"] = {
-    [418286] = true, -- Auspicious Arborwyrm
    [1218316] = true, -- Corruption of the Aspects
     [110051] = true, -- Heart of the Aspects
     [368893] = true, -- Winding Slitherdrake
@@ -2629,9 +2627,11 @@ Model["Zhevra"] = {
 -- What on earth to do with this
 Model["Zodiac"] = {
     doNotCombine = true,
+    [418286] = true, -- Auspicious Arborwyrm
     [290134] = true, -- Hogrus, Swine of Good Fortune
     [369451] = true, -- Jade, Bright Foreseer
     [308087] = true, -- Lucky Yun
+   [1247422] = true, -- Scorching Valor (2634)
     [259395] = true, -- Shu-Zen, the Divine Sentinel
     [308078] = true, -- Squeakers, the Trickster
     [468205] = true, -- Timbered Sky Snake
