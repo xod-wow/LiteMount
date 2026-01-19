@@ -251,7 +251,7 @@ Model["Aurelid"] = {
 }
 
 Model["Aurochs"] = {
-   [1245604] = true, -- 2632 Astral Aurochs
+   [1245604] = true, -- Astral Aurochs (2632)
 }
 
 Model["Bakar"] = {
@@ -649,16 +649,17 @@ Model["Dragonhawk"] = {
     [142478] = true, -- Armored Blue Dragonhawk
     [142266] = true, -- Armored Red Dragonhawk
     [ 61996] = true, -- Blue Dragonhawk
-   [1253929] = true, -- 2710 Cerulean Sporeglider
-   [1261298] = true, -- 2756 Crimson Dragonhawk
-   [1261302] = true, -- 2758 Cobalt Dragonhawk
+   [1253929] = true, -- Cerulean Sporeglider (2710)
+   [1261298] = true, -- Crimson Dragonhawk (2756)
+   [1261302] = true, -- Cobalt Dragonhawk (2758)
     [194464] = true, -- Eclipse Dragonhawk
-   [1261291] = true, -- 2753 Fiery Dragonhawk
+   [1261291] = true, -- Fiery Dragonhawk (2753)
     [ 62048] = true, -- Illidari Doomhawk
    [1234305] = true, -- Lightwing Dragonhawk
     [ 61997] = true, -- Red Dragonhawk
-   [1253938] = true, -- 2713 Ruddy Sporeglider
+   [1253938] = true, -- Ruddy Sporeglider (2713)
     [ 66088] = true, -- Sunreaver Dragonhawk
+   [1261296] = true, -- Umbral Dragonhawk (2755)
     [351195] = true, -- Vengeance
    [1239138] = true, -- Voidlight Surger
    [1234303] = true, -- Voidwing Dragonhawk
@@ -947,7 +948,7 @@ Model["Glimmerfur Vulpin"] = {
 
 Model["Glowmite"] = {
     [447176] = true, -- Cyan Glowmite
-    [447173] = true, -- 2161 Elder Glowmite
+    [447173] = true, -- Elder Glowmite (2161)
 }
 
 Model["Goat"] = {
@@ -1085,6 +1086,7 @@ Model["Great Raven"] = {
 -- Harronir Cat
 Model["Grimlynx"] = {
    [1243593] = true, --  2614 Fierce Grimlynx
+   [1243598] = true, --  2616 Ivory Grimlynx
    [1243597] = true, --  2615 Rootstalker Grimlynx
 }
 
@@ -1095,7 +1097,7 @@ Model["Gronnling"] = {
 }
 
 Model["Grove Crawler"]  = {
-   [1260354] = true, -- 2747 Untained Grove Crawler
+   [1260354] = true, -- Untained Grove Crawler (2747)
 }
 
 Model["Grove Warden"] = {
@@ -1540,7 +1542,7 @@ Model["Nether Drake"] = {
 }
 
 Model["Nether Ray"] = {
-   [1261155] = true, -- 2751 Augmented Stormray
+   [1261155] = true, -- Augmented Stormray (2751)
     [ 39803] = true, -- Blue Riding Nether Ray
     [ 39798] = true, -- Green Riding Nether Ray
     [ 39801] = true, -- Purple Riding Nether Ray
@@ -1944,6 +1946,7 @@ Model["Shardhide"] = {
 
 Model["Shredclaw"] = {
    [1261585] = true, -- Frenzied Shredclaw (2792)
+   [1261583] = true, -- Insatiable Shredclaw (2790)
    [1261584] = true, -- Prowling Shredclaw (2791)
 }
 
@@ -2013,7 +2016,7 @@ Model["Sky Fox"] = {
 
 Model["Skyrazor"] = {
     [451491] = true, -- Ascendant Skyrazor
-    [451487] = true, -- 2220 Retrained Skyrazor
+    [451487] = true, -- Retrained Skyrazor (2220)
     [451489] = true, -- Siesbarg
     [451486] = true, -- Sureki Skyrazor
 }
