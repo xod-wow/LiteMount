@@ -80,7 +80,7 @@ CONDITIONS["achievement"] = {
 CONDITIONS["activethreat"] = {
     disabled = ( C_QuestLog.GetActiveThreatMaps == nil ),
     handler =
-        function (cond, context, v)
+        function (cond, context)
             local map = C_Map.GetBestMapForUnit('player')
             local activeThreatMaps = C_QuestLog.GetActiveThreatMaps()
             return map ~= nil and activeThreatMaps ~= nil and tContains(activeThreatMaps, map)
@@ -804,7 +804,7 @@ CONDITIONS["instance"] = {
                 seen[info.id] = true
             end
             local other = { text=OTHER }
-            for id, name in pairs(Env:GetInstances()) do
+            for id in pairs(Env:GetInstances()) do
                 if not seen[id] then
                     table.insert(other, { val = "instance:"..id })
                 end
@@ -1038,7 +1038,7 @@ CONDITIONS["map"] = {
 
 CONDITIONS["maw"] = {
     handler =
-        function (cond, context, v)
+        function (cond, context)
             return Env.isTheMaw
         end
 }
@@ -1180,7 +1180,7 @@ CONDITIONS["name"] = {
 CONDITIONS["option"] = {
     args = true,
     handler =
-        function (cond, context, setting, ...)
+        function (cond, context, setting)
             if not setting then return end
             setting = setting:lower()
             if setting == "copytargetsmount" then
@@ -1752,7 +1752,7 @@ CONDITIONS["xmog"] = {
             return { GetTransmogSetsMenu() }
         end,
     handler =
-        function (cond, context, arg1, arg2)
+        function (cond, context, arg1)
             local setID = tonumber(arg1)
             if setID then
                 return IsTransmogSetActive(setID)
@@ -1843,7 +1843,7 @@ end
 function LM.Conditions:TestAllConditions()
     LM.Environment:RefreshState()
     local context = { id = 99, rule = {} }
-    for name, cond in pairs(CONDITIONS) do
+    for _, cond in pairs(CONDITIONS) do
         if not cond.disabled then
             cond:handler(context)
             cond:handler(context, tostring(math.random(1000000)))

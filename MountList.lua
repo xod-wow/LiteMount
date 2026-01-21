@@ -192,7 +192,7 @@ function LM.MountList:LFUWeights()
     local weights = { }
     local lowestSummonCount
 
-    for i, m in ipairs(self) do
+    for _, m in ipairs(self) do
         if m:GetPriority() ~= LM.Options.DISABLED_PRIORITY then
             local c = m:GetSummonCount()
             if c <= (lowestSummonCount or c) then

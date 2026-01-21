@@ -74,7 +74,7 @@ end
 
 -- Druid forms don't reliably have a corresponding player buff, so we need
 -- to check the spell from GetShapeshiftFormInfo.
-function LM.TravelForm:IsActive(buffTable)
+function LM.TravelForm:IsActive(buffTable) -- luacheck: no unused
     local id = GetShapeshiftForm()
     if id > 0 then
         return select(4, GetShapeshiftFormInfo(id)) == self.spellID

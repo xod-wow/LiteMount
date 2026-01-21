@@ -46,7 +46,7 @@ function LM.Developer:CompareUsability()
     end
 end
 
-function LM.Developer:OnUpdate(elapsed)
+function LM.Developer:OnUpdate()
     if not self.thread or coroutine.status(self.thread) == "dead" then
         self:SetScript("OnUpdate", nil)
     else
@@ -99,7 +99,7 @@ function LM.Developer:ExportMockData()
     data.GetMountInfoExtraByID = {}
     data.GetSpellInfo = {}
 
-    for name, spellID in pairs(LM.SPELL) do
+    for _, spellID in pairs(LM.SPELL) do
         data.GetSpellInfo[spellID] = C_Spell.GetSpellInfo(spellID)
     end
 
@@ -113,7 +113,7 @@ function LM.Developer:ExportMockData()
     data.GetItemInfo = {}
     data.GetItemSpell = {}
 
-    for name, itemID in pairs(LM.ITEM) do
+    for _, itemID in pairs(LM.ITEM) do
         data.GetItemInfo[itemID] = { C_Item.GetItemInfo(itemID) }
         local spellName, spellID = C_Item.GetItemSpell(itemID)
         if spellName then

@@ -247,7 +247,7 @@ function LiteMountGroupsPanelGroupScrollBoxMixin:RefreshGroupList()
     self.AddGroupButton:Hide()
 
     local dp = CreateDataProvider()
-    for i, group in ipairs(allGroups) do
+    for _, group in ipairs(allGroups) do
         dp:Insert(group)
     end
     dp:Insert(self.AddGroupButton)

@@ -12,8 +12,6 @@ local _, LM = ...
 
 local L = LM.Localize
 
-local MENU_SPLIT_SIZE = 20
-
 --[[------------------------------------------------------------------------]]--
 
 -- Maximum height of dropdown menus before they scroll, 1/3 of screen. This

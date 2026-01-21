@@ -12,8 +12,6 @@ local _, LM = ...
 
 local L = LM.Localize
 
-local MENU_SPLIT_SIZE = 20
-
 --[[------------------------------------------------------------------------]]--
 
 -- Yeah this is ugly, it's converted from UIDropDownMenu and would be very

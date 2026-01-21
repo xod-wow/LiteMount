@@ -2700,11 +2700,11 @@ function LM.MountDB.AuditModelData()
        mountSpells[spellID] = name
     end
 
-    for spellID, family in pairs(ModelBySpellID) do
+    for spellID, modelName in pairs(ModelBySpellID) do
        if not mountSpells[spellID] then
           local name = C_Spell.GetSpellName(spellID)
           if not name then
-             -- print('NO SPELL', spellID, family)
+             -- print('NO SPELL', spellID, modelName)
           else
              print('EXTRA SPELL', spellID, C_Spell.GetSpellName(spellID))
           end

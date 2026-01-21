@@ -745,7 +745,7 @@ function LM.Environment:InitializeHolidays()
     local holidaysByTitle = {}
 
     C_Calendar.SetAbsMonth(now.month, now.year)
-    for monthDelta = 1, 12 do
+    for monthDelta = 1, 12 do   -- luacheck: no unused (loops 12 times, var unused)
         -- Advance by one, easier than doing our own date arithmetic
         C_Calendar.SetMonth(1)
         local monthInfo = C_Calendar.GetMonthInfo()

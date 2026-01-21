@@ -57,7 +57,7 @@ FLOWCONTROLS['ELSEIF'] =
     end
 
 FLOWCONTROLS['ELSE'] =
-    function (args, context, isTrue)
+    function (args, context)
         local trueState  = context.flowControl[#context.flowControl]
         trueState = trueState + 1
         context.flowControl[#context.flowControl] = trueState
@@ -65,7 +65,7 @@ FLOWCONTROLS['ELSE'] =
     end
 
 FLOWCONTROLS['END'] =
-    function (args, context, isTrue)
+    function (args, context)
         table.remove(context.flowControl)
         LM.Debug('  * END is ' .. table.concat(context.flowControl, ','))
     end

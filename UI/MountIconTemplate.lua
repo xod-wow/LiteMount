@@ -29,7 +29,7 @@ function LiteMountMountIconMixin.MenuGenerator(owner, rootDescription)
     local groupMenu = rootDescription:CreateButton(L.LM_GROUPS)
     for _, g in pairs(allGroups) do
         local function IsSelected() return mountGroups[g] end
-        local function SetSelected(...)
+        local function SetSelected()
             if mountGroups[g] then
                 LM.Options:ClearMountGroup(owner.mount, g)
             else
@@ -96,7 +96,7 @@ end
 
 function LiteMountMountIconMixin:OnClickHook(mouseButton, isDown)
     if mouseButton == 'LeftButton' and self.clickHookFunction then
-        self.clickHookFunction()
+        self.clickHookFunction(mouseButton, isDown)
     end
 end
 

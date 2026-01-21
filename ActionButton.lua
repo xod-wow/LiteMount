@@ -122,15 +122,15 @@ end
 -- lockdown starts so we can still do secure things. Unlike other places
 -- it's possible this will do SecureHandlerWrapScript if it's being called
 -- from a macro.
-function LM.ActionButton:OnEvent(e, ...)
-    if e == "PLAYER_REGEN_DISABLED" then
+function LM.ActionButton:OnEvent(event)
+    if event == "PLAYER_REGEN_DISABLED" then
         LM.Debug('[%d] Combat started', self.id)
         local args = LM.RuleArguments:Get()
         local act = LM.Actions:GetHandler('Combat')(args, self.context)
         if act then
             act:SetupActionButton(self)
         end
-    elseif e == "PLAYER_REGEN_ENABLED" then
+    elseif event == "PLAYER_REGEN_ENABLED" then
         LM.Debug('[%d] Combat ended', self.id)
         LM.SecureAction:ClearActionButton(self)
     end

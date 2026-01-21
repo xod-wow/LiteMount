@@ -198,8 +198,8 @@ function LiteMountProfilesPanelMixin:OnLoad()
 
     self.CurrentProfileLabel:SetText(L.LM_CURRENT_PROFILE .. " :")
 
-    local function OnClick(self)
-        MenuUtil.CreateContextMenu(self, self.Generate)
+    local function OnClick(button)
+        MenuUtil.CreateContextMenu(button, button.Generate)
     end
 
     Mixin(self.ChangeProfile, ChangeProfileMixin)

@@ -749,7 +749,7 @@ function LM.Options:RecordInstance()
     LM.db.global.instances[info[8]] = info[1]
 end
 
-function LM.Options:GetInstances(id)
+function LM.Options:GetInstances()
     return CopyTable(LM.db.global.instances, true)
 end
 

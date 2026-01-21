@@ -166,7 +166,7 @@ function LM.TableToLines(val)
     return context.lines
 end
 
-local defaultIndexer = { __index = function (t, k) return t.DEFAULT end }
+local defaultIndexer = { __index = function (t) return t.DEFAULT end }
 
 function LM.TableWithDefault(t)
     return setmetatable(t, defaultIndexer)

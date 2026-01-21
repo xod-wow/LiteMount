@@ -47,41 +47,43 @@ function LM.SecureAction:ClearActionButton(button)
 end
 
 function LM.SecureAction:NoAction()
-    return self:New( {
-                ["type"] = nil,
-            } )
-end
-
-function LM.SecureAction:Macro(macroText, unit)
-    return self:New( {
-                ["type"] = "macro",
-                ["macrotext"] = macroText,
-                ["unit"] = unit or "player",
-            } )
-end
-
-function LM.SecureAction:Spell(spellName, unit)
     local attr = {
-            ["type"] = "spell",
-            ["unit"] = unit or "player",
-            ["spell"] = spellName
+        ["type"] = nil,
     }
     return self:New(attr)
 end
 
-function LM.SecureAction:CancelAura(spellName, unit)
+function LM.SecureAction:Macro(macroText, unit)
     local attr = {
-            ["type"] = "cancelaura",
-            ["spell"] = spellName
+        ["type"] = "macro",
+        ["macrotext"] = macroText,
+        ["unit"] = unit or "player",
+    }
+    return self:New(attr)
+end
+
+function LM.SecureAction:Spell(spellName, unit)
+    local attr = {
+        ["type"] = "spell",
+        ["unit"] = unit or "player",
+        ["spell"] = spellName
+    }
+    return self:New(attr)
+end
+
+function LM.SecureAction:CancelAura(spellName)
+    local attr = {
+        ["type"] = "cancelaura",
+        ["spell"] = spellName
     }
     return self:New(attr)
 end
 
 function LM.SecureAction:Item(useArg, unit)
     local attr = {
-            ["type"] = "item",
-            ["unit"] = unit or "player",
-            ["item"] = useArg
+        ["type"] = "item",
+        ["unit"] = unit or "player",
+        ["item"] = useArg
     }
     return self:New(attr)
 end
@@ -95,8 +97,8 @@ end
 
 function LM.SecureAction:Click(clickButton)
     local attr = {
-            ["type"] = "click",
-            ["clickbutton"] = clickButton
+        ["type"] = "click",
+        ["clickbutton"] = clickButton
     }
     return self:New(attr)
 end
