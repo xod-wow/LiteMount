@@ -993,11 +993,13 @@ Model["Goblin Shredder"] = {
 Model["Goblin Trike"] = {
     [ 87090] = true, -- Goblin Trike
     [ 87091] = true, -- Goblin Turbo-Trike
+   [1269556] = true, -- Hypo-Speed X6000 (2849)
     [223354] = true, -- Vicious War Trike
 }
 
 Model["Goblin Waveshredder"] = {
     [473188] = true, -- Bronze Goblin Waveshredder
+   [1268809] = true, -- Fantastical Goblin Waveshredder (2838)
     [446352] = true, -- Kickin' Kezan Wave Shredder
     [447413] = true, -- Pearlescent Goblin Wave Shredder
     [473137] = true, -- Soweezi's Vintage Waveshredder
@@ -2042,6 +2044,7 @@ Model["Snail"] = {
 }
 
 Model["Snailemental"] = {
+   [1269181] = true, -- Ghastropod (2843)
     [374157] = true, -- Gooey Snailemental
     [350219] = true, -- Magmashell
     [374162] = true, -- Scrappy Worldsnail
@@ -2124,6 +2127,7 @@ Model["Storm Dragon"] = {
 }
 
 Model["Stormcrow"] = {
+    [ 97501] = true, -- Felfire Hawk
     [171828] = true, -- Solar Spirehawk
     [471562] = true, -- Thrayir, Eyes of the Siren
     [253639] = true, -- Violet Spellwing
