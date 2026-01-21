@@ -188,7 +188,7 @@ LM.MOUNT_TYPE_INFO = {
         },
     },
     [407] = {
-        -- Flying + Aquatic, can't skyride (at least for now
+        -- Flying + Aquatic, can't skyride (at least for now)
         name = MOUNT_JOURNAL_FILTER_FLYING .. ' + ' .. MOUNT_JOURNAL_FILTER_AQUATIC,
         flags = {
             FLY = true,
@@ -199,8 +199,7 @@ LM.MOUNT_TYPE_INFO = {
         -- Unsuccessful Prototype Fleetpod
         name = C_MountJournal.GetMountInfoByID(1539),
         flags = {
-            RUN = true,
-            SLOW = true,
+            -- Walking speed, not useful at all
         },
     },
     [411] = {
@@ -278,12 +277,10 @@ LM.MOUNT_TYPE_INFO = {
     },
     [446] = {
         -- Unstable Rocket whatever that is
-        name = C_MountJournal.GetMountInfoByID(1796),
         skip = true,
     },
     [447] = {
         -- Unstable Rocket whatever that is
-        name = C_MountJournal.GetMountInfoByID(1796),
         skip = true,
     },
 }
