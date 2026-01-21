@@ -2127,7 +2127,7 @@ Model["Storm Dragon"] = {
 }
 
 Model["Stormcrow"] = {
-    [ 97501] = true, -- Felfire Hawk
+   [1271549] = true, -- Fel Spirehawk
     [171828] = true, -- Solar Spirehawk
     [471562] = true, -- Thrayir, Eyes of the Siren
     [253639] = true, -- Violet Spellwing
