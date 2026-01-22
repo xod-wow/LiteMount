@@ -1727,8 +1727,24 @@ local function GetTransmogSetsMenu()
     return sets
 end
 
--- The args version of this takes slotid/appearanceid and really should be junked
--- now that the other form works. Well, if it reliably did. :(
+local function GetTransmogOutfitsMenu()
+    local outfits = { text = TRANSMOG_OUTFIT_HYPERLINK_TEXT:match("|t(.*)") }
+    for _, info in ipairs(C_TransmogOutfitInfo.GetOutfitsInfo()) do
+        table.insert(outfits, { val = "xmog:"..info.name, text = info.name })
+    end
+    return outfits
+end
+
+local function IsTransmogOutfitActive(name)
+    local id = C_TransmogOutfitInfo.GetActiveOutfitID()
+    if id then
+        local info = C_TransmogOutfitInfo.GetOutfitInfo(id)
+        if info then
+            return info.name == name
+        end
+    end
+    return false
+end
 
 CONDITIONS["xmog"] = {
     name = PERKS_VENDOR_CATEGORY_TRANSMOG,
@@ -1749,13 +1765,15 @@ CONDITIONS["xmog"] = {
         end,
     menu =
         function ()
-            return { GetTransmogSetsMenu() }
+            return { GetTransmogOutfitsMenu(), GetTransmogSetsMenu(), }
         end,
     handler =
         function (cond, context, arg1)
             local setID = tonumber(arg1)
             if setID then
                 return IsTransmogSetActive(setID)
+            else
+                return IsTransmogOutfitActive(arg1)
             end
         end
 }
