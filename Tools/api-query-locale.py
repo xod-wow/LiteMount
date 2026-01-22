@@ -50,7 +50,7 @@ def query_type(qtype, id):
     data = [ x['data'] for x in r.json()['results'] ]
     return data
 
-rows = []
+rows = set()
 
 for id in args.id:
     qtype = None
@@ -76,20 +76,26 @@ for id in args.id:
     for d in find_best(data, id):
         for locale, name in d['name'].items():
             if locale not in [ 'en_US', 'en_GB' ]:
-                rows.append((locale, d['name']['en_US'], name))
+                rows.add((locale, id, name, d['name']['en_US']))
+
+rows = list(rows)
 
 current_locale = ''
 
 if args.sort:
     rows.sort(key=lambda x: x)
 else:
+    # multi-sort because python
+    rows.sort(key=lambda x: x[2])
+    rows.sort(key=lambda x: x[3])
+    rows.sort(key=lambda x: x[1])
     rows.sort(key=lambda x: x[0])
 
 for r in rows:
     if args.compact:
-        print('{} L["{}"] = "{}"'.format(*r))
+        print('{} L["{}"] = "{}" -- {}'.format(*r))
     else:
         if r[0] != current_locale:
             print(r[0])
             current_locale = r[0]
-        print('  L["{}"] = "{}"'.format(r[1], r[2]))
+        print('  L["{}"] = "{}" -- {}'.format(r[1], r[2], r[3]))
