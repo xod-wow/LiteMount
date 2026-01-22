@@ -123,7 +123,7 @@ function ChangeProfileMixin.Generate(owner, rootDescription)
         rootDescription:CreateRadio(GetProfileNameText(p), IsSelected, SetSelected, i)
     end
 
-    rootDescription:SetScrollExtent(GetScrollExtent())
+    rootDescription:SetScrollMode(GetScrollExtent())
 end
 
 
@@ -160,7 +160,7 @@ function DeleteProfileMixin.Generate(owner, rootDescription)
         rootDescription:CreateButton(GetProfileNameText(p), OnClick, p)
     end
 
-    rootDescription:SetScrollExtent(GetScrollExtent())
+    rootDescription:SetScrollMode(GetScrollExtent())
 end
 
 --[[------------------------------------------------------------------------]]--
@@ -170,7 +170,7 @@ local ExportProfileMixin = {}
 function ExportProfileMixin.Generate(owner, rootDescription)
     local dbProfiles = LM.db:GetProfiles() or {}
 
-    rootDescription:SetScrollExtent(GetScrollExtent())
+    rootDescription:SetScrollMode(GetScrollExtent())
 
     local function OnClick(data)
         LiteMountProfileExport:SetProfile(data)
@@ -181,7 +181,7 @@ function ExportProfileMixin.Generate(owner, rootDescription)
         rootDescription:CreateButton(p, OnClick, p)
     end
 
-    rootDescription:SetScrollExtent(GetScrollExtent())
+    rootDescription:SetScrollMode(GetScrollExtent())
 end
 
 
