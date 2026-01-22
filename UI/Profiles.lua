@@ -108,14 +108,30 @@ end
 
 --[[------------------------------------------------------------------------]]--
 
+local function ProfileSort(a, b)
+    if a == "Default" then
+        return true
+    elseif b == "Default" then
+        return false
+    else
+        return a < b
+    end
+end
+
+local function GetSortedProfiles()
+    local dbProfiles = LM.db:GetProfiles() or {}
+    sort(dbProfiles, ProfileSort)
+    return dbProfiles
+end
+
+
+--[[------------------------------------------------------------------------]]--
+
 local ChangeProfileMixin = {}
 
 function ChangeProfileMixin.Generate(owner, rootDescription)
     local currentProfile = LM.db:GetCurrentProfile()
-    local dbProfiles = LM.db:GetProfiles() or {}
-    tDeleteItem(dbProfiles, "Default")
-    sort(dbProfiles)
-    tinsert(dbProfiles, 1, "Default")
+    local dbProfiles = GetSortedProfiles()
 
     for i,p in ipairs(dbProfiles) do
         local function IsSelected() return p == currentProfile end
@@ -148,7 +164,7 @@ local DeleteProfileMixin = {}
 
 function DeleteProfileMixin.Generate(owner, rootDescription)
     local currentProfile = LM.db:GetCurrentProfile()
-    local dbProfiles = LM.db:GetProfiles() or {}
+    local dbProfiles = GetSortedProfiles()
     tDeleteItem(dbProfiles, "Default")
     tDeleteItem(dbProfiles, currentProfile)
 
@@ -168,9 +184,7 @@ end
 local ExportProfileMixin = {}
 
 function ExportProfileMixin.Generate(owner, rootDescription)
-    local dbProfiles = LM.db:GetProfiles() or {}
-
-    rootDescription:SetScrollMode(GetScrollExtent())
+    local dbProfiles = GetSortedProfiles()
 
     local function OnClick(data)
         LiteMountProfileExport:SetProfile(data)
