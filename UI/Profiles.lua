@@ -101,6 +101,10 @@ local function ClickImportProfile(self, arg1, arg2, check)
     LiteMountOptionsPanel_PopOver(LiteMountProfileImport, LiteMountProfilesPanel)
 end
 
+local function GetScrollExtent()
+    local _, y = GetPhysicalScreenSize()
+    return math.floor(y/3)
+end
 
 --[[------------------------------------------------------------------------]]--
 
@@ -118,6 +122,8 @@ function ChangeProfileMixin.Generate(owner, rootDescription)
         local function SetSelected() LM.db:SetProfile(p) end
         rootDescription:CreateRadio(GetProfileNameText(p), IsSelected, SetSelected, i)
     end
+
+    rootDescription:SetScrollExtent(GetScrollExtent())
 end
 
 
@@ -153,6 +159,8 @@ function DeleteProfileMixin.Generate(owner, rootDescription)
     for _, p in ipairs(dbProfiles) do
         rootDescription:CreateButton(GetProfileNameText(p), OnClick, p)
     end
+
+    rootDescription:SetScrollExtent(GetScrollExtent())
 end
 
 --[[------------------------------------------------------------------------]]--
@@ -162,6 +170,8 @@ local ExportProfileMixin = {}
 function ExportProfileMixin.Generate(owner, rootDescription)
     local dbProfiles = LM.db:GetProfiles() or {}
 
+    rootDescription:SetScrollExtent(GetScrollExtent())
+
     local function OnClick(data)
         LiteMountProfileExport:SetProfile(data)
         LiteMountOptionsPanel_PopOver(LiteMountProfileExport, LiteMountProfilesPanel)
@@ -170,6 +180,8 @@ function ExportProfileMixin.Generate(owner, rootDescription)
     for _, p in ipairs(dbProfiles) do
         rootDescription:CreateButton(p, OnClick, p)
     end
+
+    rootDescription:SetScrollExtent(GetScrollExtent())
 end
 
 
