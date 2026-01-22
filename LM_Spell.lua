@@ -12,6 +12,8 @@ local _, LM = ...
 
 local C_Spell = LM.C_Spell or C_Spell
 
+local issecretvalue = issecretvalue or function () return false end
+
 LM.Spell = setmetatable({ }, LM.Mount)
 LM.Spell.__index = LM.Spell
 
@@ -46,8 +48,9 @@ function LM.Spell:IsCastable()
         return false
     end
 
+    -- Is there any way to check if the spell can be cast in M+
     local cooldownInfo = C_Spell.GetSpellCooldown(self.spellID)
-    if cooldownInfo and cooldownInfo.startTime > 0 then
+    if cooldownInfo and not issecretvalue(cooldownInfo.startTime) and cooldownInfo.startTime > 0 then
         return false
     end
 

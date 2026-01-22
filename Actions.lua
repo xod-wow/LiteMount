@@ -14,6 +14,7 @@ local C_Spell = LM.C_Spell or C_Spell
 
 local L = LM.Localize
 
+local issecretvalue = issecretvalue or function () return false end
 --
 -- This is the support for saving and restoring druid forms which is all done
 -- in the Dismount action. Form IDs that you put here must be cancelled
@@ -176,7 +177,7 @@ local function GetUsableSpell(arg)
 
     if C_Spell.IsSpellUsable(info.name) then
         local cooldownInfo = C_Spell.GetSpellCooldown(info.name)
-        if cooldownInfo and cooldownInfo.startTime == 0 then
+        if not cooldownInfo or issecretvalue(cooldownInfo.startTime) or cooldownInfo.startTime == 0 then
             return info.name, info.spellID, nameWithSubtext
         end
     end
