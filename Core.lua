@@ -30,6 +30,36 @@ _G.LiteMount = LM.CreateAutoEventFrame("Button", "LiteMount", UIParent, "SecureA
 LiteMount:RegisterEvent("PLAYER_LOGIN")
 LiteMount.LM = LM
 
+-- I don't know when you can Emote and when you can't, I know at least these
+-- are disallowed
+--
+--      Enum.AddOnRestrictionType.ChallengeMode
+--      Enum.AddOnRestrictionType.PvPMatch
+--
+-- this seems ok (at least it works in non-M+ instances):
+--
+--      Enum.AddOnRestrictionType.Map
+--
+-- I have no idea about these, which probably are blocked.
+--
+--      Enum.AddOnRestrictionType.Combat
+--      Enum.AddOnRestrictionType.Encounter
+
+local function CanPerformEmote()
+    if C_RestrictedActions then
+        if C_RestrictedActions.IsAddOnRestrictionActive(Enum.AddOnRestrictionType.ChallengeMode) then
+            return false
+        elseif C_RestrictedActions.IsAddOnRestrictionActive(Enum.AddOnRestrictionType.PvPMatch) then
+            return false
+        elseif C_RestrictedActions.IsAddOnRestrictionActive(Enum.AddOnRestrictionType.Combat) then
+            return false
+        elseif C_RestrictedActions.IsAddOnRestrictionActive(Enum.AddOnRestrictionType.Encounter) then
+            return false
+        end
+    end
+    return true
+end
+
 function LiteMount:MountSpecialTicker(ticker)
     local timerSeconds = LM.Options:GetOption('mountSpecialTimer')
 
@@ -47,7 +77,9 @@ function LiteMount:MountSpecialTicker(ticker)
 
     if self.mountSpecialCountdown and self.mountSpecialCountdown <= 0 then
         -- Also EMOTE171_TOKEN
-        DoEmote("MOUNTSPECIAL")
+        if CanPerformEmote() then
+            DoEmote("MOUNTSPECIAL")
+        end
         self.mountSpecialCountdown = nil
     end
 

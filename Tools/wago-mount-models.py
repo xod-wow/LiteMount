@@ -16,16 +16,19 @@ def PrintModels(dataFile):
         t.sort(key=lambda x: x['Name_lang'])
 
     for n in sorted(mountsByModel.keys()):
+        seen = []
         print(n)
         for r in mountsByModel[n]:
-            print('   [{SourceSpellID:>7}] = true, -- {ID} {Name_lang}'.format(**r))
+            if not r['Name_lang'] in seen:
+                print('   [{SourceSpellID:>7}] = true, -- {ID} {Name_lang}'.format(**r))
+                seen.append(r['Name_lang'])
         print()
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
 
     p = ArgumentParser()
-    p.add_argument('dataFile')
+    p.add_argument('--datafile', default="WAGO.json")
     args = p.parse_args()
 
-    PrintModels(args.dataFile)
+    PrintModels(args.datafile)
