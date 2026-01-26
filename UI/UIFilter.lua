@@ -491,6 +491,10 @@ function LM.UIFilter.GetPriorityColor(p)
 end
 
 function LM.UIFilter.GetPriorityText(p)
+    return L['LM_PRIORITY_DESC'..p]
+end
+
+function LM.UIFilter.GetPriorityColorTexts(p)
     local c = PriorityColors[p] or PriorityColors['']
     return c:WrapTextInColorCode(p),
            c:WrapTextInColorCode(L['LM_PRIORITY_DESC'..p])
@@ -643,7 +647,7 @@ function LM.UIFilter.IsFilteredMount(m)
     -- Flags
     if next(LM.UIFilter.filterList.flag) then
         local isFiltered = true
-        for f in pairs(m:GetFlags()) do
+        for f in pairs(m.flags) do
             if LM.FLAG[f] ~= nil and not LM.UIFilter.filterList.flag[f] then
                 isFiltered = false
                 break

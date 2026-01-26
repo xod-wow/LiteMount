@@ -23,21 +23,20 @@ function LiteMountPriorityMixin:Update(mount)
     self.mount = mount
 
     local value = self:Get()
-    if value then
-        self.Minus:SetShown(value > LM.Options.MIN_PRIORITY)
-        self.Plus:SetShown(value < LM.Options.MAX_PRIORITY)
-        self.Priority:SetText(value)
-    else
-        self.Minus:Show()
-        self.Plus:Show()
-        self.Priority:SetText('')
-    end
+    self.Minus:SetShown(value > LM.Options.MIN_PRIORITY)
+    self.Plus:SetShown(value < LM.Options.MAX_PRIORITY)
+    local text = LM.UIFilter.GetPriorityText(value)
+    self.Priority:SetText(text)
+
     if LM.Options:GetOption('randomWeightStyle') == 'Priority' or value == 0 then
         local r, g, b = LM.UIFilter.GetPriorityColor(value):GetRGB()
-        self.Background:SetColorTexture(r, g, b, 0.33)
+        self.Priority:SetTextColor(1, 1, 1)
+        self.Background:SetColorTexture(r, g, b, 0.2)
     else
-        local r, g, b = LM.UIFilter.GetPriorityColor(''):GetRGB()
-        self.Background:SetColorTexture(r, g, b, 0.33)
+        local r, g, b = LM.UIFilter.GetPriorityColor(value):GetRGB()
+        self.Priority:SetTextColor(r, g, b)
+        r, g, b = LM.UIFilter.GetPriorityColor(''):GetRGB()
+        self.Background:SetColorTexture(r, g, b, 0.2)
     end
 end
 
@@ -86,7 +85,7 @@ function LiteMountPriorityMixin:OnEnter()
     end
 
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
-        local t, d = LM.UIFilter.GetPriorityText(p)
+        local t, d = LM.UIFilter.GetPriorityColorTexts(p)
         GameTooltip:AddLine(t .. ' - ' .. d)
     end
     GameTooltip:Show()

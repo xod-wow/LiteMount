@@ -12,8 +12,6 @@ local C_Spell = LM.C_Spell or C_Spell
 
 local L = LM.Localize
 
-local allTypeFlags = LM.Options:GetFlags()
-
 --[[------------------------------------------------------------------------]]--
 
 -- This is a minimal emulation of LM.ActionButton
@@ -44,24 +42,22 @@ function LiteMountMountIconMixin.MenuGenerator(owner, rootDescription)
 
     local priorityMenu = rootDescription:CreateButton(L.LM_PRIORITY)
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
-        local t, d = LM.UIFilter.GetPriorityText(p)
+        local t, d = LM.UIFilter.GetPriorityColorTexts(p)
         local function IsSelected() return owner.mount:GetPriority() == p end
         local function SetSelected() LM.Options:SetPriority(owner.mount, p) end
         priorityMenu:CreateRadio(t..' - '..d, IsSelected, SetSelected)
     end
-    for _, flag in ipairs(allTypeFlags) do
+
+    if owner.mount.flags.FLY then
         local function IsSelected()
-            local mountFlags = owner.mount:GetFlags()
-            return mountFlags[flag]
+            return LM.Options:GetUseOnGround(owner.mount)
         end
         local function SetSelected()
-            if IsSelected() then
-                LM.Options:ClearMountFlag(owner.mount, flag)
-            else
-                LM.Options:SetMountFlag(owner.mount, flag)
-            end
+            local wasEnabled = IsSelected()
+            LM.Options:SetUseOnGround(owner.mount, not wasEnabled)
         end
-        rootDescription:CreateCheckbox(L[flag], IsSelected, SetSelected)
+        local button = rootDescription:CreateCheckbox(L.RUN, IsSelected, SetSelected)
+        button:SetTooltip(function (tooltip) tooltip:AddLine(L.LM_USE_FLYING_AS_GROUND) end)
     end
 end
 
