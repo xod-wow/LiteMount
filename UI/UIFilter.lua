@@ -283,6 +283,10 @@ function LM.UIFilter.GetFamilies()
     return LM.MountDB.GetModelList()
 end
 
+function LM.UIFilter.IsFamilyFiltered()
+    return next(LM.UIFilter.filterList.family) ~= nil
+end
+
 function LM.UIFilter.SetAllFamilyFilters(v)
     LM.UIFilter.ClearCache()
     if v then

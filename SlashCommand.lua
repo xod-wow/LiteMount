@@ -249,6 +249,8 @@ COMMANDS['fam'] =
         local newFamily
         if tContains(families, name) then
             newFamily = name
+        elseif not LM.UIFilter.IsFamilyFiltered() then
+            newFamily = families[1]
         else
             local currentIndex = 0
             for i, family in ipairs(families) do
