@@ -751,6 +751,11 @@ local function IsCastableItem(itemID)
     return false
 end
 
+local function IsCastableSlot(slotNum)
+    local s, d, e = GetInventoryItemCooldown('player', slotNum)
+    return s == 0 and e == 1
+end
+
 -- A derpy version of SecureCmdItemParse that doesn't support bags but does
 -- support item IDs as well as slot names. The assumption is that if you have
 -- the item then GetItemName will always return values immediately.
@@ -777,8 +782,10 @@ local function UsableItemParse(arg)
     return name, itemID, slotNum
 end
 
--- Is this really not in the game anywhere?
-local InventorySlotTable = {
+-- Is this really not in the game anywhere? This is used in UI/Falling.lua
+-- and should probably be somewhere more central rather than buried here.
+
+LM.InventorySlotTable = {
     [INVSLOT_AMMO]      = AMMOSLOT,
     [INVSLOT_HEAD]      = HEADSLOT,
     [INVSLOT_NECK]      = NECKSLOT,
@@ -808,7 +815,7 @@ local function ItemArgsToDisplay(args)
         if name then
             table.insert(out, string.format("%s (%d)", name, id))
         elseif slot then
-            table.insert(out, InventorySlotTable[slot] or slot)
+            table.insert(out, LM.InventorySlotTable[slot] or slot)
         else
             table.insert(out, v)
         end
@@ -827,8 +834,7 @@ ACTIONS['Use'] = {
                 local name, itemID, slotNum = UsableItemParse(arg)
                 if slotNum then
                     LM.Debug('  * trying slot ' .. tostring(slotNum))
-                    local s, d, e = GetInventoryItemCooldown('player', slotNum)
-                    if s == 0 and e == 1 then
+                    if IsCastableSlot(slotNum) then
                         LM.Debug('  * Setting action to use slot ' .. slotNum)
                         return LM.SecureAction:Item(slotNum, context.rule.unit)
                     end
@@ -877,6 +883,11 @@ ACTIONS['Falling'] = {
                     local name, itemID = UsableItemParse(id)
                     if IsCastableItem(itemID) then
                         return LM.SecureAction:Item(name, context.rule.unit)
+                    end
+                elseif type == 'slot' then
+                    local _, _, slotNum = UsableItemParse(id)
+                    if slotNum and IsCastableSlot(slotNum) then
+                        return LM.SecureAction:Item(slotNum, context.rule.unit)
                     end
                 end
             end

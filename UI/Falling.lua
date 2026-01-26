@@ -34,6 +34,24 @@ function LiteMountItemSpellMixin:Initialize(elementData, DeleteCallback)
                     self.Name:SetText(info.name)
                 end)
         end
+    elseif type == 'slot' then
+        local slotNum = tonumber(id)
+        if LM.InventorySlotTable[slotNum] then
+            local item = Item:CreateFromEquipmentSlot(slotNum)
+            if item:IsItemEmpty() then
+                self.link = nil
+                self.Name:SetText(LM.InventorySlotTable[slotNum])
+            else
+                item:ContinueOnItemLoad(
+                    function ()
+                        self.link = item:GetItemLink()
+                        self.Icon:SetTexture(item:GetItemIcon())
+                        self.Name:SetText(string.format('%s (%s)',
+                                            LM.InventorySlotTable[slotNum],
+                                            item:GetItemName()))
+                    end)
+            end
+        end
     elseif type == 'item' then
         local item = Item:CreateFromItemID(tonumber(id))
         if item:IsItemEmpty() then
@@ -65,8 +83,13 @@ end
 
 LiteMountFallingAddMixin = {}
 
-local addTypeOptions = { 'item', 'spell' }
-local addTypeTexts = { item = HELPFRAME_ITEM_TITLE, spell = STAT_CATEGORY_SPELL }
+local addTypeTexts = {
+    item = HELPFRAME_ITEM_TITLE,
+    slot = L.LM_EQUIPMENT_SLOT,
+    spell = STAT_CATEGORY_SPELL
+}
+local addTypeOptions = GetKeysArray(addTypeTexts)
+table.sort(addTypeOptions, function (a, b) return addTypeTexts[a] < addTypeTexts[b] end)
 
 local function BindingGenerator(owner, rootDescription)
     local parent = owner:GetParent()
@@ -80,20 +103,25 @@ end
 
 function LiteMountFallingAddMixin:Update()
     local text = self.EditBox:GetText()
-    if text == '' then
-        self.Name:SetText('')
-        return self.AddButton:Disable()
-    elseif self.type == 'item' then
+    self.Name:SetText('')
+    self.AddButton:Disable()
+    if self.type == 'item' then
         local itemID = C_Item.GetItemInfoInstant(text)
         if not itemID then
             self.Name:SetText(text or '')
             self.AddButton:Disable()
         else
             local isUsable = C_Item.IsUsableItem(itemID)
-            local toyUsable = C_ToyBox.GetToyInfo(itemID) and C_ToyBox.IsToyUsable(itemID)
+            local toyUsable = C_ToyBox.GetToyInfo(itemID)
             local name = C_Item.GetItemNameByID(itemID)
             self.Name:SetText(name)
             self.AddButton:SetEnabled(isUsable or toyUsable)
+        end
+    elseif self.type == 'slot' then
+        local slotNum = tonumber(text)
+        if slotNum and slotNum <= INVSLOT_LAST_EQUIPPED then
+            self.Name:SetText(LM.InventorySlotTable[slotNum])
+            self.AddButton:Enable()
         end
     elseif self.type == 'spell' then
         local name = C_Spell.GetSpellName(text)
@@ -109,6 +137,11 @@ function LiteMountFallingAddMixin:Add()
         local itemID = C_Item.GetItemInfoInstant(self.EditBox:GetText())
         if itemID then
             entry = self.type .. ':' .. itemID
+        end
+    elseif self.type == 'slot' then
+        local slotNum = tonumber(self.EditBox:GetText())
+        if slotNum and slotNum <= INVSLOT_LAST_EQUIPPED then
+            entry = string.format('%s:%d', self.type, slotNum)
         end
     elseif self.type == 'spell' then
         local info = C_Spell.GetSpellInfo(self.EditBox:GetText())
