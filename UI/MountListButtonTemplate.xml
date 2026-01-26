@@ -39,21 +39,12 @@
             </Anchors>
         </Button>
 
-        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit4" id="4">
-            <Anchors> <Anchor point="CENTER" relativePoint="RIGHT" x="-35" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit3" id="3">
-            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit4" x="-53" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit2" id="2">
-            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit3" x="-53" /> </Anchors>
-        </CheckButton>
-        <CheckButton inherits="LiteMountFlagBitTemplate" parentKey="Bit1" id="1">
-            <Anchors> <Anchor point="CENTER" relativeKey="$parent.Bit2" x="-53" /> </Anchors>
+        <CheckButton inherits="LiteMountCheckButtonTemplate" parentKey="Ground">
+            <Anchors> <Anchor point="CENTER" x="64" /> </Anchors>
         </CheckButton>
 
         <Frame parentKey="Priority" inherits="LiteMountPriorityTemplate">
-            <Anchors> <Anchor point="CENTER" relativePoint="RIGHT" x="-276" /> </Anchors>
+            <Anchors> <Anchor point="RIGHT" x="-8" /> </Anchors>
         </Frame>
     </Frames>
 
@@ -73,8 +64,7 @@
             </FontString>
             <FontString inherits="GameFontWhiteTiny" justifyH="RIGHT" parentKey="Rarity">
                 <Anchors>
-                    <Anchor point="RIGHT" relativeKey="$parent.Priority" relativePoint="LEFT" x="-8" />
-                    <Anchor point="TOP" relativePoint="CENTER" y="-2" />
+                    <Anchor point="CENTER" />
                 </Anchors>
                 <Scripts>
                     <OnEnter>

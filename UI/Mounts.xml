@@ -41,27 +41,19 @@
 
     <Layers>
         <Layer level="ARTWORK">
-            <FontString parentKey="BitLabel4" inherits="GameFontWhiteSmall" justifyH="CENTER">
-                <Size x="50" y="26" />
+            <FontString parentKey="RarityLabel" inherits="GameFontWhiteSmall" justifyH="CENTER" text="LM_RARITY">
                 <Anchors>
-                    <Anchor point="CENTER" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="-35" y="22" />
+                    <Anchor point="BOTTOM" relativeKey="$parent.ScrollBox" relativePoint="TOP" x="0" y="4" />
                 </Anchors>
             </FontString>
-            <FontString parentKey="BitLabel3" inherits="GameFontWhiteSmall" justifyH="CENTER">
-                <Size x="50" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitLabel4" x="-53" /> </Anchors>
-            </FontString>
-            <FontString parentKey="BitLabel2" inherits="GameFontWhiteSmall" justifyH="CENTER">
-                <Size x="50" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitLabel3" x="-53" /> </Anchors>
-            </FontString>
-            <FontString parentKey="BitLabel1" inherits="GameFontWhiteSmall" justifyH="CENTER">
-                <Size x="50" y="26" />
-                <Anchors> <Anchor point="CENTER" relativeKey="$parent.BitLabel2" x="-53" /> </Anchors>
+            <FontString parentKey="GroundLabel" inherits="GameFontWhiteSmall" justifyH="CENTER" text="LM_GROUND">
+                <Anchors>
+                    <Anchor point="BOTTOM" relativeKey="$parent.ScrollBox" relativePoint="TOP" x="64" y="4" />
+                </Anchors>
             </FontString>
             <FontString parentKey="PriorityLabel" inherits="GameFontWhiteSmall" justifyH="CENTER" text="LM_PRIORITY">
                 <Anchors>
-                    <Anchor point="BOTTOM" relativePoint="TOP" relativeKey="$parent.AllPriority" y="8" />
+                    <Anchor point="BOTTOM" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="-102" y="4" />
                 </Anchors>
             </FontString>
         </Layer>

@@ -98,6 +98,7 @@ local defaults = {
     },
     profile = {
         flagChanges         = { },
+        useOnGround         = { },
         mountPriorities     = { },
         buttonActions       = { ['*'] = DefaultButtonAction },
         falling             = DefaultFallingByProject[WOW_PROJECT_ID],
@@ -239,6 +240,27 @@ function LM.Options:VersionUpgrade10()
     return true
 end
 
+-- Version 11 remove the longstanding flagChanges and replaces it with a
+-- simpler useOnGround setting. Because I am paranoid I'm leaving the
+-- flagChanges there, unused.
+
+function LM.Options:VersionUpgrade11()
+    if (LM.db.global.configVersion or 11) >= 11 then
+        return
+    end
+    LM.Debug('VersionUpgrade: 11')
+    for n, p in pairs(LM.db.sv.profiles or {}) do
+        LM.Debug(' - upgrading profile: ' .. n)
+        for spellID, changes in pairs(p.flagChanges or {}) do
+            if changes.RUN == '+' then
+                p.useOnGround = p.useOnGround or {}
+                p.useOnGround[spellID] = true
+            end
+        end
+    end
+    return true
+end
+
 function LM.Options:CleanDatabase()
     local changed
     for n,c in pairs(LM.db.sv.char or {}) do
@@ -272,8 +294,9 @@ function LM.Options:DatabaseMaintenance()
     if self:VersionUpgrade8() then changed = true end
     if self:VersionUpgrade9() then changed = true end
     if self:VersionUpgrade10() then changed = true end
+    if self:VersionUpgrade11() then changed = true end
     if self:CleanDatabase() then changed = true end
-    LM.db.global.configVersion = 10
+    LM.db.global.configVersion = 11
     return changed
 end
 
@@ -282,7 +305,6 @@ function LM.Options:NotifyChanged()
 end
 
 function LM.Options:OnProfile()
-    table.wipe(self.cachedMountFlags)
     table.wipe(self.cachedMountGroups)
     table.wipe(self.cachedRuleSets)
     self:InitializePriorities()
@@ -308,7 +330,6 @@ function LM.Options:Initialize()
         end
     end
 
-    self.cachedMountFlags = {}
     self.cachedMountGroups = {}
     self.cachedRuleSets = {}
 
@@ -374,95 +395,43 @@ function LM.Options:SetPriorityList(mountlist, v)
 end
 
 --[[----------------------------------------------------------------------------
-    Mount flag overrides stuff
+    useOnGround
 ----------------------------------------------------------------------------]]--
 
-local function FlagDiff(a, b)
-    local diff = { }
-
-    for flagName in pairs(LM.tMerge(a,b)) do
-        if a[flagName] and not b[flagName] then
-            diff[flagName] = '-'
-        elseif not a[flagName] and b[flagName] then
-            diff[flagName] = '+'
-        end
-    end
-
-    diff.FAVORITES = nil
-
-    if next(diff) == nil then
-        return nil
-    end
-
-    return diff
+function LM.Options:GetRawUseOnGround()
+    return LM.db.profile.useOnGround
 end
 
-function LM.Options:GetRawFlagChanges()
-    return LM.db.profile.flagChanges
-end
-
-function LM.Options:SetRawFlagChanges(v)
-    LM.db.profile.flagChanges = v
-    table.wipe(self.cachedMountFlags)
+function LM.Options:SetRawUseOnGround(v)
+    LM.db.profile.useOnGround = v
     LM.db.callbacks:Fire("OnOptionsModified")
 end
 
-function LM.Options:GetMountFlags(m)
+function LM.Options:GetUseOnGround(m)
+    return LM.db.profile.useOnGround[m.spellID]
+end
 
-    if not self.cachedMountFlags[m.spellID] then
-        local changes = LM.db.profile.flagChanges[m.spellID]
-
-        self.cachedMountFlags[m.spellID] = CopyTable(m.flags)
-
-        for flagName, change in pairs(changes or {}) do
-            if change == '+' then
-                self.cachedMountFlags[m.spellID][flagName] = true
-            elseif change == '-' then
-                self.cachedMountFlags[m.spellID][flagName] = nil
-            end
-        end
+function LM.Options:SetUseOnGround(m, v, dontFire)
+    if not m.flags.FLY then
+        return
     end
-
-    return self.cachedMountFlags[m.spellID]
+    LM.Debug("Setting useOnGround to %s for %s (%d).", tostring(v), m.name, m.spellID)
+    LM.db.profile.useOnGround[m.spellID] = v and true or nil
+    if not dontFire then
+        LM.db.callbacks:Fire("OnOptionsModified", m)
+    end
 end
 
-function LM.Options:SetMountFlag(m, setFlag)
-    LM.Debug("Setting flag %s for spell %s (%d).", setFlag, m.name, m.spellID)
-
-    -- Note this is the actual cached copy, we can only change it here
-    -- (and below in ClearMountFlag) because we are invalidating the cache
-    -- straight after.
-    local flags = self:GetMountFlags(m)
-    flags[setFlag] = true
-    self:SetMountFlags(m, flags)
-end
-
-function LM.Options:ClearMountFlag(m, clearFlag)
-    LM.Debug("Clearing flag %s for spell %s (%d).", clearFlag, m.name, m.spellID)
-
-    -- See note above
-    local flags = self:GetMountFlags(m)
-    flags[clearFlag] = nil
-    self:SetMountFlags(m, flags)
-end
-
-function LM.Options:ResetMountFlags(m)
-    LM.Debug("Defaulting flags for spell %s (%d).", m.name, m.spellID)
-    LM.db.profile.flagChanges[m.spellID] = nil
-    self.cachedMountFlags[m.spellID] = nil
-    LM.db.callbacks:Fire("OnOptionsModified", m)
-end
-
-function LM.Options:ResetAllMountFlags()
-    table.wipe(LM.db.profile.flagChanges)
-    table.wipe(self.cachedMountFlags)
+function LM.Options:SetUseOnGroundList(mountlist, v)
+    for _,m in ipairs(mountlist) do
+        self:SetUseOnGround(m, v, true)
+    end
     LM.db.callbacks:Fire("OnOptionsModified")
 end
 
-function LM.Options:SetMountFlags(m, flags)
-    LM.db.profile.flagChanges[m.spellID] = FlagDiff(m.flags, flags)
-    self.cachedMountFlags[m.spellID] = nil
-    LM.db.callbacks:Fire("OnOptionsModified", m)
+function LM.Options:ResetAllUseOnGround()
+    table.wipe(LM.db.profile.useOnGround)
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 
