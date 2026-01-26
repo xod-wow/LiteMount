@@ -20,7 +20,7 @@ def PrintModels(dataFile):
         print(n)
         for r in mountsByModel[n]:
             if not r['Name_lang'] in seen:
-                print('   [{SourceSpellID:>7}] = true, -- {ID} {Name_lang}'.format(**r))
+                print('   [{SourceSpellID:>7}] = true, -- {Name_lang} ({ID})'.format(**r))
                 seen.append(r['Name_lang'])
         print()
 

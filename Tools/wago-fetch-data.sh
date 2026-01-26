@@ -18,7 +18,7 @@ fetch_db2 () {
         echo "=== Fetching $f ===" 1>&2
         local T=`mktemp -p .`
         #curl -s -o $T "https://wago.tools/db2/$f/csv?product=wow"
-        curl -s -o $T "https://wago.tools/db2/$f/csv"
+        curl -s -o $T "https://wago.tools/db2/$f/csv$BUILDARGS"
         sqlite3 $DBFILE -cmd ".mode csv" ".import $T $f"
         rm -f $T
     done
@@ -54,6 +54,38 @@ print_join () {
         ".mode $MODE" \
         'select * from MountCombined;'
 }
+
+usage_exit () {
+    local PROG=`basename $0`
+    cat <<_EOT
+Usage:
+    $PROG [-h] [-b BUILD]
+
+Options:
+    -h              Show this help
+    -b BUILD        Download data for build (default is latest wago data)
+
+_EOT
+    exit 1
+}
+
+parse_args () {
+    while [ $# -gt 0 ]; do
+        case "$1" in
+        -b)
+            shift
+            [ $# -gt 0 ] || usage_exit
+            BUILDARGs="?build=$1"
+            shift
+            ;;
+        *)
+            usage_exit
+            ;;
+        esac
+    done
+}
+
+parse_args "$@"
 
 rm -f $DBFILE
 fetch_db2

@@ -393,6 +393,11 @@ Model["Carrion"] = {
    [1257081] = true, --  2734 Convalescent Carrion
 }
 
+Model["Celestial Windsteed"] = {
+   [1258574] = true, -- Stormgilded Celestial (2743)
+   [1258573] = true, -- Thunderhoof Celestial (2742)
+}
+
 Model["Charger"] = {
     [ 66906] = true, -- Argent Charger
     [ 23214] = true, -- Charger
