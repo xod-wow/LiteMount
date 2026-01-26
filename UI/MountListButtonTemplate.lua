@@ -12,8 +12,6 @@ local C_Spell = LM.C_Spell or C_Spell
 
 local L = LM.Localize
 
-local allTypeFlags = LM.Options:GetFlags()
-
 --[[------------------------------------------------------------------------]]--
 
 LiteMountMountListHeaderMixin = {}
@@ -49,7 +47,7 @@ function LiteMountMountCommonButtonMixin:Initialize(mount, hasMenu)
     self.Types:SetText(mount:GetTypeString())
 
     local rarity = mount:GetRarity()
-    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and rarity then
+    if WOW_PROJECT_ID == 1 and rarity then
         self.Rarity:SetFormattedText(L.LM_RARITY_FORMAT, rarity)
         self.Rarity.toolTip = format(L.LM_RARITY_FORMAT_LONG, rarity)
     else
@@ -80,27 +78,38 @@ LiteMountMountListButtonMixin = CreateFromMixins(LiteMountMountCommonButtonMixin
 
 function LiteMountMountListButtonMixin:OnLoad()
     local dirtyFunc = function () self:SetDirty() end
-
-    local i = 1
-    while self["Bit"..i] do
-        self["Bit"..i]:SetDirtyCallback(dirtyFunc)
-        i = i + 1
-    end
-
     self.Priority:SetDirtyCallback(dirtyFunc)
+
+    self.Ground:SetScript('OnClick',
+        function ()
+            self:SetDirty()
+            local checked = self.Ground:GetChecked()
+            LM.Options:SetUseOnGround(self.mount, checked)
+        end)
+
+    self.Ground:SetScript('OnEnter',
+        function ()
+            GameTooltip:SetOwner(self.Ground, "ANCHOR_RIGHT")
+            GameTooltip:SetText(L. LM_USE_FLYING_AS_GROUND)
+            GameTooltip:Show()
+        end)
+
+    self.Ground:SetScript('OnLeave', GameTooltip_Hide)
+
 end
 
 function LiteMountMountListButtonMixin:Initialize(mount)
     local hasMenu = true
     LiteMountMountCommonButtonMixin.Initialize(self, mount, hasMenu)
 
-    local i = 1
-    while self["Bit"..i] do
-        self["Bit"..i]:Update(mount, allTypeFlags[i])
-        i = i + 1
-    end
-
     self.Priority:Update(mount)
+
+    if self.mount.flags.FLY then
+        self.Ground:Show()
+        self.Ground:SetChecked(LM.Options:GetUseOnGround(self.mount))
+    else
+        self.Ground:Hide()
+    end
 end
 
 

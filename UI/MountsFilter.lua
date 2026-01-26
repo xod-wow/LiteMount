@@ -55,7 +55,7 @@ local DROPDOWNS = {
         set = function (k, v) LM.UIFilter.SetPriorityFilter(k, v) end,
         setall = function (v) LM.UIFilter.SetAllPriorityFilters(v) end,
         menulist = function () return LM.UIFilter.GetPriorities() end,
-        gettext = function (k) return LM.UIFilter.GetPriorityText(k) end,
+        gettext = function (k) return string.join(' - ', LM.UIFilter.GetPriorityColorTexts(k)) end,
     },
     {
         text = string.format('%s (%s)', TYPE, ID),

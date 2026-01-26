@@ -24,7 +24,7 @@ LM.FLAG.FLY                 = 2
 if tocVersion > 100000 then
     LM.FLAG.DRAGONRIDING    = 3
 end
-if tocVersion >= 110000 and false then
+if tocVersion >= 110000 then
     LM.FLAG.DRIVE           = 4
 end
 
