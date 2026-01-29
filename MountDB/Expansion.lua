@@ -1497,6 +1497,7 @@ local Expansion = {
         [2808] = true, -- Ballistic Bronco
         [2815] = true, -- Snowpaw Glimmerfur Prowler
         [2823] = true, -- Savage Crimson Battle Turtle
+        [2825] = true, -- Cloudborn Razorwing
     },
 
     [11] = { -- Midnight
@@ -1527,7 +1528,6 @@ local Expansion = {
         [2697] = true, -- Quirky Turkey
         [2698] = true, -- Murky Turkey
         [2803] = true, -- Skypaw Glimmerfur
-        [2825] = true, -- Cloudborn Razorwing
     },
 
 }
