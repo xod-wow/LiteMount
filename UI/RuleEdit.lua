@@ -369,7 +369,12 @@ function LiteMountRuleEditActionMixin:Update()
 
     self.TypeDropDown:SetText(actionText)
 
-    if tContains(TextActionTypeMenu, self.type) then
+    local argType = LM.Actions:GetArgType(self.type)
+
+    if argType == 'none' then
+        self.ArgText:Hide()
+        self.ArgDropDown:Hide()
+    elseif tContains(TextActionTypeMenu, self.type) then
         self.ArgText:SetText(self.arg or '')
         self.ArgText:Show()
         self.ArgDropDown:Hide()

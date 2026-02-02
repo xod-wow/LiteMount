@@ -98,7 +98,7 @@ end
 ACTIONS['LimitSet'] = {
     name = L.LM_LIMIT_MOUNTS,
     description = L.LM_LIMITSET_DESCRIPTION,
-    argType = 'expression',
+    argType = 'mountexpression',
     toDisplay = MountListToDisplay,
     handler =
         function (args, context)
@@ -109,7 +109,7 @@ ACTIONS['LimitSet'] = {
 ACTIONS['LimitInclude'] = {
     name = L.LM_INCLUDE_MOUNTS,
     description = L.LM_LIMITINCLUDE_DESCRIPTION,
-    argType = 'expression',
+    argType = 'mountexpression',
     toDisplay = MountListToDisplay,
     handler =
         function (args, context)
@@ -120,7 +120,7 @@ ACTIONS['LimitInclude'] = {
 ACTIONS['LimitExclude'] = {
     name = L.LM_EXCLUDE_MOUNTS,
     description = L.LM_LIMITEXCLUDE_DESCRIPTION,
-    argType = 'expression',
+    argType = 'mountexpression',
     toDisplay = MountListToDisplay,
     handler =
         function (args, context)
@@ -199,7 +199,7 @@ end
 ACTIONS['Spell'] = {
     name = L.LM_SPELL_ACTION,
     description = L.LM_SPELL_DESCRIPTION,
-    argType = 'list',
+    argType = 'stringlist',
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -222,7 +222,7 @@ ACTIONS['Spell'] = {
 ACTIONS['PreCast'] = {
     name = L.LM_PRECAST_ACTION,
     description = L.LM_PRECAST_DESCRIPTION,
-    argType = 'list',
+    argType = 'stringlist',
     toDisplay = SpellArgsToDisplay,
     handler =
         function (args, context)
@@ -359,23 +359,23 @@ local switchSpellInfo = C_Spell.GetSpellInfo(switchSpellID or 0)
 
 ACTIONS['SwitchFlightStyle'] = {
     name = switchSpellInfo and switchSpellInfo.name,
-    argType = 'valueOrNone',
+    argType = 'stringOrNone',
     toDisplay =
         function (args)
-            if #args == 0 then
-                return { switchSpellInfo.name }
+            local argList = args:ParseList()
+            if argList[1] == 'steady' then
+                return { L.LM_STEADY_FLIGHT }
+            elseif argList[1] == 'skyriding' then
+                return { L.SKYRIDING }
             else
-                -- XXX if there is a localization for Steady Flight it would
-                -- be better to return it instead of L.FLY
-                local typeName =  L[args[1]] or UNKNOWN
-                return { switchSpellInfo.name .. ': ' .. typeName }
+                return { }
             end
         end,
     handler =
         function (args, context)
             if IsPlayerSpell(switchSpellID) then
                 local argList = args:ParseList()
-                if #argList == 0 or LM.Environment.flightStyle  ~= argList[1] then
+                if #argList == 0 or LM.Environment.flightStyle ~= argList[1] then
                     LM.Debug("  * setting action to spell " .. switchSpellInfo.name)
                     return LM.SecureAction:Spell(switchSpellID, context.rule.unit)
                 end
@@ -452,7 +452,7 @@ ACTIONS['Downshift'] = {
 ACTIONS['Mount'] = {
     name = L.LM_MOUNT_ACTION,
     description = L.LM_MOUNT_DESCRIPTION,
-    argType = 'expression',
+    argType = 'mountexpression',
     toDisplay = MountListToDisplay,
     handler =
         function (args, context)
@@ -530,7 +530,7 @@ ACTIONS['Mount'] = {
 ACTIONS['SmartMount'] = {
     name = L.LM_SMARTMOUNT_ACTION,
     description = L.LM_SMARTMOUNT_DESCRIPTION,
-    argType = 'expression',
+    argType = 'mountexpression',
     toDisplay = MountListToDisplay,
     handler =
         function (args, context)
@@ -543,7 +543,7 @@ ACTIONS['SmartMount'] = {
 ACTIONS['PriorityMount'] = {
     name = L.LM_PRIORITYMOUNT_ACTION,
     description = L.LM_PRIORITYMOUNT_DESCRIPTION,
-    argType = 'expression',
+    argType = 'mountexpression',
     toDisplay = MountListToDisplay,
     handler =
         function (args, context)
@@ -707,7 +707,7 @@ ACTIONS['ForceNewRandom'] = {
     -- could be added to rules, if that was even a good idea.
     name = L.LM_FORCE_NEW_RANDOM_ACTION,
     description = L.LM_FORCE_NEW_RANDOM_DESCRIPTION,
-    argType = 'list',
+    argType = 'numberlist',
     handler =
         function (args, context)
             local buttons = args:ParseList()
@@ -826,7 +826,7 @@ end
 ACTIONS['Use'] = {
     name = L.LM_USE_ACTION,
     description = L.LM_USE_DESCRIPTION,
-    argType = 'list',
+    argType = 'stringlist',
     toDisplay = ItemArgsToDisplay,
     handler =
         function (args, context)
@@ -852,7 +852,7 @@ ACTIONS['Use'] = {
 ACTIONS['PreUse'] = {
     name = L.LM_PREUSE_ACTION,
     description = L.LM_PREUSE_DESCRIPTION,
-    argType = 'list',
+    argType = 'stringlist',
     toDisplay = ItemArgsToDisplay,
     handler =
         function (args, context)

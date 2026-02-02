@@ -210,7 +210,7 @@ local function ActionMenuGenerate(owner, rootDescription)
 
     local priorityMenu = rootDescription:CreateButton(L.LM_PRIORITY)
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
-        local t, d = LM.UIFilter.GetPriorityText(p)
+        local t, d = LM.UIFilter.GetPriorityColorTexts(p)
         local function Set()
             dirtyFunc()
             local mounts = LM.UIFilter.GetFilteredMountList()

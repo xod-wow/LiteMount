@@ -1,0 +1,138 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011 Mike Battersby -->
+
+<Script file="RulesTabRules.lua" />
+
+<Frame name="LiteMountRulePartTemplate" virtual="true">
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="Text" name="$parentText" inherits="GameFontNormal" spacing="5" justifyH="LEFT">
+                <Anchors>
+                    <Anchor point="LEFT" />
+                    <Anchor point="RIGHT" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+    <Scripts>
+        <OnLoad inherit="prepend">
+            self.SetText = function (self, ...) self.Text:SetText(...) end
+            self.GetText = function (self, ...) self.Text:GetText(...) end
+        </OnLoad>
+    </Scripts>
+</Frame>
+
+<Button name="LiteMountRuleButtonTemplate" virtual="true" mixin="LiteMountRuleButtonMixin" inherits="LiteMountListItemStyleTemplate">
+    <Size y="66" />
+    <Scripts>
+        <OnClick method="OnClick" inherit="prepend" />
+        <OnEnter method="OnEnter" />
+        <OnLeave function="GameTooltip_Hide" />
+    </Scripts>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="NumText" inherits="GameFontNormalLarge" justifyH="CENTER">
+                <Size x="32" />
+                <Anchors>
+                    <Anchor point="LEFT" x="4" />
+                </Anchors>
+            </FontString>
+            <Texture parentKey="Error" atlas="gmchat-icon-alert" useAtlasSize="true" hidden="true">
+                <Anchors>
+                    <Anchor point="LEFT" relativekey="$parent.NumText" relativePoint="RIGHT" />
+                </Anchors>
+            </Texture>
+            <Texture parentKey="Selected" alphaMode="ADD" hidden="true">
+                <Color r="0.1" g="0.1" b="0" />
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="2" y="-2" />
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2" />
+                </Anchors>
+            </Texture>
+        </Layer>
+    </Layers>
+    <Frames>
+        <Frame parentKey="Condition" inherits="LiteMountRulePartTemplate">
+            <Size x="260" y="58" />
+            <!-- Anchors adjusted in code for Error or not -->
+        </Frame>
+        <Frame parentKey="Action" inherits="LiteMountRulePartTemplate">
+            <Size y="58" />
+            <Anchors>
+                <Anchor point="LEFT" relativePoint="CENTER" />
+                <Anchor point="RIGHT" x="-40" />
+            </Anchors>
+        </Frame>
+    </Frames>
+</Button>
+
+<Frame name="LiteMountRulesTabRulesTemplate" mixin="LiteMountRulesTabRulesMixin" virtual="true">
+
+    <Frames>
+        <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountRulesScrollMixin">
+            <Anchors>
+                <Anchor point="TOPLEFT" />
+                <Anchor point="BOTTOMRIGHT" />
+            </Anchors>
+            <Layers>
+                <Layer level="OVERLAY">
+                    <FontString parentKey="Inactive" inherits="GameFontNormalHuge">
+                        <Size x="480" />
+                        <Color r="0.5" g="1" b="0.5" />
+                        <Anchors>
+                            <Anchor point="CENTER" />
+                        </Anchors>
+                    </FontString>
+                </Layer>
+            </Layers>
+        </ScrollFrame>
+        <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
+            <KeyValues>
+                <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
+            </KeyValues>
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="-8" y="0"/>
+                <Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="-8" y="0"/>
+            </Anchors>
+        </EventFrame>
+
+        <Button parentKey="AddButton" inherits="UIPanelButtonTemplate" text="ADD">
+            <Size x="72" y="22" />
+            <Anchors>
+                <Anchor point="TOPRIGHT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="-4" y="-12" />
+            </Anchors>
+        </Button>
+        <Button parentKey="EditButton" inherits="UIPanelButtonTemplate" text="EDIT">
+            <Size x="72" y="22" />
+            <Anchors>
+                <Anchor point="RIGHT" relativeKey="$parent.AddButton" relativePoint="LEFT" x="-4" />
+            </Anchors>
+        </Button>
+        <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
+            <Size x="72" y="22" />
+            <Anchors>
+                <Anchor point="RIGHT" relativeKey="$parent.EditButton" relativePoint="LEFT" x="-4" />
+            </Anchors>
+        </Button>
+    </Frames>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="DragText" inherits="GameFontWhiteSmall" text="LM_DRAG_TO_REORDER">
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" y="12" x="-8" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+
+    <Scripts>
+        <OnLoad method="OnLoad" inherit="append"/>
+        <OnShow method="OnShow" inherit="append" />
+        <OnHide method="OnHide" inherit="append"/>
+    </Scripts>
+</Frame>
+
+</Ui>
