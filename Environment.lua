@@ -690,7 +690,7 @@ function LM.Environment:InitializeEJInstances()
         for _, queryRaid in ipairs({ true, false }) do
             local i = 1
             while true do
-                local instanceID, name, _, _, _, _, _, _, _, hasDifficulty, _, isRaidClassic, isRaid = EJ_GetInstanceByIndex(i, queryRaid)
+                local _, name, _, _, _, _, _, _, _, hasDifficulty, instanceID, isRaidClassic, isRaid = EJ_GetInstanceByIndex(i, queryRaid)
                 if not instanceID then break end
                 if WOW_PROJECT_ID ~= 1 then
                     isRaid = isRaidClassic
