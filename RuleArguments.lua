@@ -199,11 +199,15 @@ end
 
 function LM.RuleArguments:Validate(action)
     local argType = LM.Actions:GetArgType(action)
-    if argType == 'expression' and #self > 0 then
+    if argType == 'mountexpression' and #self > 0 then
         if self:ParseExpression() == nil then
             return false, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
         end
-    elseif argType == 'list' then
+    elseif argType == 'string' or argType == 'number' then
+        return #self == 1, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
+    elseif argType == 'stringOrNone' or argType == 'numberOrNone' then
+        return #self == 0 or #self == 1, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
+    elseif argType == 'stringlist' or argType == 'numberlist' then
         if self:ParseList() == nil then
             return false, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
         end
@@ -216,10 +220,6 @@ function LM.RuleArguments:Validate(action)
         if macrotext:sub(1,1) ~= '/' then
             return false, format(L.LM_ERR_BAD_ARGUMENTS, macrotext)
         end
-    elseif argType == 'value' then
-        return #self == 1, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
-    elseif argType == 'valueOrNone' then
-        return #self == 0 or #self == 1, format(L.LM_ERR_BAD_ARGUMENTS, self:ToString())
     end
     return true
 end
