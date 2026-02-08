@@ -887,10 +887,14 @@ CONDITIONS["keystone"] = {
         end,
     handler =
         function (cond, context, minLevel, maxLevel)
-            minLevel = tonumber(minLevel) or 0
-            maxLevel = tonumber(maxLevel) or math.huge
-            local keyLevel = C_ChallengeMode.GetActiveKeystoneInfo()
-            return (keyLevel >= minLevel) and (keyLevel <= maxLevel)
+            if C_ChallengeMode.IsChallengeModeActive() then
+                minLevel = tonumber(minLevel) or 0
+                maxLevel = tonumber(maxLevel) or math.huge
+                local keyLevel = C_ChallengeMode.GetActiveKeystoneInfo()
+                return (keyLevel >= minLevel) and (keyLevel <= maxLevel)
+            else
+                return false
+            end
         end
 }
 
