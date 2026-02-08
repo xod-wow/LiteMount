@@ -1045,7 +1045,6 @@ local Expansion = {
     },
 
     [9] = { -- Dragonflight
-        [ 799] = true, -- Flarecore Infernal
         [1266] = true, -- Alabaster Stormtalon
         [1267] = true, -- Alabaster Thunderwing
         [1468] = true, -- Amber Skitterfly
@@ -1069,7 +1068,6 @@ local Expansion = {
         [1590] = true, -- Windborne Velocidrake
         [1591] = true, -- Cliffside Wylderdrake
         [1594] = true, -- Jade, Bright Foreseer
-        [1595] = true, -- Cerulean Marsh Hopper
         [1596] = true, -- Amalgam of Rage
         [1603] = true, -- Subterranean Magmammoth
         [1612] = true, -- Loyal Magmammoth
@@ -1237,7 +1235,6 @@ local Expansion = {
     },
 
     [10] = { -- The War Within
-        [1374] = true, -- Bonecleaver's Skullboar
         [1550] = true, -- Depthstalker
         [1792] = true, -- Algarian Stormrider
         [1945] = true, -- Jeweled Sapphire Scarab
@@ -1406,7 +1403,6 @@ local Expansion = {
         [2569] = true, -- Unbound Star-Eater
         [2570] = true, -- Vicious Void Creeper
         [2571] = true, -- Vicious Void Creeper
-        [2572] = true, -- Banshee's Chilling Charger
         [2573] = true, -- Grandiose Grrloc
         [2574] = true, -- Snowy Highmountain Eagle
         [2575] = true, -- Grandmaster's Prophetic Board
@@ -1426,9 +1422,6 @@ local Expansion = {
         [2606] = true, -- Royal Voidwing
         [2608] = true, -- Lightforged Mechsuit
         [2612] = true, -- Void-Forged Overseer
-        [2618] = true, -- Thunder-Ridged Elekk
-        [2619] = true, -- Cinder-Seared Elekk
-        [2620] = true, -- Void-Razed Elekk
         [2621] = true, -- Legion-Forged Elekk
         [2623] = true, -- The Headless Horseman's Ghoulish Charger
         [2625] = true, -- The Headless Horseman's Hallowed Charger
@@ -1501,6 +1494,9 @@ local Expansion = {
     },
 
     [11] = { -- Midnight
+        [ 799] = true, -- Flarecore Infernal
+        [1374] = true, -- Bonecleaver's Skullboar
+        [1595] = true, -- Cerulean Marsh Hopper
         [2186] = true, -- Blue Old God Fish Mount
         [2187] = true, -- Underlight Shorestalker
         [2200] = true, -- [PH] Nightsaber Horde Mount White
@@ -1515,9 +1511,13 @@ local Expansion = {
         [2522] = true, -- Winter Harvesthog
         [2523] = true, -- Autumn Harvesthog
         [2528] = true, -- Lavaborn Cormaera
+        [2572] = true, -- Banshee's Chilling Charger
         [2576] = true, -- Grandmaster's Deep Board
         [2578] = true, -- Grandmaster's Smokey Board
         [2581] = true, -- Banshee's Sickening Charger
+        [2618] = true, -- Thunder-Ridged Elekk
+        [2619] = true, -- Cinder-Seared Elekk
+        [2620] = true, -- Void-Razed Elekk
         [2622] = true, -- The Headless Horseman's Chilling Charger
         [2624] = true, -- The Headless Horseman's Burning Charger
         [2626] = true, -- Adorned Northeron Gryphon
