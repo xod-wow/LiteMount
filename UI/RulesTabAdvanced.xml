@@ -1,0 +1,50 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+<!-- Copyright 2011 Mike Battersby -->
+
+<Script file="RulesTabAdvanced.lua" />
+
+<Frame name="LiteMountRulesTabAdvancedTemplate" mixin="LiteMountRulesTabAdvancedMixin" virtual="true">
+
+    <Frames>
+        <ScrollFrame parentKey="EditScroll" inherits="ScrollingEditBoxTemplate">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="8" y="-8" />
+                <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
+            </Anchors>
+            <KeyValues>
+                <KeyValue key="fontName" value="LiteMountMonoFont" type="string" />
+                <KeyValue key="hideCharCount" value="true" type="boolean" />
+                <KeyValue key="maxLetters" value="0" type="number" />
+            </KeyValues>
+        </ScrollFrame>
+
+        <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar">
+            <KeyValues>
+                <KeyValue key="hideIfUnscrollable" value="true" type="boolean" />
+            </KeyValues>
+            <Anchors>
+                <Anchor relativeKey="$parent.EditScroll" point="TOPRIGHT" x="-8" />
+                <Anchor relativeKey="$parent.EditScroll" point="BOTTOMRIGHT" x="-8" />
+            </Anchors>
+        </EventFrame>
+    </Frames>
+
+    <Layers>
+        <Layer level="ARTWORK">
+            <FontString parentKey="ErrorMessage" inherits="GameFontRed" justifyV="TOP" justifyH="MIDDLE" hidden="true">
+                <Anchors>
+                    <Anchor relativeKey="$parent.EditScroll" point="TOP" relativePoint="BOTTOM"  y="-12" />
+                    <Anchor relativeKey="$parent.EditScroll" point="LEFT" />
+                    <Anchor relativeKey="$parent.EditScroll" point="RIGHT" />
+                </Anchors>
+            </FontString>
+        </Layer>
+    </Layers>
+
+    <Scripts>
+        <OnLoad method="OnLoad" inherit="append" />
+    </Scripts>
+</Frame>
+
+</Ui>
