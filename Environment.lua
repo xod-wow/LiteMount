@@ -746,8 +746,6 @@ function LM.Environment:InitializeHolidays()
 
     C_Calendar.SetAbsMonth(now.month, now.year)
     for monthDelta = 1, 12 do   -- luacheck: no unused (loops 12 times, var unused)
-        -- Advance by one, easier than doing our own date arithmetic
-        C_Calendar.SetMonth(1)
         local monthInfo = C_Calendar.GetMonthInfo()
         for monthDay = 1, monthInfo.numDays do
             for i = 1, C_Calendar.GetNumDayEvents(0, monthDay) do
@@ -759,6 +757,8 @@ function LM.Environment:InitializeHolidays()
                 end
             end
         end
+        -- Advance by one, easier than doing our own date arithmetic
+        C_Calendar.SetMonth(1)
     end
 
     -- if we see the same titled event with different IDs delete them all
