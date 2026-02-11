@@ -39,6 +39,17 @@ local function GetAnyLiteMountMacros()
     return macros
 end
 
+-- Add a break between activations by looking for PreClick handler
+local function GetSplitDebugLines()
+    local lines = LM.GetDebugLines()
+    for i = #lines, 2, -1 do
+        if lines[i]:find('PreClick handler') then
+            table.insert(lines, i, '')
+        end
+    end
+    return lines
+end
+
 function LiteMountReportBugMixin:OnShow()
     local savedDefaults = LM.db.defaults
     LM.db:RegisterDefaults(nil)
@@ -98,7 +109,7 @@ function LiteMountReportBugMixin:OnShow()
         "```\n\n" ..
         "--- Debugging Output ---\n" ..
         "\n```\n" ..
-        table.concat(LM.GetDebugLines(), "\n") .. "\n" ..
+        table.concat(GetSplitDebugLines(), "\n") .. "\n" ..
         "```\n\n" ..
         "--- Options DB ---\n" ..
         "\n" ..

@@ -12,7 +12,7 @@ local _, LM = ...
 
 local debugLines = {}
 local debugLinePos = 1
-local maxDebugLines = 100
+local maxDebugLines = 200
 
 local format = format
 
