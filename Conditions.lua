@@ -159,15 +159,9 @@ CONDITIONS["canexitvehicle"] = {
 CONDITIONS["channeling"] = {
     -- name = CHANNELING,
     handler =
-        function (cond, context, v)
+        function (cond, context)
             local unit = context.rule.unit or "player"
-            if not v then
-                return UnitChannelInfo(unit) ~= nil
-            elseif tonumber(v) then
-                return select(8, UnitChannelInfo(unit)) == tonumber(v)
-            else
-                return UnitChannelInfo(unit) == v
-            end
+            return UnitChannelInfo(unit) ~= nil
         end
 }
 
@@ -402,6 +396,7 @@ CONDITIONS["drivable"] = {
 }
 
 CONDITIONS["driving"] = {
+    disabled = ( IsDrivableArea == nil ),
     handler =
         function (cond, context)
             -- Only one D.R.I.V.E. mount so far. Maybe in the future Blizzard will
