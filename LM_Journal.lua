@@ -232,6 +232,14 @@ local ForceSummonByID = {
     [1727] = true,  -- Tarecgosa's Visage
 }
 
+-- Sweeper mount spells are all wrongly flagged as "GCD". GG Bliz.
+local WronglyFlaggedGCD = {
+    [2328] = true,
+    [2329] = true,
+    [2330] = true,
+    [2331] = true,
+}
+
 -- Summon (Thalassian) Charger and Summon (Thalassian) Warhorse are busted on
 -- Cata Classic. I believe this is because the Thalassian version and the base
 -- alliance versions share the same spell and Blizzard have fubared something.
@@ -256,17 +264,29 @@ function LM.Journal:GetCastAction(context)
     local info = Env.druidFormInfo
     local needsCancelForm = info and NeedsCancelFormIDs[info.formID]
 
-    if context and context.preCast and not needsCancelForm then
-        local act = LM.SecureAction:Spell(context.preCast)
-        act:AddExecute(summonFunc)
-        return act
+    -- I have no idea how to tell what preCast and preUse spells will lock out
+    -- the WronglyFlaggedGCD mounts. Even out of game. Demon Spikes (for example)
+    -- will lock them out, even though it doesn't trigger a GCD. Because there's
+    -- only four I'll just not care and ignore the preX action. Could instead
+    -- try to return IsCastable = false for them, but that would be super complex
+    -- as IsCastable would have to take the context, and it's not notable more
+    -- correct than this.
+
+    if context and not needsCancelForm and not WronglyFlaggedGCD[self.mountID] then
+        if context.preCast then
+            local act = LM.SecureAction:Spell(context.preCast)
+            act:AddExecute(summonFunc)
+            return act
+        end
+
+        if context.preUse then
+            local act = LM.SecureAction:Item(context.preUse)
+            act:AddExecute(summonFunc)
+            return act
+        end
     end
 
-    if context and context.preUse and not needsCancelForm then
-        local act = LM.SecureAction:Item(context.preUse)
-        act:AddExecute(summonFunc)
-        return act
-    end
+    -- If WronglyFlaggedGCD and forceSummonByID ever overlap this needs work
 
     if forceSummonByID then
         local act
