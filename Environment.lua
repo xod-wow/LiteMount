@@ -744,11 +744,13 @@ function LM.Environment:InitializeHolidays()
     -- whole game is multiplayer communication). If this wasn't so destructive
     -- to the calendar UI it would be better delayed until required.
 
-    if C_ChatInfo.InChatMessagingLockdown and C_ChatInfo.InChatMessagingLockdown() then
-        self:RegisterEvent("ADDON_RESTRICTION_STATE_CHANGED")
-        return
-    else
-        self:UnregisterEvent("ADDON_RESTRICTION_STATE_CHANGED")
+    if C_ChatInfo.InChatMessagingLockdown then
+        if C_ChatInfo.InChatMessagingLockdown() then
+            self:RegisterEvent("ADDON_RESTRICTION_STATE_CHANGED")
+            return
+        else
+            self:UnregisterEvent("ADDON_RESTRICTION_STATE_CHANGED")
+        end
     end
 
     local savedCVars = {}
