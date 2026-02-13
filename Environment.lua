@@ -262,6 +262,12 @@ function LM.Environment:ZONE_CHANGED_NEW_AREA()
     LM.Options:RecordInstance()
 end
 
+function LM.Environment:ADDON_RESTRICTION_STATE_CHANGED(event, secretType, secretState)
+    if secretState == Enum.AddOnRestrictionState.Inactive then
+        self:InitializeHolidays()
+    end
+end
+
 local herbSpellName = C_Spell.GetSpellName(2366)
 local mineSpellName = C_Spell.GetSpellName(2575)
 -- local mineSpellName2 = C_Spell.GetSpellName(195122)
@@ -732,6 +738,18 @@ local CALENDAR_FILTER_CVARS = {
 
 function LM.Environment:InitializeHolidays()
     self.holidaysByID = {}
+
+    -- Reading Calendar data is restricted during M+ and encounters (another
+    -- part of Blizzard's futile attempts to stop addons communicating when the
+    -- whole game is multiplayer communication). If this wasn't so destructive
+    -- to the calendar UI it would be better delayed until required.
+
+    if C_ChatInfo.InChatMessagingLockdown and C_ChatInfo.InChatMessagingLockdown() then
+        self:RegisterEvent("ADDON_RESTRICTION_STATE_CHANGED")
+        return
+    else
+        self:UnregisterEvent("ADDON_RESTRICTION_STATE_CHANGED")
+    end
 
     local savedCVars = {}
     for cvar, value in pairs(CALENDAR_FILTER_CVARS) do
