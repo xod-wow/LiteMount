@@ -351,25 +351,24 @@ function LM.Options:InitializePriorities()
     end
 end
 
-function LM.Options:SetPriority(m, v)
+function LM.Options:SetPriority(m, v, dontFire)
     LM.Debug("Setting mount %s (%d) to priority %s", m.name, m.spellID, tostring(v))
     if v then
         v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
     end
     LM.db.profile.mountPriorities[m.spellID] = v
-    LM.db.callbacks:Fire("OnOptionsModified", m)
+    if not dontFire then
+        LM.db.callbacks:Fire("OnOptionsModified", m)
+    end
 end
 
 -- Don't just loop over SetPriority because we don't want the UI to freeze up
 -- with hundreds of unnecessary callback refreshes.
 
-function LM.Options:SetPriorities(mountlist, v)
+function LM.Options:SetPriorityList(mountlist, v)
     LM.Debug("Setting %d mounts to priority %s", #mountlist, tostring(v))
-    if v then
-        v = math.max(self.MIN_PRIORITY, math.min(self.MAX_PRIORITY, v))
-    end
     for _,m in ipairs(mountlist) do
-        LM.db.profile.mountPriorities[m.spellID] = v
+        self:SetPriority(m, v, true)
     end
     LM.db.callbacks:Fire("OnOptionsModified")
 end
@@ -606,24 +605,42 @@ function LM.Options:IsMountInGroup(m, g)
     end
 end
 
-function LM.Options:SetMountGroup(m, g)
+function LM.Options:SetMountGroup(m, g, dontFire)
     if LM.db.profile.groups[g] then
         LM.db.profile.groups[g][m.spellID] = true
     elseif LM.db.global.groups[g] then
         LM.db.global.groups[g][m.spellID] = true
     end
     self.cachedMountGroups[m.spellID] = nil
-    LM.db.callbacks:Fire("OnOptionsModified", m)
+    if not dontFire then
+        LM.db.callbacks:Fire("OnOptionsModified", m)
+    end
 end
 
-function LM.Options:ClearMountGroup(m, g)
+function LM.Options:SetMountGroupList(mountlist, g)
+    for _, m in ipairs(mountlist) do
+        self:SetMountGroup(m, g, true)
+    end
+    LM.db.callbacks:Fire("OnOptionsModified")
+end
+
+function LM.Options:ClearMountGroup(m, g, dontFire)
     if LM.db.profile.groups[g] then
         LM.db.profile.groups[g][m.spellID] = nil
     elseif LM.db.global.groups[g] then
         LM.db.global.groups[g][m.spellID] = nil
     end
     self.cachedMountGroups[m.spellID] = nil
-    LM.db.callbacks:Fire("OnOptionsModified", m)
+    if not dontFire then
+        LM.db.callbacks:Fire("OnOptionsModified", m)
+    end
+end
+
+function LM.Options:ClearMountGroupList(mountlist, g)
+    for _, m in ipairs(mountlist) do
+        self:ClearMountGroup(m, g, true)
+    end
+    LM.db.callbacks:Fire("OnOptionsModified")
 end
 
 

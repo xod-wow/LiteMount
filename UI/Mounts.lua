@@ -22,35 +22,6 @@ local TabNames = {
 
 --[[------------------------------------------------------------------------]]--
 
-LiteMountAllPriorityMixin = {}
-
-function LiteMountAllPriorityMixin:Set(v)
-    local mounts = LM.UIFilter.GetFilteredMountList()
-    LiteMountMountsPanel.ScrollBox.isDirty = true
-    LM.Options:SetPriorities(mounts, v or LM.Options.DEFAULT_PRIORITY)
-end
-
-function LiteMountAllPriorityMixin:Get()
-    local mounts = LM.UIFilter.GetFilteredMountList()
-
-    local allValue
-
-    for _,mount in ipairs(mounts) do
-        local v = mount:GetPriority()
-        if (allValue or v) ~= v then
-            allValue = nil
-            break
-        else
-            allValue = v
-        end
-    end
-
-    return allValue
-end
-
-
---[[------------------------------------------------------------------------]]--
-
 LiteMountMountScrollBoxMixin = {}
 
 function LiteMountMountScrollBoxMixin:RefreshMountList()
@@ -124,14 +95,13 @@ LiteMountMountsPanelMixin = {}
 function LiteMountMountsPanelMixin:Update()
     LM.UIFilter.ClearCache()
     self.ScrollBox:RefreshMountList()
-    self.AllPriority:Update()
 end
 
 function LiteMountMountsPanelMixin:OnDefault()
     LM.UIDebug(self, 'Custom_Default')
     self.ScrollBox.isDirty = true
     LM.Options:ResetAllMountFlags()
-    LM.Options:SetPriorities(LM.MountRegistry.mounts, nil)
+    LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil)
 end
 
 function LiteMountMountsPanelMixin:SetupFromTabbing()
@@ -146,11 +116,50 @@ function LiteMountMountsPanelMixin:SetupFromTabbing()
     end
     ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, self.tabViews[n])
 
-    self.AllPriority:SetShown(n==1)
     self.PriorityLabel:SetShown(n==1)
     for i = 1, 4 do
         local label = self["BitLabel"..i]
         label:SetShown(n==1)
+    end
+end
+
+local function ActionMenuGenerate(owner, rootDescription)
+    local parent = owner:GetParent()
+    local function dirtyFunc() parent.ScrollBox.isDirty = true end
+
+    rootDescription:CreateTitle(L.LM_ACTION_MENU_TITLE)
+
+    local allGroups = LM.Options:GetGroupNames()
+
+    local groupMenu = rootDescription:CreateButton(L.LM_GROUPS)
+    for _, g in pairs(allGroups) do
+        local function Add()
+            dirtyFunc()
+            local mounts = LM.UIFilter.GetFilteredMountList()
+            LM.Options:SetMountGroupList(mounts, g)
+        end
+        local function Clear()
+            dirtyFunc()
+            local mounts = LM.UIFilter.GetFilteredMountList()
+            LM.Options:ClearMountGroupList(mounts, g)
+        end
+        if LM.Options:IsGlobalGroup(g) then
+            g = BLUE_FONT_COLOR:WrapTextInColorCode(g)
+        end
+        local thisGroupMenu = groupMenu:CreateButton(g)
+        thisGroupMenu:CreateButton(ADD, Add)
+        thisGroupMenu:CreateButton(REMOVE, Clear)
+    end
+
+    local priorityMenu = rootDescription:CreateButton(L.LM_PRIORITY)
+    for _,p in ipairs(LM.UIFilter.GetPriorities()) do
+        local t, d = LM.UIFilter.GetPriorityText(p)
+        local function Set()
+            dirtyFunc()
+            local mounts = LM.UIFilter.GetFilteredMountList()
+            LM.Options:SetPriorityList(mounts, p)
+        end
+        priorityMenu:CreateButton(t..' - '..d, Set)
     end
 end
 
@@ -252,6 +261,8 @@ function LiteMountMountsPanelMixin:OnLoad()
         end
     end
 
+    self.ActionDropdown:SetText(L.LM_ACTIONS)
+
     --@debug@
     self.NextFamily = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
     self.NextFamily:SetSize(96, 22)
@@ -284,6 +295,8 @@ function LiteMountMountsPanelMixin:OnShow()
                 WHITE_FONT_COLOR:WrapTextInColorCode(counts.usable)
             )
         )
+
+    self.ActionDropdown:SetupMenu(ActionMenuGenerate)
 
     self:RegisterEvent('MOUNT_JOURNAL_USABILITY_CHANGED')
 

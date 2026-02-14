@@ -141,6 +141,7 @@ globals = {
 read_globals = {
     "ACCEPT",
     "ACCESSIBILITY_DRIVE_LABEL",
+    "ADD",
     "ADVANCED_LABEL",
     "ADVANCED_OPTIONS",
     "ALL",
@@ -483,6 +484,7 @@ read_globals = {
     "RARE_BLUE_COLOR",
     "RARITY",
     "RED_FONT_COLOR",
+    "REMOVE",
     "SEARCH",
     "SECONDARYHANDSLOT",
     "SELECTED_CHAT_FRAME",
