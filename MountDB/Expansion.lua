@@ -1360,6 +1360,7 @@ local Expansion = {
         [2488] = true, -- Shimmermist Free Runner
         [2489] = true, -- Pearlescent Butterfly
         [2491] = true, -- Ruby Butterfly
+        [2492] = true, -- Spring Butterfly
         [2495] = true, -- Emerald Snail
         [2496] = true, -- Void-Scarred Gryphon
         [2497] = true, -- Void-Forged Stallion
@@ -1491,6 +1492,7 @@ local Expansion = {
         [2815] = true, -- Snowpaw Glimmerfur Prowler
         [2823] = true, -- Savage Crimson Battle Turtle
         [2825] = true, -- Cloudborn Razorwing
+        [2917] = true, -- Anu'shalla, Shadow's Guidance
     },
 
     [11] = { -- Midnight
@@ -1505,7 +1507,6 @@ local Expansion = {
         [2262] = true, -- Harmonious Salutations Bear
         [2481] = true, -- Midnight Darkmoon Charger
         [2484] = true, -- Snowy Darkmoon Charger
-        [2492] = true, -- Spring Butterfly
         [2494] = true, -- Midnight Butterfly
         [2521] = true, -- Summer Harvesthog
         [2522] = true, -- Winter Harvesthog
