@@ -12,7 +12,7 @@ local _, LM = ...
 
 local C_Spell = LM.C_Spell or C_Spell
 
-local L = LM.Localize
+local L = LM.L
 
 local tocVersion = select(4, GetBuildInfo())
 

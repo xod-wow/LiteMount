@@ -14,7 +14,7 @@ local Env = LM.Environment
 
 local C_Spell = LM.C_Spell or C_Spell
 
-local L = LM.Localize
+local L = LM.L
 
 -- Rarity data repackaged daily from DataForAzeroth by Sören Gade
 --  https://github.com/sgade/MountsRarity

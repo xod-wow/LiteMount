@@ -112,7 +112,7 @@ LM_LIST_ITEM_BACKDROP_INFO = {
 
 local _, LM = ...
 
-local L = LM.Localize
+local L = LM.L
 
 local autoLocalized = {}
 

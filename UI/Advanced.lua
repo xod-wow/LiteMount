@@ -10,7 +10,7 @@
 
 local _, LM = ...
 
-local L = LM.Localize
+local L = LM.L
 
 local function BindingText(n)
     return format('%s %s', KEY_BINDING, n)

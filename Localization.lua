@@ -13,9 +13,9 @@ local _, LM = ...
 -- Vim reformatter from curseforge "Global Strings" export.
 -- %s/^\(L\..*\) = \(.*\)/\=printf('%-24s= %s', submatch(1), submatch(2))/
 
-LM.Localize = setmetatable({ }, {__index=function (t,k) return k end})
+LM.L = setmetatable({ }, {__index=function (t,k) return k end})
 
-local L = LM.Localize
+local L = LM.L
 
 local locale = GetLocale()
 

@@ -8,7 +8,7 @@
 
 local _, LM = ...
 
-local L = LM.Localize
+local L = LM.L
 
 local allTypeFlags = LM.Options:GetFlags()
 

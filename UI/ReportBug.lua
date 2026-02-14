@@ -8,7 +8,7 @@
 
 local _, LM = ...
 
-local L = LM.Localize
+local L = LM.L
 
 local Serializer = LibStub("AceSerializer-3.0")
 local LibDeflate = LibStub("LibDeflate")

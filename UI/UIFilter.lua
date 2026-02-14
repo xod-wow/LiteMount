@@ -10,7 +10,7 @@
 
 local _, LM = ...
 
-local L = LM.Localize
+local L = LM.L
 
 local LMDB = LibStub("LibMountDB-1.0")
 

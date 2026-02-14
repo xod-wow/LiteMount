@@ -12,7 +12,7 @@ local _, LM = ...
 
 local Env = LM.Environment
 
-local L = LM.Localize
+local L = LM.L
 
 -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
 local MacroName = "LiteMount"
