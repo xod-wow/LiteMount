@@ -9,9 +9,7 @@
 
 ----------------------------------------------------------------------------]]--
 
-local _, LM = ...
-
-LM.MountDB = LM.MountDB or {}
+local LMDB = LibStub("LibMountDB-1.0")
 
 local Expansion = {
     [0] = { -- Classic
@@ -1540,6 +1538,6 @@ for expansionID, mounts in pairs(Expansion) do
     end
 end
 
-function LM.MountDB.GetExpansionByID(id)
+function LMDB.GetExpansionByID(id)
     return MountIDtoExpansion[id] or 11
 end

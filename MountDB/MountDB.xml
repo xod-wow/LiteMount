@@ -1,4 +1,6 @@
 <Ui>
+    <Script file="MountDB.lua" />
+    <Script file="Localization.lua" />
     <Script file="Model.lua" />
     <Script file="Expansion.lua" />
 </Ui>

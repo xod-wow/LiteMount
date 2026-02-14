@@ -6,15 +6,17 @@
 
 ----------------------------------------------------------------------------]]--
 
-local _, LM = ...
+local LMDB = LibStub("LibMountDB-1.0")
 
-local L = LM.Localize
-
-LM.MountDB = LM.MountDB or {}
+local L = LMDB.L
 
 local Model = {
     [NONE] = {}
 }
+
+-- There is no locale-independent stuff in this lib, because otherwise we
+-- would need to be either (a) hard-coding the english name for all of the
+-- __AUTO__ mounts or (b) assigning model ID numbers that persist forever.
 
 Model._AUTO_ = {
     [302361] = true, -- Alabaster Stormtalon
@@ -2665,30 +2667,30 @@ do
     Model._AUTO_ = nil
 
     for modelName, mounts in pairs(Model) do
-        table.insert(ModelList, modelName)
+        table.insert(ModelList, L[modelName])
         for spellID in pairs(mounts) do
             if type(spellID) == 'number' then
-                ModelBySpellID[spellID] = modelName
+                ModelBySpellID[spellID] = L[modelName]
             end
         end
     end
-    table.sort(ModelList, function (a, b) return L[a] < L[b] end)
+    table.sort(ModelList)
 end
 
-function LM.MountDB.GetModelByID(mountID)
+function LMDB.GetModelByID(mountID)
     local _, spellID = C_MountJournal.GetMountInfoByID(mountID)
     return ModelBySpellID[spellID]
 end
 
-function LM.MountDB.GetModelBySpellID(spellID)
+function LMDB.GetModelBySpellID(spellID)
     return ModelBySpellID[spellID]
 end
 
-function LM.MountDB.GetModelList()
+function LMDB.GetModelList()
     return ModelList
 end
 
-function LM.MountDB.IsValidModel(modelName)
+function LMDB.IsValidModel(modelName)
     return Model[modelName] ~= nil
 end
 
@@ -2697,7 +2699,7 @@ end
 -- This is an approximation to try to find wrong stuff. It will misflag things
 -- from anything but the curent client (classic, ptr, etc).
 
-function LM.MountDB.AuditModelData()
+function LMDB.AuditModelData()
     local mountSpells = {}
     for _, mountID in ipairs(C_MountJournal.GetMountIDs()) do
         local name, spellID = C_MountJournal.GetMountInfoByID(mountID)

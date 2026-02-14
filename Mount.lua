@@ -130,7 +130,7 @@ function LM.Mount:MatchesOneFilter(flags, groups, f)
     elseif f:sub(1, 10) == 'expansion:' then
         return self.expansion == tonumber(f:sub(11))
     elseif f:sub(1, 7) == 'family:' then
-        return ( self.family == f:sub(8) or L[self.family] == f:sub(8) )
+        return self.family == f:sub(8)
     elseif f:sub(1, 5) == 'prio:' then
         return self:GetPriority() == tonumber(f:sub(6))
     elseif f:sub(1, 1) == '~' then

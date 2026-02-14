@@ -15,6 +15,8 @@ local C_Spell = LM.C_Spell or C_Spell
 LM.Journal = setmetatable({ }, LM.Mount)
 LM.Journal.__index = LM.Journal
 
+local LMDB = LibStub("LibMountDB-1.0")
+
 local Env = LM.Environment
 
 --  [1] name,
@@ -112,7 +114,7 @@ function LM.Journal:Get(id)
     end
 
     if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-        m.family = LM.MountDB.GetModelBySpellID(m.spellID)
+        m.family = LMDB.GetModelBySpellID(m.spellID)
 
         if not m.family then
             m.family = UNKNOWN
@@ -121,7 +123,7 @@ function LM.Journal:Get(id)
             --@end-debug@
         end
 
-        m.expansion = LM.MountDB.GetExpansionByID(id)
+        m.expansion = LMDB.GetExpansionByID(id)
     end
 
     return m
