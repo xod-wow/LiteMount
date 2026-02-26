@@ -151,20 +151,21 @@ Model["Amani Bear"] = {
 }
 
 Model["Amani Eagle"] = {
-   [1261316] = true, --  2760 Amani Sharptalon
-   [1251433] = true, --  2693 Amani Sunfeather
-   [1261576] = true, --  2786 Hexed Vilefeather Eagle
-   [1251630] = true, --  2694 Amani Windcaller
+   [1261316] = true, -- Amani Sharptalon (2760)
+   [1251433] = true, -- Amani Sunfeather (2693)
+   [1261576] = true, -- Hexed Vilefeather Eagle (2786)
+   [1251630] = true, -- Amani Windcaller (2694)
 }
 
 Model["Amani Pango"] = {
-   [1261348] = true, --  2772 Blessed Amani Burrower
-   [1261351] = true, --  2775 Witherbark Pango
+   [1261348] = true, -- Blessed Amani Burrower (2772)
+   [1261349] = true, -- Giganto Manis (2773)
+   [1261351] = true, -- Witherbark Pango (2775)
 }
 
 Model["Amani War Bear"] = {
-   [1261357] = true, --  2776 Amani Blessed Bear
-   [1261360] = true, --  2778 Ancestral War Bear
+   [1261357] = true, -- Amani Blessed Bear (2776)
+   [1261360] = true, -- Ancestral War Bear (2778)
 }
 
 -- Devourer Animite
@@ -1554,6 +1555,7 @@ Model["Nether Ray"] = {
    [1261155] = true, -- Augmented Stormray (2751)
     [ 39803] = true, -- Blue Riding Nether Ray
     [ 39798] = true, -- Green Riding Nether Ray
+   [1266703] = true, -- Lab-grown Stormray (2829)
     [ 39801] = true, -- Purple Riding Nether Ray
     [ 39800] = true, -- Red Riding Nether Ray
     [ 39802] = true, -- Silver Riding Nether Ray
