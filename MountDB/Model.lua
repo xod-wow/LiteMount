@@ -196,9 +196,9 @@ Model["Aquilon"] = {
 
 -- Model file is Arcane Golem
 Model["Arcane Guardian"] = {
-   [1268949] = true, --  2842 Arcanovoid Construct
-   [1268926] = true, --  2841 Elven Arcane Guardian
-   [1268924] = true, --  2840 Silvermoon's Arcane Defender
+   [1268949] = true, -- Arcanovoid Construct (2842)
+   [1268926] = true, -- Elven Arcane Guardian (2841)
+   [1268924] = true, -- Silvermoon's Arcane Defender (2840)
 }
 
 Model["Armored Bear"] = {
@@ -392,8 +392,8 @@ Model["Camel"] = {
 }
 
 Model["Carrion"] = {
-   [1257058] = true, --  2733 Calamitous Carrion
-   [1257081] = true, --  2734 Convalescent Carrion
+   [1257058] = true, -- Calamitous Carrion (2733)
+   [1257081] = true, -- Convalescent Carrion (2734)
 }
 
 Model["Celestial Windsteed"] = {
@@ -408,7 +408,8 @@ Model["Charger"] = {
 }
 
 Model["Chloroceros"] = {
-   [1270675] = true, --  2913 Vivid Chloroceros
+   [1270673] = true, -- Vivacious Chloroceros (2912)
+   [1270675] = true, -- Vivid Chloroceros (2913)
 }
 
 Model["Chopper"] = {
@@ -459,10 +460,10 @@ Model["Cloudwing Hippogryph"] = {
 }
 
 Model["Comfy Flying Quilt"] = {
-   [1270520] = true, --  2850 Fluffy Comfy Flying Quilt
-   [1270521] = true, --  2851 Gruffy Comfy Flying Quilt
-   [1270522] = true, --  2852 Comfy Bel'ameth Flying Quilt
-   [1270523] = true, --  2853 Comfy Silvermoon Flying Quilt
+   [1270520] = true, -- Fluffy Comfy Flying Quilt (2850)
+   [1270521] = true, -- Gruffy Comfy Flying Quilt (2851)
+   [1270522] = true, -- Comfy Bel'ameth Flying Quilt (2852)
+   [1270523] = true, -- Comfy Silvermoon Flying Quilt (2853)
 }
 
 Model["Core Hound"] = {
@@ -1095,15 +1096,22 @@ Model["Great Raven"] = {
 
 -- Harronir Cat
 Model["Grimlynx"] = {
-   [1243593] = true, --  2614 Fierce Grimlynx
-   [1243598] = true, --  2616 Ivory Grimlynx
-   [1243597] = true, --  2615 Rootstalker Grimlynx
+   [1243593] = true, -- Fierce Grimlynx (2614)
+   [1243598] = true, -- Ivory Grimlynx (2616)
+   [1243597] = true, -- Rootstalker Grimlynx (2615)
 }
 
 Model["Gronnling"] = {
     [189364] = true, -- Coalfist Gronnling
     [171436] = true, -- Gorestrider Gronnling
     [171849] = true, -- Sunhide Gronnling
+}
+
+Model["Groveglider"]  = {
+   [1251697] = true, -- Frostfall Groveglider (2700)
+   [1251762] = true, -- Cindertuft Groveglider (2701)
+   [1251764] = true, -- Gloombough Groveglider (2702)
+   [1251765] = true, -- Blossombranch Groveglider (2703)
 }
 
 Model["Grove Crawler"]  = {
@@ -1147,11 +1155,12 @@ Model["Harbor Gryphon"] = {
     [275866] = true, -- Stormsong Coastwatcher
 }
 
--- This is a cheap reskin of Skyrazor is lore-wise unrelated.
+-- This cheap reskin of Skyrazor is lore-wise unrelated.
 Model["Harrower"] = {
-   [1261332] = true, --  2764 Duskbrute Harrower
-   [1266700] = true, --  2827 Sanguine Harrower
-   [1266980] = true, --  2831 Tenebrous Harrower
+   [1261334] = true, -- Contained Stormarion Defender (2767)
+   [1261332] = true, -- Duskbrute Harrower (2764)
+   [1266700] = true, -- Sanguine Harrower (2827)
+   [1266980] = true, -- Tenebrous Harrower (2831)
 }
 
 Model["Harvesthog"] = {
@@ -1390,9 +1399,9 @@ Model["Mana Ray"] = {
 }
 
 Model["Mana Wyrm"] = {
-   [1261336] = true, --  2769 Preyseeker's Hubris
-   [1261338] = true, --  2771 Preyseeker's Nightmare
-   [1261337] = true, --  2770 Preyseeker's Wrath
+   [1261336] = true, -- Preyseeker's Hubris (2769)
+   [1261338] = true, -- Preyseeker's Nightmare (2771)
+   [1261337] = true, -- Preyseeker's Wrath (2770)
 }
 
 Model["Manasaber"] = {
@@ -1559,6 +1568,8 @@ Model["Nether Ray"] = {
     [ 39801] = true, -- Purple Riding Nether Ray
     [ 39800] = true, -- Red Riding Nether Ray
     [ 39802] = true, -- Silver Riding Nether Ray
+   [1263635] = true, -- Spectral Hawkstrider (2805)
+   [1266702] = true, -- Voidbound Stormray (2828)
 }
 
 Model["Nightsaber"] = {
@@ -1584,7 +1595,7 @@ Model["Ottuk"] = {
 
 Model["Owl"] = {
     [424484] = true, -- Anu'relos, Flame's Guidance
-   [1276650] = true, --  2917 Anu'shalla, Shadow's Guidance
+   [1276650] = true, -- Anu'shalla, Shadow's Guidance (2917)
     [443660] = true, -- Charming Courier
 }
 
@@ -1623,7 +1634,8 @@ Model["Peafowl"] = {
 }
 
 Model["Petalwing"] = {
-   [1253927] = true, --  2708 Vibrant Petalwing
+   [1253924] = true, -- Brilliant Petalwing (2707)
+   [1253927] = true, -- Vibrant Petalwing (2708)
 }
 
 Model["Phalynx"] = {
@@ -1690,10 +1702,10 @@ Model["Protostag"] = {
 }
 
 Model["Pseudoshell"] = {
-   [1267004] = true, --  2836 Accented Pseudoshell
-   [1266993] = true, --  2833 Arboreal Pseudoshell
-   [1266997] = true, --  2834 Cabbage Pseudoshell
-   [1267002] = true, --  2835 Lavender Pseudoshell
+   [1267004] = true, -- Accented Pseudoshell (2836)
+   [1266993] = true, -- Arboreal Pseudoshell (2833)
+   [1266997] = true, -- Cabbage Pseudoshell (2834)
+   [1267002] = true, -- Lavender Pseudoshell (2835)
 }
 
 Model["Pterrordax Skyscreamer"] = {
@@ -1959,6 +1971,7 @@ Model["Shredclaw"] = {
    [1261585] = true, -- Frenzied Shredclaw (2792)
    [1261583] = true, -- Insatiable Shredclaw (2790)
    [1261584] = true, -- Prowling Shredclaw (2791)
+   [1261579] = true, -- Ravenous Shredclaw (2789)
 }
 
 Model["Shredder"] = {
@@ -1975,9 +1988,9 @@ Model["Shreddertank"] = {
 -- is not one of these but a Swift Hawkstrider, but this is clearly the
 -- right name from the flavor text.
 Model["Silvermoon Hawkstrider"]= {
-   [1261323] = true, --  2762 Cerulean Hawkstrider
-   [1261322] = true, --  2761 Crimson Silvermoon Hawkstrider
-   [1265784] = true, --  2817 Lucent Hawkstrider
+   [1261323] = true, -- Cerulean Hawkstrider (2762)
+   [1261322] = true, -- Crimson Silvermoon Hawkstrider (2761)
+   [1265784] = true, -- Lucent Hawkstrider (2817)
 }
 
 -- Merged into Mountain Horse
@@ -2068,15 +2081,15 @@ Model["Snapdragon"] = {
 }
 
 Model["Snaplizard"] = {
-   [1261629] = true, --  2793 Vicious Snaplizard
-   [1261648] = true, --  2794 Vicious Snaplizard
+   [1261629] = true, -- Vicious Snaplizard (2793)
+   [1261648] = true, -- Vicious Snaplizard (2794)
 }
 
 Model["Snapvine"] = {
-   [1269279] = true, --  2847 Blooded Snapvine
-   [1269277] = true, --  2846 Ferocious Snapvine
-   [1269280] = true, --  2848 Savage Snapvine
-   [1269273] = true, --  2845 Vicious Snapvine
+   [1269279] = true, -- Blooded Snapvine (2847)
+   [1269277] = true, -- Ferocious Snapvine (2846)
+   [1269280] = true, -- Savage Snapvine (2848)
+   [1269273] = true, -- Vicious Snapvine (2845)
 }
 
 Model["Soul Eater"] = {
