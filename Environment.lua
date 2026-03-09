@@ -584,7 +584,7 @@ local function ValidDisplayMap(info, group, seenGroups)
 
     local out
 
-    if C_Map.IsMapValidForNavBardropDown then
+    if C_Map.IsMapValidForNavBarDropdown then
         out = C_Map.IsMapValidForNavBarDropdown(info.mapID)
     else
         out = info.mapType <= Enum.UIMapType.Zone
