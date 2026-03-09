@@ -1107,14 +1107,14 @@ Model["Gronnling"] = {
     [171849] = true, -- Sunhide Gronnling
 }
 
-Model["Groveglider"]  = {
+Model["Groveglider"] = {
    [1251697] = true, -- Frostfall Groveglider (2700)
    [1251762] = true, -- Cindertuft Groveglider (2701)
    [1251764] = true, -- Gloombough Groveglider (2702)
    [1251765] = true, -- Blossombranch Groveglider (2703)
 }
 
-Model["Grove Crawler"]  = {
+Model["Grove Crawler"] = {
    [1260354] = true, -- Untained Grove Crawler (2747)
 }
 
