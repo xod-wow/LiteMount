@@ -1568,7 +1568,6 @@ Model["Nether Ray"] = {
     [ 39801] = true, -- Purple Riding Nether Ray
     [ 39800] = true, -- Red Riding Nether Ray
     [ 39802] = true, -- Silver Riding Nether Ray
-   [1263635] = true, -- Spectral Hawkstrider (2805)
    [1266702] = true, -- Voidbound Stormray (2828)
 }
 
@@ -1990,7 +1989,9 @@ Model["Shreddertank"] = {
 Model["Silvermoon Hawkstrider"]= {
    [1261323] = true, -- Cerulean Hawkstrider (2762)
    [1261322] = true, -- Crimson Silvermoon Hawkstrider (2761)
+   [1265785] = true, -- Emerald Hawkstrider (2818)
    [1265784] = true, -- Lucent Hawkstrider (2817)
+   [1263635] = true, -- Spectral Hawkstrider (2805)
 }
 
 -- Merged into Mountain Horse
