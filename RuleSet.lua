@@ -40,6 +40,7 @@ function LM.RuleSet:Compile(lines)
             i = i + 1
         end
     end
+    ruleset:PrintErrors()
     return ruleset
 end
 
@@ -52,9 +53,6 @@ function LM.RuleSet:PrintErrors()
 end
 
 function LM.RuleSet:Run(context)
-    -- Annoy people on purpose so they fix their action lists. Otherwise
-    -- this should be moved into the places Compile() is called.
-    self:PrintErrors()
     for n,rule in ipairs(self) do
         context.rule = {}
         local act = rule:Dispatch(context)

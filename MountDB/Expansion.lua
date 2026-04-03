@@ -1537,6 +1537,7 @@ for expansionID, mounts in pairs(Expansion) do
         MountIDtoExpansion[mountID] = expansionID
     end
 end
+Expansion = nil
 
 function LMDB.GetExpansionByID(id)
     return MountIDtoExpansion[id] or 11

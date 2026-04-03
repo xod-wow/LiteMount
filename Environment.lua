@@ -20,8 +20,6 @@ LM.Environment:RegisterEvent("PLAYER_LOGIN")
 local issecretvalue = issecretvalue or function () return false end
 
 function LM.Environment:Initialize()
-    self:InitializeHolidays()
-    self:InitializeEJInstances()
     self:UpdateSwimTimes()
 
     self.combatTravelForm = nil
@@ -181,8 +179,9 @@ local StateUpdateFunctions = {
             return self.lastMineTime or 0
         end,
     playerBuffIDs =
-        function ()
-            local buffIDs = {}
+        function (self)
+            local buffIDs = self.playerBuffIDs
+            if buffIDs then table.wipe(buffIDs) else buffIDs = {} end
             local i = 1
             while true do
                 local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
@@ -196,8 +195,9 @@ local StateUpdateFunctions = {
             return buffIDs
         end,
     playerDebuffIDs =
-        function ()
-            local debuffIDs = {}
+        function (self)
+            local debuffIDs = self.playerDebuffIDs
+            if debuffIDs then table.wipe(debuffIDs) else debuffIDs = {} end
             local i = 1
             while true do
                 local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i, 'HARMFUL')
@@ -715,10 +715,12 @@ function LM.Environment:InitializeEJInstances()
 end
 
 function LM.Environment:GetEJInstances()
+    if not self.instancesByID then self:InitializeEJInstances() end
     return self.instancesByID
 end
 
 function LM.Environment:GetInstanceNameByID(id)
+    if not self.instancesByID then self:InitializeEJInstances() end
     if self.instancesByID[id] then
         return self.instancesByID[id].name
     else
@@ -813,6 +815,7 @@ function LM.Environment:InitializeHolidays()
 end
 
 function LM.Environment:IsHolidayActive(idOrTitle)
+    if not self.holidaysToday then self:InitializeHolidays() end
     local now = C_DateAndTime.GetCurrentCalendarTime()
 
     for eventID, eventInfo in pairs(self.holidaysToday) do
@@ -825,10 +828,12 @@ function LM.Environment:IsHolidayActive(idOrTitle)
 end
 
 function LM.Environment:GetHolidays()
+    if not self.holidaysByID then self:InitializeHolidays() end
     return CopyTable(self.holidaysByID)
 end
 
 function LM.Environment:GetHolidayName(id)
+    if not self.holidaysByID then self:InitializeHolidays() end
     return self.holidaysByID[id]
 end
 

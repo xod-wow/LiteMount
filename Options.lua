@@ -267,13 +267,21 @@ function LM.Options:CleanDatabase()
 end
 
 function LM.Options:DatabaseMaintenance()
+    local targetVersion = self:GetLatestConfigVersion()
+    if (LM.db.global.configVersion or 0) >= targetVersion then
+        return
+    end
+
     local changed
-    if self:VersionUpgrade7() then changed = true end
-    if self:VersionUpgrade8() then changed = true end
-    if self:VersionUpgrade9() then changed = true end
-    if self:VersionUpgrade10() then changed = true end
+    for i = (LM.db.global.configVersion or 0) + 1, targetVersion do
+        local funcName = "VersionUpgrade" .. i
+        if self[funcName] and self[funcName](self) then
+            changed = true
+        end
+    end
+
     if self:CleanDatabase() then changed = true end
-    LM.db.global.configVersion = 10
+    LM.db.global.configVersion = targetVersion
     return changed
 end
 
@@ -292,8 +300,25 @@ end
 -- This is split into two because I want to load it early in the
 -- setup process to get access to the debugging settings.
 
+function LM.Options:GetLatestConfigVersion()
+    local maxVersion = 0
+    for k, v in pairs(self) do
+        if type(k) == "string" and type(v) == "function" then
+            local num = k:match("^VersionUpgrade(%d+)$")
+            if num then
+                maxVersion = math.max(maxVersion, tonumber(num))
+            end
+        end
+    end
+    return maxVersion
+end
+
 function LM.Options:Initialize()
-    local oldDB = LiteMountDB and CopyTable(LiteMountDB)
+    local targetVersion = self:GetLatestConfigVersion()
+    local oldDB
+    if LiteMountDB and (not LiteMountDB.global or (LiteMountDB.global.configVersion or 0) < targetVersion) then
+        oldDB = CopyTable(LiteMountDB)
+    end
 
     LM.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
 

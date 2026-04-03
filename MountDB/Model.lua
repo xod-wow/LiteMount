@@ -11,7 +11,10 @@ local LMDB = LibStub("LibMountDB-1.0")
 local L = LMDB.L
 
 local Model = {
-    [NONE] = {}
+    [NONE] = {
+        [449133] = true, -- [PH] Nightsaber Horde Mount White (2200)
+        [449141] = true, -- [PH] Alliance Wolf Mount (2202)
+    }
 }
 
 -- There is no locale-independent stuff in this lib, because otherwise we
@@ -2670,6 +2673,7 @@ Model["Zodiac"] = {
 
 local ModelBySpellID = {}
 local ModelList = {}
+local ValidModels = {}
 
 do
     for spellID in pairs(Model._AUTO_) do
@@ -2684,6 +2688,7 @@ do
 
     for modelName, mounts in pairs(Model) do
         table.insert(ModelList, L[modelName])
+        ValidModels[modelName] = true
         for spellID in pairs(mounts) do
             if type(spellID) == 'number' then
                 ModelBySpellID[spellID] = L[modelName]
@@ -2691,6 +2696,7 @@ do
         end
     end
     table.sort(ModelList)
+    Model = nil
 end
 
 function LMDB.GetModelByID(mountID)
@@ -2707,7 +2713,7 @@ function LMDB.GetModelList()
 end
 
 function LMDB.IsValidModel(modelName)
-    return Model[modelName] ~= nil
+    return ValidModels[modelName] ~= nil
 end
 
 --@debug@

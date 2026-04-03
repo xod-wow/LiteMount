@@ -72,14 +72,20 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     end
 
     -- Set up the fresh run context for a new run.
-    local runContext = setmetatable({
-            ['self'] = self.context,
-            button = ButtonContexts,
-            inputButton = inputButton,
-            limits = {},
-            flowControl = {},
-            rule = {},
-        }, { __index = self.context })
+    local runContext = self.runContext
+    table.wipe(runContext.limits)
+    table.wipe(runContext.flowControl)
+    table.wipe(runContext.rule)
+    -- Clear any keys left over from the previous run (preCast, preUse, etc.)
+    for k in pairs(runContext) do
+        if k ~= 'limits' and k ~= 'flowControl' and k ~= 'rule' then
+            runContext[k] = nil
+        end
+    end
+    runContext['self'] = self.context
+    runContext.button = ButtonContexts
+    runContext.inputButton = inputButton
+    self.runContextMT.__index = self.context
 
     local ruleSet = LM.Options:GetCompiledButtonRuleSet(self.id)
 
@@ -149,6 +155,14 @@ function LM.ActionButton:Create(n)
     -- Button context
     b.context = { id = n }
     ButtonContexts[n] = b.context
+
+    -- Reusable run context and metatable, allocated once
+    b.runContextMT = { __index = b.context }
+    b.runContext = setmetatable({
+        limits = {},
+        flowControl = {},
+        rule = {},
+    }, b.runContextMT)
 
     -- b:RegisterForClicks("AnyDown", "AnyUp")
     -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497

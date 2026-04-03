@@ -441,33 +441,42 @@ end
 -- mounts with one for each faction.
 
 function LM.MountRegistry:GetActiveMount()
-    local buffIDs = { }
-    local i = 1
-    while true do
-        local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
-        if auraInfo == nil then
-            break
-        elseif not issecretvalue(auraInfo.spellId) then
-            buffIDs[auraInfo.spellId] = true
+    local buffIDs = LM.Environment.playerBuffIDs
+    if not buffIDs then
+        -- Called outside the click path (e.g. slash commands); do a one-off scan
+        buffIDs = {}
+        local i = 1
+        while true do
+            local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
+            if auraInfo == nil then break end
+            if not issecretvalue(auraInfo.spellId) then
+                buffIDs[auraInfo.spellId] = true
+            end
+            i = i + 1
         end
-        i = i + 1
     end
     return self.mounts:Find(function (m) return m:IsActive(buffIDs) end)
 end
 
 function LM.MountRegistry:GetMountByName(name)
-    local function match(m) return m.name == name end
-    return self.mounts:Find(match)
+    if self.indexes then
+        return self.indexes.name[name]
+    end
+    return self.mounts:Find(function (m) return m.name == name end)
 end
 
 function LM.MountRegistry:GetMountBySpell(id)
-    local function match(m) return m.spellID == id end
-    return self.mounts:Find(match)
+    if self.indexes then
+        return self.indexes.spellID[id]
+    end
+    return self.mounts:Find(function (m) return m.spellID == id end)
 end
 
 function LM.MountRegistry:GetMountByID(id)
-    local function match(m) return m.mountID == id end
-    return self.mounts:Find(match)
+    if self.indexes then
+        return self.indexes.mountID[id]
+    end
+    return self.mounts:Find(function (m) return m.mountID == id end)
 end
 
 -- For some reason GetShapeshiftFormInfo doesn't work on Ghost Wolf.
