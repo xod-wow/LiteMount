@@ -297,6 +297,7 @@ LM.SlashCommandFunc = function (argstr)
     local cmd = table.remove(args, 1)
 
     if COMMANDS[cmd] then
+        LM.Environment:RefreshState()
         COMMANDS[cmd](argstr, unpack(args))
         return true
     else

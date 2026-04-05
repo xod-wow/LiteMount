@@ -441,17 +441,7 @@ end
 -- mounts with one for each faction.
 
 function LM.MountRegistry:GetActiveMount()
-    local buffIDs = { }
-    local i = 1
-    while true do
-        local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
-        if auraInfo == nil then
-            break
-        elseif not issecretvalue(auraInfo.spellId) then
-            buffIDs[auraInfo.spellId] = true
-        end
-        i = i + 1
-    end
+    local buffIDs = LM.Environment.playerBuffIDs
     return self.mounts:Find(function (m) return m:IsActive(buffIDs) end)
 end
 
