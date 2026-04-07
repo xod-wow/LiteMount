@@ -230,6 +230,7 @@ local NeedsCancelFormIDs = {
 
 -- Can't cast some mounts by casting the spell, who knows why.
 local ForceSummonByID = {
+    [123] = true,   -- Nether Drake / Nether-Swept Drake
     [482] = true,   -- Jungle Riding Crane
     [1727] = true,  -- Tarecgosa's Visage
 }
