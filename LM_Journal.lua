@@ -230,7 +230,7 @@ local NeedsCancelFormIDs = {
 
 -- Can't cast some mounts by casting the spell, who knows why.
 local ForceSummonByID = {
-    [123] = true,   -- Nether Drake / Nether-Swept Drake
+    [16] = true,   -- Nether-Warped Drake
     [482] = true,   -- Jungle Riding Crane
     [1727] = true,  -- Tarecgosa's Visage
 }
@@ -272,7 +272,7 @@ function LM.Journal:GetCastAction(context)
     -- will lock them out, even though it doesn't trigger a GCD. Because there's
     -- only four I'll just not care and ignore the preX action. Could instead
     -- try to return IsCastable = false for them, but that would be super complex
-    -- as IsCastable would have to take the context, and it's not notable more
+    -- as IsCastable would have to take the context, and it's not notably more
     -- correct than this.
 
     if context and not needsCancelForm and not WronglyFlaggedGCD[self.mountID] then
