@@ -72,7 +72,7 @@ function LM.Mount.FilterToDisplay(f)
         return C_MountJournal.GetMountInfoByID(tonumber(id))
     elseif f:match('^family:') then
         local _, family = string.split(':', f, 2)
-        return L.LM_FAMILY .. ' : ' .. L[family]
+        return L.LM_FAMILY .. ' : ' .. family
     elseif f:match('^expansion:') then
         local _, expansion = string.split(':', f, 2)
         return EXPANSION_FILTER_TEXT .. ' : ' .. GetExpansionName(expansion)
