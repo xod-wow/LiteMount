@@ -42,9 +42,9 @@
     <Layers>
         <Layer level="ARTWORK">
             <FontString parentKey="BitLabel4" inherits="GameFontWhiteSmall" justifyH="CENTER">
-                <Size x="50" y="26" />
+                <Size x="50" y="12" />
                 <Anchors>
-                    <Anchor point="CENTER" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="-35" y="22" />
+                    <Anchor point="CENTER" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="-35" y="12" />
                 </Anchors>
             </FontString>
             <FontString parentKey="BitLabel3" inherits="GameFontWhiteSmall" justifyH="CENTER">
@@ -61,7 +61,7 @@
             </FontString>
             <FontString parentKey="PriorityLabel" inherits="GameFontWhiteSmall" justifyH="CENTER" text="LM_PRIORITY">
                 <Anchors>
-                    <Anchor point="BOTTOM" relativePoint="TOP" relativeKey="$parent.AllPriority" y="8" />
+                    <Anchor point="CENTER" relativePoint="TOP" relativeKey="$parent.ScrollBox" y="12" x="28" />
                 </Anchors>
             </FontString>
         </Layer>
