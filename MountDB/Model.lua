@@ -1734,17 +1734,6 @@ Model["Qiraji War Tank"] = {
     [239767] = true, -- Red Qiraji War Tank
 }
 
-Model["Quel'Thalas Dragonhawk"] = {
-   [1261302] = true, -- Cobalt Dragonhawk (2758)
-   [1261298] = true, -- Crimson Dragonhawk (2756)
-   [1261291] = true, -- Fiery Dragonhawk (2753)
-   [1234305] = true, -- Lightwing Dragonhawk
-   [1261293] = true, -- Peridot Dragonhawk (2754)
-   [1261296] = true, -- Umbral Dragonhawk (2755)
-   [1239138] = true, -- Voidlight Surger
-   [1234303] = true, -- Voidwing Dragonhawk
-}
-
 Model["Ram"] = {
     [  6896] = true, -- Black Ram
     [ 17461] = true, -- Black Ram
@@ -1984,10 +1973,21 @@ Model["Shreddertank"] = {
    [1221694] = true, -- Enterprising Shreddertank
 }
 
+Model["Silvermoon Dragonhawk"] = {
+   [1261302] = true, -- Cobalt Dragonhawk (2758)
+   [1261298] = true, -- Crimson Dragonhawk (2756)
+   [1261291] = true, -- Fiery Dragonhawk (2753)
+   [1234305] = true, -- Lightwing Dragonhawk
+   [1261293] = true, -- Peridot Dragonhawk (2754)
+   [1261296] = true, -- Umbral Dragonhawk (2755)
+   [1239138] = true, -- Voidlight Surger
+   [1234303] = true, -- Voidwing Dragonhawk
+}
+
 -- This is annoying because there is a mount "Silvermoon Hawkstrider" which
 -- is not one of these but a Swift Hawkstrider, but this is clearly the
 -- right name from the flavor text.
-Model["Silvermoon Hawkstrider"]= {
+Model["Silvermoon Hawkstrider"] = {
    [1261323] = true, -- Cerulean Hawkstrider (2762)
    [1261322] = true, -- Crimson Silvermoon Hawkstrider (2761)
    [1265785] = true, -- Emerald Hawkstrider (2818)
