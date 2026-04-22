@@ -134,7 +134,14 @@ local StateUpdateFunctions = {
         end,
     isMovingOrFalling =
         function ()
-            return (GetUnitSpeed("player") > 0 or IsFalling())
+            if IsFalling() then
+                return true
+            end
+            local currentSpeed = GetUnitSpeed("player")
+            if not issecretvalue(currentSpeed) and currentSpeed > 0 then
+                return true
+            end
+            return false
         end,
     isPhaseDiving =
         function (self)
