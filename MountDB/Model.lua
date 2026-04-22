@@ -18,6 +18,9 @@ local Model = {
 -- would need to be either (a) hard-coding the english name for all of the
 -- __AUTO__ mounts or (b) assigning model ID numbers that persist forever.
 
+-- Doesn't support classic, which has different spell IDs. If classic has the
+-- same mount IDs it could be reworked, would need to check.
+
 Model._AUTO_ = {
     [302361] = true, -- Alabaster Stormtalon
     [417888] = true, -- Algarian Stormrider
@@ -63,7 +66,6 @@ Model._AUTO_ = {
     [472253] = true, -- Lunar Launcher
     [267274] = true, -- Mag'har Direwolf
     [305592] = true, -- Mechagon Mechanostrider
-    [367676] = true, -- Nether-Gorged Greatwyrm
     [308814] = true, -- Ny'alotha Allseer
     [245725] = true, -- Orgrimmar Interceptor
    [1221155] = true, -- Prototype A.S.M.R.
@@ -155,6 +157,7 @@ Model["Amani Eagle"] = {
    [1251433] = true, -- Amani Sunfeather (2693)
    [1261576] = true, -- Hexed Vilefeather Eagle (2786)
    [1251630] = true, -- Amani Windcaller (2694)
+   [1286606] = true, -- Void-Corrupted Hex Eagle (2961)
 }
 
 Model["Amani Pango"] = {
@@ -166,6 +169,7 @@ Model["Amani Pango"] = {
 Model["Amani War Bear"] = {
    [1261357] = true, -- Amani Blessed Bear (2776)
    [1261360] = true, -- Ancestral War Bear (2778)
+   [1261362] = true, -- Witherbark Warbear Mother (2779)
 }
 
 -- Devourer Animite
@@ -192,6 +196,11 @@ Model["Aquilon"] = {
    [1261671] = true, -- Bronze Aquilon
     [353875] = true, -- Elysian Aquilon
     [353877] = true, -- Foresworn Aquilon
+}
+
+Model["Arboon"] = {
+   [1282453] = true, -- Amberback Arboon (2931)
+   [1282450] = true, -- Blossomback Arboon (2930)
 }
 
 -- Model file is Arcane Golem
@@ -305,6 +314,7 @@ Model["Bear"] = {
 Model["Bee"] = {
     [259741] = true, -- Honeyback Harvester
     [303767] = true, -- Honeyback Hivemother
+   [1282471] = true, -- Magister's Spell Bee (2933)
     [471538] = true, -- Timely Buzzbee
 }
 
@@ -541,6 +551,7 @@ Model["Crow"] = {
 
 -- Unused models are Amethyst and Citrine Mechsuit
 Model["Crystal Mechsuit"] = {
+   [1296734] = true, -- Amethyst Mechsuit (3006)
     [458335] = true, -- Diamond Mechsuit
    [1243003] = true, -- Light-Forged Mechsuit
    [1241263] = true, -- OC91 Chariot
@@ -573,6 +584,7 @@ Model["Deathroc"] = {
 }
 
 Model["Deathwalker"] = {
+   [1296731] = true, -- Cerulean Deathwalker (3005)
     [334482] = true, -- Restoration Deathwalker
     [340068] = true, -- Sintouched Deathwalker
     [358319] = true, -- Soultwisted Deathwalker
@@ -582,6 +594,7 @@ Model["Deathwalker"] = {
 -- Worldbreaker Drake
 Model["Deathwing Drake"] = {
     [420097] = true, -- Azure Worldchiller
+   [1284640] = true, -- Golden Ashened Cataclysm (2948)
     [294197] = true, -- Obsidian Worldbreaker
 }
 
@@ -907,6 +920,13 @@ Model["Gearglider"] = {
     [353264] = true, -- Xy Trustee's Gearglider
 }
 
+Model["Gilnean Charger"] = {
+   [1282274] = true, -- Gilnean Copper Charger (2927)
+   [1282268] = true, -- Gilnean Iron Charger (2926)
+   [1282276] = true, -- Gilneas Loyalist's Rouncey (2929)
+   [1282275] = true, -- Pyrewood Rebel's Rouncey (2928)
+}
+
 Model["Gladiator's Cloud Serpent"] = {
     [148619] = true, -- Grievous Gladiator's Cloud Serpent
     [139407] = true, -- Malevolent Gladiator's Cloud Serpent
@@ -1084,6 +1104,11 @@ Model["Great Raven"] = {
    [1226760] = true, -- Prophet's Great Raven
 }
 
+Model["Greatwyrm"] = {
+    [367676] = true, -- Nether-Gorged Greatwyrm
+   [1271698] = true, -- Unbound Manawyrm (2915)
+}
+
 -- Harronir Cat
 Model["Grimlynx"] = {
    [1243593] = true, -- Fierce Grimlynx (2614)
@@ -1167,6 +1192,7 @@ Model["Hawkstrider"] = {
     [230401] = true, -- Ivory Hawkstrider
     [ 35018] = true, -- Purple Hawkstrider
     [ 34795] = true, -- Red Hawkstrider
+   [1282936] = true, -- Void-Touched Hawkstrider (2935)
 }
 
 Model["Headless Horseman's Charger"] = {
@@ -1253,6 +1279,13 @@ Model["Hyena"] = {
     [237286] = true, -- Dune Scavenger
 }
 
+Model["Imperial Lynx"] = {
+    [448979] = true, -- Dauntless Imperial Lynx
+   [1226421] = true, -- Radiant Imperial Lynx
+    [448978] = true, -- Vermillion Imperial Lynx
+   [1228865] = true, -- Void-Scarred Lynx
+}
+
 Model["Infernal"] = {
     [171840] = true, -- Coldflame Infernal
     [213134] = true, -- Felblaze Infernal
@@ -1334,10 +1367,7 @@ Model["Lupine"] = {
 }
 
 Model["Lynx"] = {
-    [448979] = true, -- Dauntless Imperial Lynx
-   [1226421] = true, -- Radiant Imperial Lynx
-    [448978] = true, -- Vermillion Imperial Lynx
-   [1228865] = true, -- Void-Scarred Lynx
+   [1287359] = true, -- Void-Corrupted Lynx (2965)
 }
 
 Model["Magic Broom"] = {
@@ -1446,6 +1476,11 @@ Model["Meat Wagon"] = {
 Model["Mechacycle"] = {
     [296788] = true, -- Mechacycle Model W
     [297157] = true, -- Junkheap Drifter
+}
+
+Model["Mechanical Panther"] = {
+   [1255159] = true, -- Mechanical Prototype Panther MK-0 (2717)
+   [1255179] = true, -- Steel Prototype Panther MK-0 (2718)
 }
 
 Model["Mechanocat"] = {
@@ -1969,8 +2004,12 @@ Model["Shredder"] = {
 }
 
 Model["Shreddertank"] = {
+   [1296756] = true, -- Blue-Chip Shreddertank (3007)
    [1217235] = true, -- Crimson Shreddertank
    [1221694] = true, -- Enterprising Shreddertank
+   [1296759] = true, -- High-Yield Shreddertank (3010)
+   [1296758] = true, -- Profit-Green Shreddertank (3008)
+   [1296760] = true, -- Speculative Shreddertank (3009)
 }
 
 Model["Silvermoon Dragonhawk"] = {
@@ -2080,6 +2119,7 @@ Model["Snapdragon"] = {
     [474086] = true, -- Prismatic Snapdragon
     [294038] = true, -- Royal Snapdragon
     [300146] = true, -- Snapdragon Kelpstalker
+   [1287357] = true, -- Void-Touched Snapdragon (2964)
 }
 
 Model["Snaplizard"] = {
@@ -2160,6 +2200,13 @@ Model["Stormcrow"] = {
     [171828] = true, -- Solar Spirehawk
     [471562] = true, -- Thrayir, Eyes of the Siren
     [253639] = true, -- Violet Spellwing
+}
+
+Model["Sun Roc"] = {
+   [1283908] = true, -- Dusk-Painted Sun Roc (2940)
+   [1283910] = true, -- Flame-Painted Sun Roc (2941)
+-- [1283906] = true, -- [PH] Giant Eagle Sunwalker Mount Blue (2939)
+-- [1283911] = true, -- [PH] Giant Eagle Sunwalker Mount White (2942)
 }
 
 Model["Sunwalker Kodo"] = {
