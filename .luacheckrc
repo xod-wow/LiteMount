@@ -141,6 +141,7 @@ globals = {
 read_globals = {
     "ACCEPT",
     "ACCESSIBILITY_DRIVE_LABEL",
+    "ACCOUNT_QUEST_LABEL",
     "ADD",
     "ADVANCED_LABEL",
     "ADVANCED_OPTIONS",
@@ -176,6 +177,7 @@ read_globals = {
     "C_BattleNet",
     "C_Calendar",
     "C_ChallengeMode",
+    "C_ChatInfo",
     "C_ClassColor",
     "C_ClassTalents",
     "C_Container",
