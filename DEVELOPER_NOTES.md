@@ -57,66 +57,6 @@
   xmllint --noout UI/*.xml
   ```
 
-* To Do List
-
-  - Export profiles or all settings with serialize/compress.
-  - Write a simplified UI for the action lists.
-
-
-* Running Wild under ShapeShift
-
-  You can't use Running Wild when you are shapeshifted (e.g., you are
-  transformed into a Night Elf or Human by a dungeon buff).  Unfortunately
-  IsSpellUsable() still returns true in that case.
-
-
-* [CLOSED] Code to check every spell usability
-
-  Moved into LM.Developer.
-
-  I hope that someday the ability to tell if we are on top of the water
-  or under it will return. WTB IsFloating()
-
-
-* [CLOSED] Passenger-capable mounts
-
-  Conclusion: handled by the action list mechanism now.
-
-  Possibility of preferring a passenger-capable mount if you are in
-  a group.
-
-
-* [CLOSED] Better "undo".
-
-  Conclusion: seems unncessary.
-
-  Might be able to set up the macro better for undoing in combat what we
-  last did (mount -> dismount, form -> cancelform, aura -> cancelaura, etc.)
-  by passing params between the PreClick handler and the PostClick handler
-  as button attributes.
-
-
-* [CLOSED] Suggestions
-
-  Conclusion: I ripped it out completely.
-
-
-* [CLOSED] "Dragonwrath, Tarecgosa's Rest" (71086)
-
-  Item ID 71086.  Spell ID is 101641 (Tarecgosa's Visage)
-
-  You can only use it by "/use slot", you can't cast the spell.
-
-
-* [CLOSED] Might be better to look for Sea Legs aura for Vashj'ir.
-
-  Sea legs is present even on the surface and flying so don't do it.
-
-
-* [CLOSED] Does GetUnitSpeed return negative if you go backwards?
-
-  No it doesn't.
-
 * Expression parser
 
   Periodically I think I should properly parse things but then it
