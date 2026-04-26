@@ -1,0 +1,88 @@
+FileDataID;FilePath
+    CreatureModelData.ID
+        CreatureDisplayInfo.ID
+
+2123275;creature/druidaquatickultiran/druidaquatickultiran.m2
+    11182
+        87879   87880   87881   87882
+
+2200968;creature/druidaquaticzandalari/druidaquaticzandalari.m2
+    11265
+        88747   88748   88749   88750
+
+
+
+1509765;creature/druidflightform/druidflightform.m2
+    9797
+        74304   74305   74306   74307       -- owl thing
+
+1778479;creature/druidflighthmtauren/druidflighthmtauren.m2
+    10622
+        81439
+
+2147167;creature/druidflightkultiran/druidflightkultiran.m2
+    11234
+        88351   88352   88353   88354
+
+1888159;creature/druidflightzandalaritroll/druidflightzandalaritroll.m2
+    10770
+        91214
+
+2821730;creature/druidflightzandalaritroll_noarmor/druidflightzandalaritroll_noarmor.m2
+    11554
+        91256
+
+652455;creature/druidtravelalliance/druidtravelalliance.m2
+    4871
+        40816
+
+660898;creature/druidtravelalliance/druidtravelalliance_low01.m2
+    4958
+        46455
+
+4268207;creature/druidtravelcat/druidtravelcat.m2
+    13128
+        918
+
+1778010;creature/druidtravelhmtauren/druidtravelhmtauren.m2
+    10621
+        81440
+
+652458;creature/druidtravelhorde/druidtravelhorde.m2
+    4870
+        45339
+
+2068158;creature/druidtravelkultiran/druidtravelkultiran.m2
+    11161
+        87427   87428   87429   87430
+
+1818256;creature/druidtravelzandalaritroll/druidtravelzandalaritroll.m2
+    10678
+        82130 
+
+6046789;creature/druidtravelharanir/druidtravelharanir.m2
+    16257
+        131745-131752
+
+5794846;creature/harronirbat/harronirbat.m2
+    15028
+        119260
+        119261
+        120361
+        120370
+        120372
+        120973
+        120974
+        120975
+        121166
+        122152
+        127672
+        127673
+        130410
+        138573
+        138574
+
+6120989;creature/druidaquaticharanir/druidaquaticharanir.m2
+    15368
+        115604 123890 123895 123896 123897 123898 139276
+        

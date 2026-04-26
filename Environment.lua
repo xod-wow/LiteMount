@@ -133,13 +133,19 @@ local StateUpdateFunctions = {
             return self:IsFlyableArea()
         end,
     isMovingOrFalling =
-        function ()
+        function (self)
             if IsFalling() then
                 return true
             end
             local currentSpeed = GetUnitSpeed("player")
-            if not issecretvalue(currentSpeed) and currentSpeed > 0 then
-                return true
+            if issecretvalue(currentSpeed) then
+                if self.stoppedMoving == nil then
+                    return true
+                end
+            else
+                if currentSpeed > 0 then
+                    return true
+                end
             end
             return false
         end,
