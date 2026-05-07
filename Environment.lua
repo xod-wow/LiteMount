@@ -281,17 +281,34 @@ function LM.Environment:ADDON_RESTRICTION_STATE_CHANGED(event, secretType, secre
     end
 end
 
-local herbSpellName = C_Spell.GetSpellName(2366)
-local mineSpellName = C_Spell.GetSpellName(2575)
--- local mineSpellName2 = C_Spell.GetSpellName(195122)
+local gatherSpellNames = { }
+
+do
+    -- These are converted to names since most of the spells are just named
+    -- "Mining" and "Herb Gathering" and it saves storing a billion spell IDs.
+    -- For some reason in Midnight they decided to change it. The assumption
+    -- is that if you know the profession this will return a name.
+    local gatherSpellIDs = {
+        [2366]      = "herb",       -- "Herb Gathering"
+        [471022]    = "herb",       -- "Midnight Herbalism"
+        [2575]      = "mine",       -- "Mining"
+        [471013]    = "mine",       -- "Midnight Mining"
+    }
+    for id, gatherType in pairs(gatherSpellIDs) do
+        local name = C_Spell.GetSpellName(id)
+        if name then
+            gatherSpellNames[name] = gatherType
+        end
+    end
+end
 
 function LM.Environment:UNIT_SPELLCAST_SUCCEEDED(ev, unit, guid, spellID)
     -- Strictly speaking this check isn't needed because of RegisterUnitEvent
     if unit == 'player' then
         local spellName = C_Spell.GetSpellName(spellID)
-        if spellName == herbSpellName then
+        if gatherSpellNames[spellName] == "herb" then
             self.lastHerbTime = GetTime()
-        elseif spellName == mineSpellName then
+        elseif gatherSpellNames[spellName] == "mine" then
             self.lastMineTime = GetTime()
         end
     end
