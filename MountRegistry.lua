@@ -211,6 +211,9 @@ local RefreshEvents = {
     ["ACHIEVEMENT_EARNED"] = true,
     -- Needed for usability on journal mounts
     ["MOUNT_JOURNAL_USABILITY_CHANGED"] = true,
+    -- If we refreshed the usability in combat due to another event we need to
+    -- update it once combat ends.
+    ["PLAYER_REGEN_ENABLED"] = true,
 }
 
 function LM.MountRegistry:OnEvent(event, ...)
