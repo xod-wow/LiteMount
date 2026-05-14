@@ -45,6 +45,8 @@ function LM.ActionButton:PreClick(inputButton, isDown)
     LM.Debug("[%d] PreClick handler (inputButton=%s, isDown=%s)",
              self.id, tostring(inputButton), tostring(isDown))
 
+    -- RefreshMounts(true) here would paper over any bugs in the refresh event
+    -- gathering, but it's probably better if I know and get that right.
     LM.MountRegistry:RefreshMounts()
     LM.Environment:RefreshState()
 
