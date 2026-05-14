@@ -79,10 +79,8 @@ function LiteMountMountIconMixin:SetMount(mount, hasMenu)
         self.Count:Hide()
     end
 
-    if not InCombatLockdown() then
-        local action = mount:GetCastAction()
-        action:SetupActionButton(self, 1)
-    end
+    local action = mount:GetCastAction()
+    action:SetupActionButton(self, 1)
 end
 
 function LiteMountMountIconMixin:OnEnter()

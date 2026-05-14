@@ -4,7 +4,7 @@
 
 <Script file="MountIconTemplate.lua" />
 
-<Button name="LiteMountMountIconTemplate" inherits="SecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true" mixin="LiteMountMountIconMixin" virtual="true">
+<Button name="LiteMountMountIconTemplate" inherits="InsecureActionButtonTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true" mixin="LiteMountMountIconMixin" virtual="true">
     <Size x="36" y="36" />
     <HighlightTexture parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" />
     <Layers>

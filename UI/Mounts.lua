@@ -25,11 +25,7 @@ local TabNames = {
 LiteMountMountScrollBoxMixin = {}
 
 function LiteMountMountScrollBoxMixin:RefreshMountList()
-    -- Because the Icon is a SecureActionButton and a child of the scroll
-    -- buttons, we can't show or hide them in combat. Rather than throw a
-    -- LUA error, it's better just not to do anything at all.
-    if InCombatLockdown() then return end
-
+    -- Hopefully with InsecureActionButtonTemplate it's ok to refresh in combat
     local currentView = self:GetView()
     local wantTree = ( currentView.stride == nil )
     local dp = LM.UIFilter.GetFilteredMountDataProvider(wantTree)
