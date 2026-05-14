@@ -294,6 +294,10 @@ function LM.MountList:Limit(limits)
     return mounts
 end
 
+-- Anything called here needs to be blazingly fast because it is called many
+-- thousands of times each time the sorting is done. There can't be some hidden
+-- API call under a function, everything needs to be a direct table lookup.
+
 local SortFunctions = {
     -- Show all the collected mounts before the uncollected mounts, then by name
     ['default'] =

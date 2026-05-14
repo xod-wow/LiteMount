@@ -28,8 +28,13 @@ function LM.ItemSummoned:Get(data)
     return m
 end
 
+
+function LM.ItemSummoned:Refresh()
+    self.isCollected = ( C_Item.GetItemCount(self.itemID) > 0 )
+end
+
 function LM.ItemSummoned:IsCollected()
-    return C_Item.GetItemCount(self.itemID) > 0
+    return self.isCollected
 end
 
 function LM.ItemSummoned:GetCastAction(context)

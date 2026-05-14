@@ -194,7 +194,12 @@ function LiteMountMountsPanelMixin:OnLoad()
         end
     end
 
-    self:SetScript('OnEvent', function () self.ScrollBox:RefreshMountList() end)
+    -- MOUNT_JOURNAL_USABILITY_CHANGED
+    self:SetScript('OnEvent',
+        function ()
+            LM.MountRegistry:RefreshMounts(true)
+            self.ScrollBox:RefreshMountList()
+        end)
 
     -- We are using the ScrollBox SetControl to do ALL the updating.
 

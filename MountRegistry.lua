@@ -201,10 +201,7 @@ local RefreshEvents = {
     -- for units other than "player" and triggers constantly.
     ["COMPANION_LEARNED"] = true,
     ["COMPANION_UNLEARNED"] = true,
-    -- This fires when something is favorited or unfavorited
-    -- ["MOUNT_JOURNAL_SEARCH_UPDATED"] = true,
-    -- Talents (might have mount abilities). Glyphs that teach spells
-    -- fire PLAYER_TALENT_UPDATE too, don't need to watch GLYPH_ events.
+    -- Talents (might have mount abilities).
     ["ACTIVE_TALENT_GROUP_CHANGED"] = true,
     ["PLAYER_LEVEL_UP"] = true,
     ["PLAYER_TALENT_UPDATE"] = true,
@@ -212,6 +209,7 @@ local RefreshEvents = {
     ["BAG_UPDATE_DELAYED"] = true,
     -- Some flying unlocks are an achievement
     ["ACHIEVEMENT_EARNED"] = true,
+    -- Needed for usability on journal mounts
     ["MOUNT_JOURNAL_USABILITY_CHANGED"] = true,
 }
 
@@ -389,8 +387,8 @@ function LM.MountRegistry:AddExtraMounts()
     end
 end
 
-function LM.MountRegistry:RefreshMounts()
-    if self.needRefresh then
+function LM.MountRegistry:RefreshMounts(force)
+    if self.needRefresh or force then
         LM.Debug("Refreshing status of all mounts.")
         for _,m in ipairs(self.mounts) do
             m:Refresh()

@@ -35,8 +35,12 @@ function LM.Spell:Get(data)
     return m
 end
 
+function LM.Spell:Refresh()
+    self.isCollected = IsPlayerSpell(self.spellID)
+end
+
 function LM.Spell:IsCollected()
-    return IsPlayerSpell(self.spellID)
+    return self.isCollected
 end
 
 function LM.Spell:IsCastable()
