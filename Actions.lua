@@ -189,7 +189,8 @@ local function SpellArgsToDisplay(args)
     for _, v in ipairs(args:ParseList()) do
         local info = C_Spell.GetSpellInfo(v)
         if info then
-            table.insert(out, string.format("%s (%d)", info.name, info.spellID))
+            local name = type(v) == 'string' and v or info.name
+            table.insert(out, string.format("%s (%d)", name, info.spellID))
         else
             table.insert(out, v)
         end
@@ -230,8 +231,11 @@ ACTIONS['PreCast'] = {
             for _, arg in ipairs(args:ParseList()) do
                 local info = C_Spell.GetSpellInfo(arg)
                 if info and IsPlayerSpell(info.spellID) and info.castTime == 0 then
-                    LM.Debug("  * setting preCast to spell " .. info.name)
-                    context.preCast = info.name
+                    -- Specifically using arg to support !Spell. Incredibly, you can
+                    -- do C_Spell.GetSpellInfo("!Spell") but obviously the ! is not
+                    -- preserved in the return struct.
+                    LM.Debug("  * setting preCast to spell " .. arg)
+                    context.preCast = arg
                     context.preUse = nil
                     return
                 end
