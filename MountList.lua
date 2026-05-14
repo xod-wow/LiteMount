@@ -346,7 +346,13 @@ local SortFunctions = {
         end,
     ['expansion'] =
         function (a, b)
-            return (a.expansion or -1) < (b.expansion or -1)
+            local aExpansion = (a.expansion or -1)
+            local bExpansion = (b.expansion or -1)
+            if aExpansion ~= bExpansion then
+                return aExpansion < bExpansion
+            else
+                return a.name < b.name
+            end
         end,
     ['mountid'] =
         function (a, b)
