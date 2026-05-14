@@ -17,7 +17,12 @@ LM.Journal.__index = LM.Journal
 
 local LMDB = LibStub("LibMountDB-1.0")
 
+-- Rarity data repackaged daily from DataForAzeroth by Sören Gade
+--  https://github.com/sgade/MountsRarity
+local MountsRarity = LibStub("MountsRarity-2.0")
+
 local Env = LM.Environment
+
 
 --  [1] name,
 --  [2] spellID,
@@ -124,6 +129,7 @@ function LM.Journal:Get(id)
         end
 
         m.expansion = LMDB.GetExpansionByID(id)
+        m.rarity = MountsRarity:GetRarityByID(m.mountID)
     end
 
     return m
@@ -152,9 +158,16 @@ function LM.Journal:GetFlags()
 end
 ]]
 
+function LM.Journal:Refresh()
+    local isUsable, _, isFavorite, _, _, isHidden, isCollected = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
+    self.isUsable = isUsable
+    self.isFavorite = isFavorite
+    self.isHidden = isHidden
+    self.isCollected = isCollected
+end
+
 function LM.Journal:IsUsable()
-    local usable = select(5, C_MountJournal.GetMountInfoByID(self.mountID))
-    return usable
+    return self.isUsable
 end
 
 -- This flag is set for the journal mounts in MountRegistry as it's not at all
@@ -172,7 +185,7 @@ local NotUsableInPhaseDiving = {
 }
 
 function LM.Journal:IsCastable()
-    if not self:IsUsable() then
+    if not self.isUsable then
         return false
     end
 
@@ -195,18 +208,15 @@ function LM.Journal:IsCastable()
 end
 
 function LM.Journal:IsFavorite()
-    local isFavorite = select(7, C_MountJournal.GetMountInfoByID(self.mountID))
-    return isFavorite
+    return self.isFavorite
 end
 
 function LM.Journal:IsHidden()
-    local isHidden = select(10, C_MountJournal.GetMountInfoByID(self.mountID))
-    return isHidden
+    return self.isHidden
 end
 
 function LM.Journal:IsCollected()
-    local isCollected = select(11, C_MountJournal.GetMountInfoByID(self.mountID))
-    return isCollected
+    return self.isCollected
 end
 
 -- This is a bit complicated.

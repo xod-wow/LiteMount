@@ -212,6 +212,7 @@ local RefreshEvents = {
     ["BAG_UPDATE_DELAYED"] = true,
     -- Some flying unlocks are an achievement
     ["ACHIEVEMENT_EARNED"] = true,
+    ["MOUNT_JOURNAL_USABILITY_CHANGED"] = true,
 }
 
 function LM.MountRegistry:OnEvent(event, ...)

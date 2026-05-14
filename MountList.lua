@@ -178,7 +178,7 @@ function LM.MountList:RarityWeights()
         if m:GetPriority() == LM.Options.DISABLED_PRIORITY then
             weights[i] = 0
         else
-            local rarity = m:GetRarity() or 50
+            local rarity = m.rarity or 50
             -- The weight is the mount's inverted rarity (rarer mounts are more likely)
             -- Math fudge to guard against 0% rarity.
             weights[i] = 101 / ( rarity + 1) - 1
@@ -326,8 +326,8 @@ local SortFunctions = {
         end,
     ['rarity'] =
         function (a, b)
-            local aR = a:GetRarity() or 101
-            local bR = b:GetRarity() or 101
+            local aR = a.rarity or 101
+            local bR = b.rarity or 101
             if aR ~= bR then
                 return aR < bR
             else

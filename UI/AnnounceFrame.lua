@@ -42,8 +42,7 @@ end
 local function GetColorText(mount)
     local style =  LM.Options:GetOption('randomWeightStyle')
     if style == 'Rarity' then
-        local r = mount:GetRarity()
-        local c = LM.UIFilter.GetRarityColor(r)
+        local c = LM.UIFilter.GetRarityColor(mount.rarity)
         return c:WrapTextInColorCode(mount.name)
     elseif style == 'Priority' then
         local p = mount:GetPriority()

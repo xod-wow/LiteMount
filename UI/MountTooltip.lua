@@ -81,9 +81,8 @@ function LiteMountTooltipMixin:SetMount(m, hasMenu)
             self:AddLine("|cffffffff"..EXPANSION_FILTER_TEXT..":|r "..text)
         end
 
-        local r = m:GetRarity()
-        if r then
-            self:AddLine("|cffffffff"..RARITY..":|r "..string.format(L.LM_RARITY_FORMAT, r))
+        if m.rarity then
+            self:AddLine("|cffffffff"..RARITY..":|r "..string.format(L.LM_RARITY_FORMAT, m.rarity))
         end
     end
 

@@ -30,44 +30,9 @@ function LiteMountMountScrollBoxMixin:RefreshMountList()
     -- LUA error, it's better just not to do anything at all.
     if InCombatLockdown() then return end
 
-    local mounts = LM.UIFilter.GetFilteredMountList()
-    local dp
-
     local currentView = self:GetView()
-
-    if currentView.stride then
-        dp = CreateDataProvider(mounts)
-    else
-        dp = CreateTreeDataProvider()
-        if LM.UIFilter.GetSortKey() == 'family' then
-            local familySubTrees = {}
-            for _, m in ipairs(mounts) do
-                if not familySubTrees[m.family] then
-                    local data = {
-                        isHeader = true,
-                        name = LM.UIFilter.GetSortKeyText('family') .. ': ' .. m.family,
-                    }
-                    familySubTrees[m.family] = dp:Insert(data)
-                end
-                familySubTrees[m.family]:Insert(m)
-            end
-        elseif LM.UIFilter.GetSortKey() == 'expansion' then
-            local subTrees = {}
-            for _, m in ipairs(mounts) do
-                local expansion = m.expansion or -1
-                if not subTrees[expansion] then
-                    local name = _G["EXPANSION_NAME"..tostring(expansion)] or NONE
-                    local data = { isHeader = true, name = name }
-                    subTrees[expansion] = dp:Insert(data)
-                end
-                subTrees[expansion]:Insert(m)
-            end
-        else
-            for _, m in ipairs(mounts) do
-                dp:Insert(m)
-            end
-        end
-    end
+    local wantTree = ( currentView.stride == nil )
+    local dp = LM.UIFilter.GetFilteredMountDataProvider(wantTree)
     self:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 end
 
@@ -93,7 +58,6 @@ end
 LiteMountMountsPanelMixin = {}
 
 function LiteMountMountsPanelMixin:Update()
-    LM.UIFilter.ClearCache()
     self.ScrollBox:RefreshMountList()
 end
 

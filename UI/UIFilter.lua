@@ -147,6 +147,7 @@ end
 
 function LM.UIFilter.ClearCache()
     table.wipe(LM.UIFilter.filteredMountList)
+    LM.UIFilter.treeDP = nil
 end
 
 function LM.UIFilter.GetFilteredMountList()
@@ -156,6 +157,53 @@ function LM.UIFilter.GetFilteredMountList()
     return LM.UIFilter.filteredMountList
 end
 
+local function GetTreeDP()
+    local mounts = LM.UIFilter.GetFilteredMountList()
+    local dp = CreateTreeDataProvider()
+    if LM.UIFilter.GetSortKey() == 'family' then
+        local familySubTrees = {}
+        for _, m in ipairs(mounts) do
+            if not familySubTrees[m.family] then
+                local data = {
+                    isHeader = true,
+                    name = LM.UIFilter.GetSortKeyText('family') .. ': ' .. m.family,
+                }
+                familySubTrees[m.family] = dp:Insert(data)
+            end
+            familySubTrees[m.family]:Insert(m)
+        end
+    elseif LM.UIFilter.GetSortKey() == 'expansion' then
+        local subTrees = {}
+        for _, m in ipairs(mounts) do
+            local expansion = m.expansion or -1
+            if not subTrees[expansion] then
+                local name = _G["EXPANSION_NAME"..tostring(expansion)] or NONE
+                local data = { isHeader = true, name = name }
+                subTrees[expansion] = dp:Insert(data)
+            end
+            subTrees[expansion]:Insert(m)
+        end
+    else
+        -- This is unbelievably slow as Insert() does Sort() and Invalidate()
+        -- on every insert, which is crazy.
+        for _, m in ipairs(mounts) do
+            dp:Insert(m)
+        end
+    end
+    return dp
+end
+
+function LM.UIFilter.GetFilteredMountDataProvider(wantTree)
+    if wantTree then
+        if not LM.UIFilter.treeDP then
+            LM.UIFilter.treeDP = GetTreeDP()
+        end
+        return LM.UIFilter.treeDP
+    else
+        local mounts = LM.UIFilter.GetFilteredMountList()
+        return CreateDataProvider(mounts)
+    end
+end
 
 -- Sources ---------------------------------------------------------------------
 
@@ -505,8 +553,9 @@ end
 -- 0 <= r <= 1
 
 function LM.UIFilter.GetRarityColor(r)
-    r = r or 50
-    if r <= 1 then
+    if not r then
+        return PriorityColors[1]
+    elseif r <= 1 then
         return PriorityColors[4]
     elseif r <= 5 then
         return PriorityColors[3]
