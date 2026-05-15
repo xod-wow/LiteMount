@@ -13,7 +13,7 @@
                 <Anchor point="BOTTOMRIGHT" x="-8" y="48" />
             </Anchors>
         </Frame>
-        <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountMountScrollBoxMixin" frameStrata="HIGH">
+        <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList" frameStrata="HIGH">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.MountsContainer" x="12" y="-44" />
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountsContainer" x="-30" y="8" />

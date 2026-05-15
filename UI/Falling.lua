@@ -185,7 +185,7 @@ function LiteMountFallingPanelMixin:OnLoad()
     view:SetElementInitializer("LiteMountItemSpellTemplate",
         function (button, elementData)
             local function Delete()
-                self.Scroll.isDirty = true
+                self.isDirty = true
                 local falling = LM.Options:GetOption('falling')
                 tDeleteItem(falling, elementData)
                 LM.Options:SetOption('falling', falling)
@@ -198,7 +198,7 @@ function LiteMountFallingPanelMixin:OnLoad()
     dragBehavior:SetReorderable(true)
     dragBehavior:SetPostDrop(
         function (contextData)
-            self.Scroll.isDirty = true
+            self.isDirty = true
             local falling = {}
             for _, elementData in contextData.dataProvider:EnumerateEntireRange() do
                 table.insert(falling, elementData)
@@ -211,23 +211,23 @@ function LiteMountFallingPanelMixin:OnLoad()
             LiteMountOptionsPanel_PopOver(LiteMountFallingAdd, self)
         end)
 
-    self.Scroll.GetOption =
-        function ()
-            return CopyTable(LM.Options:GetOption('falling'))
-        end
-    self.Scroll.GetOptionDefault =
-        function ()
-            return CopyTable(LM.Options:GetOptionDefault('falling'))
-        end
-    self.Scroll.SetOption =
-        function (_, v)
-            LM.Options:SetOption('falling', v)
-        end
-    self.Scroll.SetControl =
-        function ()
-            self:Refresh()
-        end
-    LiteMountOptionsPanel_RegisterControl(self.Scroll)
+    LiteMountOptionsPanel_RegisterControl(self, self)
+end
+
+function LiteMountFallingPanelMixin:SetOption(v)
+    LM.Options:SetOption('falling', v)
+end
+
+function LiteMountFallingPanelMixin:GetOption()
+    return CopyTable(LM.Options:GetOption('falling'))
+end
+
+function LiteMountFallingPanelMixin:GetOptionDefault()
+    return CopyTable(LM.Options:GetOptionDefault('falling'))
+end
+
+function LiteMountFallingPanelMixin:SetControl()
+    self:Refresh()
 end
 
 function LiteMountFallingPanelMixin:Refresh()

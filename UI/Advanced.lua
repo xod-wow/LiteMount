@@ -41,70 +41,71 @@ end
 --[[------------------------------------------------------------------------]]--
 
 local function BindingGenerator(owner, rootDescription)
-    local editBox = LiteMountAdvancedPanel.EditScroll.ScrollBox.EditBox
-    local IsSelected = function (v) return editBox.tab == v end
-    local SetSelected = function (v) LiteMountOptionsControl_SetTab(editBox, v) end
-    for i = 1, editBox.ntabs do
+    local self = LiteMountAdvancedPanel
+    local IsSelected = function (v) return self.tab == v end
+    local SetSelected = function (v) LiteMountOptionsControl_SetTab(self, v) end
+    for i = 1, self.ntabs do
         rootDescription:CreateRadio(BindingText(i), IsSelected, SetSelected, i)
     end
 end
 
 --[[------------------------------------------------------------------------]]--
 
-LiteMountAdvancedEditBoxMixin = {}
+LiteMountAdvancedPanelMixin = {}
 
-function LiteMountAdvancedEditBoxMixin:CheckCompileErrors(text)
-    local errorMessage = LiteMountAdvancedPanel.ErrorMessage
+function LiteMountAdvancedPanelMixin:CheckCompileErrors(text)
     local ruleset = LM.RuleSet:Compile(text)
     if ruleset.errors then
         -- It's possible we should just show the first one
         local errs = LM.tMap(ruleset.errors, function (info) return info.err end)
         local msg = table.concat(errs, "\n")
-        errorMessage:SetText(msg)
-        errorMessage:Show()
+        self.ErrorMessage:SetText(msg)
+        self.ErrorMessage:Show()
         return false
     else
-        errorMessage:Hide()
+        self.ErrorMessage:Hide()
         return true
     end
 end
 
-function LiteMountAdvancedEditBoxMixin:SetOption(v, i)
+function LiteMountAdvancedPanelMixin:SetOption(v, i)
     if self:CheckCompileErrors(v) then
         LM.Options:SetButtonRuleSet(i, v)
     end
 end
 
-function LiteMountAdvancedEditBoxMixin:GetOption(i)
+function LiteMountAdvancedPanelMixin:GetOption(i)
     return LM.Options:GetButtonRuleSet(i)
 end
 
-function LiteMountAdvancedEditBoxMixin:GetOptionDefault()
+function LiteMountAdvancedPanelMixin:GetOptionDefault()
     return LM.Options:GetButtonRuleSet('__default__')
 end
 
-function LiteMountAdvancedEditBoxMixin:SetControl(v)
-    self:SetText(v)
+function LiteMountAdvancedPanelMixin:SetControl(v)
+    self.EditScroll.ScrollBox.EditBox:SetText(v)
     self:CheckCompileErrors(v)
 end
 
---[[------------------------------------------------------------------------]]--
-
-LiteMountAdvancedPanelMixin = {}
-
 function LiteMountAdvancedPanelMixin:OnLoad()
     self.name = ADVANCED_OPTIONS
+    self.ntabs = 4
 
     local editBox = self.EditScroll.ScrollBox.EditBox
-    Mixin(editBox, LiteMountAdvancedEditBoxMixin)
     editBox:SetFontObject(LiteMountMonoFont)
-    editBox.ntabs = 4
-    editBox:SetScript('OnTextChanged', LiteMountOptionsControl_OnTextChanged)
+    editBox:SetScript('OnTextChanged',
+        function (_, userInput)
+            self.isDirty = true
+            if userInput == true then
+                LM.UIDebug(self, "Control_OnTextChanged")
+                self:SetOption(editBox:GetText(), self.tab)
+            end
+        end)
     self.BindingDropDown:SetupMenu(BindingGenerator)
 
     ScrollUtil.RegisterScrollBoxWithScrollBar(self.EditScroll.ScrollBox, self.ScrollBar)
 
-    LiteMountOptionsPanel_RegisterControl(editBox, self)
+    LiteMountOptionsPanel_RegisterControl(self, self)
 end
 
 function LiteMountAdvancedPanelMixin:OnShow()

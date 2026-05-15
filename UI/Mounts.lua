@@ -22,44 +22,36 @@ local TabNames = {
 
 --[[------------------------------------------------------------------------]]--
 
-LiteMountMountScrollBoxMixin = {}
+LiteMountMountsPanelMixin = {}
 
-function LiteMountMountScrollBoxMixin:RefreshMountList()
-    -- Hopefully with InsecureActionButtonTemplate it's ok to refresh in combat
-    local currentView = self:GetView()
-    local wantTree = ( currentView.stride == nil )
-    local dp = LM.UIFilter.GetFilteredMountDataProvider(wantTree)
-    self:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
-end
-
-function LiteMountMountScrollBoxMixin:GetOption()
+function LiteMountMountsPanelMixin:GetOption()
     return {
         CopyTable(LM.Options:GetRawFlagChanges(), true),
         CopyTable(LM.Options:GetRawMountPriorities(), true)
     }
 end
 
-function LiteMountMountScrollBoxMixin:SetOption(v)
+function LiteMountMountsPanelMixin:SetOption(v)
     LM.Options:SetRawFlagChanges(v[1])
     LM.Options:SetRawMountPriorities(v[2])
 end
 
 -- The only control: does all the triggered updating for the entire panel
-function LiteMountMountScrollBoxMixin:SetControl(v)
-    self:GetParent():Update()
+function LiteMountMountsPanelMixin:SetControl()
+    self:Update()
 end
 
---[[------------------------------------------------------------------------]]--
-
-LiteMountMountsPanelMixin = {}
-
 function LiteMountMountsPanelMixin:Update()
-    self.ScrollBox:RefreshMountList()
+    -- Hopefully with InsecureActionButtonTemplate it's ok to refresh in combat
+    local currentView = self.ScrollBox:GetView()
+    local wantTree = ( currentView.stride == nil )
+    local dp = LM.UIFilter.GetFilteredMountDataProvider(wantTree)
+    self.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 end
 
 function LiteMountMountsPanelMixin:OnDefault()
     LM.UIDebug(self, 'Custom_Default')
-    self.ScrollBox.isDirty = true
+    self.isDirty = true
     LM.Options:ResetAllMountFlags()
     LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil)
 end
@@ -85,7 +77,7 @@ end
 
 local function ActionMenuGenerate(owner, rootDescription)
     local parent = owner:GetParent()
-    local function dirtyFunc() parent.ScrollBox.isDirty = true end
+    local function dirtyFunc() parent.isDirty = true end
 
     rootDescription:CreateTitle(L.LM_ACTION_MENU_TITLE)
 
@@ -126,7 +118,7 @@ end
 function LiteMountMountsPanelMixin:OnLoad()
     self.tabViews = {}
 
-    local function dirtyFunc() self.ScrollBox.isDirty = true end
+    local function dirtyFunc() self.isDirty = true end
 
     self.tabViews[1] = CreateScrollBoxListTreeListView()
     self.tabViews[1]:SetElementFactory(
@@ -194,12 +186,10 @@ function LiteMountMountsPanelMixin:OnLoad()
     self:SetScript('OnEvent',
         function ()
             LM.MountRegistry:RefreshMounts(true)
-            self.ScrollBox:RefreshMountList()
+            self:Update()
         end)
 
-    -- We are using the ScrollBox SetControl to do ALL the updating.
-
-    LiteMountOptionsPanel_RegisterControl(self.ScrollBox)
+    LiteMountOptionsPanel_RegisterControl(self, self)
 
     -- Set up the tabs
     if WOW_PROJECT_ID == 1 then
@@ -215,7 +205,7 @@ function LiteMountMountsPanelMixin:OnLoad()
                 function ()
                     self.selectedTab = i
                     self:SetupFromTabbing()
-                    self.ScrollBox:RefreshMountList()
+                    self:Update()
                 end)
         end
         PanelTemplates_ResizeTabsToFit(self, self.ScrollBox:GetWidth() - 32)
@@ -245,7 +235,7 @@ function LiteMountMountsPanelMixin:OnShow()
     LM.MountRegistry:UpdateFilterUsability()
     LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "OnRefresh")
 
-    self.ScrollBox:RefreshMountList()
+    -- self:Update()
 
     -- Update the counts, Journal-only
     local counts = LM.MountRegistry:GetJournalTotals()

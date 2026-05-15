@@ -75,7 +75,7 @@
     </KeyValues>
 
     <Frames>
-        <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountRulesScrollMixin">
+        <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList">
             <Anchors>
                 <Anchor point="TOPLEFT" x="16" y="-132" />
                 <Anchor point="BOTTOMRIGHT" x="-34" y="40" />
