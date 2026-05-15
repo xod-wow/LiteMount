@@ -2773,8 +2773,7 @@ function LMDB.AuditModelData()
     for _, mountID in ipairs(C_MountJournal.GetMountIDs()) do
         local name, spellID = C_MountJournal.GetMountInfoByID(mountID)
         local typeID = select(5, C_MountJournal.GetMountInfoExtraByID(mountID))
-        local typeInfo = LM.MOUNT_TYPE_INFO[typeID]
-        if (not typeInfo or not typeInfo.skip) and not ModelBySpellID[spellID] then
+        if not ModelBySpellID[spellID] then
             print('MISSING MOUNT', spellID, name)
         end
        mountSpells[spellID] = name

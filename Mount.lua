@@ -279,8 +279,8 @@ function LM.Mount:OnSummon()
     if not LM.Options:GetOption('announceViaChat') then return end
 
     if LM.Options:GetOption('randomWeightStyle') == 'Rarity' then
-        rarity = string.format(L.LM_RARITY_FORMAT, self.rarity or 0)
-        LM.Print(L.LM_SUMMON_CHAT_MESSAGE_RARITY, self.name, self.rarity, n)
+        local rarity = string.format(L.LM_RARITY_FORMAT, self.rarity or 0)
+        LM.Print(L.LM_SUMMON_CHAT_MESSAGE_RARITY, self.name, rarity, n)
     else
         LM.Print(L.LM_SUMMON_CHAT_MESSAGE, self.name, self:GetPriority(), n)
     end
