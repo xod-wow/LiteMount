@@ -112,7 +112,7 @@
                 <Anchor point="RIGHT" x="-16" />
             </Anchors>
         </Frame>
-        <ScrollFrame parentKey="GroupScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountGroupsPanelGroupScrollBoxMixin">
+        <ScrollFrame parentKey="GroupScrollBox" inherits="WoWScrollBoxList">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.GroupsContainer" x="8" y="-8" />
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.GroupsContainer" x="-8" y="8" />
@@ -137,7 +137,7 @@
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.GroupScrollBox" x="-2" y="0"/>
             </Anchors>
         </EventFrame>
-        <ScrollFrame parentKey="MountScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountGroupsPanelMountScrollBoxMixin">
+        <ScrollFrame parentKey="MountScrollBox" inherits="WoWScrollBoxList">
             <Anchors>
                 <Anchor point="TOPLEFT" relativeKey="$parent.MountsContainer" x="8" y="-8" />
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountsContainer" x="-22" y="8" />

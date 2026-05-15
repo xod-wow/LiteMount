@@ -38,7 +38,7 @@
                 <Anchor point="BOTTOM" y="16" />
             </Anchors>
             <Frames>
-                <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList" mixin="LiteMountGroupsPanelGroupScrollBoxMixin">
+                <ScrollFrame parentKey="ScrollBox" inherits="WoWScrollBoxList">
                     <Anchors>
                         <Anchor point="TOPLEFT" x="8" y="-8" />
                         <Anchor point="BOTTOMRIGHT" x="-8" y="8" />
