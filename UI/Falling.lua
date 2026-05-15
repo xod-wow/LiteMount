@@ -210,8 +210,6 @@ function LiteMountFallingPanelMixin:OnLoad()
         function ()
             LiteMountOptionsPanel_PopOver(LiteMountFallingAdd, self)
         end)
-
-    LiteMountOptionsPanel_RegisterControl(self, self)
 end
 
 function LiteMountFallingPanelMixin:SetOption(v)

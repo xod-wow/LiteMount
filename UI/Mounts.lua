@@ -189,8 +189,6 @@ function LiteMountMountsPanelMixin:OnLoad()
             self:Update()
         end)
 
-    LiteMountOptionsPanel_RegisterControl(self, self)
-
     -- Set up the tabs
     if WOW_PROJECT_ID == 1 then
         for i, tabButton in ipairs(self.Tabs) do

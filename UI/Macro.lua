@@ -171,8 +171,6 @@ function LiteMountMacroPanelMixin:OnLoad()
             button:SetScript('OnClick', function () self:SetClass(elementData.key) end)
         end)
     ScrollUtil.InitScrollBoxListWithScrollBar(self.Class.ScrollBox, self.Class.ScrollBar, view)
-
-    LiteMountOptionsPanel_RegisterControl(self, self)
 end
 
 function LiteMountMacroPanelMixin:OnShow()

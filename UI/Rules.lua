@@ -77,7 +77,7 @@ end
 local function BindingGenerator(owner, rootDescription)
     local self = LiteMountRulesPanel
     local IsSelected = function (v) return self.tab == v end
-    local SetSelected = function (v) LiteMountOptionsControl_SetTab(self, v) end
+    local SetSelected = function (v) LiteMountOptionsPanel_SetTab(self, v) end
     for i = 1, 4 do
         rootDescription:CreateRadio(BindingText(i), IsSelected, SetSelected, i)
     end
@@ -239,8 +239,6 @@ function LiteMountRulesPanelMixin:OnLoad()
     self.AddButton:SetScript('OnClick', function () self:AddRule() end)
     self.DeleteButton:SetScript('OnClick', function () self:DeleteRule() end)
     self.EditButton:SetScript('OnClick', function () self:EditRule() end)
-
-    LiteMountOptionsPanel_RegisterControl(self, self)
 end
 
 function LiteMountRulesPanelMixin:OnHide()

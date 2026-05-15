@@ -230,8 +230,6 @@ function LiteMountGroupsPanelMixin:OnLoad()
     view:SetPadding(0, 0, 0, 0, 0)
     ScrollUtil.InitScrollBoxListWithScrollBar(self.MountScrollBox, self.MountScrollBar, view)
     self.MountScrollBox.update = self.MountScrollBox.RefreshMountList
-
-    LiteMountOptionsPanel_RegisterControl(self, self)
 end
 
 function LiteMountGroupsPanelMixin:OnShow()

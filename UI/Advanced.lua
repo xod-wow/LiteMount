@@ -43,7 +43,7 @@ end
 local function BindingGenerator(owner, rootDescription)
     local self = LiteMountAdvancedPanel
     local IsSelected = function (v) return self.tab == v end
-    local SetSelected = function (v) LiteMountOptionsControl_SetTab(self, v) end
+    local SetSelected = function (v) LiteMountOptionsPanel_SetTab(self, v) end
     for i = 1, self.ntabs do
         rootDescription:CreateRadio(BindingText(i), IsSelected, SetSelected, i)
     end
@@ -104,8 +104,6 @@ function LiteMountAdvancedPanelMixin:OnLoad()
     self.BindingDropDown:SetupMenu(BindingGenerator)
 
     ScrollUtil.RegisterScrollBoxWithScrollBar(self.EditScroll.ScrollBox, self.ScrollBar)
-
-    LiteMountOptionsPanel_RegisterControl(self, self)
 end
 
 function LiteMountAdvancedPanelMixin:OnShow()
