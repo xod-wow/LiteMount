@@ -17,6 +17,8 @@ local C_ClassColor = C_ClassColor or LM.C_ClassColor
 
 local L = LM.L
 
+local issecretvalue = issecretvalue or function () return false end
+
 local ANY_TEXT = CLUB_FINDER_ANY_FLAG or SPELL_TARGET_TYPE1_DESC:upper()
 
 --[[
@@ -892,9 +894,16 @@ CONDITIONS["keystone"] = {
     handler =
         function (cond, context, minLevel, maxLevel)
             if C_ChallengeMode.IsChallengeModeActive() then
+                if not minLevel then
+                    return true
+                end
                 minLevel = tonumber(minLevel) or 0
                 maxLevel = tonumber(maxLevel) or math.huge
                 local keyLevel = C_ChallengeMode.GetActiveKeystoneInfo()
+                -- The level can be secret while challenge-mode restrictions are active.
+                if not keyLevel or issecretvalue(keyLevel) then
+                    return false
+                end
                 return (keyLevel >= minLevel) and (keyLevel <= maxLevel)
             else
                 return false
