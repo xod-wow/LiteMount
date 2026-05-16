@@ -252,14 +252,10 @@ function LiteMountMountsPanelMixin:OnShow()
     self.ActionDropdown:SetupMenu(ActionMenuGenerate)
 
     self:RegisterEvent('MOUNT_JOURNAL_USABILITY_CHANGED')
-
-    LiteMountOptionsPanel_OnShow(self)
 end
 
 function LiteMountMountsPanelMixin:OnHide()
     LM.UIFilter.UnregisterAllCallbacks(self)
     LM.MountRegistry.UnregisterAllCallbacks(self)
     self:UnregisterAllEvents()
-    LiteMountOptionsPanel_OnHide(self)
 end
-

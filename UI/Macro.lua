@@ -173,10 +173,6 @@ function LiteMountMacroPanelMixin:OnLoad()
     ScrollUtil.InitScrollBoxListWithScrollBar(self.Class.ScrollBox, self.Class.ScrollBar, view)
 end
 
-function LiteMountMacroPanelMixin:OnShow()
-    LiteMountOptionsPanel_OnShow(self)
-end
-
 function LiteMountMacroPanelMixin:SetTab(id)
     PanelTemplates_SetTab(self, id)
     self:SetControl()

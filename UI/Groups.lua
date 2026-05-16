@@ -237,12 +237,10 @@ function LiteMountGroupsPanelMixin:OnShow()
     LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "Refresh")
     LM.MountRegistry:RefreshMounts(true)
     self:Update()
-    LiteMountOptionsPanel_OnShow(self)
 end
 
 function LiteMountGroupsPanelMixin:OnHide()
     LM.UIFilter.UnregisterAllCallbacks(self)
-    LiteMountOptionsPanel_OnHide(self)
 end
 
 function LiteMountGroupsPanelMixin:Update()
