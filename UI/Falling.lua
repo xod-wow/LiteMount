@@ -225,18 +225,7 @@ function LiteMountFallingPanelMixin:GetOptionDefault()
 end
 
 function LiteMountFallingPanelMixin:SetControl()
-    self:Refresh()
-end
-
-function LiteMountFallingPanelMixin:Refresh()
     local falling = LM.Options:GetOption('falling')
     local dp = CreateDataProvider(falling)
     self.Scroll:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
-end
-
-function LiteMountFallingPanelMixin:OnShow()
-    self:Refresh()
-end
-
-function LiteMountFallingPanelMixin:OnHide()
 end
