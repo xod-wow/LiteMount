@@ -203,15 +203,15 @@ end
 
 LiteMountProfilesPanelMixin = {}
 
-function LiteMountProfilesPanelMixin:OnRefresh()
+function LiteMountProfilesPanelMixin:Refresh()
     local currentProfile = LM.db:GetCurrentProfile()
     self.CurrentProfile:SetText(currentProfile)
 end
 
 function LiteMountProfilesPanelMixin:OnShow()
-    LM.db.RegisterCallback(self, "OnProfileCopied", "OnRefresh")
-    LM.db.RegisterCallback(self, "OnProfileChanged", "OnRefresh")
-    LM.db.RegisterCallback(self, "OnProfileReset", "OnRefresh")
+    LM.db.RegisterCallback(self, "OnProfileCopied", "Refresh")
+    LM.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
+    LM.db.RegisterCallback(self, "OnProfileReset", "Refresh")
 end
 
 function LiteMountProfilesPanelMixin:OnHide()

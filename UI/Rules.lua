@@ -68,7 +68,7 @@ end
 
 function LiteMountRuleButtonMixin:OnClick()
     LiteMountRulesPanel.selectedRule = self.rule
-    LiteMountRulesPanel:OnRefresh()
+    LiteMountRulesPanel:Refresh()
 end
 
 
@@ -173,10 +173,10 @@ function LiteMountRulesPanelMixin:EditRule()
     LiteMountOptionsPanel_PopOver(LiteMountRuleEdit, self)
 end
 
-function LiteMountRulesPanelMixin:OnRefresh(trigger)
+function LiteMountRulesPanelMixin:Refresh(trigger)
     self.DeleteButton:SetEnabled(self.selectedRule ~= nil)
     self.EditButton:SetEnabled(self.selectedRule ~= nil)
-    LiteMountOptionsPanel_OnRefresh(self, trigger)
+    LiteMountOptionsPanel_Refresh(self, trigger)
 end
 
 function LiteMountRulesPanelMixin:OnShow()

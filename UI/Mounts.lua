@@ -228,10 +228,10 @@ end
 
 function LiteMountMountsPanelMixin:OnShow()
     LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.ScrollBox, 'TOPLEFT', 0, 15)
-    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "OnRefresh")
+    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "Refresh")
     LM.MountRegistry:RefreshMounts()
     LM.MountRegistry:UpdateFilterUsability()
-    LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "OnRefresh")
+    LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "Refresh")
 
     -- self:Update()
 

@@ -105,11 +105,11 @@ end
 function LiteMountOptionsPanel_OnReset(self, trigger)
     LM.UIDebug(self, "Panel_OnReset t="..tostring(trigger))
     LiteMountOptionsPanel_OnCommit(self, trigger)
-    LiteMountOptionsPanel_OnRefresh(self, trigger)
+    LiteMountOptionsPanel_Refresh(self, trigger)
 end
 
-function LiteMountOptionsPanel_OnRefresh(self, trigger)
-    LM.UIDebug(self, "Panel_OnRefresh t="..tostring(trigger))
+function LiteMountOptionsPanel_Refresh(self, trigger)
+    LM.UIDebug(self, "Panel_Refresh t="..tostring(trigger))
     if self.oldValues == nil then
         self.oldValues = {}
         for i = 1, (self.ntabs or 1) do
@@ -160,10 +160,9 @@ function LiteMountOptionsPanel_OnShow(self)
     LM.UIDebug(self, "Panel_OnShow")
     LiteMountOptions.CurrentOptionsPanel = self
 
-    -- Blizzard SettingsPanel takes care of calling OnRefresh now
-    -- self:OnRefresh('Panel_OnShow')
+    self:Refresh()
 
-    LM.db.RegisterCallback(self, "OnOptionsModified", "OnRefresh")
+    LM.db.RegisterCallback(self, "OnOptionsModified", "Refresh")
     LM.db.RegisterCallback(self, "OnOptionsProfile", "OnReset")
 end
 
@@ -208,7 +207,7 @@ function LiteMountOptionsPanel_OnLoad(self)
     self.OnReset = LiteMountOptionsPanel_OnReset
 
     self.OnDefault = self.OnDefault or LiteMountOptionsPanel_OnDefault
-    self.OnRefresh = self.OnRefresh or LiteMountOptionsPanel_OnRefresh
+    self.Refresh = self.Refresh or LiteMountOptionsPanel_Refresh
 
     self.SetControl = self.SetControl or function () end
     self.GetOption = self.GetOption or function () end
