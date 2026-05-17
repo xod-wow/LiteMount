@@ -470,6 +470,7 @@ function LiteMountRuleEditMixin:OnLoad()
         self.Conditions[i]:SetPoint('TOPLEFT', self.Conditions[i-1], 'BOTTOMLEFT', 0, -4)
         self.Conditions[i]:SetPoint('RIGHT', self.Conditions[i-1], 'RIGHT')
     end
+    LiteMountPopOverPanelMixin.OnLoad(self)
 end
 
 function LiteMountRuleEditMixin:SetCallback(callback, frame)
@@ -515,9 +516,11 @@ end
 
 function LiteMountRuleEditMixin:OnShow()
     self:Update()
+    LiteMountPopOverPanelMixin.OnShow(self)
 end
 
 function LiteMountRuleEditMixin:OnHide()
     self.callback = nil
     self.callbackFrame = nil
+    LiteMountPopOverPanelMixin.OnHide(self)
 end

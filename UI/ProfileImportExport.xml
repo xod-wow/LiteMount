@@ -8,10 +8,6 @@
     <KeyValues>
         <KeyValue key="name" value="LM_EXPORT_PROFILE" type="string" />
     </KeyValues>
-    <Scripts>
-        <OnLoad method="OnLoad" inherit="append" />
-        <OnShow method="OnShow" inherit="append" />
-    </Scripts>
     <Size x="480" y="360" />
     <Anchors>
         <Anchor point="CENTER" />
@@ -57,10 +53,6 @@
     <KeyValues>
         <KeyValue key="name" value="LM_IMPORT_PROFILE" type="string" />
     </KeyValues>
-    <Scripts>
-        <OnLoad method="OnLoad" inherit="append" />
-        <OnShow method="OnShow" inherit="append" />
-    </Scripts>
     <Size x="480" y="180" />
     <Anchors>
         <Anchor point="CENTER" />

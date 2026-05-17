@@ -222,6 +222,12 @@ function LiteMountOptionsPanelMixin:SetTab(n)
     self:SetControl(self:GetOption(n))
 end
 
+function LiteMountOptionsPanelMixin:StaticPopupShow(which, arg1, arg2, frame)
+    self.Disable:Show()
+    local hideCallback = function () self.Disable:Hide() end
+    StaticPopup_Show(which, arg1, arg2, frame, hideCallback)
+end
+
 function LiteMountOptionsPanelMixin:UpdatePopOverDisplay()
     self.Disable:Hide()
     for i, f in ipairs(self.popOverStack) do
@@ -262,11 +268,24 @@ function LiteMountOptionsPanelMixin:RemoveTopPopOver()
     return f
 end
 
-function LiteMountPopOverPanel_OnLoad(self)
+--[[------------------------------------------------------------------------]]--
+
+LiteMountPopOverPanelMixin = {}
+
+function LiteMountPopOverPanelMixin:OnLoad()
     AutoLocalize(self)
     self.name = L[self.name] or self.name
     self.Title:SetText(self.name)
 end
+
+function LiteMountPopOverPanelMixin:OnHide()
+end
+
+function LiteMountPopOverPanelMixin:OnShow()
+end
+
+
+--[[------------------------------------------------------------------------]]--
 
 function LM.OpenOptions()
     local f = LiteMountOptions

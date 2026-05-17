@@ -31,9 +31,7 @@
         <Anchor point="CENTER" y="80" />
     </Anchors>
     <Scripts>
-        <OnLoad method="OnLoad" inherit="append" />
-        <OnShow method="OnShow" inherit="append" />
-        <OnSizeChanged method="OnSizeChanged" inherit="append" />
+        <OnSizeChanged method="OnSizeChanged" />
     </Scripts>
     <Frames>
         <Button inherits="UIPanelCloseButton">

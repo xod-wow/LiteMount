@@ -163,9 +163,11 @@
     </Frames>
 </Frame>
 
-<Frame name="LiteMountPopOverPanelTemplate" virtual="true" inherits="LiteMountPopOverStyleTemplate">
+<Frame name="LiteMountPopOverPanelTemplate" virtual="true" mixin="LiteMountPopOverPanelMixin" inherits="LiteMountPopOverStyleTemplate">
     <Scripts>
-        <OnLoad inherit="prepend" function="LiteMountPopOverPanel_OnLoad" />
+        <OnLoad inherit="prepend" method="OnLoad" />
+        <OnHide inherit="prepend" method="OnHide" />
+        <OnShow inherit="prepend" method="OnShow" />
     </Scripts>
     <Layers>
         <Layer level="ARTWORK">
