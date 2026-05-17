@@ -162,7 +162,7 @@ function LiteMountGroupsPanelMixin:RefreshGroupList()
     for _, group in ipairs(allGroups) do
         dp:Insert(group)
     end
-    dp:Insert(self.AddGroupButton)
+    dp:Insert(self.GroupScrollBox.AddGroupButton)
     self.GroupScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 end
 
