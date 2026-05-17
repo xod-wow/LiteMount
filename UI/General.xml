@@ -9,7 +9,7 @@
         <KeyValue key="name" value="GENERAL" type="global" />
     </KeyValues>
     <Scripts>
-        <OnLoad method="OnLoad" inherit="append" />
+        <OnLoad method="OnLoad" />
     </Scripts>
 </Frame>
 

@@ -30,7 +30,7 @@ local function SetArgFromPickerFunction(owner)
         function (m)
             owner:SetArg(m.name)
         end)
-    LiteMountOptionsPanel_PopOver(LiteMountPicker, LiteMountRulesPanel)
+    LiteMountRulesPanel:PopOver(LiteMountPicker)
 end
 
 local function ArgsGenerate(dropdown, rootDescription, data)

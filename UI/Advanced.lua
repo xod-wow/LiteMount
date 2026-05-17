@@ -43,7 +43,7 @@ end
 local function BindingGenerator(owner, rootDescription)
     local self = LiteMountAdvancedPanel
     local IsSelected = function (v) return self.tab == v end
-    local SetSelected = function (v) LiteMountOptionsPanel_SetTab(self, v) end
+    local SetSelected = function (v) self:SetTab(v) end
     for i = 1, self.ntabs do
         rootDescription:CreateRadio(BindingText(i), IsSelected, SetSelected, i)
     end

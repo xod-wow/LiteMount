@@ -132,9 +132,6 @@
         </Layer>
     </Layers>
 
-    <Scripts>
-        <OnLoad method="OnLoad" inherit="append"/>
-    </Scripts>
 </Frame>
 
 </Ui>

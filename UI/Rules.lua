@@ -77,7 +77,7 @@ end
 local function BindingGenerator(owner, rootDescription)
     local self = LiteMountRulesPanel
     local IsSelected = function (v) return self.tab == v end
-    local SetSelected = function (v) LiteMountOptionsPanel_SetTab(self, v) end
+    local SetSelected = function (v) self:SetTab(v) end
     for i = 1, 4 do
         rootDescription:CreateRadio(BindingText(i), IsSelected, SetSelected, i)
     end
@@ -143,7 +143,7 @@ end
 function LiteMountRulesPanelMixin:AddRule()
     LiteMountRuleEdit:Clear()
     LiteMountRuleEdit:SetCallback(self.AddRuleCallback, self)
-    LiteMountOptionsPanel_PopOver(LiteMountRuleEdit, self)
+    self:PopOver(LiteMountRuleEdit)
 end
 
 function LiteMountRulesPanelMixin:DeleteRule()
@@ -170,17 +170,18 @@ end
 function LiteMountRulesPanelMixin:EditRule()
     LiteMountRuleEdit:SetRule(self.selectedRule)
     LiteMountRuleEdit:SetCallback(self.EditRuleCallback, self)
-    LiteMountOptionsPanel_PopOver(LiteMountRuleEdit, self)
+    self:PopOver(LiteMountRuleEdit)
 end
 
 function LiteMountRulesPanelMixin:Refresh(trigger)
     self.DeleteButton:SetEnabled(self.selectedRule ~= nil)
     self.EditButton:SetEnabled(self.selectedRule ~= nil)
-    LiteMountOptionsPanel_Refresh(self, trigger)
+    self:Refresh(trigger)
 end
 
 function LiteMountRulesPanelMixin:OnShow()
     self:RefreshRules()
+    LiteMountOptionsPanelMixin.OnShow(self)
 end
 
 function LiteMountRulesPanelMixin:OnLoad()
@@ -239,8 +240,11 @@ function LiteMountRulesPanelMixin:OnLoad()
     self.AddButton:SetScript('OnClick', function () self:AddRule() end)
     self.DeleteButton:SetScript('OnClick', function () self:DeleteRule() end)
     self.EditButton:SetScript('OnClick', function () self:EditRule() end)
+
+    LiteMountOptionsPanelMixin.OnLoad(self)
 end
 
 function LiteMountRulesPanelMixin:OnHide()
     LiteMountRuleEdit:Hide()
+    LiteMountOptionsPanelMixin.OnHide(self)
 end

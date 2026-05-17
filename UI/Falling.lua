@@ -208,8 +208,10 @@ function LiteMountFallingPanelMixin:OnLoad()
 
     self.AddButton:SetScript('OnClick',
         function ()
-            LiteMountOptionsPanel_PopOver(LiteMountFallingAdd, self)
+            self:PopOver(LiteMountFallingAdd)
         end)
+
+    LiteMountOptionsPanelMixin.OnLoad(self)
 end
 
 function LiteMountFallingPanelMixin:SetOption(v)

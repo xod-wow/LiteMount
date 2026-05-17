@@ -144,12 +144,16 @@ function LiteMountMacroPanelMixin:GetOption()
     }
 end
 
+function LiteMountMacroPanelMixin:OnShow()
+    PanelTemplates_AnchorTabs(self)
+    PanelTemplates_ResizeTabsToFit(self)
+    LiteMountOptionsPanelMixin.OnShow(self)
+end
+
 function LiteMountMacroPanelMixin:OnLoad()
     self.name = MACROS
 
     PanelTemplates_SetNumTabs(self, 2)
-    PanelTemplates_AnchorTabs(self)
-    PanelTemplates_ResizeTabsToFit(self)
     PanelTemplates_SetTab(self, 1)
 
     self.selectedClass = 'PLAYER'

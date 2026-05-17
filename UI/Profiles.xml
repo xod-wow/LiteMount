@@ -11,12 +11,6 @@
         <KeyValue key="hideDefaultsButton" value="true" type="boolean" />
     </KeyValues>
 
-    <Scripts>
-        <OnLoad method="OnLoad" inherit="append" />
-        <OnShow method="OnShow" inherit="append" />
-        <OnHide method="OnHide" inherit="append" />
-    </Scripts>
-
     <Layers>
         <Layer level="ARTWORK">
             <FontString parentKey="ExplainText" inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_PROFILES_EXP">

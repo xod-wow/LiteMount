@@ -99,11 +99,11 @@
     </Scripts>
 </Frame>
 
-<Frame name="LiteMountOptionsPanelTemplate" parent="UIParent" hidden="true" virtual="true">
+<Frame name="LiteMountOptionsPanelTemplate" parent="UIParent" mixin="LiteMountOptionsPanelMixin" hidden="true" virtual="true">
     <Scripts>
-        <OnLoad function="LiteMountOptionsPanel_OnLoad" />
-        <OnShow function="LiteMountOptionsPanel_OnShow" />
-        <OnHide function="LiteMountOptionsPanel_OnHide" />
+        <OnLoad method="OnLoad" />
+        <OnShow method="OnShow" />
+        <OnHide method="OnHide" />
     </Scripts>
     <Layers>
         <Layer level="ARTWORK">
@@ -138,7 +138,7 @@
             </Anchors>
             <Scripts>
                 <OnClick>
-                    LiteMountOptionsPanel_Revert(self:GetParent())
+                    self:GetParent():Revert()
                 </OnClick>
             </Scripts>
         </Button>

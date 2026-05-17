@@ -98,7 +98,7 @@ local function ClickResetProfile(self)
 end
 
 local function ClickImportProfile(self, arg1, arg2, check)
-    LiteMountOptionsPanel_PopOver(LiteMountProfileImport, LiteMountProfilesPanel)
+    LiteMountProfilesPanel:PopOver(LiteMountProfileImport)
 end
 
 local function GetScrollExtent()
@@ -188,7 +188,7 @@ function ExportProfileMixin.Generate(owner, rootDescription)
 
     local function OnClick(data)
         LiteMountProfileExport:SetProfile(data)
-        LiteMountOptionsPanel_PopOver(LiteMountProfileExport, LiteMountProfilesPanel)
+        LiteMountProfilesPanel:PopOver(LiteMountProfileExport)
     end
 
     for _, p in ipairs(dbProfiles) do
@@ -212,10 +212,12 @@ function LiteMountProfilesPanelMixin:OnShow()
     LM.db.RegisterCallback(self, "OnProfileCopied", "Refresh")
     LM.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
     LM.db.RegisterCallback(self, "OnProfileReset", "Refresh")
+    LiteMountOptionsPanelMixin.OnShow(self)
 end
 
 function LiteMountProfilesPanelMixin:OnHide()
     LM.db.UnregisterAllCallbacks(self)
+    LiteMountOptionsPanelMixin.OnHide(self)
 end
 
 function LiteMountProfilesPanelMixin:OnLoad()
@@ -243,4 +245,6 @@ function LiteMountProfilesPanelMixin:OnLoad()
     self.ExportProfile:SetScript("OnClick", OnClick)
 
     self.ImportProfile:SetScript("OnClick", ClickImportProfile)
+
+    LiteMountOptionsPanelMixin.OnLoad(self)
 end

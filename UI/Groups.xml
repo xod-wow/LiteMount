@@ -78,12 +78,6 @@
         <KeyValue key="name" value="LM_GROUPS" type="string" />
     </KeyValues>
 
-    <Scripts>
-        <OnLoad method="OnLoad" inherit="append" />
-        <OnShow method="OnShow" inherit="append" />
-        <OnHide method="OnHide" inherit="append" />
-    </Scripts>
-
     <Layers>
         <Layer level="ARTWORK">
             <FontString inherits="GameFontNormal" justifyV="TOP" justifyH="LEFT" text="LM_GROUPS_EXP">

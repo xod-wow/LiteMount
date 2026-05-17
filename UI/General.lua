@@ -4,6 +4,8 @@
 
   Options frame to plug in to the Blizzard interface menu.
 
+  This is NOT a LiteMountOptionsPanel and is fully self-contained.
+
   Copyright 2011 Mike Battersby
 
 ----------------------------------------------------------------------------]]--
@@ -11,8 +13,6 @@
 local _, LM = ...
 
 local L = LM.L
-
---[[------------------------------------------------------------------------]]--
 
 --[[------------------------------------------------------------------------]]--
 

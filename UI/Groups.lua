@@ -230,6 +230,8 @@ function LiteMountGroupsPanelMixin:OnLoad()
     view:SetPadding(0, 0, 0, 0, 0)
     ScrollUtil.InitScrollBoxListWithScrollBar(self.MountScrollBox, self.MountScrollBar, view)
     self.MountScrollBox.update = self.MountScrollBox.RefreshMountList
+
+    LiteMountOptionsPanelMixin.OnLoad(self)
 end
 
 function LiteMountGroupsPanelMixin:OnShow()
@@ -237,10 +239,12 @@ function LiteMountGroupsPanelMixin:OnShow()
     LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "Refresh")
     LM.MountRegistry:RefreshMounts(true)
     self:Update()
+    LiteMountOptionsPanelMixin.OnShow(self)
 end
 
 function LiteMountGroupsPanelMixin:OnHide()
     LM.UIFilter.UnregisterAllCallbacks(self)
+    LiteMountOptionsPanelMixin.OnHide(self)
 end
 
 function LiteMountGroupsPanelMixin:Update()

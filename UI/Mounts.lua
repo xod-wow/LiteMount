@@ -224,6 +224,8 @@ function LiteMountMountsPanelMixin:OnLoad()
     self.NextFamily:SetScript('OnClick', function () LM.SlashCommandFunc('fam') end)
     self.NextFamily:Show()
     --@end-debug@
+
+    LiteMountOptionsPanelMixin.OnLoad(self)
 end
 
 function LiteMountMountsPanelMixin:OnShow()
@@ -252,10 +254,13 @@ function LiteMountMountsPanelMixin:OnShow()
     self.ActionDropdown:SetupMenu(ActionMenuGenerate)
 
     self:RegisterEvent('MOUNT_JOURNAL_USABILITY_CHANGED')
+
+    LiteMountOptionsPanelMixin.OnShow(self)
 end
 
 function LiteMountMountsPanelMixin:OnHide()
     LM.UIFilter.UnregisterAllCallbacks(self)
     LM.MountRegistry.UnregisterAllCallbacks(self)
     self:UnregisterAllEvents()
+    LiteMountOptionsPanelMixin.OnHide(self)
 end

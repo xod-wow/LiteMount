@@ -106,10 +106,6 @@
         </Layer>
     </Layers>
 
-    <Scripts>
-        <OnLoad method="OnLoad" inherit="append" />
-        <OnShow method="OnShow" inherit="append" />
-    </Scripts>
 </Frame>
 
 </Ui>

@@ -25,10 +25,6 @@
 
 <Frame name="LiteMountMacroPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMacroPanelMixin">
 
-    <Scripts>
-        <OnLoad method="OnLoad" inherit="append" />
-    </Scripts>
-
     <Frames>
         <Frame parentKey="Class" inherits="LiteMountContainerStyleTemplate">
             <Size x="172" />
