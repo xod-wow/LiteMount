@@ -119,7 +119,10 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_GROUP"] = {
             button1:SetEnabled(valid)
         end,
     OnShow = function (self)
+            local fs = self.text or self:GetTextFontString()
+            fs:SetText(format("LiteMount : %s : %s", L.LM_RENAME_GROUP, self.data))
             local editBox = self.editBox or self:GetEditBox()
+            editBox:SetText(self.data)
             editBox:SetFocus()
         end,
 }
