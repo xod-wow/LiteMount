@@ -82,7 +82,7 @@ globals = {
     "LiteMountOptionsPanelMixin",
     "LiteMountPicker",
     "LiteMountPickerMixin",
-    "LiteMountPopOverPanel_OnLoad",
+    "LiteMountPopOverPanelMixin",
     "LiteMountPriorityMixin",
     "LiteMountProfileExport",
     "LiteMountProfileExportMixin",

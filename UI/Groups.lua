@@ -40,18 +40,18 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LiteMountGroupsPanel.GroupScrollBox.isDirty = true
+            LiteMountGroupsPanel.isDirty = true
             local editBox = self.editBox or self:GetEditBox()
             local text = editBox:GetText()
-            LiteMountGroupsPanel.GroupScrollBox.selectedGroup = text
+            LiteMountGroupsPanel.selectedGroup = text
             LM.Options:CreateGroup(text)
         end,
     -- This is not "Cancel", it's "Global" == button2
     OnCancel = function (self)
-            LiteMountGroupsPanel.GroupScrollBox.isDirty = true
+            LiteMountGroupsPanel.isDirty = true
             local editBox = self.editBox or self:GetEditBox()
             local text = editBox:GetText()
-            LiteMountGroupsPanel.GroupScrollBox.selectedGroup = text
+            LiteMountGroupsPanel.selectedGroup = text
             LM.Options:CreateGroup(text, true)
         end,
     -- This is cancel (button3)
@@ -95,10 +95,10 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_GROUP"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LiteMountGroupsPanel.GroupScrollBox.isDirty = true
+            LiteMountGroupsPanel.isDirty = true
             local editBox = self.editBox or self:GetEditBox()
             local text = editBox:GetText()
-            LiteMountGroupsPanel.GroupScrollBox.selectedGroup = text
+            LiteMountGroupsPanel.selectedGroup = text
             LM.Options:RenameGroup(self.data, text)
         end,
     EditBoxOnEnterPressed = function (self)
@@ -133,7 +133,7 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_GROUP"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LiteMountGroupsPanel.GroupScrollBox.isDirty = true
+            LiteMountGroupsPanel.isDirty = true
             LM.Options:DeleteGroup(self.data)
         end,
     OnShow = function (self)
