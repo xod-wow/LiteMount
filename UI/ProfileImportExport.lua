@@ -28,7 +28,6 @@ function LiteMountProfileExportMixin:OnShow()
 end
 
 function LiteMountProfileExportMixin:OnLoad()
-    LiteMountOptionsPanel_AutoLocalize(self)
     self.OkayButton:SetScript('OnClick', function () self:Hide() end)
     self.Scroll.ScrollBox.EditBox:SetScript('OnEscapePressed', function () self:Hide() end)
     self.Scroll.ScrollBox.EditBox:SetAutoFocus(true)
@@ -57,7 +56,6 @@ function LiteMountProfileImportMixin:OnShow()
 end
 
 function LiteMountProfileImportMixin:OnLoad()
-    LiteMountOptionsPanel_AutoLocalize(self)
     self.ImportButton:Disable()
     self.ProfileName:SetMaxLetters(24)
     self.ProfileName.nextEditBox = self.ProfileData

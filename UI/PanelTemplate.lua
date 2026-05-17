@@ -77,27 +77,27 @@ local _, LM = ...
 
 local L = LM.L
 
-local autoLocalized = {}
+local autoLocalizedFrames = {}
 
 -- Recurse all children finding any FontStrings and replacing their texts
 -- with localized copies.
-function LiteMountOptionsPanel_AutoLocalize(f)
+local function AutoLocalize(f)
     if not L then return end
 
     local regions = { f:GetRegions() }
     for _,r in ipairs(regions) do
-        if r and r:IsObjectType("FontString") and not autoLocalized[r] then
+        if r and r:IsObjectType("FontString") and not autoLocalizedFrames[r] then
             local text = r:GetText()
             if rawget(L, text) then r:SetText(L[text]) end
-            autoLocalized[r] = true
+            autoLocalizedFrames[r] = true
         end
     end
 
     local children = { f:GetChildren() }
     for _,c in ipairs(children) do
-        if not autoLocalized[c] then
-            LiteMountOptionsPanel_AutoLocalize(c)
-            autoLocalized[c] = true
+        if not autoLocalizedFrames[c] then
+            AutoLocalize(c)
+            autoLocalizedFrames[c] = true
         end
     end
 end
@@ -180,6 +180,7 @@ function LiteMountOptionsPanel_OnHide(self)
 end
 
 function LiteMountOptionsPanel_OnLoad(self)
+    AutoLocalize(self)
 
     if self ~= LiteMountOptions then
         self.name = L[self.name] or self.name
@@ -211,8 +212,6 @@ function LiteMountOptionsPanel_OnLoad(self)
 
     self.SetControl = self.SetControl or function () end
     self.GetOption = self.GetOption or function () end
-
-    LiteMountOptionsPanel_AutoLocalize(self)
 end
 
 function LiteMountOptionsPanel_SetTab(self, n)
@@ -261,6 +260,7 @@ function LiteMountOptionsPanel_RemoveTopPopOver(self)
 end
 
 function LiteMountPopOverPanel_OnLoad(self)
+    AutoLocalize(self)
     self.name = L[self.name] or self.name
     self.Title:SetText(self.name)
 end

@@ -466,7 +466,6 @@ function LiteMountRuleEditMixin:Okay()
 end
 
 function LiteMountRuleEditMixin:OnLoad()
-    LiteMountOptionsPanel_AutoLocalize(self)
     for i = 2, #self.Conditions do
         self.Conditions[i]:SetPoint('TOPLEFT', self.Conditions[i-1], 'BOTTOMLEFT', 0, -4)
         self.Conditions[i]:SetPoint('RIGHT', self.Conditions[i-1], 'RIGHT')
