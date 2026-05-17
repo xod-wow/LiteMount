@@ -175,7 +175,7 @@
         <Button parentKey="DeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
             <Scripts>
                 <OnClick>
-                    local f = LiteMountGroupsPanel.GroupScrollBox.selectedGroup
+                    local f = LiteMountGroupsPanel.selectedGroup
                     if f then StaticPopup_Show("LM_OPTIONS_DELETE_GROUP", f, nil, f) end
                 </OnClick>
             </Scripts>
@@ -187,7 +187,7 @@
         <Button parentKey="RenameButton" inherits="UIPanelButtonTemplate" text="PET_RENAME">
             <Scripts>
                 <OnClick>
-                    local f = LiteMountGroupsPanel.GroupScrollBox.selectedGroup
+                    local f = LiteMountGroupsPanel.selectedGroup
                     if f then StaticPopup_Show("LM_OPTIONS_RENAME_GROUP", f, nil, f) end
                 </OnClick>
             </Scripts>
