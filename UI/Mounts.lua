@@ -25,15 +25,19 @@ local TabNames = {
 LiteMountMountsPanelMixin = {}
 
 function LiteMountMountsPanelMixin:GetOption()
+    local profileGroups, globalGroups = LM.Options:GetRawGroups()
     return {
         CopyTable(LM.Options:GetRawFlagChanges(), true),
-        CopyTable(LM.Options:GetRawMountPriorities(), true)
+        CopyTable(LM.Options:GetRawMountPriorities()),
+        CopyTable(profileGroups),
+        CopyTable(globalGroups),
     }
 end
 
 function LiteMountMountsPanelMixin:SetOption(v)
     LM.Options:SetRawFlagChanges(v[1])
     LM.Options:SetRawMountPriorities(v[2])
+    LM.Options:SetRawGroups(v[3], v[4])
 end
 
 -- The only control: does all the triggered updating for the entire panel
@@ -54,6 +58,7 @@ function LiteMountMountsPanelMixin:OnDefault()
     self.isDirty = true
     LM.Options:ResetAllMountFlags()
     LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil)
+    self:Update()
 end
 
 function LiteMountMountsPanelMixin:SetupFromTabbing()
