@@ -104,8 +104,10 @@ function LiteMountAdvancedPanelMixin:OnLoad()
     self.BindingDropDown:SetupMenu(BindingGenerator)
 
     ScrollUtil.RegisterScrollBoxWithScrollBar(self.EditScroll.ScrollBox, self.ScrollBar)
+    LiteMountOptionsPanelMixin.OnLoad(self)
 end
 
 function LiteMountAdvancedPanelMixin:OnShow()
     self.UnlockButton:Show()
+    LiteMountOptionsPanelMixin.OnShow(self)
 end
