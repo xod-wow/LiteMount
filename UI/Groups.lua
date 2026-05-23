@@ -150,6 +150,11 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_GROUP"] = {
 
 LiteMountGroupsPanelMixin = {}
 
+function LiteMountGroupsPanelMixin:SelectGroup(group)
+    self.selectedGroup = group
+    self:RefreshDisplay()
+end
+
 function LiteMountGroupsPanelMixin:RefreshGroupList()
     local allGroups = LM.Options:GetGroupNames()
 
@@ -178,9 +183,10 @@ function LiteMountGroupsPanelMixin:SetOption(v)
     LM.Options:SetRawGroups(unpack(v))
 end
 
-function LiteMountGroupsPanelMixin:SetControl()
+function LiteMountGroupsPanelMixin:RefreshDisplay()
     self:RefreshGroupList()
     self:RefreshMountList()
+    self.ShowAll:SetChecked(self.showAll)
 end
 
 function LiteMountGroupsPanelMixin:GetDisplayedMountList(group)
@@ -226,13 +232,11 @@ function LiteMountGroupsPanelMixin:OnLoad()
     -- view:SetElementInitializer("LiteMountGroupsPanelGroupTemplate", function (button, elementData) button:Initialize(elementData) end)
     view:SetPadding(0, 0, 0, 0, 0)
     ScrollUtil.InitScrollBoxListWithScrollBar(self.GroupScrollBox, self.GroupScrollBar, view)
-    self.GroupScrollBox.update = self.GroupScrollBox.RefreshGroupList
 
     view = CreateScrollBoxListLinearView()
     view:SetElementInitializer("LiteMountGroupsPanelButtonTemplate", function (button, elementData) button:Initialize(elementData) end)
     view:SetPadding(0, 0, 0, 0, 0)
     ScrollUtil.InitScrollBoxListWithScrollBar(self.MountScrollBox, self.MountScrollBar, view)
-    self.MountScrollBox.update = self.MountScrollBox.RefreshMountList
 
     LiteMountOptionsPanelMixin.OnLoad(self)
 end
@@ -241,18 +245,13 @@ function LiteMountGroupsPanelMixin:OnShow()
     LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.MountScrollBox, 'TOPLEFT', 0, 15)
     LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "Refresh")
     LM.MountRegistry:RefreshMounts(true)
-    self:Update()
+    self:RefreshDisplay()
     LiteMountOptionsPanelMixin.OnShow(self)
 end
 
 function LiteMountGroupsPanelMixin:OnHide()
     LM.UIFilter.UnregisterAllCallbacks(self)
     LiteMountOptionsPanelMixin.OnHide(self)
-end
-
-function LiteMountGroupsPanelMixin:Update()
-    self:SetControl()
-    self.ShowAll:SetChecked(self.showAll)
 end
 
 
@@ -274,8 +273,7 @@ LiteMountGroupsPanelGroupMixin = {}
 
 function LiteMountGroupsPanelGroupMixin:OnClick()
     if self.group then
-        LiteMountGroupsPanel.selectedGroup = self.group
-        LiteMountGroupsPanel:Update()
+        LiteMountGroupsPanel:SelectGroup(self.group)
     end
 end
 

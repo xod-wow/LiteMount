@@ -126,10 +126,8 @@ function LiteMountOptionsPanelMixin:Refresh(trigger)
         end
         self.isDirty = nil
     end
-    self:SetControl(self:GetOption(self.tab), self.tab)
-    if not self.hideRevertButton then
-        self.RevertButton:SetEnabled(self.isDirty)
-    end
+    self:RefreshDisplay()
+    self.RevertButton:SetEnabled(self.isDirty)
 end
 
 function LiteMountOptionsPanelMixin:OnDefault(onlyCurrentTab)
@@ -152,8 +150,8 @@ function LiteMountOptionsPanelMixin:OnCommit()
     self.isDirty = nil
 end
 
-function LiteMountOptionsPanelMixin:Revert()
-    LM.UIDebug(self, "Panel_Revert")
+function LiteMountOptionsPanelMixin:OnRevert()
+    LM.UIDebug(self, "Panel_OnRevert")
     if self.isDirty then
         self.isDirty = nil
         for i = 1, (self.ntabs or 1) do
@@ -203,23 +201,25 @@ function LiteMountOptionsPanelMixin:OnLoad()
         Settings.RegisterAddOnCategory(self.category)
     end
 
+    self.DefaultsButton:SetScript('OnClick', function () self:OnDefault() end)
     if self.hideDefaultsButton then
         self.DefaultsButton:Hide()
     end
 
+    self.RevertButton:SetScript('OnClick', function () self:OnRevert() end)
     if self.hideRevertButton then
         self.RevertButton:Hide()
     end
 
-    self.tab = 1
-
-    self.SetControl = self.SetControl or function () end
+    self.RefreshDisplay = self.RefreshDisplay or function () end
     self.GetOption = self.GetOption or function () end
 end
 
 function LiteMountOptionsPanelMixin:SetTab(n)
-    self.tab = n
-    self:SetControl(self:GetOption(n))
+    if self.tab ~= n then
+        self.tab = n
+        self:RefreshDisplay()
+    end
 end
 
 function LiteMountOptionsPanelMixin:StaticPopupShow(which, arg1, arg2, frame)
@@ -282,6 +282,9 @@ function LiteMountPopOverPanelMixin:OnHide()
 end
 
 function LiteMountPopOverPanelMixin:OnShow()
+    if self.RefreshDisplay then
+        self:RefreshDisplay()
+    end
 end
 
 

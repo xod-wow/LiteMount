@@ -158,7 +158,7 @@ end
 
 local conditionHelp = DISABLED_FONT_COLOR:WrapTextInColorCode(NONE:upper())
 
-function LiteMountRuleEditConditionMixin:Update()
+function LiteMountRuleEditConditionMixin:RefreshDisplay()
     local info = LM.Conditions:GetCondition(self.type)
 
     self.Negated:SetChecked(self.isNegated)
@@ -204,12 +204,12 @@ function LiteMountRuleEditConditionMixin:SetType(type)
         self.arg = nil
     end
     self.type = type
-    self:GetParent():Update()
+    self:GetParent():RefreshDisplay()
 end
 
 function LiteMountRuleEditConditionMixin:SetArg(arg)
     self.arg = arg
-    self:GetParent():Update()
+    self:GetParent():RefreshDisplay()
 end
 
 function LiteMountRuleEditConditionMixin:OnLoad()
@@ -338,7 +338,7 @@ end
 
 function LiteMountRuleEditActionMixin:SetArg(arg)
     self.arg = arg
-    self:GetParent():Update()
+    self:GetParent():RefreshDisplay()
 end
 
 function LiteMountRuleEditActionMixin:SetType(type)
@@ -346,12 +346,12 @@ function LiteMountRuleEditActionMixin:SetType(type)
         self.type = type
         self.arg = nil
     end
-    self:GetParent():Update()
+    self:GetParent():RefreshDisplay()
 end
 
 local actionHelp = DISABLED_FONT_COLOR:WrapTextInColorCode(LFGWIZARD_TITLE)
 
-function LiteMountRuleEditActionMixin:Update()
+function LiteMountRuleEditActionMixin:RefreshDisplay()
     if not self.type then
         self.TypeDropDown:SetText(actionHelp)
         self.ArgDropDown:Hide()
@@ -503,20 +503,15 @@ function LiteMountRuleEditMixin:SetRule(ruletext)
     self.Action.arg = rule.args[1]
 end
 
-function LiteMountRuleEditMixin:Update()
-    self.Action:Update()
-    LM.tMap(self.Conditions, function (f) f:Update() end)
+function LiteMountRuleEditMixin:RefreshDisplay()
+    self.Action:RefreshDisplay()
+    LM.tMap(self.Conditions, function (f) f:RefreshDisplay() end)
 
     if self:IsValidRule() then
         self.OkayButton:Enable()
     else
         self.OkayButton:Disable()
     end
-end
-
-function LiteMountRuleEditMixin:OnShow()
-    self:Update()
-    LiteMountPopOverPanelMixin.OnShow(self)
 end
 
 function LiteMountRuleEditMixin:OnHide()

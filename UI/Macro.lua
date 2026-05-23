@@ -62,12 +62,6 @@ local OptionKeysByTab = {
     [2] = { 'combatMacro', 'useCombatMacro', L.LM_COMBAT_MACRO_EXP },
 }
 
-function LiteMountMacroPanelMixin:SetControl()
-    if self:IsVisible() then
-        self:Update()
-    end
-end
-
 function LiteMountMacroPanelMixin:GetSettingsForTab()
     local selectedTab = PanelTemplates_GetSelectedTab(self)
     local macroKey, useKey, helpText = unpack(OptionKeysByTab[selectedTab])
@@ -119,7 +113,7 @@ function LiteMountMacroPanelMixin:GenerateClassMenu()
     return classMenu
 end
 
-function LiteMountMacroPanelMixin:Update()
+function LiteMountMacroPanelMixin:RefreshDisplay()
     local text, isEnabled, helpText = self:GetSettingsForTab()
     self.Macro.EditBox:SetText(text or "")
     self.Macro.EnableButton:SetChecked(isEnabled)
@@ -179,10 +173,10 @@ end
 
 function LiteMountMacroPanelMixin:SetTab(id)
     PanelTemplates_SetTab(self, id)
-    self:SetControl()
+    self:RefreshDisplay()
 end
 
 function LiteMountMacroPanelMixin:SetClass(c)
     self.selectedClass = c
-    self:SetControl()
+    self:RefreshDisplay()
 end

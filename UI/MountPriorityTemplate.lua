@@ -19,7 +19,7 @@ function LiteMountPriorityMixin:SetDirtyCallback(func)
     self.callbackFunc = func
 end
 
-function LiteMountPriorityMixin:Update(mount)
+function LiteMountPriorityMixin:Initialize(mount)
     self.mount = mount
 
     local value = self:Get()

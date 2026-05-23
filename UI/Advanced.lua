@@ -82,14 +82,16 @@ function LiteMountAdvancedPanelMixin:GetOptionDefault()
     return LM.Options:GetButtonRuleSet('__default__')
 end
 
-function LiteMountAdvancedPanelMixin:SetControl(v)
-    self.EditScroll.ScrollBox.EditBox:SetText(v)
-    self:CheckCompileErrors(v)
+function LiteMountAdvancedPanelMixin:RefreshDisplay()
+    local rulesText = LM.Options:GetButtonRuleSet(self.tab)
+    self.EditScroll.ScrollBox.EditBox:SetText(rulesText)
+    self:CheckCompileErrors(rulesText)
 end
 
 function LiteMountAdvancedPanelMixin:OnLoad()
     self.name = ADVANCED_OPTIONS
     self.ntabs = 4
+    self.tab = 1
 
     local editBox = self.EditScroll.ScrollBox.EditBox
     editBox:SetFontObject(LiteMountMonoFont)

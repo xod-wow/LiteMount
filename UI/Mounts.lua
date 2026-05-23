@@ -40,12 +40,39 @@ function LiteMountMountsPanelMixin:SetOption(v)
     LM.Options:SetRawGroups(v[3], v[4])
 end
 
--- The only control: does all the triggered updating for the entire panel
-function LiteMountMountsPanelMixin:SetControl()
-    self:Update()
-end
+function LiteMountMountsPanelMixin:RefreshDisplay()
+    for i, tabButton in ipairs(self.Tabs) do
+        if i == self.selectedTab then
+            PanelTemplates_SelectTab(tabButton)
+        else
+            PanelTemplates_DeselectTab(tabButton)
+        end
+    end
 
-function LiteMountMountsPanelMixin:Update()
+    local view = self.tabViews[self.selectedTab]
+    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
+
+    self.PriorityLabel:SetShown(self.selectedTab==1)
+
+    for i = 1, 4 do
+        local label = self["BitLabel"..i]
+        label:SetShown(self.selectedTab==1)
+    end
+
+    -- Update the counts, Journal-only
+    local counts = LM.MountRegistry:GetJournalTotals()
+    self.Counts:SetText(
+            string.format(
+                '%s: %s %s: %s %s: %s',
+                TOTAL,
+                WHITE_FONT_COLOR:WrapTextInColorCode(counts.total),
+                COLLECTED,
+                WHITE_FONT_COLOR:WrapTextInColorCode(counts.collected),
+                L.LM_USABLE,
+                WHITE_FONT_COLOR:WrapTextInColorCode(counts.usable)
+            )
+        )
+
     -- Hopefully with InsecureActionButtonTemplate it's ok to refresh in combat
     local currentView = self.ScrollBox:GetView()
     local wantTree = ( currentView.stride == nil )
@@ -58,25 +85,15 @@ function LiteMountMountsPanelMixin:OnDefault()
     self.isDirty = true
     LM.Options:ResetAllMountFlags()
     LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil)
-    self:Update()
+    self:RefreshDisplay()
 end
 
-function LiteMountMountsPanelMixin:SetupFromTabbing()
-    -- Note this is always 1 for classic with tabs disabled
-    local n = self.selectedTab or 1
-    for i, tabButton in ipairs(self.Tabs) do
-        if i == n then
-            PanelTemplates_SelectTab(tabButton)
-        else
-            PanelTemplates_DeselectTab(tabButton)
+function LiteMountMountsPanelMixin:SetTab(n)
+    if self.selectedTab ~= n then
+        self.selectedTab = n
+        if self:IsShown() then
+            self:RefreshDisplay()
         end
-    end
-    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, self.tabViews[n])
-
-    self.PriorityLabel:SetShown(n==1)
-    for i = 1, 4 do
-        local label = self["BitLabel"..i]
-        label:SetShown(n==1)
     end
 end
 
@@ -174,8 +191,6 @@ function LiteMountMountsPanelMixin:OnLoad()
             button:SetDirtyCallback(dirtyFunc)
         end)
 
-    self:SetupFromTabbing()
-
     self.name = MOUNTS
 
     self.allFlags = LM.Options:GetFlags()
@@ -191,7 +206,7 @@ function LiteMountMountsPanelMixin:OnLoad()
     self:SetScript('OnEvent',
         function ()
             LM.MountRegistry:RefreshMounts(true)
-            self:Update()
+            self:RefreshDisplay()
         end)
 
     -- Set up the tabs
@@ -206,9 +221,7 @@ function LiteMountMountsPanelMixin:OnLoad()
             tabButton:SetText(TabNames[i])
             tabButton:SetScript('OnClick',
                 function ()
-                    self.selectedTab = i
-                    self:SetupFromTabbing()
-                    self:Update()
+                    self:SetTab(i)
                 end)
         end
         PanelTemplates_ResizeTabsToFit(self, self.ScrollBox:GetWidth() - 32)
@@ -218,6 +231,8 @@ function LiteMountMountsPanelMixin:OnLoad()
             tabButton:Hide()
         end
     end
+
+    self:SetTab(1)
 
     self.ActionDropdown:SetText(L.LM_ACTIONS)
 
@@ -239,22 +254,6 @@ function LiteMountMountsPanelMixin:OnShow()
     LM.MountRegistry:RefreshMounts()
     LM.MountRegistry:UpdateFilterUsability()
     LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "Refresh")
-
-    -- self:Update()
-
-    -- Update the counts, Journal-only
-    local counts = LM.MountRegistry:GetJournalTotals()
-    self.Counts:SetText(
-            string.format(
-                '%s: %s %s: %s %s: %s',
-                TOTAL,
-                WHITE_FONT_COLOR:WrapTextInColorCode(counts.total),
-                COLLECTED,
-                WHITE_FONT_COLOR:WrapTextInColorCode(counts.collected),
-                L.LM_USABLE,
-                WHITE_FONT_COLOR:WrapTextInColorCode(counts.usable)
-            )
-        )
 
     self.ActionDropdown:SetupMenu(ActionMenuGenerate)
 

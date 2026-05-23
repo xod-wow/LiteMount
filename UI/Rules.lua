@@ -87,7 +87,7 @@ end
 
 LiteMountRulesPanelMixin = {}
 
-function LiteMountRulesPanelMixin:RefreshRules()
+function LiteMountRulesPanelMixin:RefreshDisplay()
     local rules = LM.Options:GetRules(self.tab)
     local ruleSet = LM.Options:GetCompiledRuleSet(self.tab)
 
@@ -179,11 +179,6 @@ function LiteMountRulesPanelMixin:Refresh(trigger)
     LiteMountOptionsPanelMixin.Refresh(self, trigger)
 end
 
-function LiteMountRulesPanelMixin:OnShow()
-    self:RefreshRules()
-    LiteMountOptionsPanelMixin.OnShow(self)
-end
-
 function LiteMountRulesPanelMixin:OnLoad()
     self.BindingDropDown:SetupMenu(BindingGenerator)
 
@@ -234,8 +229,7 @@ function LiteMountRulesPanelMixin:OnLoad()
         end)
 
     self.ntabs = 4
-    self.SetControl = self.RefreshRules
-    self.ScrollBox.update = self.RefreshRules
+    self.tab = 1
 
     self.AddButton:SetScript('OnClick', function () self:AddRule() end)
     self.DeleteButton:SetScript('OnClick', function () self:DeleteRule() end)

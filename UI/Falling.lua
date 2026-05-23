@@ -101,7 +101,7 @@ local function BindingGenerator(owner, rootDescription)
     end
 end
 
-function LiteMountFallingAddMixin:Update()
+function LiteMountFallingAddMixin:RefreshDisplay()
     local text = self.EditBox:GetText()
     self.Name:SetText('')
     self.AddButton:Disable()
@@ -157,7 +157,7 @@ function LiteMountFallingAddMixin:Add()
 end
 
 function LiteMountFallingAddMixin:OnLoad()
-    self.EditBox:SetScript('OnTextChanged', function () self:Update() end)
+    self.EditBox:SetScript('OnTextChanged', function () self:RefreshDisplay() end)
     self.AddButton:SetScript('OnClick', function () self:Add() end)
     self.CancelButton:SetScript('OnClick', function () self:Hide() end)
 end
@@ -172,7 +172,7 @@ end
 function LiteMountFallingAddMixin:OnShow()
     self.type = addTypeOptions[1]
     self.EditBox:SetText('')
-    self:Update()
+    self:RefreshDisplay()
     self.Dropdown:SetupMenu(BindingGenerator)
 end
 
@@ -226,7 +226,7 @@ function LiteMountFallingPanelMixin:GetOptionDefault()
     return CopyTable(LM.Options:GetOptionDefault('falling'))
 end
 
-function LiteMountFallingPanelMixin:SetControl()
+function LiteMountFallingPanelMixin:RefreshDisplay()
     local falling = LM.Options:GetOption('falling')
     local dp = CreateDataProvider(falling)
     self.Scroll:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
