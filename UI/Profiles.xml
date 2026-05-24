@@ -4,7 +4,7 @@
 
 <Script file="Profiles.lua" />
 
-<Frame name="LiteMountProfilesPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountProfilesPanelMixin">
+<Frame name="LiteMountProfilesPanel" hidden="true" inherits="LiteMountSettingsPanelTemplate" mixin="LiteMountProfilesPanelMixin">
 
     <KeyValues>
         <KeyValue key="hideRevertButton" value="true" type="boolean" />

@@ -73,7 +73,7 @@
     </Frames>
 </Button>
 
-<Frame name="LiteMountGroupsPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountGroupsPanelMixin">
+<Frame name="LiteMountGroupsPanel" hidden="true" inherits="LiteMountSettingsPanelTemplate" mixin="LiteMountGroupsPanelMixin">
     <KeyValues>
         <KeyValue key="name" value="LM_GROUPS" type="string" />
     </KeyValues>

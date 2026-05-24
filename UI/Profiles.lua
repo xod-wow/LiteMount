@@ -205,12 +205,12 @@ function LiteMountProfilesPanelMixin:OnShow()
     LM.db.RegisterCallback(self, "OnProfileCopied", "Refresh")
     LM.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
     LM.db.RegisterCallback(self, "OnProfileReset", "Refresh")
-    LiteMountOptionsPanelMixin.OnShow(self)
+    LiteMountSettingsPanelMixin.OnShow(self)
 end
 
 function LiteMountProfilesPanelMixin:OnHide()
     LM.db.UnregisterAllCallbacks(self)
-    LiteMountOptionsPanelMixin.OnHide(self)
+    LiteMountSettingsPanelMixin.OnHide(self)
 end
 
 function LiteMountProfilesPanelMixin:OnLoad()
@@ -246,5 +246,5 @@ function LiteMountProfilesPanelMixin:OnLoad()
             self:PopOver(LiteMountProfileImport)
         end)
 
-    LiteMountOptionsPanelMixin.OnLoad(self)
+    LiteMountSettingsPanelMixin.OnLoad(self)
 end

@@ -82,7 +82,7 @@
     </Scripts>
 </Frame>
 
-<Frame name="LiteMountFallingPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountFallingPanelMixin">
+<Frame name="LiteMountFallingPanel" hidden="true" inherits="LiteMountSettingsPanelTemplate" mixin="LiteMountFallingPanelMixin">
 
     <KeyValues>
         <KeyValue key="name" value="STRING_ENVIRONMENTAL_DAMAGE_FALLING" type="global" />

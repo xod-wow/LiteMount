@@ -211,7 +211,7 @@ function LiteMountFallingPanelMixin:OnLoad()
             self:PopOver(LiteMountFallingAdd)
         end)
 
-    LiteMountOptionsPanelMixin.OnLoad(self)
+    LiteMountSettingsPanelMixin.OnLoad(self)
 end
 
 function LiteMountFallingPanelMixin:LoadSettings(v)
@@ -233,5 +233,5 @@ function LiteMountFallingPanelMixin:RefreshDisplay()
     local falling = LM.Options:GetOption('falling')
     local dp = CreateDataProvider(falling)
     self.Scroll:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
-    LiteMountOptionsPanelMixin.RefreshDisplay(self)
+    LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end

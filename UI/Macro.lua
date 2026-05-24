@@ -122,7 +122,7 @@ function LiteMountMacroPanelMixin:RefreshDisplay()
     local dp = CreateDataProvider(self:GenerateClassMenu())
     self.Class.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 
-    LiteMountOptionsPanelMixin.RefreshDisplay(self)
+    LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountMacroPanelMixin:LoadSettings(t)
@@ -142,7 +142,7 @@ end
 function LiteMountMacroPanelMixin:OnShow()
     PanelTemplates_AnchorTabs(self)
     PanelTemplates_ResizeTabsToFit(self)
-    LiteMountOptionsPanelMixin.OnShow(self)
+    LiteMountSettingsPanelMixin.OnShow(self)
 end
 
 function LiteMountMacroPanelMixin:OnLoad()

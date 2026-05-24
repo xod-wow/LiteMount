@@ -88,7 +88,7 @@ function LiteMountMountsPanelMixin:RefreshDisplay()
     local dp = LM.UIFilter.GetFilteredMountDataProvider(wantTree)
     self.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 
-    LiteMountOptionsPanelMixin.RefreshDisplay(self)
+    LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountMountsPanelMixin:SetTab(n)
@@ -243,7 +243,7 @@ function LiteMountMountsPanelMixin:OnLoad()
     self.NextFamily:Show()
     --@end-debug@
 
-    LiteMountOptionsPanelMixin.OnLoad(self)
+    LiteMountSettingsPanelMixin.OnLoad(self)
 end
 
 function LiteMountMountsPanelMixin:OnShow()
@@ -257,12 +257,12 @@ function LiteMountMountsPanelMixin:OnShow()
 
     self:RegisterEvent('MOUNT_JOURNAL_USABILITY_CHANGED')
 
-    LiteMountOptionsPanelMixin.OnShow(self)
+    LiteMountSettingsPanelMixin.OnShow(self)
 end
 
 function LiteMountMountsPanelMixin:OnHide()
     LM.UIFilter.UnregisterAllCallbacks(self)
     LM.MountRegistry.UnregisterAllCallbacks(self)
     self:UnregisterAllEvents()
-    LiteMountOptionsPanelMixin.OnHide(self)
+    LiteMountSettingsPanelMixin.OnHide(self)
 end

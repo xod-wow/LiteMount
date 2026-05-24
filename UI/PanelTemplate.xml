@@ -99,7 +99,7 @@
     </Scripts>
 </Frame>
 
-<Frame name="LiteMountOptionsPanelTemplate" parent="UIParent" mixin="LiteMountOptionsPanelMixin" hidden="true" virtual="true">
+<Frame name="LiteMountSettingsPanelTemplate" parent="UIParent" mixin="LiteMountSettingsPanelMixin" hidden="true" virtual="true">
     <Scripts>
         <OnLoad method="OnLoad" />
         <OnShow method="OnShow" />

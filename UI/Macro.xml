@@ -23,7 +23,7 @@
     </Scripts>
 </Button>
 
-<Frame name="LiteMountMacroPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountMacroPanelMixin">
+<Frame name="LiteMountMacroPanel" hidden="true" inherits="LiteMountSettingsPanelTemplate" mixin="LiteMountMacroPanelMixin">
 
     <Frames>
         <Frame parentKey="Class" inherits="LiteMountContainerStyleTemplate">

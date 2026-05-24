@@ -117,7 +117,7 @@ function LiteMountRulesPanelMixin:RefreshDisplay()
 
     self.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 
-    LiteMountOptionsPanelMixin.RefreshDisplay(self)
+    LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountRulesPanelMixin:LoadSettings(sets)
@@ -241,10 +241,10 @@ function LiteMountRulesPanelMixin:OnLoad()
     self.DeleteButton:SetScript('OnClick', function () self:DeleteRule() end)
     self.EditButton:SetScript('OnClick', function () self:EditRule() end)
 
-    LiteMountOptionsPanelMixin.OnLoad(self)
+    LiteMountSettingsPanelMixin.OnLoad(self)
 end
 
 function LiteMountRulesPanelMixin:OnHide()
     LiteMountRuleEdit:Hide()
-    LiteMountOptionsPanelMixin.OnHide(self)
+    LiteMountSettingsPanelMixin.OnHide(self)
 end

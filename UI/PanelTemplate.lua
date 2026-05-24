@@ -109,26 +109,26 @@ end
 
 ----------------------------------------------------------------------------]]--
 
-LiteMountOptionsPanelMixin = {}
+LiteMountSettingsPanelMixin = {}
 
-function LiteMountOptionsPanelMixin:MarkDirty()
+function LiteMountSettingsPanelMixin:MarkDirty()
     self.isDirty = true
 end
 
-function LiteMountOptionsPanelMixin:SaveSettings()
+function LiteMountSettingsPanelMixin:SaveSettings()
 end
 
-function LiteMountOptionsPanelMixin:LoadSettings()
+function LiteMountSettingsPanelMixin:LoadSettings()
 end
 
-function LiteMountOptionsPanelMixin:LoadDefaultSettings()
+function LiteMountSettingsPanelMixin:LoadDefaultSettings()
 end
 
-function LiteMountOptionsPanelMixin:RefreshDisplay()
+function LiteMountSettingsPanelMixin:RefreshDisplay()
     self.RevertButton:SetEnabled(self.isDirty)
 end
 
-function LiteMountOptionsPanelMixin:OnOptionsProfile()
+function LiteMountSettingsPanelMixin:OnOptionsProfile()
     LM.UIDebug(self, "Panel_OnOptionsProfile")
     self:OnCommit()
     self:OnRefresh()
@@ -144,7 +144,7 @@ end
 --
 -- OnRevert is entirely us, Blizzard doesn't have such an advanced concept.
 
-function LiteMountOptionsPanelMixin:OnRefresh()
+function LiteMountSettingsPanelMixin:OnRefresh()
     LM.UIDebug(self, "Panel_OnRefresh")
     if self.savedSettings == nil then
         self.savedSettings = self:SaveSettings()
@@ -152,20 +152,20 @@ function LiteMountOptionsPanelMixin:OnRefresh()
     end
 end
 
-function LiteMountOptionsPanelMixin:OnCommit()
+function LiteMountSettingsPanelMixin:OnCommit()
     LM.UIDebug(self, "Panel_OnCommit")
     self.savedSettings = nil
     self.isDirty = nil
 end
 
-function LiteMountOptionsPanelMixin:OnDefault()
+function LiteMountSettingsPanelMixin:OnDefault()
     LM.UIDebug(self, "Panel_OnDefault")
     self:LoadDefaultSettings()
     self.isDirty = true
     self:RefreshDisplay()
 end
 
-function LiteMountOptionsPanelMixin:OnRevert()
+function LiteMountSettingsPanelMixin:OnRevert()
     LM.UIDebug(self, "Panel_OnRevert")
     if self.isDirty then
         self.isDirty = nil
@@ -174,9 +174,9 @@ function LiteMountOptionsPanelMixin:OnRevert()
     end
 end
 
-function LiteMountOptionsPanelMixin:OnShow()
+function LiteMountSettingsPanelMixin:OnShow()
     LM.UIDebug(self, "Panel_OnShow")
-    LiteMountOptions.CurrentOptionsPanel = self
+    LiteMountBasePanel.CurrentOptionsPanel = self
 
     self:RefreshDisplay()
 
@@ -184,19 +184,19 @@ function LiteMountOptionsPanelMixin:OnShow()
     LM.db.RegisterCallback(self, "OnOptionsProfile", "OnOptionsProfile")
 end
 
-function LiteMountOptionsPanelMixin:OnHide()
+function LiteMountSettingsPanelMixin:OnHide()
     LM.UIDebug(self, "Panel_OnHide")
     LM.db.UnregisterAllCallbacks(self)
     self:RemoveAllPopOver()
 end
 
-function LiteMountOptionsPanelMixin:OnLoad()
+function LiteMountSettingsPanelMixin:OnLoad()
     AutoLocalize(self)
 
-    if self ~= LiteMountOptions then
+    if self ~= LiteMountBasePanel then
         self.name = L[self.name] or self.name
         self.Title:SetText(self.name)
-        local topCategory = LiteMountOptions.category
+        local topCategory = LiteMountBasePanel.category
         self.category = Settings.RegisterCanvasLayoutSubcategory(topCategory, self, self.name)
     else
         self.name = "LiteMount"
@@ -216,7 +216,7 @@ function LiteMountOptionsPanelMixin:OnLoad()
     end
 end
 
-function LiteMountOptionsPanelMixin:SetTab(n)
+function LiteMountSettingsPanelMixin:SetTab(n)
     if self.tab ~= n then
         self.tab = n
         if self:IsShown() then
@@ -225,13 +225,13 @@ function LiteMountOptionsPanelMixin:SetTab(n)
     end
 end
 
-function LiteMountOptionsPanelMixin:StaticPopupShow(which, text_arg1, text_arg2, data)
+function LiteMountSettingsPanelMixin:StaticPopupShow(which, text_arg1, text_arg2, data)
     self.Disable:Show()
     local hideCallback = function () self.Disable:Hide() end
     StaticPopup_Show(which, text_arg1, text_arg2, data, nil, hideCallback)
 end
 
-function LiteMountOptionsPanelMixin:UpdatePopOverDisplay()
+function LiteMountSettingsPanelMixin:UpdatePopOverDisplay()
     self.Disable:Hide()
     for i, f in ipairs(self.popOverStack) do
         if i == #self.popOverStack then
@@ -251,14 +251,14 @@ function LiteMountOptionsPanelMixin:UpdatePopOverDisplay()
     end
 end
 
-function LiteMountOptionsPanelMixin:PopOver(f)
+function LiteMountSettingsPanelMixin:PopOver(f)
     self.popOverStack = self.popOverStack or {}
     f.origOnHide = f:GetScript('OnHide')
     table.insert(self.popOverStack, f)
     self:UpdatePopOverDisplay()
 end
 
-function LiteMountOptionsPanelMixin:RemoveTopPopOver()
+function LiteMountSettingsPanelMixin:RemoveTopPopOver()
     local f = table.remove(self.popOverStack)
     if f then
         f:SetParent(nil)
@@ -271,7 +271,7 @@ function LiteMountOptionsPanelMixin:RemoveTopPopOver()
     return f
 end
 
-function LiteMountOptionsPanelMixin:RemoveAllPopOver()
+function LiteMountSettingsPanelMixin:RemoveAllPopOver()
     while self.popOverStack and next(self.popOverStack) do
         self:RemoveTopPopOver()
     end
@@ -300,9 +300,9 @@ end
 --[[------------------------------------------------------------------------]]--
 
 function LM.OpenOptions()
-    local f = LiteMountOptions
+    local f = LiteMountBasePanel
     if not f.CurrentOptionsPanel then
-        f.CurrentOptionsPanel = LiteMountOptions
+        f.CurrentOptionsPanel = LiteMountBasePanel
         f.CurrentOptionsPanel.category.expanded = true
     end
     SettingsPanel:Open()

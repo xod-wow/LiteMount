@@ -4,7 +4,7 @@
 
   Options frame to plug in to the Blizzard interface menu.
 
-  This is NOT a LiteMountOptionsPanel and is fully self-contained.
+  This is NOT a LiteMountSettingsPanel and is fully self-contained.
 
   Copyright 2011 Mike Battersby
 
@@ -100,7 +100,7 @@ function LiteMountGeneralPanelMixin:Register()
 
     -- Random Style --
     do
-        local function GetOptions()
+        local function GetSettings()
             local container = Settings.CreateControlTextContainer()
             container:Add('Priority', string.format("%s (%s)", L.LM_SUMMON_STYLE_PRIORITY, DEFAULT))
             if WOW_PROJECT_ID == 1 then
@@ -123,13 +123,13 @@ function LiteMountGeneralPanelMixin:Register()
             GetValue,
             SetValue
         )
-        local initializer = Settings.CreateControlInitializer(dropdownTemplate, setting, GetOptions)
+        local initializer = Settings.CreateControlInitializer(dropdownTemplate, setting, GetSettings)
         self.layout:AddInitializer(initializer)
     end
 
     -- Random Persistence --
     do
-        local function GetOptions()
+        local function GetSettings()
             local container = Settings.CreateControlTextContainer()
             container:Add(0,    string.format("%s (%s)", L.LM_EVERY_TIME, DEFAULT))
             container:Add(30,   string.format(L.LM_EVERY_D_SECONDS, 30))
@@ -152,13 +152,13 @@ function LiteMountGeneralPanelMixin:Register()
             GetValue,
             SetValue
         )
-        local initializer = Settings.CreateControlInitializer(dropdownTemplate, setting, GetOptions)
+        local initializer = Settings.CreateControlInitializer(dropdownTemplate, setting, GetSettings)
         self.layout:AddInitializer(initializer)
     end
 
     -- Mountspecial Timer --
     do
-        local function GetOptions()
+        local function GetSettings()
             local container = Settings.CreateControlTextContainer()
             container:Add(0,    NEVER)
             container:Add(20,   string.format(L.LM_EVERY_D_SECONDS, 20))
@@ -181,7 +181,7 @@ function LiteMountGeneralPanelMixin:Register()
             GetValue,
             SetValue
         )
-        local initializer = Settings.CreateControlInitializer(dropdownTemplate, setting, GetOptions)
+        local initializer = Settings.CreateControlInitializer(dropdownTemplate, setting, GetSettings)
         self.layout:AddInitializer(initializer)
     end
 
@@ -190,7 +190,7 @@ function LiteMountGeneralPanelMixin:Register()
 
     -- Announce Via --
     do
-        local function GetOptions()
+        local function GetSettings()
             local container = Settings.CreateControlTextContainer()
             container:Add(0, NONE)
             container:Add(1, CHAT)
@@ -225,7 +225,7 @@ function LiteMountGeneralPanelMixin:Register()
             GetValue,
             SetValue
         )
-        Settings.CreateDropdown(self.category, setting, GetOptions)
+        Settings.CreateDropdown(self.category, setting, GetSettings)
     end
 
     -- Color By Priority --
@@ -258,7 +258,7 @@ function LiteMountGeneralPanelMixin:Register()
 end
 
 function LiteMountGeneralPanelMixin:OnLoad()
-    local topCategory = LiteMountOptions.category
+    local topCategory = LiteMountBasePanel.category
     self.category, self.layout = Settings.RegisterVerticalLayoutSubcategory(topCategory, self.name)
     SettingsRegistrar:AddRegistrant(function () self:Register() end)
 end

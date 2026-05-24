@@ -95,7 +95,7 @@ function LiteMountAdvancedPanelMixin:RefreshDisplay()
     local rulesText = LM.Options:GetButtonRuleSet(self.tab)
     self.EditScroll.ScrollBox.EditBox:SetText(rulesText)
     self:CheckCompileErrors(rulesText)
-    LiteMountOptionsPanelMixin.RefreshDisplay(self)
+    LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountAdvancedPanelMixin:OnLoad()
@@ -117,10 +117,10 @@ function LiteMountAdvancedPanelMixin:OnLoad()
     self.BindingDropDown:SetupMenu(BindingGenerator)
 
     ScrollUtil.RegisterScrollBoxWithScrollBar(self.EditScroll.ScrollBox, self.ScrollBar)
-    LiteMountOptionsPanelMixin.OnLoad(self)
+    LiteMountSettingsPanelMixin.OnLoad(self)
 end
 
 function LiteMountAdvancedPanelMixin:OnShow()
     self.UnlockButton:Show()
-    LiteMountOptionsPanelMixin.OnShow(self)
+    LiteMountSettingsPanelMixin.OnShow(self)
 end

@@ -68,7 +68,7 @@
     </Frames>
 </Button>
 
-<Frame name="LiteMountRulesPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountRulesPanelMixin">
+<Frame name="LiteMountRulesPanel" hidden="true" inherits="LiteMountSettingsPanelTemplate" mixin="LiteMountRulesPanelMixin">
 
     <KeyValues>
         <KeyValue key="name" value="BRAWL_TOOLTIP_RULES" type="global" />

@@ -26,7 +26,7 @@ LiteMountReportBugMixin = {}
 function LiteMountReportBugMixin:OnLoad()
     self.name = L.LM_REPORT_BUG
     ScrollUtil.RegisterScrollBoxWithScrollBar(self.Scroll.ScrollBox, self.ScrollBar)
-    LiteMountOptionsPanelMixin.OnLoad(self)
+    LiteMountSettingsPanelMixin.OnLoad(self)
 end
 
 local function GetAnyLiteMountMacros()
@@ -125,5 +125,5 @@ Do not modify anything below this line.|r
     )
     self.Scroll:SetCursorPosition(0)
 
-    LiteMountOptionsPanelMixin.OnShow(self)
+    LiteMountSettingsPanelMixin.OnShow(self)
 end
