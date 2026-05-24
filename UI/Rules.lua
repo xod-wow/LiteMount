@@ -116,6 +116,8 @@ function LiteMountRulesPanelMixin:RefreshDisplay()
     end
 
     self.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
+
+    LiteMountOptionsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountRulesPanelMixin:SetOption(v, i)

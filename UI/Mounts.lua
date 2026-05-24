@@ -78,6 +78,8 @@ function LiteMountMountsPanelMixin:RefreshDisplay()
     local wantTree = ( currentView.stride == nil )
     local dp = LM.UIFilter.GetFilteredMountDataProvider(wantTree)
     self.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
+
+    LiteMountOptionsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountMountsPanelMixin:OnDefault()

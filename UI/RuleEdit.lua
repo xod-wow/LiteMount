@@ -465,14 +465,6 @@ function LiteMountRuleEditMixin:Okay()
     self:Hide()
 end
 
-function LiteMountRuleEditMixin:OnLoad()
-    for i = 2, #self.Conditions do
-        self.Conditions[i]:SetPoint('TOPLEFT', self.Conditions[i-1], 'BOTTOMLEFT', 0, -4)
-        self.Conditions[i]:SetPoint('RIGHT', self.Conditions[i-1], 'RIGHT')
-    end
-    LiteMountPopOverPanelMixin.OnLoad(self)
-end
-
 function LiteMountRuleEditMixin:SetCallback(callback, frame)
     self.callback = callback
     self.callbackFrame = frame
@@ -512,6 +504,15 @@ function LiteMountRuleEditMixin:RefreshDisplay()
     else
         self.OkayButton:Disable()
     end
+    LiteMountPopOverPanelMixin.RefreshDisplay(self)
+end
+
+function LiteMountRuleEditMixin:OnLoad()
+    for i = 2, #self.Conditions do
+        self.Conditions[i]:SetPoint('TOPLEFT', self.Conditions[i-1], 'BOTTOMLEFT', 0, -4)
+        self.Conditions[i]:SetPoint('RIGHT', self.Conditions[i-1], 'RIGHT')
+    end
+    LiteMountPopOverPanelMixin.OnLoad(self)
 end
 
 function LiteMountRuleEditMixin:OnHide()

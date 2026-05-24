@@ -92,15 +92,6 @@ local function GetProfileNameText(p)
     end
 end
 
-local function ClickResetProfile(self)
-    local arg1 = LM.db:GetCurrentProfile()
-    StaticPopup_Show("LM_OPTIONS_RESET_PROFILE", arg1, nil, arg1)
-end
-
-local function ClickImportProfile(self, arg1, arg2, check)
-    LiteMountProfilesPanel:PopOver(LiteMountProfileImport)
-end
-
 local function GetScrollExtent()
     local _, y = GetPhysicalScreenSize()
     return math.floor(y/3)
@@ -149,9 +140,10 @@ local NewProfileMixin = {}
 
 function NewProfileMixin.Generate(owner, rootDescription)
     local currentProfile = LM.db:GetCurrentProfile()
+    local panel = owner:GetParent()
 
     local function OnClick(data)
-        StaticPopup_Show("LM_OPTIONS_NEW_PROFILE", data, nil, data)
+        panel:StaticPopupShow("LM_OPTIONS_NEW_PROFILE", data, nil, data)
     end
 
     rootDescription:CreateButton(L.LM_CURRENT_SETTINGS, OnClick, currentProfile)
@@ -168,8 +160,9 @@ function DeleteProfileMixin.Generate(owner, rootDescription)
     tDeleteItem(dbProfiles, "Default")
     tDeleteItem(dbProfiles, currentProfile)
 
+    local panel = owner:GetParent()
     local function OnClick(data)
-        StaticPopup_Show("LM_OPTIONS_DELETE_PROFILE", data, nil, data)
+        panel:StaticPopupShow("LM_OPTIONS_DELETE_PROFILE", data, nil, data)
     end
 
     for _, p in ipairs(dbProfiles) do
@@ -233,8 +226,6 @@ function LiteMountProfilesPanelMixin:OnLoad()
     Mixin(self.ChangeProfile, ChangeProfileMixin)
     self.ChangeProfile:SetScript("OnClick", OnClick)
 
-    self.ResetProfile:SetScript("OnClick", ClickResetProfile)
-
     Mixin(self.NewProfile, NewProfileMixin)
     self.NewProfile:SetScript("OnClick", OnClick)
 
@@ -244,7 +235,16 @@ function LiteMountProfilesPanelMixin:OnLoad()
     Mixin(self.ExportProfile, ExportProfileMixin)
     self.ExportProfile:SetScript("OnClick", OnClick)
 
-    self.ImportProfile:SetScript("OnClick", ClickImportProfile)
+    self.ResetProfile:SetScript("OnClick",
+        function ()
+            local arg1 = LM.db:GetCurrentProfile()
+            self:StaticPopupShow("LM_OPTIONS_RESET_PROFILE", arg1, nil, arg1)
+        end)
+
+    self.ImportProfile:SetScript("OnClick",
+        function ()
+            self:PopOver(LiteMountProfileImport)
+        end)
 
     LiteMountOptionsPanelMixin.OnLoad(self)
 end

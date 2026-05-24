@@ -153,6 +153,7 @@ LiteMountGroupsPanelMixin = {}
 function LiteMountGroupsPanelMixin:SelectGroup(group)
     self.selectedGroup = group
     self:RefreshDisplay()
+    LiteMountOptionsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountGroupsPanelMixin:RefreshGroupList()
@@ -162,15 +163,15 @@ function LiteMountGroupsPanelMixin:RefreshGroupList()
         self.selectedGroup = allGroups[1]
     end
 
-    self.GroupScrollBox.AddGroupButton:SetParent(nil)
-    self.GroupScrollBox.AddGroupButton:ClearAllPoints()
-    self.GroupScrollBox.AddGroupButton:Hide()
+    self.AddGroupButton:SetParent(nil)
+    self.AddGroupButton:ClearAllPoints()
+    self.AddGroupButton:Hide()
 
     local dp = CreateDataProvider()
     for _, group in ipairs(allGroups) do
         dp:Insert(group)
     end
-    dp:Insert(self.GroupScrollBox.AddGroupButton)
+    dp:Insert(self.AddGroupButton)
     self.GroupScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 end
 
@@ -219,6 +220,25 @@ end
 function LiteMountGroupsPanelMixin:OnLoad()
     self.showAll = true
 
+    self.AddGroupButton:SetScript('OnClick',
+        function ()
+            self:StaticPopupShow('LM_OPTIONS_NEW_GROUP')
+        end)
+
+    self.DeleteButton:SetScript('OnClick',
+        function ()
+            local f = self.selectedGroup
+            if f then
+                self:StaticPopupShow("LM_OPTIONS_DELETE_GROUP", f, nil, f)
+            end
+        end)
+
+    self.RenameButton:SetScript('OnClick',
+        function ()
+            local f = self.selectedGroup
+            if f then self:StaticPopupShow("LM_OPTIONS_RENAME_GROUP", f, nil, f) end
+        end)
+
     local view = CreateScrollBoxListLinearView(0, 0, 0, 0, 2)
     view:SetElementFactory(
         function (factory, elementData)
@@ -243,7 +263,7 @@ end
 
 function LiteMountGroupsPanelMixin:OnShow()
     LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.MountScrollBox, 'TOPLEFT', 0, 15)
-    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "Refresh")
+    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "RefreshDisplay")
     LM.MountRegistry:RefreshMounts(true)
     self:RefreshDisplay()
     LiteMountOptionsPanelMixin.OnShow(self)

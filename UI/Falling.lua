@@ -230,4 +230,5 @@ function LiteMountFallingPanelMixin:RefreshDisplay()
     local falling = LM.Options:GetOption('falling')
     local dp = CreateDataProvider(falling)
     self.Scroll:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
+    LiteMountOptionsPanelMixin.RefreshDisplay(self)
 end

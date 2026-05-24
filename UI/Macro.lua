@@ -121,6 +121,8 @@ function LiteMountMacroPanelMixin:RefreshDisplay()
 
     local dp = CreateDataProvider(self:GenerateClassMenu())
     self.Class.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
+
+    LiteMountOptionsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountMacroPanelMixin:SetOption(t)

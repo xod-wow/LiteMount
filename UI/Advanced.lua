@@ -86,6 +86,7 @@ function LiteMountAdvancedPanelMixin:RefreshDisplay()
     local rulesText = LM.Options:GetButtonRuleSet(self.tab)
     self.EditScroll.ScrollBox.EditBox:SetText(rulesText)
     self:CheckCompileErrors(rulesText)
+    LiteMountOptionsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountAdvancedPanelMixin:OnLoad()

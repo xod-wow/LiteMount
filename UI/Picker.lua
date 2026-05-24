@@ -48,6 +48,7 @@ end
 LiteMountPickerMixin = {}
 
 function LiteMountPickerMixin:RefreshDisplay()
+    LM.MountRegistry:RefreshMounts(true)
     local mounts = LM.UIFilter.GetFilteredMountList()
     local mountTriples = {}
 
@@ -60,13 +61,13 @@ function LiteMountPickerMixin:RefreshDisplay()
 
     local dp = CreateDataProvider(mountTriples)
     self.Scroll:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
+
+    LiteMountPopOverPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountPickerMixin:OnShow()
     LiteMountFilter:Attach(self, "BOTTOM", self.Scroll, "TOP", 0, 8)
     LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "RefreshDisplay")
-    LM.MountRegistry:RefreshMounts(true)
-    self:RefreshDisplay()
     LiteMountPopOverPanelMixin.OnShow(self)
 end
 
