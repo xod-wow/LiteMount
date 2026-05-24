@@ -75,7 +75,7 @@ function LiteMountAdvancedPanelMixin:LoadSettings(sets)
     end
 end
 
-function LiteMountAdvancedPanelMixin:SaveSettings(i)
+function LiteMountAdvancedPanelMixin:SaveSettings()
     local sets = {}
     for i = 1, self.ntabs do
         sets[i] = LM.Options:GetButtonRuleSet(i)
