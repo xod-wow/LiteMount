@@ -217,8 +217,8 @@ function LiteMountSettingsPanelMixin:OnLoad()
 end
 
 function LiteMountSettingsPanelMixin:SetTab(n)
-    if self.tab ~= n then
-        self.tab = n
+    if self.selectedTab ~= n then
+        self.selectedTab = n
         if self:IsShown() then
             self:RefreshDisplay()
         end

@@ -56,7 +56,7 @@ function LiteMountMountsPanelMixin:RefreshDisplay()
         end
     end
 
-    local view = self.tabViews[self.selectedTab]
+    local view = self.viewsByTabs[self.selectedTab]
     ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
 
     self.PriorityLabel:SetShown(self.selectedTab==1)
@@ -89,15 +89,6 @@ function LiteMountMountsPanelMixin:RefreshDisplay()
     self.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 
     LiteMountSettingsPanelMixin.RefreshDisplay(self)
-end
-
-function LiteMountMountsPanelMixin:SetTab(n)
-    if self.selectedTab ~= n then
-        self.selectedTab = n
-        if self:IsShown() then
-            self:RefreshDisplay()
-        end
-    end
 end
 
 local function ActionMenuGenerate(owner, rootDescription)
@@ -140,12 +131,12 @@ local function ActionMenuGenerate(owner, rootDescription)
 end
 
 function LiteMountMountsPanelMixin:OnLoad()
-    self.tabViews = {}
+    self.viewsByTabs = {}
 
     local function dirtyFunc() self:MarkDirty() end
 
-    self.tabViews[1] = CreateScrollBoxListTreeListView()
-    self.tabViews[1]:SetElementFactory(
+    self.viewsByTabs[1] = CreateScrollBoxListTreeListView()
+    self.viewsByTabs[1]:SetElementFactory(
         function (factory, node)
             local data = node:GetData()
             if data.isHeader then
@@ -167,7 +158,7 @@ function LiteMountMountsPanelMixin:OnLoad()
                     end)
             end
         end)
-    self.tabViews[1]:SetElementExtentCalculator(
+    self.viewsByTabs[1]:SetElementExtentCalculator(
         function (dataIndex, node)
             if node:GetData().isHeader then
                 return 22
@@ -175,7 +166,7 @@ function LiteMountMountsPanelMixin:OnLoad()
                 return 44
             end
         end)
-    self.tabViews[1]:SetElementIndentCalculator(
+    self.viewsByTabs[1]:SetElementIndentCalculator(
         function (node)
             if LM.UIFilter.GetSortKey() ~= 'family' or node:GetData().isHeader then
                 return 0
@@ -186,14 +177,16 @@ function LiteMountMountsPanelMixin:OnLoad()
 
     -- CreateScrollBoxListGridView(stride, top, bottom, left, right, horizontalSpacing, verticalSpacing)
     local stride = 3
-    self.tabViews[2] = CreateScrollBoxListGridView(stride, 0, 0, 0, 0, 5, 5)
-    self.tabViews[2]:SetElementInitializer("LiteMountMountGridButtonTemplate",
+    self.viewsByTabs[2] = CreateScrollBoxListGridView(stride, 0, 0, 0, 0, 5, 5)
+    self.viewsByTabs[2]:SetElementInitializer("LiteMountMountGridButtonTemplate",
         function (button, elementData)
             button:Initialize(elementData, self.allFlags)
             button:SetDirtyCallback(dirtyFunc)
         end)
 
     self.name = MOUNTS
+
+    self.selectedTab = 1
 
     self.allFlags = LM.Options:GetFlags()
 
@@ -229,8 +222,6 @@ function LiteMountMountsPanelMixin:OnLoad()
             tabButton:Hide()
         end
     end
-
-    self:SetTab(1)
 
     self.ActionDropdown:SetText(L.LM_ACTIONS)
 

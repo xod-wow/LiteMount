@@ -42,7 +42,7 @@ end
 
 local function BindingGenerator(owner, rootDescription)
     local self = LiteMountAdvancedPanel
-    local IsSelected = function (v) return self.tab == v end
+    local IsSelected = function (v) return self.selectedTab == v end
     local SetSelected = function (v) self:SetTab(v) end
     for i = 1, self.ntabs do
         rootDescription:CreateRadio(BindingText(i), IsSelected, SetSelected, i)
@@ -92,7 +92,7 @@ function LiteMountAdvancedPanelMixin:LoadDefaultSettings()
 end
 
 function LiteMountAdvancedPanelMixin:RefreshDisplay()
-    local rulesText = LM.Options:GetButtonRuleSet(self.tab)
+    local rulesText = LM.Options:GetButtonRuleSet(self.selectedTab)
     self.EditScroll.ScrollBox.EditBox:SetText(rulesText)
     self:CheckCompileErrors(rulesText)
     LiteMountSettingsPanelMixin.RefreshDisplay(self)
@@ -101,7 +101,7 @@ end
 function LiteMountAdvancedPanelMixin:OnLoad()
     self.name = ADVANCED_OPTIONS
     self.ntabs = 4
-    self.tab = 1
+    self.selectedTab = 1
 
     local editBox = self.EditScroll.ScrollBox.EditBox
     editBox:SetFontObject(LiteMountMonoFont)
@@ -110,7 +110,7 @@ function LiteMountAdvancedPanelMixin:OnLoad()
             if userInput == true then
                 LM.UIDebug(self, "Control_OnTextChanged")
                 self:MarkDirty()
-                LM.Options:SetButtonRuleSet(self.tab, editBox:GetText())
+                LM.Options:SetButtonRuleSet(self.selectedTab, editBox:GetText())
                 -- dontFire isn't set, so no need to RefreshDisplay
             end
         end)
