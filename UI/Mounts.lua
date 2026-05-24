@@ -48,22 +48,16 @@ function LiteMountMountsPanelMixin:LoadDefaultSettings()
 end
 
 function LiteMountMountsPanelMixin:RefreshDisplay()
-    for i, tabButton in ipairs(self.Tabs) do
-        if i == self.selectedTab then
-            PanelTemplates_SelectTab(tabButton)
-        else
-            PanelTemplates_DeselectTab(tabButton)
-        end
-    end
+    local currentTab = PanelTemplates_GetSelectedTab(self)
 
-    local view = self.viewsByTabs[self.selectedTab]
+    local view = self.viewsByTabs[currentTab]
     ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
 
-    self.PriorityLabel:SetShown(self.selectedTab==1)
+    self.PriorityLabel:SetShown(currentTab==1)
 
     for i = 1, 4 do
         local label = self["BitLabel"..i]
-        label:SetShown(self.selectedTab==1)
+        label:SetShown(currentTab==1)
     end
 
     LM.MountRegistry:RefreshMounts(true)
@@ -186,7 +180,8 @@ function LiteMountMountsPanelMixin:OnLoad()
 
     self.name = MOUNTS
 
-    self.selectedTab = 1
+    PanelTemplates_SetNumTabs(self, 2)
+    PanelTemplates_SetTab(self, 1)
 
     self.allFlags = LM.Options:GetFlags()
 
@@ -212,7 +207,8 @@ function LiteMountMountsPanelMixin:OnLoad()
             tabButton:SetText(TabNames[i])
             tabButton:SetScript('OnClick',
                 function ()
-                    self:SetTab(i)
+                    PanelTemplates_SetTab(self, i)
+                    self:RefreshDisplay()
                 end)
         end
         PanelTemplates_ResizeTabsToFit(self, self.ScrollBox:GetWidth() - 32)
