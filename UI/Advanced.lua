@@ -98,7 +98,7 @@ function LiteMountAdvancedPanelMixin:OnLoad()
     editBox:SetFontObject(LiteMountMonoFont)
     editBox:SetScript('OnTextChanged',
         function (_, userInput)
-            self.isDirty = true
+            self:MarkDirty()
             if userInput == true then
                 LM.UIDebug(self, "Control_OnTextChanged")
                 self:SetOption(editBox:GetText(), self.tab)

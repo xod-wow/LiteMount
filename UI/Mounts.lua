@@ -84,7 +84,7 @@ end
 
 function LiteMountMountsPanelMixin:OnDefault()
     LM.UIDebug(self, 'Custom_Default')
-    self.isDirty = true
+    self:MarkDirty()
     LM.Options:ResetAllMountFlags()
     LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil)
     self:RefreshDisplay()
@@ -101,7 +101,7 @@ end
 
 local function ActionMenuGenerate(owner, rootDescription)
     local parent = owner:GetParent()
-    local function dirtyFunc() parent.isDirty = true end
+    local function dirtyFunc() parent:MarkDirty() end
 
     rootDescription:CreateTitle(L.LM_ACTION_MENU_TITLE)
 
@@ -142,7 +142,7 @@ end
 function LiteMountMountsPanelMixin:OnLoad()
     self.tabViews = {}
 
-    local function dirtyFunc() self.isDirty = true end
+    local function dirtyFunc() self:MarkDirty() end
 
     self.tabViews[1] = CreateScrollBoxListTreeListView()
     self.tabViews[1]:SetElementFactory(

@@ -40,7 +40,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LiteMountGroupsPanel.isDirty = true
+            LiteMountGroupsPanel:MarkDirty()
             local editBox = self.editBox or self:GetEditBox()
             local text = editBox:GetText()
             LiteMountGroupsPanel.selectedGroup = text
@@ -48,7 +48,7 @@ StaticPopupDialogs["LM_OPTIONS_NEW_GROUP"] = {
         end,
     -- This is not "Cancel", it's "Global" == button2
     OnCancel = function (self)
-            LiteMountGroupsPanel.isDirty = true
+            LiteMountGroupsPanel:MarkDirty()
             local editBox = self.editBox or self:GetEditBox()
             local text = editBox:GetText()
             LiteMountGroupsPanel.selectedGroup = text
@@ -95,7 +95,7 @@ StaticPopupDialogs["LM_OPTIONS_RENAME_GROUP"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LiteMountGroupsPanel.isDirty = true
+            LiteMountGroupsPanel:MarkDirty()
             local editBox = self.editBox or self:GetEditBox()
             local text = editBox:GetText()
             LiteMountGroupsPanel.selectedGroup = text
@@ -136,7 +136,7 @@ StaticPopupDialogs["LM_OPTIONS_DELETE_GROUP"] = {
     whileDead = 1,
     hideOnEscape = 1,
     OnAccept = function (self)
-            LiteMountGroupsPanel.isDirty = true
+            LiteMountGroupsPanel:MarkDirty()
             LM.Options:DeleteGroup(self.data)
         end,
     OnShow = function (self)
@@ -316,7 +316,7 @@ end
 LiteMountGroupsPanelMountMixin = {}
 
 function LiteMountGroupsPanelMountMixin:OnClick()
-    LiteMountGroupsPanel.isDirty = true
+    LiteMountGroupsPanel:MarkDirty()
     local group = LiteMountGroupsPanel.selectedGroup
     if LM.Options:IsMountInGroup(self.mount, group) then
         LM.Options:ClearMountGroup(self.mount, group)

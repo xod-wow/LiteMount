@@ -29,7 +29,7 @@ local function ReorderRulesFromDataProvider(dataProvider)
         elementData.index = i
     end
     LM.Options:SetRules(self.tab, newRules)
-    self.isDirty = true
+    self:MarkDirty()
 end
 
 function LiteMountRuleButtonMixin:OnEnter()
@@ -138,7 +138,7 @@ function LiteMountRulesPanelMixin:AddRuleCallback(rule)
     local insertPos = tIndexOf(rules, self.selectedRule) or 1
     table.insert(rules, insertPos, rule)
     self.selectedRule = rule
-    self.isDirty = true
+    self:MarkDirty()
     LM.Options:SetRules(self.tab, rules)
 end
 
@@ -150,7 +150,7 @@ end
 
 function LiteMountRulesPanelMixin:DeleteRule()
     if self.selectedRule then
-        self.isDirty = true
+        self:MarkDirty()
         local rules = LM.Options:GetRules(self.tab)
         tDeleteItem(rules, self.selectedRule)
         self.selectedRule = nil
@@ -164,7 +164,7 @@ function LiteMountRulesPanelMixin:EditRuleCallback(rule)
     if index then
         rules[index] = rule
         self.selectedRule = rule
-        self.isDirty = true
+        self:MarkDirty()
         LM.Options:SetRules(self.tab, rules)
     end
 end

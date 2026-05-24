@@ -82,7 +82,7 @@ function LiteMountMacroPanelMixin:WriteSettingsForTab()
         macro = nil
     end
     local use = self.Macro.EnableButton:GetChecked() and true or nil
-    self.isDirty = true
+    self:MarkDirty()
     LM.Options:SetClassOption(self.selectedClass, macroKey, macro)
     LM.Options:SetClassOption(self.selectedClass, useKey, use)
 end

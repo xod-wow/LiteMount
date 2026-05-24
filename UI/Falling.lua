@@ -185,7 +185,7 @@ function LiteMountFallingPanelMixin:OnLoad()
     view:SetElementInitializer("LiteMountItemSpellTemplate",
         function (button, elementData)
             local function Delete()
-                self.isDirty = true
+                self:MarkDirty()
                 local falling = LM.Options:GetOption('falling')
                 tDeleteItem(falling, elementData)
                 LM.Options:SetOption('falling', falling)
@@ -198,7 +198,7 @@ function LiteMountFallingPanelMixin:OnLoad()
     dragBehavior:SetReorderable(true)
     dragBehavior:SetPostDrop(
         function (contextData)
-            self.isDirty = true
+            self:MarkDirty()
             local falling = {}
             for _, elementData in contextData.dataProvider:EnumerateEntireRange() do
                 table.insert(falling, elementData)
