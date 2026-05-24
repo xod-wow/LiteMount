@@ -175,14 +175,23 @@ function LiteMountGroupsPanelMixin:RefreshGroupList()
     self.GroupScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 end
 
-function LiteMountGroupsPanelMixin:GetOption()
+function LiteMountGroupsPanelMixin:SaveSettings()
     local profile, global = LM.Options:GetRawGroups()
     return { CopyTable(profile), CopyTable(global) }
 end
 
-function LiteMountGroupsPanelMixin:SetOption(v)
-    LM.Options:SetRawGroups(unpack(v))
+function LiteMountGroupsPanelMixin:LoadSettings(v)
+    local profile, global = unpack(v)
+    local dontFire = true
+    LM.Options:SetRawGroups(profile, global, dontFire)
 end
+
+--[[ this doesnt' seem like a good idea
+function LiteMountGroupsPanelMixin:LoadDefaultSettings()
+    local dontFire = true
+    LM.Options:SetRawGroups({}, {}, dontFire)
+end
+]]
 
 function LiteMountGroupsPanelMixin:RefreshDisplay()
     self:RefreshGroupList()
@@ -327,7 +336,6 @@ end
 
 function LiteMountGroupsPanelMountMixin:OnEnter()
     if self.mount then
-        -- GameTooltip_SetDefaultAnchor(LiteMountTooltip, UIParent)
         LiteMountTooltip:SetOwner(self, "ANCHOR_RIGHT", -16, 0)
         LiteMountTooltip:SetMount(self.mount)
     end

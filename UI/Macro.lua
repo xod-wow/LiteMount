@@ -125,15 +125,14 @@ function LiteMountMacroPanelMixin:RefreshDisplay()
     LiteMountOptionsPanelMixin.RefreshDisplay(self)
 end
 
-function LiteMountMacroPanelMixin:SetOption(t)
+function LiteMountMacroPanelMixin:LoadSettings(t)
     local classKey = UnitClassBase('player')
     LM.db.char = t.char
     LM.db.class = t.class and t.class[classKey] or nil
     LM.db.sv.class = t.class
-    LM.Options:NotifyChanged()
 end
 
-function LiteMountMacroPanelMixin:GetOption()
+function LiteMountMacroPanelMixin:SaveSettings()
     return {
         char = LM.db.char and CopyTable(LM.db.char),
         class = LM.db.sv.class and CopyTable(LM.db.sv.class),

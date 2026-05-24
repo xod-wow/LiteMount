@@ -115,14 +115,23 @@ function LiteMountOptionsPanelMixin:MarkDirty()
     self.isDirty = true
 end
 
+function LiteMountOptionsPanelMixin:SaveSettings()
+end
+
+function LiteMountOptionsPanelMixin:LoadSettings()
+end
+
+function LiteMountOptionsPanelMixin:LoadDefaultSettings()
+end
+
 function LiteMountOptionsPanelMixin:RefreshDisplay()
     self.RevertButton:SetEnabled(self.isDirty)
 end
 
 function LiteMountOptionsPanelMixin:OnOptionsProfile()
     LM.UIDebug(self, "Panel_OnOptionsProfile")
-    self:OnCommit(trigger)
-    self:OnRefresh(trigger)
+    self:OnCommit()
+    self:OnRefresh()
 end
 
 -- OnRefresh is called for all panels when the settings are opened. And called
@@ -137,41 +146,31 @@ end
 
 function LiteMountOptionsPanelMixin:OnRefresh()
     LM.UIDebug(self, "Panel_OnRefresh")
-    if self.oldValues == nil then
-        self.oldValues = {}
-        for i = 1, (self.ntabs or 1) do
-            self.oldValues[i] = self:GetOption(i)
-        end
+    if self.savedSettings == nil then
+        self.savedSettings = self:SaveSettings()
         self.isDirty = nil
     end
 end
 
 function LiteMountOptionsPanelMixin:OnCommit()
     LM.UIDebug(self, "Panel_OnCommit")
-    self.oldValues = nil
+    self.savedSettings = nil
     self.isDirty = nil
 end
 
 function LiteMountOptionsPanelMixin:OnDefault()
     LM.UIDebug(self, "Panel_OnDefault")
-    if not self.GetOptionDefault then return end
+    self:LoadDefaultSettings()
     self.isDirty = true
-
-    for i = 1, (self.ntabs or 1) do
-        self:SetOption(self:GetOptionDefault(i), i)
-    end
+    self:RefreshDisplay()
 end
 
 function LiteMountOptionsPanelMixin:OnRevert()
     LM.UIDebug(self, "Panel_OnRevert")
     if self.isDirty then
         self.isDirty = nil
-        for i = 1, (self.ntabs or 1) do
-            if self.oldValues[i] ~= nil then
-                self:SetOption(self.oldValues[i], i)
-                self.oldValues[i] = self:GetOption(i)
-            end
-        end
+        self:LoadSettings(self.savedSettings)
+        self:RefreshDisplay()
     end
 end
 
@@ -215,8 +214,6 @@ function LiteMountOptionsPanelMixin:OnLoad()
     if self.hideRevertButton then
         self.RevertButton:Hide()
     end
-
-    self.GetOption = self.GetOption or function () end
 end
 
 function LiteMountOptionsPanelMixin:SetTab(n)

@@ -28,8 +28,8 @@ local function ReorderRulesFromDataProvider(dataProvider)
         newRules[i] = oldRules[elementData.index]
         elementData.index = i
     end
-    LM.Options:SetRules(self.tab, newRules)
     self:MarkDirty()
+    LM.Options:SetRules(self.tab, newRules)
 end
 
 function LiteMountRuleButtonMixin:OnEnter()
@@ -68,7 +68,7 @@ end
 
 function LiteMountRuleButtonMixin:OnClick()
     LiteMountRulesPanel.selectedRule = self.rule
-    LiteMountRulesPanel:Refresh()
+    LiteMountRulesPanel:RefreshDisplay()
 end
 
 
@@ -120,17 +120,27 @@ function LiteMountRulesPanelMixin:RefreshDisplay()
     LiteMountOptionsPanelMixin.RefreshDisplay(self)
 end
 
-function LiteMountRulesPanelMixin:SetOption(v, i)
+function LiteMountRulesPanelMixin:LoadSettings(sets)
     self.selectedRule = nil
-    return LM.Options:SetRules(i, v)
+    local dontFire = true
+    for i = 1, self.ntabs do
+        LM.Options:SetRules(i, sets[i], dontFire)
+    end
 end
 
-function LiteMountRulesPanelMixin:GetOption(i)
-    return LM.Options:GetRules(i)
+function LiteMountRulesPanelMixin:SaveSettings()
+    local sets = {}
+    for i = 1, self.ntabs do
+        sets[i] = LM.Options:GetRules(i)
+    end
+    return sets
 end
 
-function LiteMountRulesPanelMixin:GetOptionDefault()
-    return nil
+function LiteMountRulesPanelMixin:LoadDefaultSettings()
+    local dontFire = true
+    for i = 1, self.ntabs do
+        LM.Options:SetRules(i, nil, dontFire)
+    end
 end
 
 function LiteMountRulesPanelMixin:AddRuleCallback(rule)
@@ -150,10 +160,10 @@ end
 
 function LiteMountRulesPanelMixin:DeleteRule()
     if self.selectedRule then
-        self:MarkDirty()
         local rules = LM.Options:GetRules(self.tab)
         tDeleteItem(rules, self.selectedRule)
         self.selectedRule = nil
+        self:MarkDirty()
         LM.Options:SetRules(self.tab, rules)
     end
 end
@@ -173,12 +183,6 @@ function LiteMountRulesPanelMixin:EditRule()
     LiteMountRuleEdit:SetRule(self.selectedRule)
     LiteMountRuleEdit:SetCallback(self.EditRuleCallback, self)
     self:PopOver(LiteMountRuleEdit)
-end
-
-function LiteMountRulesPanelMixin:Refresh(trigger)
-    self.DeleteButton:SetEnabled(self.selectedRule ~= nil)
-    self.EditButton:SetEnabled(self.selectedRule ~= nil)
-    LiteMountOptionsPanelMixin.Refresh(self, trigger)
 end
 
 function LiteMountRulesPanelMixin:OnLoad()

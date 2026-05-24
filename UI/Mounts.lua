@@ -24,7 +24,7 @@ local TabNames = {
 
 LiteMountMountsPanelMixin = {}
 
-function LiteMountMountsPanelMixin:GetOption()
+function LiteMountMountsPanelMixin:SaveSettings()
     local profileGroups, globalGroups = LM.Options:GetRawGroups()
     return {
         CopyTable(LM.Options:GetRawFlagChanges(), true),
@@ -34,10 +34,17 @@ function LiteMountMountsPanelMixin:GetOption()
     }
 end
 
-function LiteMountMountsPanelMixin:SetOption(v)
-    LM.Options:SetRawFlagChanges(v[1])
-    LM.Options:SetRawMountPriorities(v[2])
-    LM.Options:SetRawGroups(v[3], v[4])
+function LiteMountMountsPanelMixin:LoadSettings(v)
+    local dontFire = true
+    LM.Options:SetRawFlagChanges(v[1], dontFire)
+    LM.Options:SetRawMountPriorities(v[2], dontFire)
+    LM.Options:SetRawGroups(v[3], v[4], dontFire)
+end
+
+function LiteMountMountsPanelMixin:LoadDefaultSettings()
+    local dontFire = true
+    LM.Options:ResetAllMountFlags(true)
+    LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil, dontFire)
 end
 
 function LiteMountMountsPanelMixin:RefreshDisplay()
@@ -58,6 +65,8 @@ function LiteMountMountsPanelMixin:RefreshDisplay()
         local label = self["BitLabel"..i]
         label:SetShown(self.selectedTab==1)
     end
+
+    LM.MountRegistry:RefreshMounts(true)
 
     -- Update the counts, Journal-only
     local counts = LM.MountRegistry:GetJournalTotals()
@@ -82,14 +91,6 @@ function LiteMountMountsPanelMixin:RefreshDisplay()
     LiteMountOptionsPanelMixin.RefreshDisplay(self)
 end
 
-function LiteMountMountsPanelMixin:OnDefault()
-    LM.UIDebug(self, 'Custom_Default')
-    self:MarkDirty()
-    LM.Options:ResetAllMountFlags()
-    LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil)
-    self:RefreshDisplay()
-end
-
 function LiteMountMountsPanelMixin:SetTab(n)
     if self.selectedTab ~= n then
         self.selectedTab = n
@@ -101,7 +102,6 @@ end
 
 local function ActionMenuGenerate(owner, rootDescription)
     local parent = owner:GetParent()
-    local function dirtyFunc() parent:MarkDirty() end
 
     rootDescription:CreateTitle(L.LM_ACTION_MENU_TITLE)
 
@@ -110,12 +110,12 @@ local function ActionMenuGenerate(owner, rootDescription)
     local groupMenu = rootDescription:CreateButton(L.LM_GROUPS)
     for _, g in pairs(allGroups) do
         local function Add()
-            dirtyFunc()
+            parent:MarkDirty()
             local mounts = LM.UIFilter.GetFilteredMountList()
             LM.Options:SetMountGroupList(mounts, g)
         end
         local function Clear()
-            dirtyFunc()
+            parent:MarkDirty()
             local mounts = LM.UIFilter.GetFilteredMountList()
             LM.Options:ClearMountGroupList(mounts, g)
         end
@@ -131,7 +131,7 @@ local function ActionMenuGenerate(owner, rootDescription)
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
         local t, d = LM.UIFilter.GetPriorityText(p)
         local function Set()
-            dirtyFunc()
+            parent:MarkDirty()
             local mounts = LM.UIFilter.GetFilteredMountList()
             LM.Options:SetPriorityList(mounts, p)
         end
@@ -205,11 +205,7 @@ function LiteMountMountsPanelMixin:OnLoad()
     end
 
     -- MOUNT_JOURNAL_USABILITY_CHANGED
-    self:SetScript('OnEvent',
-        function ()
-            LM.MountRegistry:RefreshMounts(true)
-            self:RefreshDisplay()
-        end)
+    self:SetScript('OnEvent', self.RefreshDisplay)
 
     -- Set up the tabs
     if WOW_PROJECT_ID == 1 then
@@ -252,12 +248,12 @@ end
 
 function LiteMountMountsPanelMixin:OnShow()
     LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.ScrollBox, 'TOPLEFT', 0, 15)
-    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "Refresh")
-    LM.MountRegistry:RefreshMounts()
-    LM.MountRegistry:UpdateFilterUsability()
-    LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "Refresh")
+    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "RefreshDisplay")
+    LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "RefreshDisplay")
 
     self.ActionDropdown:SetupMenu(ActionMenuGenerate)
+
+    LM.MountRegistry:UpdateFilterUsability()
 
     self:RegisterEvent('MOUNT_JOURNAL_USABILITY_CHANGED')
 

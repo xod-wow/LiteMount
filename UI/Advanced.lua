@@ -68,18 +68,27 @@ function LiteMountAdvancedPanelMixin:CheckCompileErrors(text)
     end
 end
 
-function LiteMountAdvancedPanelMixin:SetOption(v, i)
-    if self:CheckCompileErrors(v) then
-        LM.Options:SetButtonRuleSet(i, v)
+function LiteMountAdvancedPanelMixin:LoadSettings(sets)
+    local dontFire = true
+    for i = 1, self.ntabs do
+        LM.Options:SetButtonRuleSet(i, sets[i], dontFire)
     end
 end
 
-function LiteMountAdvancedPanelMixin:GetOption(i)
-    return LM.Options:GetButtonRuleSet(i)
+function LiteMountAdvancedPanelMixin:SaveSettings(i)
+    local sets = {}
+    for i = 1, self.ntabs do
+        sets[i] = LM.Options:GetButtonRuleSet(i)
+    end
+    return sets
 end
 
-function LiteMountAdvancedPanelMixin:GetOptionDefault()
-    return LM.Options:GetButtonRuleSet('__default__')
+function LiteMountAdvancedPanelMixin:LoadDefaultSettings()
+    local rules = LM.Options:GetButtonRuleSet('__default__')
+    local dontFire = true
+    for i = 1, self.ntabs or 1 do
+        LM.Options:SetButtonRuleSet(i, rules, dontFire)
+    end
 end
 
 function LiteMountAdvancedPanelMixin:RefreshDisplay()
@@ -98,10 +107,11 @@ function LiteMountAdvancedPanelMixin:OnLoad()
     editBox:SetFontObject(LiteMountMonoFont)
     editBox:SetScript('OnTextChanged',
         function (_, userInput)
-            self:MarkDirty()
             if userInput == true then
                 LM.UIDebug(self, "Control_OnTextChanged")
-                self:SetOption(editBox:GetText(), self.tab)
+                self:MarkDirty()
+                LM.Options:SetButtonRuleSet(self.tab, editBox:GetText())
+                -- dontFire isn't set, so no need to RefreshDisplay
             end
         end)
     self.BindingDropDown:SetupMenu(BindingGenerator)
