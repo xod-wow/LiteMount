@@ -427,6 +427,7 @@ end
 local InstanceFlyableOverride = {
     [1662] = false,     -- Suramar campaign scenario
     [1750] = false,     -- Azuremyst Isle
+    [2005] = false,     -- Battle of Ardenweald (Shadowlands)
     [2275] = false,     -- Lesser Vision Vale of Eternal Twilight
     [2512] = true,      -- The Primalist Future
     [2549] =            -- Amirdrassil Raid
@@ -439,7 +440,7 @@ local InstanceFlyableOverride = {
         end,
     [2597] = false,     -- Zaralek Caverns - Chapter 1 Scenario
                         -- The debuff "Hostile Airways" (406608) but it's always up
-    [2662] = true,      -- The Dawnbreaker (Dungeon) after /reload it goes wrong
+    [2662] = true,      -- The Dawnbreaker (TWW Dungeon) after /reload it goes wrong
 }
 
 function LM.Environment:GetFlyableOverride()
