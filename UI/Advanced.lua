@@ -42,7 +42,7 @@ end
 
 local function BindingGenerator(owner, rootDescription)
     local self = LiteMountAdvancedPanel
-    local IsSelected = function (v) return self.tab == v end
+    local IsSelected = function (v) return self.selectedTab == v end
     local SetSelected = function (v) self:SetTab(v) end
     for i = 1, self.ntabs do
         rootDescription:CreateRadio(BindingText(i), IsSelected, SetSelected, i)
@@ -68,46 +68,59 @@ function LiteMountAdvancedPanelMixin:CheckCompileErrors(text)
     end
 end
 
-function LiteMountAdvancedPanelMixin:SetOption(v, i)
-    if self:CheckCompileErrors(v) then
-        LM.Options:SetButtonRuleSet(i, v)
+function LiteMountAdvancedPanelMixin:LoadSettings(sets)
+    local dontFire = true
+    for i = 1, self.ntabs do
+        LM.Options:SetButtonRuleSet(i, sets[i], dontFire)
     end
 end
 
-function LiteMountAdvancedPanelMixin:GetOption(i)
-    return LM.Options:GetButtonRuleSet(i)
+function LiteMountAdvancedPanelMixin:SaveSettings()
+    local sets = {}
+    for i = 1, self.ntabs do
+        sets[i] = LM.Options:GetButtonRuleSet(i)
+    end
+    return sets
 end
 
-function LiteMountAdvancedPanelMixin:GetOptionDefault()
-    return LM.Options:GetButtonRuleSet('__default__')
+function LiteMountAdvancedPanelMixin:LoadDefaultSettings()
+    local rules = LM.Options:GetButtonRuleSet('__default__')
+    local dontFire = true
+    for i = 1, self.ntabs or 1 do
+        LM.Options:SetButtonRuleSet(i, rules, dontFire)
+    end
 end
 
-function LiteMountAdvancedPanelMixin:SetControl(v)
-    self.EditScroll.ScrollBox.EditBox:SetText(v)
-    self:CheckCompileErrors(v)
+function LiteMountAdvancedPanelMixin:RefreshDisplay()
+    local rulesText = LM.Options:GetButtonRuleSet(self.selectedTab)
+    self.EditScroll.ScrollBox.EditBox:SetText(rulesText)
+    self:CheckCompileErrors(rulesText)
+    LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountAdvancedPanelMixin:OnLoad()
     self.name = ADVANCED_OPTIONS
     self.ntabs = 4
+    self.selectedTab = 1
 
     local editBox = self.EditScroll.ScrollBox.EditBox
     editBox:SetFontObject(LiteMountMonoFont)
     editBox:SetScript('OnTextChanged',
         function (_, userInput)
-            self.isDirty = true
             if userInput == true then
                 LM.UIDebug(self, "Control_OnTextChanged")
-                self:SetOption(editBox:GetText(), self.tab)
+                self:MarkDirty()
+                LM.Options:SetButtonRuleSet(self.selectedTab, editBox:GetText())
+                -- dontFire isn't set, so no need to RefreshDisplay
             end
         end)
     self.BindingDropDown:SetupMenu(BindingGenerator)
 
     ScrollUtil.RegisterScrollBoxWithScrollBar(self.EditScroll.ScrollBox, self.ScrollBar)
-    LiteMountOptionsPanelMixin.OnLoad(self)
+    LiteMountSettingsPanelMixin.OnLoad(self)
 end
 
 function LiteMountAdvancedPanelMixin:OnShow()
     self.UnlockButton:Show()
-    LiteMountOptionsPanelMixin.OnShow(self)
+    LiteMountSettingsPanelMixin.OnShow(self)
 end

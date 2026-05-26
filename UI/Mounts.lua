@@ -24,7 +24,7 @@ local TabNames = {
 
 LiteMountMountsPanelMixin = {}
 
-function LiteMountMountsPanelMixin:GetOption()
+function LiteMountMountsPanelMixin:SaveSettings()
     local profileGroups, globalGroups = LM.Options:GetRawGroups()
     return {
         CopyTable(LM.Options:GetRawFlagChanges(), true),
@@ -34,55 +34,59 @@ function LiteMountMountsPanelMixin:GetOption()
     }
 end
 
-function LiteMountMountsPanelMixin:SetOption(v)
-    LM.Options:SetRawFlagChanges(v[1])
-    LM.Options:SetRawMountPriorities(v[2])
-    LM.Options:SetRawGroups(v[3], v[4])
+function LiteMountMountsPanelMixin:LoadSettings(v)
+    local dontFire = true
+    LM.Options:SetRawFlagChanges(v[1], dontFire)
+    LM.Options:SetRawMountPriorities(v[2], dontFire)
+    LM.Options:SetRawGroups(v[3], v[4], dontFire)
 end
 
--- The only control: does all the triggered updating for the entire panel
-function LiteMountMountsPanelMixin:SetControl()
-    self:Update()
+function LiteMountMountsPanelMixin:LoadDefaultSettings()
+    local dontFire = true
+    LM.Options:ResetAllMountFlags(true)
+    LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil, dontFire)
 end
 
-function LiteMountMountsPanelMixin:Update()
+function LiteMountMountsPanelMixin:RefreshDisplay()
+    local currentTab = PanelTemplates_GetSelectedTab(self)
+
+    local view = self.viewsByTabs[currentTab]
+    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
+
+    self.PriorityLabel:SetShown(currentTab==1)
+
+    for i = 1, 4 do
+        local label = self["BitLabel"..i]
+        label:SetShown(currentTab==1)
+    end
+
+    LM.MountRegistry:RefreshMounts(true)
+
+    -- Update the counts, Journal-only
+    local counts = LM.MountRegistry:GetJournalTotals()
+    self.Counts:SetText(
+            string.format(
+                '%s: %s %s: %s %s: %s',
+                TOTAL,
+                WHITE_FONT_COLOR:WrapTextInColorCode(counts.total),
+                COLLECTED,
+                WHITE_FONT_COLOR:WrapTextInColorCode(counts.collected),
+                L.LM_USABLE,
+                WHITE_FONT_COLOR:WrapTextInColorCode(counts.usable)
+            )
+        )
+
     -- Hopefully with InsecureActionButtonTemplate it's ok to refresh in combat
     local currentView = self.ScrollBox:GetView()
     local wantTree = ( currentView.stride == nil )
     local dp = LM.UIFilter.GetFilteredMountDataProvider(wantTree)
     self.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
-end
 
-function LiteMountMountsPanelMixin:OnDefault()
-    LM.UIDebug(self, 'Custom_Default')
-    self.isDirty = true
-    LM.Options:ResetAllMountFlags()
-    LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil)
-    self:Update()
-end
-
-function LiteMountMountsPanelMixin:SetupFromTabbing()
-    -- Note this is always 1 for classic with tabs disabled
-    local n = self.selectedTab or 1
-    for i, tabButton in ipairs(self.Tabs) do
-        if i == n then
-            PanelTemplates_SelectTab(tabButton)
-        else
-            PanelTemplates_DeselectTab(tabButton)
-        end
-    end
-    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, self.tabViews[n])
-
-    self.PriorityLabel:SetShown(n==1)
-    for i = 1, 4 do
-        local label = self["BitLabel"..i]
-        label:SetShown(n==1)
-    end
+    LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
 
 local function ActionMenuGenerate(owner, rootDescription)
     local parent = owner:GetParent()
-    local function dirtyFunc() parent.isDirty = true end
 
     rootDescription:CreateTitle(L.LM_ACTION_MENU_TITLE)
 
@@ -91,12 +95,12 @@ local function ActionMenuGenerate(owner, rootDescription)
     local groupMenu = rootDescription:CreateButton(L.LM_GROUPS)
     for _, g in pairs(allGroups) do
         local function Add()
-            dirtyFunc()
+            parent:MarkDirty()
             local mounts = LM.UIFilter.GetFilteredMountList()
             LM.Options:SetMountGroupList(mounts, g)
         end
         local function Clear()
-            dirtyFunc()
+            parent:MarkDirty()
             local mounts = LM.UIFilter.GetFilteredMountList()
             LM.Options:ClearMountGroupList(mounts, g)
         end
@@ -112,7 +116,7 @@ local function ActionMenuGenerate(owner, rootDescription)
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
         local t, d = LM.UIFilter.GetPriorityText(p)
         local function Set()
-            dirtyFunc()
+            parent:MarkDirty()
             local mounts = LM.UIFilter.GetFilteredMountList()
             LM.Options:SetPriorityList(mounts, p)
         end
@@ -121,12 +125,12 @@ local function ActionMenuGenerate(owner, rootDescription)
 end
 
 function LiteMountMountsPanelMixin:OnLoad()
-    self.tabViews = {}
+    self.viewsByTabs = {}
 
-    local function dirtyFunc() self.isDirty = true end
+    local function dirtyFunc() self:MarkDirty() end
 
-    self.tabViews[1] = CreateScrollBoxListTreeListView()
-    self.tabViews[1]:SetElementFactory(
+    self.viewsByTabs[1] = CreateScrollBoxListTreeListView()
+    self.viewsByTabs[1]:SetElementFactory(
         function (factory, node)
             local data = node:GetData()
             if data.isHeader then
@@ -148,7 +152,7 @@ function LiteMountMountsPanelMixin:OnLoad()
                     end)
             end
         end)
-    self.tabViews[1]:SetElementExtentCalculator(
+    self.viewsByTabs[1]:SetElementExtentCalculator(
         function (dataIndex, node)
             if node:GetData().isHeader then
                 return 22
@@ -156,7 +160,7 @@ function LiteMountMountsPanelMixin:OnLoad()
                 return 44
             end
         end)
-    self.tabViews[1]:SetElementIndentCalculator(
+    self.viewsByTabs[1]:SetElementIndentCalculator(
         function (node)
             if LM.UIFilter.GetSortKey() ~= 'family' or node:GetData().isHeader then
                 return 0
@@ -167,16 +171,17 @@ function LiteMountMountsPanelMixin:OnLoad()
 
     -- CreateScrollBoxListGridView(stride, top, bottom, left, right, horizontalSpacing, verticalSpacing)
     local stride = 3
-    self.tabViews[2] = CreateScrollBoxListGridView(stride, 0, 0, 0, 0, 5, 5)
-    self.tabViews[2]:SetElementInitializer("LiteMountMountGridButtonTemplate",
+    self.viewsByTabs[2] = CreateScrollBoxListGridView(stride, 0, 0, 0, 0, 5, 5)
+    self.viewsByTabs[2]:SetElementInitializer("LiteMountMountGridButtonTemplate",
         function (button, elementData)
             button:Initialize(elementData, self.allFlags)
             button:SetDirtyCallback(dirtyFunc)
         end)
 
-    self:SetupFromTabbing()
-
     self.name = MOUNTS
+
+    PanelTemplates_SetNumTabs(self, 2)
+    PanelTemplates_SetTab(self, 1)
 
     self.allFlags = LM.Options:GetFlags()
 
@@ -188,11 +193,7 @@ function LiteMountMountsPanelMixin:OnLoad()
     end
 
     -- MOUNT_JOURNAL_USABILITY_CHANGED
-    self:SetScript('OnEvent',
-        function ()
-            LM.MountRegistry:RefreshMounts(true)
-            self:Update()
-        end)
+    self:SetScript('OnEvent', self.RefreshDisplay)
 
     -- Set up the tabs
     if WOW_PROJECT_ID == 1 then
@@ -206,9 +207,8 @@ function LiteMountMountsPanelMixin:OnLoad()
             tabButton:SetText(TabNames[i])
             tabButton:SetScript('OnClick',
                 function ()
-                    self.selectedTab = i
-                    self:SetupFromTabbing()
-                    self:Update()
+                    PanelTemplates_SetTab(self, i)
+                    self:RefreshDisplay()
                 end)
         end
         PanelTemplates_ResizeTabsToFit(self, self.ScrollBox:GetWidth() - 32)
@@ -230,42 +230,26 @@ function LiteMountMountsPanelMixin:OnLoad()
     self.NextFamily:Show()
     --@end-debug@
 
-    LiteMountOptionsPanelMixin.OnLoad(self)
+    LiteMountSettingsPanelMixin.OnLoad(self)
 end
 
 function LiteMountMountsPanelMixin:OnShow()
     LiteMountFilter:Attach(self, 'BOTTOMLEFT', self.ScrollBox, 'TOPLEFT', 0, 15)
-    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "Refresh")
-    LM.MountRegistry:RefreshMounts()
-    LM.MountRegistry:UpdateFilterUsability()
-    LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "Refresh")
-
-    -- self:Update()
-
-    -- Update the counts, Journal-only
-    local counts = LM.MountRegistry:GetJournalTotals()
-    self.Counts:SetText(
-            string.format(
-                '%s: %s %s: %s %s: %s',
-                TOTAL,
-                WHITE_FONT_COLOR:WrapTextInColorCode(counts.total),
-                COLLECTED,
-                WHITE_FONT_COLOR:WrapTextInColorCode(counts.collected),
-                L.LM_USABLE,
-                WHITE_FONT_COLOR:WrapTextInColorCode(counts.usable)
-            )
-        )
+    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "RefreshDisplay")
+    LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "RefreshDisplay")
 
     self.ActionDropdown:SetupMenu(ActionMenuGenerate)
 
+    LM.MountRegistry:UpdateFilterUsability()
+
     self:RegisterEvent('MOUNT_JOURNAL_USABILITY_CHANGED')
 
-    LiteMountOptionsPanelMixin.OnShow(self)
+    LiteMountSettingsPanelMixin.OnShow(self)
 end
 
 function LiteMountMountsPanelMixin:OnHide()
     LM.UIFilter.UnregisterAllCallbacks(self)
     LM.MountRegistry.UnregisterAllCallbacks(self)
     self:UnregisterAllEvents()
-    LiteMountOptionsPanelMixin.OnHide(self)
+    LiteMountSettingsPanelMixin.OnHide(self)
 end

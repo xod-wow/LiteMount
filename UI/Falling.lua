@@ -101,7 +101,7 @@ local function BindingGenerator(owner, rootDescription)
     end
 end
 
-function LiteMountFallingAddMixin:Update()
+function LiteMountFallingAddMixin:RefreshDisplay()
     local text = self.EditBox:GetText()
     self.Name:SetText('')
     self.AddButton:Disable()
@@ -157,7 +157,7 @@ function LiteMountFallingAddMixin:Add()
 end
 
 function LiteMountFallingAddMixin:OnLoad()
-    self.EditBox:SetScript('OnTextChanged', function () self:Update() end)
+    self.EditBox:SetScript('OnTextChanged', function () self:RefreshDisplay() end)
     self.AddButton:SetScript('OnClick', function () self:Add() end)
     self.CancelButton:SetScript('OnClick', function () self:Hide() end)
 end
@@ -172,7 +172,7 @@ end
 function LiteMountFallingAddMixin:OnShow()
     self.type = addTypeOptions[1]
     self.EditBox:SetText('')
-    self:Update()
+    self:RefreshDisplay()
     self.Dropdown:SetupMenu(BindingGenerator)
 end
 
@@ -185,9 +185,9 @@ function LiteMountFallingPanelMixin:OnLoad()
     view:SetElementInitializer("LiteMountItemSpellTemplate",
         function (button, elementData)
             local function Delete()
-                self.isDirty = true
                 local falling = LM.Options:GetOption('falling')
                 tDeleteItem(falling, elementData)
+                self:MarkDirty()
                 LM.Options:SetOption('falling', falling)
             end
             button:Initialize(elementData, Delete)
@@ -198,11 +198,11 @@ function LiteMountFallingPanelMixin:OnLoad()
     dragBehavior:SetReorderable(true)
     dragBehavior:SetPostDrop(
         function (contextData)
-            self.isDirty = true
             local falling = {}
             for _, elementData in contextData.dataProvider:EnumerateEntireRange() do
                 table.insert(falling, elementData)
             end
+            self:MarkDirty()
             LM.Options:SetOption('falling', falling)
         end)
 
@@ -211,23 +211,27 @@ function LiteMountFallingPanelMixin:OnLoad()
             self:PopOver(LiteMountFallingAdd)
         end)
 
-    LiteMountOptionsPanelMixin.OnLoad(self)
+    LiteMountSettingsPanelMixin.OnLoad(self)
 end
 
-function LiteMountFallingPanelMixin:SetOption(v)
-    LM.Options:SetOption('falling', v)
+function LiteMountFallingPanelMixin:LoadSettings(v)
+    local dontFire = true
+    LM.Options:SetOption('falling', v, dontFire)
 end
 
-function LiteMountFallingPanelMixin:GetOption()
+function LiteMountFallingPanelMixin:SaveSettings()
     return CopyTable(LM.Options:GetOption('falling'))
 end
 
-function LiteMountFallingPanelMixin:GetOptionDefault()
-    return CopyTable(LM.Options:GetOptionDefault('falling'))
+function LiteMountFallingPanelMixin:LoadDefaultSettings()
+    local defaults = CopyTable(LM.Options:GetOptionDefault('falling'))
+    local dontFire = true
+    LM.Options:SetOption('falling', defaults, dontFire)
 end
 
-function LiteMountFallingPanelMixin:SetControl()
+function LiteMountFallingPanelMixin:RefreshDisplay()
     local falling = LM.Options:GetOption('falling')
     local dp = CreateDataProvider(falling)
     self.Scroll:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
+    LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end

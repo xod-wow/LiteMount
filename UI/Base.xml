@@ -2,7 +2,7 @@
 
 <!-- Copyright 2011 Mike Battersby -->
 
-<Frame name="LiteMountOptions" hidden="true" inherits="LiteMountOptionsPanelTemplate">
+<Frame name="LiteMountBasePanel" hidden="true" inherits="LiteMountSettingsPanelTemplate">
     <KeyValues>
         <KeyValue key="hideRevertButton" value="true" type="boolean" />
         <KeyValue key="hideDefaultsButton" value="true" type="boolean" />
@@ -141,7 +141,7 @@
             self.HelpURL.url = 'https://github.com/xod-wow/LiteMount/wiki'
             self.TranslateURL.url = 'https://www.curseforge.com/wow/addons/litemount/localization'
 
-            LiteMountOptionsPanelMixin.OnLoad(self)
+            LiteMountSettingsPanelMixin.OnLoad(self)
         </OnLoad>
     </Scripts>
 </Frame>

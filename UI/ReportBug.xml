@@ -4,7 +4,7 @@
 
 <Script file="ReportBug.lua" />
 
-<Frame name="LiteMountReportBugPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountReportBugMixin">
+<Frame name="LiteMountReportBugPanel" hidden="true" inherits="LiteMountSettingsPanelTemplate" mixin="LiteMountReportBugMixin">
     <KeyValues>
         <KeyValue key="hideRevertButton" value="true" type="boolean" />
         <KeyValue key="hideDefaultsButton" value="true" type="boolean" />

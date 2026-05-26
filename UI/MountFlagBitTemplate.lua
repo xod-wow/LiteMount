@@ -51,7 +51,7 @@ function LiteMountFlagBitMixin:OnLeave()
     end
 end
 
-function LiteMountFlagBitMixin:Update(mount, flag)
+function LiteMountFlagBitMixin:Initialize(mount, flag)
     self.mount = mount
     self.flag = flag
 

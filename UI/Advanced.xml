@@ -4,7 +4,7 @@
 
 <Script file="Advanced.lua" />
 
-<Frame name="LiteMountAdvancedPanel" hidden="true" inherits="LiteMountOptionsPanelTemplate" mixin="LiteMountAdvancedPanelMixin">
+<Frame name="LiteMountAdvancedPanel" hidden="true" inherits="LiteMountSettingsPanelTemplate" mixin="LiteMountAdvancedPanelMixin">
 
     <Layers>
         <Layer level="ARTWORK">

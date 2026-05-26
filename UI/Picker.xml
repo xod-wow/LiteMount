@@ -30,21 +30,27 @@
     <Anchors>
         <Anchor point="CENTER" y="80" />
     </Anchors>
-    <Scripts>
-        <OnSizeChanged method="OnSizeChanged" />
-    </Scripts>
     <Frames>
         <Button inherits="UIPanelCloseButton">
             <Anchors>
                 <Anchor point="TOPRIGHT" x="-4" y="-4" />
             </Anchors>
         </Button>
-        <ScrollFrame name="$parentScroll" parentKey="Scroll" inherits="MinimalHybridScrollFrameTemplate">
+        <ScrollFrame parentKey="Scroll" inherits="WoWScrollBoxList">
             <Anchors>
                 <Anchor point="TOPLEFT" x="8" y="-42" />
                 <Anchor point="BOTTOMRIGHT" x="-28" y="8" />
             </Anchors>
         </ScrollFrame>
+        <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
+            <KeyValues>
+                <KeyValue key="hideIfUnscrollable" value="false" type="boolean" />
+            </KeyValues>
+            <Anchors>
+                <Anchor point="TOPRIGHT" relativeKey="$parent.ScrollBox" x="-2" y="0"/>
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollBox" x="-2" y="0"/>
+            </Anchors>
+        </EventFrame>
     </Frames>
 </Frame>
 

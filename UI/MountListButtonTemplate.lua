@@ -95,11 +95,11 @@ function LiteMountMountListButtonMixin:Initialize(mount)
 
     local i = 1
     while self["Bit"..i] do
-        self["Bit"..i]:Update(mount, allTypeFlags[i])
+        self["Bit"..i]:Initialize(mount, allTypeFlags[i])
         i = i + 1
     end
 
-    self.Priority:Update(mount)
+    self.Priority:Initialize(mount)
 end
 
 
