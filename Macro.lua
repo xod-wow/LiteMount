@@ -158,3 +158,56 @@ function LM.Macro:DefaultCombatMacro()
 
     return mt
 end
+
+function LM.Macro:GetRawSettings()
+    local function GetRawTable(base)
+        return {
+            useUnavailableMacro = base.useUnavailableMacro,
+            unavailableMacro = base.unavailableMacro,
+            useCombatMacro = base.useCombatMacro,
+            combatMacro = base.combatMacro,
+        }
+    end
+    local raw = {
+        char = GetRawTable(LM.db.char),
+        class = {}
+    }
+    if LM.db.sv.class then
+        for className, base in pairs(LM.db.sv.class) do
+            raw.class[className] = GetRawTable(base)
+        end
+    end
+    return raw
+end
+
+function LM.Macro:SetRawSettings(saved)
+    local function SetRawTable(base, t)
+        base.useUnavailableMacro = t.useUnavailableMacro
+        base.unavailableMacro = t.unavailableMacro
+        base.useCombatMacro = t.useCombatMacro
+        base.combatMacro = t.combatMacro
+    end
+    SetRawTable(LM.db.char, saved.char)
+    for i = 1, GetNumClasses() do
+        local _, key, id = GetClassInfo(i)
+        if saved.class[key] then
+            LM.db.sv.class[key] = LM.db.sv.class[key] or {}
+            SetRawTable(LM.db.sv.class[key], saved.class[key])
+        elseif LM.db.sv.class[key] then
+            SetRawTable(LM.db.sv.class[key], {})
+        end
+    end
+end
+
+function LM.Macro:SetDefaultSettings()
+    local defaults = {
+        char = {
+            useUnavailableMacro = LM.Options:GetOptionDefault("useUnavailableMacro"),
+            unavailableMacro = LM.Options:GetOptionDefault("unavailableMacro"),
+            useCombatMacro = LM.Options:GetOptionDefault("useCombatMacro"),
+            combatMacro = LM.Options:GetOptionDefault("combatMacro"),
+        },
+        class = {}
+    }
+    self:SetRawSettings(defaults)
+end
