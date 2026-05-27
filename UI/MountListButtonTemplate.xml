@@ -119,13 +119,13 @@
 <Button name="LiteMountMountGridButtonTemplate" virtual="true" mixin="LiteMountMountGridButtonMixin" inherits="LiteMountListItemStyleTemplate">
     <Size x="199" y="143" />
     <Frames>
-        <ModelScene parentKey="ModelScene" inherits="LiteMountMountModelSceneTemplate" frameStrata="ARTWORK">
+        <ModelScene parentKey="ModelScene" inherits="LiteMountMountModelSceneTemplate" frameStrata="BACKGROUND">
             <Anchors>
                 <Anchor point="TOPLEFT" x="4" y= "-4" />
                 <Anchor point="BOTTOMRIGHT" x="-4" y= "4" />
             </Anchors>
         </ModelScene>
-        <Button parentKey="Icon" inherits="LiteMountMountIconTemplate">
+        <Button parentKey="Icon" inherits="LiteMountMountIconTemplate" frameStrata="OVERLAY">
             <Anchors>
                 <Anchor point="TOPLEFT" x="4" y="-4" />
             </Anchors>
