@@ -139,18 +139,11 @@
                 <Anchor point="BOTTOMLEFT" relativeKey="$parent.MountScrollBox" relativePoint="BOTTOMRIGHT" x="4" y="0"/>
             </Anchors>
         </EventFrame>
-        <CheckButton parentKey="ShowAll">
+        <CheckButton parentKey="ShowAllButton">
             <Size x="22" y="22" />
             <Anchors>
                 <Anchor point="BOTTOMRIGHT" relativeKey="$parent.MountsContainer" relativePoint="TOPRIGHT" x="-4" y="8" />
             </Anchors>
-            <Scripts>
-                <OnClick>
-                    local parent = self:GetParent()
-                    parent.showAll = self:GetChecked() or nil
-                    parent:Refresh()
-                </OnClick>
-            </Scripts>
             <NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
             <PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
             <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>

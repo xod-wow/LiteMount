@@ -266,6 +266,7 @@ function LiteMountSettingsPanelMixin:UpdatePopOverDisplay()
 end
 
 function LiteMountSettingsPanelMixin:PopOver(f)
+    LM.UIDebug(self, "Panel_PopOver: %s", f:GetName() or tostring(f))
     self.popOverStack = self.popOverStack or {}
     f.origOnHide = f:GetScript('OnHide')
     table.insert(self.popOverStack, f)
@@ -275,6 +276,7 @@ end
 function LiteMountSettingsPanelMixin:RemoveTopPopOver()
     local f = table.remove(self.popOverStack)
     if f then
+        LM.UIDebug(self, "Panel_RemoveTopPopOver: %s", f:GetName() or tostring(f))
         f:SetParent(nil)
         f:ClearAllPoints()
         if f.origOnHide then f.origOnHide(f) end

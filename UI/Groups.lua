@@ -195,7 +195,7 @@ end
 function LiteMountGroupsPanelMixin:RefreshDisplay()
     self:RefreshGroupList()
     self:RefreshMountList()
-    self.ShowAll:SetChecked(self.showAll)
+    self.ShowAllButton:SetChecked(self.showAll)
     LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
 
@@ -246,6 +246,12 @@ function LiteMountGroupsPanelMixin:OnLoad()
         function ()
             local f = self.selectedGroup
             if f then self:StaticPopupShow("LM_OPTIONS_RENAME_GROUP", f, nil, f) end
+        end)
+
+    self.ShowAllButton:SetScript('OnClick',
+        function (b)
+            self.showAll = b:GetChecked() or nil
+            self:RefreshDisplay()
         end)
 
     local view = CreateScrollBoxListLinearView(0, 0, 0, 0, 2)

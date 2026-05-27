@@ -33,7 +33,7 @@
     <Frames>
         <Button inherits="UIPanelCloseButton">
             <Anchors>
-                <Anchor point="TOPRIGHT" x="-4" y="-4" />
+                <Anchor point="TOPRIGHT" x="-6" y="-6" />
             </Anchors>
         </Button>
         <ScrollFrame parentKey="Scroll" inherits="WoWScrollBoxList">
@@ -47,8 +47,8 @@
                 <KeyValue key="hideIfUnscrollable" value="false" type="boolean" />
             </KeyValues>
             <Anchors>
-                <Anchor point="TOPRIGHT" relativeKey="$parent.ScrollBox" x="-2" y="0"/>
-                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ScrollBox" x="-2" y="0"/>
+                <Anchor point="TOPRIGHT" relativeKey="$parent.Scroll" x="8" y="-2"/>
+                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Scroll" x="8" y="2"/>
             </Anchors>
         </EventFrame>
     </Frames>

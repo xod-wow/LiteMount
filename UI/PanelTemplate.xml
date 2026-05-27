@@ -53,14 +53,14 @@
                 <Anchor point="TOPLEFT" x="-8" y="8" />
                 <Anchor point="BOTTOMRIGHT" x="8" y="-8" />
             </Anchors>
+            <Scripts>
+                <OnLoad>
+                    local layout = NineSliceUtil.GetLayout("ChatBubble")
+                    NineSliceUtil.ApplyLayout(self, layout)
+                </OnLoad>
+            </Scripts>
         </Frame>
     </Frames>
-    <Scripts>
-        <OnLoad inherit="append">
-            local layout = NineSliceUtil.GetLayout("ChatBubble")
-            NineSliceUtil.ApplyLayout(self.NineSlice, layout)
-        </OnLoad>
-    </Scripts>
 </Frame>
 
 <Button name="LiteMountUIButtonTemplate" virtual="true">
