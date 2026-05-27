@@ -154,7 +154,6 @@ LiteMountGroupsPanelMixin = {}
 function LiteMountGroupsPanelMixin:SelectGroup(group)
     self.selectedGroup = group
     self:RefreshDisplay()
-    LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountGroupsPanelMixin:RefreshGroupList()
@@ -197,6 +196,7 @@ function LiteMountGroupsPanelMixin:RefreshDisplay()
     self:RefreshGroupList()
     self:RefreshMountList()
     self.ShowAll:SetChecked(self.showAll)
+    LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountGroupsPanelMixin:GetDisplayedMountList(group)

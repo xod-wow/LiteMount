@@ -108,7 +108,6 @@ function LiteMountAdvancedPanelMixin:OnLoad()
     editBox:SetScript('OnTextChanged',
         function (_, userInput)
             if userInput == true then
-                LM.UIDebug(self, "Control_OnTextChanged")
                 self:MarkDirty()
                 LM.Options:SetButtonRuleSet(self.selectedTab, editBox:GetText())
                 -- dontFire isn't set, so no need to RefreshDisplay
