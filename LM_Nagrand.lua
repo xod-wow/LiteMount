@@ -29,10 +29,10 @@ function LM.Nagrand:Get(data)
     if m then
         m.baseSpellID = LM.SPELL.GARRISON_ABILITY
         m.baseSpellName = C_Spell.GetSpellName(m.baseSpellID)
-    end
 
-    local playerFaction = UnitFactionGroup("player")
-    m.isHidden = ( playerFaction ~= self.needsFaction )
+        local playerFaction = UnitFactionGroup("player")
+        m.isHidden = ( playerFaction ~= self.needsFaction )
+    end
 
     return m
 end
