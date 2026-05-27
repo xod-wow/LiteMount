@@ -216,7 +216,7 @@ end
 
 function LiteMountFallingPanelMixin:LoadSettings(v)
     local dontFire = true
-    LM.Options:SetOption('falling', v, dontFire)
+    LM.Options:SetOption('falling', CopyTable(v), dontFire)
 end
 
 function LiteMountFallingPanelMixin:SaveSettings()

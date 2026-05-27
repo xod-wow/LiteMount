@@ -172,6 +172,11 @@ function LiteMountSettingsPanelMixin:OnDefault()
     self:RefreshDisplay()
 end
 
+-- This has annoying issues where multiple panels save the same setting
+-- (e.g., Groups panel and Mounts panel both save the groups). It might be
+-- possible to do one big save of the entire SV and then the individual
+-- panels could restore their parts from it, but probably not worth the effort.
+
 function LiteMountSettingsPanelMixin:OnRevert()
     LM.UIDebug(self, "Panel_OnRevert")
     if self.isDirty then

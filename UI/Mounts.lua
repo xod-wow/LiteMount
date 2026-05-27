@@ -27,23 +27,23 @@ LiteMountMountsPanelMixin = {}
 function LiteMountMountsPanelMixin:SaveSettings()
     local profileGroups, globalGroups = LM.Options:GetRawGroups()
     return {
-        CopyTable(LM.Options:GetRawFlagChanges(), true),
-        CopyTable(LM.Options:GetRawMountPriorities()),
-        CopyTable(profileGroups),
-        CopyTable(globalGroups),
+        rawFlagChanges = CopyTable(LM.Options:GetRawFlagChanges()),
+        rawMountPriorities = CopyTable(LM.Options:GetRawMountPriorities()),
+        profileGroups = CopyTable(profileGroups),
+        globalGroups = CopyTable(globalGroups),
     }
 end
 
 function LiteMountMountsPanelMixin:LoadSettings(v)
     local dontFire = true
-    LM.Options:SetRawFlagChanges(v[1], dontFire)
-    LM.Options:SetRawMountPriorities(v[2], dontFire)
-    LM.Options:SetRawGroups(v[3], v[4], dontFire)
+    LM.Options:SetRawFlagChanges(CopyTable(v.rawFlagChanges), dontFire)
+    LM.Options:SetRawMountPriorities(CopyTable(v.rawMountPriorities), dontFire)
+    LM.Options:SetRawGroups(CopyTable(v.profileGroups), CopyTable(v.globalGroups), dontFire)
 end
 
 function LiteMountMountsPanelMixin:LoadDefaultSettings()
     local dontFire = true
-    LM.Options:ResetAllMountFlags(true)
+    LM.Options:ResetAllMountFlags(dontFire)
     LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil, dontFire)
 end
 

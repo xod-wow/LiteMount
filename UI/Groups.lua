@@ -178,13 +178,12 @@ end
 
 function LiteMountGroupsPanelMixin:SaveSettings()
     local profile, global = LM.Options:GetRawGroups()
-    return { CopyTable(profile), CopyTable(global) }
+    return { profile=CopyTable(profile), global=CopyTable(global) }
 end
 
 function LiteMountGroupsPanelMixin:LoadSettings(v)
-    local profile, global = unpack(v)
     local dontFire = true
-    LM.Options:SetRawGroups(profile, global, dontFire)
+    LM.Options:SetRawGroups(CopyTable(v.profile), CopyTable(v.global), dontFire)
 end
 
 --[[ this doesnt' seem like a good idea

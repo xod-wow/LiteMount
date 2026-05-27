@@ -14,7 +14,6 @@ local L = LM.L
 
 --[[------------------------------------------------------------------------]]--
 
-local PanelTemplates_AnchorTabs = PanelTemplates_AnchorTabs or LM.PanelTemplates_AnchorTabs
 local C_ClassColor = C_ClassColor or LM.C_ClassColor
 
 
@@ -122,27 +121,20 @@ function LiteMountMacroPanelMixin:RefreshDisplay()
     local dp = CreateDataProvider(self:GenerateClassMenu())
     self.Class.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 
+    PanelTemplates_ResizeTabsToFit(self, self.Macro:GetWidth() - 32)
+
     LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
 
 function LiteMountMacroPanelMixin:LoadSettings(t)
-    local classKey = UnitClassBase('player')
-    LM.db.char = t.char
-    LM.db.class = t.class and t.class[classKey] or nil
-    LM.db.sv.class = t.class
+    LM.Macro:SetRawSettings(CopyTable(t))
 end
 
+function LiteMountMacroPanelMixin:LoadDefaultSettings()
+    LM.Macro:SetDefaultSettings()
+end
 function LiteMountMacroPanelMixin:SaveSettings()
-    return {
-        char = LM.db.char and CopyTable(LM.db.char),
-        class = LM.db.sv.class and CopyTable(LM.db.sv.class),
-    }
-end
-
-function LiteMountMacroPanelMixin:OnShow()
-    PanelTemplates_AnchorTabs(self)
-    PanelTemplates_ResizeTabsToFit(self)
-    LiteMountSettingsPanelMixin.OnShow(self)
+    return CopyTable(LM.Macro:GetRawSettings())
 end
 
 function LiteMountMacroPanelMixin:OnLoad()
@@ -170,6 +162,8 @@ function LiteMountMacroPanelMixin:OnLoad()
             button:SetScript('OnClick', function () self:SetClass(elementData.key) end)
         end)
     ScrollUtil.InitScrollBoxListWithScrollBar(self.Class.ScrollBox, self.Class.ScrollBar, view)
+
+    LiteMountSettingsPanelMixin.OnLoad(self)
 end
 
 function LiteMountMacroPanelMixin:SetTab(id)

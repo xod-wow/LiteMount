@@ -24,6 +24,9 @@
 </Button>
 
 <Frame name="LiteMountMacroPanel" hidden="true" inherits="LiteMountSettingsPanelTemplate" mixin="LiteMountMacroPanelMixin">
+    <Scripts>
+        <OnLoad method="OnLoad" />
+    </Scripts>
 
     <Frames>
         <Frame parentKey="Class" inherits="LiteMountContainerStyleTemplate">
