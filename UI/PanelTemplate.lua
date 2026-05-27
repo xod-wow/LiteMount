@@ -13,6 +13,8 @@ local _, LM = ...
 
 local L = LM.L
 
+local SettingsPanelList = {}
+
 
 --[[------------------------------------------------------------------------]]--
 
@@ -130,8 +132,13 @@ end
 
 function LiteMountSettingsPanelMixin:OnOptionsProfile()
     LM.UIDebug(self, "Panel_OnOptionsProfile")
-    self:OnCommit()
-    self:OnRefresh()
+    -- Only the currently visible panel is listening for OnOptionsProfile, but
+    -- we need to refresh the .savedSettings on all the panels.
+    for _, p in ipairs(SettingsPanelList) do
+        p:OnCommit()
+        p:OnRefresh()
+    end
+    self:RefreshDisplay()
 end
 
 -- OnRefresh is called for all panels when the settings are opened. And called
@@ -214,6 +221,8 @@ function LiteMountSettingsPanelMixin:OnLoad()
     if self.hideRevertButton then
         self.RevertButton:Hide()
     end
+
+    table.insert(SettingsPanelList, self)
 end
 
 function LiteMountSettingsPanelMixin:SetTab(n)
