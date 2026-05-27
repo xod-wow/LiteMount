@@ -21,6 +21,8 @@ local allTypeFlags = LM.Options:GetFlags()
 LiteMountMountIconMixin = {}
 
 function LiteMountMountIconMixin.MenuGenerator(owner, rootDescription)
+    local listButton = owner:GetParent()
+
     rootDescription:CreateTitle(owner.mount.name)
 
     local mountGroups = owner.mount:GetGroups()
@@ -30,6 +32,7 @@ function LiteMountMountIconMixin.MenuGenerator(owner, rootDescription)
     for _, g in pairs(allGroups) do
         local function IsSelected() return mountGroups[g] end
         local function SetSelected()
+            listButton:MarkDirty()
             if mountGroups[g] then
                 LM.Options:ClearMountGroup(owner.mount, g)
             else
@@ -46,7 +49,10 @@ function LiteMountMountIconMixin.MenuGenerator(owner, rootDescription)
     for _,p in ipairs(LM.UIFilter.GetPriorities()) do
         local t, d = LM.UIFilter.GetPriorityText(p)
         local function IsSelected() return owner.mount:GetPriority() == p end
-        local function SetSelected() LM.Options:SetPriority(owner.mount, p) end
+        local function SetSelected()
+            listButton:MarkDirty()
+            LM.Options:SetPriority(owner.mount, p)
+        end
         priorityMenu:CreateRadio(t..' - '..d, IsSelected, SetSelected)
     end
     for _, flag in ipairs(allTypeFlags) do
@@ -55,6 +61,7 @@ function LiteMountMountIconMixin.MenuGenerator(owner, rootDescription)
             return mountFlags[flag]
         end
         local function SetSelected()
+            listButton:MarkDirty()
             if IsSelected() then
                 LM.Options:ClearMountFlag(owner.mount, flag)
             else

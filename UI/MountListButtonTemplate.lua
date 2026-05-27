@@ -33,7 +33,7 @@ function LiteMountMountCommonButtonMixin:SetDirtyCallback(func)
     self.callbackFunc = func
 end
 
-function LiteMountMountCommonButtonMixin:SetDirty()
+function LiteMountMountCommonButtonMixin:MarkDirty()
     if self.callbackFunc then
         self.callbackFunc()
     end
@@ -78,7 +78,7 @@ end
 LiteMountMountListButtonMixin = CreateFromMixins(LiteMountMountCommonButtonMixin)
 
 function LiteMountMountListButtonMixin:OnLoad()
-    local dirtyFunc = function () self:SetDirty() end
+    local dirtyFunc = function () self:MarkDirty() end
 
     local i = 1
     while self["Bit"..i] do
