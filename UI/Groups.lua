@@ -20,6 +20,7 @@ local L = LM.L
 
 local function IsValidGroupName(text)
     if not text or text == "" then return false end
+    if text:match("^%s+") or text:match("%s+$") then return false end
     if LM.Options:IsFlag(text) then return false end
     if LM.Options:IsGroup(text) then return false end
     if tonumber(text) then return false end
