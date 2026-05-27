@@ -103,19 +103,26 @@ function LiteMountRulesPanelMixin:RefreshDisplay()
         end
     end
 
+    self.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
+
     if isEnabled then
         self.ScrollBox.Inactive:Hide()
-        self.AddButton:Enable()
+        self.AddButton:Show()
         self.DefaultsButton:Enable()
+        self.DeleteButton:Show()
+        self.DeleteButton:SetEnabled(self.selectedRule ~= nil)
+        self.EditButton:Show()
+        self.EditButton:SetEnabled(self.selectedRule ~= nil)
     else
         self.selectedRule = nil
-        self.AddButton:Disable()
+        self.AddButton:Hide()
         self.DefaultsButton:Disable()
+        self.DeleteButton:Hide()
+        self.EditButton:Hide()
         self.ScrollBox.Inactive:SetText(string.format(L.LM_RULES_INACTIVE, self.selectedTab))
         self.ScrollBox.Inactive:Show()
     end
 
-    self.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 
     LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
