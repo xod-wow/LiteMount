@@ -14,6 +14,11 @@ local Model = {
     [NONE] = {}
 }
 
+--[[
+   [1283837] = true, -- Zothwing Darkseeker (2937)
+   [1283838] = true, -- Zothwing Deepseeker (2938)
+]]
+
 -- There is no locale-independent stuff in this lib, because otherwise we
 -- would need to be either (a) hard-coding the english name for all of the
 -- __AUTO__ mounts or (b) assigning model ID numbers that persist forever.
@@ -62,7 +67,6 @@ Model._AUTO_ = {
     [366791] = true, -- Jigglesworth Sr.
    [1233925] = true, -- Lana'thel's Crimson Cascade
     [363613] = true, -- Lightforged Ruinstrider
-    [239013] = true, -- Lightforged Warframe
     [472253] = true, -- Lunar Launcher
     [267274] = true, -- Mag'har Direwolf
     [305592] = true, -- Mechagon Mechanostrider
@@ -75,6 +79,7 @@ Model._AUTO_ = {
    [1216430] = true, -- Sha-Warped Riding Tiger
     [279611] = true, -- Skullripper
     [341821] = true, -- Snowstorm
+   [1264184] = true, -- Spawn of Vyranoth (2806)
     [259202] = true, -- Starcursed Voidstrider
    [1255246] = true, -- Starspark Netherdrake
     [454682] = true, -- Startouched Furline
@@ -111,6 +116,7 @@ Model._AUTO_ = {
     [349823] = true, -- Vicious Warstalker (Alliance)
     [349824] = true, -- Vicious Warstalker (Horde)
     [223363] = true, -- Vicious Warstrider
+   [1294648] = true, -- Voidmancer's Starcarver (2988)
     [348162] = true, -- Wandering Ancient
     [163024] = true, -- Warforged Nightmare
     [171845] = true, -- Warlord's Deathwheel
@@ -168,6 +174,7 @@ Model["Amani Pango"] = {
 
 Model["Amani War Bear"] = {
    [1261357] = true, -- Amani Blessed Bear (2776)
+   [1261369] = true, -- Amani Hex Bear (2781)
    [1261360] = true, -- Ancestral War Bear (2778)
    [1261362] = true, -- Witherbark Warbear Mother (2779)
 }
@@ -267,6 +274,7 @@ Model["Aurochs"] = {
 }
 
 Model["Bakar"] = {
+    [404018] = true, -- Black-Furred Bakar (1710)
     [424601] = true, -- Brown-Furred Spiky Bakar
     [424607] = true, -- Taivan
 }
@@ -999,6 +1007,13 @@ Model["Goblin Rocket"] = {
     [126507] = true, -- Depleted-Kyparium Rocket
 }
 
+Model["Goblin Firework Rocket"] = {
+   [1292342] = true, -- Green Rocket Mount [PH] (2974)
+   [1292102] = true, -- Blackwater X-TREME Firework Rocket (2973)
+   [1292344] = true, -- Bilgewater X-TREME Firework Rocket (2975)
+   [1292345] = true, -- Pink Rocket Mount [PH] (2976)
+}
+
 Model["Goblin Shredder"] = {
     [466023] = true, -- Asset Advocator
     [466019] = true, -- Blackwater Shredder Deluxe Mk 2
@@ -1027,6 +1042,7 @@ Model["Goblin Waveshredder"] = {
 -- Devourer Gorger
 Model["Gorger"] = {
     [333027] = true, -- Loyal Gorger
+   [1297427] = true, -- Tortured Gorger (3033)
    [1241070] = true, -- Translocated Gorger
     [344659] = true, -- Voracious Gorger
 }
@@ -1549,6 +1565,7 @@ Model["Mountain Horse"] = {
     [341639] = true, -- Court Sinrunner
     [260172] = true, -- Dapple Gray
     [260175] = true, -- Goldenmane
+   [1294677] = true, -- [PH] Horse with Hat (2992)
     [279456] = true, -- Highland Mustang
     [282682] = true, -- Kul Tiran Charger X2
     [279608] = true, -- Lil' Donkey
@@ -2093,6 +2110,7 @@ Model["Slitherdrake"] = {
 }
 
 Model["Slug"] = {
+    [350220] = true, -- Liquid Hot Magma Slug (1470)
     [374138] = true, -- Seething Slug
 }
 
@@ -2152,6 +2170,7 @@ Model["Spider"] = {
 
 Model["Sporeglider"] = {
    [1253929] = true, -- Cerulean Sporeglider (2710)
+   [1284973] = true, -- Luminous Sporeglider (2950)
    [1253938] = true, -- Ruddy Sporeglider (2713)
 }
 
@@ -2205,6 +2224,7 @@ Model["Stormcrow"] = {
 Model["Sun Roc"] = {
    [1283908] = true, -- Dusk-Painted Sun Roc (2940)
    [1283910] = true, -- Flame-Painted Sun Roc (2941)
+   [1298439] = true, -- Sun Festival's Painted Roc (3036)
 -- [1283906] = true, -- [PH] Giant Eagle Sunwalker Mount Blue (2939)
 -- [1283911] = true, -- [PH] Giant Eagle Sunwalker Mount White (2942)
 }
@@ -2503,6 +2523,7 @@ Model["Vorquin"] = {
 }
 
 Model["Vulture"] = {
+   [1294767] = true, -- Badlands Buzzard (2994)
     [414324] = true, -- Gold-Toed Albatross
     [266925] = true, -- Siltwing Albatross
     [316275] = true, -- Waste Marauder
@@ -2534,9 +2555,10 @@ Model["War Turtle"] = {
    [1227076] = true, -- Tyrannotort
 }
 
--- Deleted
--- Model["Warframe"] = {
--- }
+Model["Warframe"] = {
+   [1294663] = true, -- Arcforged Nullframe (2990)
+    [239013] = true, -- Lightforged Warframe (932)
+}
 
 Model["Warhorse"] = {
     [ 67466] = true, -- Argent Warhorse
