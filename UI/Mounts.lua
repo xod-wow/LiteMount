@@ -240,6 +240,11 @@ function LiteMountMountsPanelMixin:OnShow()
 
     self.ActionDropdown:SetupMenu(ActionMenuGenerate)
 
+    -- Most "unusable" mounts are faction- or class- locked, things that can't
+    -- change at runtime, but there are a few that are tradeskill-locked which
+    -- obviously can. This is temporarily destructive to the state of the
+    -- mount collections interface but since we are a settings panel it will
+    -- definitely be closed when this OnShow runs.
     LM.MountRegistry:UpdateFilterUsability()
 
     self:RegisterEvent('MOUNT_JOURNAL_USABILITY_CHANGED')
