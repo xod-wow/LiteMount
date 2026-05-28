@@ -16,8 +16,19 @@ local DEFAULT_MODELSCENEID = 4
 function LiteMountMountModelSceneMixin:SetMount(mount)
     if mount.creatureDisplayID then
         self:TransitionToModelSceneID(mount.modelSceneID or DEFAULT_MODELSCENEID, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD, false)
+-- self:SetViewTranslation(0, -80)
         local mountActor = self:GetActorByTag("unwrapped")
         if mountActor then
+mountActor:SetUseCenterForOrigin(true, true, true)
+mountActor:SetPosition(0, 0, 0)
+DevTools_Dump({
+    activeBB = { mountActor:GetActiveBoundingBox() },
+    maxBB = { mountActor:GetMaxBoundingBox() },
+    yaw = { mountActor:GetYaw() },
+    iucfo = { mountActor:IsUsingCenterForOrigin() },
+    pos = { mountActor:GetPosition() },
+    scale = { mountActor:GetScale() },
+})
             local n = math.random(#mount.creatureDisplayID)
             mountActor:Hide()
             mountActor:SetOnModelLoadedCallback(function () mountActor:Show() end)

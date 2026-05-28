@@ -62,7 +62,7 @@ local OptionKeysByTab = {
 }
 
 function LiteMountMacroPanelMixin:GetSettingsForTab()
-    local selectedTab = PanelTemplates_GetSelectedTab(self)
+    local selectedTab = self.selectedTab
     local macroKey, useKey, helpText = unpack(OptionKeysByTab[selectedTab])
     local macro = LM.Options:GetClassOption(self.selectedClass, macroKey)
     local use = LM.Options:GetClassOption(self.selectedClass, useKey)
@@ -74,7 +74,7 @@ function LiteMountMacroPanelMixin:GetSettingsForTab()
 end
 
 function LiteMountMacroPanelMixin:WriteSettingsForTab()
-    local selectedTab = PanelTemplates_GetSelectedTab(self)
+    local selectedTab = self.selectedTab
     local macroKey, useKey = unpack(OptionKeysByTab[selectedTab])
     local macro = self.Macro.EditBox:GetText()
     if macro == "" or self:IsDefaultMacro(macro) then
@@ -87,13 +87,13 @@ function LiteMountMacroPanelMixin:WriteSettingsForTab()
 end
 
 function LiteMountMacroPanelMixin:IsDefaultMacro(text)
-    local isCombat = PanelTemplates_GetSelectedTab(self) == 2
+    local isCombat = self.selectedTab == 2
     local default = LM.Macro:GetDefault(isCombat, self.selectedClass)
     return text == default
 end
 
 function LiteMountMacroPanelMixin:GenerateClassMenu()
-    local selectedTab = PanelTemplates_GetSelectedTab(self)
+    local selectedTab = self.selectedTab
     local _, useKey = unpack(OptionKeysByTab[selectedTab])
 
     local classMenu = { }
@@ -121,8 +121,6 @@ function LiteMountMacroPanelMixin:RefreshDisplay()
     local dp = CreateDataProvider(self:GenerateClassMenu())
     self.Class.ScrollBox:SetDataProvider(dp, ScrollBoxConstants.RetainScrollPosition)
 
-    PanelTemplates_ResizeTabsToFit(self, self.Macro:GetWidth() - 32)
-
     LiteMountSettingsPanelMixin.RefreshDisplay(self)
 end
 
@@ -140,8 +138,13 @@ end
 function LiteMountMacroPanelMixin:OnLoad()
     self.name = MACROS
 
-    PanelTemplates_SetNumTabs(self, 2)
-    PanelTemplates_SetTab(self, 1)
+    self.tabsGroup = CreateRadioButtonGroup()
+
+    self.tabsGroup:AddButtons({ self.Tab1, self.Tab2 })
+    self.tabsGroup:SelectAtIndex(1)
+    self.tabsGroup:RegisterCallback(ButtonGroupBaseMixin.Event.Selected, self.SetTab, self)
+
+    self.selectedTab = 1
 
     self.selectedClass = 'PLAYER'
 
@@ -166,8 +169,8 @@ function LiteMountMacroPanelMixin:OnLoad()
     LiteMountSettingsPanelMixin.OnLoad(self)
 end
 
-function LiteMountMacroPanelMixin:SetTab(id)
-    PanelTemplates_SetTab(self, id)
+function LiteMountMacroPanelMixin:SetTab(tab)
+    self.selectedTab = tab:GetID()
     self:RefreshDisplay()
 end
 

@@ -196,7 +196,7 @@ function LiteMountMountsPanelMixin:OnLoad()
     self:SetScript('OnEvent', self.RefreshDisplay)
 
     -- Set up the tabs
-    if WOW_PROJECT_ID == 1 then
+    if true or WOW_PROJECT_ID == 1 then
         for i, tabButton in ipairs(self.Tabs) do
             if i == 1 then
                 tabButton:SetPoint("TOPLEFT", self.MountsContainer, "BOTTOMLEFT", 16, 0)
