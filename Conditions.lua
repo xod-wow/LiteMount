@@ -639,12 +639,14 @@ CONDITIONS["friend"] = {
         function (cond, context, v)
             local myInfo = C_BattleNet.GetAccountInfoByGUID(UnitGUID('player'))
             for unit in IterateGroupUnits() do
-                local guid = UnitGUID(unit)
-                local info = C_BattleNet.GetAccountInfoByGUID(guid)
-                if info then
-                    local isMe = myInfo and info.battleTag == myInfo.battleTag
-                    if ( info.isFriend or isMe ) and ( not v or v == info.battleTag ) then
-                        return true
+                if not UnitIsUnit(unit, player) then
+                    local guid = UnitGUID(unit)
+                    local info = C_BattleNet.GetAccountInfoByGUID(guid)
+                    if info then
+                        local isMe = myInfo and info.battleTag == myInfo.battleTag
+                        if ( info.isFriend or isMe ) and ( not v or v == info.battleTag ) then
+                            return true
+                        end
                     end
                 end
             end
