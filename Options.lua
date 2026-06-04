@@ -239,6 +239,30 @@ function LM.Options:VersionUpgrade10()
     return true
 end
 
+-- Version 11 changes family to model
+
+function LM.Options:VersionUpgrade11()
+    if (LM.db.global.configVersion or 11) >= 11 then
+        return
+    end
+
+    LM.Debug('VersionUpgrade: 11')
+    for n, p in pairs(LM.db.sv.profiles or {}) do
+        LM.Debug(' - upgrading profile: ' .. n)
+        for k, ruleset in pairs(p.rules or {}) do
+            LM.Debug('   - ruleset ' .. k)
+            for i, rule in pairs(ruleset) do
+                ruleset[i] = rule:gsub('family:', 'model:')
+            end
+        end
+        for i, buttonAction in pairs(p.buttonActions or {}) do
+            LM.Debug('   - buttonAction ' .. i)
+            p.buttonActions[i] = buttonAction:gsub('family:', 'model:')
+        end
+    end
+    return true
+end
+
 function LM.Options:CleanDatabase()
     local changed
     for n,c in pairs(LM.db.sv.char or {}) do
@@ -272,6 +296,7 @@ function LM.Options:DatabaseMaintenance()
     if self:VersionUpgrade8() then changed = true end
     if self:VersionUpgrade9() then changed = true end
     if self:VersionUpgrade10() then changed = true end
+    if self:VersionUpgrade11() then changed = true end
     if self:CleanDatabase() then changed = true end
     LM.db.global.configVersion = 10
     return changed

@@ -162,7 +162,7 @@ function LiteMountMountsPanelMixin:OnLoad()
         end)
     self.viewsByTabs[1]:SetElementIndentCalculator(
         function (node)
-            if LM.UIFilter.GetSortKey() ~= 'family' or node:GetData().isHeader then
+            if LM.UIFilter.GetSortKey() ~= 'model' or node:GetData().isHeader then
                 return 0
             else
                 return 8
@@ -222,12 +222,12 @@ function LiteMountMountsPanelMixin:OnLoad()
     self.ActionDropdown:SetText(L.LM_ACTIONS)
 
     --@debug@
-    self.NextFamily = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
-    self.NextFamily:SetSize(96, 22)
-    self.NextFamily:SetText("NextFamily")
-    self.NextFamily:SetPoint('TOPRIGHT', self, 'TOPRIGHT', -40, -54)
-    self.NextFamily:SetScript('OnClick', function () LM.SlashCommandFunc('fam') end)
-    self.NextFamily:Show()
+    self.NextModel = CreateFrame('Button', nil, self, 'UIPanelButtonTemplate')
+    self.NextModel:SetSize(96, 22)
+    self.NextModel:SetText("Next Model")
+    self.NextModel:SetPoint('TOPRIGHT', self, 'TOPRIGHT', -40, -54)
+    self.NextModel:SetScript('OnClick', function () LM.SlashCommandFunc('model') end)
+    self.NextModel:Show()
     --@end-debug@
 
     LiteMountSettingsPanelMixin.OnLoad(self)

@@ -241,35 +241,35 @@ COMMANDS['mockdata'] =
         C_UI.Reload()
     end
 
-COMMANDS['fam'] =
+COMMANDS['model'] =
     function (argstr, ...)
         local name = table.concat({ ... }, ' ')
-        local families = LM.UIFilter.GetFamilies()
-        local newFamily
-        if tContains(families, name) then
-            newFamily = name
-        elseif not LM.UIFilter.IsFamilyFiltered() then
-            newFamily = families[1]
+        local models = LM.UIFilter.GetModels()
+        local newModel
+        if tContains(models, name) then
+            newModel = name
+        elseif not LM.UIFilter.IsModelFiltered() then
+            newModel = models[1]
         else
             local currentIndex = 0
-            for i, family in ipairs(families) do
-                if LM.UIFilter.IsFamilyChecked(family) then
+            for i, modelGroup in ipairs(models) do
+                if LM.UIFilter.IsModelChecked(modelGroup) then
                     currentIndex = i
-                    if family ~= UNKNOWN then
+                    if modelGroup ~= UNKNOWN then
                         break
                     end
                 end
             end
-            local nextIndex = currentIndex % #families + 1
-            newFamily = families[nextIndex]
+            local nextIndex = currentIndex % #models + 1
+            newModel = models[nextIndex]
         end
 
         LM.UIFilter.SetOtherFilter('HIDDEN', true)
         LM.UIFilter.SetOtherFilter('UNUSABLE', true)
-        LM.UIFilter.SetAllFamilyFilters(false)
-        LM.UIFilter.SetFamilyFilter(newFamily, true)
-        LM.UIFilter.SetFamilyFilter(UNKNOWN, true)
-        LM.Print(newFamily)
+        LM.UIFilter.SetAllModelFilters(false)
+        LM.UIFilter.SetModelFilter(newModel, true)
+        LM.UIFilter.SetModelFilter(UNKNOWN, true)
+        LM.Print(newModel)
     end
 
 --@end-debug@

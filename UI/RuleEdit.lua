@@ -283,7 +283,7 @@ end
 local function MountToInfo(m) return { val = m.spellID, text = m.name } end
 local function GroupToInfo(v) return { val = v, text = LM.UIFilter.GetGroupText(v) } end
 local function FlagToInfo(v) return { val = v, text = LM.UIFilter.GetFlagText(v) } end
-local function FamilyToInfo(v) return { val = "family:"..v, text = LM.UIFilter.GetFamilyText(v) } end
+local function ModelToInfo(v) return { val = "model:"..v, text = LM.UIFilter.GetModelText(v) } end
 local function ExpansionToInfo(v) return { val = "expansion:"..v, text = LM.UIFilter.GetExpansionText(v) } end
 local function PriorityToInfo(v) return { val = "prio:"..v, text = LM.UIFilter.GetPriorityText(v) } end
 local function TypeToInfo(v) return { val = "mt:"..v, text = LM.UIFilter.GetTypeText(v) } end
@@ -310,9 +310,9 @@ local function MountArgsMenu()
 --  typeMenuList.text = TYPE
 --  table.insert(menuList, typeMenuList)
 
---  local familyMenuList = LM.tMap(LM.UIFilter.GetFamilies(), FamilyToInfo)
---  familyMenuList.text = L.LM_FAMILY
---  table.insert(menuList, familyMenuList)
+--  local modelMenuList = LM.tMap(LM.UIFilter.GetModels(), ModelToInfo)
+--  modelMenuList.text = MODEL
+--  table.insert(menuList, modelMenuList)
 
     if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
         local expansionMenuList = LM.tMap(LM.UIFilter.GetExpansions(), ExpansionToInfo)

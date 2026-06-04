@@ -15,7 +15,7 @@ local L = LM.L
 local LMDB = LibStub("LibMountDB-1.0")
 
 local DefaultFilterList = {
-    family = { },
+    model = { },
     flag = { },
     group = { },
     other = { HIDDEN=true, UNUSABLE=true, ZONEMATCH=true },
@@ -72,7 +72,7 @@ local SortKeysByProject = LM.TableWithDefault({
         'priority',
         'rarity',
         'summons',
-        'family',
+        'model',
         'expansion',
 --@debug@
         'mountid',
@@ -93,7 +93,7 @@ local SortKeyTexts = {
     ['priority']    = L.LM_PRIORITY,
     ['rarity']      = RARITY,
     ['summons']     = SUMMONS,
-    ['family']      = L.LM_FAMILY,
+    ['model']       = MODEL,
     ['expansion']   = EXPANSION_FILTER_TEXT,
 --@debug@
     ['mountid']     = 'Mount ID',
@@ -160,17 +160,17 @@ end
 local function GetTreeDP()
     local mounts = LM.UIFilter.GetFilteredMountList()
     local dp = CreateTreeDataProvider()
-    if LM.UIFilter.GetSortKey() == 'family' then
-        local familySubTrees = {}
+    if LM.UIFilter.GetSortKey() == 'model' then
+        local modelSubTrees = {}
         for _, m in ipairs(mounts) do
-            if not familySubTrees[m.family] then
+            if not modelSubTrees[m.modelGroup] then
                 local data = {
                     isHeader = true,
-                    name = LM.UIFilter.GetSortKeyText('family') .. ': ' .. m.family,
+                    name = LM.UIFilter.GetSortKeyText('model') .. ': ' .. m.modelGroup,
                 }
-                familySubTrees[m.family] = dp:Insert(data)
+                modelSubTrees[m.modelGroup] = dp:Insert(data)
             end
-            familySubTrees[m.family]:Insert(m)
+            modelSubTrees[m.modelGroup]:Insert(m)
         end
     elseif LM.UIFilter.GetSortKey() == 'expansion' then
         local subTrees = {}
@@ -327,47 +327,47 @@ function LM.UIFilter.GetExpansionText(name)
 end
 
 
--- Families --------------------------------------------------------------------
+-- Model Groups ----------------------------------------------------------------
 
-function LM.UIFilter.GetFamilies()
+function LM.UIFilter.GetModels()
     return LMDB.GetModelList()
 end
 
-function LM.UIFilter.IsFamilyFiltered()
-    return next(LM.UIFilter.filterList.family) ~= nil
+function LM.UIFilter.IsModelFiltered()
+    return next(LM.UIFilter.filterList.model) ~= nil
 end
 
-function LM.UIFilter.SetAllFamilyFilters(v)
+function LM.UIFilter.SetAllModelFilters(v)
     LM.UIFilter.ClearCache()
     if v then
-        table.wipe(LM.UIFilter.filterList.family)
+        table.wipe(LM.UIFilter.filterList.model)
     else
-        for _, modelName in ipairs(LM.UIFilter.GetFamilies()) do
-            LM.UIFilter.filterList.family[modelName] = true
+        for _, modelName in ipairs(LM.UIFilter.GetModels()) do
+            LM.UIFilter.filterList.model[modelName] = true
         end
     end
     callbacks:Fire('OnFilterChanged')
 end
 
-function LM.UIFilter.SetFamilyFilter(i, v)
+function LM.UIFilter.SetModelFilter(i, v)
     LM.UIFilter.ClearCache()
     if v then
-        LM.UIFilter.filterList.family[i] = nil
+        LM.UIFilter.filterList.model[i] = nil
     else
-        LM.UIFilter.filterList.family[i] = true
+        LM.UIFilter.filterList.model[i] = true
     end
     callbacks:Fire('OnFilterChanged')
 end
 
-function LM.UIFilter.IsFamilyChecked(i)
-    return not LM.UIFilter.filterList.family[i]
+function LM.UIFilter.IsModelChecked(i)
+    return not LM.UIFilter.filterList.model[i]
 end
 
-function LM.UIFilter.IsValidFamilyFilter(i)
+function LM.UIFilter.IsValidModelFilter(i)
     return LM.ModelDB.IsValidModel(i)
 end
 
-function LM.UIFilter.GetFamilyText(i)
+function LM.UIFilter.GetModelText(i)
     return L[i]
 end
 
@@ -633,8 +633,8 @@ function LM.UIFilter.IsFilteredMount(m)
         return true
     end
 
-    -- Family filters
-    if m.family and LM.UIFilter.filterList.family[m.family] == true then
+    -- ModelGroup filters
+    if m.modelGroup and LM.UIFilter.filterList.model[m.modelGroup] == true then
         return true
     end
 

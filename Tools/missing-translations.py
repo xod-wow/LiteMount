@@ -7,7 +7,7 @@ import os, re
 
 SupportedLocales = [ "enUS", "deDE", "esES", "esMX", "frFR", "itIT", "koKR", "ptBR", "ruRU", "zhCN", "zhTW" ]
 
-def GetFamiliesFromCurse(locale):
+def GetModelGroupsFromCurse(locale):
     headers = {
         'X-Api-Token': os.environ['APIKEY']
     }
@@ -47,7 +47,7 @@ allFamilies = GetFamiliesFromFile('../MountDB/Model.lua')
 translatedFamilies =  {}
 
 for locale in SupportedLocales:
-    translatedFamilies[locale] = GetFamiliesFromCurse(locale)
+    translatedFamilies[locale] = GetModelGroupsFromCurse(locale)
 
 for fam in allFamilies:
     missingLocales = [ locale for locale in translatedFamilies if fam not in translatedFamilies[locale] ]

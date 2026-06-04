@@ -310,10 +310,10 @@ local SortFunctions = {
         function (a, b)
             return a.name < b.name
         end,
-    ['family'] =
+    ['model'] =
         function (a, b)
-            if a.family ~= b.family then
-                return a.family < b.family
+            if a.modelGroup ~= b.modelGroup then
+                return a.modelGroup < b.modelGroup
             else
                 return a.name < b.name
             end

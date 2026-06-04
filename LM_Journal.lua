@@ -119,12 +119,12 @@ function LM.Journal:Get(id)
     end
 
     if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-        m.family = LMDB.GetModelBySpellID(m.spellID)
+        m.modelGroup = LMDB.GetModelBySpellID(m.spellID)
 
-        if not m.family then
-            m.family = UNKNOWN
+        if not m.modelGroup then
+            m.modelGroup = UNKNOWN
             --@debug@
-            LM.PrintError('No family: [%d] = true, -- %s (%d)', m.spellID, m.name, m.mountID)
+            LM.PrintError('No modelGroup: [%d] = true, -- %s (%d)', m.spellID, m.name, m.mountID)
             --@end-debug@
         end
 
