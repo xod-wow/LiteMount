@@ -47,11 +47,18 @@ function LiteMountMountsPanelMixin:LoadDefaultSettings()
     LM.Options:SetPriorityList(LM.MountRegistry.mounts, nil, dontFire)
 end
 
+-- ScrollUtil.InitScrollBoxListWithScrollBar resets the scroll position so
+-- this can't be done every time in RefreshDisplay() only when specifically
+-- changing tabs.
+
+function LiteMountMountsPanelMixin:SetTab(n)
+    PanelTemplates_SetTab(self, n)
+    local view = self.viewsByTabs[n]
+    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
+end
+
 function LiteMountMountsPanelMixin:RefreshDisplay()
     local currentTab = PanelTemplates_GetSelectedTab(self)
-
-    local view = self.viewsByTabs[currentTab]
-    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
 
     self.PriorityLabel:SetShown(currentTab==1)
 
@@ -181,7 +188,7 @@ function LiteMountMountsPanelMixin:OnLoad()
     self.name = MOUNTS
 
     PanelTemplates_SetNumTabs(self, 2)
-    PanelTemplates_SetTab(self, 1)
+    self:SetTab(1)
 
     self.allFlags = LM.Options:GetFlags()
 
@@ -207,7 +214,7 @@ function LiteMountMountsPanelMixin:OnLoad()
             tabButton:SetText(TabNames[i])
             tabButton:SetScript('OnClick',
                 function ()
-                    PanelTemplates_SetTab(self, i)
+                    self:SetTab(i)
                     self:RefreshDisplay()
                 end)
         end
