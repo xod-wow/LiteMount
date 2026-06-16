@@ -1127,6 +1127,7 @@ Model["Greatwyrm"] = {
 
 -- Harronir Cat
 Model["Grimlynx"] = {
+   [1243582] = true, -- Dusk Grimlynx (2611)
    [1243593] = true, -- Fierce Grimlynx (2614)
    [1243598] = true, -- Ivory Grimlynx (2616)
    [1243597] = true, -- Rootstalker Grimlynx (2615)
