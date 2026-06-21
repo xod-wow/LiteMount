@@ -606,8 +606,8 @@ CONDITIONS["friend"] = {
             if not v then
                 return ANY_TEXT
             end
-            local me = C_BattleNet.GetAccountInfoByGUID(UnitGUID('player'))
-            if me and me.battleTag == v then
+            local _, myBattleTag = BNGetInfo()
+            if myBattleTag == v then
                 return ACCOUNT_QUEST_LABEL
             end
             for i = 1, BNGetNumFriends() do
@@ -621,9 +621,9 @@ CONDITIONS["friend"] = {
     menu =
         function ()
             local out = { nosort=true, { val="friend", text=ANY_TEXT } }
-            local me = C_BattleNet.GetAccountInfoByGUID(UnitGUID('player'))
-            if me then
-                table.insert(out, { val = 'friend:'..me.battleTag })
+            local _, myBattleTag = BNGetInfo()
+            if myBattleTag then
+                table.insert(out, { val = 'friend:'..mybattleTag })
             end
             for i = 1, BNGetNumFriends() do
                 local info = C_BattleNet.GetFriendAccountInfo(i)
@@ -637,13 +637,13 @@ CONDITIONS["friend"] = {
         end,
     handler =
         function (cond, context, v)
-            local myInfo = C_BattleNet.GetAccountInfoByGUID(UnitGUID('player'))
+            local _, myBattleTag = BNGetInfo()
             for unit in IterateGroupUnits() do
                 if not UnitIsUnit(unit, 'player') then
                     local guid = UnitGUID(unit)
                     local info = C_BattleNet.GetAccountInfoByGUID(guid)
                     if info then
-                        local isMe = myInfo and info.battleTag == myInfo.battleTag
+                        local isMe = ( info.battleTag == myBattleTag )
                         if ( info.isFriend or isMe ) and ( not v or v == info.battleTag ) then
                             return true
                         end
