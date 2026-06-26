@@ -98,6 +98,21 @@ function LiteMountGeneralPanelMixin:Register()
         self.layout:AddInitializer(initializer)
     end
 
+    -- Tooltip Additions --
+    if WOW_PROJECT_ID == 1 then
+        local setting = Settings.RegisterProxySetting(
+            self.category,
+            "LiteMountTooltipAdditions",
+            Settings.VarType.Boolean,
+            L.LM_ADD_TO_TOOLTIP,
+            LM.Options:GetOptionDefault("tooltipAdditions"),
+            function () return LM.Options:GetOption("tooltipAdditions") end,
+            function (v) LM.Options:SetOption("tooltipAdditions", v) end
+        )
+        local initializer = Settings.CreateControlInitializer(checkboxTemplate, setting)
+        self.layout:AddInitializer(initializer)
+    end
+
     -- Random Style --
     do
         local function GetSettings()

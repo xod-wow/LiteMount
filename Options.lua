@@ -115,6 +115,7 @@ local defaults = {
         announceColors      = false,
         announceFlightStyle = true,
         mountSpecialTimer   = 0,
+        tooltipAdditions    = true,
     },
     global = {
         groups              = { },

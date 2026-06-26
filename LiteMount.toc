@@ -64,6 +64,7 @@ Rule.lua
 RuleSet.lua
 Actions.lua
 ActionButton.lua
+TooltipAdditions.lua
 Core.lua
 
 KeyBindingStrings.lua
