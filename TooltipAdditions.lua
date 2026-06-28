@@ -8,6 +8,8 @@ local _, LM = ...
 
 local L = LM.L
 
+LM.TooltipAdditions = {}
+
 if WOW_PROJECT_ID == 1 then
 
     local TooltipUtil = TooltipUtil
@@ -69,6 +71,8 @@ if WOW_PROJECT_ID == 1 then
         end
     end
 
-    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, UnitPost)
-    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, ItemPost)
+    function LM.TooltipAdditions:Initialize()
+        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, UnitPost)
+        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, ItemPost)
+    end
 end

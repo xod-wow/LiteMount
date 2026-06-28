@@ -110,6 +110,8 @@ function LiteMount:Initialize()
 
     LM.MountRegistry:Initialize()
 
+    LM.TooltipAdditions:Initialize()
+
     SlashCmdList["LiteMount"] = LM.SlashCommandFunc
     _G.SLASH_LiteMount1 = "/litemount"
     _G.SLASH_LiteMount2 = "/lmt"
