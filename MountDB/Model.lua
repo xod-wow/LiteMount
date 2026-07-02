@@ -14,11 +14,6 @@ local Model = {
     [NONE] = {}
 }
 
---[[
-   [1283837] = true, -- Zothwing Darkseeker (2937)
-   [1283838] = true, -- Zothwing Deepseeker (2938)
-]]
-
 -- There is no locale-independent stuff in this lib, because otherwise we
 -- would need to be either (a) hard-coding the english name for all of the
 -- __AUTO__ mounts or (b) assigning model ID numbers that persist forever.
@@ -31,7 +26,6 @@ Model._AUTO_ = {
     [417888] = true, -- Algarian Stormrider
     [369476] = true, -- Amalgam of Rage
     [367875] = true, -- Armored Siege Kodo
-   [1242904] = true, -- Ashes of Belo'ren (2607) - reskin Coldflame Tempest?
     [294569] = true, -- Beastlord's Warwolf
     [288438] = true, -- Blackpaw
     [358072] = true, -- Bound Blizzard
@@ -83,6 +77,7 @@ Model._AUTO_ = {
     [259202] = true, -- Starcursed Voidstrider
    [1255246] = true, -- Starspark Netherdrake
     [454682] = true, -- Startouched Furline
+   [1279352] = true, -- Stoneforged Sentinel (2922)
     [308250] = true, -- Stormpike Battle Ram
     [245723] = true, -- Stormwind Skychaser
     [317177] = true, -- Sunwarmed Furline
@@ -161,9 +156,7 @@ Model["Amani Bear"] = {
 Model["Amani Eagle"] = {
    [1261316] = true, -- Amani Sharptalon (2760)
    [1251433] = true, -- Amani Sunfeather (2693)
-   [1261576] = true, -- Hexed Vilefeather Eagle (2786)
    [1251630] = true, -- Amani Windcaller (2694)
-   [1286606] = true, -- Void-Corrupted Hex Eagle (2961)
 }
 
 Model["Amani Pango"] = {
@@ -295,6 +288,7 @@ Model["Basilisk"] = {
 Model["Battle Bear"] = {
     [ 51412] = true, -- Big Battle Bear
     [103081] = true, -- Darkmoon Dancing Bear
+   [1309376] = true, -- Veteran Adventurer's Loyal Companion (3125)
 }
 
 Model["Battle Gargon"] = {
@@ -579,6 +573,11 @@ Model["Darkmoon Charger"] = {
    [1217342] = true, -- Violet Darkmoon Charger
 }
 
+Model["Darkwell Phoenix"] = {
+   [1242904] = true, -- Ashes of Belo'ren (2607) - reskin Coldflame Tempest?
+   [1301775] = true, -- Umbral Ashes (3069)
+}
+
 Model["Deathcharger"] = {
     [ 48778] = true, -- Acherus Deathcharger
     [ 73313] = true, -- Crimson Deathcharger
@@ -753,6 +752,7 @@ Model["Eagle"] = {
     [385260] = true, -- Bestowed Ohuna Spotter
     [385262] = true, -- Duskwing Ohuna
     [395644] = true, -- Divine Kiss of Ohn'ahra
+   [1292668] = true, -- Spirit of Tok'jara (2980)
     [385266] = true, -- Zenet Hatchling
 }
 
@@ -1239,6 +1239,11 @@ Model["Helicid"] = {
     [359377] = true, -- Unsuccessful Prototype Fleetpod
 }
 
+Model["Hex Eagle"] = {
+   [1261576] = true, -- Hexed Vilefeather Eagle (2786)
+   [1286606] = true, -- Void-Corrupted Hex Eagle (2961)
+}
+
 Model["High Priest's Seeker"] = {
    [1255475] = true, -- High Priest's Felscorned Seeker
     [229377] = true, -- High Priest's Lightsworn Seeker
@@ -1365,6 +1370,18 @@ Model["Larion"] = {
     [334433] = true, -- Silverwind Larion
 }
 
+Model["Leafmimic"] = {
+   [1305206] = true, -- Crested Aqua Leafmimic (3103)
+   [1305204] = true, -- Crested Ember Leafmimic (3102)
+   [1305207] = true, -- Crested Verdant Leafmimic (3104)
+   [1305209] = true, -- Crested Violet Leafmimic (3105)
+}
+
+Model["Lightbloom Boar"] = {
+   [1296670] = true, -- Vicious Lightbloom Boar (3002)
+   [1296672] = true, -- Vicious Lightbloom Boar (3003)
+}
+
 Model["Lion"] = {
     [ 90621] = true, -- Golden King
     [229512] = true, -- Vicious War Lion
@@ -1436,6 +1453,8 @@ Model["Mana Ray"] = {
 }
 
 Model["Mana Wyrm"] = {
+   [1297407] = true, -- Hexflame Reaver (3031)
+   [1297408] = true, -- Preyhunter's Fury (3032)
    [1261336] = true, -- Preyseeker's Hubris (2769)
    [1261338] = true, -- Preyseeker's Nightmare (2771)
    [1261337] = true, -- Preyseeker's Wrath (2770)
@@ -1731,6 +1750,7 @@ Model["Proto-Drake"] = {
     [ 63963] = true, -- Rusted Proto-Drake
     [148392] = true, -- Spawn of Galakras
     [ 60002] = true, -- Time-Lost Proto-Drake
+   [1266211] = true, -- Venomous Gladiator's Goredrake (2821)
     [ 60024] = true, -- Violet Proto-Drake
 }
 
@@ -1768,6 +1788,10 @@ Model["Pterrordax"] = {
     [244712] = true, -- Spectral Pterrorwing
     [302797] = true, -- Swift Spectral Pterrordax
     [275840] = true, -- Voldunai Dunescraper
+}
+
+Model["Pygmy Owl"] = {
+   [1301817] = true, -- Whoofle Bramblewing (3070)
 }
 
 Model["Qiraji Battle Tank"] = {
@@ -2161,6 +2185,11 @@ Model["Soul Eater"] = {
     [440444] = true, -- Zovaal's Soul Eater
 }
 
+Model["Soul Crusher"] = {
+   [1297404] = true, -- Apophic Soul Crusher (3029)
+   [1298808] = true, -- Corroded Soul Crusher (3043)
+}
+
 Model["Spelltome"] = {
     [359318] = true, -- Soaring Spelltome
 }
@@ -2448,9 +2477,16 @@ Model["Unknown"] = {
 }
 
 Model["Ur'zul"] = {
+   [1250481] = true, -- Bilebound Ur'zul (2652)
    [1250482] = true, -- Ghastly Ur'zul
     [243651] = true, -- Shackled Ur'zul
    [1214940] = true, -- Ur'zul Fleshripper
+}
+
+Model["Venomfang"] = {
+   [1297224] = true, -- Auriferous Venomfang (3023)
+   [1297217] = true, -- Caustic Venomfang (3020)
+   [1297220] = true, -- Crimson Venomfang (3021)
 }
 
 Model["Vespoid"] = {
@@ -2656,11 +2692,29 @@ Model["Wind Rider"] = {
     [ 32243] = true, -- Tawny Wind Rider
 }
 
+Model["Wind Serpent"] = {
+   [1301070] = true, -- Breath of Blight (3063)
+   [1301074] = true, -- Breath of Ruin (3064)
+   [1299965] = true, -- Emerald Skyfang (3053)
+   [1299961] = true, -- Topaz Skyfang (3051)
+   [1299963] = true, -- Violet-Backed Skyfang (3054)
+}
+
 Model["Windsteed"] = {
     [435103] = true, -- Dashing Windsteed
     [435108] = true, -- Daystorm Windsteed
     [435107] = true, -- Forest Windsteed
     [134573] = true, -- Swift Windsteed
+}
+
+Model["Witchwick's Rider"] = {
+   [1296724] = true, -- Autumnal Witchwick's Rider (3004)
+   [1296988] = true, -- Blushing Witchwick's Rider (3017)
+   [1296989] = true, -- Carmine Witchwick's Rider (3018)
+   [1296986] = true, -- Moonlit Witchwick's Rider (3015)
+   [1296985] = true, -- Mossy Witchwick's Rider (3014)
+   [1296987] = true, -- Scarlet Witchwick's Rider (3016)
+   [1309340] = true, -- Wintry Witchwick's Rider (3119)
 }
 
 Model["Wolf"] = {
@@ -2688,6 +2742,13 @@ Model["Wrathsteed"] = {
     [238454] = true, -- Netherlord's Accursed Wrathsteed
     [238452] = true, -- Netherlord's Brimstone Wrathsteed
     [232412] = true, -- Netherlord's Chaotic Wrathsteed
+}
+
+Model["Writhe"] = {
+   [1300778] = true, -- Indigo Coiled Horror (3060)
+   [1300779] = true, -- Ruby Writhe (3061)
+   [1300776] = true, -- The Writhing Brood (3058)
+   [1300777] = true, -- Venomous Coiler (3062)
 }
 
 Model["Wylderdrake"] = {
