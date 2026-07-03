@@ -201,8 +201,9 @@ local StateUpdateFunctions = {
                     local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
                     if auraInfo == nil then
                         break
+                    elseif not issecretvalue(auraInfo.spellId) then
+                        buffIDs[auraInfo.spellId] = true
                     end
-                    buffIDs[auraInfo.spellId] = true
                     i = i + 1
                 end
             end
@@ -217,8 +218,9 @@ local StateUpdateFunctions = {
                     local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i, 'HARMFUL')
                     if auraInfo == nil then
                         break
+                    elseif not issecretvalue(auraInfo.spellId) then
+                        debuffIDs[auraInfo.spellId] = true
                     end
-                    debuffIDs[auraInfo.spellId] = true
                     i = i + 1
                 end
             end

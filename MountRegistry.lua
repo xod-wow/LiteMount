@@ -432,8 +432,9 @@ function LM.MountRegistry:GetMountFromUnitAura(unitid)
         local auraInfo = C_UnitAuras.GetAuraDataByIndex(unitid, i)
         if auraInfo == nil then
             break
+        elseif not issecretvalue(auraInfo.name) then
+            buffNames[auraInfo.name] = true
         end
-        buffNames[auraInfo.name] = true
         i = i + 1
     end
     return self.mounts:Find(MatchMountToBuff, buffNames)

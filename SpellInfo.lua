@@ -306,10 +306,10 @@ function LM.UnitAura(unit, aura, filter)
         if not auraInfo then
             return
         end
-        if auraInfo.name == aura then
+        if not issecretvalue(auraInfo.name) and auraInfo.name == aura then
             return auraInfo
         end
-        if auraInfo.spellId == tonumber(aura) then
+        if not issecretvalue(auraInfo.spellId) and auraInfo.spellId == tonumber(aura) then
             return auraInfo
         end
         i = i + 1
