@@ -13,11 +13,10 @@
 local _, LM = ...
 
 local C_Spell = LM.C_Spell or C_Spell
+local C_Secrets = C_Secrets
 
 LM.Environment = LM.CreateAutoEventFrame("Frame")
 LM.Environment:RegisterEvent("PLAYER_LOGIN")
-
-local issecretvalue = issecretvalue or function () return false end
 
 function LM.Environment:Initialize()
     self:InitializeHolidays()
@@ -196,7 +195,7 @@ local StateUpdateFunctions = {
     playerBuffIDs =
         function ()
             local buffIDs = {}
-            if not C_Secrets or C_Secrets.ShouldAurasBeSecret() == false then
+            if not C_Secrets.ShouldAurasBeSecret() then
                 local i = 1
                 while true do
                     local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
@@ -212,7 +211,7 @@ local StateUpdateFunctions = {
     playerDebuffIDs =
         function ()
             local debuffIDs = {}
-            if not C_Secrets or C_Secrets.ShouldAurasBeSecret() == false then
+            if not C_Secrets.ShouldAurasBeSecret() then
                 local i = 1
                 while true do
                     local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i, 'HARMFUL')

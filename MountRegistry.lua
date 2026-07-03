@@ -11,6 +11,7 @@
 local _, LM = ...
 
 local C_Spell = LM.C_Spell
+local C_Secrets = C_Secrets
 
 local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
 
@@ -420,8 +421,6 @@ local function MatchMountToBuff(m, buffNames)
     local spellName = C_Spell.GetSpellName(m.spellID)
     if spellName and buffNames[spellName] then return true end
 end
-
-local C_Secrets = C_Secrets
 
 function LM.MountRegistry:GetMountFromUnitAura(unitid)
     if C_Secrets.ShouldAurasBeSecret() then

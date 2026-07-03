@@ -10,9 +10,13 @@ local L = LM.L
 
 LM.TooltipAdditions = {}
 
+-- Overcompensate, I am worried about this causing slowdowns when mousing
+-- over a lot of units quickly in dungeons/raids.
+
+local C_MountJournal = C_MountJournal
 local InCombatLockdown = InCombatLockdown
 local TooltipUtil = TooltipUtil
-local issecretvalue = issecretvalue or function () return false end
+local issecretvalue = issecretvalue
 
 local fmt = "|T%s:16:16|t %s (%s)"
 
@@ -33,14 +37,15 @@ local function UnitPost(tooltip, data)
         return
     end
     local _, unitToken = TooltipUtil.GetDisplayedUnit(tooltip)
-    if unitToken and not issecretvalue(unitToken) then
-        local m = LM.MountRegistry:GetMountFromUnitAura(unitToken)
-        if m and m.mountID and m.rarity then
-            GameTooltip_AddBlankLineToTooltip(tooltip)
-            local c = LM.UIFilter.GetRarityColor(m.rarity)
-            local r = string.format(L.LM_RARITY_FORMAT, m.rarity)
-            tooltip:AddDoubleLine(GetMountText(m), c:WrapTextInColorCode(r))
-        end
+    if not unitToken or issecretvalue(unitToken) then
+        return
+    end
+    local m = LM.MountRegistry:GetMountFromUnitAura(unitToken)
+    if m and m.mountID and m.rarity then
+        tooltip:AddLine(" ")
+        local c = LM.UIFilter.GetRarityColor(m.rarity)
+        local r = string.format(L.LM_RARITY_FORMAT, m.rarity)
+        tooltip:AddDoubleLine(GetMountText(m), c:WrapTextInColorCode(r))
     end
 end
 
@@ -53,15 +58,15 @@ local function ItemPost(tooltip, data)
         return
     end
     local mountID = C_MountJournal.GetMountFromItem(itemID)
-    if mountID then
-        local m = LM.MountRegistry:GetMountByID(mountID)
-        -- Add if we've collected it on items maybe?
-        if m and m.rarity then
-            GameTooltip_AddBlankLineToTooltip(tooltip)
-            local c = LM.UIFilter.GetRarityColor(m.rarity)
-            local text = string.format(L.LM_RARITY_FORMAT_LONG, m.rarity)
-            GameTooltip_AddColoredLine(tooltip, text, c)
-        end
+    if not mountID then
+        return
+    end
+    local m = LM.MountRegistry:GetMountByID(mountID)
+    if m and m.rarity then
+        tooltip:AddLine(" ")
+        local c = LM.UIFilter.GetRarityColor(m.rarity)
+        local text = string.format(L.LM_RARITY_FORMAT_LONG, m.rarity)
+        tooltip:AddLine(text, c:GetRGB())
     end
 end
 
