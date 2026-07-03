@@ -299,7 +299,7 @@ function LM.Options:DatabaseMaintenance()
     if self:VersionUpgrade10() then changed = true end
     if self:VersionUpgrade11() then changed = true end
     if self:CleanDatabase() then changed = true end
-    LM.db.global.configVersion = 10
+    LM.db.global.configVersion = 11
     return changed
 end
 
