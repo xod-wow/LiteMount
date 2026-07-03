@@ -196,30 +196,32 @@ local StateUpdateFunctions = {
     playerBuffIDs =
         function ()
             local buffIDs = {}
-            local i = 1
-            while true do
-                local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
-                if auraInfo == nil then
-                    break
-                elseif not issecretvalue(auraInfo.spellId) then
+            if not C_Secrets or C_Secrets.ShouldAurasBeSecret() == false then
+                local i = 1
+                while true do
+                    local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
+                    if auraInfo == nil then
+                        break
+                    end
                     buffIDs[auraInfo.spellId] = true
+                    i = i + 1
                 end
-                i = i + 1
             end
             return buffIDs
         end,
     playerDebuffIDs =
         function ()
             local debuffIDs = {}
-            local i = 1
-            while true do
-                local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i, 'HARMFUL')
-                if auraInfo == nil then
-                    break
-                elseif not issecretvalue(auraInfo.spellId) then
+            if not C_Secrets or C_Secrets.ShouldAurasBeSecret() == false then
+                local i = 1
+                while true do
+                    local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i, 'HARMFUL')
+                    if auraInfo == nil then
+                        break
+                    end
                     debuffIDs[auraInfo.spellId] = true
+                    i = i + 1
                 end
-                i = i + 1
             end
             return debuffIDs
         end,

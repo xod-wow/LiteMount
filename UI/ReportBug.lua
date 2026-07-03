@@ -13,6 +13,10 @@ local L = LM.L
 local Serializer = LibStub("AceSerializer-3.0")
 local LibDeflate = LibStub("LibDeflate")
 
+local MAX_ACCOUNT_MACROS = MAX_ACCOUNT_MACROS or Constants.MacroConsts.MAX_ACCOUNT_MACROS
+local MAX_CHARACTER_MACROS = MAX_CHARACTER_MACROS or Constants.MacroConsts.MAX_CHARACTER_MACROS
+local MAX_TOTAL_MACROS = MAX_ACCOUNT_MACROS + MAX_CHARACTER_MACROS
+
 local function linefold(str, n)
     local out = ''
     for i = 1, str:len(), n do
@@ -31,7 +35,7 @@ end
 
 local function GetAnyLiteMountMacros()
     local macros = ''
-    for i = 1, MAX_ACCOUNT_MACROS + MAX_CHARACTER_MACROS do
+    for i = 1, MAX_TOTAL_MACROS do
         local name, _, body = GetMacroInfo(i)
         if name and body:match("/click.*LM_") then
             macros = macros .. format("%s:\n    %s\n", name, body:gsub("\n", "\n    "))
