@@ -162,6 +162,7 @@ read_globals = {
     "C_QuestLog",
     "C_RestrictedActions",
     "C_Scenario",
+    "C_Secrets",
     "C_Spell",
     "C_Timer",
     "C_ToyBox",
