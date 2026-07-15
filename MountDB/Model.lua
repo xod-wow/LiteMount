@@ -80,6 +80,7 @@ Model._AUTO_ = {
    [1279352] = true, -- Stoneforged Sentinel (2922)
     [308250] = true, -- Stormpike Battle Ram
     [245723] = true, -- Stormwind Skychaser
+   [1292356] = true, -- Sunflare Driftmoth
     [317177] = true, -- Sunwarmed Furline
     [290132] = true, -- Sylverian Dreamer
     [359843] = true, -- Tangled Dreamweaver
