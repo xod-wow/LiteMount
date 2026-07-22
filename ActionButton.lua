@@ -26,8 +26,7 @@ function LM.ActionButton:PreClick(inputButton, isDown)
 
     -- SecureActionButtonTemplate in 10.0 only fires the secure actions when
     -- isDown matches the setting of ActionButtonUseKeyDown, even though it
-    -- fires PreClick and PostClick for both. Due to poor code for for
-    -- handling press-and-hold and the interns doing all the programming.
+    -- fires PreClick and PostClick for both.
     --
     -- So our buttons are RegisterForClicks("AnyDown", "AnyUp"), this (and
     -- PostClick) get called twice and we only handle it if we match when
@@ -152,7 +151,29 @@ function LM.ActionButton:Create(n)
     b.context = { id = n }
     ButtonContexts[n] = b.context
 
-    -- b:RegisterForClicks("AnyDown", "AnyUp")
+    -- This is hugely awkward. What we wish to do is follow the CVar setting
+    -- for ActionButtonUseKeyDown, which we could do by registering for both
+    -- AnyDown and AnyUp and checking isDown versus the CVar value in the
+    -- PreClick and PostClick handlers.
+    --
+    -- But, "/click LM_B1" provides isDown==nil so if we want to use the same
+    -- SecureActionButton for the keybinding as the macro argument it won't
+    -- work except if the user has SetCVar("ActionButtonUseKeyDown", false).
+    --
+    -- We could force "Up" behaviour pretty easily by doing
+    --      b:SetAttribute("useOnKeyDown", false)
+    --      b:RegisterForClicks("AnyUp")
+    -- but I hate "Up" behaviour and it's my addon dammit.
+    --
+    -- So instead we abuse the pressAndRelease behaviour, which:
+    --      1. triggers normally when isDown==true
+    --      2. triggers the release action when isDown==false
+    -- By only registering "AnyDown" we get (1) from the bindings and (2)
+    -- from the "/click" macros.
+    --
+    -- This relies on stuff in SecureAction.lua which sets the typerelease
+    -- attribute to be the same as the type attribute.
+    --
     -- https://github.com/Stanzilla/WoWUIBugs/issues/317#issuecomment-1510847497
     b:RegisterForClicks("AnyDown")
 
