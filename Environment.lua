@@ -173,7 +173,8 @@ local StateUpdateFunctions = {
         end,
     jumpTime =
         function (self)
-            -- A jump in place takes approximately 0.83 seconds
+            -- A jump in place takes approximately 0.83 seconds. The
+            -- granularity of stopped/startedFalling is only 0.05s
             local airTime = self.stoppedFalling - self.startedFalling
             if airTime > 0.73 and airTime < 0.93 then
                 local timeSinceLanded = GetTime() - self.stoppedFalling

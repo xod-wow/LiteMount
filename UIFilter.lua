@@ -754,4 +754,7 @@ function LM.UIFilter.Initialize()
                 LM.UIFilter.ClearCache()
             end
         end)
+    for _,m in ipairs(LM.MountRegistry.mounts) do
+        LM.UIFilter.RegisterUsedTypeID(m.mountTypeID or 0)
+    end
 end

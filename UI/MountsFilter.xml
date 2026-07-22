@@ -2,7 +2,6 @@
 
 <!-- Copyright 2011 Mike Battersby -->
 
-<Script file="UIFilter.lua" />
 <Script file="MountsFilter.lua" />
 
 <Frame name="LiteMountFilter" mixin="LiteMountFilterMixin" hidden="true">
