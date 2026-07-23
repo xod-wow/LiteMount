@@ -67,6 +67,7 @@ Model._AUTO_ = {
     [308814] = true, -- Ny'alotha Allseer
     [245725] = true, -- Orgrimmar Interceptor
    [1221155] = true, -- Prototype A.S.M.R.
+   [1293456] = true, -- Rabbit'ath (2984), probably a reskin of Jade, Bright Foreseer
    [1261391] = true, -- Relinquished Scarlet Charger (2785)
     [400733] = true, -- Rocket Shredder 9001
     [424009] = true, -- Runebound Firelord
@@ -207,6 +208,7 @@ Model["Arboon"] = {
 -- Model file is Arcane Golem
 Model["Arcane Guardian"] = {
    [1268949] = true, -- Arcanovoid Construct (2842)
+   [1268919] = true, -- Delver's Arcane Golem (2839)
    [1268926] = true, -- Elven Arcane Guardian (2841)
    [1268924] = true, -- Silvermoon's Arcane Defender (2840)
 }
@@ -1935,6 +1937,7 @@ Model["Rylak"] = {
     [288495] = true, -- Ashenvale Chimaera
     [153489] = true, -- Iron Skyreaver
    [1214920] = true, -- Nightfall Skyreaver
+   [1297405] = true, -- Primeval Skyfriend (3030)
     [191633] = true, -- Soaring Skyterror
     [194046] = true, -- Swift Spectral Rylak
 }
@@ -2488,6 +2491,7 @@ Model["Venomfang"] = {
    [1297224] = true, -- Auriferous Venomfang (3023)
    [1297217] = true, -- Caustic Venomfang (3020)
    [1297220] = true, -- Crimson Venomfang (3021)
+   [1297216] = true, -- Sea-Dwelling Isle Serpent (3019)
 }
 
 Model["Vespoid"] = {
