@@ -110,8 +110,6 @@ Model._AUTO_ = {
     [327408] = true, -- Vicious War Spider
     [232523] = true, -- Vicious War Turtle
     [232525] = true, -- Vicious War Turtle
-    [349823] = true, -- Vicious Warstalker (Alliance)
-    [349824] = true, -- Vicious Warstalker (Horde)
     [223363] = true, -- Vicious Warstrider
    [1294648] = true, -- Voidmancer's Starcarver (2988)
     [348162] = true, -- Wandering Ancient
@@ -574,11 +572,6 @@ Model["Darkmoon Charger"] = {
    [1217340] = true, -- Midnight Darkmoon Charger
    [1217343] = true, -- Snowy Darkmoon Charger
    [1217342] = true, -- Violet Darkmoon Charger
-}
-
-Model["Darkwell Phoenix"] = {
-   [1242904] = true, -- Ashes of Belo'ren (2607) - reskin Coldflame Tempest?
-   [1301775] = true, -- Umbral Ashes (3069)
 }
 
 Model["Deathcharger"] = {
@@ -1401,6 +1394,9 @@ Model["Longhorned Talbuk"] = {
 Model["Lupine"] = {
    [1263387] = true, -- Crimson Lupine
     [367673] = true, -- Heartbond Lupine
+   [1284679] = true, -- Sha-Warped Riding Wolf (2949)
+    [349823] = true, -- Vicious Warstalker (1465) (Alliance)
+    [349824] = true, -- Vicious Warstalker (1466) (Horde)
 }
 
 Model["Lynx"] = {
@@ -1661,6 +1657,11 @@ Model["Owl"] = {
     [424484] = true, -- Anu'relos, Flame's Guidance
    [1276650] = true, -- Anu'shalla, Shadow's Guidance (2917)
     [443660] = true, -- Charming Courier
+   [1285897] = true, -- Sha-Warped Owl (2951)
+}
+
+Model["Panda"] = {
+    [1291315] = true, -- Spring Panda (2972)
 }
 
 Model["Pandaren Kite"] = {
@@ -2462,6 +2463,11 @@ Model["Turkey"] = {
 Model["Turtle"] = {
     [ 30174] = true, -- Riding Turtle
     [ 64731] = true, -- Sea Turtle
+}
+
+Model["Umbral Phoenix"] = {
+   [1242904] = true, -- Ashes of Belo'ren (2607) - reskin Coldflame Tempest?
+   [1301775] = true, -- Umbral Ashes (3069)
 }
 
 Model["Undercrawler"] = {
