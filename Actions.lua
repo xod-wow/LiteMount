@@ -846,7 +846,7 @@ ACTIONS['Use'] = {
                 if slotNum then
                     LM.Debug('  * trying slot ' .. tostring(slotNum))
                     if IsCastableSlot(slotNum) then
-                        LM.Debug('  * Setting action to use slot ' .. slotNum)
+                        LM.Debug('  * setting action to use slot ' .. slotNum)
                         return LM.SecureAction:Item(slotNum, context.rule.unit)
                     end
                 else
@@ -888,16 +888,19 @@ ACTIONS['Falling'] = {
                 if type == 'spell' then
                     local _, _, nameWithSubtext = GetUsableSpell(id)
                     if nameWithSubtext then
+                        LM.Debug("  * setting action to spell " .. nameWithSubtext)
                         return LM.SecureAction:Spell(nameWithSubtext, context.rule.unit)
                     end
                 elseif type == 'item' then
                     local name, itemID = UsableItemParse(id)
                     if IsCastableItem(itemID) then
+                        LM.Debug('  * setting action to use item ' .. name)
                         return LM.SecureAction:Item(name, context.rule.unit)
                     end
                 elseif type == 'slot' then
                     local _, _, slotNum = UsableItemParse(id)
                     if slotNum and IsCastableSlot(slotNum) then
+                        LM.Debug('  * setting action to use slot ' .. slotNum)
                         return LM.SecureAction:Item(slotNum, context.rule.unit)
                     end
                 end
