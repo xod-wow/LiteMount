@@ -52,6 +52,7 @@ Model._AUTO_ = {
     [289555] = true, -- Glacial Tidestorm
     [122708] = true, -- Grand Expedition Yak
     [457485] = true, -- Grizzly Hills Packmaster
+    [142515] = true, -- Hearthkeeper's Wandering Caravan (2982)
    [1227192] = true, -- Herald of Sa'bak
     [360954] = true, -- Highland Drake [Swift Spectral Drake]
     [201098] = true, -- Infinite Timereaver
