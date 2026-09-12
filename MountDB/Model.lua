@@ -62,6 +62,7 @@ Model._AUTO_ = {
     [366791] = true, -- Jigglesworth Sr.
    [1233925] = true, -- Lana'thel's Crimson Cascade
     [363613] = true, -- Lightforged Ruinstrider
+   [1297808] = true, -- Living Heartsbane Cauldron (3034)
     [472253] = true, -- Lunar Launcher
     [267274] = true, -- Mag'har Direwolf
     [305592] = true, -- Mechagon Mechanostrider
@@ -76,6 +77,7 @@ Model._AUTO_ = {
     [279611] = true, -- Skullripper
     [341821] = true, -- Snowstorm
    [1264184] = true, -- Spawn of Vyranoth (2806)
+   [1313788] = true, -- Sporebearer Fungal Strider (3137)
     [259202] = true, -- Starcursed Voidstrider
    [1255246] = true, -- Starspark Netherdrake
     [454682] = true, -- Startouched Furline
@@ -185,6 +187,7 @@ Model["Antoran Hound"] = {
 }
 
 Model["Aqir Drone"] = {
+   [1301331] = true, -- Corrupted Swarmer (3066)
     [316337] = true, -- Malevolent Drone
     [316339] = true, -- Shadowbarb Drone
     [414986] = true, -- Royal Swarmer
@@ -1292,6 +1295,13 @@ Model["Horse"] = {
     [ 16083] = true, -- White Stallion
 }
 
+Model["Hot Motocross Bunmover"] = {
+   [1314165] = true, -- Hot Motocross Bunmover 4000 (3138)
+   [1314166] = true, -- Hot Motocross Bunmover 4200 (3139)
+   [1314168] = true, -- Hot Motocross Bunmover 4400 (3141)
+   [1314169] = true, -- Hot Motocross Bunmover 4600 (3142)
+}
+
 Model["Hyena"] = {
     [237287] = true, -- Alabaster Hyena
     [306423] = true, -- Caravan Hyena
@@ -2194,6 +2204,7 @@ Model["Soul Eater"] = {
 Model["Soul Crusher"] = {
    [1297404] = true, -- Apophic Soul Crusher (3029)
    [1298808] = true, -- Corroded Soul Crusher (3043)
+   [1314715] = true, -- Loa-Blessed Wayfarer (3144)
 }
 
 Model["Spelltome"] = {
