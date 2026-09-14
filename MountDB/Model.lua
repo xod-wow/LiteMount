@@ -1745,6 +1745,10 @@ Model["Prestigious Courser"] = {
     [222236] = true, -- Prestigious Royal Courser
 }
 
+Model["Prideclaw"] = {
+   [1309109] = true, -- Cerulean Prideclaw (3107)
+}
+
 Model["Prismatic Disc"] = {
    [1255463] = true, -- Archmage's Felscorned Disc
     [229376] = true, -- Archmage's Prismatic Disc
