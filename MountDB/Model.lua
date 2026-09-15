@@ -2832,6 +2832,11 @@ Model["Zodiac"] = {
     [359317] = true, -- Wen Lo, the River's Edge
 }
 
+Model["Zothwing"] = {
+   [1283837] = true, -- Zothwing Darkseeker (2937)
+   [1283838] = true, -- Zothwing Deepseeker (2938)
+}
+
 local ModelBySpellID = {}
 local ModelList = {}
 
