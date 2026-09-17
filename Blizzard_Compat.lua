@@ -25,13 +25,6 @@ if not LM.C_Spell.GetOverrideSpell then
 end
 
 
---[[ C_ClassColor ]]------------------------------------------------------------
-
-if not C_ClassColor then
-    LM.C_ClassColor = {}
-    LM.C_ClassColor.GetClassColor = GetClassColorObj
-end
-
 --[[ PanelTemplates ]]----------------------------------------------------------
 
 if not PanelTemplates_AnchorTabs then

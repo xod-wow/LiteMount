@@ -13,7 +13,6 @@ local _, LM = ...
 local Env = LM.Environment
 
 local C_Spell = C_Spell or LM.C_Spell
-local C_ClassColor = C_ClassColor or LM.C_ClassColor
 
 local L = LM.L
 

@@ -14,11 +14,6 @@ local L = LM.L
 
 --[[------------------------------------------------------------------------]]--
 
-local C_ClassColor = C_ClassColor or LM.C_ClassColor
-
-
---[[------------------------------------------------------------------------]]--
-
 LiteMountMacroEditBoxMixin = {}
 
 function LiteMountMacroEditBoxMixin:OnTextChanged(userInput)
