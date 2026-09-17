@@ -12,8 +12,10 @@
 
 local _, LM = ...
 
-local C_Spell = LM.C_Spell or C_Spell
+local C_Spell = C_Spell
+local C_Traits = C_Traits
 local C_Secrets = C_Secrets
+local ForEachAura = AuraUtil.ForEachAura
 
 LM.Environment = LM.CreateAutoEventFrame("Frame")
 LM.Environment:RegisterEvent("PLAYER_LOGIN")
@@ -197,16 +199,13 @@ local StateUpdateFunctions = {
         function ()
             local buffIDs = {}
             if not C_Secrets.ShouldAurasBeSecret() then
-                local i = 1
-                while true do
-                    local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i)
-                    if auraInfo == nil then
-                        break
-                    elseif not issecretvalue(auraInfo.spellId) then
-                        buffIDs[auraInfo.spellId] = true
-                    end
-                    i = i + 1
-                end
+                ForEachAura('player', 'HELPFUL|INCLUDE_NAME_PLATE_ONLY', nil,
+                    function (auraData)
+                        if not issecretvalue(auraData.spellId) then
+                            buffIDs[auraData.spellId] = true
+                        end
+                    end,
+                    true)
             end
             return buffIDs
         end,
@@ -214,16 +213,13 @@ local StateUpdateFunctions = {
         function ()
             local debuffIDs = {}
             if not C_Secrets.ShouldAurasBeSecret() then
-                local i = 1
-                while true do
-                    local auraInfo = C_UnitAuras.GetAuraDataByIndex('player', i, 'HARMFUL')
-                    if auraInfo == nil then
-                        break
-                    elseif not issecretvalue(auraInfo.spellId) then
-                        debuffIDs[auraInfo.spellId] = true
-                    end
-                    i = i + 1
-                end
+                ForEachAura('player', 'HARMFUL', nil,
+                    function (auraData)
+                        if not issecretvalue(auraInfo.spellId) then
+                            debuffIDs[auraInfo.spellId] = true
+                        end
+                end,
+                true)
             end
             return debuffIDs
         end,

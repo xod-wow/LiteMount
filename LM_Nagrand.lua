@@ -18,8 +18,6 @@
 
 local _, LM = ...
 
-local C_Spell = LM.C_Spell or C_Spell
-
 LM.Nagrand = setmetatable({ }, LM.Spell)
 LM.Nagrand.__index = LM.Nagrand
 

@@ -10,8 +10,6 @@
 
 local _, LM = ...
 
-local C_Spell = LM.C_Spell or C_Spell
-
 LM.Journal = setmetatable({ }, LM.Mount)
 LM.Journal.__index = LM.Journal
 

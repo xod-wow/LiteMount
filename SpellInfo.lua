@@ -10,7 +10,7 @@
 
 local _, LM = ...
 
-local C_Spell = LM.C_Spell or C_Spell
+local C_Spell = C_Spell
 local C_Secrets = C_Secrets
 
 local L = LM.L

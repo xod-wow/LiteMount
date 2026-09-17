@@ -12,8 +12,6 @@ local _, LM = ...
 
 local Env = LM.Environment
 
-local C_Spell = C_Spell or LM.C_Spell
-
 local L = LM.L
 
 local ANY_TEXT = CLUB_FINDER_ANY_FLAG or SPELL_TARGET_TYPE1_DESC:upper()

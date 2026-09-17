@@ -8,8 +8,6 @@
 
 local _, LM = ...
 
-local C_Spell = LM.C_Spell or C_Spell
-
 LM.ItemSummoned = setmetatable({ }, LM.Mount)
 LM.ItemSummoned.__index = LM.ItemSummoned
 

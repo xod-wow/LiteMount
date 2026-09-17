@@ -10,6 +10,10 @@
 
 local _, LM = ...
 
+local WOW_PROJECT_ID = WOW_PROJECT_ID
+local C_Spell = C_Spell
+local C_ZoneAbility = C_ZoneAbility
+
 LM.Drive = setmetatable({ }, LM.Spell)
 LM.Drive.__index = LM.Drive
 
@@ -42,6 +46,10 @@ LM.Drive.__index = LM.Drive
 --
 
 function LM.Drive.IsUsable()
+    if WOW_PROJECT_ID ~= 1 then
+        return false
+    end
+
     if C_Spell.GetOverrideSpell(LM.SPELL.G_99_BREAKNECK) ~= LM.SPELL.G_99_BREAKNECK then
         return true
     end
