@@ -10,8 +10,10 @@
 
 local _, LM = ...
 
-local C_Spell = LM.C_Spell
+local C_Spell = C_Spell
 local C_Secrets = C_Secrets
+local C_MountJournal = C_MountJournal
+local C_UnitAuras = C_UnitAuras
 
 local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
 
