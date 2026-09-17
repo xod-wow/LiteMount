@@ -63,7 +63,7 @@ local EXTRA_MOUNT_DATA = {
             expansion = 5,
         }
     },
-    { "Drive",
+    { "Drive", disabled = ( WOW_PROJECT_ID ~= 1 ),
         {
             spellID = LM.SPELL.G_99_BREAKNECK,
             flags = { ['DRIVE'] = true, },

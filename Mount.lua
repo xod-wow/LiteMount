@@ -10,11 +10,12 @@
 
 local _, LM = ...
 
+local L = LM.L
+
 local Env = LM.Environment
 
-local C_Spell = LM.C_Spell or C_Spell
-
-local L = LM.L
+-- Only need ID version
+local GetOverrideSpell = C_Spell.GetOverrideSpell or FindSpellOverrideByID
 
 LM.Mount = { }
 LM.Mount.__index = LM.Mount
@@ -209,7 +210,7 @@ function LM.Mount:IsActive(buffTable)
 end
 
 function LM.Mount:IsCastable()
-    local spellID = C_Spell.GetOverrideSpell(self.spellID)
+    local spellID = GetOverrideSpell(self.spellID)
     local info = C_Spell.GetSpellInfo(spellID)
     if Env.isMovingOrFalling then
         if info.castTime > 0 then return false end

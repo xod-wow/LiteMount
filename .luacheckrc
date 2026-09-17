@@ -436,7 +436,6 @@ read_globals = {
     "PERKS_VENDOR_CATEGORY_TRANSMOG",
     "PLAYER_FACTION_GROUP",
     "PVP",
-    "PanelTemplates_AnchorTabs",
     "PanelTemplates_DeselectTab",
     "PanelTemplates_GetSelectedTab",
     "PanelTemplates_ResizeTabsToFit",

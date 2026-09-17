@@ -10,8 +10,6 @@
 ## X-WoWI-ID: 26329
 ## X-Wago-ID: b6mbPXKP
 
-Blizzard_Compat.lua
-
 embeds.xml
 
 Localization.lua
