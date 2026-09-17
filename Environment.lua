@@ -215,8 +215,8 @@ local StateUpdateFunctions = {
             if not C_Secrets.ShouldAurasBeSecret() then
                 ForEachAura('player', 'HARMFUL', nil,
                     function (auraData)
-                        if not issecretvalue(auraInfo.spellId) then
-                            debuffIDs[auraInfo.spellId] = true
+                        if not issecretvalue(auraData.spellId) then
+                            debuffIDs[auraData.spellId] = true
                         end
                 end,
                 true)
