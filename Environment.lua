@@ -522,7 +522,7 @@ end
 -- then we are in the right area. Save duplicating all the code.
 
 function LM.Environment:IsDrivableArea()
-    return LM.Drive.IsUsable()
+    return WOW_PROJECT_ID == 1 and LM.Drive.IsUsable()
 end
 
 function LM.Environment:GetLocation()
