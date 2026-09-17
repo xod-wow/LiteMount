@@ -32,9 +32,9 @@ LM.UIFilter = {
         filterList = CopyTable(DefaultFilterList),
         typeNamesInUse = {},
     }
-
-local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
-local callbacks = CallbackHandler:New(LM.UIFilter)
+Mixin(LM.UIFilter, CallbackRegistryMixin)
+CallbackRegistryMixin.OnLoad(LM.UIFilter)
+LM.UIFilter:GenerateCallbackEvents({ 'OnFilterChanged' })
 
 local PriorityColors = {
     [''] = COMMON_GRAY_COLOR,
@@ -56,7 +56,7 @@ end
 function LM.UIFilter.Clear()
     LM.UIFilter.ClearCache()
     LM.UIFilter.filterList = CopyTable(DefaultFilterList)
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.IsFiltered()
@@ -111,7 +111,7 @@ function LM.UIFilter.SetSortKey(k)
     else
         LM.UIFilter.sortKey = ( k or 'default' )
         LM.UIFilter.ClearCache()
-        callbacks:Fire('OnFilterChanged')
+        LM.UIFilter:TriggerEvent('OnFilterChanged')
     end
 end
 
@@ -232,7 +232,7 @@ function LM.UIFilter.SetAllSourceFilters(v)
             end
         end
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.SetSourceFilter(i, v)
@@ -242,7 +242,7 @@ function LM.UIFilter.SetSourceFilter(i, v)
     else
         LM.UIFilter.filterList.source[i] = true
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.IsSourceChecked(i)
@@ -293,7 +293,7 @@ function LM.UIFilter.SetAllExpansionFilters(v)
             LM.UIFilter.filterList.expansion[i] = true
         end
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.SetExpansionFilter(i, v)
@@ -303,7 +303,7 @@ function LM.UIFilter.SetExpansionFilter(i, v)
     else
         LM.UIFilter.filterList.expansion[i] = true
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.IsExpansionChecked(i)
@@ -346,7 +346,7 @@ function LM.UIFilter.SetAllModelFilters(v)
             LM.UIFilter.filterList.model[modelName] = true
         end
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.SetModelFilter(i, v)
@@ -356,7 +356,7 @@ function LM.UIFilter.SetModelFilter(i, v)
     else
         LM.UIFilter.filterList.model[i] = true
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.IsModelChecked(i)
@@ -385,7 +385,7 @@ function LM.UIFilter.SetTypeNameFilter(t, v)
     else
         LM.UIFilter.filterList.typename[t] = true
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.SetAllTypeNameFilters(v)
@@ -397,7 +397,7 @@ function LM.UIFilter.SetAllTypeNameFilters(v)
             LM.UIFilter.filterList.typename[n] = true
         end
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.GetTypeNames()
@@ -436,7 +436,7 @@ function LM.UIFilter.SetFlagFilter(f, v)
     else
         LM.UIFilter.filterList.flag[f] = true
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.SetAllFlagFilters(v)
@@ -448,7 +448,7 @@ function LM.UIFilter.SetAllFlagFilters(v)
             LM.UIFilter.filterList.flag[f] = true
         end
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.GetFlags()
@@ -474,7 +474,7 @@ function LM.UIFilter.SetGroupFilter(g, v)
     else
         LM.UIFilter.filterList.group[g] = true
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.SetAllGroupFilters(v)
@@ -486,7 +486,7 @@ function LM.UIFilter.SetAllGroupFilters(v)
             LM.UIFilter.filterList.group[g] = true
         end
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.GetGroups()
@@ -518,7 +518,7 @@ function LM.UIFilter.SetPriorityFilter(p, v)
     else
         LM.UIFilter.filterList.priority[p] = true
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.SetAllPriorityFilters(v)
@@ -530,7 +530,7 @@ function LM.UIFilter.SetAllPriorityFilters(v)
             LM.UIFilter.filterList.priority[p] = true
         end
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.GetPriorities()
@@ -581,7 +581,7 @@ function LM.UIFilter.SetOtherFilter(k, v)
     else
         LM.UIFilter.filterList.other[k] = true
     end
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 -- Search ----------------------------------------------------------------------
@@ -589,7 +589,7 @@ end
 function LM.UIFilter.SetSearchText(t)
     LM.UIFilter.ClearCache()
     LM.UIFilter.searchText = t
-    callbacks:Fire('OnFilterChanged')
+    LM.UIFilter:TriggerEvent('OnFilterChanged')
 end
 
 function LM.UIFilter.GetSearchText(t)

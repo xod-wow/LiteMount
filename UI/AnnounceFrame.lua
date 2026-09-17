@@ -19,7 +19,7 @@ function LiteMountAnnounceFrameMixin:OnLoad()
     FadingFrame_SetFadeInTime(self, 0.5)
     FadingFrame_SetHoldTime(self, 3)
     FadingFrame_SetFadeOutTime(self, 1)
-    LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "OnCallback")
+    LM.MountRegistry:RegisterCallback("OnMountSummoned", self.OnMountSummoned, self)
     self:RegisterUnitEvent('UNIT_SPELLCAST_SUCCEEDED', 'player')
 end
 
@@ -59,7 +59,7 @@ function LiteMountAnnounceFrameMixin:ShowText(text, r, g, b, a)
     FadingFrame_Show(self)
 end
 
-function LiteMountAnnounceFrameMixin:OnCallback(callbackName, mount)
+function LiteMountAnnounceFrameMixin:OnMountSummoned(mount)
     if LM.Options:GetOption('announceViaUI') then
         if LM.Options:GetOption('announceColors') then
             self.Text:SetText(GetColorText(mount))

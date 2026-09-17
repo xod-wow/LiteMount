@@ -136,7 +136,7 @@ function LiteMount:Initialize()
     -- Filter has to register DB changed callback
     LM.UIFilter.Initialize()
 
-    LM.MountRegistry.RegisterCallback(self, "OnMountSummoned", "OnMountSummoned")
+    LM.MountRegistry:RegisterCallback("OnMountSummoned", self.OnMountSummoned, self)
 end
 
 function LiteMount:PLAYER_LOGIN()

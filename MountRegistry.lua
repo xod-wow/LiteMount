@@ -15,12 +15,10 @@ local C_Secrets = C_Secrets
 local C_MountJournal = C_MountJournal
 local C_UnitAuras = C_UnitAuras
 
-local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true)
-
 local IndexAttributes = { 'mountID', 'name', 'spellID', 'overrideSpellID' }
 
-LM.MountRegistry = CreateFrame("Frame", nil, UIParent)
-LM.MountRegistry.callbacks = CallbackHandler:New(LM.MountRegistry)
+LM.MountRegistry = CreateFrame("EventFrame")
+LM.MountRegistry:GenerateCallbackEvents({ 'OnMountSummoned' })
 
 -- Type, TypeInitializerArgs
 local EXTRA_MOUNT_DATA = {
@@ -232,7 +230,7 @@ function LM.MountRegistry:OnEvent(event, ...)
         if m then
             self.lastSummoned = m
             m:OnSummon()
-            self.callbacks:Fire("OnMountSummoned", m)
+            self:TriggerEvent("OnMountSummoned", m)
         end
     end
 end

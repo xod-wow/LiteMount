@@ -67,13 +67,13 @@ end
 
 function LiteMountPickerMixin:OnShow()
     LiteMountFilter:Attach(self, "BOTTOM", self.Scroll, "TOP", 0, 8)
-    LM.UIFilter.RegisterCallback(self, "OnFilterChanged", "RefreshDisplay")
+    LM.UIFilter:RegisterCallback("OnFilterChanged", self.RefreshDisplay, self)
     LiteMountPopOverPanelMixin.OnShow(self)
 end
 
 function LiteMountPickerMixin:OnHide()
     self.callback = nil
-    LM.UIFilter.UnregisterAllCallbacks(self)
+    LM.UIFilter:UnregisterCallback("OnFilterChanged", self)
     LiteMountPopOverPanelMixin.OnHide(self)
 end
 
