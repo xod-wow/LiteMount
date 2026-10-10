@@ -177,6 +177,7 @@ read_globals = {
     "C_XMLUtil",
     "C_ZoneAbility",
     "CalendarFrame",
+    "CallbackRegistryMixin",
     "CanExitVehicle",
     "ChatEdit_InsertLink",
     "Constants",

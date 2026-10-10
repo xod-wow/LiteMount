@@ -620,7 +620,7 @@ CONDITIONS["friend"] = {
             local out = { nosort=true, { val="friend", text=ANY_TEXT } }
             local _, myBattleTag = BNGetInfo()
             if myBattleTag then
-                table.insert(out, { val = 'friend:'..mybattleTag })
+                table.insert(out, { val = 'friend:'..myBattleTag })
             end
             for i = 1, BNGetNumFriends() do
                 local info = C_BattleNet.GetFriendAccountInfo(i)
