@@ -1157,6 +1157,7 @@ Model["Grove Warden"] = {
 
 Model["Grrloc"] = {
     [315132] = true, -- Gargantuan Grrloc
+   [1305612] = true, -- Giant Grrloc
     [463025] = true, -- Gigantic Grrloc
     [419567] = true, -- Ginormous Grrloc
    [1234971] = true, -- Grandiose Grrloc
@@ -2160,6 +2161,7 @@ Model["Slug"] = {
 }
 
 Model["Slyvern"] = {
+   [1314189] = true, -- Ashen Dreadglider
     [359622] = true, -- Liberated Slyvern
     [385738] = true, -- Temperamental Skyclaw
 }
