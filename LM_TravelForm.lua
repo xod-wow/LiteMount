@@ -22,7 +22,7 @@ LM.TravelForm.__index = LM.TravelForm
 local TravelFormDisplayID = {
     40816,                          -- Night Elf/Worgen
     45339,                          -- Tauren/Troll
-    81440,                          -- Hightmountain Tauren
+    81440,                          -- Highmountain Tauren
     87427, 87428, 87429, 87430,     -- Kul Tiran
     82130,                          -- Zandalari Troll
 }

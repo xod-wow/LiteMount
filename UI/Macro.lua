@@ -87,20 +87,36 @@ function LiteMountMacroPanelMixin:IsDefaultMacro(text)
     return text == default
 end
 
+local function UnitDisplayName(unitToken)
+    if not UnitExists(unitToken) then
+        return
+    elseif WOW_PROJECT_ID == 18 then
+        return NameUtil.GetUnmodifiedUnitFullName(unitToken)
+    else
+        local n, r = UnitName(unitToken)
+        r = r or GetRealmName()
+        return n..'-'..r
+    end
+end
+
 function LiteMountMacroPanelMixin:GenerateClassMenu()
     local selectedTab = PanelTemplates_GetSelectedTab(self)
     local _, useKey = unpack(OptionKeysByTab[selectedTab])
 
     local classMenu = { }
 
-    for i = 1, GetNumClasses() do
+    -- This is dumb but the IDs have gaps in Forever, 20 is a number just
+    -- bigger than the largest ID.
+    for i = 1, 20 do
         local name, key, id = GetClassInfo(i)
-        local color = C_ClassColor.GetClassColor(key)
-        local enabled =  LM.Options:GetClassOption(key, useKey)
-        table.insert(classMenu, { name=name, key=key, id=id, color=color, enabled=enabled })
+        if name and key and id then
+            local color = C_ClassColor.GetClassColor(key)
+            local enabled =  LM.Options:GetClassOption(key, useKey)
+            table.insert(classMenu, { name=name, key=key, id=id, color=color, enabled=enabled })
+        end
     end
     table.sort(classMenu, function (a, b) return a.name < b.name end)
-    local name = string.join('-', UnitFullName('player'))
+    local name = UnitDisplayName('player')
     local enabled = LM.Options:GetClassOption('PLAYER', useKey)
     table.insert(classMenu, 1, { name=name, key='PLAYER', id=0, color=WHITE_FONT_COLOR, enabled=enabled })
     -- GRAY, GREEN, HIGHLIGHT, ITEM_LEGENDARY, GOLD

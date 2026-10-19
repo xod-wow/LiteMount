@@ -34,7 +34,8 @@ groups is a table of group names, with mount spell IDs as members
 
 -- Don't use names here, it will break in other locales
 
-local DefaultButtonAction = [[
+local DefaultButtonActionByProject = LM.TableWithDefault({
+DEFAULT = [[
 LeaveVehicle
 Dismount [nofalling]
 CopyTargetsMount
@@ -45,7 +46,18 @@ SmartMount
 Falling [falling]
 Dismount
 Macro
-]]
+]],
+[18] = [[
+LeaveVehicle
+Dismount [nofalling]
+CopyTargetsMount
+ApplyRules
+SmartMount
+Falling [falling]
+Dismount
+Macro
+]],
+})
 
 local DefaultRulesByProject = LM.TableWithDefault({
     DEFAULT = {
@@ -83,6 +95,10 @@ local DefaultFallingByProject = LM.TableWithDefault({
         "item:182729",  -- Hearty Dragon Plume
         "item:131811",  -- Rocfeather Skyhorn Kite
     },
+    [18] = { -- Forever
+        "spell:130",    -- Slow Fall
+        "spell:1706",   -- Levitate
+    }
 })
 
 -- A lot of things need to be cleaned up when flags are deleted/renamed
@@ -99,7 +115,7 @@ local defaults = {
     profile = {
         flagChanges         = { },
         mountPriorities     = { },
-        buttonActions       = { ['*'] = DefaultButtonAction },
+        buttonActions       = { ['*'] = DefaultButtonActionByProject[WOW_PROJECT_ID] },
         falling             = DefaultFallingByProject[WOW_PROJECT_ID],
         groups              = { },
         rules               = { }, -- Note: tables as * don't work

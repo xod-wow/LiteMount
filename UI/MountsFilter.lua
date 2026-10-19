@@ -59,6 +59,7 @@ local DROPDOWNS = {
     },
     {
         text = string.format('%s (%s)', TYPE, ID),
+        disable = ( WOW_PROJECT_ID == 18 ),
         checked = function (k) return LM.UIFilter.IsTypeNameChecked(k) end,
         set = function (k, v) LM.UIFilter.SetTypeNameFilter(k, v) end,
         setall = function (v) LM.UIFilter.SetAllTypeNameFilters(v) end,
@@ -75,6 +76,7 @@ local DROPDOWNS = {
     },
     {
         text = TYPE,
+        disable = ( WOW_PROJECT_ID == 18 ),
         checked = function (k) return LM.UIFilter.IsFlagChecked(k) end,
         set = function (k, v) LM.UIFilter.SetFlagFilter(k, v) end,
         setall = function (v) LM.UIFilter.SetAllFlagFilters(v) end,

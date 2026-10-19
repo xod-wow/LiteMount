@@ -670,7 +670,8 @@ end
 -- rebuilt each time even though that's inefficient.
 
 function LM.Environment:GetMapTree()
-    local mapTree = C_Map.GetMapInfo(946)
+    local topLevelMapID = ( WOW_PROJECT_ID == 18 ) and 947 or 946
+    local mapTree = C_Map.GetMapInfo(topLevelMapID)
     local seenGroups = {}
     FillChildren(mapTree, seenGroups)
     return mapTree
@@ -681,6 +682,9 @@ end
 
 function LM.Environment:InitializeEJInstances()
     self.instancesByID = {}
+    if WOW_PROJECT_ID == 18 then
+        return
+    end
     local savedTier = EJ_GetCurrentTier()
     for tierID = 1, EJ_GetNumTiers() do
         if tierID > GetNumExpansions() then

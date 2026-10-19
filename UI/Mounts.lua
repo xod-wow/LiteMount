@@ -58,11 +58,11 @@ end
 function LiteMountMountsPanelMixin:RefreshDisplay()
     local currentTab = PanelTemplates_GetSelectedTab(self)
 
-    self.PriorityLabel:SetShown(currentTab==1)
+    self.PriorityLabel:SetShown(currentTab == 1)
 
     for i = 1, 4 do
         local label = self["BitLabel"..i]
-        label:SetShown(currentTab==1)
+        label:SetShown(WOW_PROJECT_ID ~= 18 and currentTab == 1)
     end
 
     LM.MountRegistry:RefreshMounts(true)
@@ -201,7 +201,7 @@ function LiteMountMountsPanelMixin:OnLoad()
     self:SetScript('OnEvent', self.RefreshDisplay)
 
     -- Set up the tabs
-    if WOW_PROJECT_ID == 1 then
+    if WOW_PROJECT_ID == 1 or WOW_PROJECT_ID == 18 then
         for i, tabButton in ipairs(self.Tabs) do
             if i == 1 then
                 tabButton:SetPoint("TOPLEFT", self.MountsContainer, "BOTTOMLEFT", 16, 0)

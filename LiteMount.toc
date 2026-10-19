@@ -1,4 +1,4 @@
-## Interface: 120105, 120100, 50504
+## Interface: 120105, 120100, 50504, 16001
 ## Title: LiteMount
 ## Version: @project-version@
 ## Author: Xodiv-Nagrand

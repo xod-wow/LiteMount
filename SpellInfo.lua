@@ -123,7 +123,7 @@ LM.MOUNT_TYPE_INFO = {
     },
     [241] = {
         -- AQ-only bugs
-        name = aqMap and aqMap.name,
+        name = aqMap and aqMap.name or L["Qiraji Battle Tank"],
         flags = { },
     },
     [242] = {

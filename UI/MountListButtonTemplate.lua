@@ -93,7 +93,11 @@ function LiteMountMountListButtonMixin:Initialize(mount)
 
     local i = 1
     while self["Bit"..i] do
-        self["Bit"..i]:Initialize(mount, allTypeFlags[i])
+        if WOW_PROJECT_ID == 18 then
+            self["Bit"..i]:Hide()
+        else
+            self["Bit"..i]:Initialize(mount, allTypeFlags[i])
+        end
         i = i + 1
     end
 

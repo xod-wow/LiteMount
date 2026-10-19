@@ -366,6 +366,10 @@ local SortFunctions = {
         function (a, b)
             return (a.spellID or 0) < (b.spellID or 0)
         end,
+    ['typeid'] =
+        function (a, b)
+            return (a.mountTypeID or 0) < (b.mountTypeID or 0)
+        end,
 }
 
 function LM.MountList:Sort(key)

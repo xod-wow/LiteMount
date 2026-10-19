@@ -98,7 +98,9 @@ function LM.Journal:Get(id)
     -- ones are added.
 
     local typeInfo = LM.MOUNT_TYPE_INFO[m.mountTypeID]
-    if not typeInfo then
+    if WOW_PROJECT_ID == 18 then
+        m.flags.RUN = true
+    elseif not typeInfo then
 --@debug@
         LM.PrintError('Mount with unknown type number: %s = %d', m.name, m.mountTypeID)
 --@end-debug@

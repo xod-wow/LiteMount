@@ -182,13 +182,13 @@ local EXTRA_MOUNT_DATA = {
             flags = { ['SWIM'] = true },
         }
     },
-    { "TravelForm", disabled = ( WOW_PROJECT_ID == 1 ),
+    { "TravelForm", disabled = ( WOW_PROJECT_ID == 1 or WOW_PROJECT_ID == 18 ),
         {
             spellID = LM.SPELL.FLIGHT_FORM_CLASSIC,
             flags =  { ['FLY'] = true },
         }
     },
-    { "TravelForm", disabled = ( WOW_PROJECT_ID == 1 ),
+    { "TravelForm", disabled = ( WOW_PROJECT_ID == 1 or WOW_PROJECT_ID == 18 ),
         {
             spellID = LM.SPELL.SWIFT_FLIGHT_FORM_CLASSIC,
             flags = { ['FLY'] = true },

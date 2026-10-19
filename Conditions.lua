@@ -57,6 +57,20 @@ local function IterateGroupUnits()
     end
 end
 
+local function UnitNameMatches(unitToken, name)
+    if not UnitExists(unitToken) then
+        return false
+    elseif WOW_PROJECT_ID == 18 then
+        return NameUtil.GetUnmodifiedUnitFullName(unitToken) == name
+    elseif name:find('-') then
+        local n, r = UnitName(unitToken)
+        r = r or GetRealmName()
+        return n..'-'..r == name
+    else
+        return UnitName(unitToken) == name
+    end
+end
+
 -- If any condition starts with "no" we're screwed
 -- ".args" functions take a fixed set of arguments rather using / for OR
 
@@ -220,7 +234,7 @@ CONDITIONS["combat"] = {
 
 CONDITIONS["covenant"] = {
     name = L.LM_COVENANT,
-    disabled = ( C_Covenants == nil ),
+    disabled = ( WOW_PROJECT_ID ~= 1 ),
     toDisplay =
         function (v)
             local id = tonumber(v)
@@ -335,7 +349,9 @@ CONDITIONS["difficulty"] = {
                 { val = "difficulty:0" }
             }
             for _, id  in pairs(DifficultyUtil.ID) do
-                table.insert(out, { val = "difficulty:" .. id })
+                if GetDifficultyInfo(id) then
+                    table.insert(out, { val = "difficulty:" .. id })
+                end
             end
             return out
         end,
@@ -383,7 +399,7 @@ CONDITIONS["draw"] = {
 
 CONDITIONS["drivable"] = {
     name = format(L.LM_AREA_FMT_S, ACCESSIBILITY_DRIVE_LABEL or "D.R.I.V.E."),
-    disabled = ( IsDrivableArea == nil ),
+    disabled = ( WOW_PROJECT_ID ~= 1 ),
     handler =
         function (cond, context)
             -- Should work, doesn't so far
@@ -530,7 +546,7 @@ CONDITIONS["false"] = {
 
 CONDITIONS["flightstyle"] = {
     name = L.LM_FLIGHT_STYLE,
-    disabled = ( IsAdvancedFlyableArea == nil ),
+    disabled = ( WOW_PROJECT_ID ~= 1 ),
     toDisplay =
         function (v)
             if v ==  "steady" then
@@ -563,6 +579,7 @@ CONDITIONS["floating"] = {
 
 CONDITIONS["flyable"] = {
     name = format(L.LM_AREA_FMT_S, MOUNT_JOURNAL_FILTER_FLYING),
+    disabled = ( WOW_PROJECT_ID == 18 ),
     handler =
         function (cond, context)
             return Env.canFly
@@ -570,6 +587,7 @@ CONDITIONS["flyable"] = {
 }
 
 CONDITIONS["flying"] = {
+    disabled = ( WOW_PROJECT_ID == 18 ),
     handler =
         function (cond, context)
             return IsFlying()
@@ -714,7 +732,7 @@ CONDITIONS["group"] = {
                 { val = "group:party" },
                 { val = "group:raid" },
             }
-            if CROSS_FACTION_CLUB_FINDER_SEARCH_OPTION then
+            if WOW_PROJECT_ID == 1 then
                 table.insert(out, { val = "group:crossfaction" })
             end
             return out
@@ -776,6 +794,50 @@ CONDITIONS["indoors"] = {
         end
 }
 
+local function InstanceMenuForever()
+    -- No encounter journal, so just the ones we discovered
+    local out = { }
+    for id in pairs(Env:GetInstances()) do
+        table.insert(out, { val = "instance:"..id })
+    end
+    return out
+end
+
+local function InstanceMenu()
+    local seen = {}
+    local dungeonByTier, raidByTier = {}, {}
+    for _, info in pairs(Env:GetEJInstances()) do
+        local tierName = EJ_GetTierInfo(info.tierID)
+        if info.isRaid then
+            if not raidByTier[info.tierID] then
+                raidByTier[info.tierID] = { text=tierName, id=info.tierID }
+            end
+            table.insert(raidByTier[info.tierID], { val = "instance:"..info.id })
+        else
+            if not dungeonByTier[info.tierID] then
+                dungeonByTier[info.tierID] = { text=tierName, id=info.tierID }
+            end
+            table.insert(dungeonByTier[info.tierID], { val = "instance:"..info.id })
+        end
+        seen[info.id] = true
+    end
+    local other = { text=OTHER }
+    for id in pairs(Env:GetInstances()) do
+        if not seen[id] then
+            table.insert(other, { val = "instance:"..id })
+        end
+    end
+    -- this is assuming dungeonByTier and raidByTier are indexed tables
+    -- (with no gaps) even though above we are initializing them by key
+    local dungeons = GetValuesArray(dungeonByTier)
+    dungeons.text = LFG_TYPE_DUNGEON
+    dungeons.nosort = true
+    local raids = GetValuesArray(raidByTier)
+    raids.text = LFG_TYPE_RAID
+    raids.nosort = true
+    return { nosort=true, dungeons, raids, other }
+end
+
 CONDITIONS["instance"] = {
     name = INSTANCE,
     toDisplay =
@@ -787,41 +849,7 @@ CONDITIONS["instance"] = {
                 return v
             end
         end,
-    menu =
-        function ()
-            local seen = {}
-            local dungeonByTier, raidByTier = {}, {}
-            for _, info in pairs(Env:GetEJInstances()) do
-                local tierName = EJ_GetTierInfo(info.tierID)
-                if info.isRaid then
-                    if not raidByTier[info.tierID] then
-                        raidByTier[info.tierID] = { text=tierName, id=info.tierID }
-                    end
-                    table.insert(raidByTier[info.tierID], { val = "instance:"..info.id })
-                else
-                    if not dungeonByTier[info.tierID] then
-                        dungeonByTier[info.tierID] = { text=tierName, id=info.tierID }
-                    end
-                    table.insert(dungeonByTier[info.tierID], { val = "instance:"..info.id })
-                end
-                seen[info.id] = true
-            end
-            local other = { text=OTHER }
-            for id in pairs(Env:GetInstances()) do
-                if not seen[id] then
-                    table.insert(other, { val = "instance:"..id })
-                end
-            end
-            -- this is assuming dungeonByTier and raidByTier are indexed tables
-            -- (with no gaps) even though above we are initializing them by key
-            local dungeons = GetValuesArray(dungeonByTier)
-            dungeons.text = LFG_TYPE_DUNGEON
-            dungeons.nosort = true
-            local raids = GetValuesArray(raidByTier)
-            raids.text = LFG_TYPE_RAID
-            raids.nosort = true
-            return { nosort=true, dungeons, raids, other }
-        end,
+    menu = WOW_PROJECT_ID == 18 and InstanceMenuForever or InstanceMenu,
     handler =
         function (cond, context, v)
             if not v then
@@ -860,7 +888,7 @@ CONDITIONS["keybind"] = {
 
 CONDITIONS["keystone"] = {
     name = WEEKLY_REWARDS_MYTHIC_KEYSTONE,
-    disabled = C_ChallengeMode.GetActiveKeystoneInfo == nil,
+    disabled = ( WOW_PROJECT_ID ~= 1 ),
     args = true,
     toDisplay =
         function (minLevel, maxLevel)
@@ -1060,16 +1088,9 @@ CONDITIONS["member"] = {
                     local info = C_BattleNet.GetAccountInfoByGUID(guid)
                     if info and info.battleTag == name then return true end
                 end
-            elseif name:find('-') then
-                for u in IterateGroupUnits() do
-                    local n, r = UnitName(u)
-                    r = r or GetRealmName()
-                    if n..'-'..r == name then return true end
-                end
             else
                 for u in IterateGroupUnits() do
-                    local n, r = UnitName(u)
-                    if n == name and r == nil then return true end
+                    if UnitNameMatches(u, name) then return true end
                 end
             end
         end
@@ -1179,7 +1200,7 @@ CONDITIONS["name"] = {
     handler =
         function (cond, context, v)
             if v then
-                return UnitName(context.rule.unit or "player") == v
+                return UnitNameMatches(context.rule.unit or "player", v)
             end
         end
 }
@@ -1261,26 +1282,37 @@ CONDITIONS["playermodel"] = {
         end
 }
 
+local ProfessionIDs = {
+    164, -- Blacksmithing
+    165, -- Leatherworking
+    171, -- Alchemy
+    182, -- Herbalism
+    186, -- Mining
+    197, -- Tailoring
+    202, -- Engineering
+    333, -- Enchanting
+    393, -- Skinning
+    755, -- Jewelcrafting
+    773, -- Inscription
+}
+
 CONDITIONS["profession"] = {
     name = GUILD_ROSTER_DROPDOWN_PROFESSION,
     toDisplay =
         function (v)
             return C_TradeSkillUI.GetTradeSkillDisplayName(v) or v
         end,
-    menu = {
-        -- Note: skill line IDs for only the base professions
-        { val = "profession:164" }, -- Blacksmithing
-        { val = "profession:165" }, -- Leatherworking
-        { val = "profession:171" }, -- Alchemy
-        { val = "profession:182" }, -- Herbalism
-        { val = "profession:186" }, -- Mining
-        { val = "profession:197" }, -- Tailoring
-        { val = "profession:202" }, -- Engineering
-        { val = "profession:333" }, -- Enchanting
-        { val = "profession:393" }, -- Skinning
-        { val = "profession:755" }, -- Jewelcrafting
-        { val = "profession:773" }, -- Inscription
-    },
+    menu =
+        function ()
+            local out = { }
+            for _, id in ipairs(ProfessionIDs) do
+                local info = C_TradeSkillUI.GetProfessionInfoBySkillLineID(id)
+                if info.professionID > 0 then
+                    table.insert(out, { val = "profession:"..id })
+                end
+            end
+            return out
+        end,
     handler =
         function (cond, context, v)
             if not v then return end
@@ -1319,6 +1351,8 @@ CONDITIONS["qfc"] = {
         end
 }
 
+-- /run for i=1,200 do info=C_CreatureInfo.GetRaceInfo(i) if info then print(i, info.clientFileString, info.raceName) end end
+
 local RACE_TABLE = {}
 for i = 1, 100 do
     local info = C_CreatureInfo.GetRaceInfo(i)
@@ -1348,6 +1382,7 @@ local RACE_STRINGS = {
     "Orc",
     "Pandaren",
     "Scourge",  -- Undead
+    "Skyborne",
     "Tauren",
     "Troll",
     "VoidElf",
@@ -1714,6 +1749,9 @@ local function IsTransmogSetActive(setID)
 end
 
 local function GetTransmogSetsMenu()
+    if WOW_PROJECT_ID == 18 then
+        return
+    end
     local byExpansion = { }
     for _,info in ipairs(C_TransmogSets.GetAllSets()) do
         if not byExpansion[info.expansionID] then
