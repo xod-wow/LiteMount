@@ -63,7 +63,7 @@ local function UnitNameMatches(unitToken, name)
     elseif WOW_PROJECT_ID == 18 then
         return NameUtil.GetUnmodifiedUnitFullName(unitToken) == name
     elseif name:find('-') then
-        local n, r = UnitName(unitToken)
+        local n, r = UnitFullName(unitToken)
         r = r or GetRealmName()
         return n..'-'..r == name
     else
@@ -623,7 +623,7 @@ CONDITIONS["friend"] = {
             end
             local _, myBattleTag = BNGetInfo()
             if myBattleTag == v then
-                return ACCOUNT_QUEST_LABEL
+                return ACCOUNT_QUEST_LABEL or L["Warband"]
             end
             for i = 1, BNGetNumFriends() do
                 local info = C_BattleNet.GetFriendAccountInfo(i)
@@ -1306,8 +1306,12 @@ CONDITIONS["profession"] = {
         function ()
             local out = { }
             for _, id in ipairs(ProfessionIDs) do
-                local info = C_TradeSkillUI.GetProfessionInfoBySkillLineID(id)
-                if info.professionID > 0 then
+                if C_TradeSkillUI.GetProfessionInfoBySkillLineID then
+                    local info = C_TradeSkillUI.GetProfessionInfoBySkillLineID(id)
+                    if info.professionID > 0 then
+                        table.insert(out, { val = "profession:"..id })
+                    end
+                else
                     table.insert(out, { val = "profession:"..id })
                 end
             end
