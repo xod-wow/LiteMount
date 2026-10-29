@@ -45,7 +45,6 @@ Model._AUTO_ = {
     [307256] = true, -- Explorer's Jungle Hopper
     [  5784] = true, -- Felsteed
     [182912] = true, -- Felsteel Annihilator
-    [ 84751] = true, -- Fossilized Raptor
     [289083] = true, -- G.M.O.D.
     [126508] = true, -- Geosynchronous World Spinner
     [136505] = true, -- Ghastly Charger
@@ -301,6 +300,7 @@ Model["Battle Gargon"] = {
     [312754] = true, -- Battle Gargon Vrednic
     [332949] = true, -- Desire's Battle Gargon
     [333021] = true, -- Gravestone Battle Gargon
+   [1313280] = true, -- Stone-Carved Crusher (3134)
 }
 
 Model["Battleboar"] = {
@@ -967,6 +967,7 @@ Model["Gladiator's Twilight Drake"] = {
 
 Model["Glimmerfur Vulpin"] = {
     [427435] = true, -- Crimson Glimmerfur
+   [1313363] = true, -- Shadowpaw Wood Watcher (3136)
    [1263369] = true, -- Skypaw Glimmerfur
    [1264988] = true, -- Snowpaw Glimmerfur Prowler
     [290133] = true, -- Vulpine Familiar
@@ -1417,6 +1418,7 @@ Model["Lynx"] = {
 
 Model["Magic Broom"] = {
     [419345] = true, -- Eve's Ghastly Rider
+   [1321944] = true, -- Winterrrgl's Pine-Powered Candy Cane Contraption (3172)
 }
 
 Model["Magmammoth"] = {
@@ -2109,6 +2111,11 @@ Model["Skeletal Horse"] = {
     [  8980] = true, -- Skeletal Horse
 }
 
+Model["Skeletal Raptor"] = {
+    [ 84751] = true, -- Fossilized Raptor
+   [1325226] = true, -- Reanimated Skeletal Raptor (3176)
+}
+
 Model["Skeletal Warhorse"] = {
     [ 64656] = true, -- Blue Skeletal Warhorse
     [ 63643] = true, -- Forsaken Warhorse
@@ -2214,6 +2221,7 @@ Model["Soul Crusher"] = {
 }
 
 Model["Spelltome"] = {
+   [1296315] = true, -- Shadowbound Storybook (3000)
     [359318] = true, -- Soaring Spelltome
 }
 
@@ -2225,6 +2233,13 @@ Model["Sporeglider"] = {
    [1253929] = true, -- Cerulean Sporeglider (2710)
    [1284973] = true, -- Luminous Sporeglider (2950)
    [1253938] = true, -- Ruddy Sporeglider (2713)
+}
+
+Model["Stegodon"] = {
+   [1320798] = true, -- Attuned Ancient Stegodon (3161)
+   [1320801] = true, -- Crackling Ancient Stegodon (3162)
+   [1320802] = true, -- Rumbling Jungle Stegodon (3163)
+   [1320803] = true, -- Thundering Primal Stegodon (3164)
 }
 
 Model["Stone Drake"] = {
@@ -2467,6 +2482,7 @@ Model["Tidestallion"] = {
 
 Model["Toad"] = {
     [339632] = true, -- Arboreal Gulper
+   [1313284] = true, -- Autumn Dream Jumper (3135)
     [347255] = true, -- Vicious War Croaker (Horde)
     [347256] = true, -- Vicious War Croaker (Alliance)
 }
