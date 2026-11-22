@@ -135,6 +135,9 @@
             <KeyValues>
                 <Keyvalue key="minWidth" value="57" type="number" />
             </KeyValues>
+            <Anchors>
+                <Anchor point="LEFT" relativeTo="$parentTab1" relativePoint="RIGHT" />
+            </Anchors>
         </Button>
     </Frames>
 
