@@ -132,7 +132,7 @@ function LM.Journal:Get(id)
     end
 
     if WOW_PROJECT_ID == 1 or WOW_PROJECT_ID == 18 then
-        m.rarity = MountsRarity:GetRarityByID(m.mountID)
+        m.rarity = MountsRarity:GetRarityByID(m.mountID) or 0
     end
 
     return m

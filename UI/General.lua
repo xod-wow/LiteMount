@@ -99,7 +99,7 @@ function LiteMountGeneralPanelMixin:Register()
     end
 
     -- Tooltip Additions --
-    if WOW_PROJECT_ID == 1 then
+    if WOW_PROJECT_ID == 1 or WOW_PROJECT_ID == 18 then
         local setting = Settings.RegisterProxySetting(
             self.category,
             "LiteMountTooltipAdditions",
@@ -118,7 +118,7 @@ function LiteMountGeneralPanelMixin:Register()
         local function GetSettings()
             local container = Settings.CreateControlTextContainer()
             container:Add('Priority', string.format("%s (%s)", L.LM_SUMMON_STYLE_PRIORITY, DEFAULT))
-            if WOW_PROJECT_ID == 1 then
+            if WOW_PROJECT_ID == 1 or WOW_PROJECT_ID == 18 then
                 container:Add('Rarity', L.LM_SUMMON_STYLE_RARITY)
             end
             container:Add('LeastUsed', L.LM_SUMMON_STYLE_LEASTUSED)

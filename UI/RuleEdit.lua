@@ -314,7 +314,7 @@ local function MountArgsMenu()
 --  modelMenuList.text = MODEL
 --  table.insert(menuList, modelMenuList)
 
-    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+    if WOW_PROJECT_ID == 1 then
         local expansionMenuList = LM.tMap(LM.UIFilter.GetExpansions(), ExpansionToInfo)
         expansionMenuList.text = EXPANSION_FILTER_TEXT
         table.insert(menuList, expansionMenuList)

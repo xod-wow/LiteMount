@@ -189,7 +189,7 @@ CONDITIONS["class"] = {
         for _, v in ipairs(CLASS_SORT_ORDER) do
             local color = C_ClassColor.GetClassColor(v)
             local name = color:WrapTextInColorCode(LOCALIZED_CLASS_NAMES_FEMALE[v])
-            local atlas = WOW_PROJECT_ID == 1 and GetClassAtlas(v)
+            local atlas = GetClassAtlas and GetClassAtlas(v)
             if atlas then
                 name = string.format("|A:%s:18:18|a %s", atlas, name)
             end

@@ -58,6 +58,8 @@ function LM.TravelForm:Get(...)
         else
             m.creatureDisplayID = AllFormDisplayID
         end
+    elseif WOW_PROJECT_ID == 18 then
+        -- ???
     else
         if m.spellID == LM.SPELL.FLIGHT_FORM_CLASSIC then
             m.creatureDisplayID = { FlightFormDisplayID[1], FlightFormDisplayID[2] }

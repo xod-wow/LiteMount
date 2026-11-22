@@ -71,7 +71,7 @@ function LiteMountTooltipMixin:SetMount(m, hasMenu)
 
     self:AddLine("|cffffffff"..SUMMONS..":|r "..tostring(m:GetSummonCount()))
 
-    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+    if WOW_PROJECT_ID == 1 then
         if m.modelGroup then
             self:AddLine("|cffffffff"..MODEL..":|r "..m.modelGroup)
         end
