@@ -423,6 +423,7 @@ read_globals = {
     "Mixin",
     "MountJournalSearchBox",
     "NAME",
+    "NameUtil",
     "NECKSLOT",
     "NEVER",
     "NONE",

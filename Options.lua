@@ -95,13 +95,40 @@ local DefaultFallingByProject = LM.TableWithDefault({
         "item:182729",  -- Hearty Dragon Plume
         "item:131811",  -- Rocfeather Skyhorn Kite
     },
-    [18] = { -- Forever
-        "spell:130",    -- Slow Fall
-        "spell:1706",   -- Levitate
+    [18] = { -- Forever, nothing due to reagent costs
     }
 })
 
--- A lot of things need to be cleaned up when flags are deleted/renamed
+-- This is a horrible horrible workaround for the fact that AceDB doesn't
+-- handle ordered indextables at all. If I wasn't so lazy I would stop using
+-- AceDB and write my own more minimal version that did what I wanted.
+--
+-- For future reference, the problem is with a setting like this
+--
+-- defaults = { profile = { test = { "a", "b", "c", "d", "e" } } }
+--
+-- AceDB doesn't treat this as an index table where the keys are special. So
+-- when doing the cleanup it will remove any that are the same as the defaults
+-- and if the table ends up empty nil it out completely.
+--
+-- Then when reloading it will replace the nil table with the full defaults
+-- meaning you can't delete all the entries, and it will also put back any
+-- indexed entries where the current index is nil.
+--
+-- None of this is desired, what is desired is that the table is treated
+-- "atomically" where if it exactly matches the defaults it is nil-ed at
+-- exit, if it is nil a load it is set to the defaults, and otherwise is
+-- left completely alone.
+
+local defaultsExtra = {
+    char = {
+    },
+    profile = {
+        falling             = DefaultFallingByProject[WOW_PROJECT_ID],
+    },
+    global = {
+    },
+}
 
 local defaults = {
     char = {
@@ -116,7 +143,6 @@ local defaults = {
         flagChanges         = { },
         mountPriorities     = { },
         buttonActions       = { ['*'] = DefaultButtonActionByProject[WOW_PROJECT_ID] },
-        falling             = DefaultFallingByProject[WOW_PROJECT_ID],
         groups              = { },
         rules               = { }, -- Note: tables as * don't work
         copyTargetsMount    = true,
@@ -284,7 +310,7 @@ function LM.Options:CleanDatabase()
     local changed
     for n,c in pairs(LM.db.sv.char or {}) do
         for k in pairs(c) do
-            if defaults.char[k] == nil then
+            if defaults.char[k] == nil and defaultsExtra.char[k] == nil then
                 c[k] = nil
                 changed = true
             end
@@ -292,14 +318,14 @@ function LM.Options:CleanDatabase()
     end
     for n,p in pairs(LM.db.sv.profiles or {}) do
         for k in pairs(p) do
-            if defaults.profile[k] == nil then
+            if defaults.profile[k] == nil and defaultsExtra.profile[k] == nil then
                 p[k] = nil
                 changed = true
             end
         end
     end
     for k in pairs(LM.db.sv.global or {}) do
-        if k ~= "configVersion" and defaults.global[k] == nil then
+        if k ~= "configVersion" and defaults.global[k] == nil and defaultsExtra.global[k] == nil then
             LM.db.sv.global[k] = nil
             changed = true
         end
@@ -331,13 +357,28 @@ function LM.Options:OnProfile()
     LM.db.callbacks:Fire("OnOptionsProfile")
 end
 
--- This is split into two because I want to load it early in the
--- setup process to get access to the debugging settings.
+local function MergeExtraDefaults(db)
+    for name,v in pairs(defaultsExtra.profile) do
+        if db.profile[name] == nil then
+            db.profile[name] = CopyTable(v)
+        end
+    end
+end
+
+local function CleanExtraDefaults(_event, db)
+    for name,v in pairs(defaultsExtra.profile) do
+        if tCompare(db.profile[name], v) then
+            db.profile[name] = nil
+        end
+    end
+end
 
 function LM.Options:Initialize()
     local oldDB = LiteMountDB and CopyTable(LiteMountDB)
 
     LM.db = LibStub("AceDB-3.0"):New("LiteMountDB", defaults, true)
+    MergeExtraDefaults(LM.db)
+    LM.db.RegisterCallback(self, "OnDatabaseShutdown", CleanExtraDefaults)
 
     -- It would be neater and safer to do the maintenance before AceDB got its
     -- hands on things, but I want to be able to spit out debugging in the
@@ -739,7 +780,7 @@ end
 
 function LM.Options:GetOption(name)
     for _, k in ipairs({ 'char', 'profile', 'global' }) do
-        if defaults[k][name] ~= nil then
+        if defaults[k][name] ~= nil or defaultsExtra[k][name] then
             return LM.db[k][name]
         end
     end
@@ -747,17 +788,19 @@ end
 
 function LM.Options:GetOptionDefault(name)
     for _, k in ipairs({ 'char', 'profile', 'global' }) do
-        if defaults[k][name] then
-            return defaults[k][name]
+        local defaultVal = defaults[k][name] or defaultsExtra[k][name]
+        if defaultVal then
+            return defaultVal
         end
     end
 end
 
 function LM.Options:SetOption(name, val, dontFire)
     for _, k in ipairs({ 'char', 'profile', 'global' }) do
-        if defaults[k][name] ~= nil then
-            if val == nil then val = defaults[k][name] end
-            local valType, expectedType = type(val), type(defaults[k][name])
+        local defaultVal = defaults[k][name] or defaultsExtra[k][name]
+        if defaultVal then
+            if val == nil then val = defaultVal end
+            local valType, expectedType = type(val), type(defaultVal)
             if valType ~= expectedType then
                 LM.PrintError("Bad option type : %s=%s (expected %s)", name, valType, expectedType)
             else
