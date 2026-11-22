@@ -28,7 +28,7 @@ def GetModelGroupsFromCurse(locale):
 
     out = []
     for line in r.content.decode().splitlines():
-        m = re.match('L\["(.+)"\] = ', line)
+        m = re.match(r'L\["(.+)"\] = ', line)
         if m:
             out.append(m.group(1))
     return out
@@ -37,7 +37,7 @@ def GetFamiliesFromFile(fileName):
     out = []
     with open(fileName) as f:
         for line in f:
-            m = re.match('^Model\["(.+)"\] = ', line)
+            m = re.match(r'^Model\["(.+)"\] = ', line)
             if m and m.group(1) not in [ 'DRIVE', 'Unknown' ]:
                 out.append(m.group(1))
     return out
