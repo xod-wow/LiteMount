@@ -80,6 +80,18 @@ local SortKeysByProject = LM.TableWithDefault({
         'typeid',
 --@end-debug@
     },
+    [18] = {
+        'default',
+        'name',
+        'priority',
+        'rarity',
+        'summons',
+--@debug@
+        'mountid',
+        'spellid',
+        'typeid',
+--@end-debug@
+    },
     DEFAULT = {
         'default',
         'name',

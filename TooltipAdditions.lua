@@ -71,7 +71,7 @@ local function ItemPost(tooltip, data)
 end
 
 function LM.TooltipAdditions:Initialize()
-    if WOW_PROJECT_ID == 1 then
+    if WOW_PROJECT_ID == 1 or WOW_PROJECT_ID == 18 then
         TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, UnitPost)
         TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, ItemPost)
     end

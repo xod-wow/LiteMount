@@ -118,7 +118,7 @@ function LM.Journal:Get(id)
         m.overrideSpellID = 301841
     end
 
-    if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+    if WOW_PROJECT_ID == 1 then
         m.modelGroup = LMDB.GetModelBySpellID(m.spellID)
 
         if not m.modelGroup then
@@ -129,6 +129,9 @@ function LM.Journal:Get(id)
         end
 
         m.expansion = LMDB.GetExpansionByID(id)
+    end
+
+    if WOW_PROJECT_ID == 1 or WOW_PROJECT_ID == 18 then
         m.rarity = MountsRarity:GetRarityByID(m.mountID)
     end
 
